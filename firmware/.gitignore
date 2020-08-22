@@ -1,0 +1,32 @@
+# Compiled source #
+###################
+*.o
+*.bin
+*.map
+*.hex
+*.dis
+*.pyc
+
+# Packages #
+############
+
+# Logs and databases #
+######################
+*.log
+
+# VIM swap files #
+######################
+*.swp
+
+# Build dir #
+######################
+build
+
+# IDE config file #
+######################
+usr/openmv.config
+
+# Caffe #
+######################
+ml/cmsisnn/caffe
+
