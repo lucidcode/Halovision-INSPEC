@@ -1376,7 +1376,7 @@ static int get_reset_mode(void) {
                     reset_mode = 1;
                 }
                 uint8_t l = RESET_MODE_LED_STATES >> ((reset_mode - 1) * 4);
-                led_state_all(l);
+                //led_state_all(l);
             }
             if (!usrbtn_state()) {
                 break;
@@ -1388,7 +1388,7 @@ static int get_reset_mode(void) {
             led_state_all(0);
             mp_hal_delay_ms(50);
             uint8_t l = RESET_MODE_LED_STATES >> ((reset_mode - 1) * 4);
-            led_state_all(l);
+            //led_state_all(l);
             mp_hal_delay_ms(50);
         }
         mp_hal_delay_ms(300);

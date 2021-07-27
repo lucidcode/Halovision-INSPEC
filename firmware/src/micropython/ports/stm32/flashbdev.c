@@ -197,7 +197,7 @@ static uint8_t *flash_cache_get_addr_for_write(uint32_t flash_addr) {
         flash_cache_sector_size = flash_sector_size;
     }
     flash_flags |= FLASH_FLAG_DIRTY;
-    led_state(PYB_LED_RED, 1); // indicate a dirty cache with LED on
+    //led_state(PYB_LED_RED, 1); // indicate a dirty cache with LED on
     flash_tick_counter_last_write = HAL_GetTick();
     return (uint8_t*)CACHE_MEM_START_ADDR + flash_addr - flash_sector_start;
 }
