@@ -702,6 +702,7 @@ Q(mod)
 
 // Difference
 Q(difference)
+Q(difference2)
 // duplicate Q(mask)
 
 // Blend
