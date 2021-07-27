@@ -1,6 +1,6 @@
-#define MICROPY_HW_BOARD_NAME       "OPENMV4P"
+#define MICROPY_HW_BOARD_NAME       "INSPEC"
 #define MICROPY_HW_MCU_NAME         "STM32H743"
-#define MICROPY_PY_SYS_PLATFORM     "OpenMV4P-H7"
+#define MICROPY_PY_SYS_PLATFORM     "INSPEC4P-H7"
 
 #define MICROPY_HW_ENABLE_RNG       (1)
 #define MICROPY_HW_ENABLE_RTC       (1)
@@ -23,9 +23,9 @@
 #define USBD_VID                      0x1209
 #define USBD_PID                      0xabd1
 #define USBD_LANGID_STRING            0x409
-#define USBD_MANUFACTURER_STRING      "OpenMV"
-#define USBD_PRODUCT_FS_STRING        "OpenMV Virtual Comm Port in FS Mode"
-#define USBD_PRODUCT_HS_STRING        "OpenMV Virtual Comm Port in HS Mode"
+#define USBD_MANUFACTURER_STRING      "INSPEC"
+#define USBD_PRODUCT_FS_STRING        "INSPEC Virtual Comm Port in FS Mode"
+#define USBD_PRODUCT_HS_STRING        "INSPEC Virtual Comm Port in HS Mode"
 #define USBD_SERIALNUMBER_FS_STRING   "000000000011"
 #define USBD_SERIALNUMBER_HS_STRING   "000000000010"
 #define USBD_INTERFACE_FS_STRING      "VCP Interface"
