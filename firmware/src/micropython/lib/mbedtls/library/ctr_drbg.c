@@ -1,8 +1,14 @@
 /*
  *  CTR_DRBG implementation based on AES-256 (NIST SP 800-90)
  *
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -16,7 +22,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 /*
  *  The NIST SP 800-90 DRBGs are described in the following publication.
@@ -57,101 +82,39 @@ void mbedtls_ctr_drbg_init( mbedtls_ctr_drbg_context *ctx )
 {
     memset( ctx, 0, sizeof( mbedtls_ctr_drbg_context ) );
 
-#if defined(MBEDTLS_THREADING_C)
-    mbedtls_mutex_init( &ctx->mutex );
-#endif
+    ctx->reseed_interval = MBEDTLS_CTR_DRBG_RESEED_INTERVAL;
 }
 
 /*
- * Non-public function wrapped by mbedtls_ctr_drbg_seed(). Necessary to allow
- * NIST tests to succeed (which require known length fixed entropy)
+ *  This function resets CTR_DRBG context to the state immediately
+ *  after initial call of mbedtls_ctr_drbg_init().
  */
-/* CTR_DRBG_Instantiate with derivation function (SP 800-90A &sect;10.2.1.3.2)
- * mbedtls_ctr_drbg_seed_entropy_len(ctx, f_entropy, p_entropy,
- *                                   custom, len, entropy_len)
- * implements
- * CTR_DRBG_Instantiate(entropy_input, nonce, personalization_string,
- *                      security_strength) -> initial_working_state
- * with inputs
- *   custom[:len] = nonce || personalization_string
- * where entropy_input comes from f_entropy for entropy_len bytes
- * and with outputs
- *   ctx = initial_working_state
- */
-int mbedtls_ctr_drbg_seed_entropy_len(
-                   mbedtls_ctr_drbg_context *ctx,
-                   int (*f_entropy)(void *, unsigned char *, size_t),
-                   void *p_entropy,
-                   const unsigned char *custom,
-                   size_t len,
-                   size_t entropy_len )
-{
-    int ret;
-    unsigned char key[MBEDTLS_CTR_DRBG_KEYSIZE];
-
-    memset( key, 0, MBEDTLS_CTR_DRBG_KEYSIZE );
-
-    mbedtls_aes_init( &ctx->aes_ctx );
-
-    ctx->f_entropy = f_entropy;
-    ctx->p_entropy = p_entropy;
-
-    ctx->entropy_len = entropy_len;
-    ctx->reseed_interval = MBEDTLS_CTR_DRBG_RESEED_INTERVAL;
-
-    /*
-     * Initialize with an empty key
-     */
-    if( ( ret = mbedtls_aes_setkey_enc( &ctx->aes_ctx, key,
-                                        MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
-    {
-        return( ret );
-    }
-
-    if( ( ret = mbedtls_ctr_drbg_reseed( ctx, custom, len ) ) != 0 )
-    {
-        return( ret );
-    }
-    return( 0 );
-}
-
-int mbedtls_ctr_drbg_seed( mbedtls_ctr_drbg_context *ctx,
-                   int (*f_entropy)(void *, unsigned char *, size_t),
-                   void *p_entropy,
-                   const unsigned char *custom,
-                   size_t len )
-{
-    return( mbedtls_ctr_drbg_seed_entropy_len( ctx, f_entropy, p_entropy,
-                                               custom, len,
-                                               MBEDTLS_CTR_DRBG_ENTROPY_LEN ) );
-}
-
 void mbedtls_ctr_drbg_free( mbedtls_ctr_drbg_context *ctx )
 {
     if( ctx == NULL )
         return;
 
 #if defined(MBEDTLS_THREADING_C)
-    mbedtls_mutex_free( &ctx->mutex );
+    /* The mutex is initialized iff f_entropy is set. */
+    if( ctx->f_entropy != NULL )
+        mbedtls_mutex_free( &ctx->mutex );
 #endif
     mbedtls_aes_free( &ctx->aes_ctx );
     mbedtls_platform_zeroize( ctx, sizeof( mbedtls_ctr_drbg_context ) );
+    ctx->reseed_interval = MBEDTLS_CTR_DRBG_RESEED_INTERVAL;
 }
 
-void mbedtls_ctr_drbg_set_prediction_resistance( mbedtls_ctr_drbg_context *ctx,
-                                                 int resistance )
+void mbedtls_ctr_drbg_set_prediction_resistance( mbedtls_ctr_drbg_context *ctx, int resistance )
 {
     ctx->prediction_resistance = resistance;
 }
 
-void mbedtls_ctr_drbg_set_entropy_len( mbedtls_ctr_drbg_context *ctx,
-                                       size_t len )
+void mbedtls_ctr_drbg_set_entropy_len( mbedtls_ctr_drbg_context *ctx, size_t len )
 {
     ctx->entropy_len = len;
 }
 
-void mbedtls_ctr_drbg_set_reseed_interval( mbedtls_ctr_drbg_context *ctx,
-                                           int interval )
+void mbedtls_ctr_drbg_set_reseed_interval( mbedtls_ctr_drbg_context *ctx, int interval )
 {
     ctx->reseed_interval = interval;
 }
@@ -159,8 +122,7 @@ void mbedtls_ctr_drbg_set_reseed_interval( mbedtls_ctr_drbg_context *ctx,
 static int block_cipher_df( unsigned char *output,
                             const unsigned char *data, size_t data_len )
 {
-    unsigned char buf[MBEDTLS_CTR_DRBG_MAX_SEED_INPUT +
-                      MBEDTLS_CTR_DRBG_BLOCKSIZE + 16];
+    unsigned char buf[MBEDTLS_CTR_DRBG_MAX_SEED_INPUT + MBEDTLS_CTR_DRBG_BLOCKSIZE + 16];
     unsigned char tmp[MBEDTLS_CTR_DRBG_SEEDLEN];
     unsigned char key[MBEDTLS_CTR_DRBG_KEYSIZE];
     unsigned char chain[MBEDTLS_CTR_DRBG_BLOCKSIZE];
@@ -174,8 +136,7 @@ static int block_cipher_df( unsigned char *output,
     if( data_len > MBEDTLS_CTR_DRBG_MAX_SEED_INPUT )
         return( MBEDTLS_ERR_CTR_DRBG_INPUT_TOO_BIG );
 
-    memset( buf, 0, MBEDTLS_CTR_DRBG_MAX_SEED_INPUT +
-            MBEDTLS_CTR_DRBG_BLOCKSIZE + 16 );
+    memset( buf, 0, MBEDTLS_CTR_DRBG_MAX_SEED_INPUT + MBEDTLS_CTR_DRBG_BLOCKSIZE + 16 );
     mbedtls_aes_init( &aes_ctx );
 
     /*
@@ -200,8 +161,7 @@ static int block_cipher_df( unsigned char *output,
     for( i = 0; i < MBEDTLS_CTR_DRBG_KEYSIZE; i++ )
         key[i] = i;
 
-    if( ( ret = mbedtls_aes_setkey_enc( &aes_ctx, key,
-                                        MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
+    if( ( ret = mbedtls_aes_setkey_enc( &aes_ctx, key, MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
     {
         goto exit;
     }
@@ -223,8 +183,7 @@ static int block_cipher_df( unsigned char *output,
             use_len -= ( use_len >= MBEDTLS_CTR_DRBG_BLOCKSIZE ) ?
                        MBEDTLS_CTR_DRBG_BLOCKSIZE : use_len;
 
-            if( ( ret = mbedtls_aes_crypt_ecb( &aes_ctx, MBEDTLS_AES_ENCRYPT,
-                                               chain, chain ) ) != 0 )
+            if( ( ret = mbedtls_aes_crypt_ecb( &aes_ctx, MBEDTLS_AES_ENCRYPT, chain, chain ) ) != 0 )
             {
                 goto exit;
             }
@@ -241,8 +200,7 @@ static int block_cipher_df( unsigned char *output,
     /*
      * Do final encryption with reduced data
      */
-    if( ( ret = mbedtls_aes_setkey_enc( &aes_ctx, tmp,
-                                        MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
+    if( ( ret = mbedtls_aes_setkey_enc( &aes_ctx, tmp, MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
     {
         goto exit;
     }
@@ -251,8 +209,7 @@ static int block_cipher_df( unsigned char *output,
 
     for( j = 0; j < MBEDTLS_CTR_DRBG_SEEDLEN; j += MBEDTLS_CTR_DRBG_BLOCKSIZE )
     {
-        if( ( ret = mbedtls_aes_crypt_ecb( &aes_ctx, MBEDTLS_AES_ENCRYPT,
-                                           iv, iv ) ) != 0 )
+        if( ( ret = mbedtls_aes_crypt_ecb( &aes_ctx, MBEDTLS_AES_ENCRYPT, iv, iv ) ) != 0 )
         {
             goto exit;
         }
@@ -288,7 +245,7 @@ exit:
  *   ctx->counter = V
  */
 static int ctr_drbg_update_internal( mbedtls_ctr_drbg_context *ctx,
-                          const unsigned char data[MBEDTLS_CTR_DRBG_SEEDLEN] )
+                              const unsigned char data[MBEDTLS_CTR_DRBG_SEEDLEN] )
 {
     unsigned char tmp[MBEDTLS_CTR_DRBG_SEEDLEN];
     unsigned char *p = tmp;
@@ -309,11 +266,8 @@ static int ctr_drbg_update_internal( mbedtls_ctr_drbg_context *ctx,
         /*
          * Crypt counter block
          */
-        if( ( ret = mbedtls_aes_crypt_ecb( &ctx->aes_ctx, MBEDTLS_AES_ENCRYPT,
-                                           ctx->counter, p ) ) != 0 )
-        {
+        if( ( ret = mbedtls_aes_crypt_ecb( &ctx->aes_ctx, MBEDTLS_AES_ENCRYPT, ctx->counter, p ) ) != 0 )
             goto exit;
-        }
 
         p += MBEDTLS_CTR_DRBG_BLOCKSIZE;
     }
@@ -324,13 +278,9 @@ static int ctr_drbg_update_internal( mbedtls_ctr_drbg_context *ctx,
     /*
      * Update key and counter
      */
-    if( ( ret = mbedtls_aes_setkey_enc( &ctx->aes_ctx, tmp,
-                                        MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
-    {
+    if( ( ret = mbedtls_aes_setkey_enc( &ctx->aes_ctx, tmp, MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
         goto exit;
-    }
-    memcpy( ctx->counter, tmp + MBEDTLS_CTR_DRBG_KEYSIZE,
-            MBEDTLS_CTR_DRBG_BLOCKSIZE );
+    memcpy( ctx->counter, tmp + MBEDTLS_CTR_DRBG_KEYSIZE, MBEDTLS_CTR_DRBG_BLOCKSIZE );
 
 exit:
     mbedtls_platform_zeroize( tmp, sizeof( tmp ) );
@@ -445,6 +395,67 @@ exit:
     return( ret );
 }
 
+/* CTR_DRBG_Instantiate with derivation function (SP 800-90A &sect;10.2.1.3.2)
+ * mbedtls_ctr_drbg_seed(ctx, f_entropy, p_entropy, custom, len)
+ * implements
+ * CTR_DRBG_Instantiate(entropy_input, nonce, personalization_string,
+ *                      security_strength) -> initial_working_state
+ * with inputs
+ *   custom[:len] = nonce || personalization_string
+ * where entropy_input comes from f_entropy for ctx->entropy_len bytes
+ * and with outputs
+ *   ctx = initial_working_state
+ */
+int mbedtls_ctr_drbg_seed( mbedtls_ctr_drbg_context *ctx,
+                           int (*f_entropy)(void *, unsigned char *, size_t),
+                           void *p_entropy,
+                           const unsigned char *custom,
+                           size_t len )
+{
+    int ret;
+    unsigned char key[MBEDTLS_CTR_DRBG_KEYSIZE];
+
+    memset( key, 0, MBEDTLS_CTR_DRBG_KEYSIZE );
+
+    /* The mutex is initialized iff f_entropy is set. */
+#if defined(MBEDTLS_THREADING_C)
+    mbedtls_mutex_init( &ctx->mutex );
+#endif
+
+    mbedtls_aes_init( &ctx->aes_ctx );
+
+    ctx->f_entropy = f_entropy;
+    ctx->p_entropy = p_entropy;
+
+    if( ctx->entropy_len == 0 )
+        ctx->entropy_len = MBEDTLS_CTR_DRBG_ENTROPY_LEN;
+
+    /*
+     * Initialize with an empty key
+     */
+    if( ( ret = mbedtls_aes_setkey_enc( &ctx->aes_ctx, key, MBEDTLS_CTR_DRBG_KEYBITS ) ) != 0 )
+    {
+        return( ret );
+    }
+
+    if( ( ret = mbedtls_ctr_drbg_reseed( ctx, custom, len ) ) != 0 )
+    {
+        return( ret );
+    }
+    return( 0 );
+}
+
+/* Backward compatibility wrapper */
+int mbedtls_ctr_drbg_seed_entropy_len(
+    mbedtls_ctr_drbg_context *ctx,
+    int (*f_entropy)(void *, unsigned char *, size_t), void *p_entropy,
+    const unsigned char *custom, size_t len,
+    size_t entropy_len )
+{
+    mbedtls_ctr_drbg_set_entropy_len( ctx, entropy_len );
+    return( mbedtls_ctr_drbg_seed( ctx, f_entropy, p_entropy, custom, len ) );
+}
+
 /* CTR_DRBG_Generate with derivation function (SP 800-90A &sect;10.2.1.5.2)
  * mbedtls_ctr_drbg_random_with_add(ctx, output, output_len, additional, add_len)
  * implements
@@ -514,14 +525,11 @@ int mbedtls_ctr_drbg_random_with_add( void *p_rng,
         /*
          * Crypt counter block
          */
-        if( ( ret = mbedtls_aes_crypt_ecb( &ctx->aes_ctx, MBEDTLS_AES_ENCRYPT,
-                                           ctx->counter, tmp ) ) != 0 )
-        {
+        if( ( ret = mbedtls_aes_crypt_ecb( &ctx->aes_ctx, MBEDTLS_AES_ENCRYPT, ctx->counter, tmp ) ) != 0 )
             goto exit;
-        }
 
-        use_len = ( output_len > MBEDTLS_CTR_DRBG_BLOCKSIZE )
-            ? MBEDTLS_CTR_DRBG_BLOCKSIZE : output_len;
+        use_len = ( output_len > MBEDTLS_CTR_DRBG_BLOCKSIZE ) ? MBEDTLS_CTR_DRBG_BLOCKSIZE :
+                                                       output_len;
         /*
          * Copy random block to destination
          */
@@ -538,11 +546,10 @@ int mbedtls_ctr_drbg_random_with_add( void *p_rng,
 exit:
     mbedtls_platform_zeroize( add_input, sizeof( add_input ) );
     mbedtls_platform_zeroize( tmp, sizeof( tmp ) );
-    return( 0 );
+    return( ret );
 }
 
-int mbedtls_ctr_drbg_random( void *p_rng, unsigned char *output,
-                             size_t output_len )
+int mbedtls_ctr_drbg_random( void *p_rng, unsigned char *output, size_t output_len )
 {
     int ret;
     mbedtls_ctr_drbg_context *ctx = (mbedtls_ctr_drbg_context *) p_rng;
@@ -563,8 +570,7 @@ int mbedtls_ctr_drbg_random( void *p_rng, unsigned char *output,
 }
 
 #if defined(MBEDTLS_FS_IO)
-int mbedtls_ctr_drbg_write_seed_file( mbedtls_ctr_drbg_context *ctx,
-                                      const char *path )
+int mbedtls_ctr_drbg_write_seed_file( mbedtls_ctr_drbg_context *ctx, const char *path )
 {
     int ret = MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR;
     FILE *f;
@@ -573,19 +579,13 @@ int mbedtls_ctr_drbg_write_seed_file( mbedtls_ctr_drbg_context *ctx,
     if( ( f = fopen( path, "wb" ) ) == NULL )
         return( MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR );
 
-    if( ( ret = mbedtls_ctr_drbg_random( ctx, buf,
-                                         MBEDTLS_CTR_DRBG_MAX_INPUT ) ) != 0 )
+    if( ( ret = mbedtls_ctr_drbg_random( ctx, buf, MBEDTLS_CTR_DRBG_MAX_INPUT ) ) != 0 )
         goto exit;
 
-    if( fwrite( buf, 1, MBEDTLS_CTR_DRBG_MAX_INPUT, f ) !=
-        MBEDTLS_CTR_DRBG_MAX_INPUT )
-    {
+    if( fwrite( buf, 1, MBEDTLS_CTR_DRBG_MAX_INPUT, f ) != MBEDTLS_CTR_DRBG_MAX_INPUT )
         ret = MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR;
-    }
     else
-    {
         ret = 0;
-    }
 
 exit:
     mbedtls_platform_zeroize( buf, sizeof( buf ) );
@@ -594,8 +594,7 @@ exit:
     return( ret );
 }
 
-int mbedtls_ctr_drbg_update_seed_file( mbedtls_ctr_drbg_context *ctx,
-                                       const char *path )
+int mbedtls_ctr_drbg_update_seed_file( mbedtls_ctr_drbg_context *ctx, const char *path )
 {
     int ret = 0;
     FILE *f = NULL;
@@ -708,8 +707,11 @@ int mbedtls_ctr_drbg_self_test( int verbose )
         mbedtls_printf( "  CTR_DRBG (PR = TRUE) : " );
 
     test_offset = 0;
-    CHK( mbedtls_ctr_drbg_seed_entropy_len( &ctx, ctr_drbg_self_test_entropy,
-                         (void *) entropy_source_pr, nonce_pers_pr, 16, 32 ) );
+    mbedtls_ctr_drbg_set_entropy_len( &ctx, 32 );
+    CHK( mbedtls_ctr_drbg_seed( &ctx,
+                                ctr_drbg_self_test_entropy,
+                                (void *) entropy_source_pr,
+                                nonce_pers_pr, 16 ) );
     mbedtls_ctr_drbg_set_prediction_resistance( &ctx, MBEDTLS_CTR_DRBG_PR_ON );
     CHK( mbedtls_ctr_drbg_random( &ctx, buf, MBEDTLS_CTR_DRBG_BLOCKSIZE ) );
     CHK( mbedtls_ctr_drbg_random( &ctx, buf, MBEDTLS_CTR_DRBG_BLOCKSIZE ) );
@@ -729,8 +731,11 @@ int mbedtls_ctr_drbg_self_test( int verbose )
     mbedtls_ctr_drbg_init( &ctx );
 
     test_offset = 0;
-    CHK( mbedtls_ctr_drbg_seed_entropy_len( &ctx, ctr_drbg_self_test_entropy,
-                     (void *) entropy_source_nopr, nonce_pers_nopr, 16, 32 ) );
+    mbedtls_ctr_drbg_set_entropy_len( &ctx, 32 );
+    CHK( mbedtls_ctr_drbg_seed( &ctx,
+                                ctr_drbg_self_test_entropy,
+                                (void *) entropy_source_nopr,
+                                nonce_pers_nopr, 16 ) );
     CHK( mbedtls_ctr_drbg_random( &ctx, buf, 16 ) );
     CHK( mbedtls_ctr_drbg_reseed( &ctx, NULL, 0 ) );
     CHK( mbedtls_ctr_drbg_random( &ctx, buf, 16 ) );

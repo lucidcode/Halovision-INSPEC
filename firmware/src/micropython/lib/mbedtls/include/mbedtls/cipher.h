@@ -8,8 +8,14 @@
  * \author Adriaan de Jong <dejong@fox-it.com>
  */
 /*
- *  Copyright (C) 2006-2018, Arm Limited (or its affiliates), All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -23,7 +29,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of Mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 
 #ifndef MBEDTLS_CIPHER_H
@@ -180,16 +205,16 @@ typedef enum {
 
 /** Supported cipher modes. */
 typedef enum {
-    MBEDTLS_MODE_NONE = 0,               /**< None.                        */
-    MBEDTLS_MODE_ECB,                    /**< The ECB cipher mode.         */
-    MBEDTLS_MODE_CBC,                    /**< The CBC cipher mode.         */
-    MBEDTLS_MODE_CFB,                    /**< The CFB cipher mode.         */
-    MBEDTLS_MODE_OFB,                    /**< The OFB cipher mode.         */
-    MBEDTLS_MODE_CTR,                    /**< The CTR cipher mode.         */
-    MBEDTLS_MODE_GCM,                    /**< The GCM cipher mode.         */
-    MBEDTLS_MODE_STREAM,                 /**< The stream cipher mode.      */
-    MBEDTLS_MODE_CCM,                    /**< The CCM cipher mode.         */
-    MBEDTLS_MODE_XTS,                    /**< The XTS cipher mode.         */
+    MBEDTLS_MODE_NONE = 0,               /**< None. */
+    MBEDTLS_MODE_ECB,                    /**< The ECB cipher mode. */
+    MBEDTLS_MODE_CBC,                    /**< The CBC cipher mode. */
+    MBEDTLS_MODE_CFB,                    /**< The CFB cipher mode. */
+    MBEDTLS_MODE_OFB,                    /**< The OFB cipher mode. */
+    MBEDTLS_MODE_CTR,                    /**< The CTR cipher mode. */
+    MBEDTLS_MODE_GCM,                    /**< The GCM cipher mode. */
+    MBEDTLS_MODE_STREAM,                 /**< The stream cipher mode. */
+    MBEDTLS_MODE_CCM,                    /**< The CCM cipher mode. */
+    MBEDTLS_MODE_XTS,                    /**< The XTS cipher mode. */
     MBEDTLS_MODE_CHACHAPOLY,             /**< The ChaCha-Poly cipher mode. */
 } mbedtls_cipher_mode_t;
 
@@ -322,32 +347,14 @@ typedef struct mbedtls_cipher_context_t
     /** CMAC-specific context. */
     mbedtls_cmac_context_t *cmac_ctx;
 #endif
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    /** Indicates whether the cipher operations should be performed
-     *  by Mbed TLS' own crypto library or an external implementation
-     *  of the PSA Crypto API.
-     *  This is unset if the cipher context was established through
-     *  mbedtls_cipher_setup(), and set if it was established through
-     *  mbedtls_cipher_setup_psa().
-     */
-    unsigned char psa_enabled;
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
-
 } mbedtls_cipher_context_t;
 
 /**
- * \brief This function retrieves the list of ciphers supported
- *        by the generic cipher module.
+ * \brief This function retrieves the list of ciphers supported by the generic
+ * cipher module.
  *
- *        For any cipher identifier in the returned list, you can
- *        obtain the corresponding generic cipher information structure
- *        via mbedtls_cipher_info_from_type(), which can then be used
- *        to prepare a cipher context via mbedtls_cipher_setup().
- *
- *
- * \return      A statically-allocated array of cipher identifiers
- *              of type cipher_type_t. The last entry is zero.
+ * \return      A statically-allocated array of ciphers. The last entry
+ *              is zero.
  */
 const int *mbedtls_cipher_list( void );
 
@@ -414,8 +421,9 @@ void mbedtls_cipher_free( mbedtls_cipher_context_t *ctx );
 
 
 /**
- * \brief               This function initializes a cipher context for
- *                      use with the given cipher primitive.
+ * \brief               This function initializes and fills the cipher-context
+ *                      structure with the appropriate values. It also clears
+ *                      the structure.
  *
  * \param ctx           The context to initialize. This must be initialized.
  * \param cipher_info   The cipher to use.
@@ -432,33 +440,6 @@ void mbedtls_cipher_free( mbedtls_cipher_context_t *ctx );
  */
 int mbedtls_cipher_setup( mbedtls_cipher_context_t *ctx,
                           const mbedtls_cipher_info_t *cipher_info );
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-/**
- * \brief               This function initializes a cipher context for
- *                      PSA-based use with the given cipher primitive.
- *
- * \note                See #MBEDTLS_USE_PSA_CRYPTO for information on PSA.
- *
- * \param ctx           The context to initialize. May not be \c NULL.
- * \param cipher_info   The cipher to use.
- * \param taglen        For AEAD ciphers, the length in bytes of the
- *                      authentication tag to use. Subsequent uses of
- *                      mbedtls_cipher_auth_encrypt() or
- *                      mbedtls_cipher_auth_decrypt() must provide
- *                      the same tag length.
- *                      For non-AEAD ciphers, the value must be \c 0.
- *
- * \return              \c 0 on success.
- * \return              #MBEDTLS_ERR_CIPHER_BAD_INPUT_DATA on
- *                      parameter-verification failure.
- * \return              #MBEDTLS_ERR_CIPHER_ALLOC_FAILED if allocation of the
- *                      cipher-specific context fails.
- */
-int mbedtls_cipher_setup_psa( mbedtls_cipher_context_t *ctx,
-                              const mbedtls_cipher_info_t *cipher_info,
-                              size_t taglen );
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
 /**
  * \brief        This function returns the block size of the given cipher.
@@ -682,7 +663,7 @@ int mbedtls_cipher_reset( mbedtls_cipher_context_t *ctx );
  * \param ctx           The generic cipher context. This must be initialized.
  * \param ad            The additional data to use. This must be a readable
  *                      buffer of at least \p ad_len Bytes.
- * \param ad_len        The length of \p ad in Bytes.
+ * \param ad_len        the Length of \p ad Bytes.
  *
  * \return              \c 0 on success.
  * \return              A specific error code on failure.
@@ -725,10 +706,8 @@ int mbedtls_cipher_update_ad( mbedtls_cipher_context_t *ctx,
  *                      unsupported mode for a cipher.
  * \return              A cipher-specific error code on failure.
  */
-int mbedtls_cipher_update( mbedtls_cipher_context_t *ctx,
-                           const unsigned char *input,
-                           size_t ilen, unsigned char *output,
-                           size_t *olen );
+int mbedtls_cipher_update( mbedtls_cipher_context_t *ctx, const unsigned char *input,
+                   size_t ilen, unsigned char *output, size_t *olen );
 
 /**
  * \brief               The generic cipher finalization function. If data still

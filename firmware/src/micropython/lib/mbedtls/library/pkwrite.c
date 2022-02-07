@@ -1,8 +1,14 @@
 /*
  *  Public Key layer for writing key files and structures
  *
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -16,7 +22,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
@@ -38,7 +63,9 @@
 #include "mbedtls/rsa.h"
 #endif
 #if defined(MBEDTLS_ECP_C)
+#include "mbedtls/bignum.h"
 #include "mbedtls/ecp.h"
+#include "mbedtls/platform_util.h"
 #endif
 #if defined(MBEDTLS_ECDSA_C)
 #include "mbedtls/ecdsa.h"
@@ -47,10 +74,6 @@
 #include "mbedtls/pem.h"
 #endif
 
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-#include "psa/crypto.h"
-#include "mbedtls/psa_util.h"
-#endif
 #if defined(MBEDTLS_PLATFORM_C)
 #include "mbedtls/platform.h"
 #else
@@ -154,6 +177,26 @@ static int pk_write_ec_param( unsigned char **p, unsigned char *start,
 
     return( (int) len );
 }
+
+/*
+ * privateKey  OCTET STRING -- always of length ceil(log2(n)/8)
+ */
+static int pk_write_ec_private( unsigned char **p, unsigned char *start,
+                                mbedtls_ecp_keypair *ec )
+{
+    int ret;
+    size_t byte_length = ( ec->grp.pbits + 7 ) / 8;
+    unsigned char tmp[MBEDTLS_ECP_MAX_BYTES];
+
+    ret = mbedtls_mpi_write_binary( &ec->d, tmp, byte_length );
+    if( ret != 0 )
+        goto exit;
+    ret = mbedtls_asn1_write_octet_string( p, start, tmp, byte_length );
+
+exit:
+    mbedtls_platform_zeroize( tmp, byte_length );
+    return( ret );
+}
 #endif /* MBEDTLS_ECP_C */
 
 int mbedtls_pk_write_pubkey( unsigned char **p, unsigned char *start,
@@ -177,29 +220,6 @@ int mbedtls_pk_write_pubkey( unsigned char **p, unsigned char *start,
         MBEDTLS_ASN1_CHK_ADD( len, pk_write_ec_pubkey( p, start, mbedtls_pk_ec( *key ) ) );
     else
 #endif
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_OPAQUE )
-    {
-        size_t buffer_size;
-        psa_key_handle_t* key_slot = (psa_key_handle_t*) key->pk_ctx;
-
-        if ( *p < start )
-            return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
-
-        buffer_size = (size_t)( *p - start );
-        if ( psa_export_public_key( *key_slot, start, buffer_size, &len )
-             != PSA_SUCCESS )
-        {
-            return( MBEDTLS_ERR_PK_BAD_INPUT_DATA );
-        }
-        else
-        {
-            *p -= len;
-            memmove( *p, start, len );
-        }
-    }
-    else
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
         return( MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE );
 
     return( (int) len );
@@ -210,7 +230,6 @@ int mbedtls_pk_write_pubkey_der( mbedtls_pk_context *key, unsigned char *buf, si
     int ret;
     unsigned char *c;
     size_t len = 0, par_len = 0, oid_len;
-    mbedtls_pk_type_t pk_type;
     const char *oid;
 
     PK_VALIDATE_RET( key != NULL );
@@ -236,51 +255,18 @@ int mbedtls_pk_write_pubkey_der( mbedtls_pk_context *key, unsigned char *buf, si
     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_len( &c, buf, len ) );
     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_tag( &c, buf, MBEDTLS_ASN1_BIT_STRING ) );
 
-    pk_type = mbedtls_pk_get_type( key );
+    if( ( ret = mbedtls_oid_get_oid_by_pk_alg( mbedtls_pk_get_type( key ),
+                                       &oid, &oid_len ) ) != 0 )
+    {
+        return( ret );
+    }
+
 #if defined(MBEDTLS_ECP_C)
-    if( pk_type == MBEDTLS_PK_ECKEY )
+    if( mbedtls_pk_get_type( key ) == MBEDTLS_PK_ECKEY )
     {
         MBEDTLS_ASN1_CHK_ADD( par_len, pk_write_ec_param( &c, buf, mbedtls_pk_ec( *key ) ) );
     }
 #endif
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    if( pk_type == MBEDTLS_PK_OPAQUE )
-    {
-        psa_status_t status;
-        psa_key_type_t key_type;
-        psa_key_handle_t handle;
-        psa_ecc_curve_t curve;
-
-        handle = *((psa_key_handle_t*) key->pk_ctx );
-
-        status = psa_get_key_information( handle, &key_type,
-                                          NULL /* bitsize not needed */ );
-        if( status != PSA_SUCCESS )
-            return( MBEDTLS_ERR_PK_HW_ACCEL_FAILED );
-
-        curve = PSA_KEY_TYPE_GET_CURVE( key_type );
-        if( curve == 0 )
-            return( MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE );
-
-        ret = mbedtls_psa_get_ecc_oid_from_id( curve, &oid, &oid_len );
-        if( ret != 0 )
-            return( MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE );
-
-        /* Write EC algorithm parameters; that's akin
-         * to pk_write_ec_param() above. */
-        MBEDTLS_ASN1_CHK_ADD( par_len, mbedtls_asn1_write_oid( &c, buf,
-                                                               oid, oid_len ) );
-
-        /* The rest of the function works as for legacy EC contexts. */
-        pk_type = MBEDTLS_PK_ECKEY;
-    }
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
-
-    if( ( ret = mbedtls_oid_get_oid_by_pk_alg( pk_type, &oid,
-                                               &oid_len ) ) != 0 )
-    {
-        return( ret );
-    }
 
     MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_algorithm_identifier( &c, buf, oid, oid_len,
                                                         par_len ) );
@@ -425,9 +411,8 @@ int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_
                             MBEDTLS_ASN1_CONTEXT_SPECIFIC | MBEDTLS_ASN1_CONSTRUCTED | 0 ) );
         len += par_len;
 
-        /* privateKey: write as MPI then fix tag */
-        MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_mpi( &c, buf, &ec->d ) );
-        *c = MBEDTLS_ASN1_OCTET_STRING;
+        /* privateKey */
+        MBEDTLS_ASN1_CHK_ADD( len, pk_write_ec_private( &c, buf, ec ) );
 
         /* version */
         MBEDTLS_ASN1_CHK_ADD( len, mbedtls_asn1_write_int( &c, buf, 1 ) );
@@ -470,7 +455,7 @@ int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_
  *      publicExponent    INTEGER   -- e            1 + 3 + MPI_MAX + 1
  *  }
  */
-#define RSA_PUB_DER_MAX_BYTES   38 + 2 * MBEDTLS_MPI_MAX_SIZE
+#define RSA_PUB_DER_MAX_BYTES   ( 38 + 2 * MBEDTLS_MPI_MAX_SIZE )
 
 /*
  * RSA private keys:
@@ -487,10 +472,10 @@ int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_
  *      otherPrimeInfos   OtherPrimeInfos OPTIONAL  0 (not supported)
  *  }
  */
-#define MPI_MAX_SIZE_2          MBEDTLS_MPI_MAX_SIZE / 2 + \
-                                MBEDTLS_MPI_MAX_SIZE % 2
-#define RSA_PRV_DER_MAX_BYTES   47 + 3 * MBEDTLS_MPI_MAX_SIZE \
-                                   + 5 * MPI_MAX_SIZE_2
+#define MPI_MAX_SIZE_2          ( MBEDTLS_MPI_MAX_SIZE / 2 + \
+                                  MBEDTLS_MPI_MAX_SIZE % 2 )
+#define RSA_PRV_DER_MAX_BYTES   ( 47 + 3 * MBEDTLS_MPI_MAX_SIZE \
+                                   + 5 * MPI_MAX_SIZE_2 )
 
 #else /* MBEDTLS_RSA_C */
 
@@ -511,7 +496,7 @@ int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_
  *                                            + 2 * ECP_MAX (coords)    [1]
  *  }
  */
-#define ECP_PUB_DER_MAX_BYTES   30 + 2 * MBEDTLS_ECP_MAX_BYTES
+#define ECP_PUB_DER_MAX_BYTES   ( 30 + 2 * MBEDTLS_ECP_MAX_BYTES )
 
 /*
  * EC private keys:
@@ -522,7 +507,7 @@ int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_
  *      publicKey  [1] BIT STRING OPTIONAL      1 + 2 + [1] above
  *    }
  */
-#define ECP_PRV_DER_MAX_BYTES   29 + 3 * MBEDTLS_ECP_MAX_BYTES
+#define ECP_PRV_DER_MAX_BYTES   ( 29 + 3 * MBEDTLS_ECP_MAX_BYTES )
 
 #else /* MBEDTLS_ECP_C */
 
@@ -531,10 +516,10 @@ int mbedtls_pk_write_key_der( mbedtls_pk_context *key, unsigned char *buf, size_
 
 #endif /* MBEDTLS_ECP_C */
 
-#define PUB_DER_MAX_BYTES   RSA_PUB_DER_MAX_BYTES > ECP_PUB_DER_MAX_BYTES ? \
-                            RSA_PUB_DER_MAX_BYTES : ECP_PUB_DER_MAX_BYTES
-#define PRV_DER_MAX_BYTES   RSA_PRV_DER_MAX_BYTES > ECP_PRV_DER_MAX_BYTES ? \
-                            RSA_PRV_DER_MAX_BYTES : ECP_PRV_DER_MAX_BYTES
+#define PUB_DER_MAX_BYTES   ( RSA_PUB_DER_MAX_BYTES > ECP_PUB_DER_MAX_BYTES ? \
+                              RSA_PUB_DER_MAX_BYTES : ECP_PUB_DER_MAX_BYTES )
+#define PRV_DER_MAX_BYTES   ( RSA_PRV_DER_MAX_BYTES > ECP_PRV_DER_MAX_BYTES ? \
+                              RSA_PRV_DER_MAX_BYTES : ECP_PRV_DER_MAX_BYTES )
 
 int mbedtls_pk_write_pubkey_pem( mbedtls_pk_context *key, unsigned char *buf, size_t size )
 {

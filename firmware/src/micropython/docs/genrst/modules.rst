@@ -2,7 +2,7 @@
 
 Modules
 =======
-Generated Mon 11 May 2020 17:55:38 UTC
+Generated Sun 23 May 2021 17:39:38 UTC
 
 array
 -----
@@ -15,17 +15,16 @@ Looking for integer not implemented
 Sample code::
 
     import array
-    print(1 in array.array('B', b'12'))
+    
+    print(1 in array.array("B", b"12"))
 
-+-------------+-------------------------------------------+
-| CPy output: | uPy output:                               |
-+-------------+-------------------------------------------+
-| ::          | ::                                        |
-|             |                                           |
-|     False   |     Traceback (most recent call last):    |
-|             |       File "<stdin>", line 8, in <module> |
-|             |     NotImplementedError:                  |
-+-------------+-------------------------------------------+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     False   |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------+------------------------------------------------------+
 
 .. _cpydiff_modules_array_deletion:
 
@@ -35,19 +34,18 @@ Array deletion not implemented
 Sample code::
 
     import array
-    a = array.array('b', (1, 2, 3))
+    
+    a = array.array("b", (1, 2, 3))
     del a[1]
     print(a)
 
-+------------------------+-------------------------------------------------------------+
-| CPy output:            | uPy output:                                                 |
-+------------------------+-------------------------------------------------------------+
-| ::                     | ::                                                          |
-|                        |                                                             |
-|     array('b', [1, 3]) |     Traceback (most recent call last):                      |
-|                        |       File "<stdin>", line 9, in <module>                   |
-|                        |     TypeError: 'array' object doesn't support item deletion |
-+------------------------+-------------------------------------------------------------+
++------------------------+------------------------------------------------------+
+| CPy output:            | uPy output:                                          |
++------------------------+------------------------------------------------------+
+| ::                     | ::                                                   |
+|                        |                                                      |
+|     array('b', [1, 3]) |     /bin/sh: 1: ../ports/unix/micropython: not found |
++------------------------+------------------------------------------------------+
 
 .. _cpydiff_modules_array_subscrstep:
 
@@ -57,18 +55,17 @@ Subscript with step != 1 is not yet implemented
 Sample code::
 
     import array
-    a = array.array('b', (1, 2, 3))
+    
+    a = array.array("b", (1, 2, 3))
     print(a[3:2:2])
 
-+----------------+---------------------------------------------------------------------------+
-| CPy output:    | uPy output:                                                               |
-+----------------+---------------------------------------------------------------------------+
-| ::             | ::                                                                        |
-|                |                                                                           |
-|     array('b') |     Traceback (most recent call last):                                    |
-|                |       File "<stdin>", line 9, in <module>                                 |
-|                |     NotImplementedError: only slices with step=1 (aka None) are supported |
-+----------------+---------------------------------------------------------------------------+
++----------------+------------------------------------------------------+
+| CPy output:    | uPy output:                                          |
++----------------+------------------------------------------------------+
+| ::             | ::                                                   |
+|                |                                                      |
+|     array('b') |     /bin/sh: 1: ../ports/unix/micropython: not found |
++----------------+------------------------------------------------------+
 
 builtins
 --------
@@ -91,15 +88,13 @@ Sample code::
 
     print(next(iter(range(0)), 42))
 
-+-------------+-----------------------------------------------------------------------+
-| CPy output: | uPy output:                                                           |
-+-------------+-----------------------------------------------------------------------+
-| ::          | ::                                                                    |
-|             |                                                                       |
-|     42      |     Traceback (most recent call last):                                |
-|             |       File "<stdin>", line 12, in <module>                            |
-|             |     TypeError: function takes 1 positional arguments but 2 were given |
-+-------------+-----------------------------------------------------------------------+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     42      |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------+------------------------------------------------------+
 
 deque
 -----
@@ -114,18 +109,17 @@ Deque not implemented
 Sample code::
 
     import collections
+    
     D = collections.deque()
     print(D)
 
-+---------------+-----------------------------------------------------------------+
-| CPy output:   | uPy output:                                                     |
-+---------------+-----------------------------------------------------------------+
-| ::            | ::                                                              |
-|               |                                                                 |
-|     deque([]) |     Traceback (most recent call last):                          |
-|               |       File "<stdin>", line 8, in <module>                       |
-|               |     TypeError: function missing 2 required positional arguments |
-+---------------+-----------------------------------------------------------------+
++---------------+------------------------------------------------------+
+| CPy output:   | uPy output:                                          |
++---------------+------------------------------------------------------+
+| ::            | ::                                                   |
+|               |                                                      |
+|     deque([]) |     /bin/sh: 1: ../ports/unix/micropython: not found |
++---------------+------------------------------------------------------+
 
 json
 ----
@@ -138,21 +132,105 @@ JSON module does not throw exception when object is not serialisable
 Sample code::
 
     import json
+    
     a = bytes(x for x in range(256))
     try:
         z = json.dumps(a)
         x = json.loads(z)
-        print('Should not get here')
+        print("Should not get here")
     except TypeError:
-        print('TypeError')
+        print("TypeError")
 
-+---------------+-------------------------+
-| CPy output:   | uPy output:             |
-+---------------+-------------------------+
-| ::            | ::                      |
-|               |                         |
-|     TypeError |     Should not get here |
-+---------------+-------------------------+
++---------------+------------------------------------------------------+
+| CPy output:   | uPy output:                                          |
++---------------+------------------------------------------------------+
+| ::            | ::                                                   |
+|               |                                                      |
+|     TypeError |     /bin/sh: 1: ../ports/unix/micropython: not found |
++---------------+------------------------------------------------------+
+
+os
+--
+
+.. _cpydiff_modules_os_environ:
+
+``environ`` attribute is not implemented
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Workaround:** Use ``getenv``, ``putenv`` and ``unsetenv``
+
+Sample code::
+
+    import os
+    
+    try:
+        print(os.environ.get("NEW_VARIABLE"))
+        os.environ["NEW_VARIABLE"] = "VALUE"
+        print(os.environ["NEW_VARIABLE"])
+    except AttributeError:
+        print("should not get here")
+        print(os.getenv("NEW_VARIABLE"))
+        os.putenv("NEW_VARIABLE", "VALUE")
+        print(os.getenv("NEW_VARIABLE"))
+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     None    |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     VALUE   |                                                      |
++-------------+------------------------------------------------------+
+
+.. _cpydiff_modules_os_getenv:
+
+``getenv`` returns actual value instead of cached value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** The ``environ`` attribute is not implemented
+
+Sample code::
+
+    import os
+    
+    print(os.getenv("NEW_VARIABLE"))
+    os.putenv("NEW_VARIABLE", "VALUE")
+    print(os.getenv("NEW_VARIABLE"))
+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     None    |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     None    |                                                      |
++-------------+------------------------------------------------------+
+
+.. _cpydiff_modules_os_getenv_argcount:
+
+``getenv`` only allows one argument
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Workaround:** Test that the return value is ``None``
+
+Sample code::
+
+    import os
+    
+    try:
+        print(os.getenv("NEW_VARIABLE", "DEFAULT"))
+    except TypeError:
+        print("should not get here")
+        # this assumes NEW_VARIABLE is never an empty variable
+        print(os.getenv("NEW_VARIABLE") or "DEFAULT")
+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     DEFAULT |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------+------------------------------------------------------+
 
 struct
 ------
@@ -165,20 +243,20 @@ Struct pack with too few args, not checked by uPy
 Sample code::
 
     import struct
+    
     try:
-        print(struct.pack('bb', 1))
-        print('Should not get here')
+        print(struct.pack("bb", 1))
+        print("Should not get here")
     except:
-        print('struct.error')
+        print("struct.error")
 
-+------------------+-------------------------+
-| CPy output:      | uPy output:             |
-+------------------+-------------------------+
-| ::               | ::                      |
-|                  |                         |
-|     struct.error |     b'\x01\x00'         |
-|                  |     Should not get here |
-+------------------+-------------------------+
++------------------+------------------------------------------------------+
+| CPy output:      | uPy output:                                          |
++------------------+------------------------------------------------------+
+| ::               | ::                                                   |
+|                  |                                                      |
+|     struct.error |     /bin/sh: 1: ../ports/unix/micropython: not found |
++------------------+------------------------------------------------------+
 
 .. _cpydiff_modules_struct_manyargs:
 
@@ -188,20 +266,20 @@ Struct pack with too many args, not checked by uPy
 Sample code::
 
     import struct
+    
     try:
-        print(struct.pack('bb', 1, 2, 3))
-        print('Should not get here')
+        print(struct.pack("bb", 1, 2, 3))
+        print("Should not get here")
     except:
-        print('struct.error')
+        print("struct.error")
 
-+------------------+-------------------------+
-| CPy output:      | uPy output:             |
-+------------------+-------------------------+
-| ::               | ::                      |
-|                  |                         |
-|     struct.error |     b'\x01\x02'         |
-|                  |     Should not get here |
-+------------------+-------------------------+
++------------------+------------------------------------------------------+
+| CPy output:      | uPy output:                                          |
++------------------+------------------------------------------------------+
+| ::               | ::                                                   |
+|                  |                                                      |
+|     struct.error |     /bin/sh: 1: ../ports/unix/micropython: not found |
++------------------+------------------------------------------------------+
 
 sys
 ---
@@ -216,16 +294,15 @@ Overriding sys.stdin, sys.stdout and sys.stderr not possible
 Sample code::
 
     import sys
+    
     sys.stdin = None
     print(sys.stdin)
 
-+-------------+--------------------------------------------------------------+
-| CPy output: | uPy output:                                                  |
-+-------------+--------------------------------------------------------------+
-| ::          | ::                                                           |
-|             |                                                              |
-|     None    |     Traceback (most recent call last):                       |
-|             |       File "<stdin>", line 8, in <module>                    |
-|             |     AttributeError: 'module' object has no attribute 'stdin' |
-+-------------+--------------------------------------------------------------+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     None    |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------+------------------------------------------------------+
 

@@ -2,7 +2,34 @@
 
 Syntax
 ======
-Generated Mon 11 May 2020 17:55:38 UTC
+Generated Sun 23 May 2021 17:39:38 UTC
+
+Operators
+---------
+
+.. _cpydiff_syntax_assign_expr:
+
+MicroPython allows using := to assign to the variable of a comprehension, CPython raises a SyntaxError.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimised for code size and doesn't check this case.
+
+**Workaround:** Do not rely on this behaviour if writing CPython compatible code.
+
+Sample code::
+
+    print([i := -1 for i in range(4)])
+
++--------------------------------------------+------------------------------------------------------+
+| CPy output:                                | uPy output:                                          |
++--------------------------------------------+------------------------------------------------------+
+| ::                                         | ::                                                   |
+|                                            |                                                      |
+|       File "<stdin>", line 7               |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|         print([i := -1 for i in range(4)]) |                                                      |
+|                  ^                         |                                                      |
+|     SyntaxError: invalid syntax            |                                                      |
++--------------------------------------------+------------------------------------------------------+
 
 Spaces
 ------
@@ -15,27 +42,27 @@ uPy requires spaces between literal numbers and keywords, CPy doesn't
 Sample code::
 
     try:
-        print(eval('1and 0'))
+        print(eval("1and 0"))
     except SyntaxError:
-        print('Should have worked')
+        print("Should have worked")
     try:
-        print(eval('1or 0'))
+        print(eval("1or 0"))
     except SyntaxError:
-        print('Should have worked')
+        print("Should have worked")
     try:
-        print(eval('1if 1else 0'))
+        print(eval("1if 1else 0"))
     except SyntaxError:
-        print('Should have worked')
+        print("Should have worked")
 
-+-------------+------------------------+
-| CPy output: | uPy output:            |
-+-------------+------------------------+
-| ::          | ::                     |
-|             |                        |
-|     0       |     Should have worked |
-|     1       |     Should have worked |
-|     1       |     Should have worked |
-+-------------+------------------------+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     0       |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     1       |                                                      |
+|     1       |                                                      |
++-------------+------------------------------------------------------+
 
 Unicode
 -------
@@ -49,11 +76,11 @@ Sample code::
 
     print("\N{LATIN SMALL LETTER A}")
 
-+-------------+-----------------------------------------------+
-| CPy output: | uPy output:                                   |
-+-------------+-----------------------------------------------+
-| ::          | ::                                            |
-|             |                                               |
-|     a       |     NotImplementedError: unicode name escapes |
-+-------------+-----------------------------------------------+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     a       |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------+------------------------------------------------------+
 

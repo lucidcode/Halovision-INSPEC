@@ -14,12 +14,6 @@ LOCAL_LDFLAGS = -L../library 			\
 		-lmbedx509$(SHARED_SUFFIX)	\
 		-lmbedcrypto$(SHARED_SUFFIX)
 
-ifdef USE_CRYPTO_SUBMODULE
-LOCAL_LDFLAGS += -L../crypto/library
-LOCAL_CFLAGS += -I../crypto/include
-LOCAL_CXXFLAGS += -I../crypto/include
-endif
-
 ifndef SHARED
 DEP=../library/libmbedcrypto.a ../library/libmbedx509.a ../library/libmbedtls.a
 else
@@ -53,7 +47,7 @@ ifdef ZLIB
 LOCAL_LDFLAGS += -lz
 endif
 
-APPS =	aes/aescrypt2$(EXEXT)		aes/crypt_and_hash$(EXEXT)	\
+APPS =	aes/crypt_and_hash$(EXEXT)	\
 	hash/hello$(EXEXT)		hash/generic_sum$(EXEXT)	\
 					pkey/dh_client$(EXEXT)		\
 	pkey/dh_genprime$(EXEXT)	pkey/dh_server$(EXEXT)		\
@@ -73,7 +67,7 @@ APPS =	aes/aescrypt2$(EXEXT)		aes/crypt_and_hash$(EXEXT)	\
 	ssl/ssl_mail_client$(EXEXT)	random/gen_entropy$(EXEXT)	\
 	random/gen_random_havege$(EXEXT)				\
 	random/gen_random_ctr_drbg$(EXEXT)				\
-	test/ssl_cert_test$(EXEXT)	test/benchmark$(EXEXT)		\
+	test/benchmark$(EXEXT)                          		\
 	test/selftest$(EXEXT)		test/udp_proxy$(EXEXT)		\
 	test/zeroize$(EXEXT)						\
 	test/query_compile_time_config$(EXEXT)				\
@@ -98,10 +92,6 @@ all: $(APPS)
 
 $(DEP):
 	$(MAKE) -C ../library
-
-aes/aescrypt2$(EXEXT): aes/aescrypt2.c $(DEP)
-	echo "  CC    aes/aescrypt2.c"
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) aes/aescrypt2.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
 aes/crypt_and_hash$(EXEXT): aes/crypt_and_hash.c $(DEP)
 	echo "  CC    aes/crypt_and_hash.c"
@@ -247,10 +237,6 @@ ssl/mini_client$(EXEXT): ssl/mini_client.c $(DEP)
 	echo "  CC    ssl/mini_client.c"
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) ssl/mini_client.c   $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
-test/ssl_cert_test$(EXEXT): test/ssl_cert_test.c $(DEP)
-	echo "  CC    test/ssl_cert_test.c"
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) test/ssl_cert_test.c   $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
-
 test/benchmark$(EXEXT): test/benchmark.c $(DEP)
 	echo "  CC    test/benchmark.c"
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) test/benchmark.c   $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
@@ -306,6 +292,8 @@ x509/req_app$(EXEXT): x509/req_app.c $(DEP)
 clean:
 ifndef WINDOWS
 	rm -f $(APPS)
+	-rm -f ssl/ssl_pthread_server$(EXEXT)
+	-rm -f test/cpp_dummy_build$(EXEXT)
 else
 	del /S /Q /F *.o *.exe
 endif

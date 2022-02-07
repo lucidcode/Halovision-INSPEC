@@ -49,14 +49,14 @@
 ///     from pyb import I2C
 ///
 ///     i2c = I2C(1)                         # create on bus 1
-///     i2c = I2C(1, I2C.MASTER)             # create and init as a master
-///     i2c.init(I2C.MASTER, baudrate=20000) # init as a master
-///     i2c.init(I2C.SLAVE, addr=0x42)       # init as a slave with given address
-///     i2c.deinit()                         # turn off the peripheral
+///     i2c = I2C(1, I2C.CONTROLLER)         # create and init as a controller
+///     i2c.init(I2C.CONTROLLER, baudrate=20000) # init as a controller
+///     i2c.init(I2C.PERIPHERAL, addr=0x42)  # init as a peripheral with given address
+///     i2c.deinit()                         # turn off the I2C unit
 ///
 /// Printing the i2c object gives you information about its configuration.
 ///
-/// Basic methods for slave are send and recv:
+/// Basic methods for peripheral are send and recv:
 ///
 ///     i2c.send('abc')      # send 3 bytes
 ///     i2c.send(0x42)       # send a single byte, given by the number
@@ -71,19 +71,19 @@
 ///
 ///     i2c.send(b'123', timeout=2000)   # timout after 2 seconds
 ///
-/// A master must specify the recipient's address:
+/// A controller must specify the recipient's address:
 ///
-///     i2c.init(I2C.MASTER)
-///     i2c.send('123', 0x42)        # send 3 bytes to slave with address 0x42
+///     i2c.init(I2C.CONTROLLER)
+///     i2c.send('123', 0x42)        # send 3 bytes to peripheral with address 0x42
 ///     i2c.send(b'456', addr=0x42)  # keyword for address
 ///
 /// Master also has other methods:
 ///
-///     i2c.is_ready(0x42)           # check if slave 0x42 is ready
-///     i2c.scan()                   # scan for slaves on the bus, returning
+///     i2c.is_ready(0x42)           # check if peripheral 0x42 is ready
+///     i2c.scan()                   # scan for peripherals on the bus, returning
 ///                                  #   a list of valid addresses
-///     i2c.mem_read(3, 0x42, 2)     # read 3 bytes from memory of slave 0x42,
-///                                  #   starting at address 2 in the slave
+///     i2c.mem_read(3, 0x42, 2)     # read 3 bytes from memory of peripheral 0x42,
+///                                  #   starting at address 2 in the peripheral
 ///     i2c.mem_write('abc', 0x42, 2, timeout=1000)
 #define PYB_I2C_MASTER (0)
 #define PYB_I2C_SLAVE  (1)
@@ -145,7 +145,7 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
         {PYB_I2C_SPEED_STANDARD, 0x40912732}, \
         {PYB_I2C_SPEED_FULL, 0x10911823}, \
         {PYB_I2C_SPEED_FAST, 0x00611116}, \
-    }
+}
 #define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_FULL)
 #define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_FAST)
 
@@ -159,7 +159,7 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
         {PYB_I2C_SPEED_STANDARD, 0xb0420f13}, \
         {PYB_I2C_SPEED_FULL, 0x70330309}, \
         {PYB_I2C_SPEED_FAST, 0x50100103}, \
-    }
+}
 #define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_FULL)
 #define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_FAST)
 
@@ -187,8 +187,8 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
 #endif
 
 STATIC const struct {
-    uint32_t    baudrate;
-    uint32_t    timing;
+    uint32_t baudrate;
+    uint32_t timing;
 } pyb_i2c_baudrate_timing[] = MICROPY_HW_I2C_BAUDRATE_TIMING;
 
 #define NUM_BAUDRATE_TIMINGS MP_ARRAY_SIZE(pyb_i2c_baudrate_timing)
@@ -200,8 +200,7 @@ STATIC void i2c_set_baudrate(I2C_InitTypeDef *init, uint32_t baudrate) {
             return;
         }
     }
-    nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
-                                            "Unsupported I2C baudrate: %u", baudrate));
+    mp_raise_msg_varg(&mp_type_ValueError, MP_ERROR_TEXT("unsupported I2C baudrate: %u"), baudrate);
 }
 
 uint32_t pyb_i2c_get_baudrate(I2C_HandleTypeDef *i2c) {
@@ -402,12 +401,12 @@ void i2c_deinit_all(void) {
 void pyb_i2c_init_freq(const pyb_i2c_obj_t *self, mp_int_t freq) {
     I2C_InitTypeDef *init = &self->i2c->Init;
 
-    init->AddressingMode    = I2C_ADDRESSINGMODE_7BIT;
-    init->DualAddressMode   = I2C_DUALADDRESS_DISABLED;
-    init->GeneralCallMode   = I2C_GENERALCALL_DISABLED;
-    init->NoStretchMode     = I2C_NOSTRETCH_DISABLE;
-    init->OwnAddress1       = PYB_I2C_MASTER_ADDRESS;
-    init->OwnAddress2       = 0; // unused
+    init->AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    init->DualAddressMode = I2C_DUALADDRESS_DISABLED;
+    init->GeneralCallMode = I2C_GENERALCALL_DISABLED;
+    init->NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    init->OwnAddress1 = PYB_I2C_MASTER_ADDRESS;
+    init->OwnAddress2 = 0;       // unused
     if (freq != -1) {
         i2c_set_baudrate(init, MIN(freq, MICROPY_HW_I2C_BAUDRATE_MAX));
     }
@@ -461,28 +460,8 @@ void i2c_ev_irq_handler(mp_uint_t i2c_id) {
             return;
     }
 
-    #if defined(STM32F4)
-
-    if (hi2c->Instance->SR1 & I2C_FLAG_BTF && hi2c->State == HAL_I2C_STATE_BUSY_TX) {
-        if (hi2c->XferCount != 0U) {
-            hi2c->Instance->DR = *hi2c->pBuffPtr++;
-            hi2c->XferCount--;
-        } else {
-            __HAL_I2C_DISABLE_IT(hi2c, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR);
-            if (hi2c->XferOptions != I2C_FIRST_FRAME) {
-                hi2c->Instance->CR1 |= I2C_CR1_STOP;
-            }
-            hi2c->Mode = HAL_I2C_MODE_NONE;
-            hi2c->State = HAL_I2C_STATE_READY;
-        }
-    }
-
-    #else
-
-    // if not an F4 MCU, use the HAL's IRQ handler
+    // Use the HAL's IRQ handler
     HAL_I2C_EV_IRQHandler(hi2c);
-
-    #endif
 }
 
 void i2c_er_irq_handler(mp_uint_t i2c_id) {
@@ -513,41 +492,8 @@ void i2c_er_irq_handler(mp_uint_t i2c_id) {
             return;
     }
 
-    #if defined(STM32F4)
-
-    uint32_t sr1 = hi2c->Instance->SR1;
-
-    // I2C Bus error
-    if (sr1 & I2C_FLAG_BERR) {
-        hi2c->ErrorCode |= HAL_I2C_ERROR_BERR;
-        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_BERR);
-    }
-
-    // I2C Arbitration Loss error
-    if (sr1 & I2C_FLAG_ARLO) {
-        hi2c->ErrorCode |= HAL_I2C_ERROR_ARLO;
-        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_ARLO);
-    }
-
-    // I2C Acknowledge failure
-    if (sr1 & I2C_FLAG_AF) {
-        hi2c->ErrorCode |= HAL_I2C_ERROR_AF;
-        SET_BIT(hi2c->Instance->CR1,I2C_CR1_STOP);
-        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_AF);
-    }
-
-    // I2C Over-Run/Under-Run
-    if (sr1 & I2C_FLAG_OVR) {
-        hi2c->ErrorCode |= HAL_I2C_ERROR_OVR;
-        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_OVR);
-    }
-
-    #else
-
-    // if not an F4 MCU, use the HAL's IRQ handler
+    // Use the HAL's IRQ handler
     HAL_I2C_ER_IRQHandler(hi2c);
-
-    #endif
 }
 
 STATIC HAL_StatusTypeDef i2c_wait_dma_finished(I2C_HandleTypeDef *i2c, uint32_t timeout) {
@@ -566,31 +512,42 @@ STATIC HAL_StatusTypeDef i2c_wait_dma_finished(I2C_HandleTypeDef *i2c, uint32_t 
 /******************************************************************************/
 /* MicroPython bindings                                                       */
 
-static inline bool in_master_mode(pyb_i2c_obj_t *self) { return self->i2c->Init.OwnAddress1 == PYB_I2C_MASTER_ADDRESS; }
+static inline bool in_master_mode(pyb_i2c_obj_t *self) {
+    return self->i2c->Init.OwnAddress1 == PYB_I2C_MASTER_ADDRESS;
+}
 
 STATIC void pyb_i2c_print(const mp_print_t *print, mp_obj_t self_in, mp_print_kind_t kind) {
     pyb_i2c_obj_t *self = MP_OBJ_TO_PTR(self_in);
 
     uint i2c_num = 0;
-    if (0) { }
+    if (0) {
+    }
     #if defined(MICROPY_HW_I2C1_SCL)
-    else if (self->i2c->Instance == I2C1) { i2c_num = 1; }
+    else if (self->i2c->Instance == I2C1) {
+        i2c_num = 1;
+    }
     #endif
     #if defined(MICROPY_HW_I2C2_SCL)
-    else if (self->i2c->Instance == I2C2) { i2c_num = 2; }
+    else if (self->i2c->Instance == I2C2) {
+        i2c_num = 2;
+    }
     #endif
     #if defined(MICROPY_HW_I2C3_SCL)
-    else if (self->i2c->Instance == I2C3) { i2c_num = 3; }
+    else if (self->i2c->Instance == I2C3) {
+        i2c_num = 3;
+    }
     #endif
     #if defined(MICROPY_HW_I2C4_SCL)
-    else if (self->i2c->Instance == I2C4) { i2c_num = 4; }
+    else if (self->i2c->Instance == I2C4) {
+        i2c_num = 4;
+    }
     #endif
 
     if (self->i2c->State == HAL_I2C_STATE_RESET) {
         mp_printf(print, "I2C(%u)", i2c_num);
     } else {
         if (in_master_mode(self)) {
-            mp_printf(print, "I2C(%u, I2C.MASTER, baudrate=%u"
+            mp_printf(print, "I2C(%u, I2C.CONTROLLER, baudrate=%u"
                 #if PYB_I2C_TIMINGR
                 ", timingr=0x%08x"
                 #endif
@@ -598,9 +555,9 @@ STATIC void pyb_i2c_print(const mp_print_t *print, mp_obj_t self_in, mp_print_ki
                 #if PYB_I2C_TIMINGR
                 , self->i2c->Init.Timing
                 #endif
-            );
+                );
         } else {
-            mp_printf(print, "I2C(%u, I2C.SLAVE, addr=0x%02x)", i2c_num, (self->i2c->Instance->OAR1 >> 1) & 0x7f);
+            mp_printf(print, "I2C(%u, I2C.PERIPHERAL, addr=0x%02x)", i2c_num, (self->i2c->Instance->OAR1 >> 1) & 0x7f);
         }
     }
 }
@@ -609,9 +566,9 @@ STATIC void pyb_i2c_print(const mp_print_t *print, mp_obj_t self_in, mp_print_ki
 ///
 /// Initialise the I2C bus with the given parameters:
 ///
-///   - `mode` must be either `I2C.MASTER` or `I2C.SLAVE`
-///   - `addr` is the 7-bit address (only sensible for a slave)
-///   - `baudrate` is the SCL clock rate (only sensible for a master)
+///   - `mode` must be either `I2C.CONTROLLER` or `I2C.PERIPHERAL`
+///   - `addr` is the 7-bit address (only sensible for a peripheral)
+///   - `baudrate` is the SCL clock rate (only sensible for a controller)
 ///   - `gencall` is whether to support general call mode
 STATIC mp_obj_t pyb_i2c_init_helper(const pyb_i2c_obj_t *self, size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     static const mp_arg_t allowed_args[] = {
@@ -621,7 +578,7 @@ STATIC mp_obj_t pyb_i2c_init_helper(const pyb_i2c_obj_t *self, size_t n_args, co
         { MP_QSTR_gencall,  MP_ARG_KW_ONLY | MP_ARG_BOOL, {.u_bool = false} },
         { MP_QSTR_dma,      MP_ARG_KW_ONLY | MP_ARG_BOOL, {.u_bool = false} },
         #if PYB_I2C_TIMINGR
-        { MP_QSTR_timingr,  MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_obj = mp_const_none} },
+        { MP_QSTR_timingr,  MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
         #endif
     };
 
@@ -633,7 +590,7 @@ STATIC mp_obj_t pyb_i2c_init_helper(const pyb_i2c_obj_t *self, size_t n_args, co
     I2C_InitTypeDef *init = &self->i2c->Init;
 
     if (args[0].u_int == PYB_I2C_MASTER) {
-        // use a special address to indicate we are a master
+        // use a special address to indicate we are a controller
         init->OwnAddress1 = PYB_I2C_MASTER_ADDRESS;
     } else {
         init->OwnAddress1 = (args[1].u_int << 1) & 0xfe;
@@ -649,11 +606,11 @@ STATIC mp_obj_t pyb_i2c_init_helper(const pyb_i2c_obj_t *self, size_t n_args, co
         i2c_set_baudrate(init, MIN(args[2].u_int, MICROPY_HW_I2C_BAUDRATE_MAX));
     }
 
-    init->AddressingMode  = I2C_ADDRESSINGMODE_7BIT;
+    init->AddressingMode = I2C_ADDRESSINGMODE_7BIT;
     init->DualAddressMode = I2C_DUALADDRESS_DISABLED;
     init->GeneralCallMode = args[3].u_bool ? I2C_GENERALCALL_ENABLED : I2C_GENERALCALL_DISABLED;
-    init->OwnAddress2     = 0; // unused
-    init->NoStretchMode   = I2C_NOSTRETCH_DISABLE;
+    init->OwnAddress2 = 0;     // unused
+    init->NoStretchMode = I2C_NOSTRETCH_DISABLE;
 
     *self->use_dma = args[4].u_bool;
 
@@ -672,7 +629,7 @@ STATIC mp_obj_t pyb_i2c_init_helper(const pyb_i2c_obj_t *self, size_t n_args, co
 /// the bus, if any).  If extra arguments are given, the bus is initialised.
 /// See `init` for parameters of initialisation.
 ///
-/// The physical pins of the I2C busses are:
+/// The physical pins of the I2C buses are:
 ///
 ///   - `I2C(1)` is on the X position: `(SCL, SDA) = (X9, X10) = (PB6, PB7)`
 ///   - `I2C(2)` is on the Y position: `(SCL, SDA) = (Y9, Y10) = (PB10, PB11)`
@@ -680,41 +637,8 @@ STATIC mp_obj_t pyb_i2c_make_new(const mp_obj_type_t *type, size_t n_args, size_
     // check arguments
     mp_arg_check_num(n_args, n_kw, 1, MP_OBJ_FUN_ARGS_MAX, true);
 
-    // work out i2c bus
-    int i2c_id = 0;
-    if (mp_obj_is_str(args[0])) {
-        const char *port = mp_obj_str_get_str(args[0]);
-        if (0) {
-        #ifdef MICROPY_HW_I2C1_NAME
-        } else if (strcmp(port, MICROPY_HW_I2C1_NAME) == 0) {
-            i2c_id = 1;
-        #endif
-        #ifdef MICROPY_HW_I2C2_NAME
-        } else if (strcmp(port, MICROPY_HW_I2C2_NAME) == 0) {
-            i2c_id = 2;
-        #endif
-        #ifdef MICROPY_HW_I2C3_NAME
-        } else if (strcmp(port, MICROPY_HW_I2C3_NAME) == 0) {
-            i2c_id = 3;
-        #endif
-        #ifdef MICROPY_HW_I2C4_NAME
-        } else if (strcmp(port, MICROPY_HW_I2C4_NAME) == 0) {
-            i2c_id = 4;
-        #endif
-        } else {
-            nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
-                "I2C(%s) doesn't exist", port));
-        }
-    } else {
-        i2c_id = mp_obj_get_int(args[0]);
-        if (i2c_id < 1 || i2c_id > MP_ARRAY_SIZE(pyb_i2c_obj)
-            || pyb_i2c_obj[i2c_id - 1].i2c == NULL) {
-            nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError,
-                "I2C(%d) doesn't exist", i2c_id));
-        }
-    }
-
     // get I2C object
+    int i2c_id = i2c_find_peripheral(args[0]);
     const pyb_i2c_obj_t *i2c_obj = &pyb_i2c_obj[i2c_id - 1];
 
     if (n_args > 1 || n_kw > 0) {
@@ -742,12 +666,12 @@ STATIC mp_obj_t pyb_i2c_deinit(mp_obj_t self_in) {
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_i2c_deinit_obj, pyb_i2c_deinit);
 
 /// \method is_ready(addr)
-/// Check if an I2C device responds to the given address.  Only valid when in master mode.
+/// Check if an I2C device responds to the given address.  Only valid when in controller mode.
 STATIC mp_obj_t pyb_i2c_is_ready(mp_obj_t self_in, mp_obj_t i2c_addr_o) {
     pyb_i2c_obj_t *self = MP_OBJ_TO_PTR(self_in);
 
     if (!in_master_mode(self)) {
-        mp_raise_TypeError("I2C must be a master");
+        mp_raise_TypeError(MP_ERROR_TEXT("I2C must be a controller"));
     }
 
     mp_uint_t i2c_addr = mp_obj_get_int(i2c_addr_o) << 1;
@@ -765,12 +689,12 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_2(pyb_i2c_is_ready_obj, pyb_i2c_is_ready);
 
 /// \method scan()
 /// Scan all I2C addresses from 0x08 to 0x77 and return a list of those that respond.
-/// Only valid when in master mode.
+/// Only valid when in controller mode.
 STATIC mp_obj_t pyb_i2c_scan(mp_obj_t self_in) {
     pyb_i2c_obj_t *self = MP_OBJ_TO_PTR(self_in);
 
     if (!in_master_mode(self)) {
-        mp_raise_TypeError("I2C must be a master");
+        mp_raise_TypeError(MP_ERROR_TEXT("I2C must be a controller"));
     }
 
     mp_obj_t list = mp_obj_new_list(0, NULL);
@@ -790,7 +714,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_i2c_scan_obj, pyb_i2c_scan);
 /// Send data on the bus:
 ///
 ///   - `send` is the data to send (an integer to send, or a buffer object)
-///   - `addr` is the address to send to (only required in master mode)
+///   - `addr` is the address to send to (only required in controller mode)
 ///   - `timeout` is the timeout in milliseconds to wait for the send
 ///
 /// Return value: `None`.
@@ -828,7 +752,7 @@ STATIC mp_obj_t pyb_i2c_send(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
             if (use_dma) {
                 dma_deinit(self->tx_dma_descr);
             }
-            mp_raise_TypeError("addr argument required");
+            mp_raise_TypeError(MP_ERROR_TEXT("addr argument required"));
         }
         mp_uint_t i2c_addr = args[1].u_int << 1;
         if (!use_dma) {
@@ -869,7 +793,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_send_obj, 1, pyb_i2c_send);
 ///
 ///   - `recv` can be an integer, which is the number of bytes to receive,
 ///     or a mutable buffer, which will be filled with received bytes
-///   - `addr` is the address to receive from (only required in master mode)
+///   - `addr` is the address to receive from (only required in controller mode)
 ///   - `timeout` is the timeout in milliseconds to wait for the receive
 ///
 /// Return value: if `recv` is an integer then a new buffer of the bytes received,
@@ -904,21 +828,21 @@ STATIC mp_obj_t pyb_i2c_recv(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
     HAL_StatusTypeDef status;
     if (in_master_mode(self)) {
         if (args[1].u_int == PYB_I2C_MASTER_ADDRESS) {
-            mp_raise_TypeError("addr argument required");
+            mp_raise_TypeError(MP_ERROR_TEXT("addr argument required"));
         }
         mp_uint_t i2c_addr = args[1].u_int << 1;
         if (!use_dma) {
-            status = HAL_I2C_Master_Receive(self->i2c, i2c_addr, (uint8_t*)vstr.buf, vstr.len, args[2].u_int);
+            status = HAL_I2C_Master_Receive(self->i2c, i2c_addr, (uint8_t *)vstr.buf, vstr.len, args[2].u_int);
         } else {
             MP_HAL_CLEANINVALIDATE_DCACHE(vstr.buf, vstr.len);
-            status = HAL_I2C_Master_Receive_DMA(self->i2c, i2c_addr, (uint8_t*)vstr.buf, vstr.len);
+            status = HAL_I2C_Master_Receive_DMA(self->i2c, i2c_addr, (uint8_t *)vstr.buf, vstr.len);
         }
     } else {
         if (!use_dma) {
-            status = HAL_I2C_Slave_Receive(self->i2c, (uint8_t*)vstr.buf, vstr.len, args[2].u_int);
+            status = HAL_I2C_Slave_Receive(self->i2c, (uint8_t *)vstr.buf, vstr.len, args[2].u_int);
         } else {
             MP_HAL_CLEANINVALIDATE_DCACHE(vstr.buf, vstr.len);
-            status = HAL_I2C_Slave_Receive_DMA(self->i2c, (uint8_t*)vstr.buf, vstr.len);
+            status = HAL_I2C_Slave_Receive_DMA(self->i2c, (uint8_t *)vstr.buf, vstr.len);
         }
     }
 
@@ -955,7 +879,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_recv_obj, 1, pyb_i2c_recv);
 ///   - `addr_size` selects width of memaddr: 8 or 16 bits
 ///
 /// Returns the read data.
-/// This is only valid in master mode.
+/// This is only valid in controller mode.
 STATIC const mp_arg_t pyb_i2c_mem_read_allowed_args[] = {
     { MP_QSTR_data,    MP_ARG_REQUIRED | MP_ARG_OBJ, {.u_obj = MP_OBJ_NULL} },
     { MP_QSTR_addr,    MP_ARG_REQUIRED | MP_ARG_INT, {.u_int = 0} },
@@ -971,7 +895,7 @@ STATIC mp_obj_t pyb_i2c_mem_read(size_t n_args, const mp_obj_t *pos_args, mp_map
     mp_arg_parse_all(n_args - 1, pos_args + 1, kw_args, MP_ARRAY_SIZE(pyb_i2c_mem_read_allowed_args), pyb_i2c_mem_read_allowed_args, args);
 
     if (!in_master_mode(self)) {
-        mp_raise_TypeError("I2C must be a master");
+        mp_raise_TypeError(MP_ERROR_TEXT("I2C must be a controller"));
     }
 
     // get the buffer to read into
@@ -992,14 +916,14 @@ STATIC mp_obj_t pyb_i2c_mem_read(size_t n_args, const mp_obj_t *pos_args, mp_map
 
     HAL_StatusTypeDef status;
     if (!use_dma) {
-        status = HAL_I2C_Mem_Read(self->i2c, i2c_addr, mem_addr, mem_addr_size, (uint8_t*)vstr.buf, vstr.len, args[3].u_int);
+        status = HAL_I2C_Mem_Read(self->i2c, i2c_addr, mem_addr, mem_addr_size, (uint8_t *)vstr.buf, vstr.len, args[3].u_int);
     } else {
         DMA_HandleTypeDef rx_dma;
         dma_init(&rx_dma, self->rx_dma_descr, DMA_PERIPH_TO_MEMORY, self->i2c);
         self->i2c->hdmatx = NULL;
         self->i2c->hdmarx = &rx_dma;
         MP_HAL_CLEANINVALIDATE_DCACHE(vstr.buf, vstr.len);
-        status = HAL_I2C_Mem_Read_DMA(self->i2c, i2c_addr, mem_addr, mem_addr_size, (uint8_t*)vstr.buf, vstr.len);
+        status = HAL_I2C_Mem_Read_DMA(self->i2c, i2c_addr, mem_addr, mem_addr_size, (uint8_t *)vstr.buf, vstr.len);
         if (status == HAL_OK) {
             status = i2c_wait_dma_finished(self->i2c, args[3].u_int);
         }
@@ -1031,7 +955,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_mem_read_obj, 1, pyb_i2c_mem_read);
 ///   - `addr_size` selects width of memaddr: 8 or 16 bits
 ///
 /// Returns `None`.
-/// This is only valid in master mode.
+/// This is only valid in controller mode.
 STATIC mp_obj_t pyb_i2c_mem_write(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     // parse args (same as mem_read)
     pyb_i2c_obj_t *self = MP_OBJ_TO_PTR(pos_args[0]);
@@ -1039,7 +963,7 @@ STATIC mp_obj_t pyb_i2c_mem_write(size_t n_args, const mp_obj_t *pos_args, mp_ma
     mp_arg_parse_all(n_args - 1, pos_args + 1, kw_args, MP_ARRAY_SIZE(pyb_i2c_mem_read_allowed_args), pyb_i2c_mem_read_allowed_args, args);
 
     if (!in_master_mode(self)) {
-        mp_raise_TypeError("I2C must be a master");
+        mp_raise_TypeError(MP_ERROR_TEXT("I2C must be a controller"));
     }
 
     // get the buffer to write from
@@ -1096,8 +1020,11 @@ STATIC const mp_rom_map_elem_t pyb_i2c_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_mem_write), MP_ROM_PTR(&pyb_i2c_mem_write_obj) },
 
     // class constants
-    /// \constant MASTER - for initialising the bus to master mode
-    /// \constant SLAVE - for initialising the bus to slave mode
+    /// \constant CONTROLLER - for initialising the bus to controller mode
+    /// \constant PERIPHERAL - for initialising the bus to peripheral mode
+    { MP_ROM_QSTR(MP_QSTR_CONTROLLER), MP_ROM_INT(PYB_I2C_MASTER) },
+    { MP_ROM_QSTR(MP_QSTR_PERIPHERAL),  MP_ROM_INT(PYB_I2C_SLAVE) },
+    // TODO - remove MASTER/SLAVE when CONTROLLER/PERIPHERAL gain wide adoption
     { MP_ROM_QSTR(MP_QSTR_MASTER), MP_ROM_INT(PYB_I2C_MASTER) },
     { MP_ROM_QSTR(MP_QSTR_SLAVE), MP_ROM_INT(PYB_I2C_SLAVE) },
 };
@@ -1109,7 +1036,7 @@ const mp_obj_type_t pyb_i2c_type = {
     .name = MP_QSTR_I2C,
     .print = pyb_i2c_print,
     .make_new = pyb_i2c_make_new,
-    .locals_dict = (mp_obj_dict_t*)&pyb_i2c_locals_dict,
+    .locals_dict = (mp_obj_dict_t *)&pyb_i2c_locals_dict,
 };
 
 #endif // MICROPY_PY_PYB_LEGACY && MICROPY_HW_ENABLE_HW_I2C

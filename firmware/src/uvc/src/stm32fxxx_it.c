@@ -1,8 +1,8 @@
 /*
  * This file is part of the OpenMV project.
  *
- * Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
  *
  * This work is licensed under the MIT license, see the file LICENSE for details.
  *
@@ -42,7 +42,6 @@
 #include <stm32fxxx_it.h>
 
 extern PCD_HandleTypeDef hpcd;
-extern DCMI_HandleTypeDef DCMIHandle;
 extern void DCMI_VsyncExtiCallback();
 extern TIM_HandleTypeDef TIM5_Handle;
 
@@ -156,12 +155,4 @@ void OTG_HS_IRQHandler(void)
 #endif
 {
   HAL_PCD_IRQHandler(&hpcd);
-}
-
-void DCMI_IRQHandler(void) {
-    HAL_DCMI_IRQHandler(&DCMIHandle);
-}
-
-void DMA2_Stream1_IRQHandler(void) {
-    HAL_DMA_IRQHandler(DCMIHandle.DMA_Handle);
 }

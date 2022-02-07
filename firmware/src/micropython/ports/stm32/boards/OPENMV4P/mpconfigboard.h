@@ -1,7 +1,8 @@
-#define MICROPY_HW_BOARD_NAME       "INSPEC"
+#define MICROPY_HW_BOARD_NAME       "OPENMV4P"
 #define MICROPY_HW_MCU_NAME         "STM32H743"
-#define MICROPY_PY_SYS_PLATFORM     "INSPEC4P-H7"
+#define MICROPY_PY_SYS_PLATFORM     "OpenMV4P-H7"
 
+#define MICROPY_FATFS_EXFAT         (1)
 #define MICROPY_HW_ENABLE_RNG       (1)
 #define MICROPY_HW_ENABLE_RTC       (1)
 #define MICROPY_HW_ENABLE_TIMER     (1)
@@ -10,8 +11,12 @@
 #define MICROPY_HW_ENABLE_ADC       (1)
 #define MICROPY_HW_ENABLE_SPI2      (1)
 #define MICROPY_HW_ENABLE_USB       (1)
+#define MICROPY_HW_HAS_FLASH        (1)
 #define MICROPY_HW_ENABLE_SDCARD    (1)
-#define MICROPY_FATFS_EXFAT         (1)
+// Reserved DMA streams
+#define MICROPY_HW_DMA1S0_IS_RESERVED
+#define MICROPY_HW_DMA2S1_IS_RESERVED
+#define MICROPY_HW_TIM_IS_RESERVED(id) (id == 1 || id == 6)
 
 // Note these are not used in top system.c.
 #define MICROPY_HW_CLK_PLLM         (3)
@@ -20,18 +25,34 @@
 #define MICROPY_HW_CLK_PLLQ         (8)
 #define MICROPY_HW_CLK_PLLR         (2)
 
-#define USBD_VID                      0x1209
-#define USBD_PID                      0xabd1
-#define USBD_LANGID_STRING            0x409
-#define USBD_MANUFACTURER_STRING      "INSPEC"
-#define USBD_PRODUCT_FS_STRING        "INSPEC Virtual Comm Port in FS Mode"
-#define USBD_PRODUCT_HS_STRING        "INSPEC Virtual Comm Port in HS Mode"
-#define USBD_SERIALNUMBER_FS_STRING   "000000000011"
-#define USBD_SERIALNUMBER_HS_STRING   "000000000010"
-#define USBD_INTERFACE_FS_STRING      "VCP Interface"
-#define USBD_INTERFACE_HS_STRING      "VCP Interface"
-#define USBD_CONFIGURATION_FS_STRING  "VCP Config"
-#define USBD_CONFIGURATION_HS_STRING  "VCP Config"
+void board_low_power(int mode);
+#define MICROPY_BOARD_LEAVE_STOP    board_low_power(0);
+#define MICROPY_BOARD_ENTER_STOP    board_low_power(1);
+#define MICROPY_BOARD_ENTER_STANDBY board_low_power(2);
+
+#define MICROPY_HW_USB_VID                      0x1209
+#define MICROPY_HW_USB_PID                      0xabd1
+#define MICROPY_HW_USB_PID_CDC_MSC              (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC_HID              (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC                  (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_MSC                  (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC2_MSC             (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC2                 (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC3                 (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC3_MSC             (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC_MSC_HID          (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC2_MSC_HID         (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC3_MSC_HID         (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_LANGID_STRING            0x409
+#define MICROPY_HW_USB_MANUFACTURER_STRING      "OpenMV"
+#define MICROPY_HW_USB_PRODUCT_FS_STRING        "OpenMV Virtual Comm Port in FS Mode"
+#define MICROPY_HW_USB_PRODUCT_HS_STRING        "OpenMV Virtual Comm Port in HS Mode"
+#define MICROPY_HW_USB_SERIALNUMBER_FS_STRING   "000000000011"
+#define MICROPY_HW_USB_SERIALNUMBER_HS_STRING   "000000000010"
+#define MICROPY_HW_USB_INTERFACE_FS_STRING      "VCP Interface"
+#define MICROPY_HW_USB_INTERFACE_HS_STRING      "VCP Interface"
+#define MICROPY_HW_USB_CONFIGURATION_FS_STRING  "VCP Config"
+#define MICROPY_HW_USB_CONFIGURATION_HS_STRING  "VCP Config"
 
 // UART1 config
 #define MICROPY_HW_UART1_TX  (pin_B14)
@@ -68,6 +89,8 @@
 
 // USB config
 #define MICROPY_HW_USB_FS                   (1)
+#define MICROPY_HW_USB_CDC_RX_DATA_SIZE     (512)
+#define MICROPY_HW_USB_CDC_TX_DATA_SIZE     (512)
 #define MICROPY_HW_USB_VBUS_DETECT_PIN      (pin_A9)
 
 // LEDs
@@ -85,16 +108,18 @@
 
 // Use external SPI flash for storage
 #define MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE (0)
+#define MICROPY_HW_SPIFLASH_ENABLE_CACHE (1)
 
 // QSPI Flash 256MBits
-#define MICROPY_HW_SPIFLASH_SIZE_BITS   (256 * 1024 * 1024)
+#define MICROPY_HW_QSPI_PRESCALER           (2) // F_CLK = F_AHB/2 (100MHz)
+#define MICROPY_HW_SPIFLASH_SIZE_BITS       (256 * 1024 * 1024)
 #define MICROPY_HW_QSPIFLASH_SIZE_BITS_LOG2 (28)
-#define MICROPY_HW_QSPIFLASH_CS         (pin_G6)
-#define MICROPY_HW_QSPIFLASH_SCK        (pin_F10)
-#define MICROPY_HW_QSPIFLASH_IO0        (pin_F8)
-#define MICROPY_HW_QSPIFLASH_IO1        (pin_F9)
-#define MICROPY_HW_QSPIFLASH_IO2        (pin_F7)
-#define MICROPY_HW_QSPIFLASH_IO3        (pin_F6)
+#define MICROPY_HW_QSPIFLASH_CS             (pyb_pin_QSPIFLASH_CS)
+#define MICROPY_HW_QSPIFLASH_SCK            (pyb_pin_QSPIFLASH_SCK)
+#define MICROPY_HW_QSPIFLASH_IO0            (pyb_pin_QSPIFLASH_IO0)
+#define MICROPY_HW_QSPIFLASH_IO1            (pyb_pin_QSPIFLASH_IO1)
+#define MICROPY_HW_QSPIFLASH_IO2            (pyb_pin_QSPIFLASH_IO2)
+#define MICROPY_HW_QSPIFLASH_IO3            (pyb_pin_QSPIFLASH_IO3)
 
 // block device config for SPI flash
 extern const struct _mp_spiflash_config_t spiflash_config;
@@ -106,10 +131,12 @@ extern struct _spi_bdev_t spi_bdev;
 )
 #define MICROPY_HW_BDEV_READBLOCKS(dest, bl, n) spi_bdev_readblocks(&spi_bdev, (dest), (bl), (n))
 #define MICROPY_HW_BDEV_WRITEBLOCKS(src, bl, n) spi_bdev_writeblocks(&spi_bdev, (src), (bl), (n))
+#define MICROPY_HW_BDEV_SPIFLASH_EXTENDED (&spi_bdev)
 
 // SDRAM
 #define MICROPY_HW_SDRAM_SIZE               (32 * 1024 * 1024)
 #define MICROPY_HW_SDRAM_STARTUP_TEST       (1)
+#define MICROPY_HW_SDRAM_TEST_FAIL_ON_ERROR (true)
 
 // Timing configuration for 240MHz/3=80MHz (12.5ns)
 //#define MICROPY_HW_SDRAM_CLOCK_PERIOD       3

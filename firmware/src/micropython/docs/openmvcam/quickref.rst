@@ -3,8 +3,33 @@
 Quick reference for the openmvcam
 =================================
 
-.. image:: pinout.png
-    :alt: OpenMV Cam pinout
+Below is a quick reference for the OpenMV Cam. If it is your first time working with
+the OpenMV Cam please consider reading the following sections first:
+
+.. toctree::
+   :maxdepth: 1
+
+   general.rst
+   tutorial/index.rst
+
+.. image:: pinout-openmv-cam-h7-plus-ov5640.png
+    :alt: OpenMV Cam H7 Plus OV5640 Pinout
+    :width: 700px
+
+.. image:: pinout-openmv-cam-h7-ov7725.png
+    :alt: OpenMV Cam H7 OV7725 Pinout
+    :width: 700px
+
+.. image:: pinout-openmv-cam-m7-ov7725.png
+    :alt: OpenMV Cam M7 OV7725 Pinout
+    :width: 700px
+
+.. image:: pinout-openmv-cam-m4-ov7725.png
+    :alt: OpenMV Cam M4 OV7725 Pinout
+    :width: 700px
+
+.. image:: pinout-openmv-cam-m4-ov2640.png
+    :alt: OpenMV Cam M4 OV2640 Pinout
     :width: 700px
 
 General board control
@@ -25,11 +50,11 @@ Use the :mod:`time <utime>` module::
 
     import utime
 
-    time.sleep(1)           # sleep for 1 second
-    time.sleep_ms(500)      # sleep for 500 milliseconds
-    time.sleep_us(10)       # sleep for 10 microseconds
-    start = time.ticks_ms() # get value of millisecond counter
-    delta = time.ticks_diff(time.ticks_ms(), start) # compute time difference
+    utime.sleep(1)           # sleep for 1 second
+    utime.sleep_ms(500)      # sleep for 500 milliseconds
+    utime.sleep_us(10)       # sleep for 10 microseconds
+    start = utime.ticks_ms() # get value of millisecond counter
+    delta = utime.ticks_diff(utime.ticks_ms(), start) # compute time difference
 
 LEDs
 ----

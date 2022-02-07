@@ -1,8 +1,46 @@
 #!/usr/bin/env perl
 #
-# This file is part of mbed TLS (https://tls.mbed.org)
+# Copyright The Mbed TLS Contributors
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 #
-# Copyright (c) 2014-2016, ARM Limited, All Rights Reserved
+# This file is provided under the Apache License 2.0, or the
+# GNU General Public License v2.0 or later.
+#
+# **********
+# Apache License 2.0:
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# **********
+#
+# **********
+# GNU General Public License v2.0 or later:
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# **********
 #
 # Purpose
 #
@@ -19,34 +57,18 @@
 #
 # The following options are disabled instead of enabled with "full".
 #
-#   MBEDTLS_TEST_NULL_ENTROPY
-#   MBEDTLS_DEPRECATED_REMOVED
-#   MBEDTLS_HAVE_SSE2
-#   MBEDTLS_PLATFORM_NO_STD_FUNCTIONS
-#   MBEDTLS_ECP_DP_M221_ENABLED
-#   MBEDTLS_ECP_DP_M383_ENABLED
-#   MBEDTLS_ECP_DP_M511_ENABLED
-#   MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES
-#   MBEDTLS_NO_PLATFORM_ENTROPY
-#   MBEDTLS_PSA_CRYPTO_C
-#   MBEDTLS_REMOVE_ARC4_CIPHERSUITES
-#   MBEDTLS_REMOVE_3DES_CIPHERSUITES
-#   MBEDTLS_SSL_HW_RECORD_ACCEL
-#   MBEDTLS_RSA_NO_CRT
-#   MBEDTLS_X509_ALLOW_EXTENSIONS_NON_V3
-#   MBEDTLS_X509_ALLOW_UNSUPPORTED_CRITICAL_EXTENSION
-#       - this could be enabled if the respective tests were adapted
-#   MBEDTLS_ZLIB_SUPPORT
-#   MBEDTLS_PKCS11_C
-#   MBEDTLS_USE_PSA_CRYPTO
-#       - experimental, and more an alternative implementation than a feature
-#   MBEDTLS_PSA_CRYPTO_STORAGE_C
-#   MBEDTLS_PSA_CRYPTO_STORAGE_FILE_C
-#   MBEDTLS_PSA_CRYPTO_STORAGE_ITS_C
-#   MBEDTLS_PSA_CRYPTO_SPM
-#   MBEDTLS_PSA_HAS_ITS_IO
-#   and any symbol beginning _ALT
+# * Options that require additional build dependencies or unusual hardware.
+# * Options that make testing less effective.
+# * Options that are incompatible with other options, or more generally that
+#   interact with other parts of the code in such a way that a bulk enabling
+#   is not a good way to test them.
+# * Options that remove features.
 #
+# The baremetal configuration excludes options that require a library or
+# operating system feature that is typically not present on bare metal
+# systems. It also excludes debugging features that increase the code size
+# of other modules.
+# Features that are excluded from "full" won't be in "baremetal" either.
 
 use warnings;
 use strict;
@@ -87,56 +109,59 @@ Options
 EOU
 
 my @excluded = qw(
-MBEDTLS_TEST_NULL_ENTROPY
+MBEDTLS_CTR_DRBG_USE_128_BIT_KEY
 MBEDTLS_DEPRECATED_REMOVED
+MBEDTLS_DEPRECATED_WARNING
+MBEDTLS_ECP_NO_INTERNAL_RNG
 MBEDTLS_HAVE_SSE2
-MBEDTLS_PLATFORM_NO_STD_FUNCTIONS
-MBEDTLS_ECP_DP_M221_ENABLED
-MBEDTLS_ECP_DP_M383_ENABLED
-MBEDTLS_ECP_DP_M511_ENABLED
+MBEDTLS_MEMORY_BACKTRACE
+MBEDTLS_MEMORY_BUFFER_ALLOC_C
+MBEDTLS_MEMORY_DEBUG
+MBEDTLS_NO_64BIT_MULTIPLICATION
 MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES
 MBEDTLS_NO_PLATFORM_ENTROPY
-MBEDTLS_PSA_CRYPTO_C
-MBEDTLS_RSA_NO_CRT
-MBEDTLS_REMOVE_ARC4_CIPHERSUITES
+MBEDTLS_NO_UDBL_DIVISION
+MBEDTLS_PKCS11_C
+MBEDTLS_PLATFORM_NO_STD_FUNCTIONS
 MBEDTLS_REMOVE_3DES_CIPHERSUITES
+MBEDTLS_REMOVE_ARC4_CIPHERSUITES
+MBEDTLS_RSA_NO_CRT
 MBEDTLS_SSL_HW_RECORD_ACCEL
-MBEDTLS_X509_ALLOW_EXTENSIONS_NON_V3
+MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN
+MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND
+MBEDTLS_TEST_NULL_ENTROPY
 MBEDTLS_X509_ALLOW_UNSUPPORTED_CRITICAL_EXTENSION
 MBEDTLS_ZLIB_SUPPORT
-MBEDTLS_PKCS11_C
-MBEDTLS_NO_UDBL_DIVISION
-MBEDTLS_NO_64BIT_MULTIPLICATION
-MBEDTLS_USE_PSA_CRYPTO
-MBEDTLS_PSA_CRYPTO_STORAGE_C
-MBEDTLS_PSA_CRYPTO_STORAGE_FILE_C
-MBEDTLS_PSA_CRYPTO_STORAGE_ITS_C
-MBEDTLS_PSA_CRYPTO_SPM
-MBEDTLS_PSA_HAS_ITS_IO
 _ALT\s*$
 );
 
 # Things that should be disabled in "baremetal"
 my @excluded_baremetal = qw(
-MBEDTLS_NET_C
-MBEDTLS_TIMING_C
-MBEDTLS_FS_IO
+MBEDTLS_DEBUG_C
 MBEDTLS_ENTROPY_NV_SEED
+MBEDTLS_FS_IO
+MBEDTLS_HAVEGE_C
 MBEDTLS_HAVE_TIME
 MBEDTLS_HAVE_TIME_DATE
-MBEDTLS_DEPRECATED_WARNING
-MBEDTLS_HAVEGE_C
-MBEDTLS_THREADING_C
-MBEDTLS_THREADING_PTHREAD
 MBEDTLS_MEMORY_BACKTRACE
 MBEDTLS_MEMORY_BUFFER_ALLOC_C
-MBEDTLS_PLATFORM_TIME_ALT
+MBEDTLS_NET_C
 MBEDTLS_PLATFORM_FPRINTF_ALT
+MBEDTLS_PLATFORM_NV_SEED_ALT
+MBEDTLS_PLATFORM_TIME_ALT
+MBEDTLS_TEST_HOOKS
+MBEDTLS_THREADING_C
+MBEDTLS_THREADING_PTHREAD
+MBEDTLS_TIMING_C
 );
 
-# Things that should be enabled in "full" even if they match @excluded
+# Things that should be enabled in "full" even if they match @excluded.
+# Platform ALTs enable global variables that allow configuring the behavior
+# but default to the default behavior, except for PLATFORM_SETUP_TEARDOWN_ALT
+# which requires the application to provide relevant functions like
+# non-platform ALTs.
 my @non_excluded = qw(
-PLATFORM_[A-Z0-9]+_ALT
+PLATFORM_(?!SETUP_TEARDOWN_)[A-Z_0-9]+_ALT
 );
 
 # Things that should be enabled in "baremetal"

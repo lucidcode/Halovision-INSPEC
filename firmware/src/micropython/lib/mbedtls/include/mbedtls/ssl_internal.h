@@ -4,8 +4,14 @@
  * \brief Internal functions shared by the SSL modules
  */
 /*
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -19,7 +25,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 #ifndef MBEDTLS_SSL_INTERNAL_H
 #define MBEDTLS_SSL_INTERNAL_H
@@ -32,10 +57,6 @@
 
 #include "ssl.h"
 #include "cipher.h"
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-#include "psa/crypto.h"
-#endif
 
 #if defined(MBEDTLS_MD5_C)
 #include "md5.h"
@@ -56,11 +77,6 @@
 #if defined(MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED)
 #include "ecjpake.h"
 #endif
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-#include "psa/crypto.h"
-#include "psa_util.h"
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
 #if ( defined(__ARMCC_VERSION) || defined(_MSC_VER) ) && \
     !defined(inline) && !defined(__cplusplus)
@@ -134,6 +150,24 @@
 #define MBEDTLS_SSL_RETRANS_WAITING         2
 #define MBEDTLS_SSL_RETRANS_FINISHED        3
 
+/* This macro determines whether CBC is supported. */
+#if defined(MBEDTLS_CIPHER_MODE_CBC) &&                               \
+    ( defined(MBEDTLS_AES_C)      ||                                  \
+      defined(MBEDTLS_CAMELLIA_C) ||                                  \
+      defined(MBEDTLS_ARIA_C)     ||                                  \
+      defined(MBEDTLS_DES_C) )
+#define MBEDTLS_SSL_SOME_SUITES_USE_CBC
+#endif
+
+/* This macro determines whether the CBC construct used in TLS 1.0-1.2 (as
+ * opposed to the very different CBC construct used in SSLv3) is supported. */
+#if defined(MBEDTLS_SSL_SOME_SUITES_USE_CBC) && \
+    ( defined(MBEDTLS_SSL_PROTO_TLS1) ||        \
+      defined(MBEDTLS_SSL_PROTO_TLS1_1) ||      \
+      defined(MBEDTLS_SSL_PROTO_TLS1_2) )
+#define MBEDTLS_SSL_SOME_SUITES_USE_TLS_CBC
+#endif
+
 /*
  * Allow extra bytes for record, authentication and encryption overhead:
  * counter (8) + header (5) + IV(16) + MAC (16-48) + padding (0-256)
@@ -191,6 +225,12 @@
         : ( MBEDTLS_SSL_IN_CONTENT_LEN )                             \
         )
 
+/* Maximum size in bytes of list in sig-hash algorithm ext., RFC 5246 */
+#define MBEDTLS_SSL_MAX_SIG_HASH_ALG_LIST_LEN  65534
+
+/* Maximum size in bytes of list in supported elliptic curve ext., RFC 4492 */
+#define MBEDTLS_SSL_MAX_CURVE_LIST_LEN         65535
+
 /*
  * Check that we obey the standard's message size bounds
  */
@@ -245,6 +285,41 @@
 #define MBEDTLS_TLS_EXT_SUPPORTED_POINT_FORMATS_PRESENT (1 << 0)
 #define MBEDTLS_TLS_EXT_ECJPAKE_KKPP_OK                 (1 << 1)
 
+/**
+ * \brief        This function checks if the remaining size in a buffer is
+ *               greater or equal than a needed space.
+ *
+ * \param cur    Pointer to the current position in the buffer.
+ * \param end    Pointer to one past the end of the buffer.
+ * \param need   Needed space in bytes.
+ *
+ * \return       Zero if the needed space is available in the buffer, non-zero
+ *               otherwise.
+ */
+static inline int mbedtls_ssl_chk_buf_ptr( const uint8_t *cur,
+                                           const uint8_t *end, size_t need )
+{
+    return( ( cur > end ) || ( need > (size_t)( end - cur ) ) );
+}
+
+/**
+ * \brief        This macro checks if the remaining size in a buffer is
+ *               greater or equal than a needed space. If it is not the case,
+ *               it returns an SSL_BUFFER_TOO_SMALL error.
+ *
+ * \param cur    Pointer to the current position in the buffer.
+ * \param end    Pointer to one past the end of the buffer.
+ * \param need   Needed space in bytes.
+ *
+ */
+#define MBEDTLS_SSL_CHK_BUF_PTR( cur, end, need )                        \
+    do {                                                                 \
+        if( mbedtls_ssl_chk_buf_ptr( ( cur ), ( end ), ( need ) ) != 0 ) \
+        {                                                                \
+            return( MBEDTLS_ERR_SSL_BUFFER_TOO_SMALL );                  \
+        }                                                                \
+    } while( 0 )
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -285,15 +360,7 @@ struct mbedtls_ssl_handshake_params
 #endif
 #if defined(MBEDTLS_ECDH_C)
     mbedtls_ecdh_context ecdh_ctx;              /*!<  ECDH key exchange       */
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    psa_ecc_curve_t ecdh_psa_curve;
-    psa_key_handle_t ecdh_psa_privkey;
-    unsigned char ecdh_psa_peerkey[MBEDTLS_PSA_MAX_EC_PUBKEY_LENGTH];
-    size_t ecdh_psa_peerkey_len;
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
-#endif /* MBEDTLS_ECDH_C */
-
+#endif
 #if defined(MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED)
     mbedtls_ecjpake_context ecjpake_ctx;        /*!< EC J-PAKE key exchange */
 #if defined(MBEDTLS_SSL_CLI_C)
@@ -306,12 +373,9 @@ struct mbedtls_ssl_handshake_params
     const mbedtls_ecp_curve_info **curves;      /*!<  Supported elliptic curves */
 #endif
 #if defined(MBEDTLS_KEY_EXCHANGE__SOME__PSK_ENABLED)
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    psa_key_handle_t psk_opaque;        /*!< Opaque PSK from the callback   */
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
     unsigned char *psk;                 /*!<  PSK from the callback         */
     size_t psk_len;                     /*!<  Length of PSK from callback   */
-#endif /* MBEDTLS_KEY_EXCHANGE__SOME__PSK_ENABLED */
+#endif
 #if defined(MBEDTLS_X509_CRT_PARSE_C)
     mbedtls_ssl_key_cert *key_cert;     /*!< chosen key/cert pair (server)  */
 #if defined(MBEDTLS_SSL_SERVER_NAME_INDICATION)
@@ -331,13 +395,8 @@ struct mbedtls_ssl_handshake_params
         ssl_ecrs_cke_ecdh_calc_secret,  /*!< ClientKeyExchange: ECDH step 2 */
         ssl_ecrs_crt_vrfy_sign,         /*!< CertificateVerify: pk_sign()   */
     } ecrs_state;                       /*!< current (or last) operation    */
-    mbedtls_x509_crt *ecrs_peer_cert;   /*!< The peer's CRT chain.          */
     size_t ecrs_n;                      /*!< place for saving a length      */
 #endif
-#if defined(MBEDTLS_X509_CRT_PARSE_C) && \
-    !defined(MBEDTLS_SSL_KEEP_PEER_CERTIFICATE)
-    mbedtls_pk_context peer_pubkey;     /*!< The public key from the peer.  */
-#endif /* MBEDTLS_X509_CRT_PARSE_C && !MBEDTLS_SSL_KEEP_PEER_CERTIFICATE */
 #if defined(MBEDTLS_SSL_PROTO_DTLS)
     unsigned int out_msg_seq;           /*!<  Outgoing handshake sequence number */
     unsigned int in_msg_seq;            /*!<  Incoming handshake sequence number */
@@ -398,18 +457,10 @@ struct mbedtls_ssl_handshake_params
 #endif
 #if defined(MBEDTLS_SSL_PROTO_TLS1_2)
 #if defined(MBEDTLS_SHA256_C)
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    psa_hash_operation_t fin_sha256_psa;
-#else
     mbedtls_sha256_context fin_sha256;
 #endif
-#endif
 #if defined(MBEDTLS_SHA512_C)
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    psa_hash_operation_t fin_sha384_psa;
-#else
     mbedtls_sha512_context fin_sha512;
-#endif
 #endif
 #endif /* MBEDTLS_SSL_PROTO_TLS1_2 */
 
@@ -771,9 +822,6 @@ int mbedtls_ssl_dtls_replay_check( mbedtls_ssl_context *ssl );
 void mbedtls_ssl_dtls_replay_update( mbedtls_ssl_context *ssl );
 #endif
 
-int mbedtls_ssl_session_copy( mbedtls_ssl_session *dst,
-                              const mbedtls_ssl_session *src );
-
 /* constant-time buffer comparison */
 static inline int mbedtls_ssl_safer_memcmp( const void *a, const void *b, size_t n )
 {
@@ -804,13 +852,79 @@ int mbedtls_ssl_get_key_exchange_md_ssl_tls( mbedtls_ssl_context *ssl,
 
 #if defined(MBEDTLS_SSL_PROTO_TLS1) || defined(MBEDTLS_SSL_PROTO_TLS1_1) || \
     defined(MBEDTLS_SSL_PROTO_TLS1_2)
-/* The hash buffer must have at least MBEDTLS_MD_MAX_SIZE bytes of length. */
 int mbedtls_ssl_get_key_exchange_md_tls1_2( mbedtls_ssl_context *ssl,
                                             unsigned char *hash, size_t *hashlen,
                                             unsigned char *data, size_t data_len,
                                             mbedtls_md_type_t md_alg );
 #endif /* MBEDTLS_SSL_PROTO_TLS1 || MBEDTLS_SSL_PROTO_TLS1_1 || \
           MBEDTLS_SSL_PROTO_TLS1_2 */
+
+#if defined(MBEDTLS_SSL_SOME_SUITES_USE_TLS_CBC)
+/** \brief Compute the HMAC of variable-length data with constant flow.
+ *
+ * This function computes the HMAC of the concatenation of \p add_data and \p
+ * data, and does with a code flow and memory access pattern that does not
+ * depend on \p data_len_secret, but only on \p min_data_len and \p
+ * max_data_len. In particular, this function always reads exactly \p
+ * max_data_len bytes from \p data.
+ *
+ * \param ctx               The HMAC context. It must have keys configured
+ *                          with mbedtls_md_hmac_starts() and use one of the
+ *                          following hashes: SHA-384, SHA-256, SHA-1 or MD-5.
+ *                          It is reset using mbedtls_md_hmac_reset() after
+ *                          the computation is complete to prepare for the
+ *                          next computation.
+ * \param add_data          The additional data prepended to \p data. This
+ *                          must point to a readable buffer of \p add_data_len
+ *                          bytes.
+ * \param add_data_len      The length of \p add_data in bytes.
+ * \param data              The data appended to \p add_data. This must point
+ *                          to a readable buffer of \p max_data_len bytes.
+ * \param data_len_secret   The length of the data to process in \p data.
+ *                          This must be no less than \p min_data_len and no
+ *                          greater than \p max_data_len.
+ * \param min_data_len      The minimal length of \p data in bytes.
+ * \param max_data_len      The maximal length of \p data in bytes.
+ * \param output            The HMAC will be written here. This must point to
+ *                          a writable buffer of sufficient size to hold the
+ *                          HMAC value.
+ *
+ * \retval 0
+ *         Success.
+ * \retval MBEDTLS_ERR_PLATFORM_HW_ACCEL_FAILED
+ *         The hardware accelerator failed.
+ */
+int mbedtls_ssl_cf_hmac(
+        mbedtls_md_context_t *ctx,
+        const unsigned char *add_data, size_t add_data_len,
+        const unsigned char *data, size_t data_len_secret,
+        size_t min_data_len, size_t max_data_len,
+        unsigned char *output );
+
+/** \brief Copy data from a secret position with constant flow.
+ *
+ * This function copies \p len bytes from \p src_base + \p offset_secret to \p
+ * dst, with a code flow and memory access pattern that does not depend on \p
+ * offset_secret, but only on \p offset_min, \p offset_max and \p len.
+ *
+ * \param dst           The destination buffer. This must point to a writable
+ *                      buffer of at least \p len bytes.
+ * \param src_base      The base of the source buffer. This must point to a
+ *                      readable buffer of at least \p offset_max + \p len
+ *                      bytes.
+ * \param offset_secret The offset in the source buffer from which to copy.
+ *                      This must be no less than \p offset_min and no greater
+ *                      than \p offset_max.
+ * \param offset_min    The minimal value of \p offset_secret.
+ * \param offset_max    The maximal value of \p offset_secret.
+ * \param len           The number of bytes to copy.
+ */
+void mbedtls_ssl_cf_memcpy_offset( unsigned char *dst,
+                                   const unsigned char *src_base,
+                                   size_t offset_secret,
+                                   size_t offset_min, size_t offset_max,
+                                   size_t len );
+#endif /* MBEDTLS_SSL_SOME_SUITES_USE_TLS_CBC */
 
 #ifdef __cplusplus
 }

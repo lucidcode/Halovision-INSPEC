@@ -30,8 +30,9 @@
 #include "py/mpstate.h"
 #include "py/gc.h"
 #include "py/mpthread.h"
-#include "lib/utils/gchelper.h"
+#include "shared/runtime/gchelper.h"
 #include "gccollect.h"
+#include "softtimer.h"
 #include "systick.h"
 
 void gc_collect(void) {
@@ -43,22 +44,16 @@ void gc_collect(void) {
     // start the GC
     gc_collect_start();
 
-    // scan everything in RAM before the heap
-    // this includes the data and bss segments
-    // TODO possibly don't need to scan data, since all pointers should start out NULL and be in bss
-    gc_collect_root((void**)&_ram_start, ((uint32_t)&_ebss - (uint32_t)&_ram_start) / sizeof(uint32_t));
-
-    // get the registers and the sp
-    uintptr_t regs[10];
-    uintptr_t sp = gc_helper_get_regs_and_sp(regs);
-
-    // trace the stack, including the registers (since they live on the stack in this function)
-    gc_collect_root((void**)sp, ((uint32_t)MP_STATE_THREAD(stack_top) - sp) / sizeof(uint32_t));
+    // trace the stack and registers
+    gc_helper_collect_regs_and_stack();
 
     // trace root pointers from any threads
     #if MICROPY_PY_THREAD
     mp_thread_gc_others();
     #endif
+
+    // trace soft timer nodes
+    soft_timer_gc_mark_all();
 
     // end the GC
     gc_collect_end();

@@ -1,8 +1,8 @@
 /*
  * This file is part of the OpenMV project.
  *
- * Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
  *
  * This work is licensed under the MIT license, see the file LICENSE for details.
  *
@@ -15,14 +15,38 @@
 #include "usbd_desc.h"
 #include "usbd_uvc.h"
 #include "usbd_uvc_if.h"
+#include "cambus.h"
 #include "sensor.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
+
+#if defined(I2C1)
+I2C_HandleTypeDef I2CHandle1;
+#endif
+#if defined(I2C2)
+I2C_HandleTypeDef I2CHandle2;
+#endif
+#if defined(I2C3)
+I2C_HandleTypeDef I2CHandle3;
+#endif
+#if defined(I2C4)
+I2C_HandleTypeDef I2CHandle4;
+#endif
 
 extern sensor_t sensor;
 USBD_HandleTypeDef hUsbDeviceFS;
 extern volatile uint8_t g_uvc_stream_status;
 extern struct uvc_streaming_control videoCommitControl;
+
+void mp_hal_delay_ms(uint32_t Delay)
+{
+    HAL_Delay(Delay);
+}
+
+mp_uint_t mp_hal_ticks_ms(void)
+{
+    return HAL_GetTick();
+}
 
 void __attribute__((noreturn)) __fatal_error()
 {
@@ -83,7 +107,7 @@ static uint8_t uvc_header[2] = { 2, 0 };
 static uint8_t packet[VIDEO_PACKET_SIZE];
 uint32_t packet_size = VIDEO_PACKET_SIZE-2;
 
-bool streaming_cb(image_t *image)
+bool process_frame(image_t *image)
 {
     uint32_t xfer_size = 0;
     uint32_t xfer_bytes = 0;
@@ -153,21 +177,17 @@ int main()
     if (!sdram_init()) {
         __fatal_error();
     }
-    #if (OMV_SDRAM_TEST == 1)
-    if (!sdram_test(false)) {
-        __fatal_error();
-    }
-    #endif
     #endif
 
-    sensor_init0();
     fb_alloc_init0();
+    framebuffer_init0();
+    sensor_init0();
 
     // Initialize the sensor
     if (sensor_init() != 0) {
         __fatal_error();
     }
-    
+
     sensor_reset();
 
     /* Init Device Library */
@@ -220,9 +240,10 @@ int main()
                 format_index = videoCommitControl.bFormatIndex;
             }
 
-            image_t image;
-            image.pixels = NULL;
-            sensor.snapshot(&sensor, &image, streaming_cb);
+            image_t image = {0};
+            do {
+                sensor.snapshot(&sensor, &image, 0);
+            } while (process_frame(&image));
         }
     }
 }

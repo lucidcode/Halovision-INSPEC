@@ -282,21 +282,11 @@ class rpc_slave(rpc):
                 self.__schedule_cb = None
             if self.__loop_cb is not None: self.__loop_cb()
 
-def __get_can_settings(bit_rate, sampling_point):
-    clk = 48000000 if omv.board_type() == "H7" else pyb.freq()[2]
-    for prescaler in range(8):
-        for bs1 in range(16):
-            for bs2 in range(8):
-                if bit_rate == ((clk >> prescaler) // (1 + bs1 + bs2)) and (sampling_point * 10) == (((1 + bs1) * 1000) // (1 + bs1 + bs2)):
-                    return (1 << prescaler, bs1, bs2)
-    raise ValueError("Invalid bit_rate and/or sampling_point!")
-
 class rpc_can_master(rpc_master):
 
-    def __init__(self, message_id=0x7FF, bit_rate=250000, sampling_point=75):
+    def __init__(self, message_id=0x7FF, bit_rate=250000, sample_point=75, can_bus=2):
         self.__message_id = message_id
-        can_prescaler, can_bs1, can_bs2 = __get_can_settings(bit_rate, sampling_point)
-        self.__can = pyb.CAN(2, pyb.CAN.NORMAL, prescaler=can_prescaler, bs1=can_bs1, bs2=can_bs2, auto_restart=True)
+        self.__can = pyb.CAN(can_bus, pyb.CAN.NORMAL, baudrate=bit_rate, sample_point=sample_point, auto_restart=True)
         self.__can.setfilter(0, pyb.CAN.DUAL if omv.board_type() == "H7" else pyb.CAN.LIST32, 0, [message_id, message_id])
         rpc_master.__init__(self)
 
@@ -328,10 +318,9 @@ class rpc_can_master(rpc_master):
 
 class rpc_can_slave(rpc_slave):
 
-    def __init__(self, message_id=0x7FF, bit_rate=250000, sampling_point=75):
+    def __init__(self, message_id=0x7FF, bit_rate=250000, sample_point=75, can_bus=2):
         self.__message_id = message_id
-        can_prescaler, can_bs1, can_bs2 = __get_can_settings(bit_rate, sampling_point)
-        self.__can = pyb.CAN(2, pyb.CAN.NORMAL, prescaler=can_prescaler, bs1=can_bs1, bs2=can_bs2, auto_restart=True)
+        self.__can = pyb.CAN(can_bus, pyb.CAN.NORMAL, baudrate=bit_rate, sample_point=sample_point, auto_restart=True)
         self.__can.setfilter(0, pyb.CAN.DUAL if omv.board_type() == "H7" else pyb.CAN.LIST32, 0, [message_id, message_id])
         rpc_slave.__init__(self)
 
@@ -359,10 +348,10 @@ class rpc_can_slave(rpc_slave):
 
 class rpc_i2c_master(rpc_master):
 
-    def __init__(self, slave_addr=0x12, rate=100000): # private
+    def __init__(self, slave_addr=0x12, rate=100000, i2c_bus=2): # private
         self.__addr = slave_addr
         self.__freq = rate
-        self.__i2c = pyb.I2C(2)
+        self.__i2c = pyb.I2C(i2c_bus)
         rpc_master.__init__(self)
         self._stream_writer_queue_depth_max = 1
 
@@ -390,9 +379,9 @@ class rpc_i2c_master(rpc_master):
 
 class rpc_i2c_slave(rpc_slave):
 
-    def __init__(self, slave_addr=0x12): # private
+    def __init__(self, slave_addr=0x12, i2c_bus=2): # private
         self.__addr = slave_addr
-        self.__i2c = pyb.I2C(2)
+        self.__i2c = pyb.I2C(i2c_bus)
         rpc_slave.__init__(self)
         self._stream_writer_queue_depth_max = 1
 
@@ -417,12 +406,12 @@ class rpc_i2c_slave(rpc_slave):
 
 class rpc_spi_master(rpc_master):
 
-    def __init__(self, cs_pin="P3", freq=1000000, clk_polarity=1, clk_phase=0): # private
+    def __init__(self, cs_pin="P3", freq=1000000, clk_polarity=1, clk_phase=0, spi_bus=2): # private
         self.__pin = pyb.Pin(cs_pin, pyb.Pin.OUT_PP)
         self.__freq = freq
         self.__polarity = clk_polarity
         self.__clk_phase = clk_phase
-        self.__spi = pyb.SPI(2)
+        self.__spi = pyb.SPI(spi_bus)
         rpc_master.__init__(self)
         self._stream_writer_queue_depth_max = 1
 
@@ -448,11 +437,11 @@ class rpc_spi_master(rpc_master):
 
 class rpc_spi_slave(rpc_slave):
 
-    def __init__(self, cs_pin="P3", clk_polarity=1, clk_phase=0): # private
+    def __init__(self, cs_pin="P3", clk_polarity=1, clk_phase=0, spi_bus=2): # private
         self.__pin = pyb.Pin(cs_pin, pyb.Pin.IN)
         self.__polarity = clk_polarity
         self.__clk_phase = clk_phase
-        self.__spi = pyb.SPI(2)
+        self.__spi = pyb.SPI(spi_bus)
         rpc_slave.__init__(self)
         self._stream_writer_queue_depth_max = 1
 
@@ -477,8 +466,8 @@ class rpc_spi_slave(rpc_slave):
 
 class rpc_uart_master(rpc_master):
 
-    def __init__(self, baudrate=9600): # private
-        self.__uart = pyb.UART(3, baudrate, timeout=2, timeout_char=2)
+    def __init__(self, baudrate=9600, uart_port=3): # private
+        self.__uart = pyb.UART(uart_port, baudrate, timeout=2, timeout_char=2)
         rpc_master.__init__(self)
 
     def _flush(self): # protected
@@ -501,8 +490,8 @@ class rpc_uart_master(rpc_master):
 
 class rpc_uart_slave(rpc_slave):
 
-    def __init__(self, baudrate=9600): # private
-        self.__uart = pyb.UART(3, baudrate, timeout=2, timeout_char=2)
+    def __init__(self, baudrate=9600, uart_port=3): # private
+        self.__uart = pyb.UART(uart_port, baudrate, timeout=2, timeout_char=2)
         rpc_slave.__init__(self)
 
     def _flush(self): # protected
@@ -557,7 +546,7 @@ class rpc_usb_vcp_slave(rpc_slave):
     def put_bytes(self, data, timeout_ms): # protected
         self.__usb_vcp.send(data, timeout=timeout_ms)
 
-class rpc_wifi_master(rpc_master):
+class rpc_network_master(rpc_master):
 
     def __valid_tcp_socket(self): # private
         if self.__tcp__socket is None:
@@ -587,17 +576,11 @@ class rpc_wifi_master(rpc_master):
         self.__udp__socket.close()
         self.__udp__socket = None
 
-    def __init__(self, ssid, ssid_key, ssid_security, ip, port=0x1DBA, mode=network.WINC.MODE_STA, static_ip=None): # private
+    def __init__(self, network_if, port=0x1DBA): # private
         self._udp_limit = 1400
         self._timeout_scale = 10
-        self.__winc = network.WINC(mode=mode)
-        if mode == network.WINC.MODE_STA:
-            if static_ip is not None: self.__winc.ifconfig(static_ip)
-            self.__winc.connect(ssid, key=ssid_key, security=ssid_security)
-            if not self.__winc.isconnected(): raise OSError("Failed to connect to network!")
-        elif mode == network.WINC.MODE_AP: self.__winc.start_ap(ssid, key=ssid_key, security=ssid_security)
-        else: raise ValueError("Invalid mode")
-        self.__myip = self.__winc.ifconfig()[0]
+        self.__network = network_if
+        self.__myip = self.__network.ifconfig()[0]
         self.__myaddr = (self.__myip, port)
         self.__slave_addr = (ip, port)
         self.__tcp__socket = None
@@ -708,7 +691,7 @@ class rpc_wifi_master(rpc_master):
             except OSError: self.__close_tcp_socket()
         if l: raise OSError # Stop Stream.
 
-class rpc_wifi_slave(rpc_slave):
+class rpc_network_slave(rpc_slave):
 
     def __valid_tcp_socket(self): # private
         if self.__tcp__socket is None:
@@ -734,17 +717,11 @@ class rpc_wifi_slave(rpc_slave):
         self.__udp__socket.close()
         self.__udp__socket = None
 
-    def __init__(self, ssid, ssid_key, ssid_security, port=0x1DBA, mode=network.WINC.MODE_STA, static_ip=None): # private
+    def __init__(self, network_if, port=0x1DBA): # private
         self._udp_limit = 1400
         self._timeout_scale = 10
-        self.__winc = network.WINC(mode=mode)
-        if mode == network.WINC.MODE_STA:
-            if static_ip is not None: self.__winc.ifconfig(static_ip)
-            self.__winc.connect(ssid, key=ssid_key, security=ssid_security)
-            if not self.__winc.isconnected(): raise OSError("Failed to connect to network!")
-        elif mode == network.WINC.MODE_AP: self.__winc.start_ap(ssid, key=ssid_key, security=ssid_security)
-        else: raise ValueError("Invalid mode")
-        self.__myip = self.__winc.ifconfig()[0]
+        self.__network = network_if
+        self.__myip = self.__network.ifconfig()[0]
         self.__myaddr = (self.__myip, port)
         self.__master_addr = None
         self.__tcp__socket = None

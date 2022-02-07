@@ -57,6 +57,10 @@ extern const dma_descr_t dma_SDMMC_2;
 extern const dma_descr_t dma_SPI_6_RX;
 extern const dma_descr_t dma_SDIO_0;
 extern const dma_descr_t dma_DCMI_0;
+extern const dma_descr_t dma_I2S_1_RX;
+extern const dma_descr_t dma_I2S_1_TX;
+extern const dma_descr_t dma_I2S_2_RX;
+extern const dma_descr_t dma_I2S_2_TX;
 
 #elif defined(STM32L0)
 
@@ -110,11 +114,11 @@ extern const dma_descr_t dma_I2C_4_RX;
 #error Unsupported processor
 #endif
 
-// NOTE: H7 SD DMA can only access AXI SRAM memory.
+// NOTE: H7 SD DMA can only access D1 memory/devices.
 #if !defined(STM32H7)
-    #define IS_AXI_SRAM(p)      (1)
+    #define IS_D1_ADDR(p)   (1)
 #else
-    #define IS_AXI_SRAM(p)      ((uint32_t) p >= 0x24000000) && ((uint32_t) p < 0x24080000)
+    #define IS_D1_ADDR(p)   (((uint32_t) p >= 0x60000000) && ((uint32_t) p < 0xD0000000))
 #endif
 
 void dma_init(DMA_HandleTypeDef *dma, const dma_descr_t *dma_descr, uint32_t dir, void *data);

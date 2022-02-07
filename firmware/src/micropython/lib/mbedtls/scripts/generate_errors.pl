@@ -4,6 +4,48 @@
 #
 # Usage: ./generate_errors.pl or scripts/generate_errors.pl without arguments,
 # or generate_errors.pl include_dir data_dir error_file
+#
+# Copyright The Mbed TLS Contributors
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+#
+# This file is provided under the Apache License 2.0, or the
+# GNU General Public License v2.0 or later.
+#
+# **********
+# Apache License 2.0:
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# **********
+#
+# **********
+# GNU General Public License v2.0 or later:
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# **********
 
 use strict;
 
@@ -48,12 +90,16 @@ close(FORMAT_FILE);
 $/ = $line_separator;
 
 my @files = <$include_dir/*.h>;
+my @necessary_include_files;
 my @matches;
 foreach my $file (@files) {
     open(FILE, "$file");
     my @grep_res = grep(/^\s*#define\s+MBEDTLS_ERR_\w+\s+\-0x[0-9A-Fa-f]+/, <FILE>);
     push(@matches, @grep_res);
     close FILE;
+    my $include_name = $file;
+    $include_name =~ s!.*/!!;
+    push @necessary_include_files, $include_name if @grep_res;
 }
 
 my $ll_old_define = "";
@@ -63,9 +109,9 @@ my $ll_code_check = "";
 my $hl_code_check = "";
 
 my $headers = "";
+my %included_headers;
 
 my %error_codes_seen;
-
 
 foreach my $line (@matches)
 {
@@ -97,10 +143,11 @@ foreach my $line (@matches)
 
     my $include_name = $module_name;
     $include_name =~ tr/A-Z/a-z/;
-    $include_name = "" if ($include_name eq "asn1");
 
     # Fix faulty ones
     $include_name = "net_sockets" if ($module_name eq "NET");
+
+    $included_headers{"${include_name}.h"} = $module_name;
 
     my $found_ll = grep $_ eq $module_name, @low_level_modules;
     my $found_hl = grep $_ eq $module_name, @high_level_modules;
@@ -205,3 +252,15 @@ $error_format =~ s/HIGH_LEVEL_CODE_CHECKS\n/$hl_code_check/g;
 open(ERROR_FILE, ">$error_file") or die "Opening destination file '$error_file': $!";
 print ERROR_FILE $error_format;
 close(ERROR_FILE);
+
+my $errors = 0;
+for my $include_name (@necessary_include_files)
+{
+    if (not $included_headers{$include_name})
+    {
+        print STDERR "The header file \"$include_name\" defines error codes but has not been included!\n";
+        ++$errors;
+    }
+}
+
+exit !!$errors;

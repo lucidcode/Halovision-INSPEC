@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 # Unit test for generate_test_code.py
 #
-# Copyright (C) 2018, Arm Limited, All Rights Reserved
-# SPDX-License-Identifier: Apache-2.0
+# Copyright The Mbed TLS Contributors
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+#
+# This file is provided under the Apache License 2.0, or the
+# GNU General Public License v2.0 or later.
+#
+# **********
+# Apache License 2.0:
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License.
@@ -16,13 +22,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# This file is part of Mbed TLS (https://tls.mbed.org)
+# **********
+#
+# **********
+# GNU General Public License v2.0 or later:
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# **********
 
 """
 Unit tests for generate_test_code.py
 """
 
-
+# pylint: disable=wrong-import-order
 try:
     # Python 2
     from StringIO import StringIO
@@ -36,6 +61,7 @@ try:
 except ImportError:
     # Python 3
     from unittest.mock import patch
+# pylint: enable=wrong-import-order
 from generate_test_code import gen_dependencies, gen_dependencies_one_line
 from generate_test_code import gen_function_wrapper, gen_dispatch
 from generate_test_code import parse_until_pattern, GeneratorInputError
@@ -293,7 +319,7 @@ class GenDispatch(TestCase):
         self.assertEqual(code, expected)
 
 
-class StringIOWrapper(StringIO, object):
+class StringIOWrapper(StringIO):
     """
     file like class to mock file object in tests.
     """
@@ -336,6 +362,7 @@ class StringIOWrapper(StringIO, object):
         :param length:
         :return:
         """
+        # pylint: disable=unused-argument
         line = super(StringIOWrapper, self).readline()
         if line is not None:
             self.line_no += 1
@@ -1125,9 +1152,8 @@ Diffie-Hellman selftest
 dhm_selftest:
 """
         stream = StringIOWrapper('test_suite_ut.function', data)
-        tests = [(name, test_function, dependencies, args)
-                 for name, test_function, dependencies, args in
-                 parse_test_data(stream)]
+        # List of (name, function_name, dependencies, args)
+        tests = list(parse_test_data(stream))
         test1, test2, test3, test4 = tests
         self.assertEqual(test1[0], 'Diffie-Hellman full exchange #1')
         self.assertEqual(test1[1], 'dhm_do_dhm')
@@ -1168,9 +1194,8 @@ dhm_do_dhm:10:"93450983094850938450983409623":10:"9345098304850938450983409622"
 
 """
         stream = StringIOWrapper('test_suite_ut.function', data)
-        tests = [(name, function_name, dependencies, args)
-                 for name, function_name, dependencies, args in
-                 parse_test_data(stream)]
+        # List of (name, function_name, dependencies, args)
+        tests = list(parse_test_data(stream))
         test1, test2 = tests
         self.assertEqual(test1[0], 'Diffie-Hellman full exchange #1')
         self.assertEqual(test1[1], 'dhm_do_dhm')

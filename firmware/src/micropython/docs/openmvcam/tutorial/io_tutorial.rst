@@ -8,8 +8,24 @@ can create a system that's able to "sense", "plan", and "act" in one package.
 
 First, let's take a look at your OpenMV Cam's pinout below:
 
-.. image:: ../pinout.png
-    :alt: OpenMV Cam pinout
+.. image:: ../pinout-openmv-cam-h7-plus-ov5640.png
+    :alt: OpenMV Cam H7 Plus OV5640 Pinout
+    :width: 700px
+
+.. image:: ../pinout-openmv-cam-h7-ov7725.png
+    :alt: OpenMV Cam H7 OV7725 Pinout
+    :width: 700px
+
+.. image:: ../pinout-openmv-cam-m7-ov7725.png
+    :alt: OpenMV Cam M7 OV7725 Pinout
+    :width: 700px
+
+.. image:: ../pinout-openmv-cam-m4-ov7725.png
+    :alt: OpenMV Cam M4 OV7725 Pinout
+    :width: 700px
+
+.. image:: ../pinout-openmv-cam-m4-ov2640.png
+    :alt: OpenMV Cam M4 OV2640 Pinout
     :width: 700px
 
 Depending on the model of your OpenMV Cam you have 9-10 general purpose I/O pins

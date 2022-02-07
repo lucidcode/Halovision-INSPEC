@@ -32,7 +32,6 @@ extern const mp_obj_type_t pyb_timer_type;
 
 void timer_init0(void);
 void timer_tim4_init(void);
-void timer_tim5_init(uint freq);
 TIM_HandleTypeDef *timer_tim6_init(uint freq);
 void timer_deinit(void);
 uint32_t timer_get_source_freq(uint32_t tim_id);

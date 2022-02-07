@@ -16,7 +16,7 @@ Functions
 
 .. function:: cpufreq.set_frequency(supported_frequency)
 
-   Sets the CPU frequency to a supported frequency in mhz. Peripherals
+   Sets the CPU frequency to a supported frequency in MHz. Peripherals
    frequencies are not changed. Only the CPU performance.
 
 .. function:: cpufreq.get_current_frequencies()
@@ -26,4 +26,4 @@ Functions
 .. function:: cpufreq.get_supported_frequencies()
 
    Returns the supported CPU frequencies [120, 144, 168, 192, 216] on the
-   OpenMV Cam M7 and [120, 240, 480] on the OpenMV Cam H7 in mhz.
+   OpenMV Cam M7 and [60/50, 120/100, 240/200, 480/400] on the OpenMV Cam H7 Rev V/XY silicon in MHz.

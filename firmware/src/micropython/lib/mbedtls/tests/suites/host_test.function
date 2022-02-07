@@ -33,7 +33,7 @@ int verify_string( char **str )
  *
  * \return      0 if success else 1
  */
-int verify_int( char *str, int *value )
+int verify_int( char *str, int32_t *value )
 {
     size_t i;
     int minus = 0;
@@ -179,7 +179,7 @@ static int parse_arguments( char *buf, size_t len, char **params,
             if( p + 1 < buf + len )
             {
                 cur = p + 1;
-                assert( cnt < params_len );
+                TEST_HELPER_ASSERT( cnt < params_len );
                 params[cnt++] = cur;
             }
             *p = '\0';
@@ -238,7 +238,7 @@ static int parse_arguments( char *buf, size_t len, char **params,
  *
  * \return      0 for success else 1
  */
-static int convert_params( size_t cnt , char ** params , int * int_params_store )
+static int convert_params( size_t cnt , char ** params , int32_t * int_params_store )
 {
     char ** cur = params;
     char ** out = params;
@@ -277,7 +277,8 @@ static int convert_params( size_t cnt , char ** params , int * int_params_store 
         {
             if ( verify_string( &val ) == 0 )
             {
-                *int_params_store = unhexify( (unsigned char *) val, val );
+                *int_params_store = mbedtls_test_unhexify(
+                                        (unsigned char *) val, val );
                 *out++ = val;
                 *out++ = (char *)(int_params_store++);
             }
@@ -329,7 +330,7 @@ static int convert_params( size_t cnt , char ** params , int * int_params_store 
 #if defined(__GNUC__)
 __attribute__((__noinline__))
 #endif
-static int test_snprintf( size_t n, const char ref_buf[10], int ref_ret )
+static int test_snprintf( size_t n, const char *ref_buf, int ref_ret )
 {
     int ret;
     char buf[10] = "xxxxxxxxx";
@@ -385,20 +386,21 @@ int execute_tests( int argc , const char ** argv )
     const char *default_filename = "DATA_FILE";
     const char *test_filename = NULL;
     const char **test_files = NULL;
-    int testfile_count = 0;
+    size_t testfile_count = 0;
     int option_verbose = 0;
-    int function_id = 0;
+    size_t function_id = 0;
 
     /* Other Local variables */
     int arg_index = 1;
     const char *next_arg;
-    int testfile_index, ret, i, cnt;
-    int total_errors = 0, total_tests = 0, total_skipped = 0;
+    size_t testfile_index, i, cnt;
+    int ret;
+    unsigned total_errors = 0, total_tests = 0, total_skipped = 0;
     FILE *file;
     char buf[5000];
     char *params[50];
     /* Store for proccessed integer params. */
-    int int_params[50];
+    int32_t int_params[50];
     void *pointer;
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
     int stdout_fd = -1;
@@ -408,6 +410,10 @@ int execute_tests( int argc , const char ** argv )
     !defined(TEST_SUITE_MEMORY_BUFFER_ALLOC)
     unsigned char alloc_buf[1000000];
     mbedtls_memory_buffer_alloc_init( alloc_buf, sizeof( alloc_buf ) );
+#endif
+
+#if defined(MBEDTLS_TEST_MUTEX_USAGE)
+    mbedtls_test_mutex_usage_init( );
 #endif
 
     /*
@@ -473,8 +479,9 @@ int execute_tests( int argc , const char ** argv )
           testfile_index < testfile_count;
           testfile_index++ )
     {
-        int unmet_dep_count = 0;
-        char *unmet_dependencies[20];
+        size_t unmet_dep_count = 0;
+        int unmet_dependencies[20];
+        int missing_unmet_dependencies = 0;
 
         test_filename = test_files[ testfile_index ];
 
@@ -495,10 +502,12 @@ int execute_tests( int argc , const char ** argv )
                 mbedtls_exit( MBEDTLS_EXIT_FAILURE );
             }
             unmet_dep_count = 0;
+            missing_unmet_dependencies = 0;
 
             if( ( ret = get_line( file, buf, sizeof(buf) ) ) != 0 )
                 break;
-            mbedtls_fprintf( stdout, "%s%.66s", test_info.failed ? "\n" : "", buf );
+            mbedtls_fprintf( stdout, "%s%.66s",
+                    test_info.result == TEST_RESULT_FAILED ? "\n" : "", buf );
             mbedtls_fprintf( stdout, " " );
             for( i = strlen( buf ) + 1; i < 67; i++ )
                 mbedtls_fprintf( stdout, "." );
@@ -519,20 +528,16 @@ int execute_tests( int argc , const char ** argv )
                     int dep_id = strtol( params[i], NULL, 10 );
                     if( dep_check( dep_id ) != DEPENDENCY_SUPPORTED )
                     {
-                        if( 0 == option_verbose )
+                        if( unmet_dep_count <
+                            ARRAY_LENGTH( unmet_dependencies ) )
                         {
-                            /* Only one count is needed if not verbose */
+                            unmet_dependencies[unmet_dep_count] = dep_id;
                             unmet_dep_count++;
-                            break;
                         }
-
-                        unmet_dependencies[ unmet_dep_count ] = strdup( params[i] );
-                        if(  unmet_dependencies[ unmet_dep_count ] == NULL )
+                        else
                         {
-                            mbedtls_fprintf( stderr, "FATAL: Out of memory\n" );
-                            mbedtls_exit( MBEDTLS_EXIT_FAILURE );
+                            missing_unmet_dependencies = 1;
                         }
-                        unmet_dep_count++;
                     }
                 }
 
@@ -545,7 +550,7 @@ int execute_tests( int argc , const char ** argv )
             // If there are no unmet dependencies execute the test
             if( unmet_dep_count == 0 )
             {
-                test_info.failed = 0;
+                test_info.result = TEST_RESULT_SUCCESS;
                 test_info.paramfail_test_state = PARAMFAIL_TESTSTATE_IDLE;
 
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
@@ -554,7 +559,7 @@ int execute_tests( int argc , const char ** argv )
                  */
                 if( !option_verbose )
                 {
-                    stdout_fd = redirect_output( &stdout, "/dev/null" );
+                    stdout_fd = redirect_output( stdout, "/dev/null" );
                     if( stdout_fd == -1 )
                     {
                         /* Redirection has failed with no stdout so exit */
@@ -563,7 +568,7 @@ int execute_tests( int argc , const char ** argv )
                 }
 #endif /* __unix__ || __APPLE__ __MACH__ */
 
-                function_id = strtol( params[0], NULL, 10 );
+                function_id = strtoul( params[0], NULL, 10 );
                 if ( (ret = check_test( function_id )) == DISPATCH_TEST_SUCCESS )
                 {
                     ret = convert_params( cnt - 1, params + 1, int_params );
@@ -574,7 +579,7 @@ int execute_tests( int argc , const char ** argv )
                 }
 
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-                if( !option_verbose && restore_output( &stdout, stdout_fd ) )
+                if( !option_verbose && restore_output( stdout, stdout_fd ) )
                 {
                         /* Redirection has failed with no stdout so exit */
                         exit( 1 );
@@ -598,21 +603,28 @@ int execute_tests( int argc , const char ** argv )
                     mbedtls_fprintf( stdout, "\n   Unmet dependencies: " );
                     for( i = 0; i < unmet_dep_count; i++ )
                     {
-                        mbedtls_fprintf( stdout, "%s  ",
+                        mbedtls_fprintf( stdout, "%d ",
                                         unmet_dependencies[i] );
-                        free( unmet_dependencies[i] );
                     }
+                    if( missing_unmet_dependencies )
+                        mbedtls_fprintf( stdout, "..." );
                 }
                 mbedtls_fprintf( stdout, "\n" );
                 fflush( stdout );
 
                 unmet_dep_count = 0;
+                missing_unmet_dependencies = 0;
             }
             else if( ret == DISPATCH_TEST_SUCCESS )
             {
-                if( test_info.failed == 0 )
+                if( test_info.result == TEST_RESULT_SUCCESS )
                 {
                     mbedtls_fprintf( stdout, "PASS\n" );
+                }
+                else if( test_info.result == TEST_RESULT_SKIPPED )
+                {
+                    mbedtls_fprintf( stdout, "----\n" );
+                    total_skipped++;
                 }
                 else
                 {
@@ -640,10 +652,6 @@ int execute_tests( int argc , const char ** argv )
                 total_errors++;
         }
         fclose( file );
-
-        /* In case we encounter early end of file */
-        for( i = 0; i < unmet_dep_count; i++ )
-            free( unmet_dependencies[i] );
     }
 
     mbedtls_fprintf( stdout, "\n----------------------------------------------------------------------------\n\n");
@@ -652,8 +660,8 @@ int execute_tests( int argc , const char ** argv )
     else
         mbedtls_fprintf( stdout, "FAILED" );
 
-    mbedtls_fprintf( stdout, " (%d / %d tests (%d skipped))\n",
-             total_tests - total_errors, total_tests, total_skipped );
+    mbedtls_fprintf( stdout, " (%u / %u tests (%u skipped))\n",
+                     total_tests - total_errors, total_tests, total_skipped );
 
 #if defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C) && \
     !defined(TEST_SUITE_MEMORY_BUFFER_ALLOC)
@@ -662,11 +670,6 @@ int execute_tests( int argc , const char ** argv )
 #endif
     mbedtls_memory_buffer_alloc_free();
 #endif
-
-#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-    if( stdout_fd != -1 )
-        close_output( stdout );
-#endif /* __unix__ || __APPLE__ __MACH__ */
 
     return( total_errors != 0 );
 }

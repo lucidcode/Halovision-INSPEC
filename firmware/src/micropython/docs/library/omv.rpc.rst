@@ -267,6 +267,8 @@ Constructors
    NOTE: Master and slave message ids and can bit rates must match. Connect master can high to slave
    can high and master can low to slave can lo. The can bus must be terminated with 120 ohms.
 
+   This uses CAN2 on the STM32.
+
 class rpc_can_slave - CAN Slave Interface
 -----------------------------------------
 
@@ -286,6 +288,8 @@ Constructors
    NOTE: Master and slave message ids and can bit rates must match. Connect master can high to slave
    can high and master can low to slave can lo. The can bus must be terminated with 120 ohms.
 
+   This uses CAN2 on the STM32.
+
 class rpc_i2c_master - I2C Master Interface
 -------------------------------------------
 
@@ -304,6 +308,8 @@ Constructors
    NOTE: Master and slave addresses must match. Connect master scl to slave scl and master sda
    to slave sda. You must use external pull ups. Finally, both devices must share a ground.
 
+   This uses I2C2 on the STM32.
+
 class rpc_i2c_slave - I2C Slave Interface
 -----------------------------------------
 
@@ -320,6 +326,8 @@ Constructors
 
    NOTE: Master and slave addresses must match. Connect master scl to slave scl and master sda
    to slave sda. You must use external pull ups. Finally, both devices must share a ground.
+
+   This uses I2C2 on the STM32.
 
 class rpc_spi_master - SPI Master Interface
 -------------------------------------------
@@ -341,6 +349,8 @@ Constructors
    NOTE: Master and slave settings much match. Connect CS, SCLK, MOSI, MISO to CS, SCLK, MOSI, MISO.
    Finally, both devices must share a common ground.
 
+   This uses SPI2 on the STM32.
+
 class rpc_spi_slave - SPI Slave Interface
 -----------------------------------------
 
@@ -357,6 +367,8 @@ Be controlled by another ``rpc`` device over SPI.
    NOTE: Master and slave settings much match. Connect CS, SCLK, MOSI, MISO to CS, SCLK, MOSI, MISO.
    Finally, both devices must share a common ground.
 
+   This uses SPI2 on the STM32.
+
 class rpc_uart_master - UART Master Interface
 ---------------------------------------------
 
@@ -371,6 +383,8 @@ Control another ``rpc`` device over Async Serial (UART).
    NOTE: Master and slave baud rates must match. Connect master tx to slave rx and master rx to
    slave tx. Finally, both devices must share a common ground.
 
+   This uses UART3 on the STM32.
+
 class rpc_uart_slave - UART Slave Interface
 -------------------------------------------
 
@@ -384,6 +398,8 @@ Be controlled by another ``rpc`` device over Async Serial (UART).
 
    NOTE: Master and slave baud rates must match. Connect master tx to slave rx and master rx to
    slave tx. Finally, both devices must share a common ground.
+
+   This uses UART3 on the STM32.
 
 class rpc_usb_vcp_master - USB VCP Master Interface
 ---------------------------------------------------

@@ -37,15 +37,9 @@ class rtsp_server:
         self.__udp__socket.close()
         self.__udp__socket = None
 
-    def __init__(self, ssid, ssid_key, ssid_security, port=554, mode=network.WINC.MODE_STA, static_ip=None): # private
-        self.__winc = network.WINC(mode=mode)
-        if mode == network.WINC.MODE_STA:
-            if static_ip is not None: self.__winc.ifconfig(static_ip)
-            self.__winc.connect(ssid, key=ssid_key, security=ssid_security)
-            if not self.__winc.isconnected(): raise OSError("Failed to connect to network!")
-        elif mode == network.WINC.MODE_AP: self.__winc.start_ap(ssid, key=ssid_key, security=ssid_security)
-        else: raise ValueError("Invalid mode")
-        self.__myip = self.__winc.ifconfig()[0]
+    def __init__(self, network_if, port=554): # private
+        self.__network = network_if
+        self.__myip = self.__network.ifconfig()[0]
         self.__myaddr = (self.__myip, port)
         self.__tcp__socket = None
         self.__udp__socket = None
@@ -94,6 +88,13 @@ class rtsp_server:
             if self.__pathname != '/' and self.__pathname.endswith('/'):
                 self.__pathname = self.__pathname[:-1]
             if line0[2] == "RTSP/1.0":
+                if len(s) >= 3 and s[1].split(' ')[0] != "CSeq:":
+                    for i in range(2, len(s)):
+                        if s[i].split(' ')[0] == "CSeq:":
+                            temp = s[i]
+                            s[i] = s[1]
+                            s[1] = temp
+                            break
                 line1 = s[1].split(' ')
                 if line1[0] == "CSeq:":
                     seq = int(line1[1])
@@ -134,6 +135,7 @@ class rtsp_server:
                                 if self.__setup_cb: self.__setup_cb(self.__pathname, self.__session)
                                 return
                     elif request == "PLAY":
+                         s = list(filter(lambda x: x and not x.startswith("Range"), s))
                          if len(s) >= 3:
                             m = re.match("Session: (\d+)", s[2])
                             if m:
