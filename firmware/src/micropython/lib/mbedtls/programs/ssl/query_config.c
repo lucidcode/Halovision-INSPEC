@@ -1,8 +1,14 @@
 /*
  *  Query Mbed TLS compile time configurations from config.h
  *
- *  Copyright (C) 2018, Arm Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -16,7 +22,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of Mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 
 #if !defined(MBEDTLS_CONFIG_FILE)
@@ -234,14 +259,6 @@ int query_config( const char *config )
     }
 #endif /* MBEDTLS_PLATFORM_SNPRINTF_ALT */
 
-#if defined(MBEDTLS_PLATFORM_VSNPRINTF_ALT)
-    if( strcmp( "MBEDTLS_PLATFORM_VSNPRINTF_ALT", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PLATFORM_VSNPRINTF_ALT );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PLATFORM_VSNPRINTF_ALT */
-
 #if defined(MBEDTLS_PLATFORM_NV_SEED_ALT)
     if( strcmp( "MBEDTLS_PLATFORM_NV_SEED_ALT", config ) == 0 )
     {
@@ -281,6 +298,14 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_CHECK_PARAMS */
+
+#if defined(MBEDTLS_CHECK_PARAMS_ASSERT)
+    if( strcmp( "MBEDTLS_CHECK_PARAMS_ASSERT", config ) == 0 )
+    {
+        MACRO_EXPANSION_TO_STR( MBEDTLS_CHECK_PARAMS_ASSERT );
+        return( 0 );
+    }
+#endif /* MBEDTLS_CHECK_PARAMS_ASSERT */
 
 #if defined(MBEDTLS_TIMING_ALT)
     if( strcmp( "MBEDTLS_TIMING_ALT", config ) == 0 )
@@ -714,6 +739,22 @@ int query_config( const char *config )
     }
 #endif /* MBEDTLS_ECP_NORMALIZE_MXZ_ALT */
 
+#if defined(MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN)
+    if( strcmp( "MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN", config ) == 0 )
+    {
+        MACRO_EXPANSION_TO_STR( MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN );
+        return( 0 );
+    }
+#endif /* MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN */
+
+#if defined(MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND)
+    if( strcmp( "MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND", config ) == 0 )
+    {
+        MACRO_EXPANSION_TO_STR( MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND );
+        return( 0 );
+    }
+#endif /* MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND */
+
 #if defined(MBEDTLS_TEST_NULL_ENTROPY)
     if( strcmp( "MBEDTLS_TEST_NULL_ENTROPY", config ) == 0 )
     {
@@ -833,6 +874,14 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_CIPHER_PADDING_ZEROS */
+
+#if defined(MBEDTLS_CTR_DRBG_USE_128_BIT_KEY)
+    if( strcmp( "MBEDTLS_CTR_DRBG_USE_128_BIT_KEY", config ) == 0 )
+    {
+        MACRO_EXPANSION_TO_STR( MBEDTLS_CTR_DRBG_USE_128_BIT_KEY );
+        return( 0 );
+    }
+#endif /* MBEDTLS_CTR_DRBG_USE_128_BIT_KEY */
 
 #if defined(MBEDTLS_ENABLE_WEAK_CIPHERSUITES)
     if( strcmp( "MBEDTLS_ENABLE_WEAK_CIPHERSUITES", config ) == 0 )
@@ -969,6 +1018,14 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_ECP_NIST_OPTIM */
+
+#if defined(MBEDTLS_ECP_NO_INTERNAL_RNG)
+    if( strcmp( "MBEDTLS_ECP_NO_INTERNAL_RNG", config ) == 0 )
+    {
+        MACRO_EXPANSION_TO_STR( MBEDTLS_ECP_NO_INTERNAL_RNG );
+        return( 0 );
+    }
+#endif /* MBEDTLS_ECP_NO_INTERNAL_RNG */
 
 #if defined(MBEDTLS_ECP_RESTARTABLE)
     if( strcmp( "MBEDTLS_ECP_RESTARTABLE", config ) == 0 )
@@ -1178,22 +1235,6 @@ int query_config( const char *config )
     }
 #endif /* MBEDTLS_PKCS1_V21 */
 
-#if defined(MBEDTLS_PSA_CRYPTO_SPM)
-    if( strcmp( "MBEDTLS_PSA_CRYPTO_SPM", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PSA_CRYPTO_SPM );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PSA_CRYPTO_SPM */
-
-#if defined(MBEDTLS_PSA_HAS_ITS_IO)
-    if( strcmp( "MBEDTLS_PSA_HAS_ITS_IO", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PSA_HAS_ITS_IO );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PSA_HAS_ITS_IO */
-
 #if defined(MBEDTLS_RSA_NO_CRT)
     if( strcmp( "MBEDTLS_RSA_NO_CRT", config ) == 0 )
     {
@@ -1265,14 +1306,6 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_SSL_FALLBACK_SCSV */
-
-#if defined(MBEDTLS_SSL_KEEP_PEER_CERTIFICATE)
-    if( strcmp( "MBEDTLS_SSL_KEEP_PEER_CERTIFICATE", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_SSL_KEEP_PEER_CERTIFICATE );
-        return( 0 );
-    }
-#endif /* MBEDTLS_SSL_KEEP_PEER_CERTIFICATE */
 
 #if defined(MBEDTLS_SSL_HW_RECORD_ACCEL)
     if( strcmp( "MBEDTLS_SSL_HW_RECORD_ACCEL", config ) == 0 )
@@ -1442,6 +1475,14 @@ int query_config( const char *config )
     }
 #endif /* MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT */
 
+#if defined(MBEDTLS_TEST_HOOKS)
+    if( strcmp( "MBEDTLS_TEST_HOOKS", config ) == 0 )
+    {
+        MACRO_EXPANSION_TO_STR( MBEDTLS_TEST_HOOKS );
+        return( 0 );
+    }
+#endif /* MBEDTLS_TEST_HOOKS */
+
 #if defined(MBEDTLS_THREADING_ALT)
     if( strcmp( "MBEDTLS_THREADING_ALT", config ) == 0 )
     {
@@ -1457,14 +1498,6 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_THREADING_PTHREAD */
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-    if( strcmp( "MBEDTLS_USE_PSA_CRYPTO", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_USE_PSA_CRYPTO );
-        return( 0 );
-    }
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
 #if defined(MBEDTLS_VERSION_FEATURES)
     if( strcmp( "MBEDTLS_VERSION_FEATURES", config ) == 0 )
@@ -1914,38 +1947,6 @@ int query_config( const char *config )
     }
 #endif /* MBEDTLS_POLY1305_C */
 
-#if defined(MBEDTLS_PSA_CRYPTO_C)
-    if( strcmp( "MBEDTLS_PSA_CRYPTO_C", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PSA_CRYPTO_C );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PSA_CRYPTO_C */
-
-#if defined(MBEDTLS_PSA_CRYPTO_STORAGE_C)
-    if( strcmp( "MBEDTLS_PSA_CRYPTO_STORAGE_C", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PSA_CRYPTO_STORAGE_C );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PSA_CRYPTO_STORAGE_C */
-
-#if defined(MBEDTLS_PSA_CRYPTO_STORAGE_FILE_C)
-    if( strcmp( "MBEDTLS_PSA_CRYPTO_STORAGE_FILE_C", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PSA_CRYPTO_STORAGE_FILE_C );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PSA_CRYPTO_STORAGE_FILE_C */
-
-#if defined(MBEDTLS_PSA_CRYPTO_STORAGE_ITS_C)
-    if( strcmp( "MBEDTLS_PSA_CRYPTO_STORAGE_ITS_C", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PSA_CRYPTO_STORAGE_ITS_C );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PSA_CRYPTO_STORAGE_ITS_C */
-
 #if defined(MBEDTLS_RIPEMD160_C)
     if( strcmp( "MBEDTLS_RIPEMD160_C", config ) == 0 )
     {
@@ -2177,14 +2178,6 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_CTR_DRBG_MAX_SEED_INPUT */
-
-#if defined(MBEDTLS_CTR_DRBG_USE_128_BIT_KEY)
-    if( strcmp( "MBEDTLS_CTR_DRBG_USE_128_BIT_KEY", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_CTR_DRBG_USE_128_BIT_KEY );
-        return( 0 );
-    }
-#endif /* MBEDTLS_CTR_DRBG_USE_128_BIT_KEY */
 
 #if defined(MBEDTLS_HMAC_DRBG_RESEED_INTERVAL)
     if( strcmp( "MBEDTLS_HMAC_DRBG_RESEED_INTERVAL", config ) == 0 )
@@ -2441,14 +2434,6 @@ int query_config( const char *config )
         return( 0 );
     }
 #endif /* MBEDTLS_PLATFORM_SNPRINTF_MACRO */
-
-#if defined(MBEDTLS_PLATFORM_VSNPRINTF_MACRO)
-    if( strcmp( "MBEDTLS_PLATFORM_VSNPRINTF_MACRO", config ) == 0 )
-    {
-        MACRO_EXPANSION_TO_STR( MBEDTLS_PLATFORM_VSNPRINTF_MACRO );
-        return( 0 );
-    }
-#endif /* MBEDTLS_PLATFORM_VSNPRINTF_MACRO */
 
 #if defined(MBEDTLS_PLATFORM_NV_SEED_READ_MACRO)
     if( strcmp( "MBEDTLS_PLATFORM_NV_SEED_READ_MACRO", config ) == 0 )

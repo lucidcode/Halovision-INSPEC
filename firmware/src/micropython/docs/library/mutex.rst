@@ -66,11 +66,11 @@ Constructors
 Methods
 ~~~~~~~
 
-.. method:: mjpeg.release()
+.. method:: mutex.release()
 
    Unlock the mutex.
 
-.. method:: mjpeg.test()
+.. method:: mutex.test()
 
    Try to acquire the mutex in a non-blocking way. Return ``True`` on success and ``False`` on failure.
 

@@ -1,8 +1,14 @@
 /*
  *  UDP proxy: emulate an unreliable UDP connexion for DTLS testing
  *
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -16,7 +22,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 
 /*
@@ -42,6 +67,7 @@
 #define mbedtls_printf          printf
 #define mbedtls_calloc          calloc
 #define mbedtls_free            free
+#define mbedtls_exit            exit
 #define MBEDTLS_EXIT_SUCCESS    EXIT_SUCCESS
 #define MBEDTLS_EXIT_FAILURE    EXIT_FAILURE
 #endif /* MBEDTLS_PLATFORM_C */
@@ -50,7 +76,7 @@
 int main( void )
 {
     mbedtls_printf( "MBEDTLS_NET_C not defined.\n" );
-    return( 0 );
+    mbedtls_exit( 0 );
 }
 #else
 
@@ -130,6 +156,7 @@ int main( void )
     "    bad_ad=0/1          default: 0 (don't add bad ApplicationData)\n"  \
     "    protect_hvr=0/1     default: 0 (don't protect HelloVerifyRequest)\n" \
     "    protect_len=%%d      default: (don't protect packets of this size)\n" \
+    "    inject_clihlo=0/1   default: 0 (don't inject fake ClientHello)\n"  \
     "\n"                                                                    \
     "    seed=%%d             default: (use current time)\n"                \
     USAGE_PACK                                                              \
@@ -162,6 +189,7 @@ static struct options
     int bad_ad;                 /* inject corrupted ApplicationData record  */
     int protect_hvr;            /* never drop or delay HelloVerifyRequest   */
     int protect_len;            /* never drop/delay packet of the given size*/
+    int inject_clihlo;          /* inject fake ClientHello after handshake  */
     unsigned pack;              /* merge packets into single datagram for
                                  * at most \c merge milliseconds if > 0     */
     unsigned int seed;          /* seed for "random" events                 */
@@ -302,6 +330,12 @@ static void get_options( int argc, char *argv[] )
         {
             opt.protect_len = atoi( q );
             if( opt.protect_len < 0 )
+                exit_usage( p, q );
+        }
+        else if( strcmp( p, "inject_clihlo" ) == 0 )
+        {
+            opt.inject_clihlo = atoi( q );
+            if( opt.inject_clihlo < 0 || opt.inject_clihlo > 1 )
                 exit_usage( p, q );
         }
         else if( strcmp( p, "seed" ) == 0 )
@@ -503,10 +537,40 @@ void print_packet( const packet *p, const char *why )
     fflush( stdout );
 }
 
+/*
+ * In order to test the server's behaviour when receiving a ClientHello after
+ * the connection is established (this could be a hard reset from the client,
+ * but the server must not drop the existing connection before establishing
+ * client reachability, see RFC 6347 Section 4.2.8), we memorize the first
+ * ClientHello we see (which can't have a cookie), then replay it after the
+ * first ApplicationData record - then we're done.
+ *
+ * This is controlled by the inject_clihlo option.
+ *
+ * We want an explicit state and a place to store the packet.
+ */
+typedef enum {
+    ICH_INIT,       /* haven't seen the first ClientHello yet */
+    ICH_CACHED,     /* cached the initial ClientHello */
+    ICH_INJECTED,   /* ClientHello already injected, done */
+} inject_clihlo_state_t;
+
+static inject_clihlo_state_t inject_clihlo_state;
+static packet initial_clihlo;
+
 int send_packet( const packet *p, const char *why )
 {
     int ret;
     mbedtls_net_context *dst = p->dst;
+
+    /* save initial ClientHello? */
+    if( opt.inject_clihlo != 0 &&
+        inject_clihlo_state == ICH_INIT &&
+        strcmp( p->type, "ClientHello" ) == 0 )
+    {
+        memcpy( &initial_clihlo, p, sizeof( packet ) );
+        inject_clihlo_state = ICH_CACHED;
+    }
 
     /* insert corrupted ApplicationData record? */
     if( opt.bad_ad &&
@@ -551,6 +615,23 @@ int send_packet( const packet *p, const char *why )
             mbedtls_printf( "  ! dispatch returned %d\n", ret );
             return( ret );
         }
+    }
+
+    /* Inject ClientHello after first ApplicationData */
+    if( opt.inject_clihlo != 0 &&
+        inject_clihlo_state == ICH_CACHED &&
+        strcmp( p->type, "ApplicationData" ) == 0 )
+    {
+        print_packet( &initial_clihlo, "injected" );
+
+        if( ( ret = dispatch_data( dst, initial_clihlo.buf,
+                                        initial_clihlo.len ) ) <= 0 )
+        {
+            mbedtls_printf( "  ! dispatch returned %d\n", ret );
+            return( ret );
+        }
+
+        inject_clihlo_state = ICH_INJECTED;
     }
 
     return( 0 );
@@ -598,32 +679,17 @@ int send_delayed()
 static unsigned char dropped[2048] = { 0 };
 #define DROP_MAX 2
 
-/*
- * OpenSSL groups packets in a datagram the first time it sends them, but not
- * when it resends them. Count every record as seen the first time.
- */
+/* We only drop packets at the level of entire datagrams, not at the level
+ * of records. In particular, if the peer changes the way it packs multiple
+ * records into a single datagram, we don't necessarily count the number of
+ * times a record has been dropped correctly. However, the only known reason
+ * why a peer would change datagram packing is disabling the latter on
+ * retransmission, in which case we'd drop involved records at most
+ * DROP_MAX + 1 times. */
 void update_dropped( const packet *p )
 {
     size_t id = p->len % sizeof( dropped );
-    const unsigned char *end = p->buf + p->len;
-    const unsigned char *cur = p->buf;
-    size_t len = ( ( cur[11] << 8 ) | cur[12] ) + 13;
-
     ++dropped[id];
-
-    /* Avoid counting single record twice */
-    if( len == p->len )
-        return;
-
-    while( cur < end )
-    {
-        len = ( ( cur[11] << 8 ) | cur[12] ) + 13;
-
-        id = len % sizeof( dropped );
-        ++dropped[id];
-
-        cur += len;
-    }
 }
 
 int handle_message( const char *way,
@@ -925,8 +991,8 @@ exit:
 
     for( delay_idx = 0; delay_idx < MAX_DELAYED_HS; delay_idx++ )
     {
-        mbedtls_free( opt.delay_cli + delay_idx );
-        mbedtls_free( opt.delay_srv + delay_idx );
+        mbedtls_free( opt.delay_cli[delay_idx] );
+        mbedtls_free( opt.delay_srv[delay_idx] );
     }
 
     mbedtls_net_free( &client_fd );
@@ -938,7 +1004,7 @@ exit:
     fflush( stdout ); getchar();
 #endif
 
-    return( exit_code );
+    mbedtls_exit( exit_code );
 }
 
 #endif /* MBEDTLS_NET_C */

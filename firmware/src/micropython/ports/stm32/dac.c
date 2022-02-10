@@ -70,7 +70,7 @@
 #define DAC DAC1
 #endif
 
-#if defined(TIM6)
+#if defined(TIM6) && !defined(STM32F4)
 STATIC void TIM6_Config(uint freq) {
     // Init TIM6 at the required frequency (in Hz)
     TIM_HandleTypeDef *tim = timer_tim6_init(freq);
@@ -86,6 +86,7 @@ STATIC void TIM6_Config(uint freq) {
 }
 #endif
 
+#if !defined(STM32F4)
 STATIC uint32_t TIMx_Config(mp_obj_t timer) {
     // TRGO selection to trigger DAC
     TIM_HandleTypeDef *tim = pyb_timer_get_handle(timer);
@@ -118,9 +119,10 @@ STATIC uint32_t TIMx_Config(mp_obj_t timer) {
         return DAC_TRIGGER_T8_TRGO;
     #endif
     } else {
-        mp_raise_ValueError("Timer does not support DAC triggering");
+        mp_raise_ValueError(MP_ERROR_TEXT("Timer does not support DAC triggering"));
     }
 }
+#endif
 
 STATIC void dac_deinit(uint32_t dac_channel) {
     DAC->CR &= ~(DAC_CR_EN1 << dac_channel);
@@ -153,34 +155,14 @@ STATIC void dac_set_value(uint32_t dac_channel, uint32_t align, uint32_t value) 
         base = (uint32_t)&DAC->DHR12R2;
     #endif
     }
-    *(volatile uint32_t*)(base + align) = value;
+    *(volatile uint32_t *)(base + align) = value;
 }
 
 STATIC void dac_start(uint32_t dac_channel) {
     DAC->CR |= DAC_CR_EN1 << dac_channel;
 }
 
-#if defined(STM32H7)
-// Workaround until dma_nohal functions get fixed.
-static DAC_HandleTypeDef hdac;
-static DMA_HandleTypeDef hdma;
-extern DMA_InitTypeDef dma_init_struct_dac;
-
-STATIC void dac_start_dma(uint32_t dac_channel, const dma_descr_t *dma_descr, uint32_t dma_mode, uint32_t bit_size, uint32_t dac_align, size_t len, void *buf) {
-    hdac.Instance = DAC1;
-    HAL_DAC_Init(&hdac);
-
-    dma_deinit(dma_descr);
-    // Currently there's no other way to set the mode when using this API.
-    dma_init_struct_dac.Mode = dma_mode;
-    dma_init(&hdma, dma_descr, DMA_MEMORY_TO_PERIPH, &hdac);
-    hdac.DMA_Handle2 = &hdma;
-
-    MP_HAL_CLEAN_DCACHE(buf, len);
-    HAL_DAC_Start_DMA(&hdac, dac_channel, (uint32_t *)buf, len, DAC_ALIGN_8B_R);
-}
-
-#else
+#if !defined(STM32F4)
 STATIC void dac_start_dma(uint32_t dac_channel, const dma_descr_t *dma_descr, uint32_t dma_mode, uint32_t bit_size, uint32_t dac_align, size_t len, void *buf) {
     uint32_t dma_align;
     if (bit_size == 8) {
@@ -197,6 +179,10 @@ STATIC void dac_start_dma(uint32_t dac_channel, const dma_descr_t *dma_descr, ui
         base = (uint32_t)&DAC->DHR12R2;
     #endif
     }
+
+    #ifdef __DCACHE_PRESENT
+    MP_HAL_CLEAN_DCACHE(buf, len);
+    #endif
 
     dma_nohal_deinit(dma_descr);
     dma_nohal_init(dma_descr, DMA_MEMORY_TO_PERIPH | dma_mode | dma_align);
@@ -251,7 +237,7 @@ STATIC void pyb_dac_print(const mp_print_t *print, mp_obj_t self_in, mp_print_ki
 STATIC mp_obj_t pyb_dac_init_helper(pyb_dac_obj_t *self, size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_bits, MP_ARG_INT, {.u_int = 8} },
-        { MP_QSTR_buffering, MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_PTR(&mp_const_none_obj)} },
+        { MP_QSTR_buffering, MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
     };
 
     // parse args
@@ -279,7 +265,7 @@ STATIC mp_obj_t pyb_dac_init_helper(pyb_dac_obj_t *self, size_t n_args, const mp
     if (args[0].u_int == 8 || args[0].u_int == 12) {
         self->bits = args[0].u_int;
     } else {
-        mp_raise_ValueError("unsupported bits");
+        mp_raise_ValueError(MP_ERROR_TEXT("unsupported bits"));
     }
 
     // set output buffer config
@@ -319,7 +305,7 @@ STATIC mp_obj_t pyb_dac_make_new(const mp_obj_type_t *type, size_t n_args, size_
         if (pin == pin_A5) {
             dac_id = 2;
         } else {
-            nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError, "Pin(%q) doesn't have DAC capabilities", pin->name));
+            mp_raise_msg_varg(&mp_type_ValueError, MP_ERROR_TEXT("Pin(%q) doesn't have DAC capabilities"), pin->name);
         }
     }
 
@@ -327,7 +313,7 @@ STATIC mp_obj_t pyb_dac_make_new(const mp_obj_type_t *type, size_t n_args, size_
     if (dac_id == 2) {
         dac_channel = DAC_CHANNEL_2;
     } else {
-        nlr_raise(mp_obj_new_exception_msg_varg(&mp_type_ValueError, "DAC(%d) doesn't exist", dac_id));
+        mp_raise_msg_varg(&mp_type_ValueError, MP_ERROR_TEXT("DAC(%d) doesn't exist"), dac_id);
     }
 
     pyb_dac_obj_t *dac = &pyb_dac_obj[dac_id - 1];
@@ -359,7 +345,7 @@ STATIC mp_obj_t pyb_dac_deinit(mp_obj_t self_in) {
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_dac_deinit_obj, pyb_dac_deinit);
 
-#if defined(TIM6)
+#if defined(TIM6) && !defined(STM32F4)
 /// \method noise(freq)
 /// Generate a pseudo-random noise signal.  A new random sample is written
 /// to the DAC output at the given frequency.
@@ -378,7 +364,7 @@ STATIC mp_obj_t pyb_dac_noise(mp_obj_t self_in, mp_obj_t freq) {
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(pyb_dac_noise_obj, pyb_dac_noise);
 #endif
 
-#if defined(TIM6)
+#if defined(TIM6) && !defined(STM32F4)
 /// \method triangle(freq)
 /// Generate a triangle wave.  The value on the DAC output changes at
 /// the given frequency, and the frequency of the repeating triangle wave
@@ -413,7 +399,7 @@ STATIC mp_obj_t pyb_dac_write(mp_obj_t self_in, mp_obj_t val) {
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(pyb_dac_write_obj, pyb_dac_write);
 
-#if defined(TIM6)
+#if defined(TIM6) && !defined(STM32F4)
 /// \method write_timed(data, freq, *, mode=DAC.NORMAL)
 /// Initiates a burst of RAM to DAC using a DMA transfer.
 /// The input data is treated as an array of bytes (8 bit data).
@@ -485,15 +471,20 @@ mp_obj_t pyb_dac_write_timed(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_dac_write_timed_obj, 1, pyb_dac_write_timed);
 #endif
 
+extern const mp_obj_fun_builtin_var_t py_func_unavailable_obj;
 STATIC const mp_rom_map_elem_t pyb_dac_locals_dict_table[] = {
     // instance methods
     { MP_ROM_QSTR(MP_QSTR_init), MP_ROM_PTR(&pyb_dac_init_obj) },
     { MP_ROM_QSTR(MP_QSTR_deinit), MP_ROM_PTR(&pyb_dac_deinit_obj) },
     { MP_ROM_QSTR(MP_QSTR_write), MP_ROM_PTR(&pyb_dac_write_obj) },
-    #if defined(TIM6)
+    #if defined(TIM6) && !defined(STM32F4)
     { MP_ROM_QSTR(MP_QSTR_noise), MP_ROM_PTR(&pyb_dac_noise_obj) },
     { MP_ROM_QSTR(MP_QSTR_triangle), MP_ROM_PTR(&pyb_dac_triangle_obj) },
     { MP_ROM_QSTR(MP_QSTR_write_timed), MP_ROM_PTR(&pyb_dac_write_timed_obj) },
+    #else
+    { MP_ROM_QSTR(MP_QSTR_write_timed), MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_write_noise), MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_write_triangle), MP_ROM_PTR(&py_func_unavailable_obj) },
     #endif
 
     // class constants
@@ -508,7 +499,7 @@ const mp_obj_type_t pyb_dac_type = {
     .name = MP_QSTR_DAC,
     .print = pyb_dac_print,
     .make_new = pyb_dac_make_new,
-    .locals_dict = (mp_obj_dict_t*)&pyb_dac_locals_dict,
+    .locals_dict = (mp_obj_dict_t *)&pyb_dac_locals_dict,
 };
 
 #endif // MICROPY_HW_ENABLE_DAC

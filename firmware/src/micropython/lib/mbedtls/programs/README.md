@@ -5,9 +5,6 @@ This subdirectory mostly contains sample programs that illustrate specific featu
 
 ## Symmetric cryptography (AES) examples
 
-* [`aes/aescrypt2.c`](aes/aescrypt2.c): file encryption and authentication with a key derived from a low-entropy secret, demonstrating the low-level AES interface, the digest interface and HMAC.  
-  Warning: this program illustrates how to use low-level functions in the library. It should not be taken as an example of how to build a secure encryption mechanism. To derive a key from a low-entropy secret such as a password, use a standard key stretching mechanism such as PBKDF2 (provided by the `pkcs5` module). To encrypt and authenticate data, use a standard mode such as GCM or CCM (both available as library module).
-
 * [`aes/crypt_and_hash.c`](aes/crypt_and_hash.c): file encryption and authentication, demonstrating the generic cipher interface and the generic hash interface.
 
 ## Hash (digest) examples
@@ -98,8 +95,6 @@ In addition to providing options for testing client-side features, the `ssl_clie
 * [`test/benchmark.c`](test/benchmark.c): benchmark for cryptographic algorithms.
 
 * [`test/selftest.c`](test/selftest.c): runs the self-test function in each library module.
-
-* [`test/ssl_cert_test.c`](test/ssl_cert_test.c): demonstrates how to verify X.509 certificates, and (for RSA keys only) how to check that each certificate matches the corresponding private key. This program requires some test data which is not provided.
 
 * [`test/udp_proxy.c`](test/udp_proxy.c): a UDP proxy that can inject certain failures (delay, duplicate, drop). Useful for testing DTLS.
 

@@ -27,7 +27,7 @@
 #include <stdlib.h>
 
 #include "py/runtime.h"
-#include "lib/utils/interrupt_char.h"
+#include "shared/runtime/interrupt_char.h"
 #include "pendsv.h"
 #include "irq.h"
 
@@ -60,10 +60,10 @@ void pendsv_init(void) {
 // the given exception object using nlr_jump in the context of the top-level
 // thread.
 void pendsv_kbd_intr(void) {
-    if (MP_STATE_VM(mp_pending_exception) == MP_OBJ_NULL) {
-        mp_keyboard_interrupt();
+    if (MP_STATE_MAIN_THREAD(mp_pending_exception) == MP_OBJ_NULL) {
+        mp_sched_keyboard_interrupt();
     } else {
-        MP_STATE_VM(mp_pending_exception) = MP_OBJ_NULL;
+        MP_STATE_MAIN_THREAD(mp_pending_exception) = MP_OBJ_NULL;
         pendsv_object = &MP_STATE_VM(mp_kbd_exception);
         SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
     }
@@ -71,7 +71,7 @@ void pendsv_kbd_intr(void) {
 
 // This will always force the exception by using the hardware PENDSV 
 void pendsv_nlr_jump(void *o) {
-    MP_STATE_VM(mp_pending_exception) = MP_OBJ_NULL;
+    MP_STATE_MAIN_THREAD(mp_pending_exception) = MP_OBJ_NULL;
     pendsv_object = o;
     SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
 }
@@ -189,5 +189,5 @@ __attribute__((naked)) void PendSV_Handler(void) {
         #endif
         "pendsv_object_ptr: .word pendsv_object\n"
         "nlr_jump_ptr: .word nlr_jump\n"
-    );
+        );
 }

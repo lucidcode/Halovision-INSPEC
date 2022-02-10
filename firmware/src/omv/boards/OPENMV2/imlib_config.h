@@ -1,8 +1,8 @@
 /*
  * This file is part of the OpenMV project.
  *
- * Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
  *
  * This work is licensed under the MIT license, see the file LICENSE for details.
  *
@@ -10,6 +10,12 @@
  */
 #ifndef __IMLIB_CONFIG_H__
 #define __IMLIB_CONFIG_H__
+
+// Enable Image I/O
+#define IMLIB_ENABLE_IMAGE_IO
+
+// Enable Image File I/O
+#define IMLIB_ENABLE_IMAGE_FILE_IO
 
 // Enable LAB LUT
 #define IMLIB_ENABLE_LAB_LUT
@@ -56,23 +62,11 @@
 // Enable cartoon()
 //#define IMLIB_ENABLE_CARTOON
 
-// Enable remove_shadows()
-//#define IMLIB_ENABLE_REMOVE_SHADOWS
-
 // Enable linpolar()
 //#define IMLIB_ENABLE_LINPOLAR
 
 // Enable logpolar()
 //#define IMLIB_ENABLE_LOGPOLAR
-
-// Enable chrominvar()
-//#define IMLIB_ENABLE_CHROMINVAR
-
-// Enable illuminvar()
-//#define IMLIB_ENABLE_ILLUMINVAR
-
-// Enable invariant table
-//#define IMLIB_ENABLE_INVARIANT_TABLE
 
 // Enable lens_corr()
 #define IMLIB_ENABLE_LENS_CORR
@@ -81,12 +75,8 @@
 //#define IMLIB_ENABLE_ROTATION_CORR
 
 // Enable phasecorrelate()
+#if defined(IMLIB_ENABLE_ROTATION_CORR)
 //#define IMLIB_ENABLE_FIND_DISPLACEMENT
-
-// rotation_corr() is required by phasecorrelate()
-#if defined(IMLIB_ENABLE_FIND_DISPLACEMENT)\
-    && !defined(IMLIB_ENABLE_ROTATION_CORR)
-    #define IMLIB_ENABLE_ROTATION_CORR
 #endif
 
 // Enable get_similarity()
@@ -97,12 +87,6 @@
 
 // Enable find_line_segments()
 //#define IMLIB_ENABLE_FIND_LINE_SEGMENTS
-
-// find_lines() is required by the old find_line_segments()
-#if defined(IMLIB_ENABLE_FIND_LINE_SEGMENTS)\
-    && !defined(IMLIB_ENABLE_FIND_LINES)
-    #define IMLIB_ENABLE_FIND_LINES
-#endif
 
 // Enable find_circles()
 //#define IMLIB_ENABLE_FIND_CIRCLES
@@ -143,11 +127,13 @@
 // Enable find_keypoints()
 //#define IMLIB_ENABLE_FIND_KEYPOINTS
 
-#if defined(IMLIB_ENABLE_FIND_LBP) || defined(IMLIB_ENABLE_FIND_KEYPOINTS)
-    #define IMLIB_ENABLE_DESCRIPTOR
-#endif
+// Enable load, save and match descriptor
+//#define IMLIB_ENABLE_DESCRIPTOR
 
 // Enable find_hog()
 //#define IMLIB_ENABLE_HOG
+
+// Enable STM32 DMA2D
+#define IMLIB_ENABLE_DMA2D
 
 #endif //__IMLIB_CONFIG_H__

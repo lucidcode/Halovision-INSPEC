@@ -4,8 +4,14 @@
  * \brief X.509 certificate parsing and writing
  */
 /*
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -19,7 +25,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 #ifndef MBEDTLS_X509_CRT_H
 #define MBEDTLS_X509_CRT_H
@@ -52,8 +77,6 @@ extern "C" {
  */
 typedef struct mbedtls_x509_crt
 {
-    int own_buffer;                     /**< Indicates if \c raw is owned
-                                         *   by the structure or not.        */
     mbedtls_x509_buf raw;               /**< The raw certificate data (DER). */
     mbedtls_x509_buf tbs;               /**< The raw certificate body (DER). The part that is To Be Signed. */
 
@@ -70,7 +93,6 @@ typedef struct mbedtls_x509_crt
     mbedtls_x509_time valid_from;       /**< Start time of certificate validity. */
     mbedtls_x509_time valid_to;         /**< End time of certificate validity. */
 
-    mbedtls_x509_buf pk_raw;
     mbedtls_pk_context pk;              /**< Container for the public key context. */
 
     mbedtls_x509_buf issuer_id;         /**< Optional X.509 v2/v3 issuer unique identifier. */
@@ -101,7 +123,7 @@ mbedtls_x509_crt;
  * Build flag from an algorithm/curve identifier (pk, md, ecp)
  * Since 0 is always XXX_NONE, ignore it.
  */
-#define MBEDTLS_X509_ID_FLAG( id )   ( 1 << ( id - 1 ) )
+#define MBEDTLS_X509_ID_FLAG( id )   ( 1 << ( (id) - 1 ) )
 
 /**
  * Security profile for certificate verification.
@@ -223,58 +245,16 @@ extern const mbedtls_x509_crt_profile mbedtls_x509_crt_profile_suiteb;
 
 /**
  * \brief          Parse a single DER formatted certificate and add it
- *                 to the end of the provided chained list.
+ *                 to the chained list.
  *
- * \param chain    The pointer to the start of the CRT chain to attach to.
- *                 When parsing the first CRT in a chain, this should point
- *                 to an instance of ::mbedtls_x509_crt initialized through
- *                 mbedtls_x509_crt_init().
- * \param buf      The buffer holding the DER encoded certificate.
- * \param buflen   The size in Bytes of \p buf.
+ * \param chain    points to the start of the chain
+ * \param buf      buffer holding the certificate DER data
+ * \param buflen   size of the buffer
  *
- * \note           This function makes an internal copy of the CRT buffer
- *                 \p buf. In particular, \p buf may be destroyed or reused
- *                 after this call returns. To avoid duplicating the CRT
- *                 buffer (at the cost of stricter lifetime constraints),
- *                 use mbedtls_x509_crt_parse_der_nocopy() instead.
- *
- * \return         \c 0 if successful.
- * \return         A negative error code on failure.
+ * \return         0 if successful, or a specific X509 or PEM error code
  */
-int mbedtls_x509_crt_parse_der( mbedtls_x509_crt *chain,
-                                const unsigned char *buf,
-                                size_t buflen );
-
-/**
- * \brief          Parse a single DER formatted certificate and add it
- *                 to the end of the provided chained list. This is a
- *                 variant of mbedtls_x509_crt_parse_der() which takes
- *                 temporary ownership of the CRT buffer until the CRT
- *                 is destroyed.
- *
- * \param chain    The pointer to the start of the CRT chain to attach to.
- *                 When parsing the first CRT in a chain, this should point
- *                 to an instance of ::mbedtls_x509_crt initialized through
- *                 mbedtls_x509_crt_init().
- * \param buf      The address of the readable buffer holding the DER encoded
- *                 certificate to use. On success, this buffer must be
- *                 retained and not be changed for the liftetime of the
- *                 CRT chain \p chain, that is, until \p chain is destroyed
- *                 through a call to mbedtls_x509_crt_free().
- * \param buflen   The size in Bytes of \p buf.
- *
- * \note           This call is functionally equivalent to
- *                 mbedtls_x509_crt_parse_der(), but it avoids creating a
- *                 copy of the input buffer at the cost of stronger lifetime
- *                 constraints. This is useful in constrained environments
- *                 where duplication of the CRT cannot be tolerated.
- *
- * \return         \c 0 if successful.
- * \return         A negative error code on failure.
- */
-int mbedtls_x509_crt_parse_der_nocopy( mbedtls_x509_crt *chain,
-                                       const unsigned char *buf,
-                                       size_t buflen );
+int mbedtls_x509_crt_parse_der( mbedtls_x509_crt *chain, const unsigned char *buf,
+                        size_t buflen );
 
 /**
  * \brief          Parse one DER-encoded or one or more concatenated PEM-encoded

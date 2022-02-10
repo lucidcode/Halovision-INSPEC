@@ -6,8 +6,14 @@
  * \author Adriaan de Jong <dejong@fox-it.com>
  */
 /*
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -21,7 +27,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 #ifndef MBEDTLS_CIPHER_WRAP_H
 #define MBEDTLS_CIPHER_WRAP_H
@@ -33,10 +58,6 @@
 #endif
 
 #include "cipher.h"
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-#include "psa/crypto.h"
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
 #ifdef __cplusplus
 extern "C" {
@@ -117,30 +138,6 @@ typedef struct
     mbedtls_cipher_type_t type;
     const mbedtls_cipher_info_t *info;
 } mbedtls_cipher_definition_t;
-
-#if defined(MBEDTLS_USE_PSA_CRYPTO)
-typedef enum
-{
-    MBEDTLS_CIPHER_PSA_KEY_UNSET = 0,
-    MBEDTLS_CIPHER_PSA_KEY_OWNED, /* Used for PSA-based cipher contexts which */
-                                  /* use raw key material internally imported */
-                                  /* into a allocated key slot, and which     */
-                                  /* hence need to destroy that key slot      */
-                                  /* when they are no longer needed.          */
-    MBEDTLS_CIPHER_PSA_KEY_NOT_OWNED, /* Used for PSA-based cipher contexts   */
-                                      /* which use a key from a key slot      */
-                                      /* provided by the user, and which      */
-                                      /* hence should not be destroyed when   */
-                                      /* the context is no longer needed.     */
-} mbedtls_cipher_psa_key_ownership;
-
-typedef struct
-{
-    psa_algorithm_t alg;
-    psa_key_handle_t slot;
-    mbedtls_cipher_psa_key_ownership slot_state;
-} mbedtls_cipher_context_psa;
-#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
 extern const mbedtls_cipher_definition_t mbedtls_cipher_definitions[];
 

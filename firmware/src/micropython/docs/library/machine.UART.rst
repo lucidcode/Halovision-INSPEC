@@ -48,6 +48,27 @@ Methods
      - *parity* is the parity, ``None``, 0 (even) or 1 (odd).
      - *stop* is the number of stop bits, 1 or 2.
 
+   Additional keyword-only parameters that may be supported by a port are:
+
+     - *tx* specifies the TX pin to use.
+     - *rx* specifies the RX pin to use.
+     - *rts* specifies the RTS (output) pin to use for hardware receive flow control.
+     - *cts* specifies the CTS (input) pin to use for hardware transmit flow control.
+     - *txbuf* specifies the length in characters of the TX buffer.
+     - *rxbuf* specifies the length in characters of the RX buffer.
+     - *timeout* specifies the time to wait for the first character (in ms).
+     - *timeout_char* specifies the time to wait between characters (in ms).
+     - *invert* specifies which lines to invert.
+     - *flow* specifies which hardware flow control signals to use. The value
+       is a bitmask. 
+
+         - ``0`` will ignore hardware flow control signals.
+         - ``UART.RTS`` will enable receive flow control by using the RTS output pin to
+           signal if the receive FIFO has sufficient space to accept more data.
+         - ``UART.CTS`` will enable transmit flow control by pausing transmission when the
+           CTS input pin signals that the receiver is running low on buffer space.
+         - ``UART.RTS | UART.CTS`` will enable both, for full hardware flow control.
+
 .. method:: UART.deinit()
 
    Turn off the UART bus.

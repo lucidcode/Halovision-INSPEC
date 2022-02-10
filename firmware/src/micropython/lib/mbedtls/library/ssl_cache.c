@@ -1,8 +1,14 @@
 /*
  *  SSL session cache implementation
  *
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may
  *  not use this file except in compliance with the License.
@@ -16,7 +22,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ *  **********
  */
 /*
  * These session callbacks use a simple chained list
@@ -40,7 +65,6 @@
 #endif
 
 #include "mbedtls/ssl_cache.h"
-#include "mbedtls/ssl_internal.h"
 
 #include <string.h>
 
@@ -93,24 +117,16 @@ int mbedtls_ssl_cache_get( void *data, mbedtls_ssl_session *session )
                     entry->session.id_len ) != 0 )
             continue;
 
-        ret = mbedtls_ssl_session_copy( session, &entry->session );
-        if( ret != 0 )
-        {
-            ret = 1;
-            goto exit;
-        }
+        memcpy( session->master, entry->session.master, 48 );
 
-#if defined(MBEDTLS_X509_CRT_PARSE_C) && \
-    defined(MBEDTLS_SSL_KEEP_PEER_CERTIFICATE)
+        session->verify_result = entry->session.verify_result;
+
+#if defined(MBEDTLS_X509_CRT_PARSE_C)
         /*
          * Restore peer certificate (without rest of the original chain)
          */
         if( entry->peer_cert.p != NULL )
         {
-            /* `session->peer_cert` is NULL after the call to
-             * mbedtls_ssl_session_copy(), because cache entries
-             * have the `peer_cert` field set to NULL. */
-
             if( ( session->peer_cert = mbedtls_calloc( 1,
                                  sizeof(mbedtls_x509_crt) ) ) == NULL )
             {
@@ -128,7 +144,7 @@ int mbedtls_ssl_cache_get( void *data, mbedtls_ssl_session *session )
                 goto exit;
             }
         }
-#endif /* MBEDTLS_X509_CRT_PARSE_C && MBEDTLS_SSL_KEEP_PEER_CERTIFICATE */
+#endif /* MBEDTLS_X509_CRT_PARSE_C */
 
         ret = 0;
         goto exit;
@@ -248,8 +264,9 @@ int mbedtls_ssl_cache_set( void *data, const mbedtls_ssl_session *session )
 #endif
     }
 
-#if defined(MBEDTLS_X509_CRT_PARSE_C) && \
-    defined(MBEDTLS_SSL_KEEP_PEER_CERTIFICATE)
+    memcpy( &cur->session, session, sizeof( mbedtls_ssl_session ) );
+
+#if defined(MBEDTLS_X509_CRT_PARSE_C)
     /*
      * If we're reusing an entry, free its certificate first
      */
@@ -258,43 +275,26 @@ int mbedtls_ssl_cache_set( void *data, const mbedtls_ssl_session *session )
         mbedtls_free( cur->peer_cert.p );
         memset( &cur->peer_cert, 0, sizeof(mbedtls_x509_buf) );
     }
-#endif /* MBEDTLS_X509_CRT_PARSE_C && MBEDTLS_SSL_KEEP_PEER_CERTIFICATE */
 
-    /* Copy the entire session; this temporarily makes a copy of the
-     * X.509 CRT structure even though we only want to store the raw CRT.
-     * This inefficiency will go away as soon as we implement on-demand
-     * parsing of CRTs, in which case there's no need for the `peer_cert`
-     * field anymore in the first place, and we're done after this call. */
-    ret = mbedtls_ssl_session_copy( &cur->session, session );
-    if( ret != 0 )
+    /*
+     * Store peer certificate
+     */
+    if( session->peer_cert != NULL )
     {
-        ret = 1;
-        goto exit;
-    }
-
-#if defined(MBEDTLS_X509_CRT_PARSE_C) && \
-    defined(MBEDTLS_SSL_KEEP_PEER_CERTIFICATE)
-    /* If present, free the X.509 structure and only store the raw CRT data. */
-    if( cur->session.peer_cert != NULL )
-    {
-        cur->peer_cert.p =
-            mbedtls_calloc( 1, cur->session.peer_cert->raw.len );
+        cur->peer_cert.p = mbedtls_calloc( 1, session->peer_cert->raw.len );
         if( cur->peer_cert.p == NULL )
         {
             ret = 1;
             goto exit;
         }
 
-        memcpy( cur->peer_cert.p,
-                cur->session.peer_cert->raw.p,
-                cur->session.peer_cert->raw.len );
+        memcpy( cur->peer_cert.p, session->peer_cert->raw.p,
+                session->peer_cert->raw.len );
         cur->peer_cert.len = session->peer_cert->raw.len;
 
-        mbedtls_x509_crt_free( cur->session.peer_cert );
-        mbedtls_free( cur->session.peer_cert );
         cur->session.peer_cert = NULL;
     }
-#endif /* MBEDTLS_X509_CRT_PARSE_C && MBEDTLS_SSL_KEEP_PEER_CERTIFICATE */
+#endif /* MBEDTLS_X509_CRT_PARSE_C */
 
     ret = 0;
 
@@ -336,10 +336,9 @@ void mbedtls_ssl_cache_free( mbedtls_ssl_cache_context *cache )
 
         mbedtls_ssl_session_free( &prv->session );
 
-#if defined(MBEDTLS_X509_CRT_PARSE_C) && \
-    defined(MBEDTLS_SSL_KEEP_PEER_CERTIFICATE)
+#if defined(MBEDTLS_X509_CRT_PARSE_C)
         mbedtls_free( prv->peer_cert.p );
-#endif /* MBEDTLS_X509_CRT_PARSE_C && MBEDTLS_SSL_KEEP_PEER_CERTIFICATE */
+#endif /* MBEDTLS_X509_CRT_PARSE_C */
 
         mbedtls_free( prv );
     }

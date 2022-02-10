@@ -24,8 +24,10 @@
  * THE SOFTWARE.
  */
 
+#include <stdio.h>
 #include <string.h>
 
+#include "py/mperrno.h"
 #include "py/mphal.h"
 #include "drivers/cyw43/cyw43.h"
 #include "pendsv.h"
@@ -50,6 +52,9 @@
 #define WIFI_JOIN_STATE_LINK    (0x0400)
 #define WIFI_JOIN_STATE_KEYED   (0x0800)
 #define WIFI_JOIN_STATE_ALL     (0x0e01)
+
+#define CYW43_STA_IS_ACTIVE(self) (((self)->itf_state >> CYW43_ITF_STA) & 1)
+#define CYW43_AP_IS_ACTIVE(self) (((self)->itf_state >> CYW43_ITF_AP) & 1)
 
 cyw43_t cyw43_state;
 void (*cyw43_poll)(void);
@@ -101,27 +106,24 @@ void cyw43_init(cyw43_t *self) {
 }
 
 void cyw43_deinit(cyw43_t *self) {
+    if (cyw43_poll == NULL) {
+        return;
+    }
+
     CYW_ENTER
 
-    cyw43_ll_bus_sleep(&self->cyw43_ll, true);
-    cyw43_delay_ms(2);
+    // Stop the TCP/IP network interfaces.
     cyw43_tcpip_deinit(self, 0);
     cyw43_tcpip_deinit(self, 1);
 
-    self->itf_state = 0;
-
-    // Disable async polling
-    SDMMC1->MASK &= ~SDMMC_MASK_SDIOITIE;
-    cyw43_poll = NULL;
-
-    #ifdef pyb_pin_WL_RFSW_VDD
-    // Turn the RF-switch off
-    mp_hal_pin_low(pyb_pin_WL_RFSW_VDD);
+    // Turn off the SDIO bus.
+    #if USE_SDIOIT
+    sdio_enable_irq(false);
     #endif
-
-    // Power down the WL chip and the SDIO bus
-    mp_hal_pin_low(pyb_pin_WL_REG_ON);
     sdio_deinit();
+
+    // Power off the WLAN chip and make sure all state is reset.
+    cyw43_init(self);
 
     CYW_EXIT
 }
@@ -163,7 +165,7 @@ STATIC int cyw43_ensure_up(cyw43_t *self) {
     cyw43_sleep = CYW43_SLEEP_MAX;
     cyw43_poll = cyw43_poll_func;
     #if USE_SDIOIT
-    SDMMC1->MASK |= SDMMC_MASK_SDIOITIE;
+    sdio_enable_irq(true);
     #else
     extern void extint_set(const pin_obj_t *pin, uint32_t mode);
     extint_set(pyb_pin_WL_HOST_WAKE, GPIO_MODE_IT_FALLING);
@@ -208,7 +210,7 @@ STATIC void cyw43_poll_func(void) {
     }
 
     #if USE_SDIOIT
-    SDMMC1->MASK |= SDMMC_MASK_SDIOITIE;
+    sdio_enable_irq(true);
     #endif
 }
 
@@ -226,10 +228,7 @@ int cyw43_cb_read_host_interrupt_pin(void *cb_data) {
 void cyw43_cb_ensure_awake(void *cb_data) {
     cyw43_sleep = CYW43_SLEEP_MAX;
     #if !USE_SDIOIT
-    if (__HAL_RCC_SDMMC1_IS_CLK_DISABLED()) {
-        __HAL_RCC_SDMMC1_CLK_ENABLE(); // enable SDIO peripheral
-        sdio_enable_high_speed_4bit();
-    }
+    sdio_reenable();
     #endif
 }
 
@@ -252,7 +251,7 @@ STATIC const char *cyw43_async_event_name_table[89] = {
 
 STATIC void cyw43_dump_async_event(const cyw43_async_event_t *ev) {
     printf("[% 8d] ASYNC(%04x,",
-        mp_hal_ticks_ms(),
+        (int)mp_hal_ticks_ms(),
         (unsigned int)ev->flags
     );
     if (ev->event_type < MP_ARRAY_SIZE(cyw43_async_event_name_table)
@@ -455,7 +454,9 @@ void cyw43_wifi_set_up(cyw43_t *self, int itf, bool up) {
             } else {
                 country = MAKE_COUNTRY(pyb_country_code[0], pyb_country_code[1], 0);
             }
-            cyw43_wifi_on(self, country);
+            if (cyw43_wifi_on(self, country) != 0) {
+                return;
+            }
             cyw43_wifi_pm(self, 10 << 20 | 1 << 16 | 1 << 12 | 20 << 4 | 2);
         }
         if (itf == CYW43_ITF_AP) {
@@ -478,7 +479,7 @@ void cyw43_wifi_set_up(cyw43_t *self, int itf, bool up) {
 
 int cyw43_wifi_scan(cyw43_t *self, cyw43_wifi_scan_options_t *opts, void *env, int (*result_cb)(void*, const cyw43_ev_scan_result_t*)) {
     if (self->itf_state == 0) {
-        return -1;
+        return -MP_EPERM;
     }
 
     cyw43_ensure_up(self);
@@ -521,6 +522,10 @@ int cyw43_wifi_link_status(cyw43_t *self, int itf) {
 // WiFi STA
 
 int cyw43_wifi_join(cyw43_t *self, size_t ssid_len, const uint8_t *ssid, size_t key_len, const uint8_t *key, uint32_t auth_type, const uint8_t *bssid, uint32_t channel) {
+    if (!CYW43_STA_IS_ACTIVE(self)) {
+        return -MP_EPERM;
+    }
+
     int ret = cyw43_ensure_up(self);
     if (ret) {
         return ret;

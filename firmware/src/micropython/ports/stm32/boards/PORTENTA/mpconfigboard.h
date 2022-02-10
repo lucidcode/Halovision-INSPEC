@@ -1,7 +1,9 @@
 #define MICROPY_HW_BOARD_NAME       "PORTENTA"
 #define MICROPY_HW_MCU_NAME         "STM32H747"
+#define MICROPY_PY_SYS_PLATFORM     "Portenta"
 #define MICROPY_HW_FLASH_FS_LABEL	"portenta"
 
+#define MICROPY_FATFS_EXFAT         (1)
 #define MICROPY_HW_ENABLE_RTC       (1)
 #define MICROPY_HW_ENABLE_RNG       (1)
 #define MICROPY_HW_ENABLE_ADC       (1)
@@ -9,28 +11,33 @@
 #define MICROPY_HW_ENABLE_USB       (1)
 #define MICROPY_HW_HAS_SWITCH       (0)
 #define MICROPY_HW_HAS_FLASH        (1)
-#define MICROPY_HW_HAS_SDCARD       (0)
 #define MICROPY_HW_ENABLE_SERVO     (1)
 #define MICROPY_HW_ENABLE_TIMER     (1)
-#define MICROPY_HW_ENABLE_SDCARD    (0)
+#define MICROPY_HW_ENABLE_SDCARD    (1)
 #define MICROPY_HW_ENABLE_MMCARD    (0)
+// Reserved DMA streams
+#define MICROPY_HW_DMA2S1_IS_RESERVED
+#define MICROPY_HW_TIM_IS_RESERVED(id) (id == 1 || id == 6)
 
 #define MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE (0)
+#define MICROPY_HW_SPIFLASH_ENABLE_CACHE (1)
 
 #define MICROPY_HW_CLK_USE_BYPASS	(1)
-
-#define MICROPY_PY_USOCKET          (1)
-#define MICROPY_PY_NETWORK          (1)
-#define MICROPY_PY_THREAD           (1)
-#define MICROPY_PY_RNDIS			(0)
-#define OPENAMP_PY					(0)
-#define MICROPY_JERRYSCRIPT         (0)
 
 #define MICROPY_BOARD_EARLY_INIT PORTENTA_board_early_init
 void PORTENTA_board_early_init(void);
 
-#define ARDUINO_1200BPS_TOUCH PORTENTA_reboot_to_bootloader
+#define MICROPY_RESET_TO_BOOTLOADER PORTENTA_reboot_to_bootloader
 void PORTENTA_reboot_to_bootloader(void);
+
+void PORTENTA_board_low_power(int mode);
+#define MICROPY_BOARD_LEAVE_STOP    PORTENTA_board_low_power(0);
+#define MICROPY_BOARD_ENTER_STOP    PORTENTA_board_low_power(1);
+#define MICROPY_BOARD_ENTER_STANDBY PORTENTA_board_low_power(2);
+
+void PORTENTA_board_osc_enable(int enable);
+#define MICROPY_BOARD_OSC_ENABLE    PORTENTA_board_osc_enable(1);
+#define MICROPY_BOARD_OSC_DISABLE   PORTENTA_board_osc_enable(0);
 
 // The board has an 25MHz HSE, the following gives 450MHz CPU speed
 #define MICROPY_HW_CLK_PLLM (5)
@@ -56,16 +63,16 @@ void PORTENTA_reboot_to_bootloader(void);
 #define MICROPY_HW_RTC_USE_CALOUT   (1)
 
 // QSPI flash #2, to be memory mapped
+#define MICROPY_HW_QSPI_PRESCALER           (4) //200MHz/4=50MHz
+#define MICROPY_HW_QSPI_SAMPLE_SHIFT	    (0)
 #define MICROPY_HW_QSPIFLASH_SIZE_BITS_LOG2 (27)
-#define MICROPY_HW_SPIFLASH_SIZE_BITS (128 * 1024 * 1024)
-#define MICROPY_HW_QSPIFLASH_CS     (pyb_pin_QSPI2_CS)
-#define MICROPY_HW_QSPIFLASH_SCK    (pyb_pin_QSPI2_CLK)
-#define MICROPY_HW_QSPIFLASH_IO0    (pyb_pin_QSPI2_D0)
-#define MICROPY_HW_QSPIFLASH_IO1    (pyb_pin_QSPI2_D1)
-#define MICROPY_HW_QSPIFLASH_IO2    (pyb_pin_QSPI2_D2)
-#define MICROPY_HW_QSPIFLASH_IO3    (pyb_pin_QSPI2_D3)
-
-#define MICROPY_HW_QSPI_SAMPLE_SHIFT	(0)
+#define MICROPY_HW_SPIFLASH_SIZE_BITS       (120 * 1024 * 1024)
+#define MICROPY_HW_QSPIFLASH_CS             (pyb_pin_QSPI2_CS)
+#define MICROPY_HW_QSPIFLASH_SCK            (pyb_pin_QSPI2_CLK)
+#define MICROPY_HW_QSPIFLASH_IO0            (pyb_pin_QSPI2_D0)
+#define MICROPY_HW_QSPIFLASH_IO1            (pyb_pin_QSPI2_D1)
+#define MICROPY_HW_QSPIFLASH_IO2            (pyb_pin_QSPI2_D2)
+#define MICROPY_HW_QSPIFLASH_IO3            (pyb_pin_QSPI2_D3)
 
 // SPI flash #2, block device config
 #if MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE == 0
@@ -79,6 +86,7 @@ void PORTENTA_reboot_to_bootloader(void);
 )
 #define MICROPY_HW_BDEV_READBLOCKS(dest, bl, n) spi_bdev_readblocks(&spi_bdev2, (dest), (bl), (n))
 #define MICROPY_HW_BDEV_WRITEBLOCKS(src, bl, n) spi_bdev_writeblocks(&spi_bdev2, (src), (bl), (n))
+#define MICROPY_HW_BDEV_SPIFLASH_EXTENDED (&spi_bdev2)
 #endif
 
 // 4 wait states
@@ -90,15 +98,25 @@ void PORTENTA_reboot_to_bootloader(void);
 #define MICROPY_HW_UART_REPL        PYB_UART_1
 #define MICROPY_HW_UART_REPL_BAUD   115200
 
+// UART config
+#define MICROPY_HW_UART8_TX         (pin_J8)
+#define MICROPY_HW_UART8_RX         (pin_J9)
+
+// UART7 config
+#define MICROPY_HW_UART7_TX         (pyb_pin_BT_TXD)
+#define MICROPY_HW_UART7_RX         (pyb_pin_BT_RXD)
+#define MICROPY_HW_UART7_RTS        (pyb_pin_BT_RTS)
+#define MICROPY_HW_UART7_CTS        (pyb_pin_BT_CTS)
+
 // I2C busses
 #define MICROPY_HW_I2C3_SCL         (pin_H7)
 #define MICROPY_HW_I2C3_SDA         (pin_H8)
 
 // SPI
-//#define MICROPY_HW_SPI2_NSS         (pin_I0)
-//#define MICROPY_HW_SPI2_SCK         (pin_I1)
-//#define MICROPY_HW_SPI2_MISO        (pin_B14)
-//#define MICROPY_HW_SPI2_MOSI        (pin_B15)
+#define MICROPY_HW_SPI2_NSS         (pin_I0)
+#define MICROPY_HW_SPI2_SCK         (pin_I1)
+#define MICROPY_HW_SPI2_MISO        (pin_C2)
+#define MICROPY_HW_SPI2_MOSI        (pin_C3)
 
 // USRSW is pulled low. Pressing the button makes the input go high.
 #define MICROPY_HW_USRSW_PIN        (pin_A0)
@@ -113,42 +131,71 @@ void PORTENTA_reboot_to_bootloader(void);
 #define MICROPY_HW_LED_ON(pin)      (mp_hal_pin_low(pin))
 #define MICROPY_HW_LED_OFF(pin)     (mp_hal_pin_high(pin))
 
+// WiFi SDMMC
+#define MICROPY_HW_SDIO_SDMMC       (1)
+#define MICROPY_HW_SDIO_CK          (pin_C12)
+#define MICROPY_HW_SDIO_CMD         (pin_D2)
+#define MICROPY_HW_SDIO_D0          (pin_C8)
+#define MICROPY_HW_SDIO_D1          (pin_C9)
+#define MICROPY_HW_SDIO_D2          (pin_C10)
+#define MICROPY_HW_SDIO_D3          (pin_C11)
+
+// SD Card SDMMC
+#define MICROPY_HW_SDCARD_SDMMC     (2)
+#define MICROPY_HW_SDCARD_CK        (pin_D6)
+#define MICROPY_HW_SDCARD_CMD       (pin_D7)
+#define MICROPY_HW_SDCARD_D0        (pin_B14)
+#define MICROPY_HW_SDCARD_D1        (pin_B15)
+#define MICROPY_HW_SDCARD_D2        (pin_B3)
+#define MICROPY_HW_SDCARD_D3        (pin_B4)
+
 // USB config
 #define MICROPY_HW_USB_HS           (1)
+#define MICROPY_HW_USB_HS_ULPI_NXT  (pin_H4)
+#define MICROPY_HW_USB_HS_ULPI_DIR  (pin_I11)
+
 //#define MICROPY_HW_USB_FS			(1)
-#define USBD_CDC_RX_DATA_SIZE       (512)
-#define USBD_CDC_TX_DATA_SIZE       (512)
-#define GPIO_AF10_OTG_HS            (GPIO_AF10_OTG2_HS)
+#define MICROPY_HW_USB_CDC_RX_DATA_SIZE     (512)
+#define MICROPY_HW_USB_CDC_TX_DATA_SIZE     (512)
+#define MICROPY_HW_USB_CDC_1200BPS_TOUCH    (1)
+#define GPIO_AF10_OTG_HS                    (GPIO_AF10_OTG2_HS)
+
+// Bluetooth config
+#define MICROPY_HW_BLE_UART_ID       (PYB_UART_7)
+#define MICROPY_HW_BLE_UART_BAUDRATE (115200)
+#define MICROPY_HW_BLE_UART_BAUDRATE_SECONDARY (3000000)
 
 // SDRAM
-#define MICROPY_HW_SDRAM_SIZE  			(64 / 8 * 1024 * 1024)  // 64 Mbit
-#define MICROPY_HW_SDRAM_STARTUP_TEST   (1)
-//#define MICROPY_HEAP_START              sdram_start()
-//#define MICROPY_HEAP_END                sdram_end()
+#define MICROPY_HW_SDRAM_SIZE               (64 / 8 * 1024 * 1024)  // 64 Mbit
+#define MICROPY_HW_SDRAM_STARTUP_TEST       (1)
+#define MICROPY_HW_SDRAM_TEST_FAIL_ON_ERROR (true)
 
-// Timing configuration for 90 Mhz (11.90ns) of SD clock frequency (180Mhz/2)
+// Timing configuration for 200MHz/2=100MHz (10ns)
+#define MICROPY_HW_SDRAM_CLOCK_PERIOD       2
+#define MICROPY_HW_SDRAM_CAS_LATENCY        2
+#define MICROPY_HW_SDRAM_FREQUENCY          (100000) // 100 MHz
 #define MICROPY_HW_SDRAM_TIMING_TMRD        (2)
 #define MICROPY_HW_SDRAM_TIMING_TXSR        (7)
-#define MICROPY_HW_SDRAM_TIMING_TRAS        (4)
+#define MICROPY_HW_SDRAM_TIMING_TRAS        (5)
 #define MICROPY_HW_SDRAM_TIMING_TRC         (7)
 #define MICROPY_HW_SDRAM_TIMING_TWR         (2)
-#define MICROPY_HW_SDRAM_TIMING_TRP         (2)
-#define MICROPY_HW_SDRAM_TIMING_TRCD        (2)
-#define MICROPY_HW_SDRAM_REFRESH_RATE       (64) // ms
-#define MICROPY_HW_SDRAM_FREQUENCY          (90000) // 100 MHz
+#define MICROPY_HW_SDRAM_TIMING_TRP         (3)
+#define MICROPY_HW_SDRAM_TIMING_TRCD        (3)
 
-#define MICROPY_HW_SDRAM_BURST_LENGTH       2
-#define MICROPY_HW_SDRAM_CAS_LATENCY        3
-#define MICROPY_HW_SDRAM_COLUMN_BITS_NUM    8
 #define MICROPY_HW_SDRAM_ROW_BITS_NUM       12
 #define MICROPY_HW_SDRAM_MEM_BUS_WIDTH      16
-#define MICROPY_HW_SDRAM_REFRESH_CYCLES     8192
+#define MICROPY_HW_SDRAM_REFRESH_CYCLES     4096
+
+#define MICROPY_HW_SDRAM_COLUMN_BITS_NUM    8
 #define MICROPY_HW_SDRAM_INTERN_BANKS_NUM   4
-#define MICROPY_HW_SDRAM_CLOCK_PERIOD       2
-#define MICROPY_HW_SDRAM_RPIPE_DELAY        1
-#define MICROPY_HW_SDRAM_RBURST             (0)
+#define MICROPY_HW_SDRAM_RPIPE_DELAY        0
+#define MICROPY_HW_SDRAM_RBURST             (1)
 #define MICROPY_HW_SDRAM_WRITE_PROTECTION   (0)
-#define MICROPY_HW_SDRAM_AUTOREFRESH_NUM    (4)
+
+#define MICROPY_HW_SDRAM_AUTOREFRESH_NUM    (8)
+#define MICROPY_HW_SDRAM_BURST_LENGTH       1
+#define MICROPY_HW_SDRAM_REFRESH_RATE       (64) // ms
+
 
 #define MICROPY_HW_FMC_SDCKE0   (pin_H2)
 #define MICROPY_HW_FMC_SDNE0    (pin_H3)  // SD_CS ????
@@ -194,7 +241,6 @@ void PORTENTA_reboot_to_bootloader(void);
 #define MICROPY_HW_FMC_D15      (pin_D10)
 
 // Ethernet via RMII
-/*
 #define MICROPY_HW_ETH_MDC          (pin_C1)
 #define MICROPY_HW_ETH_MDIO         (pin_A2)
 #define MICROPY_HW_ETH_RMII_REF_CLK (pin_A1)
@@ -204,16 +250,27 @@ void PORTENTA_reboot_to_bootloader(void);
 #define MICROPY_HW_ETH_RMII_TX_EN   (pin_G11)
 #define MICROPY_HW_ETH_RMII_TXD0    (pin_G13)
 #define MICROPY_HW_ETH_RMII_TXD1    (pin_G12)
-*/
 
-#define USBD_MANUFACTURER_STRING      "Arduino"
-#define USBD_PRODUCT_HS_STRING        "Portenta Virtual Comm Port in HS Mode"
-#define USBD_PRODUCT_FS_STRING        "Portenta Virtual Comm Port in FS Mode"
-#define USBD_CONFIGURATION_HS_STRING  "Portenta Config"
-#define USBD_INTERFACE_HS_STRING      "Portenta Interface"
-#define USBD_CONFIGURATION_FS_STRING  "Portenta Config"
-#define USBD_INTERFACE_FS_STRING      "Portenta Interface"
-#define MICROPY_PY_SYS_PLATFORM       "Portenta"
-#define USBD_PID_RNDIS_CDC_MSC        0x005B
-#define USBD_PID                      0x005B
-#define USBD_VID                      0x2341
+#define MICROPY_HW_USB_VID                      0x2341
+#define MICROPY_HW_USB_PID                      0x005B
+#define MICROPY_HW_USB_PID_CDC_MSC              (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC_HID              (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC                  (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_MSC                  (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC2_MSC             (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC2                 (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC3                 (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC3_MSC             (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC_MSC_HID          (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC2_MSC_HID         (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_PID_CDC3_MSC_HID         (MICROPY_HW_USB_PID)
+#define MICROPY_HW_USB_LANGID_STRING            0x409
+#define MICROPY_HW_USB_MANUFACTURER_STRING      "Arduino"
+#define MICROPY_HW_USB_PRODUCT_FS_STRING        "Portenta Virtual Comm Port in FS Mode"
+#define MICROPY_HW_USB_PRODUCT_HS_STRING        "Portenta Virtual Comm Port in HS Mode"
+//#define MICROPY_HW_USB_SERIALNUMBER_FS_STRING   "000000000011"
+//#define MICROPY_HW_USB_SERIALNUMBER_HS_STRING   "000000000010"
+#define MICROPY_HW_USB_INTERFACE_FS_STRING      "Portenta Interface"
+#define MICROPY_HW_USB_INTERFACE_HS_STRING      "Portenta Interface"
+#define MICROPY_HW_USB_CONFIGURATION_FS_STRING  "Portenta Config"
+#define MICROPY_HW_USB_CONFIGURATION_HS_STRING  "Portenta Config"

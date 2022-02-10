@@ -6,8 +6,9 @@ QSTR_DEFS = qstrdefsport.h
 # include py core make definitions
 include $(TOP)/py/py.mk
 
-XC16 = /opt/microchip/xc16/v1.35
-CROSS_COMPILE = $(XC16)/bin/xc16-
+XCVERSION ?= 1.35
+XC16 ?= /opt/microchip/xc16/v$(XCVERSION)
+CROSS_COMPILE ?= $(XC16)/bin/xc16-
 
 PARTFAMILY = dsPIC33F
 PART = 33FJ256GP506
@@ -38,9 +39,9 @@ SRC_C = \
 	modpyb.c \
 	modpybled.c \
 	modpybswitch.c \
-	lib/utils/pyexec.c \
-	lib/utils/sys_stdio_mphal.c \
-	lib/mp-readline/readline.c \
+	shared/runtime/pyexec.c \
+	shared/runtime/sys_stdio_mphal.c \
+	shared/readline/readline.c \
 
 SRC_S = \
 #	gchelper.s \

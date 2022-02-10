@@ -1,8 +1,8 @@
 /*
  * This file is part of the OpenMV project.
  *
- * Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
  *
  * This work is licensed under the MIT license, see the file LICENSE for details.
  *
@@ -87,7 +87,7 @@ SECTIONS
   } >FLASH_TEXT
 
   /* used by the startup to initialize data */
-  _sidata = .;
+  _sidata = LOADADDR(.data);
 
   /* Main framebuffer memory */
   .fb_memory (NOLOAD) :
@@ -101,45 +101,80 @@ SECTIONS
     . = ALIGN(4);
   } >OMV_FB_MEMORY
 
-  /* Misc DMA buffers kept in uncachable region */
+  #if defined(OMV_FB_OVERLAY_MEMORY)
+  .fb_overlay_memory (NOLOAD) :
+  {
+    . = ALIGN(4);
+    _fballoc_overlay_start = .;
+    . = . + OMV_FB_OVERLAY_MEMORY_OFFSET;
+    _fballoc_overlay_end = .;
+  } >OMV_FB_OVERLAY_MEMORY
+  #endif
+
+  /* Misc DMA buffers section */
   .dma_memory (NOLOAD) :
   {
-    #if defined(OMV_FB_OVERLAY_MEMORY)
-    . = ALIGN(4) + OMV_FB_OVERLAY_MEMORY_OFFSET;
-    _fballoc_overlay = .;
-    #endif
-
-    . = ALIGN(4);
+    . = ALIGN(16);
     _line_buf = .;      // Image line buffer.
     . = . + OMV_LINE_BUF_SIZE;
 
-    . = ALIGN(4);
+    . = ALIGN(16);
     _msc_buf  = .;      // USB MSC bot data (2K)
     . = . + OMV_MSC_BUF_SIZE;
 
-    . = ALIGN(4);
+    . = ALIGN(16);
     _vfs_buf  = .;      // VFS sturct + FATFS file buffer  (around 624 bytes)
     . = . + OMV_VFS_BUF_SIZE;
 
-    #if !defined(OMV_FFS_MEMORY)
-    . = ALIGN(4);
+    . = ALIGN(16);
+    _fir_lepton_buf = .; // FIR Lepton Packet Double Buffer (328 bytes)
+    . = . + OMV_FIR_LEPTON_BUF_SIZE;
+
+    #if !defined(OMV_FFS_MEMORY) && defined(OMV_FFS_BUF_SIZE)
+    . = ALIGN(16);
     _ffs_cache = .;     // Flash filesystem cache
     . = . + OMV_FFS_BUF_SIZE;
     #endif
 
     #if !defined(OMV_JPEG_MEMORY)
-    . = ALIGN(4);
+    . = ALIGN(16);
     _jpeg_buf = .;      // IDE JPEG buffer
     . = . + OMV_JPEG_BUF_SIZE;
     #endif
 
-   . = ALIGN(4);
+   . = ALIGN(16);
     *(.dma_buffer)
-
   } >OMV_DMA_MEMORY
 
+  /* Domain 1 DMA buffers. */
+  #if defined(OMV_DMA_MEMORY_D1)
+  .d1_dma_memory (NOLOAD) :
+  {
+   . = ALIGN(16);
+    *(.d1_dma_buffer)
+  } >OMV_DMA_MEMORY_D1
+  #endif
+
+  /* Domain 2 DMA buffers. */
+  #if defined(OMV_DMA_MEMORY_D2)
+  .d2_dma_memory (NOLOAD) :
+  {
+   . = ALIGN(16);
+    *(.d2_dma_buffer)
+  } >OMV_DMA_MEMORY_D2
+  #endif
+
+  /* Domain 3 DMA buffers. */
+  #if defined(OMV_DMA_MEMORY_D3)
+  .d3_dma_memory (NOLOAD) :
+  {
+   . = ALIGN(16);
+    *(.d3_dma_buffer)
+  } >OMV_DMA_MEMORY_D3
+  #endif
+
   /* Initialized data sections */
-  .data : AT ( _sidata )
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;         // Create a global symbol at data start
@@ -151,7 +186,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;         // define a global symbol at data end
-  } >OMV_MAIN_MEMORY
+  } >OMV_MAIN_MEMORY AT> FLASH_TEXT
 
   /* Uninitialized data section */
   . = ALIGN(4);
@@ -159,19 +194,12 @@ SECTIONS
   {
     . = ALIGN(4);
     _sbss = .;          // Used by the startup to initialize the .bss secion
-    __bss_start__ = _sbss;
-    *(.bss)
-
     . = ALIGN(4);
     *(.bss*)
-
     . = ALIGN(4);
     *(COMMON)
-
     . = ALIGN(4);
     _ebss = .;          // define a global symbol at bss end
-    _bss_end = .;       // Used by gccollect
-    __bss_end__ = .;
   } >OMV_MAIN_MEMORY
 
   ._heap (NOLOAD) :
@@ -188,11 +216,11 @@ SECTIONS
   /* Make sure there is enough ram for the stack */
   ._stack (NOLOAD) :
   {
-    . = ALIGN(4);
+    . = ALIGN(8);
     _sstack  = .;
     . = . + _stack_size;
 
-    . = ALIGN(4);
+    . = ALIGN(8);
     _estack  = .;
   } >OMV_STACK_MEMORY
 

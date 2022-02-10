@@ -105,11 +105,9 @@
 /---------------------------------------------------------------------------*/
 
 #ifdef MICROPY_FATFS_LFN_CODE_PAGE
-#define EXPAND(x)  x
-#define EXPAND_M(x) EXPAND x
-#define FF_CODE_PAGE  EXPAND_M(MICROPY_FATFS_LFN_CODE_PAGE)
+#define FF_CODE_PAGE  MICROPY_FATFS_LFN_CODE_PAGE
 #else
-#define FF_CODE_PAGE  437
+#define FF_CODE_PAGE 437
 #endif
 
 /* This option specifies the OEM code page to be used on the target system.

@@ -31,9 +31,12 @@
 #include "py/gc.h"
 #include "gccollect.h"
 
+extern uint32_t _ram_start;
+extern uint32_t _ebss;
+
 static inline uintptr_t get_sp(void) {
     uintptr_t result;
-    __asm__ ("mov %0, sp\n" : "=r" (result) );
+    __asm__ ("mov %0, sp\n" : "=r" (result));
     return result;
 }
 
@@ -41,11 +44,14 @@ void gc_collect(void) {
     // start the GC
     gc_collect_start();
 
+    // scan everything in RAM before the heap this includes the data and bss segments
+    gc_collect_root((void**)&_ram_start, ((uint32_t)&_ebss - (uint32_t)&_ram_start) / sizeof(uint32_t));
+
     // Get stack pointer
     uintptr_t sp = get_sp();
 
     // trace the stack, including the registers (since they live on the stack in this function)
-    gc_collect_root((void**)sp, ((uint32_t)&_ram_end - sp) / sizeof(uint32_t));
+    gc_collect_root((void **)sp, ((uint32_t)&_ram_end - sp) / sizeof(uint32_t));
 
     // end the GC
     gc_collect_end();

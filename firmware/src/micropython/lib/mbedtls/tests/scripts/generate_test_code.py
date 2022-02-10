@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
+
+# This script should still be compatible with Python 2 in Mbed TLS 2.16.x.
+
 # Test suites code generator.
 #
-# Copyright (C) 2018, Arm Limited, All Rights Reserved
-# SPDX-License-Identifier: Apache-2.0
+# Copyright The Mbed TLS Contributors
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+#
+# This file is provided under the Apache License 2.0, or the
+# GNU General Public License v2.0 or later.
+#
+# **********
+# Apache License 2.0:
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License.
@@ -16,7 +25,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# This file is part of Mbed TLS (https://tls.mbed.org)
+# **********
+#
+# **********
+# GNU General Public License v2.0 or later:
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# **********
 
 """
 This script is a key part of Mbed TLS test suites framework. For
@@ -208,7 +236,7 @@ class GeneratorInputError(Exception):
     pass
 
 
-class FileWrapper(io.FileIO, object):
+class FileWrapper(io.FileIO):
     """
     This class extends built-in io.FileIO class with attribute line_no,
     that indicates line number for the line that is read.
@@ -238,7 +266,7 @@ class FileWrapper(io.FileIO, object):
         if hasattr(parent, '__next__'):
             line = parent.__next__()  # Python 3
         else:
-            line = parent.next()  # Python 2
+            line = parent.next()  # Python 2 # pylint: disable=no-member
         if line is not None:
             self._line_no += 1
             # Convert byte array to string with correct encoding and
@@ -402,8 +430,7 @@ def parse_dependencies(inp_str):
     :param inp_str: Input string with macros delimited by ':'.
     :return: list of dependencies
     """
-    dependencies = [dep for dep in map(validate_dependency,
-                                       inp_str.split(':'))]
+    dependencies = list(map(validate_dependency, inp_str.split(':')))
     return dependencies
 
 

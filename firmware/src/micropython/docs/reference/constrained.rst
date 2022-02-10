@@ -1,6 +1,6 @@
 .. _constrained:
 
-MicroPython on Microcontrollers
+MicroPython on microcontrollers
 ===============================
 
 MicroPython is designed to be capable of running on microcontrollers. These
@@ -12,7 +12,7 @@ based on a variety of architectures, the methods presented are generic: in some
 cases it will be necessary to obtain detailed information from platform specific
 documentation.
 
-Flash Memory
+Flash memory
 ------------
 
 On the Pyboard the simple way to address the limited capacity is to fit a micro
@@ -58,7 +58,7 @@ heap fragmentation. In general terms it is best to minimise the repeated
 creation and destruction of objects. The reason for this is covered in the
 section covering the `heap`_.
 
-Compilation Phase
+Compilation phase
 ~~~~~~~~~~~~~~~~~
 
 When a module is imported, MicroPython compiles the code to bytecode which is
@@ -85,7 +85,7 @@ imported in the usual way. Alternatively some or all modules may be implemented
 as frozen bytecode: on most platforms this saves even more RAM as the bytecode
 is run directly from flash rather than being stored in RAM.
 
-Execution Phase
+Execution phase
 ~~~~~~~~~~~~~~~
 
 There are a number of coding techniques for reducing RAM usage.
@@ -122,7 +122,7 @@ execution from Flash, RAM may be saved as follows. The data should be located in
 Python modules and frozen as bytecode. The data must be defined as `bytes`
 objects. The compiler 'knows' that `bytes` objects are immutable and ensures
 that the objects remain in flash memory rather than being copied to RAM. The
-`ustruct` module can assist in converting between `bytes` types and other
+`struct` module can assist in converting between `bytes` types and other
 Python built-in types.
 
 When considering the implications of frozen bytecode, note that in Python
@@ -261,7 +261,7 @@ were a string.
 The Python funcitons `eval` and `exec` invoke the compiler at runtime, which
 requires significant amounts of RAM. Note that the ``pickle`` library from
 `micropython-lib` employs `exec`. It may be more RAM efficient to use the
-`ujson` library for object serialisation.
+`json` library for object serialisation.
 
 **Storing strings in flash**
 
@@ -292,7 +292,7 @@ The Q(xxx) lines should be gone.
 
 .. _heap:
 
-The Heap
+The heap
 --------
 
 When a running program instantiates an object the necessary RAM is allocated
@@ -391,7 +391,7 @@ Symbol Meaning
 Each letter represents a single block of memory, a block being 16 bytes. So each
 line of the heap dump represents 0x400 bytes or 1KiB of RAM.
 
-Control of Garbage Collection
+Control of garbage collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A GC can be demanded at any time by issuing `gc.collect()`. It is advantageous
@@ -420,7 +420,7 @@ initialisation the compiler may be starved of RAM when subsequent modules are
 imported. If modules do instantiate data on import then `gc.collect()` issued
 after the import will ameliorate the problem.
 
-String Operations
+String operations
 -----------------
 
 MicroPython handles strings in an efficient manner and understanding this can
@@ -444,7 +444,7 @@ RAM usage and speed.
 
 Where variables are required whose size is neither a byte nor a machine word
 there are standard libraries which can assist in storing these efficiently and
-in performing conversions. See the `array`, `ustruct` and `uctypes`
+in performing conversions. See the `array`, `struct` and `uctypes`
 modules.
 
 Footnote: gc.collect() return value

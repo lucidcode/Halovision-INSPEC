@@ -2,21 +2,64 @@
 
 # run-test-suites.pl
 #
-# This file is part of mbed TLS (https://tls.mbed.org)
+# Copyright The Mbed TLS Contributors
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 #
-# Copyright (c) 2015-2016, ARM Limited, All Rights Reserved
+# This file is provided under the Apache License 2.0, or the
+# GNU General Public License v2.0 or later.
 #
-# Purpose
+# **********
+# Apache License 2.0:
 #
-# Executes all the available test suites, and provides a basic summary of the
-# results.
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Usage: run-test-suites.pl [-v]
+# http://www.apache.org/licenses/LICENSE-2.0
 #
-# Options :
-#   -v|--verbose    - Provide a pass/fail/skip breakdown per test suite and
-#                     in total
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
+# **********
+#
+# **********
+# GNU General Public License v2.0 or later:
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# **********
+
+=head1 SYNOPSIS
+
+Execute all the test suites and print a summary of the results.
+
+ run-test-suites.pl [[-v|--verbose] [VERBOSITY]] [--skip=SUITE[...]]
+
+Options:
+
+  -v|--verbose        Print detailed failure information.
+  -v 2|--verbose=2    Print detailed failure information and summary messages.
+  -v 3|--verbose=3    Print detailed information about every test case.
+  --skip=SUITE[,SUITE...]
+                      Skip the specified SUITE(s). This option can be used
+                      multiple times.
+
+=cut
 
 use warnings;
 use strict;
@@ -24,10 +67,15 @@ use strict;
 use utf8;
 use open qw(:std utf8);
 
-use Getopt::Long;
+use Getopt::Long qw(:config auto_help gnu_compat);
+use Pod::Usage;
 
 my $verbose = 0;
-GetOptions( "verbose|v:1" => \$verbose );
+my @skip_patterns = ();
+GetOptions(
+           'skip=s' => \@skip_patterns,
+           'verbose|v:1' => \$verbose,
+          ) or die;
 
 # All test suites = executable files, excluding source files, debug
 # and profiling information, etc. We can't just grep {! /\./} because
@@ -36,15 +84,27 @@ my @suites = grep { -x $_ || /\.exe$/ } glob 'test_suite_*';
 @suites = grep { !/\.c$/ && !/\.data$/ && -f } @suites;
 die "$0: no test suite found\n" unless @suites;
 
+# "foo" as a skip pattern skips "test_suite_foo" and "test_suite_foo.bar"
+# but not "test_suite_foobar".
+my $skip_re =
+    ( '\Atest_suite_(' .
+      join('|', map {
+          s/[ ,;]/|/g; # allow any of " ,;|" as separators
+          s/\./\./g; # "." in the input means ".", not "any character"
+          $_
+      } @skip_patterns) .
+      ')(\z|\.)' );
+
 # in case test suites are linked dynamically
-$ENV{'LD_LIBRARY_PATH'} = '../library:../crypto/library';
-$ENV{'DYLD_LIBRARY_PATH'} = '../library:../crypto/library';
+$ENV{'LD_LIBRARY_PATH'} = '../library';
+$ENV{'DYLD_LIBRARY_PATH'} = '../library';
 
 my $prefix = $^O eq "MSWin32" ? '' : './';
 
 my ($failed_suites, $total_tests_run, $failed, $suite_cases_passed,
     $suite_cases_failed, $suite_cases_skipped, $total_cases_passed,
     $total_cases_failed, $total_cases_skipped );
+my $suites_skipped = 0;
 
 sub pad_print_center {
     my( $width, $padchar, $string ) = @_;
@@ -55,6 +115,12 @@ sub pad_print_center {
 for my $suite (@suites)
 {
     print "$suite ", "." x ( 72 - length($suite) - 2 - 4 ), " ";
+    if( $suite =~ /$skip_re/o ) {
+        print "SKIP\n";
+        ++$suites_skipped;
+        next;
+    }
+
     my $command = "$prefix$suite";
     if( $verbose ) {
         $command .= ' -v';
@@ -65,7 +131,7 @@ for my $suite (@suites)
     $suite_cases_failed = () = $result =~ /.. FAILED/g;
     $suite_cases_skipped = () = $result =~ /.. ----/g;
 
-    if( $result =~ /PASSED/ ) {
+    if( $? == 0 ) {
         print "PASS\n";
         if( $verbose > 2 ) {
             pad_print_center( 72, '-', "Begin $suite" );
@@ -101,7 +167,10 @@ for my $suite (@suites)
 
 print "-" x 72, "\n";
 print $failed_suites ? "FAILED" : "PASSED";
-printf " (%d suites, %d tests run)\n", scalar @suites, $total_tests_run;
+printf( " (%d suites, %d tests run%s)\n",
+        scalar(@suites) - $suites_skipped,
+        $total_tests_run,
+        $suites_skipped ? ", $suites_skipped suites skipped" : "" );
 
 if( $verbose > 1 ) {
     print "  test cases passed :", $total_cases_passed, "\n";
@@ -111,8 +180,11 @@ if( $verbose > 1 ) {
             "\n";
     print " of available tests :",
             ( $total_cases_passed + $total_cases_failed + $total_cases_skipped ),
-            "\n"
+            "\n";
+    if( $suites_skipped != 0 ) {
+        print "Note: $suites_skipped suites were skipped.\n";
     }
+}
 
 exit( $failed_suites ? 1 : 0 );
 
