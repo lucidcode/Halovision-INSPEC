@@ -1,0 +1,69 @@
+{% macro peripheral(name, base_address) -%}
+    <peripheral>
+      <name>{{ name }}</name>
+      <description>Broadcom Power Manager</description>
+      <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x40</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>RSTC</name>
+          <description>Reset Control</description>
+          <addressOffset>0x1c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000102</resetValue>
+          <fields>
+            <field>
+              <name>PASSWD</name>
+              <description>Password. Always 0x5a</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+              <access>write-only</access>
+              <enumeratedValues>
+                <enumeratedValue><name>PASSWD</name><value>0x5a</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>WRCFG</name>
+              <description>Watchdog reset config</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>2</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>FULL_RESET</name><value>0x2</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>WDOG</name>
+          <description>Watchdog control</description>
+          <addressOffset>0x24</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>PASSWD</name>
+              <description>Password. Always 0x5a</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+              <access>write-only</access>
+              <enumeratedValues>
+                <enumeratedValue><name>PASSWD</name><value>0x5a</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>TIME</name>
+              <description>Time until watchdog alarm</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>20</bitWidth>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+{% endmacro %}

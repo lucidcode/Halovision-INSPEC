@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="deprecated" kind="page">
+    <compoundname>deprecated</compoundname>
+    <title>Deprecated List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Global <ref refid="group___u_s_i_c_1gae9984f496fe787c05b84dc6d1d65ee2e" kindref="member">XMC_USIC_CH_RXFIFO_SetSizeTriggerLimit</ref>  (<ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const channel, const XMC_USIC_CH_FIFO_SIZE_t size, const uint32_t limit)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000002"/>{ Use <ref refid="group___u_s_i_c_1ga3c05c804d8323d18d02d3bd30e3523ea" kindref="member">XMC_USIC_CH_RXFIFO_SetTriggerLimit()</ref> } </para>
+</listitem>
+<varlistentry><term>Global <ref refid="group___u_s_i_c_1ga6f77f046f48083e3e86735636e86490b" kindref="member">XMC_USIC_CH_TXFIFO_SetSizeTriggerLimit</ref>  (<ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const channel, const XMC_USIC_CH_FIFO_SIZE_t size, const uint32_t limit)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000001"/>{ Use <ref refid="group___u_s_i_c_1ga38937a6f31ca7d8b4ec880910fdf8925" kindref="member">XMC_USIC_CH_TXFIFO_SetTriggerLimit()</ref> }</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

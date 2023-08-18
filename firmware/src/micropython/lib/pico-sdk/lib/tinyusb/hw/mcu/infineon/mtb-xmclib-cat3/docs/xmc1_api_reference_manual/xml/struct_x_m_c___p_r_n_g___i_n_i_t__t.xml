@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___p_r_n_g___i_n_i_t__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_PRNG_INIT_t</compoundname>
+    <includes local="no">xmc_prng.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___p_r_n_g___i_n_i_t__t_1a4b87edc7670ff66f98de78d3a15980a1" prot="public" static="no" mutable="no">
+        <type><ref refid="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" kindref="member">XMC_PRNG_DATA_BLOCK_SIZE_t</ref></type>
+        <definition>XMC_PRNG_DATA_BLOCK_SIZE_t block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Block size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="135" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_r_n_g___i_n_i_t__t_1ae294d317ff78e6afef276dbd57b09d44" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t key_words[5]</definition>
+        <argsstring>[5]</argsstring>
+        <name>key_words</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Keywords </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="134" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Key words and data block size configuration values of PRNG <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the key word and data block configuration values of PRNG. The <ref refid="group___p_r_n_g_1ga21fe2808ff30944aff357280cb2d9774" kindref="member">XMC_PRNG_Init()</ref> can be used to populate the structure with the key word and data block configuration values of the PRNG module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="133" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="132" bodyend="136"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___p_r_n_g___i_n_i_t__t_1a4b87edc7670ff66f98de78d3a15980a1" prot="public" virt="non-virtual"><scope>XMC_PRNG_INIT_t</scope><name>block_size</name></member>
+      <member refid="struct_x_m_c___p_r_n_g___i_n_i_t__t_1ae294d317ff78e6afef276dbd57b09d44" prot="public" virt="non-virtual"><scope>XMC_PRNG_INIT_t</scope><name>key_words</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

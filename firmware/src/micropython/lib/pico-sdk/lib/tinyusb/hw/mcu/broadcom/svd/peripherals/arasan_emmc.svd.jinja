@@ -1,0 +1,743 @@
+{% macro peripheral(name, base_address, interrupt_offset=0) -%}
+    <peripheral>
+      <name>{{ name }}</name>
+      <description>Arasan SD3.0 Host AHB eMMC 4.4</description>
+      <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+      <headerStructName>Arasan_EMMC_Distributor</headerStructName>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x100</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <interrupt>
+          <name>EMMC</name>
+          <description>OR of EMMC and EMMC2</description>
+          <value>{{ interrupt_offset + 62 }}</value>
+      </interrupt>
+      <!-- Source: BCM2835 peripherals datasheet -->
+      <registers>
+        <register>
+          <name>ARG2</name>
+          <description>Argument for ACMD23 command</description>
+          <addressOffset>0x0000</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>BLKSIZECNT</name>
+          <description>Numer and size in bytes for data block to be transferred</description>
+          <addressOffset>0x0004</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>BLKCNT</name>
+              <description>Number of blocks to be transferred</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>16</bitWidth>
+            </field>
+            <field>
+              <name>BLKSIZE</name>
+              <description>Block size in bytes</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ARG1</name>
+          <description>Argument for everything but ACMD23</description>
+          <addressOffset>0x0008</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>CMDTM</name>
+          <description>Issue commands to the card</description>
+          <addressOffset>0x0c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CMD_INDEX</name>
+              <description>Command index to be issued</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>6</bitWidth>
+            </field>
+            <field>
+              <name>CMD_TYPE</name>
+              <description>Type of command to be issued</description>
+              <bitOffset>22</bitOffset>
+              <bitWidth>2</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>NORMAL</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>SUSPEND</name><value>0x1</value></enumeratedValue>
+                <enumeratedValue><name>RESUME</name><value>0x2</value></enumeratedValue>
+                <enumeratedValue><name>ABORT</name><value>0x3</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>CMD_ISDATA</name>
+              <description>Command involves data</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CMD_IXCHK_EN</name>
+              <description>Check that the response has the same command index</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CMD_CRCCHK_EN</name>
+              <description>Check the responses CRC</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CMD_RSPNS_TYPE</name>
+              <description>Type of expected response</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>2</bitWidth>
+              <enumeratedValues>
+                <name>RESPONSE</name>
+                <enumeratedValue><name>NONE</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>136BITS</name><value>0x1</value></enumeratedValue>
+                <enumeratedValue><name>48BITS</name><value>0x2</value></enumeratedValue>
+                <enumeratedValue><name>48BITS_USING_BUSY</name><value>0x3</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>TM_MULTI_BLOCK</name>
+              <description>Type of data transfer</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>SINGLE</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>MULTIPLE</name><value>0x1</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>TM_DAT_DIR</name>
+              <description>Direction of data transfer</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>1</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>HOST_TO_CARD</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>CARD_TO_HOST</name><value>0x1</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>TM_AUTO_CMD_EN</name>
+              <description>Command after completion</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>2</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>NONE</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>CMD12</name><value>0x1</value></enumeratedValue>
+                <enumeratedValue><name>CMD23</name><value>0x2</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>TM_BLKCNT_EN</name>
+              <description>Enable block counter</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>RESP0</name>
+          <description>Status bits of the response</description>
+          <addressOffset>0x10</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>RESP1</name>
+          <description>Bits 63:32 of CMD2 and CMD10 responses</description>
+          <addressOffset>0x14</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>RESP2</name>
+          <description>Bits 95:64 of CMD2 and CMD10 responses</description>
+          <addressOffset>0x18</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>RESP3</name>
+          <description>Bits 127:96 of CMD2 and CMD10 responses</description>
+          <addressOffset>0x1c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>DATA</name>
+          <description>Data to/from the card</description>
+          <addressOffset>0x20</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>STATUS</name>
+          <description>Status info for debugging</description>
+          <addressOffset>0x24</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>DAT_LEVEL1</name>
+              <description>Value of DAT[7:4]</description>
+              <bitOffset>25</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>CMD_LEVEL</name>
+              <description>Value of CMD</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>DAT_LEVEL0</name>
+              <description>Value of DAT[3:0]</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>BUFFER_READ_ENABLE</name>
+              <description>New data is available to read</description>
+              <bitOffset>11</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>BUFFER_WRITE_ENABLE</name>
+              <description>The buffer has space for new data</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>READ_TRANSFER</name>
+              <description>Read transfer is active</description>
+              <bitOffset>9</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>WRITE_TRANSFER</name>
+              <description>Write transfer is active</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>DAT_ACTIVE</name>
+              <description>At least one data line is active</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>DAT_INHIBIT</name>
+              <description>Data lines still in use</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CMD_INHIBIT</name>
+              <description>Command line still in use</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CONTROL0</name>
+          <description>Control</description>
+          <addressOffset>0x28</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>ALT_BOOT_EN</name>
+              <description>Enable alternate boot mode</description>
+              <bitOffset>22</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>BOOT_EN</name>
+              <description>Boot mode enabled</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>SPI_MODE</name>
+              <description>Enable SPI mode</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>GAP_IEN</name>
+              <description>Enable interrupt on block gap</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>READWAIT_EN</name>
+              <description>Use DAT2 read/wait protocol</description>
+              <bitOffset>18</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>GAP_RESTART</name>
+              <description>Restart a transaction stopped by GAP_STOP</description>
+              <bitOffset>17</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>GAP_STOP</name>
+              <description>Stop the current transaction at the next block gap</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>HCTL_8BIT</name>
+              <description>Use 8 data lines</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>HCTL_HS_EN</name>
+              <description>Enable high speed mode</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>HCTL_DWIDTH</name>
+              <description>Use 4 data lines</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CONTROL1</name>
+          <description>Configure</description>
+          <addressOffset>0x2c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>SRST_DATA</name>
+              <description>Reset the data handling circuit</description>
+              <bitOffset>26</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>SRST_CMD</name>
+              <description>Reset the command handling circuit</description>
+              <bitOffset>25</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>SRST_HC</name>
+              <description>Reset the complete host circuit</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>DATA_TOUNIT</name>
+              <description>Data timeout exponent (TMCLK * 2 ** (x + 13)) 1111 disabled</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>CLK_FREQ8</name>
+              <description>Clock base divider LSB</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+            <field>
+              <name>CLK_FREQ_MS2</name>
+              <description>Clock base divider MSBs</description>
+              <bitOffset>6</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>CLK_GENSEL</name>
+              <description>Mode of clock generation</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>DIVIDED</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>PROGRAMMABLE</name><value>0x1</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>CLK_EN</name>
+              <description>SD Clock enable</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CLK_STABLE</name>
+              <description>SD Clock stable</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>CLK_INTLEN</name>
+              <description>Enable internal clock</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>INTERRUPT</name>
+          <description>Interrupt flags</description>
+          <addressOffset>0x30</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field><bitOffset>24</bitOffset><name>ACMD_ERR</name><description>Auto command error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>22</bitOffset><name>DEND_ERR</name><description>Data end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>21</bitOffset><name>DCRC_ERR</name><description>Data CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>20</bitOffset><name>DTO_ERR</name><description>Data timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>19</bitOffset><name>CBAD_ERR</name><description>Incorrect response command index</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>18</bitOffset><name>CEND_ERR</name><description>Command end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>17</bitOffset><name>CCRC_ERR</name><description>Command CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>16</bitOffset><name>CTO_ERR</name><description>Command timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>15</bitOffset><name>ERR</name><description>An error has occured</description><bitWidth>1</bitWidth><access>read-only</access></field>
+            <field><bitOffset>14</bitOffset><name>ENDBOOT</name><description>Boot operation has terminated</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>13</bitOffset><name>BOOTACK</name><description>Boot has been acknowledged</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>12</bitOffset><name>RETUNE</name><description>Clock retune request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>8</bitOffset><name>CARD</name><description>Card made interrupt request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>5</bitOffset><name>READ_RDY</name><description>DATA contains data to be read</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>4</bitOffset><name>WRITE_RDY</name><description>DATA can be written to</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>2</bitOffset><name>BLOCK_GAP</name><description>Data transfer has stopped at block gap</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>1</bitOffset><name>DATA_DONE</name><description>Data transfer has finished</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>0</bitOffset><name>CMD_DONE</name><description>Command has finished</description><bitWidth>1</bitWidth></field>
+          </fields>
+        </register>
+        <register>
+          <name>IRPT_MASK</name>
+          <description>Mask interrupts that change in INTERRUPT</description>
+          <addressOffset>0x34</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field><bitOffset>24</bitOffset><name>ACMD_ERR</name><description>Auto command error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>22</bitOffset><name>DEND_ERR</name><description>Data end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>21</bitOffset><name>DCRC_ERR</name><description>Data CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>20</bitOffset><name>DTO_ERR</name><description>Data timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>19</bitOffset><name>CBAD_ERR</name><description>Incorrect response command index</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>18</bitOffset><name>CEND_ERR</name><description>Command end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>17</bitOffset><name>CCRC_ERR</name><description>Command CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>16</bitOffset><name>CTO_ERR</name><description>Command timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>14</bitOffset><name>ENDBOOT</name><description>Boot operation has terminated</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>13</bitOffset><name>BOOTACK</name><description>Boot has been acknowledged</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>12</bitOffset><name>RETUNE</name><description>Clock retune request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>8</bitOffset><name>CARD</name><description>Card made interrupt request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>5</bitOffset><name>READ_RDY</name><description>DATA contains data to be read</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>4</bitOffset><name>WRITE_RDY</name><description>DATA can be written to</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>2</bitOffset><name>BLOCK_GAP</name><description>Data transfer has stopped at block gap</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>1</bitOffset><name>DATA_DONE</name><description>Data transfer has finished</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>0</bitOffset><name>CMD_DONE</name><description>Command has finished</description><bitWidth>1</bitWidth></field>
+          </fields>
+        </register>
+        <register>
+          <name>IRPT_EN</name>
+          <description>Enable interrupt to core</description>
+          <addressOffset>0x38</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field><bitOffset>24</bitOffset><name>ACMD_ERR</name><description>Auto command error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>22</bitOffset><name>DEND_ERR</name><description>Data end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>21</bitOffset><name>DCRC_ERR</name><description>Data CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>20</bitOffset><name>DTO_ERR</name><description>Data timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>19</bitOffset><name>CBAD_ERR</name><description>Incorrect response command index</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>18</bitOffset><name>CEND_ERR</name><description>Command end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>17</bitOffset><name>CCRC_ERR</name><description>Command CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>16</bitOffset><name>CTO_ERR</name><description>Command timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>14</bitOffset><name>ENDBOOT</name><description>Boot operation has terminated</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>13</bitOffset><name>BOOTACK</name><description>Boot has been acknowledged</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>12</bitOffset><name>RETUNE</name><description>Clock retune request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>8</bitOffset><name>CARD</name><description>Card made interrupt request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>5</bitOffset><name>READ_RDY</name><description>DATA contains data to be read</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>4</bitOffset><name>WRITE_RDY</name><description>DATA can be written to</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>2</bitOffset><name>BLOCK_GAP</name><description>Data transfer has stopped at block gap</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>1</bitOffset><name>DATA_DONE</name><description>Data transfer has finished</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>0</bitOffset><name>CMD_DONE</name><description>Command has finished</description><bitWidth>1</bitWidth></field>
+          </fields>
+        </register>
+        <register>
+          <name>CONTROL2</name>
+          <description>Control 2</description>
+          <addressOffset>0x3c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>23</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>TUNED</name>
+              <description>Tuned clock is used for sampling data</description>
+            </field>
+            <field>
+              <bitOffset>22</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>TUNEON</name>
+              <description>SD Clock tune in progress</description>
+            </field>
+            <field>
+              <bitOffset>16</bitOffset>
+              <bitWidth>3</bitWidth>
+              <name>UHSMODE</name>
+              <description>Select the speed of the SD card</description>
+              <enumeratedValues>
+                <enumeratedValue><name>SDR12</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>SDR25</name><value>0x1</value></enumeratedValue>
+                <enumeratedValue><name>SDR50</name><value>0x2</value></enumeratedValue>
+                <enumeratedValue><name>SDR104</name><value>0x3</value></enumeratedValue>
+                <enumeratedValue><name>DDR50</name><value>0x4</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>NOTC12_ERR</name>
+              <description>Error during auto CMD12</description>
+              <access>read-only</access>
+            </field>
+            <field>
+              <bitOffset>4</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>ACBAD_ERR</name>
+              <description>Command index error during auto command</description>
+              <access>read-only</access>
+            </field>
+            <field>
+              <bitOffset>3</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>ACEND_ERR</name>
+              <description>End bit is not 1 during auto command</description>
+              <access>read-only</access>
+            </field>
+            <field>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>ACCRC_ERR</name>
+              <description>Command CRC error during auto command</description>
+              <access>read-only</access>
+            </field>
+            <field>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>ACTO_ERR</name>
+              <description>Auto command timeout</description>
+              <access>read-only</access>
+            </field>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>ACNOX_ERR</name>
+              <description>Auto command not executed due to an error</description>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>FORCE_IRPT</name>
+          <description>Force an interrupt</description>
+          <addressOffset>0x50</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field><bitOffset>24</bitOffset><name>ACMD_ERR</name><description>Auto command error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>22</bitOffset><name>DEND_ERR</name><description>Data end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>21</bitOffset><name>DCRC_ERR</name><description>Data CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>20</bitOffset><name>DTO_ERR</name><description>Data timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>19</bitOffset><name>CBAD_ERR</name><description>Incorrect response command index</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>18</bitOffset><name>CEND_ERR</name><description>Command end bit error (not 1)</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>17</bitOffset><name>CCRC_ERR</name><description>Command CRC error</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>16</bitOffset><name>CTO_ERR</name><description>Command timeout</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>14</bitOffset><name>ENDBOOT</name><description>Boot operation has terminated</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>13</bitOffset><name>BOOTACK</name><description>Boot has been acknowledged</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>12</bitOffset><name>RETUNE</name><description>Clock retune request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>8</bitOffset><name>CARD</name><description>Card made interrupt request</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>5</bitOffset><name>READ_RDY</name><description>DATA contains data to be read</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>4</bitOffset><name>WRITE_RDY</name><description>DATA can be written to</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>2</bitOffset><name>BLOCK_GAP</name><description>Data transfer has stopped at block gap</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>1</bitOffset><name>DATA_DONE</name><description>Data transfer has finished</description><bitWidth>1</bitWidth></field>
+            <field><bitOffset>0</bitOffset><name>CMD_DONE</name><description>Command has finished</description><bitWidth>1</bitWidth></field>
+          </fields>
+        </register>
+        <register>
+          <name>BOOT_TIMEOUT</name>
+          <description>Number of SD clock cycles to wait for boot</description>
+          <addressOffset>0x70</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>DBG_SEL</name>
+          <description>What submodules are accessed by the debug bus</description>
+          <addressOffset>0x74</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+              <name>SELECT</name>
+              <enumeratedValues>
+                <enumeratedValue><name>RECEIVER_FIFO</name><value>0x0</value></enumeratedValue>
+                <enumeratedValue><name>OTHERS</name><value>0x1</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>EXRDFIFO_CFG</name>
+          <description>Fine tune DMA request generation</description>
+          <addressOffset>0x80</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>RD_THRSH</name>
+              <description>Read threshold in 32 bit words</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>EXRDFIFO_EN</name>
+          <description>Enable the extension data register</description>
+          <addressOffset>0x84</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>ENABLE</name>
+              <description>Enable the extension FIFO</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TUNE_STEP</name>
+          <description>Sample clock delay step duration</description>
+          <addressOffset>0x88</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>3</bitWidth>
+              <name>DELAY</name>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TUNE_STEPS_STD</name>
+          <description>Sample clock delay step count for SDR</description>
+          <addressOffset>0x8c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>6</bitWidth>
+              <name>STEPS</name>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TUNE_STEPS_DDR</name>
+          <description>Sample clock delay step count for DDR</description>
+          <addressOffset>0x90</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>6</bitWidth>
+              <name>STEPS</name>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SPI_INT_SPT</name>
+          <description>Interrupts in SPI mode depend on CS</description>
+          <addressOffset>0xf0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>8</bitWidth>
+              <name>SELECT</name>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SLOTISR_VER</name>
+          <description>Version information and slot interrupt status</description>
+          <addressOffset>0xfc</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+              <name>VENDOR</name>
+              <description>Vendor version number</description>
+            </field>
+            <field>
+              <bitOffset>16</bitOffset>
+              <bitWidth>8</bitWidth>
+              <name>SDVERSION</name>
+              <description>Host controller specification version</description>
+            </field>
+            <field>
+              <bitOffset>0</bitOffset>
+              <bitWidth>8</bitWidth>
+              <name>SLOT_STATUS</name>
+              <description>OR of interrupt and wakeup signals for each slot</description>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+{%- endmacro %}

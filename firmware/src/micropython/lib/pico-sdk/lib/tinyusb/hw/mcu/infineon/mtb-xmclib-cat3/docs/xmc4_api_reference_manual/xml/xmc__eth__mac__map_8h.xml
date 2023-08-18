@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__eth__mac__map_8h" kind="file" language="C++">
+    <compoundname>xmc_eth_mac_map.h</compoundname>
+    <includedby refid="xmc__eth__mac_8h" local="yes">xmc_eth_mac.h</includedby>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1aee432283ad9f91240fed3c4aaff83eed" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1aee432283ad9f91240fed3c4aaff83eeda576880c897e73910d02cf4f462257a6c" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P2_1</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RMIIA PHY clock </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1aee432283ad9f91240fed3c4aaff83eeda5bcf897ffe83ffbdee47a214d60a2803" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P0_0</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RMIIB PHY clock </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1aee432283ad9f91240fed3c4aaff83eeda3e82fbe4ca8062be001ec87feba5d35e" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P15_8</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RMIIC PHY clock </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1aee432283ad9f91240fed3c4aaff83eedab215155d630c803aad69107cdc80c93d" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P6_5</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RMIID PHY clock </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC PHY clock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="106" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1a839bac3dcaf387ef7014fb186318f31d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_CLK_TX_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1a839bac3dcaf387ef7014fb186318f31daee3c4f6ce08dc9c4e73c6fa43ddf1914" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CLK_TX_P5_10</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CLK_TXA PHY transmit clock </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a839bac3dcaf387ef7014fb186318f31da567ebb554e3d39bcbb2b669073dce4fc" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CLK_TX_P6_6</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CLK_TXB PHY transmit clock </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH PHY transmit clock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="156" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="155" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1a5518855c9f46b0f9ffbd5fc9e5cabfa1" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_COL_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1a5518855c9f46b0f9ffbd5fc9e5cabfa1ac405faefd18519e95a4f69c98b2d1010" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_COL_P2_15</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_COLA collision detection </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a5518855c9f46b0f9ffbd5fc9e5cabfa1a099b725265a5c54fccc140e044387e8b" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_COL_P5_5</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_COLD collision detection </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC collision detection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="147" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1ab761e91b90e29cb6172a23ce61c74971" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_CRS_DV_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1ab761e91b90e29cb6172a23ce61c74971a9fee9be4f338f65999ed78f75f23bc80" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P2_5</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CRS_DVA carrier sense data valid </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1ab761e91b90e29cb6172a23ce61c74971ac8a4db6f87acf5f044a16644e0b70149" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P0_1</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CRS_DVB carrier sense data valid </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1ab761e91b90e29cb6172a23ce61c74971a513312656fc9adc962660b4c7adddeb6" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P15_9</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CRS_DVC carrier sense data valid </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1ab761e91b90e29cb6172a23ce61c74971a30e60b61498277a6cd6627d210c8e74f" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P5_2</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CRS_DVD carrier sense data valid </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC carrier sense data valid </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="117" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1a2ffec4d6600a43f8812f3598edbbb194" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_CRS_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1a2ffec4d6600a43f8812f3598edbbb194aac8539500e95368f40d7a177f4473376" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CRS_P5_11</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CRSA carrier sense </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a2ffec4d6600a43f8812f3598edbbb194afa9076470e60af856bfe61b3d4b1ca66" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_CRS_P5_4</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_CRSD carrier sense </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC carrier sense </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="128" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="127" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1aadbbfbd97609a315e8f434c11daa4d43" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_MDIO_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1aadbbfbd97609a315e8f434c11daa4d43af5157c5e4354806c55a613d00b32f819" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_MDIO_P0_9</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_MDIOA management data I/O </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1aadbbfbd97609a315e8f434c11daa4d43a29d97a538202118daf0378e1c9f3ff15" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_MDIO_P2_0</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_MDIOB management data I/O </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1aadbbfbd97609a315e8f434c11daa4d43aa5f95ab9d356758686bb70246d5ada12" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_MDIO_P1_11</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_MDIOC management data I/O </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH management data I/O </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="165" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="164" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1afe6af75c65ea811dc70c34faeb5c5eab" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_MODE_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1afe6af75c65ea811dc70c34faeb5c5eaba4a5228e30ca8463a72aeb011af6a42ce" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_MODE_MII</name>
+          <initializer>= 0x0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>MII mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1afe6af75c65ea811dc70c34faeb5c5eaba353e71fb7cf18d017a12e17202c18ed0" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_MODE_RMII</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RMII mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC interface mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="57" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1add8058920755e40b2c44a5fb0a10246f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_RXD0_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1add8058920755e40b2c44a5fb0a10246fa0ed3bcedba59a323d9d9b09ff3614195" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD0_P2_2</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD0A receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1add8058920755e40b2c44a5fb0a10246fafcbcf1bd57a6dfbccf7c1f26e73d3fa6" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD0_P0_2</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD0B receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1add8058920755e40b2c44a5fb0a10246fadea0123ebe3d472b609ba3ac3111cc30" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD0_P14_8</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD0C receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1add8058920755e40b2c44a5fb0a10246fae3e9a374a796583521e68771a607c674" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD0_P5_0</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD0D receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC receive data 0 line </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="66" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="65" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1ade47cef7be2f1e50e22203cd6ac329ca" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_RXD1_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1ade47cef7be2f1e50e22203cd6ac329caa7d959f01b0ba4a1d1d4ea0f2665141f5" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD1_P2_3</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD1A receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1ade47cef7be2f1e50e22203cd6ac329caa59c2ffac76d3a82886120bb4be859628" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD1_P0_3</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD1B receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1ade47cef7be2f1e50e22203cd6ac329caacb5e7811ee0fed9f6d3230ed545da87e" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD1_P14_9</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD1C receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1ade47cef7be2f1e50e22203cd6ac329caa89d7f3a30a4bdd44ca61570f96f0ad03" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD1_P5_1</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD1D receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC receive data 1 line </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="77" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1a8195ea89b5b83d16756b019c1d16927a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_RXD2_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1a8195ea89b5b83d16756b019c1d16927aad9473178aa8d814e28974b919c0425d3" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD2_P5_8</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD2A receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a8195ea89b5b83d16756b019c1d16927aa164234a419a0e14c7b132758705e7f41" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD2_P6_4</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD2B receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC receive data 2 line </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="88" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1a1a9dfc7e409fe0b0e4a513fbd732acc4" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_RXD3_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1a1a9dfc7e409fe0b0e4a513fbd732acc4ad9aa9645f5b5f459a01b5b6a60f33038" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD3_P5_9</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD3A Receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a1a9dfc7e409fe0b0e4a513fbd732acc4a26a38f815262d1f194a2134e46607d49" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXD3_P6_3</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RXD3B Receive data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC receive data 3 line </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="97" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="96" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="enum" id="xmc__eth__mac__map_8h_1a41fde6a451382219711812bbb132b764" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_MAC_PORT_CTRL_RXER_t</name>
+        <enumvalue id="xmc__eth__mac__map_8h_1a41fde6a451382219711812bbb132b764a598593a10a53ad24a9dd4572013e22c6" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXER_P2_4</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RXERA carrier sense </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a41fde6a451382219711812bbb132b764a8bcf2b74a9fae03fc89df74c7e313b89" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXER_P0_11</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RXERB carrier sense </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="xmc__eth__mac__map_8h_1a41fde6a451382219711812bbb132b764a0e65ac07db9c7d395745ca540a20d39d" prot="public">
+          <name>XMC_ETH_MAC_PORT_CTRL_RXER_P5_3</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>XMC_ETH_RXERD carrier sense </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH MAC receive error </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" line="137" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h" bodystart="136" bodyend="141"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-06-20 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="50"><highlight class="preprocessor">#ifndef<sp/>XMC_ETH_MAC_MAP_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ETH_MAC_MAP_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_MODE</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_MODE_MII<sp/><sp/>=<sp/>0x0U,<sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_MODE_RMII<sp/>=<sp/>0x1U<sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_MODE_t;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_RXD0</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD0_P2_2<sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD0_P0_2<sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD0_P14_8<sp/>=<sp/>2U,<sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD0_P5_0<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_RXD0_t;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_RXD1</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD1_P2_3<sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD1_P0_3<sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD1_P14_9<sp/>=<sp/>2U,<sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD1_P5_1<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_RXD1_t;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_RXD2</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD2_P5_8<sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD2_P6_4<sp/>=<sp/>1U<sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_RXD2_t;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_RXD3</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD3_P5_9<sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXD3_P6_3<sp/>=<sp/>1U<sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_RXD3_t;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_RMII</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P2_1<sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P0_0<sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P15_8<sp/>=<sp/>2U,<sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_P6_5<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_CLK_RMII_t;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_DV</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P2_5<sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P0_1<sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P15_9<sp/>=<sp/>2U,<sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_DV_P5_2<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_CRS_DV_t;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_CRS</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_P5_11<sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CRS_P5_4<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_CRS_t;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_RXER</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXER_P2_4<sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXER_P0_11<sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_RXER_P5_3<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_RXER_t;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_COL</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_COL_P2_15<sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_COL_P5_5<sp/><sp/>=<sp/>3U<sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_COL_t;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_TX</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_TX_P5_10<sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_CLK_TX_P6_6<sp/><sp/>=<sp/>1U<sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_CLK_TX_t;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_MAC_PORT_CTRL_MDIO</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_MDIO_P0_9<sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_MDIO_P2_0<sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/>XMC_ETH_MAC_PORT_CTRL_MDIO_P1_11<sp/>=<sp/>2U<sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/>XMC_ETH_MAC_PORT_CTRL_MDIO_t;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac_map.h"/>
+  </compounddef>
+</doxygen>

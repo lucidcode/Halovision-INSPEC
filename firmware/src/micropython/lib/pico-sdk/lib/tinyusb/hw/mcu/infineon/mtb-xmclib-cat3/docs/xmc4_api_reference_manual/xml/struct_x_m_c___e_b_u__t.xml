@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1af4ed6b041d0a802bd9cfb40ab0d2d3df" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t ADDRSEL[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>ADDRSEL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1057" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1057" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1acc3790f582d47faabcc31d3389746ba2" prot="public" static="no" mutable="no">
+        <type>struct XMC_EBU_t::@148</type>
+        <definition>struct XMC_EBU_t::@148  BUS[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>BUS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1064" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1ac9a0dbf3eaccce574b9c5ae4edfca9f5" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t CLC</definition>
+        <argsstring></argsstring>
+        <name>CLC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1052" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1052" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t ID</definition>
+        <argsstring></argsstring>
+        <name>ID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1054" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1054" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a81873fa83fb29241bd9861429c1a33dd" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t MODCON</definition>
+        <argsstring></argsstring>
+        <name>MODCON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1053" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1053" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a06e4fa36bad54761735dd550090716ec" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t RDAPR</definition>
+        <argsstring></argsstring>
+        <name>RDAPR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1061" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1061" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a3872a09c82eeff815a0d495672d354f9" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t RDCON</definition>
+        <argsstring></argsstring>
+        <name>RDCON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1060" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1060" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1afa4dc3d56731301faf2021a9ce818a59" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED0[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>RESERVED0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1056" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1056" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1abf4f0c66af5535c5a4d14e674108d146" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SDRMCON</definition>
+        <argsstring></argsstring>
+        <name>SDRMCON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1065" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1065" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a573c3da3e86fceac33fdc6162a251eaf" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SDRMOD</definition>
+        <argsstring></argsstring>
+        <name>SDRMOD</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1066" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1066" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a1bf69191d08ce85c15910c4db50bb3fd" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SDRMREF</definition>
+        <argsstring></argsstring>
+        <name>SDRMREF</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1067" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1067" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a47e986867b139a9cd363e9dc7fd0a015" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t SDRSTAT</definition>
+        <argsstring></argsstring>
+        <name>SDRSTAT</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1068" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1068" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a9bfe93ad086dc4d742882ef017d30909" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t USERCON</definition>
+        <argsstring></argsstring>
+        <name>USERCON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1055" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1055" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1a2196ae76a7956786bde12982213d0b30" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t WRAPR</definition>
+        <argsstring></argsstring>
+        <name>WRAPR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1063" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1063" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u__t_1af3efd31e5873053ad7fc524579112bb6" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t WRCON</definition>
+        <argsstring></argsstring>
+        <name>WRCON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1062" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1062" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>External Bus Unit (EBU) device structure <linebreak/>
+</para>
+<para>The structure represents a collection of all hardware registers used to configure the EBU peripheral on the XMC4500 microcontroller. The registers can be accessed with <ref refid="group___e_b_u_1gadc8223c780649220ed5289396e451774" kindref="member">XMC_EBU</ref>. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1051" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1050" bodyend="1069"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u__t_1af4ed6b041d0a802bd9cfb40ab0d2d3df" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>ADDRSEL</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1acc3790f582d47faabcc31d3389746ba2" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>BUS</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1ac9a0dbf3eaccce574b9c5ae4edfca9f5" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>CLC</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>ID</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a81873fa83fb29241bd9861429c1a33dd" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>MODCON</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a06e4fa36bad54761735dd550090716ec" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>RDAPR</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a3872a09c82eeff815a0d495672d354f9" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>RDCON</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1afa4dc3d56731301faf2021a9ce818a59" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>RESERVED0</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1abf4f0c66af5535c5a4d14e674108d146" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>SDRMCON</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a573c3da3e86fceac33fdc6162a251eaf" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>SDRMOD</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a1bf69191d08ce85c15910c4db50bb3fd" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>SDRMREF</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a47e986867b139a9cd363e9dc7fd0a015" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>SDRSTAT</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a9bfe93ad086dc4d742882ef017d30909" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>USERCON</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1a2196ae76a7956786bde12982213d0b30" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>WRAPR</name></member>
+      <member refid="struct_x_m_c___e_b_u__t_1af3efd31e5873053ad7fc524579112bb6" prot="public" virt="non-virtual"><scope>XMC_EBU_t</scope><name>WRCON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

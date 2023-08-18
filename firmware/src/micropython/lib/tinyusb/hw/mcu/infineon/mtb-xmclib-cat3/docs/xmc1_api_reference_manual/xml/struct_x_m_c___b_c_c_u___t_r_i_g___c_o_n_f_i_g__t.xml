@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_BCCU_TRIG_CONFIG_t</compoundname>
+    <includes local="no">xmc_bccu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1aed08ffc38eebf565b1fff23a52dbd630" prot="public" static="no" mutable="no">
+        <type><ref refid="group___b_c_c_u_1ga6f6fb567878a0d4ba8918f35fc95f195" kindref="member">XMC_BCCU_TRIGDELAY_t</ref></type>
+        <definition>XMC_BCCU_TRIGDELAY_t delay</definition>
+        <argsstring></argsstring>
+        <name>delay</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects global trigger delay between channel trigger &amp; BCCU trigger </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="424" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1adfe8bd0996e1960d650f4c0052e64b26" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t mask_chans</definition>
+        <argsstring></argsstring>
+        <name>mask_chans</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Channel mask to configure trigger settings for multiple channels <bold>For example:</bold> If channel 0 and 7, wants to configure then the channel mask is 01000 0001 = 0x81<linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="425" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1a471310d6e261252f685a42e5683f6797" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t mask_trig_lines</definition>
+        <argsstring></argsstring>
+        <name>mask_trig_lines</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger line mask </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="427" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1ae657eacd24ae2ba79acde076cfe83a57" prot="public" static="no" mutable="no">
+        <type><ref refid="group___b_c_c_u_1ga84257e9d3bdd4274a489fe19660bebb6" kindref="member">XMC_BCCU_TRIGMODE_t</ref></type>
+        <definition>XMC_BCCU_TRIGMODE_t mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects global trigger mode which decides when to occur BCCU trigger </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="423" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configures global trigger settings of the BCCU module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="422" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="421" bodyend="428"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1aed08ffc38eebf565b1fff23a52dbd630" prot="public" virt="non-virtual"><scope>XMC_BCCU_TRIG_CONFIG_t</scope><name>delay</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1adfe8bd0996e1960d650f4c0052e64b26" prot="public" virt="non-virtual"><scope>XMC_BCCU_TRIG_CONFIG_t</scope><name>mask_chans</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1a471310d6e261252f685a42e5683f6797" prot="public" virt="non-virtual"><scope>XMC_BCCU_TRIG_CONFIG_t</scope><name>mask_trig_lines</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___t_r_i_g___c_o_n_f_i_g__t_1ae657eacd24ae2ba79acde076cfe83a57" prot="public" virt="non-virtual"><scope>XMC_BCCU_TRIG_CONFIG_t</scope><name>mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

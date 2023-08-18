@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___p_a_u__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_PAU_t</compoundname>
+    <includes local="no">xmc_pau.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1a29c69d10bd79457bbc2d63ccbefe1680" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t AVAIL[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>AVAIL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="259" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1a0f815a88cdba44d06932e4faa932efaf" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t FLSIZE</definition>
+        <argsstring></argsstring>
+        <name>FLSIZE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="264" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1a13cbe344759e25cb29eead25d8e2982b" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PRIVDIS[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>PRIVDIS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="261" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1ac42c0da3436d0d7af3cbb8e14361676e" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RAM0SIZE</definition>
+        <argsstring></argsstring>
+        <name>RAM0SIZE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="266" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1a4aed3944c6bf483467815d6bc7c64468" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED0[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>RESERVED0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="258" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1a70831587c3265763ad417e7c76acd15d" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED1[13]</definition>
+        <argsstring>[13]</argsstring>
+        <name>RESERVED1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="260" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1a7244cd42cd01ae51c7da0680299af935" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED2[221]</definition>
+        <argsstring>[221]</argsstring>
+        <name>RESERVED2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="262" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1ab6690179780c275717ace645dbd3217c" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED3[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>RESERVED3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="265" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_a_u__t_1af821b2411892de71937dac3240be1703" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t ROMSIZE</definition>
+        <argsstring></argsstring>
+        <name>ROMSIZE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="263" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>External Peripheral Access Unit (PAU) device structure <linebreak/>
+</para>
+<para>The structure represents a collection of all hardware registers used to configure the PAU peripheral on the XMC microcontroller. The registers can be accessed with <ref refid="group___p_a_u_1ga36591736444bb39705e087ab5ebd1066" kindref="member">XMC_PAU</ref>. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="257" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="256" bodyend="267"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___p_a_u__t_1a29c69d10bd79457bbc2d63ccbefe1680" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>AVAIL</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1a0f815a88cdba44d06932e4faa932efaf" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>FLSIZE</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1a13cbe344759e25cb29eead25d8e2982b" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>PRIVDIS</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1ac42c0da3436d0d7af3cbb8e14361676e" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>RAM0SIZE</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1a4aed3944c6bf483467815d6bc7c64468" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>RESERVED0</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1a70831587c3265763ad417e7c76acd15d" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>RESERVED1</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1a7244cd42cd01ae51c7da0680299af935" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>RESERVED2</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1ab6690179780c275717ace645dbd3217c" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>RESERVED3</name></member>
+      <member refid="struct_x_m_c___p_a_u__t_1af821b2411892de71937dac3240be1703" prot="public" virt="non-virtual"><scope>XMC_PAU_t</scope><name>ROMSIZE</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

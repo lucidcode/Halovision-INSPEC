@@ -1,0 +1,3093 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___s_p_i" kind="group">
+    <compoundname>SPI</compoundname>
+    <title>Synchronous serial channel for SPI</title>
+    <innerclass refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" prot="public">XMC_SPI_CH_CONFIG_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___s_p_i_1gaf703b28cb6fe62eec40258bbb4b2381e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_OUTPUT_t</name>
+        <enumvalue id="group___s_p_i_1ggaf703b28cb6fe62eec40258bbb4b2381eae57defba0e28b37387753485a740acf2" prot="public">
+          <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_OUTPUT_SCLK</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_OUTPUT_SCLK</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baudrate Generator shift clock output: SCLK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1ggaf703b28cb6fe62eec40258bbb4b2381eae8aea9225b3233a8cf60f426bb0368f8" prot="public">
+          <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_OUTPUT_DX1</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_OUTPUT_DX1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Clock obtained as input from master: DX1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI Baudrate Generator shift clock output </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="325" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="324" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1gad62a419e5f01dc507f3f731995873fe4" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_t</name>
+        <enumvalue id="group___s_p_i_1ggad62a419e5f01dc507f3f731995873fe4a60da59e367df81e02204c193307c7543" prot="public">
+          <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_0_DELAY_DISABLED</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_0_DELAY_DISABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Passive clock level 0, delay disabled Passive clock level 1, delay disabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1ggad62a419e5f01dc507f3f731995873fe4adba7c97cc13e382c36fb79a927ba779d" prot="public">
+          <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_1_DELAY_DISABLED</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_1_DELAY_DISABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Passive clock level 0, delay enabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1ggad62a419e5f01dc507f3f731995873fe4a5d8efe2fd3be3cbb88685afcfc7f4e04" prot="public">
+          <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_0_DELAY_ENABLED</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_0_DELAY_ENABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Passive clock level 1, delay enabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1ggad62a419e5f01dc507f3f731995873fe4af17533483b9c436c86e509a4339fc067" prot="public">
+          <name>XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_1_DELAY_ENABLED</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_1_DELAY_ENABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI Baudrate Generator shift clock passive level </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="292" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="291" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1gaaf40703e598cf0bd196246cc048dda10" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_BUS_MODE_t</name>
+        <enumvalue id="group___s_p_i_1ggaaf40703e598cf0bd196246cc048dda10a6535e33ac253d974dbdade07b9bdc6d5" prot="public">
+          <name>XMC_SPI_CH_BUS_MODE_MASTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SPI Master </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1ggaaf40703e598cf0bd196246cc048dda10a6ded2d0050c88da873e2cfc0167d3e54" prot="public">
+          <name>XMC_SPI_CH_BUS_MODE_SLAVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SPI Slave </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the SPI bus mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="164" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="163" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga3d2e9e07d36e47a2840855c7761f3d2f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_DATA_POLARITY_t</name>
+        <enumvalue id="group___s_p_i_1gga3d2e9e07d36e47a2840855c7761f3d2fa07561a103212e36eb152fad4c6e0bc09" prot="public">
+          <name>XMC_SPI_CH_DATA_POLARITY_DIRECT</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The polarity of the data line is not inverted </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga3d2e9e07d36e47a2840855c7761f3d2fad4dced7ef4a2819a36fabb92a24a160b" prot="public">
+          <name>XMC_SPI_CH_DATA_POLARITY_INVERT</name>
+          <initializer>= 0x1UL &lt;&lt; USIC_CH_DX2CR_DPOL_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The polarity of the data line is inverted </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the Polarity of the data inputs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="185" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="184" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga7cf84a07d3e3970c1b09369fcf3c12db" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_EVENT_t</name>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dba4b9fc48875e84294585b5b62cd5faea3" prot="public">
+          <name>XMC_SPI_CH_EVENT_RECEIVE_START</name>
+          <initializer>= USIC_CH_CCR_RSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive start event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dba45328c5bfb41c4fa0d7fc47e51640c6d" prot="public">
+          <name>XMC_SPI_CH_EVENT_DATA_LOST</name>
+          <initializer>= USIC_CH_CCR_DLIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data lost event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dbadd8d1e2334f16528a036b045c0c9eefc" prot="public">
+          <name>XMC_SPI_CH_EVENT_TRANSMIT_SHIFT</name>
+          <initializer>= USIC_CH_CCR_TSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit shift event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dbaf08fec199ecb9705918d10cdb24ed446" prot="public">
+          <name>XMC_SPI_CH_EVENT_TRANSMIT_BUFFER</name>
+          <initializer>= USIC_CH_CCR_TBIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit buffer event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dba0accbca5448646b799940028bd294fe8" prot="public">
+          <name>XMC_SPI_CH_EVENT_STANDARD_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_RIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dba1b751bd9beb2fcbcaaf6afd59ced9b94" prot="public">
+          <name>XMC_SPI_CH_EVENT_ALTERNATIVE_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_AIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Alternate receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dba33d6fbed5535423f89e0413eb7f0ff34" prot="public">
+          <name>XMC_SPI_CH_EVENT_BAUD_RATE_GENERATOR</name>
+          <initializer>= USIC_CH_CCR_BRGIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baudrate generator event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dbaeccd57639b56f8276d0cf3d4ff23285e" prot="public">
+          <name>XMC_SPI_CH_EVENT_PARITY_ERROR</name>
+          <initializer>= USIC_CH_PCR_SSCMode_PARIEN_Msk &gt;&gt; 13U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Parity error event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dba9957b6f9ec5e89ec4fe744ca9b85cb9a" prot="public">
+          <name>XMC_SPI_CH_EVENT_MSLS_CHANGE</name>
+          <initializer>=  USIC_CH_PCR_SSCMode_MSLSIEN_Msk &gt;&gt; 13U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Master slave select(MSLS) output transition event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7cf84a07d3e3970c1b09369fcf3c12dbab0ccd895a632344bf17ad5003af08965" prot="public">
+          <name>XMC_SPI_CH_EVENT_DX2TIEN_ACTIVATED</name>
+          <initializer>= USIC_CH_PCR_SSCMode_DX2TIEN_Msk &gt;&gt; 13U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave select input signal transition event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines SPI specific events </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="209" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="208" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga52dd53cd4c107af8f6d72c6c6a011886" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_INPUT_FREQ_SLAVE_SELECT_DELAY_t</name>
+        <enumvalue id="group___s_p_i_1gga52dd53cd4c107af8f6d72c6c6a011886a58b64a73bcb7179ea3154579254725c2" prot="public">
+          <name>XMC_SPI_CH_INPUT_FREQ_SLAVE_SELECT_DELAY_FPDIV</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Output of PDIV divider: FPDIV </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga52dd53cd4c107af8f6d72c6c6a011886aae8eded70ac9defd6fa10321482aecda" prot="public">
+          <name>XMC_SPI_CH_INPUT_FREQ_SLAVE_SELECT_DELAY_FPPP</name>
+          <initializer>= 0x1UL &lt;&lt; USIC_CH_PCR_SSCMode_CTQSEL1_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Peripheral clock: FPPP </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga52dd53cd4c107af8f6d72c6c6a011886a0c2051effe9ccca3dcd9f959874c4d36" prot="public">
+          <name>XMC_SPI_CH_INPUT_FREQ_SLAVE_SELECT_DELAY_FSCLK</name>
+          <initializer>= 0x2UL &lt;&lt; USIC_CH_PCR_SSCMode_CTQSEL1_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Shift clock: FSCLK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga52dd53cd4c107af8f6d72c6c6a011886ad52df965918f9e56f530f872ed792d02" prot="public">
+          <name>XMC_SPI_CH_INPUT_FREQ_SLAVE_SELECT_DELAY_FMCLK</name>
+          <initializer>= 0x3UL &lt;&lt; USIC_CH_PCR_SSCMode_CTQSEL1_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Master clock: FMCLK </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines input frequency sources for slave select signal delay configuration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="256" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="255" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_INPUT_t</name>
+        <enumvalue id="group___s_p_i_1gga5e1e7ef1aea059d58462c59b0fd75f8fa3730321c216c06c0ae39693e68786d4c" prot="public">
+          <name>XMC_SPI_CH_INPUT_DIN0</name>
+          <initializer>= 0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga5e1e7ef1aea059d58462c59b0fd75f8fa5b0aed31501650341a5710a8db35b40a" prot="public">
+          <name>XMC_SPI_CH_INPUT_SLAVE_SCLKIN</name>
+          <initializer>= 1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Clock input stage </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga5e1e7ef1aea059d58462c59b0fd75f8fa96fe102aaf89df811f501ca34f3967a0" prot="public">
+          <name>XMC_SPI_CH_INPUT_SLAVE_SELIN</name>
+          <initializer>= 2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave select input stage </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga5e1e7ef1aea059d58462c59b0fd75f8fa32f593df13abbed01017df7ea1cd9b11" prot="public">
+          <name>XMC_SPI_CH_INPUT_DIN1</name>
+          <initializer>= 3UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga5e1e7ef1aea059d58462c59b0fd75f8fad7d757c2e37f1d9678ee76c5ac58cd9b" prot="public">
+          <name>XMC_SPI_CH_INPUT_DIN2</name>
+          <initializer>= 4UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga5e1e7ef1aea059d58462c59b0fd75f8fadce039080e9a2e2795af411defb8a17e" prot="public">
+          <name>XMC_SPI_CH_INPUT_DIN3</name>
+          <initializer>= 5UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Define data and clock input stages </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="267" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="266" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga6396e4407b48373dd88ce24c1e229635" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_INTERRUPT_NODE_POINTER_t</name>
+        <enumvalue id="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635adbf85c1c2d8fef17554d399c4d3ffd77" prot="public">
+          <name>XMC_SPI_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit shift interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635acef45b4e93a44535a1e05154d5078b9a" prot="public">
+          <name>XMC_SPI_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit buffer interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635a829ccec5de803a4d04d46c1bc959cd1a" prot="public">
+          <name>XMC_SPI_CH_INTERRUPT_NODE_POINTER_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635a79a1d019abac22505f9b50e38b415041" prot="public">
+          <name>XMC_SPI_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for alternate receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635a643fcd627d71ba72b3c48449474d96dd" prot="public">
+          <name>XMC_SPI_CH_INTERRUPT_NODE_POINTER_PROTOCOL</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for protocol related interrupts </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI channel interrupt node pointers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="334" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="333" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_MODE_t</name>
+        <enumvalue id="group___s_p_i_1gga9dabbd3f51646f95b0719bf82c69c38fa7ed5131d8a7ba77370debe459420e79a" prot="public">
+          <name>XMC_SPI_CH_MODE_STANDARD</name>
+          <initializer>= 0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SPI standard full duplex mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga9dabbd3f51646f95b0719bf82c69c38fa17c7eb1a23dd44233a32bc40e1d91d7b" prot="public">
+          <name>XMC_SPI_CH_MODE_STANDARD_HALFDUPLEX</name>
+          <initializer>= 5UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SPI standard half duplex mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga9dabbd3f51646f95b0719bf82c69c38fa4c0d92f4303e350e8f221bd870ea5855" prot="public">
+          <name>XMC_SPI_CH_MODE_DUAL</name>
+          <initializer>= 6UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SPI half duplex mode with dual data lines </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga9dabbd3f51646f95b0719bf82c69c38fa3e0c7cf3a25d8091075bafaac56109b2" prot="public">
+          <name>XMC_SPI_CH_MODE_QUAD</name>
+          <initializer>= 7UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SPI half duplex mode with quad data lines </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Define SPI data transfer mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="280" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="279" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga01a43390cf6218a5f16976f0b6027096" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_SLAVE_SEL_MSLS_INV_t</name>
+        <enumvalue id="group___s_p_i_1gga01a43390cf6218a5f16976f0b6027096a2d4df93fa0c9ae9bb7bc2050372d4150" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SEL_SAME_AS_MSLS</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The SELO outputs have the same polarity as the MSLS signal (active high) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga01a43390cf6218a5f16976f0b6027096aa7c8920fcfd744c9236533eba2e87391" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SEL_INV_TO_MSLS</name>
+          <initializer>= 0x1UL &lt;&lt; USIC_CH_PCR_SSCMode_SELINV_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The SELO outputs have the inverted polarity to the MSLS signal (active low) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the Polarity of the slave select signals SELO[7:0] in relation to the master slave select signal MSLS. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="173" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga770391e79549c7df020fdd0f3864a808" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_SLAVE_SELECT_t</name>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a00be0d2c599ae2957bd0fed44fb88855" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_0</name>
+          <initializer>= 1UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a2690a4c89d59b73f382c5139ee3c7536" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_1</name>
+          <initializer>= 2UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808af0bcf851c8a1b519dbc76693489288df" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_2</name>
+          <initializer>= 4UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a6db85b62c5780f013bab00d3cf3e01a3" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_3</name>
+          <initializer>= 8UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a1c8340b08676a487e080a6f9af45a548" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_4</name>
+          <initializer>= 16UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 4 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a53320f8b59200bf61ced7b50266e11f4" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_5</name>
+          <initializer>= 32UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 5 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a9c659e80688ec34014de2a9bcbb2a879" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_6</name>
+          <initializer>= 64UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 6 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga770391e79549c7df020fdd0f3864a808a13b1ba1e6096ae777c0e0bd6428ba4fa" prot="public">
+          <name>XMC_SPI_CH_SLAVE_SELECT_7</name>
+          <initializer>= 128UL &lt;&lt; USIC_CH_PCR_SSCMode_SELO_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave Select line 7 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines Slave Select lines </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="194" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="193" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga7c2761994b910b3e09b6373448a90762" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_STATUS_FLAG_t</name>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a8eca08cb355c692a598c0dae8c8dc9f1" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_MSLS</name>
+          <initializer>= USIC_CH_PSR_SSCMode_MSLS_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status of Master slave select(MSLS) signal </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a2a5bf5f0e3d29181560104b7d1ede1ad" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_DX2S</name>
+          <initializer>= USIC_CH_PSR_SSCMode_DX2S_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status of slave select input(DX2) signal </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762aa64256e3a419a6e5e78af40b13b06c07" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_MSLS_EVENT_DETECTED</name>
+          <initializer>= USIC_CH_PSR_SSCMode_MSLSEV_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for master slave select output signal transition </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a6f535a37e10de454228ad80aa61186be" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_DX2T_EVENT_DETECTED</name>
+          <initializer>= USIC_CH_PSR_SSCMode_DX2TEV_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for slave select input signal transition </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a5f02c5c437155e4305b61e31e858767f" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_PARITY_ERROR_EVENT_DETECTED</name>
+          <initializer>= USIC_CH_PSR_SSCMode_PARERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Indicates status of the parity error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762aebb0f539334bf93e7956a471bfbd13af" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_RECEIVER_START_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_RSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for receive start event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a08c7ad534bb131f741d313d7ea28cbe3" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_DATA_LOST_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_DLIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for data lost event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762af609b97f1e6ea2c118c0b4d3682090d0" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_TRANSMIT_SHIFT_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_TSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for transmit shift event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a7054d7d1cc298711c1dd27b6ddc5c2f5" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_TRANSMIT_BUFFER_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_TBIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for transmit buffer event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762aebbab80c5922351320b1e1948633c27a" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_RIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a1d9c5c5eb3ac18540acb5c58fb8b126a" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_ALTERNATIVE_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_AIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for alternative receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga7c2761994b910b3e09b6373448a90762a8cece74a4527cac93aa69b958bb81309" prot="public">
+          <name>XMC_SPI_CH_STATUS_FLAG_BAUD_RATE_GENERATOR_INDICATION</name>
+          <initializer>= USIC_CH_PSR_SSCMode_BRGIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for baud rate generation error event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines SPI event status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="227" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="226" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga3f497bc1a5457fddd4f5e57f30c3531d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CH_STATUS_t</name>
+        <enumvalue id="group___s_p_i_1gga3f497bc1a5457fddd4f5e57f30c3531dad6241ca094413611b4054d3222e58339" prot="public">
+          <name>XMC_SPI_CH_STATUS_OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status of the Module: OK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga3f497bc1a5457fddd4f5e57f30c3531da9d3531bfa6a78a7e74c58be3decf9440" prot="public">
+          <name>XMC_SPI_CH_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status of the Module: ERROR </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga3f497bc1a5457fddd4f5e57f30c3531dac122b8021103d9d5807eaa51bb63b876" prot="public">
+          <name>XMC_SPI_CH_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The Module is busy </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines return status of SPI driver APIs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="155" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="154" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_p_i_1ga4ba31662807d655662ed15c5a44e9832" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SPI_CLOCK_MODE_t</name>
+        <enumvalue id="group___s_p_i_1gga4ba31662807d655662ed15c5a44e9832acfd02e5cdfabac3d60ce9d1ff9f727e7" prot="public">
+          <name>XMC_SPI_CPOL_0_CPHA_0</name>
+          <initializer>= XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_0_DELAY_ENABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga4ba31662807d655662ed15c5a44e9832a67f948755f9aed46498efeaf482864b7" prot="public">
+          <name>XMC_SPI_CPOL_0_CPHA_1</name>
+          <initializer>= XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_0_DELAY_DISABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga4ba31662807d655662ed15c5a44e9832ac0b1fe1eb0c9d7772cb44fec3ec0db0f" prot="public">
+          <name>XMC_SPI_CPOL_1_CPHA_0</name>
+          <initializer>= XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_1_DELAY_DISABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_p_i_1gga4ba31662807d655662ed15c5a44e9832aebca1cc69b17cb7879d82cd1c1eff128" prot="public">
+          <name>XMC_SPI_CPOL_1_CPHA_1</name>
+          <initializer>= XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_1_DELAY_ENABLED</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI clock modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="314" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="313" bodyend="319"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___s_p_i_1ga2a54f046194eee8c765c8c4ff4af73ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_ClearStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t flag)</argsstring>
+        <name>XMC_SPI_CH_ClearStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol event status to be cleared for detection of next occurence. Refer @ XMC_SPI_CH_STATUS_FLAG_t for valid values. <bold>OR</bold> combinations of these enum item can be used as input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears the events specified, by setting PSCR register.<linebreak/>
+<linebreak/>
+During communication the events occurred have to be cleared to detect their next occurence.<linebreak/>
+e.g: During transmission Transmit buffer event occurs to indicating data word transfer has started. This event has to be cleared after transmission of each data word. Otherwise next event cannot be recognized.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga16747654a19c5dcef00d7f7e61d14f48" kindref="member">XMC_SPI_CH_GetStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="716" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="716" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gac19e7d5bf3ff9b28764463d224b6e581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_ConfigExternalInputSignalToBRG</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t pdiv, const XMC_USIC_CH_INPUT_COMBINATION_MODE_t combination_mode)</argsstring>
+        <name>XMC_SPI_CH_ConfigExternalInputSignalToBRG</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>pdiv</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_s_i_c_1ga4c50ae5a7f12a5496d82d2bc665e1db2" kindref="member">XMC_USIC_CH_INPUT_COMBINATION_MODE_t</ref></type>
+          <declname>combination_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pdiv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired divider for the external frequency input. <bold>Range:</bold> minimum value = 1, maximum value = 1024 <linebreak/>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>combination_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>USIC channel input combination mode <linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the external frequency input for the Baudrate Generator and configures the divider, oversampling and the combination mode of the USIC channel. <linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga2876a325930da4b77ef46ec4e0acda0d" kindref="member">XMC_USIC_CH_SetBRGInputClockSource()</ref>, <ref refid="group___u_s_i_c_1gaeef58e03c1253fce5b8a456f5d8c6da6" kindref="member">XMC_USIC_CH_SetInputTriggerCombinationMode()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1280" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1280" bodyend="1285"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gadaf15fe97c6fc0b78ac661e923521ee3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_ConfigureShiftClockOutput</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_t passive_level, const XMC_SPI_CH_BRG_SHIFT_CLOCK_OUTPUT_t clock_output)</argsstring>
+        <name>XMC_SPI_CH_ConfigureShiftClockOutput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1gad62a419e5f01dc507f3f731995873fe4" kindref="member">XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_t</ref></type>
+          <declname>passive_level</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1gaf703b28cb6fe62eec40258bbb4b2381e" kindref="member">XMC_SPI_CH_BRG_SHIFT_CLOCK_OUTPUT_t</ref></type>
+          <declname>clock_output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>passive_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>polarity and delay of the selected shift clock.<linebreak/>
+ Refer <ref refid="group___s_p_i_1gad62a419e5f01dc507f3f731995873fe4" kindref="member">XMC_SPI_CH_BRG_SHIFT_CLOCK_PASSIVE_LEVEL_t</ref> for valid inputs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clock_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>shift clock source.<linebreak/>
+ Refer <ref refid="group___s_p_i_1gaf703b28cb6fe62eec40258bbb4b2381e" kindref="member">XMC_SPI_CH_BRG_SHIFT_CLOCK_OUTPUT_t</ref> for valid inputs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the shift clock source with the selected polarity and delay by setting BRG.SCLKOSEL and BRG.SCLKCFG.<linebreak/>
+<linebreak/>
+In Master mode operation, shift clock is generated by the internal baud rate generator. This SCLK is made available for external slave devices by SCLKOUT signal.<linebreak/>
+In Slave mode, the signal is received from the external master. So the DX1(input) stage has to be connected to input.<linebreak/>
+The shift clock output(SCLKOUT) signal polarity can be set relative to SCLK, with the delay of half the shift clock period. These settings are applicable only in master mode. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="951" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="951" bodyend="957"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga87d32f246cfd7eca010b38e90810277b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___s_p_i_1ga9ed5d8b86f55dd5a64316392b90c661b" kindref="member">XMC_SPI_CH_EnableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga9ed5d8b86f55dd5a64316392b90c661b" kindref="member">XMC_SPI_CH_EnableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1348" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1348" bodyend="1351"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gac0b5cdd04a90124e347ba3ef897dc545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableDelayCompensation</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableDelayCompensation</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables delay compensation.. <linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gab1fb0a57f619c0d1872482196399a443" kindref="member">XMC_SPI_CH_EnableDelayCompensation()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1260" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1260" bodyend="1263"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gaeb24e63f6664b519405dd75ca9d856fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableEOF</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableEOF</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Configure the handling of end of frame through hardware, by clearing TCSR.EOF bit.<linebreak/>
+<linebreak/>
+Typically this can be disabled, where the transmission control is done by the hardware.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gae37ff42efc15af1807458ff0a47053ea" kindref="member">XMC_SPI_CH_EnableEOF()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1070" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1070" bodyend="1073"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga8f3bb2759c5dc83f4df9674bc7521dfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t event)</argsstring>
+        <name>XMC_SPI_CH_DisableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol events which have to be disabled. Refer @ XMC_SPI_CH_EVENT_t for valid values. <bold>OR</bold> combinations of these enum item can be used as input.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the SPI protocol specific events, by configuring PCR register.<linebreak/>
+<linebreak/>
+After disabling the events, <ref refid="group___s_p_i_1ga91fef97e4d595f37fbfb60a4fd5624e4" kindref="member">XMC_SPI_CH_EnableEvent()</ref> has to be invoked to re-enable the events.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga91fef97e4d595f37fbfb60a4fd5624e4" kindref="member">XMC_SPI_CH_EnableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="681" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga76bad04e2d660078ce675baa6320f1b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableFEM</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableFEM</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configure to disable the MSLS(Slave select signal) if the current data frame is considered as finished, by setting PCR.FEM bit.<linebreak/>
+<linebreak/>
+ When the last bit of a data word has been sent out and the transmit buffer TBUF does not contain new data, is considered as frame is ended and MSLS(Slave select signal) is disabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga50f619649550b90af1adfecb924ce0df" kindref="member">XMC_SPI_CH_EnableFEM()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="929" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="929" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gadf00d5c823846ca5c13f627baa541663" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableInputInversion</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_INPUT_t input)</argsstring>
+        <name>XMC_SPI_CH_DisableInputInversion</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" kindref="member">XMC_SPI_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI channel input stage.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" kindref="member">XMC_SPI_CH_INPUT_t</ref> for valid inputs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables the polarity inversion of input data signal, by clearing DXyCR.DPOL(where y = <emphasis>input</emphasis>).<linebreak/>
+<linebreak/>
+Resets the input data polarity. Invoke <ref refid="group___s_p_i_1ga68c629a48d4d82c08c1017a9c822deeb" kindref="member">XMC_SPI_CH_EnableInputInversion()</ref> to apply inversion.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga68c629a48d4d82c08c1017a9c822deeb" kindref="member">XMC_SPI_CH_EnableInputInversion()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1153" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1153" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gaeb85102d1ba6a3387e578819de6ccb9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableInterwordDelay</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableInterwordDelay</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the delay after after each word, by clearing PCR.TIWEN bit.<linebreak/>
+<linebreak/>
+So the last data bit of a data word is directly followed by the first data bit of the next data word. If needed can be enabled by invoking <ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="825" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="825" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gac7bd8be53e17d3285fd8fc87ec2a50bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the generation of Master clock by clearing PCR.MCLK bit.<linebreak/>
+<linebreak/>
+This clock can be enabled by invoking <ref refid="group___s_p_i_1gaf1bf70c8e262bdf3727e7bc2d21b578b" kindref="member">XMC_SPI_CH_EnableMasterClock()</ref> as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gaf1bf70c8e262bdf3727e7bc2d21b578b" kindref="member">XMC_SPI_CH_EnableMasterClock()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="752" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="752" bodyend="755"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga5b2480876aa7c3b1c9646156d015e398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableSlaveSelect</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableSlaveSelect</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant ponter to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disable all the slave signals by clearing PCR.SELO bits.<linebreak/>
+<linebreak/>
+<ref refid="group___s_p_i_1ga065897e36db1bbcffe141ad992cea9ce" kindref="member">XMC_SPI_CH_EnableSlaveSelect()</ref> has to be invoked to start the communication with the desired slave again.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga065897e36db1bbcffe141ad992cea9ce" kindref="member">XMC_SPI_CH_EnableSlaveSelect()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="532" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gacb9748ed69822299ecb2a1488a3210e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableSlaveSelectCodedMode</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableSlaveSelectCodedMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Each SELOx line (with x = 0-7) can be directly connected to an external slave device. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1310" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1310" bodyend="1314"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gac0243074b234e51bebab42c98a194a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_DisableSOF</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_DisableSOF</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Set the control of the handling start of frame through hardware, by clearing TCSR.SOF bit.<linebreak/>
+<linebreak/>
+Typically this can be disabled, where the transmission control is done by the hardware.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gad11bb01cc21d11bf8f7cfa0a1a2b8a46" kindref="member">XMC_SPI_CH_EnableSOF()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1033" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1033" bodyend="1036"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga9ed5d8b86f55dd5a64316392b90c661b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___s_p_i_1ga87d32f246cfd7eca010b38e90810277b" kindref="member">XMC_SPI_CH_DisableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>. </para>
+</simplesect>
+<simplesect kind="note"><para>If you need more control over the start of transmission use <ref refid="group___u_s_i_c_1ga3b02352ba5e94e8f79751dea304084e0" kindref="member">XMC_USIC_CH_SetStartTransmisionMode()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga87d32f246cfd7eca010b38e90810277b" kindref="member">XMC_SPI_CH_DisableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1330" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1330" bodyend="1333"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gab1fb0a57f619c0d1872482196399a443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableDelayCompensation</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableDelayCompensation</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables delay compensation. <linebreak/>
+<linebreak/>
+ Delay compensation can be applied to the receive path. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gac0b5cdd04a90124e347ba3ef897dc545" kindref="member">XMC_SPI_CH_DisableDelayCompensation()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1244" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1244" bodyend="1247"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gae37ff42efc15af1807458ff0a47053ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableEOF</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableEOF</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Configure the handling of end of frame through software, by setting TCSR.EOF bit.<linebreak/>
+<linebreak/>
+This can be used if the software handles the TBUF data without FIFO. If EOF is set, a valid content of the TBUF is considered as last word of a frame. After transfer of the last word, MSLS signal becomes inactive. For software handling of EOF bit, it is recommended to configure TCSR.WLEMD as 0. <linebreak/>
+<bold>Note:</bold> The API should be called before putting the last data word of the frame to TBUF.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gaeb24e63f6664b519405dd75ca9d856fc" kindref="member">XMC_SPI_CH_DisableEOF()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1053" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1053" bodyend="1056"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga91fef97e4d595f37fbfb60a4fd5624e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t event)</argsstring>
+        <name>XMC_SPI_CH_EnableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol events which have to be enabled. Refer @ XMC_SPI_CH_EVENT_t for valid values. <bold>OR</bold> combinations of these enum items can be used as input.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the SPI protocol specific events, by configuring PCR register.<linebreak/>
+<linebreak/>
+Events can be enabled as needed using <ref refid="group___s_p_i_1ga91fef97e4d595f37fbfb60a4fd5624e4" kindref="member">XMC_SPI_CH_EnableEvent()</ref>. <ref refid="group___s_p_i_1ga8f3bb2759c5dc83f4df9674bc7521dfa" kindref="member">XMC_SPI_CH_DisableEvent()</ref> can be used to disable the events.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga8f3bb2759c5dc83f4df9674bc7521dfa" kindref="member">XMC_SPI_CH_DisableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="664" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga50f619649550b90af1adfecb924ce0df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableFEM</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableFEM</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para></para>
+</simplesect>
+Configure to keep MSLS(Slave select signal) active even after finishing the current data frame, by setting PCR.FEM bit.<linebreak/>
+<linebreak/>
+This is typically used during the transmission of multi-data word frames, where there is possibility of delay in delivering the data. Frame end mode is enabled in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref> during initialization. To disable <ref refid="group___s_p_i_1ga76bad04e2d660078ce675baa6320f1b7" kindref="member">XMC_SPI_CH_DisableFEM()</ref> can be invoked as needed in the program.</para>
+<para><simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga76bad04e2d660078ce675baa6320f1b7" kindref="member">XMC_SPI_CH_DisableFEM()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="909" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="909" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga68c629a48d4d82c08c1017a9c822deeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableInputInversion</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_INPUT_t input)</argsstring>
+        <name>XMC_SPI_CH_EnableInputInversion</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" kindref="member">XMC_SPI_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI channel input stage.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" kindref="member">XMC_SPI_CH_INPUT_t</ref> for valid inputs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the polarity inversion of input data signal, by setting DXyCR.DPOL(where y = <emphasis>input</emphasis>).<linebreak/>
+<linebreak/>
+This is not set in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>. Invoke <ref refid="group___s_p_i_1ga68c629a48d4d82c08c1017a9c822deeb" kindref="member">XMC_SPI_CH_EnableInputInversion()</ref> as needed later in the program. To disable the inversion <ref refid="group___s_p_i_1gadf00d5c823846ca5c13f627baa541663" kindref="member">XMC_SPI_CH_DisableInputInversion()</ref> can be invoked.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gadf00d5c823846ca5c13f627baa541663" kindref="member">XMC_SPI_CH_DisableInputInversion()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1133" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1133" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableInterwordDelay</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableInterwordDelay</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the delay after each word, by setting PCR.TIWEN bit.<linebreak/>
+<linebreak/>
+The inter word delay starts at the end of last SCLK cycle of data word. During this time no clock pulses are generated and MSLS signal stays active. If inter word delay is not enabled, last data bit of a data word is directly followed by the first data bit of the next data word. This is not enabled in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>. To enable <ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref> has to be invoked as needed in the program. And can be disabled by invoking <ref refid="group___s_p_i_1gaeb85102d1ba6a3387e578819de6ccb9d" kindref="member">XMC_SPI_CH_DisableInterwordDelay()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gaeb85102d1ba6a3387e578819de6ccb9d" kindref="member">XMC_SPI_CH_DisableInterwordDelay()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="807" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="807" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gaf1bf70c8e262bdf3727e7bc2d21b578b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the generation of Master clock by setting PCR.MCLK bit.<linebreak/>
+<linebreak/>
+This clock can be used as a clock reference for external devices. This is not enabled during initialization in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>. Invoke <ref refid="group___s_p_i_1gaf1bf70c8e262bdf3727e7bc2d21b578b" kindref="member">XMC_SPI_CH_EnableMasterClock()</ref> to enable as needed in the program, or if it is disabled by <ref refid="group___s_p_i_1gac7bd8be53e17d3285fd8fc87ec2a50bd" kindref="member">XMC_SPI_CH_DisableMasterClock()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gac7bd8be53e17d3285fd8fc87ec2a50bd" kindref="member">XMC_SPI_CH_DisableMasterClock()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="735" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="735" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga065897e36db1bbcffe141ad992cea9ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableSlaveSelect</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_SLAVE_SELECT_t slave)</argsstring>
+        <name>XMC_SPI_CH_EnableSlaveSelect</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga770391e79549c7df020fdd0f3864a808" kindref="member">XMC_SPI_CH_SLAVE_SELECT_t</ref></type>
+          <declname>slave</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slave</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slave select signal.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga770391e79549c7df020fdd0f3864a808" kindref="member">XMC_SPI_CH_SLAVE_SELECT_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enable the selected slave signal by setting PCR.SELO bits.<linebreak/>
+<linebreak/>
+Each slave is connected with one slave select signal. This is not configured in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>. Invoke <ref refid="group___s_p_i_1ga065897e36db1bbcffe141ad992cea9ce" kindref="member">XMC_SPI_CH_EnableSlaveSelect()</ref> with required <emphasis>slave</emphasis> to to start the communication. After finishing the communication <ref refid="group___s_p_i_1ga5b2480876aa7c3b1c9646156d015e398" kindref="member">XMC_SPI_CH_DisableSlaveSelect()</ref> can be invoked to disable the slaves.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga5b2480876aa7c3b1c9646156d015e398" kindref="member">XMC_SPI_CH_DisableSlaveSelect()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="518" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gaa1d508df7f014140bc929286ef63a9c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableSlaveSelectCodedMode</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableSlaveSelectCodedMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>The SELOx lines (with x = 1-7) can be used as addresses for an external address decoder to increase the number of external slave devices. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1296" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1296" bodyend="1300"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gad11bb01cc21d11bf8f7cfa0a1a2b8a46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_EnableSOF</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_EnableSOF</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Configure the handling of start of frame through software, by setting TCSR.SOF bit.<linebreak/>
+<linebreak/>
+This can be used if the software handles the TBUF data without FIFO. If SOF is set, a valid content of the TBUF is considered as first word of a new frame by finishing the currently running frame. For software handling of SOF bit, it is recommended to configure TCSR.WLEMD as 0. This is not configured during initialization. <ref refid="group___s_p_i_1gad11bb01cc21d11bf8f7cfa0a1a2b8a46" kindref="member">XMC_SPI_CH_EnableSOF()</ref> can be called as needed in the program and can be disabled by <ref refid="group___s_p_i_1gac0243074b234e51bebab42c98a194a63" kindref="member">XMC_SPI_CH_DisableSOF()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gac0243074b234e51bebab42c98a194a63" kindref="member">XMC_SPI_CH_DisableSOF()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1016" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1016" bodyend="1019"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga55ae75a9f812ee0ed92303074e990f97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_SPI_CH_GetReceivedData</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_GetReceivedData</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Data read from the receive buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads data from the receive buffer based on the FIFO selection.<linebreak/>
+<linebreak/>
+Invocation of <ref refid="group___s_p_i_1gae797c93243d5ab6ad7c5b1de311d6a3c" kindref="member">XMC_SPI_CH_Receive()</ref> receives the data and place it into receive buffer. After receiving the data <ref refid="group___s_p_i_1ga55ae75a9f812ee0ed92303074e990f97" kindref="member">XMC_SPI_CH_GetReceivedData()</ref> can be used to read the data from the buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gae797c93243d5ab6ad7c5b1de311d6a3c" kindref="member">XMC_SPI_CH_Receive()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="610" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga16747654a19c5dcef00d7f7e61d14f48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SPI_CH_GetStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_GetStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Status of SPI protocol events.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Returns the status of the events, by reading PSR register.<linebreak/>
+<linebreak/>
+This indicates the status of the all the events, for SPI communication.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga2a54f046194eee8c765c8c4ff4af73ed" kindref="member">XMC_SPI_CH_ClearStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="695" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="695" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_Init</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_CONFIG_t *const config)</argsstring>
+        <name>XMC_SPI_CH_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_SPI_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to constant SPI channel configuration data structure.<linebreak/>
+ Refer data structure <ref refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_SPI_CH_CONFIG_t</ref> for detail.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes the selected SPI <emphasis>channel</emphasis> with the <emphasis>config</emphasis> structure.<linebreak/>
+<linebreak/>
+Enable SPI channel by calling <ref refid="group___u_s_i_c_1ga0567321036170adb335fef9b36dc3b71" kindref="member">XMC_USIC_CH_Enable()</ref> and then configures <itemizedlist>
+<listitem>
+<para>Baudrate, </para>
+</listitem>
+<listitem>
+<para>Passive data level as active high, </para>
+</listitem>
+<listitem>
+<para>Shift control signal as active high, </para>
+</listitem>
+<listitem>
+<para>Frame length as 64U, </para>
+</listitem>
+<listitem>
+<para>Word length as 8U, </para>
+</listitem>
+<listitem>
+<para>Enable Hardware port control mode, </para>
+</listitem>
+<listitem>
+<para>Enable transmission of data TDV(Transmit data valid) bit is set to 1, </para>
+</listitem>
+<listitem>
+<para>Enable invalidation of data in TBUF once loaded into shift register, </para>
+</listitem>
+<listitem>
+<para>Parity mode settings </para>
+</listitem>
+</itemizedlist>
+And if master mode is selected, <itemizedlist>
+<listitem>
+<para>Enables MSLS signal generation, </para>
+</listitem>
+<listitem>
+<para>configures slave selection as normal mode, </para>
+</listitem>
+<listitem>
+<para>Set polarity for the Slave signal, </para>
+</listitem>
+<listitem>
+<para>Enable Frame end mode(MSLS signal is kept active after transmission of a frame) </para>
+</listitem>
+</itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="428" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="428" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gaf75ad720e31d94b96f1811e47c7e7559" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_InitEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_CONFIG_t *const config, bool init_brg)</argsstring>
+        <name>XMC_SPI_CH_InitEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_SPI_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>init_brg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to constant SPI channel configuration data structure.<linebreak/>
+ Refer data structure <ref refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_SPI_CH_CONFIG_t</ref> for detail. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>init_brg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects if the baudrate generator should be configured automatically.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes the selected SPI <emphasis>channel</emphasis> with the <emphasis>config</emphasis> structure.<linebreak/>
+<linebreak/>
+Enable SPI channel by calling <ref refid="group___u_s_i_c_1ga0567321036170adb335fef9b36dc3b71" kindref="member">XMC_USIC_CH_Enable()</ref> and then configures <itemizedlist>
+<listitem>
+<para>Baudrate, </para>
+</listitem>
+<listitem>
+<para>Passive data level as active high, </para>
+</listitem>
+<listitem>
+<para>Shift control signal as active high, </para>
+</listitem>
+<listitem>
+<para>Frame length as 64U, </para>
+</listitem>
+<listitem>
+<para>Word length as 8U, </para>
+</listitem>
+<listitem>
+<para>Enable Hardware port control mode, </para>
+</listitem>
+<listitem>
+<para>Enable transmission of data TDV(Transmit data valid) bit is set to 1, </para>
+</listitem>
+<listitem>
+<para>Enable invalidation of data in TBUF once loaded into shift register, </para>
+</listitem>
+<listitem>
+<para>Parity mode settings </para>
+</listitem>
+</itemizedlist>
+And if master mode is selected, <itemizedlist>
+<listitem>
+<para>Enables MSLS signal generation, </para>
+</listitem>
+<listitem>
+<para>configures slave selection as normal mode, </para>
+</listitem>
+<listitem>
+<para>Set polarity for the Slave signal, </para>
+</listitem>
+<listitem>
+<para>Enable Frame end mode(MSLS signal is kept active after transmission of a frame) </para>
+</listitem>
+</itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="397" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gae797c93243d5ab6ad7c5b1de311d6a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_Receive</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_MODE_t mode)</argsstring>
+        <name>XMC_SPI_CH_Receive</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" kindref="member">XMC_SPI_CH_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Communication mode of the SPI, based on this mode TCI(Transmit control information)is updated.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" kindref="member">XMC_SPI_CH_MODE_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Transmits a dummy data(FFFFH) to provide clock for slave and receives the data from the slave.<linebreak/>
+<linebreak/>
+<ref refid="group___s_p_i_1gae797c93243d5ab6ad7c5b1de311d6a3c" kindref="member">XMC_SPI_CH_Receive()</ref> receives the data and places it into buffer based on the FIFO selection. After reception of data <ref refid="group___s_p_i_1ga55ae75a9f812ee0ed92303074e990f97" kindref="member">XMC_SPI_CH_GetReceivedData()</ref> can be invoked to read the data from the buffers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>XMC_SPI_CH_GetReceivedDaa() </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="591" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="591" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga4a6b621ddf701529b5256181d40bbdac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SelectInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_INTERRUPT_NODE_POINTER_t interrupt_node, const uint32_t service_request)</argsstring>
+        <name>XMC_SPI_CH_SelectInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga6396e4407b48373dd88ce24c1e229635" kindref="member">XMC_SPI_CH_INTERRUPT_NODE_POINTER_t</ref></type>
+          <declname>interrupt_node</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interrupt_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interrupt node pointer to be configured. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635adbf85c1c2d8fef17554d399c4d3ffd77" kindref="member">XMC_SPI_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</ref>, <ref refid="group___s_p_i_1gga6396e4407b48373dd88ce24c1e229635acef45b4e93a44535a1e05154d5078b9a" kindref="member">XMC_SPI_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</ref> etc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number.<linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for USIC channel events. <linebreak/>
+<linebreak/>
+For an event to generate interrupt, node pointer should be configured with service request(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so.<linebreak/>
+ Note: NVIC node should be separately enabled to generate the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga91fef97e4d595f37fbfb60a4fd5624e4" kindref="member">XMC_SPI_CH_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1204" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1204" bodyend="1210"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga41fd386bd95f41b0274c4fd162b1a539" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_p_i_1ga3f497bc1a5457fddd4f5e57f30c3531d" kindref="member">XMC_SPI_CH_STATUS_t</ref></type>
+        <definition>XMC_SPI_CH_STATUS_t XMC_SPI_CH_SetBaudrate</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t rate)</argsstring>
+        <name>XMC_SPI_CH_SetBaudrate</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bus speed in bits per second</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_SPI_CH_STATUS_t Status of the SPI driver after the request for setting baudrate is processed. <linebreak/>
+ XMC_SPI_CH_STATUS_OK- If the baudrate is successfully changed. <linebreak/>
+ XMC_SPI_CH_STATUS_ERROR- If the new baudrate value is out of range.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the bus speed in bits per second</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>, <ref refid="group___s_p_i_1ga7fd532dae41a2b9d754aa3de0f412a8d" kindref="member">XMC_SPI_CH_Stop()</ref>, <ref refid="group___u_s_i_c_1gadde84d71507e50a2c49eba8040480abf" kindref="member">XMC_USIC_CH_GetSCLKFrequency()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="483" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gab70defd631cb9e9210f779fedce93efd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_p_i_1ga3f497bc1a5457fddd4f5e57f30c3531d" kindref="member">XMC_SPI_CH_STATUS_t</ref></type>
+        <definition>XMC_SPI_CH_STATUS_t XMC_SPI_CH_SetBaudrateEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t rate, bool normal_divider_mode)</argsstring>
+        <name>XMC_SPI_CH_SetBaudrateEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normal_divider_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bus speed in bits per second </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normal_divider_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter of signal at the cost of frequency selection</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_SPI_CH_STATUS_t Status of the SPI driver after the request for setting baudrate is processed. <linebreak/>
+ XMC_SPI_CH_STATUS_OK- If the baudrate is successfully changed. <linebreak/>
+ XMC_SPI_CH_STATUS_ERROR- If the new baudrate value is out of range.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the bus speed in bits per second</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>, <ref refid="group___s_p_i_1ga7fd532dae41a2b9d754aa3de0f412a8d" kindref="member">XMC_SPI_CH_Stop()</ref>, <ref refid="group___u_s_i_c_1gadde84d71507e50a2c49eba8040480abf" kindref="member">XMC_USIC_CH_GetSCLKFrequency()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="500" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga72ca69c5bc68803067ff496538ff5f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetBitOrderLsbFirst</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_SetBitOrderLsbFirst</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the order of data transfer from LSB to MSB, by clearing SCTR.SDIR bit.<linebreak/>
+<linebreak/>
+This is typically based on the slave settings. Invoke <ref refid="group___s_p_i_1ga72ca69c5bc68803067ff496538ff5f02" kindref="member">XMC_SPI_CH_SetBitOrderLsbFirst()</ref> to set direction as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga8f4bbed2c9583c7a454951c83acbe646" kindref="member">XMC_SPI_CH_SetBitOrderMsbFirst()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="625" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="625" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga8f4bbed2c9583c7a454951c83acbe646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetBitOrderMsbFirst</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_SetBitOrderMsbFirst</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the order of data transfer from MSB to LSB, by setting SCTR.SDIR bit.<linebreak/>
+<linebreak/>
+This is typically based on the slave settings. This is not set during <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>. Invoke <ref refid="group___s_p_i_1ga8f4bbed2c9583c7a454951c83acbe646" kindref="member">XMC_SPI_CH_SetBitOrderMsbFirst()</ref> to set direction as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga72ca69c5bc68803067ff496538ff5f02" kindref="member">XMC_SPI_CH_SetBitOrderLsbFirst()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="643" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="643" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gaedb545863be3b85d6b2ec51503926432" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetFrameLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t frame_length)</argsstring>
+        <name>XMC_SPI_CH_SetFrameLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>frame_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>frame_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bits in a frame. <linebreak/>
+ <bold>Range:</bold> 1 to 64. If the value 64 is configured, then the frame does not automatically end. User should explicitly end the frame.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Define the data frame length.<linebreak/>
+<linebreak/>
+Set the number of bits to be serially transmitted in a frame. The frame length should be multiples of word length. If the value is set to 64, the frame does not automatically end. Use <ref refid="group___s_p_i_1ga5b2480876aa7c3b1c9646156d015e398" kindref="member">XMC_SPI_CH_DisableSlaveSelect()</ref> to end the frame after all the data is transmitted.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1gabb9d02b8388a03cd28190c976cdb8b78" kindref="member">XMC_USIC_CH_SetWordLength()</ref>, <ref refid="group___u_s_i_c_1gaf1d2b03bb1350dfc628f0bfa9fb6ffb0" kindref="member">XMC_USIC_CH_EnableFrameLengthControl()</ref>, <ref refid="group___s_p_i_1ga5b2480876aa7c3b1c9646156d015e398" kindref="member">XMC_SPI_CH_DisableSlaveSelect()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="996" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="996" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gab5800f69155c1ecadedf587fd567e2b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetInputSource</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_INPUT_t input, const uint8_t source)</argsstring>
+        <name>XMC_SPI_CH_SetInputSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" kindref="member">XMC_SPI_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI channel input stage.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga5e1e7ef1aea059d58462c59b0fd75f8f" kindref="member">XMC_SPI_CH_INPUT_t</ref> for valid values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input source select for the input stage. Range : [0 to 7]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Selects the data source for SPI input stage, by configuring DXCR.DSEL bits.<linebreak/>
+<linebreak/>
+Selects the input data signal source among DXnA, DXnB.. DXnG for the input stage. The API can be used for all the input stages like DX0CR, DX1CR etc. This is not done during initialization. This has to be configured before starting the SPI communication. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1090" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1090" bodyend="1096"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga14b1f10c37e326b76cd214f7c006add2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t service_request)</argsstring>
+        <name>XMC_SPI_CH_SetInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number. Range: [0 to 5]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for SPI channel events.<linebreak/>
+<linebreak/>
+For an event to generate interrupt, node pointer should be configured with service request(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so. This is not configured in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref> during initialization.</para>
+</simplesect>
+<simplesect kind="par"><title>Note::</title><para><orderedlist>
+<listitem><para>NVIC node should be separately enabled to generate the interrupt.</para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga6f9467a0f290d65f7292b45cc29e32b4" kindref="member">XMC_USIC_CH_EnableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1178" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1178" bodyend="1182"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga3902d15aaff83cbce1d0d9b252183ef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetInterwordDelay</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t tinterword_delay_ns)</argsstring>
+        <name>XMC_SPI_CH_SetInterwordDelay</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>tinterword_delay_ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tinterword_delay_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>delay in terms of nano seconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the inter word delay by setting PCR.PCTQ1, PCR.DCTQ1 bit fields.<linebreak/>
+<linebreak/>
+The inter word delay is dependent on the peripheral clock. The maximum possible value is calculated by using the below formula<linebreak/>
+ Maximum inter word delay = ((1 + PCTQ1_max)(1 + DCTQ1_max)) / peripheral clock<linebreak/>
+ where PCTQ1_max = 3 and DCTQ1_max = 31<linebreak/>
+After configuring the inter word delay, this has to be enabled by invoking <ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref>,<ref refid="group___s_p_i_1ga5ebec7e4e0641a615e9a98ccb11ada78" kindref="member">XMC_SPI_CH_SetInterwordDelaySCLK()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="847" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga5ebec7e4e0641a615e9a98ccb11ada78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetInterwordDelaySCLK</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t sclk_period)</argsstring>
+        <name>XMC_SPI_CH_SetInterwordDelaySCLK</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sclk_period</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sclk_period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>in terms of clk cycles.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the inter word delay by setting PCR.DCTQ1 bit fields.<linebreak/>
+<linebreak/>
+This delay is dependent on the peripheral clock. The maximum possible value supported by this API is 32 clock cycles. After configuring the inter word delay, this has to be enabled by invoking <ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref>,<ref refid="group___s_p_i_1gad7b042f05c42e05efd3ba52df303f1d6" kindref="member">XMC_SPI_CH_EnableInterwordDelay()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="864" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="864" bodyend="871"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga916c987f6fafac74e740c6b626f37a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetSlaveSelectDelay</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t sclk_period)</argsstring>
+        <name>XMC_SPI_CH_SetSlaveSelectDelay</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sclk_period</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sclk_period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>delay in terms of sclk clock cycles.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the leading/trailing delay by setting BRG.DCTQ bit field.<linebreak/>
+<linebreak/>
+This delay is dependent on the peripheral clock. The maximum possible value supported by this API is 30 clock cycles. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="885" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="885" bodyend="891"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga6c327beee42bdb3d24865f1bc19376d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetSlaveSelectPolarity</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_SLAVE_SEL_MSLS_INV_t selo_inversion)</argsstring>
+        <name>XMC_SPI_CH_SetSlaveSelectPolarity</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga01a43390cf6218a5f16976f0b6027096" kindref="member">XMC_SPI_CH_SLAVE_SEL_MSLS_INV_t</ref></type>
+          <declname>selo_inversion</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>selo_inversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Polarity of the slave select signal relative to the MSLS signal.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga01a43390cf6218a5f16976f0b6027096" kindref="member">XMC_SPI_CH_SLAVE_SEL_MSLS_INV_t</ref> for valid values</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Set the polarity of the slave select signal, by configuring PCR.SELINV bit.<linebreak/>
+<linebreak/>
+Normally MSLS signal is active low level signal. SO based on the slave inversion has to be applied. This is configured in <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref> during initialization. Invoke <ref refid="group___s_p_i_1ga6c327beee42bdb3d24865f1bc19376d8" kindref="member">XMC_SPI_CH_SetSlaveSelectPolarity()</ref> with desired settings as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1111" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1111" bodyend="1116"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1gabef8a168c4d9d5e229fd04ae66a92ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetTransmitMode</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_SPI_CH_MODE_t mode)</argsstring>
+        <name>XMC_SPI_CH_SetTransmitMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" kindref="member">XMC_SPI_CH_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Communication mode of the SPI, based on this mode TCI(Transmit control information)is updated.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" kindref="member">XMC_SPI_CH_MODE_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>In Dual and Quad modes, hardware port control(CCR.HPCEN) mode is enabled. <linebreak/>
+<linebreak/>
+By enabling this the direction of the data pin is updated by hardware itself. Before transmitting the data set the mode to ensure the proper communication.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga273573d7d388e93ff9018ff87abe9dc0" kindref="member">XMC_SPI_CH_Transmit()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="549" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="549" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga874157094bd9b28c5a5493eee577df72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_SetWordLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t word_length)</argsstring>
+        <name>XMC_SPI_CH_SetWordLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>word_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>word_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bits to be configured for a data word. <linebreak/>
+ <bold>Range:</bold> 1 to 16.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Defines the data word length.<linebreak/>
+<linebreak/>
+Sets the number of bits to represent a data word. Frame length should be a multiple of word length.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gaedb545863be3b85d6b2ec51503926432" kindref="member">XMC_SPI_CH_SetFrameLength()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="973" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="973" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga4e3869696f61ef196fd2ea66a667bb0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_Start</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_Start</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the selected USIC channel to operate in SPI mode, by setting CCR.MODE bits.<linebreak/>
+<linebreak/>
+It should be executed after <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref> during initialization. By invoking <ref refid="group___s_p_i_1ga7fd532dae41a2b9d754aa3de0f412a8d" kindref="member">XMC_SPI_CH_Stop()</ref>, the MODE is set to IDLE state. Call <ref refid="group___s_p_i_1ga4e3869696f61ef196fd2ea66a667bb0e" kindref="member">XMC_SPI_CH_Start()</ref> to set the SPI mode again, as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref>, <ref refid="group___s_p_i_1ga7fd532dae41a2b9d754aa3de0f412a8d" kindref="member">XMC_SPI_CH_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="446" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="446" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga7fd532dae41a2b9d754aa3de0f412a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_p_i_1ga3f497bc1a5457fddd4f5e57f30c3531d" kindref="member">XMC_SPI_CH_STATUS_t</ref></type>
+        <definition>XMC_SPI_CH_STATUS_t XMC_SPI_CH_Stop</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_SPI_CH_Stop</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_SPI_CH_STATUS_t Status of the SPI driver after the request for stopping is processed. <linebreak/>
+ XMC_SPI_CH_STATUS_OK- If the USIC channel is successfully put to IDLE mode. <linebreak/>
+ XMC_SPI_CH_STATUS_BUSY- If the USIC channel is busy transmitting data.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the selected SPI channel to IDLE mode, by clearing CCR.MODE bits.<linebreak/>
+<linebreak/>
+After calling XMC_SPI_CH_Stop, channel is IDLE mode. So no communication is supported. <ref refid="group___s_p_i_1ga4e3869696f61ef196fd2ea66a667bb0e" kindref="member">XMC_SPI_CH_Start()</ref> has to be invoked to start the communication again.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga4e3869696f61ef196fd2ea66a667bb0e" kindref="member">XMC_SPI_CH_Start()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="467" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga273573d7d388e93ff9018ff87abe9dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_Transmit</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t data, const XMC_SPI_CH_MODE_t mode)</argsstring>
+        <name>XMC_SPI_CH_Transmit</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" kindref="member">XMC_SPI_CH_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to be transmitted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Communication mode of the SPI, based on this mode TCI(Transmit control information)is updated.<linebreak/>
+ Refer <ref refid="group___s_p_i_1ga9dabbd3f51646f95b0719bf82c69c38f" kindref="member">XMC_SPI_CH_MODE_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Puts the data into FIFO, if FIFO mode is enabled or else into standard buffer, by setting the proper mode.<linebreak/>
+<linebreak/>
+In Dual and Quad modes, hardware port control(CCR.HPCEN) mode is enabled. By enabling this the direction of the data pin is updated by hardware itself. TCI(Transmit Control Information) allows dynamic control of both the data shift mode and pin direction during data transfers by writing to SCTR.DSM and SCTR.HPCDIR bit fields. To support this auto update, TCSR.HPCMD(Hardware Port control) will be enabled during the initialization using <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref> for all modes.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1gae797c93243d5ab6ad7c5b1de311d6a3c" kindref="member">XMC_SPI_CH_Receive()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="574" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_p_i_1ga69901d79102b4efda87bc822b0d1e5d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SPI_CH_TriggerServiceRequest</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t service_request_line)</argsstring>
+        <name>XMC_SPI_CH_TriggerServiceRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request_line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" kindref="member">XMC_SPI0_CH0</ref>, <ref refid="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" kindref="member">XMC_SPI0_CH1</ref>,<ref refid="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" kindref="member">XMC_SPI1_CH0</ref>,<ref refid="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" kindref="member">XMC_SPI1_CH1</ref>,<ref refid="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" kindref="member">XMC_SPI2_CH0</ref>,<ref refid="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" kindref="member">XMC_SPI2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of SPI1 and SPI2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_request_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>service request number of the event to be triggered. <linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Trigger a SPI interrupt service request.<linebreak/>
+<linebreak/>
+When the SPI service request is triggered, the NVIC interrupt associated with it will be generated if enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_p_i_1ga4a6b621ddf701529b5256181d40bbdac" kindref="member">XMC_SPI_CH_SelectInterruptNodePointer()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="1227" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="1227" bodyend="1230"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___s_p_i_1gafbe409a89eb539dd5009c5f96ece7248" prot="public" static="no">
+        <name>XMC_SPI0_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1ga28dd6da4b742e7336b12ae6fa8de5e9f" kindref="member">XMC_USIC0_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI0 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="133" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_p_i_1gaea0fc2e67a9745c9dded45de4b218095" prot="public" static="no">
+        <name>XMC_SPI0_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1gab7c9a3765e7d637114fc67951cf20c5b" kindref="member">XMC_USIC0_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI0 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="134" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_p_i_1ga51b74698dfc8082605bc0d5a7a478c50" prot="public" static="no">
+        <name>XMC_SPI1_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab3012ea0f6b1dddc5b1c05425e15c4a1" kindref="member">XMC_USIC1_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI1 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="138" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_p_i_1gacd8b796500e98b94f045f57198e3d4ae" prot="public" static="no">
+        <name>XMC_SPI1_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga8892cec48c6246ff3e470178e4273f99" kindref="member">XMC_USIC1_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI1 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="139" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_p_i_1gad2f1be17c48106b2fde910c65ba36166" prot="public" static="no">
+        <name>XMC_SPI2_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab79d676f4efb3235bd3d8c977b83b1cf" kindref="member">XMC_USIC2_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI2 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="143" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_p_i_1ga099781db3446d2d4b85863cb86247053" prot="public" static="no">
+        <name>XMC_SPI2_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga6f71692f25917f0dcd77bb77e5518313" kindref="member">XMC_USIC2_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI2 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="144" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Synchronous serial channel driver for SPI-like communication. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The SPI driver uses Universal Serial Interface Channel(USIC) module. The USIC module supports multiple data lines for SPI communication. <linebreak/>
+<orderedlist>
+<listitem><para>Full duplex communication with 2 separate lines for transmission and reception.</para>
+</listitem><listitem><para>Half duplex communication with 1 common line shared for transmission and reception.</para>
+</listitem><listitem><para>Dual mode communication with 2 common lines shared for transmission and reception.</para>
+</listitem><listitem><para>Quad mode communication with 4 common lines shared for transmission and reception.<linebreak/>
+<linebreak/>
+</para>
+</listitem></orderedlist>
+</para>
+<para>SPI driver provides structures, enumerations and APIs for configuring the USIC channel for SPI communication and also for data transaction.<linebreak/>
+ SPI driver features:<orderedlist>
+<listitem><para>Configuration structure <ref refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_SPI_CH_CONFIG_t</ref> and SPI initialization function <ref refid="group___s_p_i_1ga8b16f43a349603e746885a6d0d00b312" kindref="member">XMC_SPI_CH_Init()</ref></para>
+</listitem><listitem><para>Allows configuration of protocol word and frame length using <ref refid="group___s_p_i_1ga874157094bd9b28c5a5493eee577df72" kindref="member">XMC_SPI_CH_SetWordLength()</ref>, <ref refid="group___s_p_i_1gaedb545863be3b85d6b2ec51503926432" kindref="member">XMC_SPI_CH_SetFrameLength()</ref></para>
+</listitem><listitem><para>Allows manipulation of data frame at runtime using <ref refid="group___s_p_i_1gad11bb01cc21d11bf8f7cfa0a1a2b8a46" kindref="member">XMC_SPI_CH_EnableSOF()</ref>, <ref refid="group___s_p_i_1gae37ff42efc15af1807458ff0a47053ea" kindref="member">XMC_SPI_CH_EnableEOF()</ref>, <ref refid="group___s_p_i_1ga065897e36db1bbcffe141ad992cea9ce" kindref="member">XMC_SPI_CH_EnableSlaveSelect()</ref>, <ref refid="group___s_p_i_1ga5b2480876aa7c3b1c9646156d015e398" kindref="member">XMC_SPI_CH_DisableSlaveSelect()</ref></para>
+</listitem><listitem><para>Provides APIs for transmitting data and receiving data using <ref refid="group___s_p_i_1ga273573d7d388e93ff9018ff87abe9dc0" kindref="member">XMC_SPI_CH_Transmit()</ref>, <ref refid="group___s_p_i_1gae797c93243d5ab6ad7c5b1de311d6a3c" kindref="member">XMC_SPI_CH_Receive()</ref>, <ref refid="group___s_p_i_1ga55ae75a9f812ee0ed92303074e990f97" kindref="member">XMC_SPI_CH_GetReceivedData()</ref></para>
+</listitem><listitem><para>Allows configuration of shift clock using <ref refid="group___s_p_i_1gadaf15fe97c6fc0b78ac661e923521ee3" kindref="member">XMC_SPI_CH_ConfigureShiftClockOutput()</ref></para>
+</listitem><listitem><para>Provides enumeration of SPI protocol events using <ref refid="group___s_p_i_1ga7c2761994b910b3e09b6373448a90762" kindref="member">XMC_SPI_CH_STATUS_FLAG_t</ref> </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

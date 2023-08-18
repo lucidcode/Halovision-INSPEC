@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_s_b_d__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_USBD_t</compoundname>
+    <includes local="no">xmc_usbd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d__t_1ad98ef10476253e6717034826cf29076d" prot="public" static="no" mutable="no">
+        <type><ref refid="group___u_s_b_d_1ga52dd28acc7e2e09a7d3a48c136f1ecdb" kindref="member">XMC_USBD_SignalEndpointEvent_t</ref></type>
+        <definition>XMC_USBD_SignalEndpointEvent_t cb_endpoint_event</definition>
+        <argsstring></argsstring>
+        <name>cb_endpoint_event</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB endpoint event callback. Use <ref refid="group___u_s_b_d_1ga52dd28acc7e2e09a7d3a48c136f1ecdb" kindref="member">XMC_USBD_SignalEndpointEvent_t</ref> type of function pointer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="433" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d__t_1ad242fcd292824cd3c75cbc621bb11b0f" prot="public" static="no" mutable="no">
+        <type><ref refid="group___u_s_b_d_1ga4d1be41d2cd37f5c9367b75a91a517d6" kindref="member">XMC_USBD_SignalDeviceEvent_t</ref></type>
+        <definition>XMC_USBD_SignalDeviceEvent_t cb_xmc_device_event</definition>
+        <argsstring></argsstring>
+        <name>cb_xmc_device_event</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB device event callback. Use <ref refid="group___u_s_b_d_1ga4d1be41d2cd37f5c9367b75a91a517d6" kindref="member">XMC_USBD_SignalDeviceEvent_t</ref> type of function pointer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="432" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="432" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d__t_1ab898f261774fe6764d9607280f80a8f8" prot="public" static="no" mutable="no">
+        <type>USB0_GLOBAL_TypeDef *const</type>
+        <definition>USB0_GLOBAL_TypeDef* const usbd</definition>
+        <argsstring></argsstring>
+        <name>usbd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Module Pointer. The USB0 module base address. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="431" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="431" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d__t_1a83df3f130584123556d9caa01edb0491" prot="public" static="no" mutable="no">
+        <type><ref refid="group___u_s_b_d_1gaa7e7d0502c559923da7e324160c527a7" kindref="member">XMC_USBD_MAX_NUM_EPS_t</ref></type>
+        <definition>XMC_USBD_MAX_NUM_EPS_t usbd_max_num_eps</definition>
+        <argsstring></argsstring>
+        <name>usbd_max_num_eps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of end points used. The maximum range can be 7. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="434" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d__t_1a79285c19ce7ee45b3556f6c416317fcd" prot="public" static="no" mutable="no">
+        <type><ref refid="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" kindref="member">XMC_USBD_TRANSFER_MODE_t</ref></type>
+        <definition>XMC_USBD_TRANSFER_MODE_t usbd_transfer_mode</definition>
+        <argsstring></argsstring>
+        <name>usbd_transfer_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB data transfer mode.Use <ref refid="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" kindref="member">XMC_USBD_TRANSFER_MODE_t</ref> type to specify the transfer mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="435" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="435" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>USB device initialization structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="430" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="429" bodyend="436"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_s_b_d__t_1ad98ef10476253e6717034826cf29076d" prot="public" virt="non-virtual"><scope>XMC_USBD_t</scope><name>cb_endpoint_event</name></member>
+      <member refid="struct_x_m_c___u_s_b_d__t_1ad242fcd292824cd3c75cbc621bb11b0f" prot="public" virt="non-virtual"><scope>XMC_USBD_t</scope><name>cb_xmc_device_event</name></member>
+      <member refid="struct_x_m_c___u_s_b_d__t_1ab898f261774fe6764d9607280f80a8f8" prot="public" virt="non-virtual"><scope>XMC_USBD_t</scope><name>usbd</name></member>
+      <member refid="struct_x_m_c___u_s_b_d__t_1a83df3f130584123556d9caa01edb0491" prot="public" virt="non-virtual"><scope>XMC_USBD_t</scope><name>usbd_max_num_eps</name></member>
+      <member refid="struct_x_m_c___u_s_b_d__t_1a79285c19ce7ee45b3556f6c416317fcd" prot="public" virt="non-virtual"><scope>XMC_USBD_t</scope><name>usbd_transfer_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file ccu4-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* CCU4 personality description file.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc_ccu4" name="CCU4" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc_ccu4" />
+    <Resource name="ccu4\.ch"/>
+  </Dependencies>
+  <ExposedMembers/>
+  <Parameters>
+    <!-- Internal -->
+    <ParamString id="module_num" name="Module Number" group="Internal" default="`${getInstNumber(&quot;ccu4&quot;)}`" visible="false" editable="false" desc="CCU4 parent module index." />
+    <ParamString id="channel_num" name="Channel Number" group="Internal" default="`${getInstNumber(&quot;ch&quot;)}`" visible="false" editable="false" desc="CCU4 channel slice index." />
+    <ParamString id="module_resource" name="Module Resource" group="Internal" default="ccu4[`${module_num}`]" visible="false" editable="false" desc="CCU4 parent module resource path." />
+    <ParamBool id="module_error" name="Module Error" group="Internal" default="`${!isBlockUsed(module_resource)}`" visible="false" editable="false" desc="True when the CCU4 module resource is not enabled." />
+    <ParamString id="clock_freq" name="Clock Frequency" group="Internal" default="`${module_error ? 0.0 : getExposedMember(module_resource, &quot;frequency&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="ip_version" name="IP Block Version" group="Internal" default="`${getVersion()}`" visible="false" editable="false" desc="" />
+    <ParamBool id="ip_ver1" name="IP Block Version 1" desc="True for XMC4100, XMC4200, XMC4400, XMC4500 series" group="Internal" default="`${ip_version == 1}`" visible="false" editable="false" />
+    <ParamBool id="ip_ver2" name="IP Block Version 2" desc="True for XMC1100, XMC1200, XMC1300, XMC4300, XMC4700, XMC4800 series" group="Internal" default="`${ip_version == 2}`" visible="false" editable="false" />
+    <ParamBool id="ip_ver3" name="IP Block Version 3" desc="True for XMC1400 series" group="Internal" default="`${ip_version == 3}`" visible="false" editable="false" />
+
+    <!-- Peripheral documentation -->
+    <ParamDoc id="apiDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/`${lookupExpression(&quot;XMC1&quot;, 0) ? &quot;xmc1&quot; : &quot;xmc4&quot;}`_api_reference_manual/html/group___c_c_u4.html" linkText="Open CCU4 Documentation" visible="true" desc="Opens the XMC Peripheral Library Documentation" />
+
+    <!-- General Settings -->
+    <ParamBool id="init_start" name="Start During Initialization" group="General" default="true" visible="true" editable="true" desc="If enabled the timer will be started at the end of the CCU4 slice initialization." />
+    <ParamChoice id="operation_mode" name="Operation Mode" group="General" default="XMC_CCU4_SLICE_MODE_COMPARE" visible="true" editable="true" desc="Choose between Compare and Capture Mode for the Timer Slice." >
+      <Entry name="Compare Mode" value="XMC_CCU4_SLICE_MODE_COMPARE" visible="true" />
+      <Entry name="Capture Mode" value="XMC_CCU4_SLICE_MODE_CAPTURE" visible="true" />
+    </ParamChoice>
+    <ParamRange id="timer_initial_value" name="Timer Initial Value" group="General" default="0" min="0" max="65535" resolution="1" visible="true" editable="true" desc="Select initial value of the timer." />
+    <ParamChoice id="prescaler_mode" name="Prescaler Mode" group="General" default="XMC_CCU4_SLICE_PRESCALER_MODE_NORMAL" visible="true" editable="true" desc="Selection between floating and normal prescaler." >
+      <Entry name="Normal Mode" value="XMC_CCU4_SLICE_PRESCALER_MODE_NORMAL" visible="true" />
+      <Entry name="Floating Mode" value="XMC_CCU4_SLICE_PRESCALER_MODE_FLOAT" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="prescaler_initial_value" name="Prescaler Initial Value" group="General" default="1" visible="true" editable="true" desc="Prescaler value used to divide the clock." >
+      <Entry name="1" value="1" visible="true" />
+      <Entry name="2" value="2" visible="true" />
+      <Entry name="4" value="4" visible="true" />
+      <Entry name="8" value="8" visible="true" />
+      <Entry name="16" value="16" visible="true" />
+      <Entry name="32" value="32" visible="true" />
+      <Entry name="64" value="64" visible="true" />
+      <Entry name="128" value="128" visible="true" />
+      <Entry name="256" value="256" visible="true" />
+      <Entry name="512" value="512" visible="true" />
+      <Entry name="1024" value="1024" visible="true" />
+      <Entry name="2048" value="2048" visible="true" />
+      <Entry name="4096" value="4096" visible="true" />
+      <Entry name="8192" value="8192" visible="true" />
+      <Entry name="16384" value="16384" visible="true" />
+      <Entry name="32768" value="32768" visible="true" />
+    </ParamChoice>
+    <ParamRange id="tick_resolution" name="Tick Resolution (ns)" group="General"
+      default="`${(clock_freq eq 0.0) ? 0.0 : (prescaler_initial_value * 1.0E9 / clock_freq)}`" min="0" max="3276800000000.0" resolution="0.000001"
+      visible="true" editable="false" desc="Actual slice frequency after division using prescaler." />
+    <ParamRange id="tick_resolution_int" name="Tick Resolution (ns)" group="Internal"
+      default="`${tick_resolution}`" min="0" max="3276800000000.0" resolution="1"
+      visible="false" editable="false" desc="Tick Resolution (ns), rounded to the integer value." />
+    <ParamChoice id="floating_prescaler_maximum" name="Floating Prescaler Maximum Value" group="General" default="32768" visible="`${prescaler_mode eq XMC_CCU4_SLICE_PRESCALER_MODE_FLOAT}`" editable="true" desc="Sets the maximum value of the prescaler." >
+      <Entry name="1" value="1" visible="true" />
+      <Entry name="2" value="2" visible="true" />
+      <Entry name="4" value="4" visible="true" />
+      <Entry name="8" value="8" visible="true" />
+      <Entry name="16" value="16" visible="true" />
+      <Entry name="32" value="32" visible="true" />
+      <Entry name="64" value="64" visible="true" />
+      <Entry name="128" value="128" visible="true" />
+      <Entry name="256" value="256" visible="true" />
+      <Entry name="512" value="512" visible="true" />
+      <Entry name="1024" value="1024" visible="true" />
+      <Entry name="2048" value="2048" visible="true" />
+      <Entry name="4096" value="4096" visible="true" />
+      <Entry name="8192" value="8192" visible="true" />
+      <Entry name="16384" value="16384" visible="true" />
+      <Entry name="32768" value="32768" visible="true" />
+    </ParamChoice>
+    <ParamBool id="enable_multichannel_control" name="Multi-Channel Control" group="General" default="false" visible="true" editable="true" desc="Enabling the multi-channel mode allows the control of multiple timer slices synchronously." />
+    <ParamBool id="enable_timer_concatenation" name="Concatenate with CCU4`${module_num}` Channel `${channel_num - 1}`" group="General" default="false" visible="`${channel_num gt 0}`" editable="true" desc="Enable the concatenation of multiple adjacent timer slices." />
+
+    <!-- Compare Mode Settings -->
+    <ParamChoice id="compare_counting_mode" name="Counting Mode" group="Compare Mode" default="XMC_CCU4_SLICE_TIMER_COUNT_MODE_EA" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" editable="true" desc="Selects between Edge and Center aligned modes." >
+      <Entry name="Edge Aligned" value="XMC_CCU4_SLICE_TIMER_COUNT_MODE_EA" visible="true" />
+      <Entry name="Center Aligned" value="XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA" visible="true" />
+    </ParamChoice>
+    <ParamBool id="single_shot_mode" name="Single-Shot Mode" group="Compare Mode" default="false" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" editable="true" desc="If enabled the timer will be stopped after reaching the period value (in edge aligned mode) or after counting down to 0 (in center aligned mode)." />
+    <ParamRange id="timer_period_value" name="Timer Period Value" group="Compare Mode" default="0" min="0" max="65535" resolution="1" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" editable="true" desc="Select value of the timer period." />
+    <ParamRange id="timer_compare_value" name="Timer Compare Value" group="Compare Mode" default="0" min="0" max="65535" resolution="1" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" editable="true" desc="Select value for the timer comparison." />
+    <ParamChoice id="output_passive_level" name="Output Passive Level" group="Compare Mode" default="XMC_CCU4_SLICE_OUTPUT_PASSIVE_LEVEL_LOW" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" editable="true" desc="Select the passive level of the output pin." >
+      <Entry name="Low" value="XMC_CCU4_SLICE_OUTPUT_PASSIVE_LEVEL_LOW" visible="true" />
+      <Entry name="High" value="XMC_CCU4_SLICE_OUTPUT_PASSIVE_LEVEL_HIGH" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="dither_mode" name="Dither Mode" group="Compare Mode" default="XMC_CCU4_DITHER_DISABLED" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" editable="true" desc="This field controls the dither mode for the slice." >
+      <Entry name="Dither is Disabled" value="XMC_CCU4_DITHER_DISABLED" visible="true" />
+      <Entry name="Period +1 Cycle" value="XMC_CCU4_DITHER_PERIOD" visible="true" />
+      <Entry name="Compare Match -1 Cycle" value="XMC_CCU4_DITHER_MATCH" visible="true" />
+      <Entry name="Period +1 Cycle, Compare Match -1 Cycle" value="XMC_CCU4_DITHER_PERIOD_MATCH" visible="true" />
+    </ParamChoice>
+    <ParamRange id="dither_compare_value" name="Dither Compare Value" group="Compare Mode" default="0" min="0" max="15" resolution="1" visible="`${(operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (dither_mode ne XMC_CCU4_DITHER_DISABLED)}`" editable="true" desc="Dither compare register value." />
+
+    <!-- Capture Mode Settings -->
+    <ParamBool id="enable_same_capture_event" name="Same Capture Event" group="Capture Mode" default="false" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" editable="true" desc="Capture into CC4yC0V/CC4yC1V and CC4yC3V/CC4yC2V control by same event CC0capt1." />
+    <ParamBool id="enable_extended_capture_mode" name="Extended Capture Mode" group="Capture Mode" default="false" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" editable="true" desc="Control the Capture mode. Normal Capture Mode: Clear of the Full Flag of each capture register is done by accessing the registers individually only. Extended Capture Mode: Clear of the Full Flag of each capture register is done not only by accessing the individual registers but also by accessing the ECRD register." />
+    <ParamBool id="ignore_full_flag_rules" name="Ignore Full Flags Rules" group="Capture Mode" default="false" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" editable="true" desc="Control if captures should follow or not full flag rules." />
+    <ParamRange id="max_count_value" name="Maximum Count Value" group="Capture Mode" default="65535" min="0" max="65535" resolution="1" visible="`${(operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE) &amp;&amp; (enable_same_capture_event eq false)}`" editable="true" desc="Value of the timer period." />
+    <ParamChoice id="timer_clear_control" name="Timer Clear Control" group="Capture Mode" default="XMC_CCU4_SLICE_TIMER_CLEAR_MODE_NEVER" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" editable="true" desc="Control when the timer must be cleared." >
+      <Entry name="Never Cleared" value="XMC_CCU4_SLICE_TIMER_CLEAR_MODE_NEVER" visible="true" />
+      <Entry name="Cleared on Reg 2 and 3 Capture (Trigger 1)" value="XMC_CCU4_SLICE_TIMER_CLEAR_MODE_CAP_HIGH" visible="true" />
+      <Entry name="Cleared on Reg 0 and 1 Capture (Trigger 0)" value="XMC_CCU4_SLICE_TIMER_CLEAR_MODE_CAP_LOW" visible="true" />
+      <Entry name="Always in a Capture Event" value="XMC_CCU4_SLICE_TIMER_CLEAR_MODE_ALWAYS" visible="true" />
+    </ParamChoice>
+
+    <!-- Value Update Settings -->
+    <ParamBool id="enable_shadow_transfer_on_clear" name="Shadow Transfer on Clear" group="Value Update" default="false" visible="true" editable="true" desc="Enables a shadow transfer when a timer clearing action is performed." />
+    <ParamBool id="enable_mcss_input" name="Multi-channel Shadow Transfer" group="Value Update" default="false" visible="true" editable="true" desc="If enabled allows multi-channel shadow transfer using the MCSS input." />
+    <ParamChoice id="shadow_transfer_mode" name="Shadow Transfer Mode" group="Value Update" default="XMC_CCU4_SLICE_SHADOW_TRANSFER_MODE_IN_PERIOD_MATCH_AND_ONE_MATCH" visible="`${ip_ver3 &amp;&amp; (operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (compare_counting_mode eq XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA)}`" editable="true" desc="Select the type of shadow transfer requested via the CCU4x.MCSS input." >
+      <Entry name="In Period Match and One Match" value="XMC_CCU4_SLICE_SHADOW_TRANSFER_MODE_IN_PERIOD_MATCH_AND_ONE_MATCH" visible="true" />
+      <Entry name="Only in Period Match" value="XMC_CCU4_SLICE_SHADOW_TRANSFER_MODE_ONLY_IN_PERIOD_MATCH" visible="true" />
+      <Entry name="Only in One Match" value="XMC_CCU4_SLICE_SHADOW_TRANSFER_MODE_ONLY_IN_ONE_MATCH" visible="true" />
+    </ParamChoice>
+    <ParamBool id="enable_cascade_shadow_transfer" name="Cascade Shadow Transfer" group="Value Update" default="false" visible="`${ip_ver3}`" editable="true" desc="If enabled the shadow transfer is cascaded with the adjacent timer slices." />
+
+    <!-- Register Value Update Mode -->
+    <ParamBool id="enable_period_immediate_update" name="Update of the Period Value" group="Update after a Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Update of the period value happens immediately after a shadow transfer is request otherwise coherently with PWM cycle" />
+    <ParamBool id="enable_compare_immediate_update" name="Update of the Compare Value" group="Update after a Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Updates immediately the compare value after a shadow transfer is requested." />
+    <ParamBool id="enable_psl_immediate_update" name="Update of the Passive Level Value" group="Update after a Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Updates immediately the passive level after a shadow transfer is requested." />
+    <ParamBool id="enable_dither_immediate_update" name="Update of the Dither Value" group="Update after a Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Updates immediately the dither value after a shadow transfer is requested." />
+    <ParamBool id="enable_prescaler_immediate_update" name="Update of the Prescaler Value" group="Update after a Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Updates immediately the floating prescaler value after a shadow transfer is requested." />
+
+    <!-- Shadow Transfer Request -->
+    <ParamBool id="automatic_shadow_transfer_request_on_period_write" name="Period Shadow Register Write" group="Automatic Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Writing into the period shadow register will automatically request the shadow transfer." />
+    <ParamBool id="automatic_shadow_transfer_request_on_compare_write" name="Compare Shadow Register Write" group="Automatic Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Writing into the compare shadow register will automatically request the shadow transfer." />
+    <ParamBool id="automatic_shadow_transfer_request_on_psl_write" name="Passive Level Shadow Register Write" group="Automatic Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Writing into the passive level register will automatically request the shadow transfer." />
+    <ParamBool id="automatic_shadow_transfer_request_on_dither_write" name="Dither Shadow Register Write" group="Automatic Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Writing into the dither shadow register will automatically request the shadow transfer." />
+    <ParamBool id="automatic_shadow_transfer_request_on_prescaler_write" name="Prescaler Shadow Register Write" group="Automatic Shadow Transfer Request" default="false" visible="`${ip_ver3}`" editable="true" desc="Writing into the floating prescaler shadow register will automatically request the shadow transfer." />
+
+    <!-- Input Event Configuration -->
+    <Repeat count="3">
+      <ParamChoice id="event$idx_edge_selection" name="Event $idx Edge Selection" group="Input Event Configuration" default="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE" visible="true" editable="true" desc="Select the criteria that will trigger the event." >
+        <Entry name="No Action" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE" visible="true" />
+        <Entry name="Signal Active on Rising Edge" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" visible="true" />
+        <Entry name="Signal Active on Falling Edge" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" visible="true" />
+        <Entry name="Signal Active on Both Edges" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" visible="true" />
+      </ParamChoice>
+      <ParamChoice id="event$idx_level_selection" name="Event $idx Level Selection" group="Input Event Configuration" default="XMC_CCU4_SLICE_EVENT_LEVEL_SENSITIVITY_ACTIVE_HIGH" visible="true" editable="true" desc="Select the criteria that will trigger the event." >
+        <Entry name="Active on High Level" value="XMC_CCU4_SLICE_EVENT_LEVEL_SENSITIVITY_ACTIVE_HIGH" visible="true" />
+        <Entry name="Active on Low Level" value="XMC_CCU4_SLICE_EVENT_LEVEL_SENSITIVITY_ACTIVE_LOW" visible="true" />
+      </ParamChoice>
+      <ParamChoice id="event$idx_lpf_configuration" name="Event $idx Low Pass Filter Configuration" group="Input Event Configuration" default="XMC_CCU4_SLICE_EVENT_FILTER_DISABLED" visible="true" editable="true" desc="Configures the low pass filter for the Event. This means that the signal must be stable for this number of cycles for a proper transition be considered valid." >
+        <Entry name="LPF is Disabled" value="XMC_CCU4_SLICE_EVENT_FILTER_DISABLED" visible="true" />
+        <Entry name="3 Clock Cycles of fCCU4" value="XMC_CCU4_SLICE_EVENT_FILTER_3_CYCLES" visible="true" />
+        <Entry name="5 Clock Cycles of fCCU4" value="XMC_CCU4_SLICE_EVENT_FILTER_5_CYCLES" visible="true" />
+        <Entry name="7 Clock Cycles of fCCU4" value="XMC_CCU4_SLICE_EVENT_FILTER_7_CYCLES" visible="true" />
+      </ParamChoice>
+      <ParamBool id="event$idx_sw_trigger" name="Event $idx Triggered via Software" group="Input Event Configuration" default="false" visible="true" editable="true" desc="Select SCU SW trigger as input signal to the CCU4 slice." />
+    </Repeat>
+
+    <!-- Function Configuration -->
+    <ParamChoice id="start_function" name="Start Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to an external start function. This means that other peripherals or port pins can be used to start the timer. This can only be associated to an event that is configured as edge active." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="start_function_mode" name="Start Function Mode" group="Function Settings" default="XMC_CCU4_SLICE_START_MODE_TIMER_START" visible="`${start_function ne XMC_CCU4_SLICE_EVENT_NONE}`" editable="true" desc="Choose the action that will be performed by the external start function. Start/Restart can only be used to start a timer that is currently stopped. &#13;&#10;Clear and Start will clear the timer to 0 and the will start the timer." >
+      <Entry name="Start timer" value="XMC_CCU4_SLICE_START_MODE_TIMER_START" visible="true" />
+      <Entry name="Clear and Start timer" value="XMC_CCU4_SLICE_START_MODE_TIMER_START_CLEAR" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="stop_function" name="Stop Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to an external start function. This means that other peripherals or port pins can be used to start the timer. This can only be associated to an event that is configured as edge active." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="stop_function_mode" name="Stop Function Mode" group="Function Settings" default="XMC_CCU4_SLICE_END_MODE_TIMER_STOP" visible="`${stop_function ne XMC_CCU4_SLICE_EVENT_NONE}`" editable="true" desc="Choose the action that will be performed upon the detection of the event.&#13;&#10;Stop will stop a timer that is running, Clear and Stop will clear the timer and then stop it and Clear Only will clear the timer to 0, without stopping it." >
+      <Entry name="Stop timer" value="XMC_CCU4_SLICE_END_MODE_TIMER_STOP" visible="true" />
+      <Entry name="Clear timer" value="XMC_CCU4_SLICE_END_MODE_TIMER_CLEAR" visible="true" />
+      <Entry name="Clear and Stop timer" value="XMC_CCU4_SLICE_END_MODE_TIMER_STOP_CLEAR" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="count_function" name="Count Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to a signal that can be used as count clock. This means that every time that this signal is detected the counter will increment/decrement depending on the counting direction." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="direction_function" name="Count Direction Control Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to an external counting direction function. This can only be associated to an event that is configured as level active." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="capture0_function" name="Capture 0 Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" editable="true" desc="Enables the possibility to one external signal be used as capture trigger. Only available when the timer slice is in Capture mode. This will disable the control of the compare value of the timer. Each time that the Capture Trigger 0 is sensed the timer value is captured into the capture register 1. The value that was previously on capture register 1 is shifted to the capture register 0." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="capture1_function" name="Capture 1 Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" editable="true" desc="Enables the possibility to one external signal be used as capture trigger. Only available when the timer slice is in Capture mode. This will disable the control of the period value of the timer. Each time that the Capture Trigger 1 is sensed the timer value is captured into the capture register 3. The value that was previously on capture register 3 is shifted to the capture register 2." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="gate_function" name="Gate Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to the level signal used to gate the timer clock. During the time where the gate is active the timer/counter is not running (run bit is not cleared, meaning that when the signal is inactive the timer/counter will resume operation)." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="load_function" name="Load Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to the edge signal that loads the timer with the value present at the compare register." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="trap_function" name="Trap Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Select this to associate the Event 2 to the TRAP function. Whenever the TRAP is detected the PWM Output is set into passive state. This can be used for a fail safe condition, such as current dripping." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="exit_trap_state_mode" name="Exit TRAP State Mode" group="Function Settings" default="XMC_CCU4_SLICE_TRAP_EXIT_MODE_AUTOMATIC" visible="`${trap_function ne XMC_CCU4_SLICE_EVENT_NONE}`" editable="true" desc="Choose how the TRAP function condition will exit: Automatic (Hardware) or Software. If automatic/software is selected whenever the trap signal becomes inactive the PWM output resumes normal operation. If software is selected even when the trap signal becomes inactive the software must clear the TRAP state by writing in to the CC4ySWR.RE2A register." >
+      <Entry name="Automatic" value="XMC_CCU4_SLICE_TRAP_EXIT_MODE_AUTOMATIC" visible="true" />
+      <Entry name="Automatic Synchronous with PWM" value="XMC_CCU4_SLICE_TRAP_EXIT_MODE_AUTOMATIC_PWM" visible="true" />
+      <Entry name="Software" value="XMC_CCU4_SLICE_TRAP_EXIT_MODE_SW" visible="true" />
+      <Entry name="Software Synchronous with PWM" value="XMC_CCU4_SLICE_TRAP_EXIT_MODE_SW_PWM" visible="true" />
+    </ParamChoice>
+    <ParamBool id="enable_trap_during_initialization" name="Trap During Initialization" group="Function Settings" default="false" visible="`${trap_function ne XMC_CCU4_SLICE_EVENT_NONE}`" editable="true" desc="If enabled the trap control will be started at the end of the CCU4 slice initialization." />
+    <ParamChoice id="modulation_function" name="Modulation Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Associate one of the configured events to an external modulation function, used to modulate/clear the output. This can only be associated to an event that is configured as level active." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 0" value="XMC_CCU4_SLICE_EVENT_0" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="modulation_function_mode" name="Modulation Function Mode" group="Function Settings" default="XMC_CCU4_SLICE_MODULATION_MODE_CLEAR_ST_OUT" visible="`${modulation_function ne XMC_CCU4_SLICE_EVENT_NONE}`" editable="true" desc="Choose the action that will be performed upon the detection of the event." >
+      <Entry name="Clear ST and OUT signals" value="XMC_CCU4_SLICE_MODULATION_MODE_CLEAR_ST_OUT" visible="true" />
+      <Entry name="Clear only the OUT signal" value="XMC_CCU4_SLICE_MODULATION_MODE_CLEAR_OUT" visible="true" />
+    </ParamChoice>
+    <ParamBool id="enable_modulation_sync_with_pwm" name="Modulation Synchronous with PWM" group="Function Settings" default="false" visible="`${modulation_function ne XMC_CCU4_SLICE_EVENT_NONE}`" editable="true" desc="Select this to synchronize the clear of the ST output with the PWM signal, avoiding possible glitches at the output." />
+    <ParamChoice id="override_trigger_function" name="Override Trigger Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Select this to allow the override of the status signal (CC4yST) with a value passed through an external signal. This will consume two events: one configured as edge that will act as trigger to override the status bit and the other configured as level that contains the value to be copied in the status bit." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 1" value="XMC_CCU4_SLICE_EVENT_1" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="override_value_function" name="Override Value Function" group="Function Settings" default="XMC_CCU4_SLICE_EVENT_NONE" visible="true" editable="true" desc="Select this to allow the override of the status signal (CC4yST) with a value passed through an external signal. This will consume two events: one configured as edge that will act as trigger to override the status bit and the other configured as level that contains the value to be copied in the status bit." >
+      <Entry name="Disabled" value="XMC_CCU4_SLICE_EVENT_NONE" visible="true" />
+      <Entry name="Triggered by Event 2" value="XMC_CCU4_SLICE_EVENT_2" visible="true" />
+    </ParamChoice>
+
+    <!-- Timer Events -->
+    <ParamBool id="enable_period_match_event" name="Period Match while Counting Up" group="Event Settings" default="false" visible="true" editable="true" desc="Enable the generation of an interrupt pulse every time a period match while counting up occurs." />
+    <ParamChoice id="period_match_event_sr" name="Period Match Up Service Request" group="Event Settings" default="0" visible="`${enable_period_match_event}`" editable="true" desc="Selects the service request output that becomes activated in case of a period match while counting up event occurrence.">
+      <Entry name="Service Request 0" value="0" visible="true"/>
+      <Entry name="Service Request 1" value="1" visible="true"/>
+      <Entry name="Service Request 2" value="2" visible="true"/>
+      <Entry name="Service Request 3" value="3" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="enable_one_match_event" name="One Match while Counting Down" group="Event Settings" default="false" visible="`${(operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (compare_counting_mode eq XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA)}`" editable="true" desc="Enable the generation of an interrupt pulse every time an one match while counting down occurs." />
+    <ParamChoice id="one_match_event_sr" name="One Match Down Service Request" group="Event Settings" default="0" visible="`${(operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (compare_counting_mode eq XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA) &amp;&amp; enable_one_match_event}`" editable="true" desc="Selects the service request output that becomes activated in case of an one match while counting down event occurrence.">
+      <Entry name="Service Request 0" value="0" visible="true"/>
+      <Entry name="Service Request 1" value="1" visible="true"/>
+      <Entry name="Service Request 2" value="2" visible="true"/>
+      <Entry name="Service Request 3" value="3" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="enable_compare_up_event" name="Compare Match while Counting Up" group="Event Settings" default="false" visible="true" editable="true" desc="Enable the generation of an interrupt pulse every time a compare match while counting up occurs." />
+    <ParamChoice id="compare_up_match_event_sr" name="Compare Match Up Service Request" group="Event Settings" default="0" visible="`${enable_compare_up_event}`" editable="true" desc="Selects the service request output that becomes activated in case of a compare match while counting up event occurrence.">
+      <Entry name="Service Request 0" value="0" visible="true"/>
+      <Entry name="Service Request 1" value="1" visible="true"/>
+      <Entry name="Service Request 2" value="2" visible="true"/>
+      <Entry name="Service Request 3" value="3" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="enable_compare_down_event" name="Compare Match while Counting Down" group="Event Settings" default="false" visible="`${(operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (compare_counting_mode eq XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA)}`" editable="true" desc="Enable the generation of an interrupt pulse every time a compare match while counting down occurs." />
+    <ParamChoice id="compare_down_event_sr" name="Compare Match Down Service Request" group="Event Settings" default="0" visible="`${(operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (compare_counting_mode eq XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA) &amp;&amp; enable_compare_down_event}`" editable="true" desc="Selects the service request output that becomes activated in case of a compare match while counting down event occurrence.">
+      <Entry name="Service Request 0" value="0" visible="true"/>
+      <Entry name="Service Request 1" value="1" visible="true"/>
+      <Entry name="Service Request 2" value="2" visible="true"/>
+      <Entry name="Service Request 3" value="3" visible="true"/>
+    </ParamChoice>
+
+    <!-- External Input Events -->
+    <Repeat count="3">
+      <ParamBool id="enable_external_event$idx" name="External Event $idx" group="Event Settings" default="false" visible="true" editable="true" desc="Enable the generation of an interrupt pulse every time that Event $idx is detected." />
+      <ParamChoice id="external_event$idx_sr" name="External Event $idx Service Request" group="Event Settings" default="0" visible="`${enable_external_event$idx}`" editable="true" desc="Selects the service request output that becomes activated in case of a external event $idx occurrence.">
+        <Entry name="Service Request 0" value="0" visible="true"/>
+        <Entry name="Service Request 1" value="1" visible="true"/>
+        <Entry name="Service Request 2" value="2" visible="true"/>
+        <Entry name="Service Request 3" value="3" visible="true"/>
+      </ParamChoice>
+    </Repeat>
+
+    <!-- Connections -->
+    <ParamSignal port="out[0]" name="Output Signal" group="Connections" visible="`${hasVisibleOption(&quot;out[0]&quot;)}`" desc="CCU4 slice output signal." canBeEmpty="true" multiSelect="false" />
+    <ParamSignal port="st[0]" name="Status Signal" group="Connections" visible="`${hasVisibleOption(&quot;st[0]&quot;)}`" desc="CCU4 slice status signal." canBeEmpty="true" />
+    <Repeat count="3">
+      <ParamSignal port="in$idx[0]" name="Event $idx Input Signal" group="Connections" visible="`${hasVisibleOption(&quot;in$idx[0]&quot;) &amp;&amp; !event$idx_sw_trigger}`" desc="CCU4 slice event $idx input signal" canBeEmpty="true" />
+    </Repeat>
+
+    <!-- Advanced -->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+  </Parameters>
+  <DRCs>
+    <DRC type="ERROR" text="Capture/Compare Unit 4 module instance `${module_num}` is not enabled" condition="`${module_error}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${module_resource}`" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Selected event for start function is not properly configured. Please review edge selection" condition="`${(start_function eq XMC_CCU4_SLICE_EVENT_$idx) &amp;&amp; (event$idx_edge_selection eq XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE)}`" paramId="event$idx_edge_selection" repeatCount="3" >
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Selected event for stop function is not properly configured. Please review edge selection" condition="`${(stop_function eq XMC_CCU4_SLICE_EVENT_$idx) &amp;&amp; (event$idx_edge_selection eq XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE)}`" paramId="event$idx_edge_selection" repeatCount="3" >
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Selected event for count function is not properly configured. Please review edge selection" condition="`${(count_function eq XMC_CCU4_SLICE_EVENT_$idx) &amp;&amp; (event$idx_edge_selection eq XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE)}`" paramId="event$idx_edge_selection" repeatCount="3" >
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Selected event for capture 0 function is not properly configured. Please review edge selection" condition="`${(operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE) &amp;&amp; (capture0_function eq XMC_CCU4_SLICE_EVENT_$idx) &amp;&amp; (event$idx_edge_selection eq XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE)}`" paramId="event$idx_edge_selection" repeatCount="3" >
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Selected event for capture 1 function is not properly configured. Please review edge selection" condition="`${(operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE) &amp;&amp; (capture1_function eq XMC_CCU4_SLICE_EVENT_$idx) &amp;&amp; (event$idx_edge_selection eq XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE)}`" paramId="event$idx_edge_selection" repeatCount="3" >
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Selected event for override trigger function is not properly configured. Please review edge selection" condition="`${(override_trigger_function eq XMC_CCU4_SLICE_EVENT_$idx) &amp;&amp; (event$idx_edge_selection eq XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_NONE)}`" paramId="event$idx_edge_selection" repeatCount="3" >
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_RISING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_FALLING_EDGE" valid="true" />
+      <FixIt action="SET_PARAM" target="event$idx_edge_selection" value="XMC_CCU4_SLICE_EVENT_EDGE_SENSITIVITY_DUAL_EDGE" valid="true" />
+    </DRC>
+  </DRCs>
+  <ConfigFirmware>
+    <ConfigInclude value="cycfg_routing.h" include="`${hasConnection(&quot;in0&quot;, 0) || hasConnection(&quot;in1&quot;, 0) || hasConnection(&quot;in2&quot;, 0)}`" />
+    <ConfigInclude value="xmc_ccu4.h" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_MODULE_NUM" value="`${module_num}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_MODULE_HW" value="CCU4`${module_num}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_NUM" value="`${channel_num}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="CCU4`${module_num}`_CC4`${channel_num}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_TICK_NS" value="`${tick_resolution_int}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_PERIOD_MATCH_EVENT_HANDLER" value="CCU4`${module_num}`_`${period_match_event_sr}`_IRQHandler" public="true" include="`${enable_period_match_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_PERIOD_MATCH_EVENT_IRQN" value="CCU4`${module_num}`_`${period_match_event_sr}`_IRQn" public="true" include="`${enable_period_match_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_ONE_MATCH_EVENT_HANDLER" value="CCU4`${module_num}`_`${one_match_event_sr}`_IRQHandler" public="true" include="`${enable_one_match_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_ONE_MATCH_EVENT_IRQN" value="CCU4`${module_num}`_`${one_match_event_sr}`_IRQn" public="true" include="`${enable_one_match_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_COMPARE_MATCH_UP_EVENT_HANDLER" value="CCU4`${module_num}`_`${compare_up_match_event_sr}`_IRQHandler" public="true" include="`${enable_compare_up_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_COMPARE_MATCH_UP_EVENT_IRQN" value="CCU4`${module_num}`_`${compare_up_match_event_sr}`_IRQn" public="true" include="`${enable_compare_up_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_COMPARE_MATCH_DOWN_EVENT_HANDLER" value="CCU4`${module_num}`_`${compare_down_event_sr}`_IRQHandler" public="true" include="`${enable_compare_down_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_COMPARE_MATCH_DOWN_EVENT_IRQN" value="CCU4`${module_num}`_`${compare_down_event_sr}`_IRQn" public="true" include="`${enable_compare_down_event}`" />
+    <ConfigDefine name="`${INST_NAME}`_EVENT$idx_HANDLER" value="CCU4`${module_num}`_`${external_event$idx_sr}`_IRQHandler" public="true" include="`${enable_external_event$idx}`" repeatCount="3" />
+    <ConfigDefine name="`${INST_NAME}`_EVENT$idx_IRQN" value="CCU4`${module_num}`_`${external_event$idx_sr}`_IRQn" public="true" include="`${enable_external_event$idx}`" repeatCount="3" />
+    <ConfigStruct name="`${INST_NAME}`_compare_config" type="XMC_CCU4_SLICE_COMPARE_CONFIG_t" const="`${inFlash}`" public="true" include="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`">
+      <Member name="timer_mode" value="`${compare_counting_mode}`" />
+      <Member name="monoshot" value="XMC_CCU4_SLICE_TIMER_REPEAT_MODE_`${single_shot_mode ? &quot;SINGLE&quot; : &quot;REPEAT&quot;}`" />
+      <Member name="shadow_xfer_clear" value="`${enable_shadow_transfer_on_clear}`" />
+      <Member name="dither_timer_period" value="`${(dither_mode eq XMC_CCU4_DITHER_PERIOD) || (dither_mode eq XMC_CCU4_DITHER_PERIOD_MATCH)}`" />
+      <Member name="dither_duty_cycle" value="`${(dither_mode eq XMC_CCU4_DITHER_MATCH) || (dither_mode eq XMC_CCU4_DITHER_PERIOD_MATCH)}`" />
+      <Member name="prescaler_mode" value="`${prescaler_mode}`" />
+      <Member name="mcm_enable" value="`${enable_multichannel_control}`" />
+      <Member name="prescaler_initval" value="XMC_CCU4_SLICE_PRESCALER_`${prescaler_initial_value}`" />
+      <Member name="float_limit" value="XMC_CCU4_SLICE_PRESCALER_`${floating_prescaler_maximum}`" />
+      <Member name="dither_limit" value="`${dither_compare_value}`U" />
+      <Member name="passive_level" value="`${output_passive_level}`" />
+      <Member name="timer_concatenation" value="`${enable_timer_concatenation &amp;&amp; (channel_num gt 0)}`" />
+    </ConfigStruct>
+    <ConfigStruct name="`${INST_NAME}`_capture_config" type="XMC_CCU4_SLICE_CAPTURE_CONFIG_t" const="`${inFlash}`" public="true" include="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`">
+      <Member name="fifo_enable" value="`${enable_extended_capture_mode}`" />
+      <Member name="timer_clear_mode" value="`${timer_clear_control}`" />
+      <Member name="same_event" value="`${enable_same_capture_event}`" />
+      <Member name="ignore_full_flag" value="`${ignore_full_flag_rules}`" />
+      <Member name="prescaler_mode" value="`${prescaler_mode}`" />
+      <Member name="prescaler_initval" value="XMC_CCU4_SLICE_PRESCALER_`${prescaler_initial_value}`" />
+      <Member name="float_limit" value="XMC_CCU4_SLICE_PRESCALER_`${floating_prescaler_maximum}`" />
+      <Member name="timer_concatenation" value="`${enable_timer_concatenation &amp;&amp; (channel_num gt 0)}`" />
+    </ConfigStruct>
+    <ConfigStruct name="`${INST_NAME}`_event$idx_config" type="XMC_CCU4_SLICE_EVENT_CONFIG_t" const="`${inFlash}`" public="true" include="true" repeatCount="3" >
+      <Member name="mapped_input" value="`${event$idx_sw_trigger ? (&quot;CCU4&quot; . module_num . &quot;_IN&quot; . channel_num . &quot;_SCU_GSC4&quot; . module_num) : (&quot;CCU4&quot; . module_num . &quot;_IN&quot; . channel_num . &quot;_EV&quot; . $idx . &quot;IS_VALUE&quot;)}`" include="`${event$idx_sw_trigger || hasConnection(&quot;in$idx&quot;, 0)}`" />
+      <Member name="edge" value="`${event$idx_edge_selection}`" />
+      <Member name="level" value="`${event$idx_level_selection}`" />
+      <Member name="duration" value="`${event$idx_lpf_configuration}`" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="XMC_CCU4_SLICE_CompareInit(`${INST_NAME}`_HW, &amp;`${INST_NAME}`_compare_config);" include="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetTimerCompareMatch(`${INST_NAME}`_HW, `${timer_compare_value}`U);" include="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetTimerPeriodMatch(`${INST_NAME}`_HW, `${timer_period_value}`U);" include="`${operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_CaptureInit(`${INST_NAME}`_HW, &amp;`${INST_NAME}`_capture_config);" include="`${operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetTimerPeriodMatch(`${INST_NAME}`_HW, `${max_count_value}`U);" include="`${(operation_mode eq XMC_CCU4_SLICE_MODE_CAPTURE) &amp;&amp; (enable_same_capture_event eq false)}`" />
+    <ConfigInstruction value="XMC_CCU4_SetMultiChannelShadowTransferMode(`${INST_NAME}`_MODULE_HW, XMC_CCU4_MULTI_CHANNEL_SHADOW_TRANSFER_SW`${enable_mcss_input ? &quot;_MCSS&quot; : &quot;&quot;}`_SLICE`${channel_num}`);" include="true" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_`${enable_cascade_shadow_transfer ? &quot;Enable&quot; : &quot;Disable&quot;}`CascadedShadowTransfer(`${INST_NAME}`_HW);" include="`${ip_ver3}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetShadowTransferMode(`${INST_NAME}`_HW, `${shadow_transfer_mode}`);" include="`${ip_ver3 &amp;&amp; (operation_mode eq XMC_CCU4_SLICE_MODE_COMPARE) &amp;&amp; (compare_counting_mode eq XMC_CCU4_SLICE_TIMER_COUNT_MODE_CA)}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_WriteImmediateAfterShadowTransfer(`${INST_NAME}`_HW, 0U`${
+      (enable_period_immediate_update ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_WRITE_INTO_PERIOD_CONFIGURATION&quot; : &quot;&quot;) .
+      (enable_compare_immediate_update ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_WRITE_INTO_COMPARE_CONFIGURATION&quot; : &quot;&quot;) .
+      (enable_psl_immediate_update ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_WRITE_INTO_PASSIVE_LEVEL_CONFIGURATION&quot; : &quot;&quot;) .
+      (enable_dither_immediate_update ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_WRITE_INTO_DITHER_VALUE_CONFIGURATION&quot; : &quot;&quot;) .
+      (enable_prescaler_immediate_update ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_WRITE_INTO_FLOATING_PRESCALER_VALUE_CONFIGURATION&quot; : &quot;&quot;)}`);"
+      include="`${ip_ver3 &amp;&amp; (enable_period_immediate_update || enable_compare_immediate_update || enable_psl_immediate_update || enable_dither_immediate_update || enable_prescaler_immediate_update)}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableAutomaticShadowTransferRequest(`${INST_NAME}`_HW, 0U`${
+      (automatic_shadow_transfer_request_on_period_write ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_AUTOMAIC_SHADOW_TRANSFER_WRITE_INTO_PERIOD_SHADOW&quot; : &quot;&quot;) .
+      (automatic_shadow_transfer_request_on_compare_write ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_AUTOMAIC_SHADOW_TRANSFER_WRITE_INTO_COMPARE_SHADOW&quot; : &quot;&quot;) .
+      (automatic_shadow_transfer_request_on_psl_write ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_AUTOMAIC_SHADOW_TRANSFER_WRITE_INTO_PASSIVE_LEVEL&quot; : &quot;&quot;) .
+      (automatic_shadow_transfer_request_on_dither_write ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_AUTOMAIC_SHADOW_TRANSFER_WRITE_INTO_DITHER_SHADOW&quot; : &quot;&quot;) .
+      (automatic_shadow_transfer_request_on_prescaler_write ? &quot; |&#xA;&#x9;&#x9;XMC_CCU4_SLICE_AUTOMAIC_SHADOW_TRANSFER_WRITE_INTO_FLOATING_PRESCALER_SHADOW&quot; : &quot;&quot;)}`);"
+      include="`${ip_ver3 &amp;&amp; (automatic_shadow_transfer_request_on_period_write || automatic_shadow_transfer_request_on_compare_write || automatic_shadow_transfer_request_on_psl_write || automatic_shadow_transfer_request_on_dither_write || automatic_shadow_transfer_request_on_prescaler_write)}`" />
+    <ConfigInstruction value="XMC_CCU4_EnableShadowTransfer(`${INST_NAME}`_MODULE_HW,&#xA;&#x9;&#x9;XMC_CCU4_SHADOW_TRANSFER_SLICE_`${channel_num}` |&#xA;&#x9;&#x9;XMC_CCU4_SHADOW_TRANSFER_DITHER_SLICE_`${channel_num}` |&#xA;&#x9;&#x9;XMC_CCU4_SHADOW_TRANSFER_PRESCALER_SLICE_`${channel_num}` );" include="true" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_ConfigureEvent(`${INST_NAME}`_HW, XMC_CCU4_SLICE_EVENT_$idx, &amp;`${INST_NAME}`_event$idx_config);" include="true" repeatCount="3" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_StartConfig(`${INST_NAME}`_HW, `${start_function}`, `${start_function_mode}`);" include="`${start_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_StopConfig(`${INST_NAME}`_HW, `${stop_function}`, `${stop_function_mode}`);" include="`${stop_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_CountConfig(`${INST_NAME}`_HW, `${count_function}`);" include="`${count_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_DirectionConfig(`${INST_NAME}`_HW, `${direction_function}`);" include="`${direction_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_Capture0Config(`${INST_NAME}`_HW, `${capture0_function}`);" include="`${capture0_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_Capture1Config(`${INST_NAME}`_HW, `${capture1_function}`);" include="`${capture1_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_GateConfig(`${INST_NAME}`_HW, `${gate_function}`);" include="`${gate_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_LoadConfig(`${INST_NAME}`_HW, `${load_function}`);" include="`${load_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_TrapConfig(`${INST_NAME}`_HW, XMC_CCU4_SLICE_TRAP_EXIT_MODE_`${((exit_trap_state_mode eq XMC_CCU4_SLICE_TRAP_EXIT_MODE_AUTOMATIC) || (exit_trap_state_mode eq XMC_CCU4_SLICE_TRAP_EXIT_MODE_AUTOMATIC_PWM)) ? &quot;AUTOMATIC&quot; : &quot;SW&quot;}`, `${((exit_trap_state_mode eq XMC_CCU4_SLICE_TRAP_EXIT_MODE_AUTOMATIC_PWM) || (exit_trap_state_mode eq XMC_CCU4_SLICE_TRAP_EXIT_MODE_SW_PWM)) ? &quot;true&quot; : &quot;false&quot;}`);" include="`${trap_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_ModulationConfig(`${INST_NAME}`_HW, `${modulation_function}`, `${modulation_function_mode}`, `${enable_modulation_sync_with_pwm}`);" include="`${modulation_function ne XMC_CCU4_SLICE_EVENT_NONE}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_StatusBitOverrideConfig(`${INST_NAME}`_HW);" include="`${(override_trigger_function ne XMC_CCU4_SLICE_EVENT_NONE) &amp;&amp; (override_value_function ne XMC_CCU4_SLICE_EVENT_NONE)}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetInterruptNode(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_PERIOD_MATCH, XMC_CCU4_SLICE_SR_ID_`${period_match_event_sr}`);" include="`${enable_period_match_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetInterruptNode(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_ONE_MATCH, XMC_CCU4_SLICE_SR_ID_`${one_match_event_sr}`);" include="`${enable_one_match_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetInterruptNode(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_COMPARE_MATCH_UP, XMC_CCU4_SLICE_SR_ID_`${compare_up_match_event_sr}`);" include="`${enable_compare_up_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetInterruptNode(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_COMPARE_MATCH_DOWN, XMC_CCU4_SLICE_SR_ID_`${compare_down_event_sr}`);" include="`${enable_compare_down_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetInterruptNode(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_EVENT$idx, XMC_CCU4_SLICE_SR_ID_`${external_event$idx_sr}`);" include="`${enable_external_event$idx}`" repeatCount="3" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableEvent(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_PERIOD_MATCH);" include="`${enable_period_match_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableEvent(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_ONE_MATCH);" include="`${enable_one_match_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableEvent(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_COMPARE_MATCH_UP);" include="`${enable_compare_up_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableEvent(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_COMPARE_MATCH_DOWN);" include="`${enable_compare_down_event}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableEvent(`${INST_NAME}`_HW, XMC_CCU4_SLICE_IRQ_ID_EVENT$idx);" include="`${enable_external_event$idx}`" repeatCount="3" />
+    <ConfigInstruction value="XMC_CCU4_EnableClock(`${INST_NAME}`_MODULE_HW, `${INST_NAME}`_NUM);" include="true" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_EnableTrap(`${INST_NAME}`_HW);" include="`${enable_trap_during_initialization &amp;&amp; (trap_function ne XMC_CCU4_SLICE_EVENT_NONE)}`" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_SetTimerValue(`${INST_NAME}`_HW, `${timer_initial_value}`U);" include="true" />
+    <ConfigInstruction value="XMC_CCU4_SLICE_StartTimer(`${INST_NAME}`_HW);" include="`${init_start}`" />
+  </ConfigFirmware>
+</Personality>

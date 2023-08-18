@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xml_version="1" xmlns="http://cypress.com/xsd/cystudiouddviewarch_v1">
+  <PadsPerPort value="16" />
+  <PadFunctionTypes>
+    <!-- 
+    The widths need to match the largest signal count supported. For XMC4700 ALT width = 4 and for XMC1400 ALT width = 9, so 9 must be used here.
+    XMC4700:https://www.infineon.com/dgdl/Infineon-ReferenceManual_XMC4700_XMC4800-UM-v01_03-EN.pdf?fileId=5546d462518ffd850151904eb90c0044 
+    XMC1400: https://www.infineon.com/dgdl/Infineon-XMC1400-AA_ReferenceManual-UM-v01_01-EN.pdf?fileId=5546d46250cc1fdf0150f6ebc29a7109
+    -->
+    <PadFunctionType name="ALT" connectionsPerPin="9" port="alt" />
+    <PadFunctionType name="HWO" connectionsPerPin="2" port="hwo" />
+    <!-- 
+    The widths need to match the largest signal count supported. For XMC4700 INPUT width = 8 and for XMC1400 ALT width = 12, so 12 must be used here; HOWEVER,
+    INPUT is the combination of the Input and HWI0/HWI1 signals. Hence a width of 12 + 2 = 14.
+    XMC4700:https://www.infineon.com/dgdl/Infineon-ReferenceManual_XMC4700_XMC4800-UM-v01_03-EN.pdf?fileId=5546d462518ffd850151904eb90c0044 
+    XMC1400: https://www.infineon.com/dgdl/Infineon-XMC1400-AA_ReferenceManual-UM-v01_01-EN.pdf?fileId=5546d46250cc1fdf0150f6ebc29a7109
+    -->
+    <PadFunctionType name="INPUT" connectionsPerPin="14" port="input" />
+    <PadFunctionType name="ANALOG" connectionsPerPin="1" port="analog" />
+  </PadFunctionTypes>
+  <PadTypes>
+    <PadType value="PWR" category="POWER" />
+    <PadType value="DEDICATED" category="DEDICATED" />
+    <PadType value="A1" category="GPIO" />
+    <PadType value="A1+" category="GPIO" />
+    <PadType value="A2" category="GPIO" />
+    <PadType value="AN_DIG_IN" category="GPIO" />
+    <PadType value="GPIO" category="GPIO" />
+  </PadTypes>
+  <Connectivity location="connectivity" />
+  <Wounding location="chipresourcewoundings.xml" />
+  <PinResourceType value="ioss[0].port[%1$d].pin[%2$d]" />
+  <HasUserControllableMcu value="true" />
+  <Profiles>
+    <Profile displayName="System" diagramType="CLOCKS" fileName="system" evalPriority="1" displayPriority="4" description="System configuration" resources="scu(\[\d+\])?.*$" />
+    <Profile displayName="DMA" fileName="dmas" evalPriority="2" displayPriority="5" description="DMA configuration" resources="dma(\[\d+\])?.*" />
+    <Profile displayName="Pins" diagramType="PACKAGE" fileName="pins" evalPriority="5" displayPriority="2" description="Pin configuration" resources="ioss[\[\.].*" />
+    <Profile displayName="Peripherals" fileName="peripherals" evalPriority="4" displayPriority="1" description="Peripheral Hardware Block configuration" resources=".*" />
+    <!--This won't match any HW locations because it is after the catchall (.*). This is on purpose and needed to specify display order/code gen order for Analog/routing.-->
+    <Profile purpose="ROUTING" displayName="Analog-Routing" diagramType="ANALOG" fileName="routing" evalPriority="3" displayPriority="3" description="Establishes all necessary connections between hardware elements." resources="NONE" />
+  </Profiles>
+</View>

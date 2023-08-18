@@ -1,0 +1,410 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_m_a__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DMA_t</compoundname>
+    <includes local="no">xmc_dma.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1ae9fbefdbf5d761dd530aaa51bcc92d4f" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_g_p_d_m_a___c_h__t" kindref="compound">GPDMA_CH_t</ref></type>
+        <definition>GPDMA_CH_t CH[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>CH</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="306" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a18ed0598e715dc08ca71066947161537" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t CHENREG</definition>
+        <argsstring></argsstring>
+        <name>CHENREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="328" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a1a3989975c6f2c0a8694ebf899e1849e" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t CLEARCHEV[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>CLEARCHEV</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="311" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1ad7b41ca5b5d727580280772580a44502" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t DMACFGREG</definition>
+        <argsstring></argsstring>
+        <name>DMACFGREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="326" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t ID</definition>
+        <argsstring></argsstring>
+        <name>ID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="330" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a0fc1f17cae46234168e2898bb11f0b47" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t LSTDSTREG</definition>
+        <argsstring></argsstring>
+        <name>LSTDSTREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="324" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a691aa0310bf50f57ca87a14303837a7c" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t LSTSRCREG</definition>
+        <argsstring></argsstring>
+        <name>LSTSRCREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="322" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1af0bb292a7f0c6e85c9339281b59b493c" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t MASKCHEV[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>MASKCHEV</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="310" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a2824b778d8ce2f58f22c1eff8ea6d22d" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t RAWCHEV[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>RAWCHEV</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="308" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a0c5301a4c01f0c04864e22363cc9b7a6" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t REQDSTREG</definition>
+        <argsstring></argsstring>
+        <name>REQDSTREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="316" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1ac58c1df43614da18736d0aae165667c9" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t REQSRCREG</definition>
+        <argsstring></argsstring>
+        <name>REQSRCREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="314" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a8d53de2395619ef58a0f808c41501e0e" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED20</definition>
+        <argsstring></argsstring>
+        <name>RESERVED20</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="313" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1abf52e317982a3d51be44e6b6ce630cb8" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED21</definition>
+        <argsstring></argsstring>
+        <name>RESERVED21</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="315" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a1f1329911fcb4e2a04dac132075d8e28" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED22</definition>
+        <argsstring></argsstring>
+        <name>RESERVED22</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="317" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a1e1dff67779f41609e4d364ecb0bbc57" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED23</definition>
+        <argsstring></argsstring>
+        <name>RESERVED23</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="319" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1af1d49dec27bdcdfe9589994905130878" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED24</definition>
+        <argsstring></argsstring>
+        <name>RESERVED24</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="321" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a70d812ead23a4421a55dc47a87b46c0a" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED25</definition>
+        <argsstring></argsstring>
+        <name>RESERVED25</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="323" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a18a314f8e9823967d2ed26dd4ca99920" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED26</definition>
+        <argsstring></argsstring>
+        <name>RESERVED26</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="325" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a077f0ab9f48c2d5e0d8792dee1b3b257" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED27</definition>
+        <argsstring></argsstring>
+        <name>RESERVED27</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="327" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a478439543856dd04b93839868f014ba0" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED28</definition>
+        <argsstring></argsstring>
+        <name>RESERVED28</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="329" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a563a625a9b43c9b8090b404d7032f1f1" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED29[19]</definition>
+        <argsstring>[19]</argsstring>
+        <name>RESERVED29</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="331" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a0fae87769eeefdadeb3a09c32d396b32" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SGLREQDSTREG</definition>
+        <argsstring></argsstring>
+        <name>SGLREQDSTREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="320" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a5475be9454c27829e63d8cff3f34d1c1" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SGLREQSRCREG</definition>
+        <argsstring></argsstring>
+        <name>SGLREQSRCREG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="318" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a49cddef8b7eefd0c72e309f1d8b493b7" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t STATUSCHEV[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>STATUSCHEV</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="309" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a84ecfdd8958165805e6cb3712a749805" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t STATUSGLEV</definition>
+        <argsstring></argsstring>
+        <name>STATUSGLEV</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="312" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a451e855eba3a2642587c31fd5977459d" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t TYPE</definition>
+        <argsstring></argsstring>
+        <name>TYPE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="332" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a__t_1a9edf00388afc880a55fd59c2c3e8be2a" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t VERSION</definition>
+        <argsstring></argsstring>
+        <name>VERSION</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="333" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DMA device structure <linebreak/>
+</para>
+<para>The structure represents a collection of all hardware registers used to configure the GPDMA peripheral on the XMC4000 series of microcontrollers. The registers can be accessed with <ref refid="group___d_m_a_1ga56e566fb69cbb1e0ddd476aaa19d173d" kindref="member">XMC_DMA0</ref> and <ref refid="group___d_m_a_1gaaf2a547ad7cf42892ee13113195b36dc" kindref="member">XMC_DMA1</ref>. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="37">
+        <label>GPDMA_CH_t</label>
+        <link refid="struct_g_p_d_m_a___c_h__t"/>
+      </node>
+      <node id="36">
+        <label>XMC_DMA_t</label>
+        <link refid="struct_x_m_c___d_m_a__t"/>
+        <childnode refid="37" relation="usage">
+          <edgelabel>CH</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="305" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="304" bodyend="334"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_m_a__t_1ae9fbefdbf5d761dd530aaa51bcc92d4f" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>CH</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a18ed0598e715dc08ca71066947161537" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>CHENREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a1a3989975c6f2c0a8694ebf899e1849e" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>CLEARCHEV</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1ad7b41ca5b5d727580280772580a44502" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>DMACFGREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>ID</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a0fc1f17cae46234168e2898bb11f0b47" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>LSTDSTREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a691aa0310bf50f57ca87a14303837a7c" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>LSTSRCREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1af0bb292a7f0c6e85c9339281b59b493c" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>MASKCHEV</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a2824b778d8ce2f58f22c1eff8ea6d22d" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RAWCHEV</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a0c5301a4c01f0c04864e22363cc9b7a6" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>REQDSTREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1ac58c1df43614da18736d0aae165667c9" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>REQSRCREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a8d53de2395619ef58a0f808c41501e0e" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED20</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1abf52e317982a3d51be44e6b6ce630cb8" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED21</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a1f1329911fcb4e2a04dac132075d8e28" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED22</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a1e1dff67779f41609e4d364ecb0bbc57" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED23</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1af1d49dec27bdcdfe9589994905130878" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED24</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a70d812ead23a4421a55dc47a87b46c0a" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED25</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a18a314f8e9823967d2ed26dd4ca99920" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED26</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a077f0ab9f48c2d5e0d8792dee1b3b257" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED27</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a478439543856dd04b93839868f014ba0" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED28</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a563a625a9b43c9b8090b404d7032f1f1" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>RESERVED29</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a0fae87769eeefdadeb3a09c32d396b32" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>SGLREQDSTREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a5475be9454c27829e63d8cff3f34d1c1" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>SGLREQSRCREG</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a49cddef8b7eefd0c72e309f1d8b493b7" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>STATUSCHEV</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a84ecfdd8958165805e6cb3712a749805" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>STATUSGLEV</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a451e855eba3a2642587c31fd5977459d" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>TYPE</name></member>
+      <member refid="struct_x_m_c___d_m_a__t_1a9edf00388afc880a55fd59c2c3e8be2a" prot="public" virt="non-virtual"><scope>XMC_DMA_t</scope><name>VERSION</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

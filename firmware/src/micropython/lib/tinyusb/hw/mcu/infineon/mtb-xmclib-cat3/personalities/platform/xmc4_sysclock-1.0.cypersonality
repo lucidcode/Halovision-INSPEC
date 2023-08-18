@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc4_sysclock-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Top-level clock personality description file for XMC4000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc4_clocks" name="SysClocks" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc4_scu" />
+    <Resource name="scu\.clock" />
+  </Dependencies>
+  <ExposedMembers>
+  </ExposedMembers>
+
+  <Parameters>
+    <ParamDoc id="apiDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/xmc4_api_reference_manual/html/group___s_c_u.html" linkText="Open SCU Documentation" visible="true" desc="Opens the XMC Peripheral Library Documentation" />
+    <ParamString id="description" name="" group="About" default="This personality has no configuration options. It is used to generate an overall configuration function for setting all the system clock options. The code preview shows what will be generated based on the current configuration. The generated code will be located in GeneratedSource/cycfg_system.c" visible="true" editable="false" desc="" />
+  </Parameters>
+
+  <ConfigFirmware>
+    <ConfigInclude value="xmc_scu.h" include="true" />
+    <ConfigFunction signature="void SystemCoreClockSetup(void)" 
+                    body     ="
+ XMC_SCU_CLOCK_CONFIG_t clock_config =&#xA;
+ {&#xA;
+ #if defined(CLOCK_SYSPLL_ENABLED)&#xA;
+   .syspll_config.n_div = CLOCK_SYSPLL_NDIV,&#xA;
+   .syspll_config.p_div = CLOCK_SYSPLL_PDIV,&#xA;
+   .syspll_config.k_div = CLOCK_SYSPLL_KDIV,&#xA;
+   .syspll_config.clksrc = CLOCK_SYSPLL_SEL,&#xA;
+   .syspll_config.mode = CLOCK_SYSPLL_MODE,&#xA;
+ #else&#xA;
+   .syspll_config.mode = XMC_SCU_CLOCK_SYSPLL_MODE_DISABLED,&#xA;
+ #endif&#xA;
+ #if defined(CLOCK_OSCHP_ENABLED)&#xA;
+   .enable_oschp = true,&#xA;
+ #endif&#xA;
+ #if defined(CLOCK_OSCLP_ENABLED)&#xA;
+   .enable_osculp = true,&#xA;
+ #endif&#xA;
+   .calibration_mode = CLOCK_FOFI_CALIBRATION_MODE,&#xA;
+   .fstdby_clksrc = CLOCK_STDBYCLK_SEL,&#xA;
+   .fsys_clksrc = CLOCK_SYSCLK_SEL,&#xA;
+   .fsys_clkdiv = CLOCK_SYSCLK_DIV,&#xA;
+   .fcpu_clkdiv = CLOCK_CPUCLK_DIV,&#xA;
+ #if defined(CLOCK_CCUCLK_ENABLED)&#xA;
+   .fccu_clkdiv = CLOCK_CCUCLK_DIV,&#xA;
+ #endif&#xA;
+   .fperipheral_clkdiv = CLOCK_PERICLK_DIV&#xA;
+ };&#xA;
+&#xA;
+#if defined(CLOCK_EXTCLK_ENABLED)&#xA;
+ /* External output source clock */&#xA;
+ XMC_SCU_CLOCK_SetExternalOutputClockSource(CLOCK_EXTCLK_SEL);&#xA;
+ /* External clock divider setting */&#xA;
+ XMC_SCU_CLOCK_SetExternalOutputClockDivider(CLOCK_EXTCLK_DIV);&#xA;
+#endif&#xA;  
+&#xA;
+ XMC_SCU_CLOCK_Init(&amp;clock_config);&#xA;
+&#xA;
+ /* RTC source clock */&#xA;
+ XMC_SCU_HIB_SetRtcClockSource(CLOCK_RTCCLK_SEL);&#xA;
+&#xA;
+#if defined(CLOCK_USBCLK_ENABLED)&#xA;
+  /* USB/SDMMC source clock */&#xA;
+  XMC_SCU_CLOCK_SetUsbClockSource(CLOCK_USBCLK_SEL);&#xA;
+  /* USB/SDMMC divider setting */&#xA;
+  XMC_SCU_CLOCK_SetUsbClockDivider(CLOCK_USBCLK_DIV);&#xA;
+#endif&#xA;
+&#xA;
+#if defined(CLOCK_USBPLL_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableUsbPll();&#xA;
+ XMC_SCU_CLOCK_StartUsbPll(CLOCK_USBPLL_PDIV, CLOCK_USBPLL_NDIV);&#xA;
+#endif 
+&#xA;
+#if defined(CLOCK_ECATCLK_ENABLED)&#xA;
+ /* ECAT source clock */&#xA;
+ XMC_SCU_CLOCK_SetECATClockSource(CLOCK_ECATCLK_SEL);&#xA;
+ /* ECAT divider setting */&#xA;
+ XMC_SCU_CLOCK_SetECATClockDivider(CLOCK_ECATCLK_DIV);&#xA;
+#endif&#xA;
+&#xA;
+#if defined(CLOCK_WDTCLK_ENABLED)&#xA;
+ /* WDT source clock */&#xA;
+ XMC_SCU_CLOCK_SetWdtClockSource(CLOCK_WDTCLK_SEL);&#xA;
+ /* WDT divider setting */&#xA;
+ XMC_SCU_CLOCK_SetWdtClockDivider(CLOCK_WDTCLK_DIV);&#xA;
+#endif&#xA;
+&#xA;
+#if defined(CLOCK_EBUCLK_ENABLED)&#xA;
+ /* EBU divider setting */&#xA;
+ XMC_SCU_CLOCK_SetEbuClockDivider(CLOCK_EBUCLK_DIV);&#xA;
+#endif
+&#xA;
+
+#if defined(CLOCK_USBCLK_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_USB);&#xA;
+#endif&#xA;
+#if defined(CLOCK_SDCLK_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_MMC);&#xA;
+#endif&#xA;
+#if defined(CLOCK_ETHCLK_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_ETH);&#xA;
+#endif&#xA;
+#if defined(CLOCK_EBUCLK_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_EBU);&#xA;
+#endif&#xA;
+#if defined(CLOCK_CCUCLK_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_CCU);&#xA;
+#endif&#xA;
+#if defined(CLOCK_WDTCLK_ENABLED)&#xA;
+ XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_WDT);&#xA;
+#endif" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

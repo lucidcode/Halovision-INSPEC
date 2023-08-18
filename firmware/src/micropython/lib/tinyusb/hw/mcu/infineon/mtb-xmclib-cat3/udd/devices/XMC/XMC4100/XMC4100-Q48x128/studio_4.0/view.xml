@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Parameters xml_version="1" xmlns="http://cypress.com/xsd/cydatawounding_v1">
+  <Param name="PartNumber" value="XMC4100-Q48x128" />
+  <Param name="PartAvailability" value="Active" />
+  <Param name="DeviceDie" value="XMC4100" />
+  <Param name="Package" value="VQFN-48" />
+  <Param name="CPU" value="ARM CM4" />
+  <Param name="DeviceSeries" value="XMC4100" />
+  <Param name="Speed_MHz" value="80" />
+  <Param name="Flash_KB" value="128" />
+  <Param name="SRAM_KB" value="20" />
+  <Param name="CCU4_Count" value="8" />
+  <Param name="CCU4_removed" value="NA" />
+  <Param name="CCU8_Count" value="4" />
+  <Param name="CCU8_removed" value="NA" />
+  <Param name="POSIF_Count" value="1" />
+  <Param name="POSIF_removed" value="" />
+  <Param name="USIC_Count" value="4" />
+  <Param name="USIC_removed" value="NA" />
+  <Param name="LEDTS_Count" value="1" />
+  <Param name="LEDTS_removed" value="NA" />
+  <Param name="CAN_Count" value="2" />
+  <Param name="CAN_removed" value="NA" />
+  <Param name="ADC_Count" value="2" />
+  <Param name="ADC_removed" value="NA" />
+  <Param name="DAC_Count" value="2" />
+  <Param name="DAC_removed" value="NA" />
+  <Param name="DSD_Count" value="0" />
+  <Param name="DSD_removed" value="NA" />
+  <Param name="USB_Count" value="1" />
+  <Param name="USB_removed" value="NA" />
+  <Param name="HRPWM_Count" value="1" />
+  <Param name="HRPWM_removed" value="NA" />
+  <Param name="SDMMC_Count" value="0" />
+  <Param name="SDMMC_removed" value="NA" />
+  <Param name="ETH_Count" value="0" />
+  <Param name="ETH_removed" value="NA" />
+  <Param name="ECAT_Count" value="0" />
+  <Param name="ECAT_removed" value="NA" />
+  <Param name="EBU_Count" value="0" />
+  <Param name="EBU_removed" value="NA" />
+  <Param name="Vddmin_volts" value="3.13" />
+  <Param name="Vddmax_volts" value="3.63" />
+  <Param name="TempMin_Celsius" value="-40" />
+  <Param name="TempMax_Celsius" value="125" />
+  <Param name="REQUIRED_KITS" value="None" />
+  <Param name="Next_Best_Alt_Part" value="None" />
+</Parameters>

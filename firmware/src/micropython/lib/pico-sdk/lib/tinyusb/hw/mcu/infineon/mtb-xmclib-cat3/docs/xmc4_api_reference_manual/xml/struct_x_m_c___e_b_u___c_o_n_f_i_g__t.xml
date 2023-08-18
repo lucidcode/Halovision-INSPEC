@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_CONFIG_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_o_n_f_i_g__t_1ab02c6c260915332b1cc1ea0245652204" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t" kindref="compound">XMC_EBU_CLK_CONFIG_t</ref></type>
+        <definition>XMC_EBU_CLK_CONFIG_t ebu_clk_config</definition>
+        <argsstring></argsstring>
+        <name>ebu_clk_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clock configuration structure </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1038" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1038" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_o_n_f_i_g__t_1ab0cce0ad6462964ac89f734734d091c1" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t" kindref="compound">XMC_EBU_FREE_PINS_TO_GPIO_t</ref></type>
+        <definition>XMC_EBU_FREE_PINS_TO_GPIO_t ebu_free_pins_to_gpio</definition>
+        <argsstring></argsstring>
+        <name>ebu_free_pins_to_gpio</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Free allocated EBU ports for GPIO </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1040" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1040" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_o_n_f_i_g__t_1a6edd9d8eedb196cdfca5e07f5dc0f1a6" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t" kindref="compound">XMC_EBU_MODE_CONFIG_t</ref></type>
+        <definition>XMC_EBU_MODE_CONFIG_t ebu_mode_config</definition>
+        <argsstring></argsstring>
+        <name>ebu_mode_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mode configuration structure </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1039" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1039" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>EBU global configurations <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the global configurations of the EBU like clock, mode and GPIO mode. The <ref refid="group___e_b_u_1ga8215e4bdc48f3d94cdacecc6856834a8" kindref="member">XMC_EBU_Init()</ref> can be used to populate the structure with the region read and write configuration values of EBU. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="65">
+        <label>XMC_EBU_MODE_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="67">
+        <label>XMC_EBU_CLK_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="64">
+        <label>XMC_EBU_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___c_o_n_f_i_g__t"/>
+        <childnode refid="65" relation="usage">
+          <edgelabel>ebu_mode_config</edgelabel>
+        </childnode>
+        <childnode refid="66" relation="usage">
+          <edgelabel>ebu_free_pins_to_gpio</edgelabel>
+        </childnode>
+        <childnode refid="67" relation="usage">
+          <edgelabel>ebu_clk_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="66">
+        <label>XMC_EBU_FREE_PINS_TO_GPIO_t</label>
+        <link refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1037" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1036" bodyend="1041"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___c_o_n_f_i_g__t_1ab02c6c260915332b1cc1ea0245652204" prot="public" virt="non-virtual"><scope>XMC_EBU_CONFIG_t</scope><name>ebu_clk_config</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_o_n_f_i_g__t_1ab0cce0ad6462964ac89f734734d091c1" prot="public" virt="non-virtual"><scope>XMC_EBU_CONFIG_t</scope><name>ebu_free_pins_to_gpio</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_o_n_f_i_g__t_1a6edd9d8eedb196cdfca5e07f5dc0f1a6" prot="public" virt="non-virtual"><scope>XMC_EBU_CONFIG_t</scope><name>ebu_mode_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

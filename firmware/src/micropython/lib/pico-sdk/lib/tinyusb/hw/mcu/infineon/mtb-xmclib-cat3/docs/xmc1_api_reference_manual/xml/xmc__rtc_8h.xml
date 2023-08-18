@@ -1,0 +1,1239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__rtc_8h" kind="file" language="C++">
+    <compoundname>xmc_rtc.h</compoundname>
+    <includes local="no">time.h</includes>
+    <includes local="yes">xmc_common.h</includes>
+    <includes refid="xmc1__rtc_8h" local="yes">xmc1_rtc.h</includes>
+    <incdepgraph>
+      <node id="66">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="64">
+        <label>xmc_rtc.h</label>
+        <link refid="xmc__rtc_8h"/>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>time.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" prot="public">XMC_RTC_ALARM_t</innerclass>
+    <innerclass refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" prot="public">XMC_RTC_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___r_t_c___t_i_m_e__t" prot="public">XMC_RTC_TIME_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_EVENT_t</name>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951abaf495d3fe42c40fe8ce9055db3d8bd6" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_SECONDS</name>
+          <initializer>= RTC_MSKSR_MPSE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a70134c3b9338fe6548649885e4b55056" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_MINUTES</name>
+          <initializer>= RTC_MSKSR_MPMI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951ab209cc2ec8a7edbb3230a3020d8104ed" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_HOURS</name>
+          <initializer>= RTC_MSKSR_MPHO_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951afa22d124a4d8ff86f9d8f7e324eddc2a" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_DAYS</name>
+          <initializer>= RTC_MSKSR_MPDA_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a317318fc7f639a462d8f42fea95f8031" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_MONTHS</name>
+          <initializer>= RTC_MSKSR_MPMO_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951ad4142a107e9a717b51cc93e52955bd06" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_YEARS</name>
+          <initializer>= RTC_MSKSR_MPYE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a8113ac4db38433f2aab4bc993ef2a720" prot="public">
+          <name>XMC_RTC_EVENT_ALARM</name>
+          <initializer>= RTC_MSKSR_MAI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Events which enables interrupt request generation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="115" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="114" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1ga9fbe92e7ed334021ef7290a0a7a8ac63" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_MONTH_t</name>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63ad8f2fc3fbe4264245e0a3a351693ca3d" prot="public">
+          <name>XMC_RTC_MONTH_JANUARY</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a6a80979d89e754c12cb1395a037c7bee" prot="public">
+          <name>XMC_RTC_MONTH_FEBRUARY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63aea8059b559d7616899ed301d93e17253" prot="public">
+          <name>XMC_RTC_MONTH_MARCH</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63add6d73de5807a4d0a7ab74db8a06362c" prot="public">
+          <name>XMC_RTC_MONTH_APRIL</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63aa8541aded1e25590b552ec84efb8b19f" prot="public">
+          <name>XMC_RTC_MONTH_MAY</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a65519d95936f7e356ffc4f039ba7f861" prot="public">
+          <name>XMC_RTC_MONTH_JUNE</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a9a6edaf1be418719dd94e2ab61ab78ed" prot="public">
+          <name>XMC_RTC_MONTH_JULY</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63ade38ab95923acc864cbdc942971133a1" prot="public">
+          <name>XMC_RTC_MONTH_AUGUST</name>
+          <initializer>= 7U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a832487de9cefac6de2c8dc69e01b45eb" prot="public">
+          <name>XMC_RTC_MONTH_SEPTEMBER</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a5880432fe809ad20dd78ff8fe0ee35dc" prot="public">
+          <name>XMC_RTC_MONTH_OCTOBER</name>
+          <initializer>= 9U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a695095c6dd6723ab5ae9851dccefdb8f" prot="public">
+          <name>XMC_RTC_MONTH_NOVEMBER</name>
+          <initializer>= 10U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a9838a31b0a567cf2eb9707cdb82a7761" prot="public">
+          <name>XMC_RTC_MONTH_DECEMBER</name>
+          <initializer>= 11U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Months used to program the date </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="129" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="128" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1gaed446fc99b168a439c6cc2db2a205dfa" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_STATUS_t</name>
+        <enumvalue id="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaa47ea81dbacc888c447f4ed1a6069735c" prot="public">
+          <name>XMC_RTC_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation successful </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaa1e6887b4d065d4dc6c263e9ae46e3b6d" prot="public">
+          <name>XMC_RTC_STATUS_ERROR</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation unsuccessful </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaab80d53d7e1846c83bcbfb2071f90f302" prot="public">
+          <name>XMC_RTC_STATUS_BUSY</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Busy with a previous request </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status return values for RTC low level driver </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="105" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="104" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1ga6c1ab7306136e305052ea695da51c855" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_WEEKDAY_t</name>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a9b892585415c78a69ec240502f3bf22f" prot="public">
+          <name>XMC_RTC_WEEKDAY_SUNDAY</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a7bba5f016fc9f26a7037515dce5d4db5" prot="public">
+          <name>XMC_RTC_WEEKDAY_MONDAY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855ab7654790267cdb946542c43a4cf2306a" prot="public">
+          <name>XMC_RTC_WEEKDAY_TUESDAY</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855abf593867c0c2aa40c57ff4b71cf3ece5" prot="public">
+          <name>XMC_RTC_WEEKDAY_WEDNESDAY</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a669c2c3f4c8543392fc6c496abca4170" prot="public">
+          <name>XMC_RTC_WEEKDAY_THURSDAY</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a42d7b0aadf4f45718a8a36dbb197eada" prot="public">
+          <name>XMC_RTC_WEEKDAY_FRIDAY</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855abda72236fedf1377359043467d0f29ea" prot="public">
+          <name>XMC_RTC_WEEKDAY_SATURDAY</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Week days used program the date </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="148" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="147" bodyend="156"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___r_t_c_1ga68d13bcb9a9312844cba39d7792cef6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_ClearEvent</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_ClearEvent</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC event (<ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clears periodic and alarm event(s) status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the bitfields of CLRSR register to clear status bits in RAWSTAT and STSSR registers. Setting the value for the the RTC event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref> clears the corresponding status bits in RAWSTAT and STSSR registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga303f3ef19eaacd57fd05e4c65759c503" kindref="member">XMC_RTC_GetEventStatus()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="638" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Disable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Disable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables RTC peripheral for programming its registers <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Gates the peripheral clock.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, XMC_SCU_RESET_AssertPeripheralReset() </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="349" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga9cdf252baa2e293e393b3bd75c1858a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_DisableEvent</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_DisableEvent</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC event (<ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable RTC periodic and alarm event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the bitfields of MSKSR register to disable interrupt generation for requested RTC event(s). Resetting the masking value for the the event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref> blocks the generation of the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gabb9181ef4ea092ce09bc8c80318fad23" kindref="member">XMC_RTC_EnableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="620" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Enable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Enable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables RTC peripheral for programming its registers <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Ungates the peripheral clock.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" kindref="member">XMC_RTC_Disable()</ref>, XMC_SCU_RESET_DeassertPeripheralReset() </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="330" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gabb9181ef4ea092ce09bc8c80318fad23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_EnableEvent</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_EnableEvent</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC event (<ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable RTC periodic and alarm event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the bitfields of MSKSR register to enable interrupt generation for requested RTC event(s). Setting the masking value for the event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref> leads to a generation of the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga9cdf252baa2e293e393b3bd75c1858a3" kindref="member">XMC_RTC_DisableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="601" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetAlarm</definition>
+        <argsstring>(XMC_RTC_ALARM_t *const alarm)</argsstring>
+        <name>XMC_RTC_GetAlarm</name>
+        <param>
+          <type><ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> *const</type>
+          <declname>alarm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alarm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> structure containing the time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month and alarm year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module alarm time value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the alarm time values from ATIM0, ATIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> for the valid range of alarm time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="545" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gab7e150db371758a584a7efaf778ec65e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetAlarmStdFormat</definition>
+        <argsstring>(struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_GetAlarmStdFormat</name>
+        <param>
+          <type>struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant ::tm structure containing the time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month, alarm year(since 1900) and alarm days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module alarm time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the alarm time values from ATIM0, ATIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> for the valid range of alarm time value parameters. <linebreak/>
+ For days the valid range is (1 - Actual days of month), year (since 1900) and daysinyear (0 -365).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref>, <ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="582" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga303f3ef19eaacd57fd05e4c65759c503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_RTC_GetEventStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_GetEventStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC periodic and alarm event(s) status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the bitfields of STSSR register to get the status of RTC events. Reading the value of the register STSSR gives the status of the event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga68d13bcb9a9312844cba39d7792cef6a" kindref="member">XMC_RTC_ClearEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="654" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gad6bbfb84e080773cc0bc97a6b5d04673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_RTC_GetPrescaler</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_GetPrescaler</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module prescaler value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the CTR.DIV bitfield to get the prescalar value. The default value for the prescalar with the 32.768kHz crystal (or the internal clock) is 7FFFH for a time interval of 1 sec.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gae593067f20d83f3bfb78f9fbb55f2b66" kindref="member">XMC_RTC_SetPrescaler()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="434" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="434" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetTime</definition>
+        <argsstring>(XMC_RTC_TIME_t *const time)</argsstring>
+        <name>XMC_RTC_GetTime</name>
+        <param>
+          <type><ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> *const</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> structure containing the time parameters seconds, minutes, hours, days, daysofweek, month and year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module time value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the time values from TIM0, TIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> for the valid range of time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="472" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga7ea79333ab81d7595d2d36f65d693c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetTimeStdFormat</definition>
+        <argsstring>(struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_GetTimeStdFormat</name>
+        <param>
+          <type>struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant ::tm structure containing the time parameters seconds, minutes, hours, days, daysofweek, month, year(since 1900) and days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the time values from TIM0, TIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> for the valid range of time value parameters. <linebreak/>
+ For days the valid range is (1 - Actual days of month), year (since 1900) and daysinyear (0 -365).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime()</ref>, <ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="509" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga6d21f3c6b2be1975f1593301c4ba9698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___r_t_c_1gaed446fc99b168a439c6cc2db2a205dfa" kindref="member">XMC_RTC_STATUS_t</ref></type>
+        <definition>XMC_RTC_STATUS_t XMC_RTC_Init</definition>
+        <argsstring>(const XMC_RTC_CONFIG_t *const config)</argsstring>
+        <name>XMC_RTC_Init</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kindref="compound">XMC_RTC_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to a constant <ref refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kindref="compound">XMC_RTC_CONFIG_t</ref> structure containing the time, alarm time and clock divider(prescaler) configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_RTC_STATUS_t Always returns XMC_RTC_STATUS_OK (It contains only register assignment statements)</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the RTC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function ungates the peripheral clock for RTC, configures internal clock divider, time and alarm values by writing to the CTR.DIV, TIM0, TIM1, ATIM0 and ATIM1 registers. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="311" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gaa43757597d99d09440fe053536b380e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_RTC_IsEnabled</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_IsEnabled</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Checks RTC peripheral is enabled for programming its registers <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Checks peripheral clock is ungated or not.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" kindref="member">XMC_RTC_Disable()</ref>, XMC_SCU_RESET_DeassertPeripheralReset(), XMC_SCU_RESET_AssertPeripheralReset() </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="369" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gae3c731e9a54a8723b34a3e1b7dfb54ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_RTC_IsRunning</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_IsRunning</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>bool true if RTC is running false if RTC is not running</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Checks the running status of the RTC <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the bitfield ENB of CTR register to get the running status of RTC.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" kindref="member">XMC_RTC_Start()</ref>, <ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="670" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="670" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetAlarm</definition>
+        <argsstring>(const XMC_RTC_ALARM_t *const alarm)</argsstring>
+        <name>XMC_RTC_SetAlarm</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> *const</type>
+          <declname>alarm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alarm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to a constant <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> structure containing the alarm time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month and alarm year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module alarm time value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the ATIM0, ATIM1 registers with alarm time values. See the structure <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> for the valid range of alarm time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="527" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga9b7300d074526315c349c4de2b655948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetAlarmStdFormat</definition>
+        <argsstring>(const struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_SetAlarmStdFormat</name>
+        <param>
+          <type>const struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a ::tm structure containing the time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month, alarm year(since 1900) and alarm days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module alarm time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the alarm time values from ATIM0, ATIM1 registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref>, <ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="562" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gae593067f20d83f3bfb78f9fbb55f2b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetPrescaler</definition>
+        <argsstring>(uint16_t prescaler)</argsstring>
+        <name>XMC_RTC_SetPrescaler</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>prescaler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prescaler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prescaler value to be set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module prescaler value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CTR.DIV bitfield to configure the prescalar value. The default value for the prescalar with the 32.768kHz crystal (or the internal clock) is 7FFFH for a time interval of 1 sec. Before setting the prescaler value RTC should be in stop mode and hibernate domain should be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref>, <ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1gad6bbfb84e080773cc0bc97a6b5d04673" kindref="member">XMC_RTC_GetPrescaler()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="418" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetTime</definition>
+        <argsstring>(const XMC_RTC_TIME_t *const timeval)</argsstring>
+        <name>XMC_RTC_SetTime</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> *const</type>
+          <declname>timeval</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contstant pointer to a constant <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> structure containing the time parameters seconds, minutes, hours, days, daysofweek, month and year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module time values <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the TIM0, TIM1 registers with time values. The values can only be written when RTC is disabled. See the structure <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> for the valid range of time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime()</ref>, <ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="455" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga6ed60ac9d9ba537b8373be7c35cf7da2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetTimeStdFormat</definition>
+        <argsstring>(const struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_SetTimeStdFormat</name>
+        <param>
+          <type>const struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a ::tm structure containing the time parameters seconds, minutes, hours, days, daysofweek, month, year(since 1900) and days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the time values from TIM0, TIM1 registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime()</ref>, <ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="489" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Start</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Start</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables RTC peripheral to start counting time <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function starts the RTC for counting time by setting CTR.ENB bit. Before starting the RTC, it should not be in running mode and also hibernate domain should be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref>, XMC_SCU_RESET_DeassertPeripheralReset() </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="385" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Stop</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Stop</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables RTC peripheral to start counting time <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function stops the RTC for counting time by resetting CTR.ENB. Before stopping the RTC, hibernate domain should be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" kindref="member">XMC_RTC_Start()</ref>, XMC_SCU_RESET_AssertPeripheralReset() </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="400" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2019-12-02 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="65"><highlight class="preprocessor">#ifndef<sp/>XMC_RTC_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_RTC_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="70"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="94"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="95"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="98"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="99"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_RTC_STATUS</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaa47ea81dbacc888c447f4ed1a6069735c" kindref="member">XMC_RTC_STATUS_OK</ref><sp/><sp/><sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaa1e6887b4d065d4dc6c263e9ae46e3b6d" kindref="member">XMC_RTC_STATUS_ERROR</ref><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaab80d53d7e1846c83bcbfb2071f90f302" kindref="member">XMC_RTC_STATUS_BUSY</ref><sp/><sp/>=<sp/>2U<sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/><ref refid="group___r_t_c_1gaed446fc99b168a439c6cc2db2a205dfa" kindref="member">XMC_RTC_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_RTC_EVENT</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951abaf495d3fe42c40fe8ce9055db3d8bd6" kindref="member">XMC_RTC_EVENT_PERIODIC_SECONDS</ref><sp/>=<sp/>RTC_MSKSR_MPSE_Msk,<sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a70134c3b9338fe6548649885e4b55056" kindref="member">XMC_RTC_EVENT_PERIODIC_MINUTES</ref><sp/>=<sp/>RTC_MSKSR_MPMI_Msk,<sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951ab209cc2ec8a7edbb3230a3020d8104ed" kindref="member">XMC_RTC_EVENT_PERIODIC_HOURS</ref><sp/><sp/><sp/>=<sp/>RTC_MSKSR_MPHO_Msk,<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951afa22d124a4d8ff86f9d8f7e324eddc2a" kindref="member">XMC_RTC_EVENT_PERIODIC_DAYS</ref><sp/><sp/><sp/><sp/>=<sp/>RTC_MSKSR_MPDA_Msk,<sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a317318fc7f639a462d8f42fea95f8031" kindref="member">XMC_RTC_EVENT_PERIODIC_MONTHS</ref><sp/><sp/>=<sp/>RTC_MSKSR_MPMO_Msk,<sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951ad4142a107e9a717b51cc93e52955bd06" kindref="member">XMC_RTC_EVENT_PERIODIC_YEARS</ref><sp/><sp/><sp/>=<sp/>RTC_MSKSR_MPYE_Msk,<sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a8113ac4db38433f2aab4bc993ef2a720" kindref="member">XMC_RTC_EVENT_ALARM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>RTC_MSKSR_MAI_Msk<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_RTC_MONTH</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_JANUARY<sp/><sp/><sp/>=<sp/>0U,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_FEBRUARY<sp/><sp/>=<sp/>1U,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_MARCH<sp/><sp/><sp/><sp/><sp/>=<sp/>2U,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_APRIL<sp/><sp/><sp/><sp/><sp/>=<sp/>3U,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_MAY<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4U,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_JUNE<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5U,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_JULY<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>6U,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_AUGUST<sp/><sp/><sp/><sp/>=<sp/>7U,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_SEPTEMBER<sp/>=<sp/>8U,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_OCTOBER<sp/><sp/><sp/>=<sp/>9U,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_NOVEMBER<sp/><sp/>=<sp/>10U,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>XMC_RTC_MONTH_DECEMBER<sp/><sp/>=<sp/>11U</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/><ref refid="group___r_t_c_1ga9fbe92e7ed334021ef7290a0a7a8ac63" kindref="member">XMC_RTC_MONTH_t</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_RTC_WEEKDAY</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_SUNDAY<sp/><sp/><sp/><sp/>=<sp/>0U,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_MONDAY<sp/><sp/><sp/><sp/>=<sp/>1U,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_TUESDAY<sp/><sp/><sp/>=<sp/>2U,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_WEDNESDAY<sp/>=<sp/>3U,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_THURSDAY<sp/><sp/>=<sp/>4U,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_FRIDAY<sp/><sp/><sp/><sp/>=<sp/>5U,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/>XMC_RTC_WEEKDAY_SATURDAY<sp/><sp/>=<sp/>6U</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/><ref refid="group___r_t_c_1ga6c1ab7306136e305052ea695da51c855" kindref="member">XMC_RTC_WEEKDAY_t</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="159"><highlight class="comment"><sp/>*<sp/>DATA<sp/>STRUCTURES</highlight></codeline>
+<codeline lineno="160"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">/*Anonymous<sp/>structure/union<sp/>guard<sp/>start*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CC_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>push</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>anon_unions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__TASKING__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning<sp/>586</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_RTC_ALARM</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>raw0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seconds<sp/><sp/>:<sp/>6;<sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>minutes<sp/><sp/>:<sp/>6;<sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>hours<sp/><sp/><sp/><sp/>:<sp/>5;<sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>3;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>days<sp/><sp/><sp/><sp/><sp/>:<sp/>5;<sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>3;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>raw1;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>8;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>month<sp/><sp/><sp/><sp/>:<sp/>4;<sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>4;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>year<sp/><sp/><sp/><sp/><sp/>:<sp/>16;<sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="struct_x_m_c___r_t_c___t_i_m_e__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_RTC_TIME</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>raw0;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seconds<sp/><sp/>:<sp/>6;<sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>minutes<sp/><sp/>:<sp/>6;<sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>hours<sp/><sp/><sp/><sp/>:<sp/>5;<sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>3;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>days<sp/><sp/><sp/><sp/><sp/>:<sp/>5;<sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>3;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>raw1;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>daysofweek<sp/><sp/>:<sp/>3;<sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>5;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>month<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>4;<sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>4;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>year<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>16;<sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">/*Anonymous<sp/>structure/union<sp/>guard<sp/>end*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CC_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>pop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__TASKING__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_RTC_CONFIG</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref><sp/><sp/><sp/><sp/>time;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref><sp/><sp/><sp/>alarm;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prescaler;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kindref="compound">XMC_RTC_CONFIG_t</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="272"><highlight class="comment"><sp/>*<sp/>EXTENSIONS</highlight></codeline>
+<codeline lineno="273"><highlight class="comment"><sp/>*******************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>UC_FAMILY<sp/>==<sp/>XMC1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc1_rtc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>UC_FAMILY<sp/>==<sp/>XMC4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc4_rtc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="284"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="285"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="group___r_t_c_1gaed446fc99b168a439c6cc2db2a205dfa" kindref="member">XMC_RTC_STATUS_t</ref><sp/><ref refid="group___r_t_c_1ga6d21f3c6b2be1975f1593301c4ba9698" kindref="member">XMC_RTC_Init</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kindref="compound">XMC_RTC_CONFIG_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>config);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" kindref="member">XMC_RTC_Disable</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gaa43757597d99d09440fe053536b380e3" kindref="member">XMC_RTC_IsEnabled</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" kindref="member">XMC_RTC_Start</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gae593067f20d83f3bfb78f9fbb55f2b66" kindref="member">XMC_RTC_SetPrescaler</ref>(uint16_t<sp/>prescaler);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___r_t_c_1gad6bbfb84e080773cc0bc97a6b5d04673" kindref="member">XMC_RTC_GetPrescaler</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="435"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(uint32_t)(((uint32_t)RTC-&gt;CTR<sp/>&amp;<sp/>(uint32_t)RTC_CTR_DIV_Msk)<sp/>&gt;&gt;<sp/>(uint32_t)RTC_CTR_DIV_Pos);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>timeval);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime</ref>(<ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>time);</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga6ed60ac9d9ba537b8373be7c35cf7da2" kindref="member">XMC_RTC_SetTimeStdFormat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>tm<sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>stdtime);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga7ea79333ab81d7595d2d36f65d693c1c" kindref="member">XMC_RTC_GetTimeStdFormat</ref>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>tm<sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>stdtime);</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>alarm);</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm</ref>(<ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>alarm);</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga9b7300d074526315c349c4de2b655948" kindref="member">XMC_RTC_SetAlarmStdFormat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>tm<sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>stdtime);</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gab7e150db371758a584a7efaf778ec65e" kindref="member">XMC_RTC_GetAlarmStdFormat</ref>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>tm<sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>stdtime);</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gabb9181ef4ea092ce09bc8c80318fad23" kindref="member">XMC_RTC_EnableEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>event);</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga9cdf252baa2e293e393b3bd75c1858a3" kindref="member">XMC_RTC_DisableEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>event);</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"></highlight></codeline>
+<codeline lineno="638"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga68d13bcb9a9312844cba39d7792cef6a" kindref="member">XMC_RTC_ClearEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>event);</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"></highlight></codeline>
+<codeline lineno="654"><highlight class="normal">uint32_t<sp/><ref refid="group___r_t_c_1ga303f3ef19eaacd57fd05e4c65759c503" kindref="member">XMC_RTC_GetEventStatus</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"></highlight></codeline>
+<codeline lineno="670"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gae3c731e9a54a8723b34a3e1b7dfb54ce" kindref="member">XMC_RTC_IsRunning</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="671"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">)(RTC-&gt;CTR<sp/>&amp;<sp/>RTC_CTR_ENB_Msk);</highlight></codeline>
+<codeline lineno="673"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"></highlight></codeline>
+<codeline lineno="675"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="676"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="678"><highlight class="normal"></highlight></codeline>
+<codeline lineno="684"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_RTC_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h"/>
+  </compounddef>
+</doxygen>

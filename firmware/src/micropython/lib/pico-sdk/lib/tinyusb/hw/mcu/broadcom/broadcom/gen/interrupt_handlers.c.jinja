@@ -1,0 +1,156 @@
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+
+#include "broadcom/cpu.h"
+#include "broadcom/defines.h"
+
+// This catches non-interrupt exceptions that are similar to Cortex-M hard faults.
+__attribute__((weak)) void HardFault_IRQHandler(void) {
+    while (true) {}
+}
+
+#if BCM_VERSION == 2711
+{% for i in range(7) %}
+__attribute__((weak)) void SPI{{ i }}_IRQHandler(void) {
+    while(true) {}
+}
+{% endfor %}
+{% for i in range(8) %}
+__attribute__((weak)) void BSC{{ i }}_IRQHandler(void) {
+    while(true) {}
+}
+{% endfor %}
+{% for i in range(6) %}
+__attribute__((weak)) void UART{{ i }}_IRQHandler(void) {
+    while(true) {}
+}
+{% endfor %}
+#else
+{% for aux in ("UART0", "UART1", "SPI0", "SPI1", "SPI2") %}
+__attribute__((weak)) void {{ aux }}_IRQHandler(void) {
+    while(true) {}
+}
+{% endfor %}
+{% for i in range(3) %}
+__attribute__((weak)) void BSC{{ i }}_IRQHandler(void) {
+    while(true) {}
+}
+{% endfor %}
+#endif
+
+{% for i in range(interrupt_count) %}
+{% if i in bcm2711_interrupt_names %}
+{% set name, description = bcm2711_interrupt_names[i] %}
+{% if i not in bcm2711_to_bcm283x %}
+#if BCM_VERSION == 2711
+{% endif %}
+// {{ i }}: {{ description }}
+__attribute__((weak)) void {{ name }}_IRQHandler(void) {
+{% if name == "AUX" %}
+    while (AUX->IRQ != 0) {
+        if (AUX->IRQ_b.UART_1) {
+            UART1_IRQHandler();
+        } else if (AUX->IRQ_b.SPI_1) {
+            SPI1_IRQHandler();
+        } else if (AUX->IRQ_b.SPI_2) {
+            SPI2_IRQHandler();
+        }
+    }
+{% elif name == "SPI" %}
+    #if BCM_VERSION == 2711
+    uint32_t status = PACTL->CS;
+    while ((PACTL->CS & 0x79) != 0) {
+        if ((status & PACTL_CS_SPI_0_Msk) != 0) {
+            SPI0_IRQHandler();
+        {% for j in range(3, 7) -%}
+        } else if ((status & PACTL_CS_SPI_{{ j }}_Msk) != 0) {
+            SPI{{ j }}_IRQHandler();
+        {% endfor -%}
+        }
+        COMPLETE_MEMORY_READS;
+        status = PACTL->CS;
+    }
+    #else
+    SPI0_IRQHandler();
+    #endif
+{% elif name == "I2C" %}
+    #if BCM_VERSION == 2711
+    uint32_t status = PACTL->CS;
+    while ((status & 0xff00) != 0) {
+        if ((status & PACTL_CS_I2C_0_Msk) != 0) {
+            BSC0_IRQHandler();
+        {% for j in range(1, 8) -%}
+        } else if ((status & PACTL_CS_I2C_{{ j }}_Msk) != 0) {
+            BSC{{ j }}_IRQHandler();
+        {% endfor -%}
+        }
+        COMPLETE_MEMORY_READS;
+        status = PACTL->CS;
+    }
+    #else
+    uint32_t status;
+    uint32_t control;
+    {% for j in range(0, 3) -%}
+    status = BSC{{ j }}->S;
+    control = BSC{{ j }}->C;
+    COMPLETE_MEMORY_READS;
+    if (((control & BSC0_C_INTR_Msk) != 0 && (status & BSC0_S_RXR_Msk) != 0) ||
+        ((control & BSC0_C_INTT_Msk) != 0 && (status & BSC0_S_TXW_Msk) != 0) ||
+        ((control & BSC0_C_INTD_Msk) != 0 && (status & BSC0_S_DONE_Msk) != 0)) {
+        BSC{{ j }}_IRQHandler();
+        COMPLETE_MEMORY_READS;
+    }
+    {% endfor -%}
+    #endif
+{% elif name == "UART" %}
+    #if BCM_VERSION == 2711
+    uint32_t status = PACTL->CS;
+    while ((status & 0x1f0000) != 0) {
+        if ((status & PACTL_CS_UART_0_Msk) != 0) {
+            UART0_IRQHandler();
+        {% for j in range(2, 6) -%}
+        } else if ((status & PACTL_CS_UART_{{ j }}_Msk) != 0) {
+            UART{{ j }}_IRQHandler();
+        {% endfor -%}
+        }
+        COMPLETE_MEMORY_READS;
+        status = PACTL->CS;
+    }
+    #else
+    UART0_IRQHandler();
+    #endif
+{% else %}
+    while(true) {}
+{% endif %}
+}
+{% if i not in bcm2711_to_bcm283x %}
+#endif
+{% endif %}
+
+{% endif %}
+{% endfor %}
+
+#if BCM_VERSION != 2711
+void* interrupt_handlers[{{ bcm283x_interrupt_count }}] = {
+{% for i in range(bcm283x_interrupt_count) %}
+{% if i in bcm283x_interrupt_names %}
+{% set name, description = bcm283x_interrupt_names[i] %}
+  {{ name }}_IRQHandler,
+{%- else %}
+  NULL,
+{%- endif %} // {{ i }}
+{% endfor %}
+};
+#else
+void* interrupt_handlers[{{ bcm2711_interrupt_count }}] = {
+{% for i in range(bcm2711_interrupt_count) %}
+{% if i in bcm2711_interrupt_names %}
+{% set name, description = bcm2711_interrupt_names[i] %}
+  {{ name }}_IRQHandler,
+{%- else %}
+  NULL,
+{%- endif %} // {{ i }}
+{% endfor %}  
+};
+#endif

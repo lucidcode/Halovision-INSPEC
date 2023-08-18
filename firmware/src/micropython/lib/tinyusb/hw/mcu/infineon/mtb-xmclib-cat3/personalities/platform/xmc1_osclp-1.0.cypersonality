@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_osclp-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Low precision oscillator personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_osclp" name="OSC_LP" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock\.osc_lp" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fOSC_LP" />
+    <ExposedMember key="suppressCodeGen" paramId="suppressCodeGen" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamBool id="suppressCodeGen" name="suppressCodeGen" group="Internal"
+      default="true" visible="false" editable="false"
+      desc="Prevents pins connected to this personality to generate configuration code" />
+    <ParamString id="fOSC_LP" name="Frequency (Hz)" group="Internal"
+      default="32768" visible="false" editable="false" desc="" />
+
+    <!-- General -->
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fOSC_LP)}`" visible="true" editable="false"
+      desc="The actual OSC_LP frequency." />
+
+    <!-- Connections -->
+    <ParamSignal port="osc_lp_in[0]" name="Input" group="Connections"
+      visible="true" desc="The input pin connected as RTC_XTAL1." canBeEmpty="true" multiSelect="false" />
+    <ParamSignal port="osc_lp_out[0]" name="Output" group="Connections"
+      visible="true" desc="The output pin connected as RTC_XTAL2." canBeEmpty="true" multiSelect="false" />
+  </Parameters>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_OSCLP_ENABLED" value="1U" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

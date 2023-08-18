@@ -1,0 +1,2264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___i2_c" kind="group">
+    <compoundname>I2C</compoundname>
+    <title>Inter Integrated Circuit(IIC)</title>
+    <innerclass refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" prot="public">XMC_I2C_CH_CONFIG_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___i2_c_1gaf81b9bb81ece318669b08149f1fd7f4b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_CMD_t</name>
+        <enumvalue id="group___i2_c_1ggaf81b9bb81ece318669b08149f1fd7f4baf3c121d840b85087f675d717adf27dc5" prot="public">
+          <name>XMC_I2C_CH_CMD_WRITE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>I2C Command Write </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggaf81b9bb81ece318669b08149f1fd7f4ba31d1b9749ef1daa181a908bbf2f28087" prot="public">
+          <name>XMC_I2C_CH_CMD_READ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>I2C Command Read </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2C commands. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="205" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="204" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_c_1ga4142054abf4133012810875bc5ac4f48" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_EVENT_t</name>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a07ea52a7379c4bf4825453b3d210b0be" prot="public">
+          <name>XMC_I2C_CH_EVENT_RECEIVE_START</name>
+          <initializer>= USIC_CH_CCR_RSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive start event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a3f9ea9390840a184c4b611aa5fe1ce6d" prot="public">
+          <name>XMC_I2C_CH_EVENT_DATA_LOST</name>
+          <initializer>= USIC_CH_CCR_DLIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data lost event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48afd7666e256e93f0e533f879a83284f54" prot="public">
+          <name>XMC_I2C_CH_EVENT_TRANSMIT_SHIFT</name>
+          <initializer>= USIC_CH_CCR_TSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit shift event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a5e8ecaf6874fb8996dc7a527e183c8d8" prot="public">
+          <name>XMC_I2C_CH_EVENT_TRANSMIT_BUFFER</name>
+          <initializer>= USIC_CH_CCR_TBIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit buffer event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48aa3535a887f7de062e4e3d0eaa95e421c" prot="public">
+          <name>XMC_I2C_CH_EVENT_STANDARD_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_RIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a2d0b99a3d3e49439e6a6d58776b028d1" prot="public">
+          <name>XMC_I2C_CH_EVENT_ALTERNATIVE_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_AIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Alternate receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48ab99891a610ff5ad0a7fdfb8037981da8" prot="public">
+          <name>XMC_I2C_CH_EVENT_BAUD_RATE_GENERATOR</name>
+          <initializer>= USIC_CH_CCR_BRGIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baudrate generator event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48ad4539a3f5b3d43af665dcb2a5816ed82" prot="public">
+          <name>XMC_I2C_CH_EVENT_START_CONDITION_RECEIVED</name>
+          <initializer>= USIC_CH_PCR_IICMode_SCRIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Start condition received event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48acf9e7500f6357d8821e4ef18c935e751" prot="public">
+          <name>XMC_I2C_CH_EVENT_REPEATED_START_CONDITION_RECEIVED</name>
+          <initializer>= USIC_CH_PCR_IICMode_RSCRIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Repeated start condition received event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a8b8ef502b35abb43ea12a87e497a28d3" prot="public">
+          <name>XMC_I2C_CH_EVENT_STOP_CONDITION_RECEIVED</name>
+          <initializer>= USIC_CH_PCR_IICMode_PCRIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Stop condition received event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a8cffe5232278c8f126ebfbc8487a1c26" prot="public">
+          <name>XMC_I2C_CH_EVENT_NACK</name>
+          <initializer>= USIC_CH_PCR_IICMode_NACKIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>NACK received event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a0ef9afd8b09cb8e99bcc7d342c0a38ee" prot="public">
+          <name>XMC_I2C_CH_EVENT_ARBITRATION_LOST</name>
+          <initializer>= USIC_CH_PCR_IICMode_ARLIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Arbitration lost event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a5b951bd38436773cb0e772c1db7dc997" prot="public">
+          <name>XMC_I2C_CH_EVENT_SLAVE_READ_REQUEST</name>
+          <initializer>= USIC_CH_PCR_IICMode_SRRIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave read request event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a43faef54c5b0282fd188a4d374a18bdc" prot="public">
+          <name>XMC_I2C_CH_EVENT_ERROR</name>
+          <initializer>= USIC_CH_PCR_IICMode_ERRIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Error condition event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga4142054abf4133012810875bc5ac4f48abcff76a9225d94f13a62d8fd613abe62" prot="public">
+          <name>XMC_I2C_CH_EVENT_ACK</name>
+          <initializer>= USIC_CH_PCR_IICMode_ACKIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACK received event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2C events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="214" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="213" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_c_1ga76b49d68cc6d179beaf1dfe2998230bd" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_INPUT_t</name>
+        <enumvalue id="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bdaba2847f3ec9aeb06277abdea4a9a51bc" prot="public">
+          <name>XMC_I2C_CH_INPUT_SDA</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>selection of sda input stage </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bda9d0620d9cfd7849ca798dee8aaa80932" prot="public">
+          <name>XMC_I2C_CH_INPUT_SDA1</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bdad2381faab3eceb346231436a7fca75b6" prot="public">
+          <name>XMC_I2C_CH_INPUT_SDA2</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bdaabd01419bb4afb47c665b94b4441dca9" prot="public">
+          <name>XMC_I2C_CH_INPUT_SCL</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>selection of scl input stage </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bda98dced376da72fb89f1f4a54fe33b2ed" prot="public">
+          <name>XMC_I2C_CH_INPUT_SCL1</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2C input stage selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="237" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="236" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_c_1ga797641917b01a783e6e7aac5d25a298f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_INTERRUPT_NODE_POINTER_t</name>
+        <enumvalue id="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fafd73773ef7c86cc9030d4766b6dad775" prot="public">
+          <name>XMC_I2C_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit shift interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fa30e7d3a2e8ad4bb38a00f428454b517c" prot="public">
+          <name>XMC_I2C_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit buffer interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fa7d9ed5feb1378602a157a765470f55bb" prot="public">
+          <name>XMC_I2C_CH_INTERRUPT_NODE_POINTER_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fab01fc29cb67b7bf5c6cd96d4ab25aa61" prot="public">
+          <name>XMC_I2C_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for alternate receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fa21d86beba6a0b2719c4a280f6e0c483b" prot="public">
+          <name>XMC_I2C_CH_INTERRUPT_NODE_POINTER_PROTOCOL</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for protocol related interrupts </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>I2C channel interrupt node pointers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="253" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="252" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_c_1ga0f5cc56c100494c399620dc165e74ee9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_RECEIVER_STATUS_FLAG_t</name>
+        <enumvalue id="group___i2_c_1gga0f5cc56c100494c399620dc165e74ee9ae99b1cd7f47070702c4c8608eee3ea5b" prot="public">
+          <name>XMC_I2C_CH_RECEIVER_STATUS_FLAG_ACK</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bit 8: Value of Received Acknowledgement bit </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga0f5cc56c100494c399620dc165e74ee9a94b6f93bb9548e17750f7ca5c1ead596" prot="public">
+          <name>XMC_I2C_CH_RECEIVER_STATUS_FLAG_FIN</name>
+          <initializer>= 0x2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bit 9: A 1 at this bit position indicates that after a (repeated) start condition followed by the address reception the first data byte of a new frame has been received. A 0 at this bit position indicates further data bytes </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga0f5cc56c100494c399620dc165e74ee9a4f00ab2699087f6404bb326a8a40432f" prot="public">
+          <name>XMC_I2C_CH_RECEIVER_STATUS_FLAG_MODE</name>
+          <initializer>= 0x4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bit 10: A 0 at this bit position indicates that the data byte has been received when the device has been in slave mode, whereas a 1 indicates a reception in master mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga0f5cc56c100494c399620dc165e74ee9a1561cdb73356e1167878f2c171a59c03" prot="public">
+          <name>XMC_I2C_CH_RECEIVER_STATUS_FLAG_ERR</name>
+          <initializer>= 0x8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bit 11: A 1 at this bit position indicates an incomplete/erroneous data byte in the receive buffer </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1gga0f5cc56c100494c399620dc165e74ee9acdd6f7f3796679921b546e194b25329e" prot="public">
+          <name>XMC_I2C_CH_RECEIVER_STATUS_FLAG_ADR</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bit 12: A 0 at this bit position indicates that the programmed address has been received. A 1 indicates a general call address. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2C receiver status. The received data byte is available at the bit positions RBUF[7:0], whereas the additional information is monitored at the bit positions RBUF[12:8]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="188" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="187" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_c_1gae922e0696a07a1809a0d8e80248ce497" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_STATUS_FLAG_t</name>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a9064574003e7488ab0abb7ff5ab24afb" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_SLAVE_SELECT</name>
+          <initializer>= USIC_CH_PSR_IICMode_SLSEL_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave select status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a755a5fd93caa9ce9256fb9b1af28f83b" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_WRONG_TDF_CODE_FOUND</name>
+          <initializer>= USIC_CH_PSR_IICMode_WTDF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wrong TDF status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a70622c04d56ea2eb020f6d284a6ab3cb" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_START_CONDITION_RECEIVED</name>
+          <initializer>= USIC_CH_PSR_IICMode_SCR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Start condition received status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a756fc8a9aeeb892d313cb974a3d0177b" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_REPEATED_START_CONDITION_RECEIVED</name>
+          <initializer>= USIC_CH_PSR_IICMode_RSCR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Repeated start condition received status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a4664181ff09534b6db48dea42858e898" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_STOP_CONDITION_RECEIVED</name>
+          <initializer>= USIC_CH_PSR_IICMode_PCR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Stop condition received status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497ab44e1045125702fdfd9dcf9285ef17cb" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_NACK_RECEIVED</name>
+          <initializer>= USIC_CH_PSR_IICMode_NACK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>NACK received status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a9423024bda96a10cd3c46715cd9ca9df" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_ARBITRATION_LOST</name>
+          <initializer>= USIC_CH_PSR_IICMode_ARL_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Arbitration lost status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a7b0ee1867bcc1f8341b092ae4eb67511" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_SLAVE_READ_REQUESTED</name>
+          <initializer>= USIC_CH_PSR_IICMode_SRR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Slave read requested status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a2da70d78de866416d369528e6219429f" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_ERROR</name>
+          <initializer>= USIC_CH_PSR_IICMode_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Error status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497ab08a526647c7f9bd1bcad252e6a195c3" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_ACK_RECEIVED</name>
+          <initializer>= USIC_CH_PSR_IICMode_ACK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACK received status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a942fb1f070d531f75611d7ea2780b895" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_RECEIVER_START_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_RSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive start indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497ae799d0f1665c26de8a6e698c68e5b2cb" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_DATA_LOST_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_DLIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data lost indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a277ffd76549e58155dbe9bb950a2827c" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_TRANSMIT_SHIFT_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_TSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit shift indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a852f66a227d76d83ce213ff503666566" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_TRANSMIT_BUFFER_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_TBIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit buffer indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a66815c4a86a9c2db3486177c992a559d" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_RIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a47e992f985807bd7e44c6a1692221454" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_ALTERNATIVE_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_AIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Alternate receive indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497a592e3d84375f9921674e4e5a46a2544d" prot="public">
+          <name>XMC_I2C_CH_STATUS_FLAG_BAUD_RATE_GENERATOR_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IICMode_BRGIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baud rate generator indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2C status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="162" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="161" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_c_1gacba9683fdb659e012642e66bc96a406d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2C_CH_STATUS_t</name>
+        <enumvalue id="group___i2_c_1ggacba9683fdb659e012642e66bc96a406dad4a9d28840691950dde4b05dad36f276" prot="public">
+          <name>XMC_I2C_CH_STATUS_OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status OK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggacba9683fdb659e012642e66bc96a406da60c441b462f4212da785420bb921734d" prot="public">
+          <name>XMC_I2C_CH_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status ERROR </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_c_1ggacba9683fdb659e012642e66bc96a406da27fb280a26d46055901bc598c7e02f2f" prot="public">
+          <name>XMC_I2C_CH_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status BUSY </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2C Status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="152" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="151" bodyend="156"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___i2_c_1gab922e97164d14898b92df3d30c10fe83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_ClearStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t flag)</argsstring>
+        <name>XMC_I2C_CH_ClearStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Status flag </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears the status flag of I2C <emphasis>channel</emphasis> by setting the input parameter <emphasis>flag</emphasis> in PSCR register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1gaddc87a65cf16a2bf717f650a29506cef" kindref="member">XMC_I2C_CH_GetStatusFlag()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="727" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="727" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga63149dd65f853cc69ed57add87f34627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_ConfigExternalInputSignalToBRG</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t pdiv, const uint32_t oversampling, const XMC_USIC_CH_INPUT_COMBINATION_MODE_t combination_mode)</argsstring>
+        <name>XMC_I2C_CH_ConfigExternalInputSignalToBRG</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>pdiv</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>oversampling</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_s_i_c_1ga4c50ae5a7f12a5496d82d2bc665e1db2" kindref="member">XMC_USIC_CH_INPUT_COMBINATION_MODE_t</ref></type>
+          <declname>combination_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>, <ref refid="group___i2_c_1gafbbadccd3da1cbecf1aac59dd54035dd" kindref="member">XMC_I2C0_CH1</ref>,<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<ref refid="group___i2_c_1ga8b7a66d60a6dc718f09b5245187b9fec" kindref="member">XMC_I2C1_CH1</ref>,<ref refid="group___i2_c_1gadbd192d1e612ccd4143ec299966a11f0" kindref="member">XMC_I2C2_CH0</ref>,<ref refid="group___i2_c_1ga7d470379c765ee393530da6b97372122" kindref="member">XMC_I2C2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2C1 and I2C2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pdiv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired divider for the external frequency input. <bold>Range:</bold> minimum value = 1, maximum value = 1024 <linebreak/>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>oversampling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required oversampling. The value indicates the number of time quanta for one symbol of data. <linebreak/>
+ This can be related to the number of samples for each logic state of the data signal. <linebreak/>
+ <bold>Range:</bold> 1 to 32. Value should be chosen based on the protocol used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>combination_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>USIC channel input combination mode <linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the external frequency input for the Baudrate Generator and configures the divider, oversampling and the combination mode of the USIC channel. <linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga2876a325930da4b77ef46ec4e0acda0d" kindref="member">XMC_USIC_CH_SetBRGInputClockSource()</ref>, <ref refid="group___u_s_i_c_1gaeef58e03c1253fce5b8a456f5d8c6da6" kindref="member">XMC_USIC_CH_SetInputTriggerCombinationMode()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="750" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="750" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga4d7a2f143c3f07c35b39174d6e802be6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_DisableAcknowledgeAddress0</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_DisableAcknowledgeAddress0</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>This bit defines that slave device should not be sensitive to the slave address 00H.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1gae49923f2679d64f4980518491d844bec" kindref="member">XMC_I2C_CH_EnableAcknowledgeAddress0()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="783" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="783" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga2c7d23e924935f15cbebc5808e901fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_DisableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_DisableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>, <ref refid="group___i2_c_1gafbbadccd3da1cbecf1aac59dd54035dd" kindref="member">XMC_I2C0_CH1</ref>,<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<ref refid="group___i2_c_1ga8b7a66d60a6dc718f09b5245187b9fec" kindref="member">XMC_I2C1_CH1</ref>,<ref refid="group___i2_c_1gadbd192d1e612ccd4143ec299966a11f0" kindref="member">XMC_I2C2_CH0</ref>,<ref refid="group___i2_c_1ga7d470379c765ee393530da6b97372122" kindref="member">XMC_I2C2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2C1 and I2C2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___i2_c_1gad2bdd26fa6dce7331c7ba723c2536070" kindref="member">XMC_I2C_CH_EnableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1gad2bdd26fa6dce7331c7ba723c2536070" kindref="member">XMC_I2C_CH_EnableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="820" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="820" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga7d0b7e575a13d2fdd2ead33d96d9e15b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_DisableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t event)</argsstring>
+        <name>XMC_I2C_CH_DisableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ORed values of <ref refid="group___i2_c_1ga4142054abf4133012810875bc5ac4f48" kindref="member">XMC_I2C_CH_EVENT_t</ref> enum </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the input parameter <ref refid="group___i2_c_1ga4142054abf4133012810875bc5ac4f48" kindref="member">XMC_I2C_CH_EVENT_t</ref> event using PCR_IICMode register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga868f80d9e08a0518c38100dda3f77882" kindref="member">XMC_I2C_CH_EnableEvent()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="699" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga4dd4cbd57cae2b9d61d1b930ad516d8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_DisableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_DisableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the generation of Master clock by clearing PCR.MCLK bit.<linebreak/>
+<linebreak/>
+This clock can be enabled by invoking <ref refid="group___i2_c_1gac55a7d058c2ccdb357a1b43a4f3d6de7" kindref="member">XMC_I2C_CH_EnableMasterClock()</ref> as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1gac55a7d058c2ccdb357a1b43a4f3d6de7" kindref="member">XMC_I2C_CH_EnableMasterClock()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="856" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="856" bodyend="859"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gae49923f2679d64f4980518491d844bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_EnableAcknowledgeAddress0</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_EnableAcknowledgeAddress0</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Retrieves the status byte of I2C <emphasis>channel</emphasis> using PSR_IICMode register.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga4d7a2f143c3f07c35b39174d6e802be6" kindref="member">XMC_I2C_CH_DisableAcknowledgeAddress0()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="768" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="768" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gad2bdd26fa6dce7331c7ba723c2536070" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_EnableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_EnableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>, <ref refid="group___i2_c_1gafbbadccd3da1cbecf1aac59dd54035dd" kindref="member">XMC_I2C0_CH1</ref>,<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<ref refid="group___i2_c_1ga8b7a66d60a6dc718f09b5245187b9fec" kindref="member">XMC_I2C1_CH1</ref>,<ref refid="group___i2_c_1gadbd192d1e612ccd4143ec299966a11f0" kindref="member">XMC_I2C2_CH0</ref>,<ref refid="group___i2_c_1ga7d470379c765ee393530da6b97372122" kindref="member">XMC_I2C2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2C1 and I2C2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___i2_c_1ga2c7d23e924935f15cbebc5808e901fb8" kindref="member">XMC_I2C_CH_DisableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>. </para>
+</simplesect>
+<simplesect kind="note"><para>If you need more control over the start of transmission use <ref refid="group___u_s_i_c_1ga3b02352ba5e94e8f79751dea304084e0" kindref="member">XMC_USIC_CH_SetStartTransmisionMode()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga2c7d23e924935f15cbebc5808e901fb8" kindref="member">XMC_I2C_CH_DisableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="802" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="802" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga868f80d9e08a0518c38100dda3f77882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_EnableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t event)</argsstring>
+        <name>XMC_I2C_CH_EnableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ORed values of <ref refid="group___i2_c_1ga4142054abf4133012810875bc5ac4f48" kindref="member">XMC_I2C_CH_EVENT_t</ref> enum </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the input parameter <ref refid="group___i2_c_1ga4142054abf4133012810875bc5ac4f48" kindref="member">XMC_I2C_CH_EVENT_t</ref> event using PCR_IICMode register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga7d0b7e575a13d2fdd2ead33d96d9e15b" kindref="member">XMC_I2C_CH_DisableEvent()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="686" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gac55a7d058c2ccdb357a1b43a4f3d6de7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_EnableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_EnableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the generation of Master clock by setting PCR.MCLK bit.<linebreak/>
+<linebreak/>
+This clock can be used as a clock reference for external devices. This is not enabled during initialization in <ref refid="group___i2_c_1gafbab6cabacc65e03592b1c5d6cece11d" kindref="member">XMC_I2C_CH_Init()</ref>. Invoke <ref refid="group___i2_c_1gac55a7d058c2ccdb357a1b43a4f3d6de7" kindref="member">XMC_I2C_CH_EnableMasterClock()</ref> to enable as needed in the program, or if it is disabled by <ref refid="group___i2_c_1ga4dd4cbd57cae2b9d61d1b930ad516d8e" kindref="member">XMC_I2C_CH_DisableMasterClock()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga4dd4cbd57cae2b9d61d1b930ad516d8e" kindref="member">XMC_I2C_CH_DisableMasterClock()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="839" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="839" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga50f0983dca84031814fcbcb52991ee63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_I2C_CH_GetReceivedData</definition>
+        <argsstring>(const XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_GetReceivedData</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint8_t OUTR/RBUF register data<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads the data from I2C <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Data is read by using OUTR/RBUF register based on FIFO/non-FIFO modes.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="658" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gad1168655888146acb741b9e6aac04c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_I2C_CH_GetReceiverStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_GetReceiverStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint8_t Receiver status flag<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Gets the receiver status of I2C <emphasis>channel</emphasis> using RBUF register of bits 8-12 which gives information about receiver status.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="670" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="670" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga9131749645c421ff4b8bc80d0c93b691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_I2C_CH_GetSlaveAddress</definition>
+        <argsstring>(const XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_GetSlaveAddress</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Slave address<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Gets the I2C <emphasis>channel</emphasis> slave address.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Returns the address using PCR_IICMode register by checking if it is in 10-bit address group or 7-bit address group.<linebreak/>
+ (If first five bits of address are assigned with 0xF0, then address mode is considered as 10-bit mode otherwise it is 7-bit mode)<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="note"><para>A 7-bit address will include an additional bit at the LSB. For example, address 0x05 will be returned as 0x0a. 10-bit address will not include the 10-bit address identifier 0b11110xx at the most signifcant bits.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1gaec9df234c44378c3fc10f0423d71aec9" kindref="member">XMC_I2C_CH_SetSlaveAddress()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="524" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gaddc87a65cf16a2bf717f650a29506cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_I2C_CH_GetStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_GetStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Status byte<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Retrieves the status byte of I2C <emphasis>channel</emphasis> using PSR_IICMode register.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1gab922e97164d14898b92df3d30c10fe83" kindref="member">XMC_I2C_CH_ClearStatusFlag()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="711" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="711" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gafbab6cabacc65e03592b1c5d6cece11d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_Init</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2C_CH_CONFIG_t *const config)</argsstring>
+        <name>XMC_I2C_CH_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2C_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to I2C channel config structure of type <ref refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2C_CH_CONFIG_t</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes the I2C <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Configures the data format in SCTR register. Sets the slave address, baud rate. Enables transmit data valid, clears status flags and disables parity generation.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga0567321036170adb335fef9b36dc3b71" kindref="member">XMC_USIC_CH_Enable()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="319" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gaf4863d117a62932fe1f784e45797c62e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_InitEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2C_CH_CONFIG_t *const config, bool init_brg)</argsstring>
+        <name>XMC_I2C_CH_InitEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2C_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>init_brg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to I2C channel config structure of type <ref refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2C_CH_CONFIG_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>init_brg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects if the baudrate generator should be configured automatically.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes the I2C <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Configures the data format in SCTR register. Sets the slave address, baud rate. Enables transmit data valid, clears status flags and disables parity generation.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga0567321036170adb335fef9b36dc3b71" kindref="member">XMC_USIC_CH_Enable()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="301" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gad5e1a8e56b356c2fc246c8b3b95bfb74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_MasterReceiveAck</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_MasterReceiveAck</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sends the Ack request from I2C master <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Reads the transmit buffer status is busy or not and thereby updates IN/TBUF register based on FIFO/non-FIFO modes using Master Receive Ack command.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="628" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gae5960060afec908c91cd8e4a78e5eae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_MasterReceiveNack</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_MasterReceiveNack</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sends the Nack request from I2C master <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Reads the transmit buffer status is busy or not and thereby updates IN/TBUF register based on FIFO/non-FIFO modes using Master Receive Nack command.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="643" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga770a5f71ceb3b447f21a8b129df6486e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_MasterRepeatedStart</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t addr, const XMC_I2C_CH_CMD_t command)</argsstring>
+        <name>XMC_I2C_CH_MasterRepeatedStart</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_c_1gaf81b9bb81ece318669b08149f1fd7f4b" kindref="member">XMC_I2C_CH_CMD_t</ref></type>
+          <declname>command</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C master address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>read/write command </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sends the repeated start condition from I2C master <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Sends the repeated start condition with read/write command by updating IN/TBUF register based on FIFO/non-FIFO modes.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Address(addr) should reserve an additional bit at the LSB for read/write indication. For example, address 0x05 should be provided as 0x0a. If the address is 10-bit, only most significant bits with the 10-bit identifier should be sent using this function. For example, if the 10-bit address is 0x305, the address should be provided as 0xf6(prepend with 0b11110, upper two bits of address 0b11, followed by 1-bit field for read/write).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref>, <ref refid="group___u_s_i_c_1ga091c9637a98727f1dce0d159764aea24" kindref="member">XMC_USIC_CH_GetTransmitBufferStatus()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="566" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gaebd425a409b805d4571e75f793317070" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_MasterStart</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t addr, const XMC_I2C_CH_CMD_t command)</argsstring>
+        <name>XMC_I2C_CH_MasterStart</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_c_1gaf81b9bb81ece318669b08149f1fd7f4b" kindref="member">XMC_I2C_CH_CMD_t</ref></type>
+          <declname>command</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C master address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>read/write command </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Starts the I2C master <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Sends the Start condition with read/write command by updating IN/TBUF register based on FIFO/non-FIFO modes.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Address(addr) should reserve an additional bit at the LSB for read/write indication. For example, address 0x05 should be provided as 0x0a. If the address is 10-bit, only most significant bits with the 10-bit identifier should be sent using this function. For example, if the 10-bit address is 0x305, the address should be provided as 0xf6(prepend with 0b11110, upper two bits of address 0b11, followed by 1-bit field for read/write).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref>, <ref refid="group___u_s_i_c_1ga091c9637a98727f1dce0d159764aea24" kindref="member">XMC_USIC_CH_GetTransmitBufferStatus()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="545" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga6a48dbbe2be7fce74bd328bae5db5141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_MasterStop</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_MasterStop</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Stops the I2C master <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Reads the transmit buffer status is busy or not and thereby updates IN/TBUF register based on FIFO/non-FIFO modes using Stop command.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga701835880c9d134de09af56c12ee3383" kindref="member">XMC_I2C_CH_MasterTransmit()</ref>, <ref refid="group___u_s_i_c_1ga091c9637a98727f1dce0d159764aea24" kindref="member">XMC_USIC_CH_GetTransmitBufferStatus()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="581" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga701835880c9d134de09af56c12ee3383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_MasterTransmit</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t data)</argsstring>
+        <name>XMC_I2C_CH_MasterTransmit</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>data to transmit from I2C <emphasis>channel</emphasis> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Transmit the data from the I2C master <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Reads the transmit buffer status is busy or not and thereby updates IN/TBUF register based on FIFO/non-FIFO modes using Master Send command.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga091c9637a98727f1dce0d159764aea24" kindref="member">XMC_USIC_CH_GetTransmitBufferStatus()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="597" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga0caf9dbe9035171cc4826ad279a857a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_SelectInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2C_CH_INTERRUPT_NODE_POINTER_t interrupt_node, const uint32_t service_request)</argsstring>
+        <name>XMC_I2C_CH_SelectInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_c_1ga797641917b01a783e6e7aac5d25a298f" kindref="member">XMC_I2C_CH_INTERRUPT_NODE_POINTER_t</ref></type>
+          <declname>interrupt_node</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>, <ref refid="group___i2_c_1gafbbadccd3da1cbecf1aac59dd54035dd" kindref="member">XMC_I2C0_CH1</ref>,<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<ref refid="group___i2_c_1ga8b7a66d60a6dc718f09b5245187b9fec" kindref="member">XMC_I2C1_CH1</ref>,<ref refid="group___i2_c_1gadbd192d1e612ccd4143ec299966a11f0" kindref="member">XMC_I2C2_CH0</ref>,<ref refid="group___i2_c_1ga7d470379c765ee393530da6b97372122" kindref="member">XMC_I2C2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2C1 and I2C2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interrupt_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interrupt node pointer to be configured. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fafd73773ef7c86cc9030d4766b6dad775" kindref="member">XMC_I2C_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</ref>, <ref refid="group___i2_c_1gga797641917b01a783e6e7aac5d25a298fa30e7d3a2e8ad4bb38a00f428454b517c" kindref="member">XMC_I2C_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</ref> etc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number.<linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for USIC channel events. <linebreak/>
+<linebreak/>
+For an event to generate interrupt, node pointer should be configured with service request(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so.<linebreak/>
+ Note: NVIC node should be separately enabled to generate the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga868f80d9e08a0518c38100dda3f77882" kindref="member">XMC_I2C_CH_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="438" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="438" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga0da1b672c78d08d3ffdb83316d1443cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___i2_c_1gacba9683fdb659e012642e66bc96a406d" kindref="member">XMC_I2C_CH_STATUS_t</ref></type>
+        <definition>XMC_I2C_CH_STATUS_t XMC_I2C_CH_SetBaudrate</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t rate)</argsstring>
+        <name>XMC_I2C_CH_SetBaudrate</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>baud rate of I2C channel</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the rate of I2C <emphasis>channel</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Standard over sampling is considered if rate &lt;= 100KHz and fast over sampling is considered if rate &gt; 100KHz.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1gac9feec95c73b09889e494ec6d6898f4f" kindref="member">XMC_USIC_CH_SetBaudrate()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="339" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga6d2b199b5c216800a315baca1f5b7bcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___i2_c_1gacba9683fdb659e012642e66bc96a406d" kindref="member">XMC_I2C_CH_STATUS_t</ref></type>
+        <definition>XMC_I2C_CH_STATUS_t XMC_I2C_CH_SetBaudrateEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t rate, bool normal_divider_mode)</argsstring>
+        <name>XMC_I2C_CH_SetBaudrateEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normal_divider_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>baud rate of I2C channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normal_divider_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter of signal at the cost of frequency selection</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the rate of I2C <emphasis>channel</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Standard over sampling is considered if rate &lt;= 100KHz and fast over sampling is considered if rate &gt; 100KHz.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1gac9feec95c73b09889e494ec6d6898f4f" kindref="member">XMC_USIC_CH_SetBaudrate()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="357" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga206a30449f5196a40611f3bbe5bf39ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_SetHoldDelay</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t hdel)</argsstring>
+        <name>XMC_I2C_CH_SetHoldDelay</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>hdel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>To respect the specified SDA hold time of 300 ns for standard mode and fast mode after a falling edge of signal SCL, a hold delay tHDEL has been introduced. It also prevents an erroneous detection of a start or a stop condition. The length of this delay can be programmed by bit field PCR.HDEL. Taking into account the input sampling and output update, bit field HDEL can be programmed according to:<itemizedlist>
+<listitem><para>HDEL &gt;= 300ns x fPPP - (3 x fPPP/fPERIH) + 1 (with digital filter and HDELmin = 2)</para>
+</listitem><listitem><para>HDEL &gt;= 300ns x fPPP - (3 x fPPP/fPERIH) + 2 (without digital filter and HDELmin = 1) If the digital input filter is used, HDEL compensates the filter delay of 2 filter periods (fPPP should be used) in case of a spike on the input signal. This ensures that a data bit on the SDA line changing just before the rising edge or behind the falling edge of SCL will not be treated as a start or stop condition. </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="880" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="880" bodyend="883"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga358214504f42dac696c4519efa19307b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_SetInputSource</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2C_CH_INPUT_t input, const uint8_t source)</argsstring>
+        <name>XMC_I2C_CH_SetInputSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_c_1ga76b49d68cc6d179beaf1dfe2998230bd" kindref="member">XMC_I2C_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C channel input stage of type <ref refid="group___i2_c_1ga76b49d68cc6d179beaf1dfe2998230bd" kindref="member">XMC_I2C_CH_INPUT_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input source select for the input stage(0-&gt;DX0A, 1-&gt;DX1A, .. 7-&gt;DX7G) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the input source for I2C <emphasis>channel</emphasis>.<linebreak/>
+ Defines the input stage for the corresponding input line.</para>
+</simplesect>
+<simplesect kind="note"><para>After configuring the input source for corresponding channel, interrupt node pointer is set.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>XMC_USIC_CH_SetInptSource(), <ref refid="group___u_s_i_c_1ga52f9fc18049dbc906b127e1f3662b4b3" kindref="member">XMC_USIC_CH_SetInterruptNodePointer()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="482" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="482" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gada2c698290a70ed692f067756ececd4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_SetInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t service_request)</argsstring>
+        <name>XMC_I2C_CH_SetInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number in the range of 0-5 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the interrupt node for protocol interrupt.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>To generate interrupt for an event, node pointer should be configured with service request number(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>NVIC node should be separately enabled to generate the interrupt. After setting the node pointer, desired event must be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga868f80d9e08a0518c38100dda3f77882" kindref="member">XMC_I2C_CH_EnableEvent()</ref>, NVIC_SetPriority(), NVIC_EnableIRQ(), <ref refid="group___i2_c_1ga358214504f42dac696c4519efa19307b" kindref="member">XMC_I2C_CH_SetInputSource()</ref><linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="412" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="412" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gaec9df234c44378c3fc10f0423d71aec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_SetSlaveAddress</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t address)</argsstring>
+        <name>XMC_I2C_CH_SetSlaveAddress</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C slave address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the I2C <emphasis>channel</emphasis> slave address.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Address is set in PCR_IICMode register by checking if it is in 10-bit address group or 7-bit address group. (If first five bits of address are assigned with 0xF0, then address mode is 10-bit mode otherwise it is 7-bit mode)<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="note"><para>A 7-bit address should include an additional bit at the LSB for read/write indication. For example, address 0x05 should be provided as 0x0a. A 10-bit address should be provided with the identifier 0b11110xx at the most significant bits. For example, address 0x305 should be provided as 0x7b05(bitwise OR with 0x7800).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga9131749645c421ff4b8bc80d0c93b691" kindref="member">XMC_I2C_CH_GetSlaveAddress()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="506" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gafdd7192c5a6b3fa481f293fb0a574665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_SlaveTransmit</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t data)</argsstring>
+        <name>XMC_I2C_CH_SlaveTransmit</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>data to transmit from I2C <emphasis>channel</emphasis> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Transmit the data from the I2C slave <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Reads the transmit buffer status is busy or not and thereby updates IN/TBUF register based on FIFO/non-FIFO modes using Slave Send command.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga091c9637a98727f1dce0d159764aea24" kindref="member">XMC_USIC_CH_GetTransmitBufferStatus()</ref>,<ref refid="group___i2_c_1gab922e97164d14898b92df3d30c10fe83" kindref="member">XMC_I2C_CH_ClearStatusFlag()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="613" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1gad3de1b923c1a3c0a2b1ea9a8d9ff1d91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_Start</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_Start</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Starts the I2C <emphasis>channel</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Sets the USIC input operation mode to I2C mode using CCR register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga8c04c213fd44c14b1bed871bb658683c" kindref="member">XMC_USIC_CH_SetMode()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="373" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="373" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga4eeda18d28c90e527c309726ff5d3cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___i2_c_1gacba9683fdb659e012642e66bc96a406d" kindref="member">XMC_I2C_CH_STATUS_t</ref></type>
+        <definition>XMC_I2C_CH_STATUS_t XMC_I2C_CH_Stop</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2C_CH_Stop</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel structure of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___i2_c_1gacba9683fdb659e012642e66bc96a406d" kindref="member">XMC_I2C_CH_STATUS_t<linebreak/>
+</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Stops the I2C <emphasis>channel</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Sets the USIC input operation to IDLE mode using CCR register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga8c04c213fd44c14b1bed871bb658683c" kindref="member">XMC_USIC_CH_SetMode()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="392" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_c_1ga72d5d08ec30a105175f9a789ab38c1c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2C_CH_TriggerServiceRequest</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t service_request_line)</argsstring>
+        <name>XMC_I2C_CH_TriggerServiceRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request_line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>, <ref refid="group___i2_c_1gafbbadccd3da1cbecf1aac59dd54035dd" kindref="member">XMC_I2C0_CH1</ref>,<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<ref refid="group___i2_c_1ga8b7a66d60a6dc718f09b5245187b9fec" kindref="member">XMC_I2C1_CH1</ref>,<ref refid="group___i2_c_1gadbd192d1e612ccd4143ec299966a11f0" kindref="member">XMC_I2C2_CH0</ref>,<ref refid="group___i2_c_1ga7d470379c765ee393530da6b97372122" kindref="member">XMC_I2C2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2C1 and I2C2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_request_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>service request number of the event to be triggered. <linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Trigger a I2C interrupt service request.<linebreak/>
+<linebreak/>
+When the I2C service request is triggered, the NVIC interrupt associated with it will be generated if enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_c_1ga0caf9dbe9035171cc4826ad279a857a3" kindref="member">XMC_I2C_CH_SelectInterruptNodePointer()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="461" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="461" bodyend="464"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" prot="public" static="no">
+        <name>XMC_I2C0_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1ga28dd6da4b742e7336b12ae6fa8de5e9f" kindref="member">XMC_USIC0_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC0 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="128" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_c_1gafbbadccd3da1cbecf1aac59dd54035dd" prot="public" static="no">
+        <name>XMC_I2C0_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1gab7c9a3765e7d637114fc67951cf20c5b" kindref="member">XMC_USIC0_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC0 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="129" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" prot="public" static="no">
+        <name>XMC_I2C1_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab3012ea0f6b1dddc5b1c05425e15c4a1" kindref="member">XMC_USIC1_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC1 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="133" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_c_1ga8b7a66d60a6dc718f09b5245187b9fec" prot="public" static="no">
+        <name>XMC_I2C1_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga8892cec48c6246ff3e470178e4273f99" kindref="member">XMC_USIC1_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC1 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="134" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_c_1gadbd192d1e612ccd4143ec299966a11f0" prot="public" static="no">
+        <name>XMC_I2C2_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab79d676f4efb3235bd3d8c977b83b1cf" kindref="member">XMC_USIC2_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC2 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="138" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_c_1ga7d470379c765ee393530da6b97372122" prot="public" static="no">
+        <name>XMC_I2C2_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga6f71692f25917f0dcd77bb77e5518313" kindref="member">XMC_USIC2_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC2 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="139" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_c_1ga156f3aa37787f3b6b73c58a742e64302" prot="public" static="no">
+        <name>XMC_I2C_10BIT_ADDR_GROUP</name>
+        <initializer>(0x7800U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Value to verify the address is 10-bit or not </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="142" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Inter Integrated Circuit(IIC) driver for the XMC microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>USIC IIC Features: <linebreak/>
+<itemizedlist>
+<listitem><para>Two-wire interface, with one line for shift clock transfer and synchronization (shift clock SCL), the other one for the data transfer (shift data SDA) <linebreak/>
+</para>
+</listitem><listitem><para>Communication in standard mode (100 kBit/s) or in fast mode (up to 400 kBit/s) <linebreak/>
+</para>
+</listitem><listitem><para>Support of 7-bit addressing, as well as 10-bit addressing <linebreak/>
+</para>
+</listitem><listitem><para>Master mode operation, where the IIC controls the bus transactions and provides the clock signal. <linebreak/>
+</para>
+</listitem><listitem><para>Slave mode operation, where an external master controls the bus transactions and provides the clock signal.<linebreak/>
+</para>
+</listitem><listitem><para>Multi-master mode operation, where several masters can be connected to the bus and bus arbitration can take place, i.e. the IIC module can be master or slave. <linebreak/>
+ The master/slave operation of an IIC bus participant can change from frame to frame. <linebreak/>
+</para>
+</listitem><listitem><para>Efficient frame handling (low software effort), also allowing DMA transfers <linebreak/>
+</para>
+</listitem><listitem><para>Powerful interrupt handling due to multitude of indication flags <linebreak/>
+ </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

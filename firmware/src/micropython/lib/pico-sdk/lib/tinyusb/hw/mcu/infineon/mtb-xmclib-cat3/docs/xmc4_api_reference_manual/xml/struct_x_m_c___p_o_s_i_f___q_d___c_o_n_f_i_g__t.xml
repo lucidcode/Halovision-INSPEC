@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_POSIF_QD_CONFIG_t</compoundname>
+    <includes local="no">xmc_posif.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a867427744ce8a848ce55c99991b2c1e6" prot="public" static="no" mutable="no">
+        <type>union XMC_POSIF_QD_CONFIG_t::@225</type>
+        <definition>union XMC_POSIF_QD_CONFIG_t::@225 @226</definition>
+        <argsstring></argsstring>
+        <name>@226</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="307" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="302" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 26</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="304" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1aafd95f8c7a99b9189ede7cdf0871ebe8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Index signal generation control. Use <ref refid="group___p_o_s_i_f_1ga157c3e8c0476b8fcf6474ec5bd903091" kindref="member">XMC_POSIF_QD_INDEX_GENERATION_t</ref> to configure this field. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="303" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a930128540436de72ff14b9266936b477" prot="public" static="no" mutable="no">
+        <type><ref refid="group___p_o_s_i_f_1ga69cbdac80d1da6a266a58eebd5deec6a" kindref="member">XMC_POSIF_QD_MODE_t</ref></type>
+        <definition>XMC_POSIF_QD_MODE_t mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Operational Mode of the quadrature encoder and decoder </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="294" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a7b87e7584ca2055f4beb1284fa56f491" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t phase_a</definition>
+        <argsstring></argsstring>
+        <name>phase_a</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase-A active level configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="299" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a4331081d6c34369e9897c3502392f0ff" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t phase_b</definition>
+        <argsstring></argsstring>
+        <name>phase_b</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase-B active level configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="300" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1af24b2221a0e1eddbd3d6020cf82b603c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t phase_leader</definition>
+        <argsstring></argsstring>
+        <name>phase_leader</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Which of the two phase signals[Phase A or Phase B] leads the other? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="301" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a2cf25ef8a6a9fcc3876a1d406a97be00" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t qdc</definition>
+        <argsstring></argsstring>
+        <name>qdc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="306" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines POSIF quadrature decoder initialization data structure. Use type <ref refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_QD_CONFIG_t</ref> for this data structure. It used to configure Quadrature mode using <emphasis>QDC</emphasis> register. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="293" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="292" bodyend="308"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1aafd95f8c7a99b9189ede7cdf0871ebe8" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>index</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a930128540436de72ff14b9266936b477" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>mode</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a7b87e7584ca2055f4beb1284fa56f491" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>phase_a</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a4331081d6c34369e9897c3502392f0ff" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>phase_b</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1af24b2221a0e1eddbd3d6020cf82b603c" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>phase_leader</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t_1a2cf25ef8a6a9fcc3876a1d406a97be00" prot="public" virt="non-virtual"><scope>XMC_POSIF_QD_CONFIG_t</scope><name>qdc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

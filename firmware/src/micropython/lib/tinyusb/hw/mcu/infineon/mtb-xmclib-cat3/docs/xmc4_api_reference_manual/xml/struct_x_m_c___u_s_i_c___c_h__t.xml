@@ -1,0 +1,684 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_s_i_c___c_h__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_USIC_CH_t</compoundname>
+    <includes local="no">xmc_usic.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ab30d03d1eefd214b21a9f35146837cb8" prot="public" static="no" mutable="no">
+        <type>union XMC_USIC_CH_t::@263</type>
+        <definition>union XMC_USIC_CH_t::@263 @264</definition>
+        <argsstring></argsstring>
+        <name>@264</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="540" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1adfa1730fcc791ab17bae463517b878a5" prot="public" static="no" mutable="no">
+        <type>union XMC_USIC_CH_t::@265</type>
+        <definition>union XMC_USIC_CH_t::@265 @266</definition>
+        <argsstring></argsstring>
+        <name>@266</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="551" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a60442d8bed2e194af31a7bedbabf0c16" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t BRG</definition>
+        <argsstring></argsstring>
+        <name>BRG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Baud rate generator register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="527" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="527" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a5c5375cd6029e464a9f3e5400662ea73" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t BYP</definition>
+        <argsstring></argsstring>
+        <name>BYP</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FIFO bypass register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="562" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="562" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ab5bada982273b48262b30b5b52b9911a" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t BYPCR</definition>
+        <argsstring></argsstring>
+        <name>BYPCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FIFO bypass control register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="563" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a9fe3fb584fab4c87ebe2b82fd0860e24" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t CCFG</definition>
+        <argsstring></argsstring>
+        <name>CCFG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Channel configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="523" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a5e1322e27c40bf91d172f9673f205c97" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t CCR</definition>
+        <argsstring></argsstring>
+        <name>CCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Channel control register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="541" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ac089b55932d7ec9c7f5d3c440fd282b9" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t CMTR</definition>
+        <argsstring></argsstring>
+        <name>CMTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Capture mode timer register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="542" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a2572b0472db52f72c68f523f48c35620" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t DXCR[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>DXCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Input control registers DX0 to DX5. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="529" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a616cc6e68c464708de180402999a93d6" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t FDR</definition>
+        <argsstring></argsstring>
+        <name>FDR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fractional divider configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="526" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a4f306d0f14e17555e82b55f6782be566" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t FMR</definition>
+        <argsstring></argsstring>
+        <name>FMR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag modification register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="559" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1aa7baca4bb2ca5b8e9a3ab21a8c248a6d" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t IN[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>IN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit FIFO input register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="572" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a1b121f73d319412dadb9e9adfbc87d16" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t INPR</definition>
+        <argsstring></argsstring>
+        <name>INPR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Interrupt node pointer register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="528" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="528" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a1e1590671422c734a9c4de679a18bf54" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t KSCFG</definition>
+        <argsstring></argsstring>
+        <name>KSCFG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Kernel state configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="525" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1afe4baa5147bfc07118e7f206c90f5ddb" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t OUTDR</definition>
+        <argsstring></argsstring>
+        <name>OUTDR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive FIFO debug output register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="570" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ae703f8c37a21dd534cac2e0aedf8359f" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t OUTR</definition>
+        <argsstring></argsstring>
+        <name>OUTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive FIFO output register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="569" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a6091bd215b74df162dd3bc51621c63ca" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PCR</definition>
+        <argsstring></argsstring>
+        <name>PCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Protocol configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="538" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ad8388a3741a38746b8258c4276c816e7" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PCR_ASCMode</definition>
+        <argsstring></argsstring>
+        <name>PCR_ASCMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART protocol configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="539" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a99f9d9accabbec49d9242277b26b8bde" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PCR_IICMode</definition>
+        <argsstring></argsstring>
+        <name>PCR_IICMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>I2C protocol configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="535" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1aeec549c9dd9bd6e62a584995958fc91d" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PCR_IISMode</definition>
+        <argsstring></argsstring>
+        <name>PCR_IISMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>I2S protocol configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="536" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="536" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a57a0d5b0046d995023f6555c94e7af6a" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PCR_SSCMode</definition>
+        <argsstring></argsstring>
+        <name>PCR_SSCMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI protocol configuration register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="537" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="537" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a725284f672801993f9ab5dcf3ef1e5c7" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t PSCR</definition>
+        <argsstring></argsstring>
+        <name>PSCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Protocol status clear register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="552" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="552" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a909d70d4d88dd6731a07b76a21c8214b" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PSR</definition>
+        <argsstring></argsstring>
+        <name>PSR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Protocol status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="549" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="549" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a2439bcdd2050b881f24f78626aec9c67" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PSR_ASCMode</definition>
+        <argsstring></argsstring>
+        <name>PSR_ASCMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART protocol status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="550" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a220e89d84bc3e419c31264149c6daf02" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PSR_IICMode</definition>
+        <argsstring></argsstring>
+        <name>PSR_IICMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>I2C protocol status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="546" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a8d6fa949b230c88cc89bfe47a9917bc7" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PSR_IISMode</definition>
+        <argsstring></argsstring>
+        <name>PSR_IISMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>I2S protocol status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="547" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a3d6958b37a0c6e74508d01ad7085f734" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PSR_SSCMode</definition>
+        <argsstring></argsstring>
+        <name>PSR_SSCMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SPI protocol status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="548" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="548" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a85045a6d4b52fe95abdb1aa23479f348" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t RBCTR</definition>
+        <argsstring></argsstring>
+        <name>RBCTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive FIFO control register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="565" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a40ae57e054b61a2ff08b68b84ddc1f86" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RBUF</definition>
+        <argsstring></argsstring>
+        <name>RBUF</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive buffer register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="554" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ab769c252ec9b235ef5126b42d2de52a5" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RBUF0</definition>
+        <argsstring></argsstring>
+        <name>RBUF0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive buffer 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="556" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ad73c4496ea8a4de04f40cd8c2744253d" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RBUF01SR</definition>
+        <argsstring></argsstring>
+        <name>RBUF01SR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive buffer status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="558" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a4c43682461919e179e507b15160d5126" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RBUF1</definition>
+        <argsstring></argsstring>
+        <name>RBUF1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive buffer 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="557" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a2fe7ac49b2e1d0dc7e301b617e241ede" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RBUFD</definition>
+        <argsstring></argsstring>
+        <name>RBUFD</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Debug mode receive buffer register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="555" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a53e4f754cd62e00d1aec53dd408336c6" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RBUFSR</definition>
+        <argsstring></argsstring>
+        <name>RBUFSR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive buffer status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="553" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ad06839c5382047f4f9f2c74cc61db942" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED0</definition>
+        <argsstring></argsstring>
+        <name>RESERVED0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="522" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a39fbdbb7ad559315fa9c23de59936655" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED1</definition>
+        <argsstring></argsstring>
+        <name>RESERVED1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="524" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a034c095f5adb26ba6881033453b0f7ac" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED2[5]</definition>
+        <argsstring>[5]</argsstring>
+        <name>RESERVED2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="560" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1af102cbcdeb0fe75c9d7f37a37dbd0aef" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED3[23]</definition>
+        <argsstring>[23]</argsstring>
+        <name>RESERVED3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="571" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ac005cdf6a4e1350830161ee7ef88b9a2" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SCTR</definition>
+        <argsstring></argsstring>
+        <name>SCTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shift control register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="530" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a296a4090d20090679ec849b77af2ad5b" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t TBCTR</definition>
+        <argsstring></argsstring>
+        <name>TBCTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit FIFO control register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="564" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1abcb6aeeb845eea4d2035fb8efeb5f490" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t TBUF[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>TBUF</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tranmsit buffer registers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="561" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="561" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1ae25f25d231ebd0797ab668fafc159cb1" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t TCSR</definition>
+        <argsstring></argsstring>
+        <name>TCSR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="531" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a710a8db51db0ac5dac9387d7de0601ba" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t TRBPTR</definition>
+        <argsstring></argsstring>
+        <name>TRBPTR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit/recive buffer pointer register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="566" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="566" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1aa4ebd1cc49417ade270040dd5ae90a76" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t TRBSCR</definition>
+        <argsstring></argsstring>
+        <name>TRBSCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit/receive buffer status clear register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="568" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_i_c___c_h__t_1a9c79cb9e505b1157be614ba619b3d545" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t TRBSR</definition>
+        <argsstring></argsstring>
+        <name>TRBSR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit/receive buffer status register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="567" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>USIC channel structure.<linebreak/>
+ The members of the structure are same as in the device header file, except for some registers. DX0CR, DX1CR, DX2CR, DX3CR, DX4CR and DX5CR are replaced with the array DXCR[6]. TBUF0 to TBUF31 are replaced with TBUF[32]. IN0 to IN31 are replaced with IN[32]. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" line="521" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usic.h" bodystart="520" bodyend="573"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a60442d8bed2e194af31a7bedbabf0c16" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>BRG</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a5c5375cd6029e464a9f3e5400662ea73" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>BYP</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ab5bada982273b48262b30b5b52b9911a" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>BYPCR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a9fe3fb584fab4c87ebe2b82fd0860e24" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>CCFG</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a5e1322e27c40bf91d172f9673f205c97" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>CCR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ac089b55932d7ec9c7f5d3c440fd282b9" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>CMTR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a2572b0472db52f72c68f523f48c35620" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>DXCR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a616cc6e68c464708de180402999a93d6" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>FDR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a4f306d0f14e17555e82b55f6782be566" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>FMR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1aa7baca4bb2ca5b8e9a3ab21a8c248a6d" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>IN</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a1b121f73d319412dadb9e9adfbc87d16" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>INPR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a1e1590671422c734a9c4de679a18bf54" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>KSCFG</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1afe4baa5147bfc07118e7f206c90f5ddb" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>OUTDR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ae703f8c37a21dd534cac2e0aedf8359f" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>OUTR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a6091bd215b74df162dd3bc51621c63ca" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PCR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ad8388a3741a38746b8258c4276c816e7" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PCR_ASCMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a99f9d9accabbec49d9242277b26b8bde" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PCR_IICMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1aeec549c9dd9bd6e62a584995958fc91d" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PCR_IISMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a57a0d5b0046d995023f6555c94e7af6a" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PCR_SSCMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a725284f672801993f9ab5dcf3ef1e5c7" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PSCR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a909d70d4d88dd6731a07b76a21c8214b" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PSR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a2439bcdd2050b881f24f78626aec9c67" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PSR_ASCMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a220e89d84bc3e419c31264149c6daf02" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PSR_IICMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a8d6fa949b230c88cc89bfe47a9917bc7" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PSR_IISMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a3d6958b37a0c6e74508d01ad7085f734" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>PSR_SSCMode</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a85045a6d4b52fe95abdb1aa23479f348" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBCTR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a40ae57e054b61a2ff08b68b84ddc1f86" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBUF</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ab769c252ec9b235ef5126b42d2de52a5" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBUF0</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ad73c4496ea8a4de04f40cd8c2744253d" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBUF01SR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a4c43682461919e179e507b15160d5126" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBUF1</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a2fe7ac49b2e1d0dc7e301b617e241ede" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBUFD</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a53e4f754cd62e00d1aec53dd408336c6" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RBUFSR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ad06839c5382047f4f9f2c74cc61db942" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RESERVED0</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a39fbdbb7ad559315fa9c23de59936655" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RESERVED1</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a034c095f5adb26ba6881033453b0f7ac" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RESERVED2</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1af102cbcdeb0fe75c9d7f37a37dbd0aef" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>RESERVED3</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ac005cdf6a4e1350830161ee7ef88b9a2" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>SCTR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a296a4090d20090679ec849b77af2ad5b" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>TBCTR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1abcb6aeeb845eea4d2035fb8efeb5f490" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>TBUF</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1ae25f25d231ebd0797ab668fafc159cb1" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>TCSR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a710a8db51db0ac5dac9387d7de0601ba" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>TRBPTR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1aa4ebd1cc49417ade270040dd5ae90a76" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>TRBSCR</name></member>
+      <member refid="struct_x_m_c___u_s_i_c___c_h__t_1a9c79cb9e505b1157be614ba619b3d545" prot="public" virt="non-virtual"><scope>XMC_USIC_CH_t</scope><name>TRBSR</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

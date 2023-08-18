@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_intcr-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Interrupt controller personality description file for XMC1400 series.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_intcr" name="INTCR" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.intcr" />
+  </Dependencies>
+  <ExposedMembers>
+  </ExposedMembers>
+
+  <Parameters>
+    <ParamChoice id="intsel0" name="IRQ0 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ0." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="SCU_SR0" value="XMC_SCU_IRQCTRL_SCU_SR0_IRQ0" visible="true" />
+      <Entry name="CAN_SR0" value="XMC_SCU_IRQCTRL_CAN0_SR0_IRQ0" visible="`${HAS_CAN}`" />
+      <Entry name="CCU40_SR0" value="XMC_SCU_IRQCTRL_CCU40_SR0_IRQ0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel1" name="IRQ1 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ1." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="SCU_SR1" value="XMC_SCU_IRQCTRL_SCU_SR1_IRQ1" visible="true" />
+      <Entry name="CAN_SR1" value="XMC_SCU_IRQCTRL_CAN0_SR1_IRQ1" visible="`${HAS_CAN}`" />
+      <Entry name="CCU80_SR0" value="XMC_SCU_IRQCTRL_CCU80_SR0_IRQ1" visible="`${HAS_CCU8}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel2" name="IRQ2 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ2." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="SCU_SR2" value="XMC_SCU_IRQCTRL_SCU_SR2_IRQ2" visible="true" />
+      <Entry name="CAN_SR2" value="XMC_SCU_IRQCTRL_CAN0_SR2_IRQ2" visible="`${HAS_CAN}`" />
+      <Entry name="CCU80_SR1" value="XMC_SCU_IRQCTRL_CCU80_SR1_IRQ2" visible="`${HAS_CCU8}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel3" name="IRQ3 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ3." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="ERU0_SR0" value="XMC_SCU_IRQCTRL_ERU0_SR0_IRQ3" visible="true" />
+      <Entry name="ERU1_SR0" value="XMC_SCU_IRQCTRL_ERU1_SR0_IRQ3" visible="true" />
+      <Entry name="CAN0_SR0" value="XMC_SCU_IRQCTRL_CAN0_SR0_IRQ3" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel4" name="IRQ4 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ4." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="ERU0_SR1" value="XMC_SCU_IRQCTRL_ERU0_SR1_IRQ4" visible="true" />
+      <Entry name="ERU1_SR1" value="XMC_SCU_IRQCTRL_ERU1_SR1_IRQ4" visible="true" />
+      <Entry name="CAN0_SR1" value="XMC_SCU_IRQCTRL_CAN0_SR1_IRQ4" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel5" name="IRQ5 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ5." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="ERU0_SR2" value="XMC_SCU_IRQCTRL_ERU0_SR2_IRQ5" visible="true" />
+      <Entry name="ERU1_SR2" value="XMC_SCU_IRQCTRL_ERU1_SR2_IRQ5" visible="true" />
+      <Entry name="CAN0_SR2" value="XMC_SCU_IRQCTRL_CAN0_SR2_IRQ5" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel6" name="IRQ6 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ6." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="ERU0_SR3" value="XMC_SCU_IRQCTRL_ERU0_SR3_IRQ6" visible="true" />
+      <Entry name="ERU1_SR3" value="XMC_SCU_IRQCTRL_ERU1_SR3_IRQ6" visible="true" />
+      <Entry name="CAN0_SR3" value="XMC_SCU_IRQCTRL_CAN0_SR3_IRQ6" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel7" name="IRQ7 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ7." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="MATH_SR0" value="XMC_SCU_IRQCTRL_MATH_SR0_IRQ7" visible="`${HAS_MATH}`" />
+      <Entry name="CAN0_SR3" value="XMC_SCU_IRQCTRL_CAN0_SR3_IRQ7" visible="`${HAS_CAN}`" />
+      <Entry name="CCU40_SR1" value="XMC_SCU_IRQCTRL_CCU40_SR1_IRQ7" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel8" name="IRQ8 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ8." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="LEDTS2_SR0" value="XMC_SCU_IRQCTRL_LEDTS2_SR0_IRQ8" visible="`${HAS_LEDTS2}`" />
+      <Entry name="CCU40_SR0" value="XMC_SCU_IRQCTRL_CCU40_SR0_IRQ8" visible="true" />
+      <Entry name="CCU80_SR0" value="XMC_SCU_IRQCTRL_CCU80_SR0_IRQ8" visible="`${HAS_CCU8}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel9" name="IRQ9 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ9." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="USIC0_SR0" value="XMC_SCU_IRQCTRL_USIC0_SR0_IRQ9" visible="true" />
+      <Entry name="USIC1_SR0" value="XMC_SCU_IRQCTRL_USIC1_SR0_IRQ9" visible="true" />
+      <Entry name="ERU0_SR0" value="XMC_SCU_IRQCTRL_ERU0_SR0_IRQ9" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel10" name="IRQ10 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ10." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="USIC0_SR1" value="XMC_SCU_IRQCTRL_USIC0_SR1_IRQ10" visible="true" />
+      <Entry name="USIC1_SR1" value="XMC_SCU_IRQCTRL_USIC1_SR1_IRQ10" visible="true" />
+      <Entry name="ERU0_SR1" value="XMC_SCU_IRQCTRL_ERU0_SR1_IRQ10" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel11" name="IRQ11 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ11." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="USIC0_SR2" value="XMC_SCU_IRQCTRL_USIC0_SR2_IRQ11" visible="true" />
+      <Entry name="USIC1_SR2" value="XMC_SCU_IRQCTRL_USIC1_SR2_IRQ11" visible="true" />
+      <Entry name="ERU0_SR2" value="XMC_SCU_IRQCTRL_ERU0_SR2_IRQ11" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel12" name="IRQ12 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ12." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="USIC0_SR3" value="XMC_SCU_IRQCTRL_USIC0_SR3_IRQ12" visible="true" />
+      <Entry name="USIC1_SR3" value="XMC_SCU_IRQCTRL_USIC1_SR3_IRQ12" visible="true" />
+      <Entry name="ERU0_SR3" value="XMC_SCU_IRQCTRL_ERU0_SR3_IRQ12" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel13" name="IRQ13 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ13." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="USIC0_SR4" value="XMC_SCU_IRQCTRL_USIC0_SR4_IRQ13" visible="true" />
+      <Entry name="USIC1_SR4" value="XMC_SCU_IRQCTRL_USIC1_SR4_IRQ13" visible="true" />
+      <Entry name="CCU80_SR1" value="XMC_SCU_IRQCTRL_CCU80_SR1_IRQ13" visible="`${HAS_CCU8}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel14" name="IRQ14 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ14." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="USIC0_SR5" value="XMC_SCU_IRQCTRL_USIC0_SR5_IRQ14" visible="true" />
+      <Entry name="USIC1_SR5" value="XMC_SCU_IRQCTRL_USIC1_SR5_IRQ14" visible="true" />
+      <Entry name="POSIF0_SR0" value="XMC_SCU_IRQCTRL_POSIF0_SR0_IRQ14" visible="`${HAS_POSIF0}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel15" name="IRQ15 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ15." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="VADC0_C0SR0" value="XMC_SCU_IRQCTRL_VADC0_C0SR0_IRQ15" visible="true" />
+      <Entry name="USIC0_SR0" value="XMC_SCU_IRQCTRL_USIC0_SR0_IRQ15" visible="true" />
+      <Entry name="POSIF0_SR1" value="XMC_SCU_IRQCTRL_POSIF0_SR1_IRQ15" visible="`${HAS_POSIF0}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel16" name="IRQ16 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ16." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="VADC0_C0SR1" value="XMC_SCU_IRQCTRL_VADC0_C0SR1_IRQ16" visible="true" />
+      <Entry name="USIC0_SR1" value="XMC_SCU_IRQCTRL_USIC0_SR1_IRQ16" visible="true" />
+      <Entry name="CCU40_SR2" value="XMC_SCU_IRQCTRL_CCU40_SR2_IRQ16" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel17" name="IRQ17 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ17." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="VADC0_G0SR0" value="XMC_SCU_IRQCTRL_VADC0_G0SR0_IRQ17" visible="true" />
+      <Entry name="USIC0_SR2" value="XMC_SCU_IRQCTRL_USIC0_SR2_IRQ17" visible="true" />
+      <Entry name="CAN0_SR0" value="XMC_SCU_IRQCTRL_CAN0_SR0_IRQ17" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel18" name="IRQ18 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ18." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="VADC0_G0SR1" value="XMC_SCU_IRQCTRL_VADC0_G0SR1_IRQ18" visible="true" />
+      <Entry name="USIC0_SR3" value="XMC_SCU_IRQCTRL_USIC0_SR3_IRQ18" visible="true" />
+      <Entry name="CAN0_SR1" value="XMC_SCU_IRQCTRL_CAN0_SR1_IRQ18" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel19" name="IRQ19 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ19." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="VADC0_G1SR0" value="XMC_SCU_IRQCTRL_VADC0_G1SR0_IRQ19" visible="true" />
+      <Entry name="USIC0_SR4" value="XMC_SCU_IRQCTRL_USIC0_SR4_IRQ19" visible="true" />
+      <Entry name="CAN0_SR2" value="XMC_SCU_IRQCTRL_CAN0_SR2_IRQ19" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel20" name="IRQ20 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ20." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="VADC0_G1SR1" value="XMC_SCU_IRQCTRL_VADC0_G1SR1_IRQ20" visible="true" />
+      <Entry name="USIC0_SR5" value="XMC_SCU_IRQCTRL_USIC0_SR5_IRQ20" visible="true" />
+      <Entry name="CAN0_SR3" value="XMC_SCU_IRQCTRL_CAN0_SR3_IRQ20" visible="`${HAS_CAN}`" />
+    </ParamChoice>
+    <ParamChoice id="intsel21" name="IRQ21 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ21." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="CCU40_SR0" value="XMC_SCU_IRQCTRL_CCU40_SR0_IRQ21" visible="true" />
+      <Entry name="CCU41_SR0" value="XMC_SCU_IRQCTRL_CCU41_SR0_IRQ21" visible="true" />
+      <Entry name="USIC0_SR0" value="XMC_SCU_IRQCTRL_USIC0_SR0_IRQ21" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel22" name="IRQ22 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ22." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="CCU40_SR1" value="XMC_SCU_IRQCTRL_CCU40_SR1_IRQ22" visible="true" />
+      <Entry name="CCU41_SR1" value="XMC_SCU_IRQCTRL_CCU41_SR1_IRQ22" visible="true" />
+      <Entry name="USIC0_SR1" value="XMC_SCU_IRQCTRL_USIC0_SR1_IRQ22" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel23" name="IRQ23 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ23." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="CCU40_SR2" value="XMC_SCU_IRQCTRL_CCU40_SR2_IRQ23" visible="true" />
+      <Entry name="CCU41_SR2" value="XMC_SCU_IRQCTRL_CCU41_SR2_IRQ23" visible="true" />
+      <Entry name="USIC0_SR2" value="XMC_SCU_IRQCTRL_USIC0_SR2_IRQ23" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel24" name="IRQ24 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ24." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="CCU40_SR3" value="XMC_SCU_IRQCTRL_CCU40_SR3_IRQ24" visible="true" />
+      <Entry name="CCU41_SR3" value="XMC_SCU_IRQCTRL_CCU41_SR3_IRQ24" visible="true" />
+      <Entry name="USIC0_SR3" value="XMC_SCU_IRQCTRL_USIC0_SR3_IRQ24" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel25" name="IRQ25 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ25." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="CCU80_SR0" value="XMC_SCU_IRQCTRL_CCU80_SR0_IRQ25" visible="`${HAS_CCU8}`" />
+      <Entry name="CCU81_SR0" value="XMC_SCU_IRQCTRL_CCU81_SR0_IRQ25" visible="`${HAS_CCU8}`" />
+      <Entry name="USIC0_SR4" value="XMC_SCU_IRQCTRL_USIC0_SR4_IRQ25" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel26" name="IRQ26 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ26." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="CCU80_SR1" value="XMC_SCU_IRQCTRL_CCU80_SR1_IRQ26" visible="`${HAS_CCU8}`" />
+      <Entry name="CCU81_SR1" value="XMC_SCU_IRQCTRL_CCU81_SR1_IRQ26" visible="`${HAS_CCU8}`" />
+      <Entry name="USIC0_SR5" value="XMC_SCU_IRQCTRL_USIC0_SR5_IRQ26" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel27" name="IRQ27 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ27." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="POSIF0_SR0" value="XMC_SCU_IRQCTRL_POSIF0_SR0_IRQ27" visible="`${HAS_POSIF0}`" />
+      <Entry name="POSIF1_SR0" value="XMC_SCU_IRQCTRL_POSIF1_SR0_IRQ27" visible="`${HAS_POSIF1}`" />
+      <Entry name="CCU40_SR3" value="XMC_SCU_IRQCTRL_CCU40_SR3_IRQ27" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel28" name="IRQ28 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ28." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="POSIF0_SR1" value="XMC_SCU_IRQCTRL_POSIF0_SR1_IRQ28" visible="`${HAS_POSIF0}`" />
+      <Entry name="POSIF1_SR1" value="XMC_SCU_IRQCTRL_POSIF1_SR1_IRQ28" visible="`${HAS_POSIF1}`" />
+      <Entry name="ERU0_SR0" value="XMC_SCU_IRQCTRL_ERU0_SR0_IRQ28" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel29" name="IRQ29 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ29." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="LEDTS0_SR0" value="XMC_SCU_IRQCTRL_LEDTS0_SR0_IRQ29" visible="`${HAS_LEDTS0}`" />
+      <Entry name="CCU40_SR1" value="XMC_SCU_IRQCTRL_CCU40_SR1_IRQ29" visible="true" />
+      <Entry name="ERU0_SR1" value="XMC_SCU_IRQCTRL_ERU0_SR1_IRQ29" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel30" name="IRQ30 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ30." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="LEDTS1_SR0" value="XMC_SCU_IRQCTRL_LEDTS1_SR0_IRQ30" visible="`${HAS_LEDTS1}`" />
+      <Entry name="CCU40_SR2" value="XMC_SCU_IRQCTRL_CCU40_SR2_IRQ30" visible="true" />
+      <Entry name="ERU0_SR2" value="XMC_SCU_IRQCTRL_ERU0_SR2_IRQ30" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="intsel31" name="IRQ31 Interrupt Source" group="General"
+      default="NC" visible="true" editable="true"
+      desc="Select interrupt source for IRQ31." >
+      <Entry name="None" value="NC" visible="true" />
+      <Entry name="BCCU0_SR0" value="XMC_SCU_IRQCTRL_BCCU0_SR0_IRQ31" visible="`${HAS_BCCU}`" />
+      <Entry name="CCU40_SR3" value="XMC_SCU_IRQCTRL_CCU40_SR3_IRQ31" visible="true" />
+      <Entry name="ERU0_SR3" value="XMC_SCU_IRQCTRL_ERU0_SR3_IRQ31" visible="true" />
+    </ParamChoice>
+  </Parameters>
+
+  <DRCs>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="xmc_scu.h" include="true" />
+    <ConfigDefine name="SCU_0_IRQHandler" value="IRQ0_Handler" public="true" include="`${intsel0 eq XMC_SCU_IRQCTRL_SCU_SR0_IRQ0}`" />
+    <ConfigDefine name="SCU_0_IRQn" value="IRQ0_IRQn" public="true" include="`${intsel0 eq XMC_SCU_IRQCTRL_SCU_SR0_IRQ0}`" />
+
+    <ConfigDefine name="CAN0_0_IRQHandler" value="IRQ0_Handler" public="true" include="`${intsel0 eq XMC_SCU_IRQCTRL_CAN0_SR0_IRQ0}`" />
+    <ConfigDefine name="CAN0_0_IRQn" value="IRQ0_IRQn" public="true" include="`${intsel0 eq XMC_SCU_IRQCTRL_CAN0_SR0_IRQ0}`" />
+
+    <ConfigDefine name="CCU40_0_IRQHandler" value="IRQ0_Handler" public="true" include="`${intsel0 eq XMC_SCU_IRQCTRL_CCU40_SR0_IRQ0}`" />
+    <ConfigDefine name="CCU40_0_IRQn" value="IRQ0_IRQn" public="true" include="`${intsel0 eq XMC_SCU_IRQCTRL_CCU40_SR0_IRQ0}`" />
+
+    <ConfigDefine name="SCU_1_IRQHandler" value="IRQ1_Handler" public="true" include="`${intsel1 eq XMC_SCU_IRQCTRL_SCU_SR1_IRQ1}`" />
+    <ConfigDefine name="SCU_1_IRQn" value="IRQ1_IRQn" public="true" include="`${intsel1 eq XMC_SCU_IRQCTRL_SCU_SR1_IRQ1}`" />
+
+    <ConfigDefine name="CAN0_1_IRQHandler" value="IRQ1_Handler" public="true" include="`${intsel1 eq XMC_SCU_IRQCTRL_CAN0_SR1_IRQ1}`" />
+    <ConfigDefine name="CAN0_1_IRQn" value="IRQ1_IRQn" public="true" include="`${intsel1 eq XMC_SCU_IRQCTRL_CAN0_SR1_IRQ1}`" />
+
+    <ConfigDefine name="CCU80_0_IRQHandler" value="IRQ1_Handler" public="true" include="`${intsel1 eq XMC_SCU_IRQCTRL_CCU80_SR0_IRQ1}`" />
+    <ConfigDefine name="CCU80_0_IRQn" value="IRQ1_IRQn" public="true" include="`${intsel1 eq XMC_SCU_IRQCTRL_CCU80_SR0_IRQ1}`" />
+
+    <ConfigDefine name="SCU_2_IRQHandler" value="IRQ2_Handler" public="true" include="`${intsel2 eq XMC_SCU_IRQCTRL_SCU_SR2_IRQ2}`" />
+    <ConfigDefine name="SCU_2_IRQn" value="IRQ2_IRQn" public="true" include="`${intsel2 eq XMC_SCU_IRQCTRL_SCU_SR2_IRQ2}`" />
+
+    <ConfigDefine name="CAN0_2_IRQHandler" value="IRQ2_Handler" public="true" include="`${intsel2 eq XMC_SCU_IRQCTRL_CAN0_SR2_IRQ2}`" />
+    <ConfigDefine name="CAN0_2_IRQn" value="IRQ2_IRQn" public="true" include="`${intsel2 eq XMC_SCU_IRQCTRL_CAN0_SR2_IRQ2}`" />
+
+    <ConfigDefine name="CCU80_1_IRQHandler" value="IRQ2_Handler" public="true" include="`${intsel2 eq XMC_SCU_IRQCTRL_CCU80_SR1_IRQ2}`" />
+    <ConfigDefine name="CCU80_1_IRQn" value="IRQ2_IRQn" public="true" include="`${intsel2 eq XMC_SCU_IRQCTRL_CCU80_SR1_IRQ2}`" />
+
+    <ConfigDefine name="ERU0_0_IRQHandler" value="IRQ3_Handler" public="true" include="`${intsel3 eq XMC_SCU_IRQCTRL_ERU0_SR0_IRQ3}`" />
+    <ConfigDefine name="ERU0_0_IRQn" value="IRQ3_IRQn" public="true" include="`${intsel3 eq XMC_SCU_IRQCTRL_ERU0_SR0_IRQ3}`" />
+
+    <ConfigDefine name="ERU1_0_IRQHandler" value="IRQ3_Handler" public="true" include="`${intsel3 eq XMC_SCU_IRQCTRL_ERU1_SR0_IRQ3}`" />
+    <ConfigDefine name="ERU1_0_IRQn" value="IRQ3_IRQn" public="true" include="`${intsel3 eq XMC_SCU_IRQCTRL_ERU1_SR0_IRQ3}`" />
+
+    <ConfigDefine name="CAN0_0_IRQHandler" value="IRQ3_Handler" public="true" include="`${intsel3 eq XMC_SCU_IRQCTRL_CAN0_SR0_IRQ3}`" />
+    <ConfigDefine name="CAN0_0_IRQn" value="IRQ3_IRQn" public="true" include="`${intsel3 eq XMC_SCU_IRQCTRL_CAN0_SR0_IRQ3}`" />
+
+    <ConfigDefine name="ERU0_1_IRQHandler" value="IRQ4_Handler" public="true" include="`${intsel4 eq XMC_SCU_IRQCTRL_ERU0_SR1_IRQ4}`" />
+    <ConfigDefine name="ERU0_1_IRQn" value="IRQ4_IRQn" public="true" include="`${intsel4 eq XMC_SCU_IRQCTRL_ERU0_SR1_IRQ4}`" />
+
+    <ConfigDefine name="ERU1_1_IRQHandler" value="IRQ4_Handler" public="true" include="`${intsel4 eq XMC_SCU_IRQCTRL_ERU1_SR1_IRQ4}`" />
+    <ConfigDefine name="ERU1_1_IRQn" value="IRQ4_IRQn" public="true" include="`${intsel4 eq XMC_SCU_IRQCTRL_ERU1_SR1_IRQ4}`" />
+
+    <ConfigDefine name="CAN0_1_IRQHandler" value="IRQ4_Handler" public="true" include="`${intsel4 eq XMC_SCU_IRQCTRL_CAN0_SR1_IRQ4}`" />
+    <ConfigDefine name="CAN0_1_IRQn" value="IRQ4_IRQn" public="true" include="`${intsel4 eq XMC_SCU_IRQCTRL_CAN0_SR1_IRQ4}`" />
+
+    <ConfigDefine name="ERU0_2_IRQHandler" value="IRQ5_Handler" public="true" include="`${intsel5 eq XMC_SCU_IRQCTRL_ERU0_SR2_IRQ5}`" />
+    <ConfigDefine name="ERU0_2_IRQn" value="IRQ5_IRQn" public="true" include="`${intsel5 eq XMC_SCU_IRQCTRL_ERU0_SR2_IRQ5}`" />
+
+    <ConfigDefine name="ERU1_2_IRQHandler" value="IRQ5_Handler" public="true" include="`${intsel5 eq XMC_SCU_IRQCTRL_ERU1_SR2_IRQ5}`" />
+    <ConfigDefine name="ERU1_2_IRQn" value="IRQ5_IRQn" public="true" include="`${intsel5 eq XMC_SCU_IRQCTRL_ERU1_SR2_IRQ5}`" />
+
+    <ConfigDefine name="CAN0_2_IRQHandler" value="IRQ5_Handler" public="true" include="`${intsel5 eq XMC_SCU_IRQCTRL_CAN0_SR2_IRQ5}`" />
+    <ConfigDefine name="CAN0_2_IRQn" value="IRQ5_IRQn" public="true" include="`${intsel5 eq XMC_SCU_IRQCTRL_CAN0_SR2_IRQ5}`" />
+
+    <ConfigDefine name="ERU0_3_IRQHandler" value="IRQ6_Handler" public="true" include="`${intsel6 eq XMC_SCU_IRQCTRL_ERU0_SR3_IRQ6}`" />
+    <ConfigDefine name="ERU0_3_IRQn" value="IRQ6_IRQn" public="true" include="`${intsel6 eq XMC_SCU_IRQCTRL_ERU0_SR3_IRQ6}`" />
+
+    <ConfigDefine name="ERU1_3_IRQHandler" value="IRQ6_Handler" public="true" include="`${intsel6 eq XMC_SCU_IRQCTRL_ERU1_SR3_IRQ6}`" />
+    <ConfigDefine name="ERU1_3_IRQn" value="IRQ6_IRQn" public="true" include="`${intsel6 eq XMC_SCU_IRQCTRL_ERU1_SR3_IRQ6}`" />
+
+    <ConfigDefine name="CAN0_3_IRQHandler" value="IRQ6_Handler" public="true" include="`${intsel6 eq XMC_SCU_IRQCTRL_CAN0_SR3_IRQ6}`" />
+    <ConfigDefine name="CAN0_3_IRQn" value="IRQ6_IRQn" public="true" include="`${intsel6 eq XMC_SCU_IRQCTRL_CAN0_SR3_IRQ6}`" />
+
+    <ConfigDefine name="MATH0_0_IRQHandler" value="IRQ7_Handler" public="true" include="`${intsel7 eq XMC_SCU_IRQCTRL_MATH_SR0_IRQ7}`" />
+    <ConfigDefine name="MATH0_0_IRQn" value="IRQ7_IRQn" public="true" include="`${intsel7 eq XMC_SCU_IRQCTRL_MATH_SR0_IRQ7}`" />
+
+    <ConfigDefine name="CAN0_3_IRQHandler" value="IRQ7_Handler" public="true" include="`${intsel7 eq XMC_SCU_IRQCTRL_CAN0_SR3_IRQ7}`" />
+    <ConfigDefine name="CAN0_3_IRQn" value="IRQ7_IRQn" public="true" include="`${intsel7 eq XMC_SCU_IRQCTRL_CAN0_SR3_IRQ7}`" />
+
+    <ConfigDefine name="CCU40_1_IRQHandler" value="IRQ7_Handler" public="true" include="`${intsel7 eq XMC_SCU_IRQCTRL_CCU40_SR1_IRQ7}`" />
+    <ConfigDefine name="CCU40_1_IRQn" value="IRQ7_IRQn" public="true" include="`${intsel7 eq XMC_SCU_IRQCTRL_CCU40_SR1_IRQ7}`" />
+
+    <ConfigDefine name="LEDTS2_0_IRQHandler" value="IRQ8_Handler" public="true" include="`${intsel8 eq XMC_SCU_IRQCTRL_LEDTS2_SR0_IRQ8}`" />
+    <ConfigDefine name="LEDTS2_0_IRQn" value="IRQ8_IRQn" public="true" include="`${intsel8 eq XMC_SCU_IRQCTRL_LEDTS2_SR0_IRQ8}`" />
+
+    <ConfigDefine name="CCU40_0_IRQHandler" value="IRQ8_Handler" public="true" include="`${intsel8 eq XMC_SCU_IRQCTRL_CCU40_SR0_IRQ8}`" />
+    <ConfigDefine name="CCU40_0_IRQn" value="IRQ8_IRQn" public="true" include="`${intsel8 eq XMC_SCU_IRQCTRL_CCU40_SR0_IRQ8}`" />
+
+    <ConfigDefine name="CCU80_0_IRQHandler" value="IRQ8_Handler" public="true" include="`${intsel8 eq XMC_SCU_IRQCTRL_CCU80_SR0_IRQ8}`" />
+    <ConfigDefine name="CCU80_0_IRQn" value="IRQ8_IRQn" public="true" include="`${intsel8 eq XMC_SCU_IRQCTRL_CCU80_SR0_IRQ8}`" />
+
+    <ConfigDefine name="USIC0_0_IRQHandler" value="IRQ9_Handler" public="true" include="`${intsel9 eq XMC_SCU_IRQCTRL_USIC0_SR0_IRQ9}`" />
+    <ConfigDefine name="USIC0_0_IRQn" value="IRQ9_IRQn" public="true" include="`${intsel9 eq XMC_SCU_IRQCTRL_USIC0_SR0_IRQ9}`" />
+
+    <ConfigDefine name="USIC1_0_IRQHandler" value="IRQ9_Handler" public="true" include="`${intsel9 eq XMC_SCU_IRQCTRL_USIC1_SR0_IRQ9}`" />
+    <ConfigDefine name="USIC1_0_IRQn" value="IRQ9_IRQn" public="true" include="`${intsel9 eq XMC_SCU_IRQCTRL_USIC1_SR0_IRQ9}`" />
+
+    <ConfigDefine name="ERU0_0_IRQHandler" value="IRQ9_Handler" public="true" include="`${intsel9 eq XMC_SCU_IRQCTRL_ERU0_SR0_IRQ9}`" />
+    <ConfigDefine name="ERU0_0_IRQn" value="IRQ9_IRQn" public="true" include="`${intsel9 eq XMC_SCU_IRQCTRL_ERU0_SR0_IRQ9}`" />
+
+    <ConfigDefine name="USIC0_1_IRQHandler" value="IRQ10_Handler" public="true" include="`${intsel10 eq XMC_SCU_IRQCTRL_USIC0_SR1_IRQ10}`" />
+    <ConfigDefine name="USIC0_1_IRQn" value="IRQ10_IRQn" public="true" include="`${intsel10 eq XMC_SCU_IRQCTRL_USIC0_SR1_IRQ10}`" />
+
+    <ConfigDefine name="USIC1_1_IRQHandler" value="IRQ10_Handler" public="true" include="`${intsel10 eq XMC_SCU_IRQCTRL_USIC1_SR1_IRQ10}`" />
+    <ConfigDefine name="USIC1_1_IRQn" value="IRQ10_IRQn" public="true" include="`${intsel10 eq XMC_SCU_IRQCTRL_USIC1_SR1_IRQ10}`" />
+
+    <ConfigDefine name="ERU0_1_IRQHandler" value="IRQ10_Handler" public="true" include="`${intsel10 eq XMC_SCU_IRQCTRL_ERU0_SR1_IRQ10}`" />
+    <ConfigDefine name="ERU0_1_IRQn" value="IRQ10_IRQn" public="true" include="`${intsel10 eq XMC_SCU_IRQCTRL_ERU0_SR1_IRQ10}`" />
+
+    <ConfigDefine name="USIC0_2_IRQHandler" value="IRQ11_Handler" public="true" include="`${intsel11 eq XMC_SCU_IRQCTRL_USIC0_SR2_IRQ11}`" />
+    <ConfigDefine name="USIC0_2_IRQn" value="IRQ11_IRQn" public="true" include="`${intsel11 eq XMC_SCU_IRQCTRL_USIC0_SR2_IRQ11}`" />
+
+    <ConfigDefine name="USIC1_2_IRQHandler" value="IRQ11_Handler" public="true" include="`${intsel11 eq XMC_SCU_IRQCTRL_USIC1_SR2_IRQ11}`" />
+    <ConfigDefine name="USIC1_2_IRQn" value="IRQ11_IRQn" public="true" include="`${intsel11 eq XMC_SCU_IRQCTRL_USIC1_SR2_IRQ11}`" />
+
+    <ConfigDefine name="ERU0_2_IRQHandler" value="IRQ11_Handler" public="true" include="`${intsel11 eq XMC_SCU_IRQCTRL_ERU0_SR2_IRQ11}`" />
+    <ConfigDefine name="ERU0_2_IRQn" value="IRQ11_IRQn" public="true" include="`${intsel11 eq XMC_SCU_IRQCTRL_ERU0_SR2_IRQ11}`" />
+
+    <ConfigDefine name="USIC0_3_IRQHandler" value="IRQ12_Handler" public="true" include="`${intsel12 eq XMC_SCU_IRQCTRL_USIC0_SR3_IRQ12}`" />
+    <ConfigDefine name="USIC0_3_IRQn" value="IRQ12_IRQn" public="true" include="`${intsel12 eq XMC_SCU_IRQCTRL_USIC0_SR3_IRQ12}`" />
+
+    <ConfigDefine name="USIC1_3_IRQHandler" value="IRQ12_Handler" public="true" include="`${intsel12 eq XMC_SCU_IRQCTRL_USIC1_SR3_IRQ12}`" />
+    <ConfigDefine name="USIC1_3_IRQn" value="IRQ12_IRQn" public="true" include="`${intsel12 eq XMC_SCU_IRQCTRL_USIC1_SR3_IRQ12}`" />
+
+    <ConfigDefine name="ERU0_3_IRQHandler" value="IRQ12_Handler" public="true" include="`${intsel12 eq XMC_SCU_IRQCTRL_ERU0_SR3_IRQ12}`" />
+    <ConfigDefine name="ERU0_3_IRQn" value="IRQ12_IRQn" public="true" include="`${intsel12 eq XMC_SCU_IRQCTRL_ERU0_SR3_IRQ12}`" />
+
+    <ConfigDefine name="USIC0_4_IRQHandler" value="IRQ13_Handler" public="true" include="`${intsel13 eq XMC_SCU_IRQCTRL_USIC0_SR4_IRQ13}`" />
+    <ConfigDefine name="USIC0_4_IRQn" value="IRQ13_IRQn" public="true" include="`${intsel13 eq XMC_SCU_IRQCTRL_USIC0_SR4_IRQ13}`" />
+
+    <ConfigDefine name="USIC1_4_IRQHandler" value="IRQ13_Handler" public="true" include="`${intsel13 eq XMC_SCU_IRQCTRL_USIC1_SR4_IRQ13}`" />
+    <ConfigDefine name="USIC1_4_IRQn" value="IRQ13_IRQn" public="true" include="`${intsel13 eq XMC_SCU_IRQCTRL_USIC1_SR4_IRQ13}`" />
+
+    <ConfigDefine name="CCU80_1_IRQHandler" value="IRQ13_Handler" public="true" include="`${intsel13 eq XMC_SCU_IRQCTRL_CCU80_SR1_IRQ13}`" />
+    <ConfigDefine name="CCU80_1_IRQn" value="IRQ13_IRQn" public="true" include="`${intsel13 eq XMC_SCU_IRQCTRL_CCU80_SR1_IRQ13}`" />
+
+    <ConfigDefine name="USIC0_5_IRQHandler" value="IRQ14_Handler" public="true" include="`${intsel14 eq XMC_SCU_IRQCTRL_USIC0_SR5_IRQ14}`" />
+    <ConfigDefine name="USIC0_5_IRQn" value="IRQ14_IRQn" public="true" include="`${intsel14 eq XMC_SCU_IRQCTRL_USIC0_SR5_IRQ14}`" />
+
+    <ConfigDefine name="USIC1_5_IRQHandler" value="IRQ14_Handler" public="true" include="`${intsel14 eq XMC_SCU_IRQCTRL_USIC1_SR5_IRQ14}`" />
+    <ConfigDefine name="USIC1_5_IRQn" value="IRQ14_IRQn" public="true" include="`${intsel14 eq XMC_SCU_IRQCTRL_USIC1_SR5_IRQ14}`" />
+
+    <ConfigDefine name="POSIF0_0_IRQHandler" value="IRQ14_Handler" public="true" include="`${intsel14 eq XMC_SCU_IRQCTRL_POSIF0_SR0_IRQ14}`" />
+    <ConfigDefine name="POSIF0_0_IRQn" value="IRQ14_IRQn" public="true" include="`${intsel14 eq XMC_SCU_IRQCTRL_POSIF0_SR0_IRQ14}`" />
+
+    <ConfigDefine name="VADC0_C0_0_IRQHandler" value="IRQ15_Handler" public="true" include="`${intsel15 eq XMC_SCU_IRQCTRL_VADC0_C0SR0_IRQ15}`" />
+    <ConfigDefine name="VADC0_C0_0_IRQn" value="IRQ15_IRQn" public="true" include="`${intsel15 eq XMC_SCU_IRQCTRL_VADC0_C0SR0_IRQ15}`" />
+
+    <ConfigDefine name="USIC0_0_IRQHandler" value="IRQ15_Handler" public="true" include="`${intsel15 eq XMC_SCU_IRQCTRL_USIC0_SR0_IRQ15}`" />
+    <ConfigDefine name="USIC0_0_IRQn" value="IRQ15_IRQn" public="true" include="`${intsel15 eq XMC_SCU_IRQCTRL_USIC0_SR0_IRQ15}`" />
+
+    <ConfigDefine name="POSIF0_1_IRQHandler" value="IRQ15_Handler" public="true" include="`${intsel15 eq XMC_SCU_IRQCTRL_POSIF0_SR1_IRQ15}`" />
+    <ConfigDefine name="POSIF0_1_IRQn" value="IRQ15_IRQn" public="true" include="`${intsel15 eq XMC_SCU_IRQCTRL_POSIF0_SR1_IRQ15}`" />
+
+    <ConfigDefine name="VADC0_C0_1_IRQHandler" value="IRQ16_Handler" public="true" include="`${intsel16 eq XMC_SCU_IRQCTRL_VADC0_C0SR1_IRQ16}`" />
+    <ConfigDefine name="VADC0_C0_1_IRQn" value="IRQ16_IRQn" public="true" include="`${intsel16 eq XMC_SCU_IRQCTRL_VADC0_C0SR1_IRQ16}`" />
+
+    <ConfigDefine name="USIC0_1_IRQHandler" value="IRQ16_Handler" public="true" include="`${intsel16 eq XMC_SCU_IRQCTRL_USIC0_SR1_IRQ16}`" />
+    <ConfigDefine name="USIC0_1_IRQn" value="IRQ16_IRQn" public="true" include="`${intsel16 eq XMC_SCU_IRQCTRL_USIC0_SR1_IRQ16}`" />
+
+    <ConfigDefine name="CCU40_2_IRQHandler" value="IRQ16_Handler" public="true" include="`${intsel16 eq XMC_SCU_IRQCTRL_CCU40_SR2_IRQ16}`" />
+    <ConfigDefine name="CCU40_2_IRQn" value="IRQ16_IRQn" public="true" include="`${intsel16 eq XMC_SCU_IRQCTRL_CCU40_SR2_IRQ16}`" />
+
+    <ConfigDefine name="VADC0_G0_0_IRQHandler" value="IRQ17_Handler" public="true" include="`${intsel17 eq XMC_SCU_IRQCTRL_VADC0_G0SR0_IRQ17}`" />
+    <ConfigDefine name="VADC0_G0_0_IRQn" value="IRQ17_IRQn" public="true" include="`${intsel17 eq XMC_SCU_IRQCTRL_VADC0_G0SR0_IRQ17}`" />
+
+    <ConfigDefine name="USIC0_2_IRQHandler" value="IRQ17_Handler" public="true" include="`${intsel17 eq XMC_SCU_IRQCTRL_USIC0_SR2_IRQ17}`" />
+    <ConfigDefine name="USIC0_2_IRQn" value="IRQ17_IRQn" public="true" include="`${intsel17 eq XMC_SCU_IRQCTRL_USIC0_SR2_IRQ17}`" />
+
+    <ConfigDefine name="CAN0_0_IRQHandler" value="IRQ17_Handler" public="true" include="`${intsel17 eq XMC_SCU_IRQCTRL_CAN0_SR0_IRQ17}`" />
+    <ConfigDefine name="CAN0_0_IRQn" value="IRQ17_IRQn" public="true" include="`${intsel17 eq XMC_SCU_IRQCTRL_CAN0_SR0_IRQ17}`" />
+
+    <ConfigDefine name="VADC0_G0_1_IRQHandler" value="IRQ18_Handler" public="true" include="`${intsel18 eq XMC_SCU_IRQCTRL_VADC0_G0SR1_IRQ18}`" />
+    <ConfigDefine name="VADC0_G0_1_IRQn" value="IRQ18_IRQn" public="true" include="`${intsel18 eq XMC_SCU_IRQCTRL_VADC0_G0SR1_IRQ18}`" />
+
+    <ConfigDefine name="USIC0_3_IRQHandler" value="IRQ18_Handler" public="true" include="`${intsel18 eq XMC_SCU_IRQCTRL_USIC0_SR3_IRQ18}`" />
+    <ConfigDefine name="USIC0_3_IRQn" value="IRQ18_IRQn" public="true" include="`${intsel18 eq XMC_SCU_IRQCTRL_USIC0_SR3_IRQ18}`" />
+
+    <ConfigDefine name="CAN0_1_IRQHandler" value="IRQ18_Handler" public="true" include="`${intsel18 eq XMC_SCU_IRQCTRL_CAN0_SR1_IRQ18}`" />
+    <ConfigDefine name="CAN0_1_IRQn" value="IRQ18_IRQn" public="true" include="`${intsel18 eq XMC_SCU_IRQCTRL_CAN0_SR1_IRQ18}`" />
+
+    <ConfigDefine name="VADC0_G1_0_IRQHandler" value="IRQ19_Handler" public="true" include="`${intsel19 eq XMC_SCU_IRQCTRL_VADC0_G1SR0_IRQ19}`" />
+    <ConfigDefine name="VADC0_G1_0_IRQn" value="IRQ19_IRQn" public="true" include="`${intsel19 eq XMC_SCU_IRQCTRL_VADC0_G1SR0_IRQ19}`" />
+
+    <ConfigDefine name="USIC0_4_IRQHandler" value="IRQ19_Handler" public="true" include="`${intsel19 eq XMC_SCU_IRQCTRL_USIC0_SR4_IRQ19}`" />
+    <ConfigDefine name="USIC0_4_IRQn" value="IRQ19_IRQn" public="true" include="`${intsel19 eq XMC_SCU_IRQCTRL_USIC0_SR4_IRQ19}`" />
+
+    <ConfigDefine name="CAN0_2_IRQHandler" value="IRQ19_Handler" public="true" include="`${intsel19 eq XMC_SCU_IRQCTRL_CAN0_SR2_IRQ19}`" />
+    <ConfigDefine name="CAN0_2_IRQn" value="IRQ19_IRQn" public="true" include="`${intsel19 eq XMC_SCU_IRQCTRL_CAN0_SR2_IRQ19}`" />
+
+    <ConfigDefine name="VADC0_G1_1_IRQHandler" value="IRQ20_Handler" public="true" include="`${intsel20 eq XMC_SCU_IRQCTRL_VADC0_G1SR1_IRQ20}`" />
+    <ConfigDefine name="VADC0_G1_1_IRQn" value="IRQ20_IRQn" public="true" include="`${intsel20 eq XMC_SCU_IRQCTRL_VADC0_G1SR1_IRQ20}`" />
+
+    <ConfigDefine name="USIC0_5_IRQHandler" value="IRQ20_Handler" public="true" include="`${intsel20 eq XMC_SCU_IRQCTRL_USIC0_SR5_IRQ20}`" />
+    <ConfigDefine name="USIC0_5_IRQn" value="IRQ20_IRQn" public="true" include="`${intsel20 eq XMC_SCU_IRQCTRL_USIC0_SR5_IRQ20}`" />
+
+    <ConfigDefine name="CAN0_3_IRQHandler" value="IRQ20_Handler" public="true" include="`${intsel20 eq XMC_SCU_IRQCTRL_CAN0_SR3_IRQ20}`" />
+    <ConfigDefine name="CAN0_3_IRQn" value="IRQ20_IRQn" public="true" include="`${intsel20 eq XMC_SCU_IRQCTRL_CAN0_SR3_IRQ20}`" />
+
+    <ConfigDefine name="CCU40_0_IRQHandler" value="IRQ21_Handler" public="true" include="`${intsel21 eq XMC_SCU_IRQCTRL_CCU40_SR0_IRQ21}`" />
+    <ConfigDefine name="CCU40_0_IRQn" value="IRQ21_IRQn" public="true" include="`${intsel21 eq XMC_SCU_IRQCTRL_CCU40_SR0_IRQ21}`" />
+
+    <ConfigDefine name="CCU41_0_IRQHandler" value="IRQ21_Handler" public="true" include="`${intsel21 eq XMC_SCU_IRQCTRL_CCU41_SR0_IRQ21}`" />
+    <ConfigDefine name="CCU41_0_IRQn" value="IRQ21_IRQn" public="true" include="`${intsel21 eq XMC_SCU_IRQCTRL_CCU41_SR0_IRQ21}`" />
+
+    <ConfigDefine name="USIC0_0_IRQHandler" value="IRQ21_Handler" public="true" include="`${intsel21 eq XMC_SCU_IRQCTRL_USIC0_SR0_IRQ21}`" />
+    <ConfigDefine name="USIC0_0_IRQn" value="IRQ21_IRQn" public="true" include="`${intsel21 eq XMC_SCU_IRQCTRL_USIC0_SR0_IRQ21}`" />
+
+    <ConfigDefine name="CCU40_1_IRQHandler" value="IRQ22_Handler" public="true" include="`${intsel22 eq XMC_SCU_IRQCTRL_CCU40_SR1_IRQ22}`" />
+    <ConfigDefine name="CCU40_1_IRQn" value="IRQ22_IRQn" public="true" include="`${intsel22 eq XMC_SCU_IRQCTRL_CCU40_SR1_IRQ22}`" />
+
+    <ConfigDefine name="CCU41_1_IRQHandler" value="IRQ22_Handler" public="true" include="`${intsel22 eq XMC_SCU_IRQCTRL_CCU41_SR1_IRQ22}`" />
+    <ConfigDefine name="CCU41_1_IRQn" value="IRQ22_IRQn" public="true" include="`${intsel22 eq XMC_SCU_IRQCTRL_CCU41_SR1_IRQ22}`" />
+
+    <ConfigDefine name="USIC0_1_IRQHandler" value="IRQ22_Handler" public="true" include="`${intsel22 eq XMC_SCU_IRQCTRL_USIC0_SR1_IRQ22}`" />
+    <ConfigDefine name="USIC0_1_IRQn" value="IRQ22_IRQn" public="true" include="`${intsel22 eq XMC_SCU_IRQCTRL_USIC0_SR1_IRQ22}`" />
+
+    <ConfigDefine name="CCU40_2_IRQHandler" value="IRQ23_Handler" public="true" include="`${intsel23 eq XMC_SCU_IRQCTRL_CCU40_SR2_IRQ23}`" />
+    <ConfigDefine name="CCU40_2_IRQn" value="IRQ23_IRQn" public="true" include="`${intsel23 eq XMC_SCU_IRQCTRL_CCU40_SR2_IRQ23}`" />
+
+    <ConfigDefine name="CCU41_2_IRQHandler" value="IRQ23_Handler" public="true" include="`${intsel23 eq XMC_SCU_IRQCTRL_CCU41_SR2_IRQ23}`" />
+    <ConfigDefine name="CCU41_2_IRQn" value="IRQ23_IRQn" public="true" include="`${intsel23 eq XMC_SCU_IRQCTRL_CCU41_SR2_IRQ23}`" />
+
+    <ConfigDefine name="USIC0_2_IRQHandler" value="IRQ23_Handler" public="true" include="`${intsel23 eq XMC_SCU_IRQCTRL_USIC0_SR2_IRQ23}`" />
+    <ConfigDefine name="USIC0_2_IRQn" value="IRQ23_IRQn" public="true" include="`${intsel23 eq XMC_SCU_IRQCTRL_USIC0_SR2_IRQ23}`" />
+
+    <ConfigDefine name="CCU40_3_IRQHandler" value="IRQ24_Handler" public="true" include="`${intsel24 eq XMC_SCU_IRQCTRL_CCU40_SR3_IRQ24}`" />
+    <ConfigDefine name="CCU40_3_IRQn" value="IRQ24_IRQn" public="true" include="`${intsel24 eq XMC_SCU_IRQCTRL_CCU40_SR3_IRQ24}`" />
+
+    <ConfigDefine name="CCU41_3_IRQHandler" value="IRQ24_Handler" public="true" include="`${intsel24 eq XMC_SCU_IRQCTRL_CCU41_SR3_IRQ24}`" />
+    <ConfigDefine name="CCU41_3_IRQn" value="IRQ24_IRQn" public="true" include="`${intsel24 eq XMC_SCU_IRQCTRL_CCU41_SR3_IRQ24}`" />
+
+    <ConfigDefine name="USIC0_3_IRQHandler" value="IRQ24_Handler" public="true" include="`${intsel24 eq XMC_SCU_IRQCTRL_USIC0_SR3_IRQ24}`" />
+    <ConfigDefine name="USIC0_3_IRQn" value="IRQ24_IRQn" public="true" include="`${intsel24 eq XMC_SCU_IRQCTRL_USIC0_SR3_IRQ24}`" />
+
+    <ConfigDefine name="CCU80_0_IRQHandler" value="IRQ25_Handler" public="true" include="`${intsel25 eq XMC_SCU_IRQCTRL_CCU80_SR0_IRQ25}`" />
+    <ConfigDefine name="CCU80_0_IRQn" value="IRQ25_IRQn" public="true" include="`${intsel25 eq XMC_SCU_IRQCTRL_CCU80_SR0_IRQ25}`" />
+
+    <ConfigDefine name="CCU81_0_IRQHandler" value="IRQ25_Handler" public="true" include="`${intsel25 eq XMC_SCU_IRQCTRL_CCU81_SR0_IRQ25}`" />
+    <ConfigDefine name="CCU81_0_IRQn" value="IRQ25_IRQn" public="true" include="`${intsel25 eq XMC_SCU_IRQCTRL_CCU81_SR0_IRQ25}`" />
+
+    <ConfigDefine name="USIC0_4_IRQHandler" value="IRQ25_Handler" public="true" include="`${intsel25 eq XMC_SCU_IRQCTRL_USIC0_SR4_IRQ25}`" />
+    <ConfigDefine name="USIC0_4_IRQn" value="IRQ25_IRQn" public="true" include="`${intsel25 eq XMC_SCU_IRQCTRL_USIC0_SR4_IRQ25}`" />
+
+    <ConfigDefine name="CCU80_1_IRQHandler" value="IRQ26_Handler" public="true" include="`${intsel26 eq XMC_SCU_IRQCTRL_CCU80_SR1_IRQ26}`" />
+    <ConfigDefine name="CCU80_1_IRQn" value="IRQ26_IRQn" public="true" include="`${intsel26 eq XMC_SCU_IRQCTRL_CCU80_SR1_IRQ26}`" />
+
+    <ConfigDefine name="CCU81_1_IRQHandler" value="IRQ26_Handler" public="true" include="`${intsel26 eq XMC_SCU_IRQCTRL_CCU81_SR1_IRQ26}`" />
+    <ConfigDefine name="CCU81_1_IRQn" value="IRQ26_IRQn" public="true" include="`${intsel26 eq XMC_SCU_IRQCTRL_CCU81_SR1_IRQ26}`" />
+
+    <ConfigDefine name="USIC0_5_IRQHandler" value="IRQ26_Handler" public="true" include="`${intsel26 eq XMC_SCU_IRQCTRL_USIC0_SR5_IRQ26}`" />
+    <ConfigDefine name="USIC0_5_IRQn" value="IRQ26_IRQn" public="true" include="`${intsel26 eq XMC_SCU_IRQCTRL_USIC0_SR5_IRQ26}`" />
+
+    <ConfigDefine name="POSIF0_0_IRQHandler" value="IRQ27_Handler" public="true" include="`${intsel27 eq XMC_SCU_IRQCTRL_POSIF0_SR0_IRQ27}`" />
+    <ConfigDefine name="POSIF0_0_IRQn" value="IRQ27_IRQn" public="true" include="`${intsel27 eq XMC_SCU_IRQCTRL_POSIF0_SR0_IRQ27}`" />
+
+    <ConfigDefine name="POSIF1_0_IRQHandler" value="IRQ27_Handler" public="true" include="`${intsel27 eq XMC_SCU_IRQCTRL_POSIF1_SR0_IRQ27}`" />
+    <ConfigDefine name="POSIF1_0_IRQn" value="IRQ27_IRQn" public="true" include="`${intsel27 eq XMC_SCU_IRQCTRL_POSIF1_SR0_IRQ27}`" />
+
+    <ConfigDefine name="CCU40_3_IRQHandler" value="IRQ27_Handler" public="true" include="`${intsel27 eq XMC_SCU_IRQCTRL_CCU40_SR3_IRQ27}`" />
+    <ConfigDefine name="CCU40_3_IRQn" value="IRQ27_IRQn" public="true" include="`${intsel27 eq XMC_SCU_IRQCTRL_CCU40_SR3_IRQ27}`" />
+
+    <ConfigDefine name="POSIF0_1_IRQHandler" value="IRQ28_Handler" public="true" include="`${intsel28 eq XMC_SCU_IRQCTRL_POSIF0_SR1_IRQ28}`" />
+    <ConfigDefine name="POSIF0_1_IRQn" value="IRQ28_IRQn" public="true" include="`${intsel28 eq XMC_SCU_IRQCTRL_POSIF0_SR1_IRQ28}`" />
+
+    <ConfigDefine name="POSIF1_1_IRQHandler" value="IRQ28_Handler" public="true" include="`${intsel28 eq XMC_SCU_IRQCTRL_POSIF1_SR1_IRQ28}`" />
+    <ConfigDefine name="POSIF1_1_IRQn" value="IRQ28_IRQn" public="true" include="`${intsel28 eq XMC_SCU_IRQCTRL_POSIF1_SR1_IRQ28}`" />
+
+    <ConfigDefine name="ERU0_0_IRQHandler" value="IRQ28_Handler" public="true" include="`${intsel28 eq XMC_SCU_IRQCTRL_ERU0_SR0_IRQ28}`" />
+    <ConfigDefine name="ERU0_0_IRQn" value="IRQ28_IRQn" public="true" include="`${intsel28 eq XMC_SCU_IRQCTRL_ERU0_SR0_IRQ28}`" />
+
+    <ConfigDefine name="LEDTS0_0_IRQHandler" value="IRQ29_Handler" public="true" include="`${intsel29 eq XMC_SCU_IRQCTRL_LEDTS0_SR0_IRQ29}`" />
+    <ConfigDefine name="LEDTS0_0_IRQn" value="IRQ29_IRQn" public="true" include="`${intsel29 eq XMC_SCU_IRQCTRL_LEDTS0_SR0_IRQ29}`" />
+
+    <ConfigDefine name="CCU40_1_IRQHandler" value="IRQ29_Handler" public="true" include="`${intsel29 eq XMC_SCU_IRQCTRL_CCU40_SR1_IRQ29}`" />
+    <ConfigDefine name="CCU40_1_IRQn" value="IRQ29_IRQn" public="true" include="`${intsel29 eq XMC_SCU_IRQCTRL_CCU40_SR1_IRQ29}`" />
+
+    <ConfigDefine name="ERU0_1_IRQHandler" value="IRQ29_Handler" public="true" include="`${intsel29 eq XMC_SCU_IRQCTRL_ERU0_SR1_IRQ29}`" />
+    <ConfigDefine name="ERU0_1_IRQn" value="IRQ29_IRQn" public="true" include="`${intsel29 eq XMC_SCU_IRQCTRL_ERU0_SR1_IRQ29}`" />
+
+    <ConfigDefine name="LEDTS1_0_IRQHandler" value="IRQ30_Handler" public="true" include="`${intsel30 eq XMC_SCU_IRQCTRL_LEDTS1_SR0_IRQ30}`" />
+    <ConfigDefine name="LEDTS1_0_IRQn" value="IRQ30_IRQn" public="true" include="`${intsel30 eq XMC_SCU_IRQCTRL_LEDTS1_SR0_IRQ30}`" />
+
+    <ConfigDefine name="CCU40_2_IRQHandler" value="IRQ30_Handler" public="true" include="`${intsel30 eq XMC_SCU_IRQCTRL_CCU40_SR2_IRQ30}`" />
+    <ConfigDefine name="CCU40_2_IRQn" value="IRQ30_IRQn" public="true" include="`${intsel30 eq XMC_SCU_IRQCTRL_CCU40_SR2_IRQ30}`" />
+
+    <ConfigDefine name="ERU0_2_IRQHandler" value="IRQ30_Handler" public="true" include="`${intsel30 eq XMC_SCU_IRQCTRL_ERU0_SR2_IRQ30}`" />
+    <ConfigDefine name="ERU0_2_IRQn" value="IRQ30_IRQn" public="true" include="`${intsel30 eq XMC_SCU_IRQCTRL_ERU0_SR2_IRQ30}`" />
+
+    <ConfigDefine name="BCCU0_0_IRQHandler" value="IRQ31_Handler" public="true" include="`${intsel31 eq XMC_SCU_IRQCTRL_BCCU0_SR0_IRQ31}`" />
+    <ConfigDefine name="BCCU0_0_IRQn" value="IRQ31_IRQn" public="true" include="`${intsel31 eq XMC_SCU_IRQCTRL_BCCU0_SR0_IRQ31}`" />
+
+    <ConfigDefine name="CCU40_3_IRQHandler" value="IRQ31_Handler" public="true" include="`${intsel31 eq XMC_SCU_IRQCTRL_CCU40_SR3_IRQ31}`" />
+    <ConfigDefine name="CCU40_3_IRQn" value="IRQ31_IRQn" public="true" include="`${intsel31 eq XMC_SCU_IRQCTRL_CCU40_SR3_IRQ31}`" />
+
+    <ConfigDefine name="ERU0_3_IRQHandler" value="IRQ31_Handler" public="true" include="`${intsel31 eq XMC_SCU_IRQCTRL_ERU0_SR3_IRQ31}`" />
+    <ConfigDefine name="ERU0_3_IRQn" value="IRQ31_IRQn" public="true" include="`${intsel31 eq XMC_SCU_IRQCTRL_ERU0_SR3_IRQ31}`" />
+
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ0_IRQn, `${intsel0}`);" include="`${intsel0 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ1_IRQn, `${intsel1}`);" include="`${intsel1 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ2_IRQn, `${intsel2}`);" include="`${intsel2 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ3_IRQn, `${intsel3}`);" include="`${intsel3 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ4_IRQn, `${intsel4}`);" include="`${intsel4 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ5_IRQn, `${intsel5}`);" include="`${intsel5 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ6_IRQn, `${intsel6}`);" include="`${intsel6 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ7_IRQn, `${intsel7}`);" include="`${intsel7 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ8_IRQn, `${intsel8}`);" include="`${intsel8 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ9_IRQn, `${intsel9}`);" include="`${intsel9 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ10_IRQn, `${intsel10}`);" include="`${intsel10 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ11_IRQn, `${intsel11}`);" include="`${intsel11 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ12_IRQn, `${intsel12}`);" include="`${intsel12 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ13_IRQn, `${intsel13}`);" include="`${intsel13 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ14_IRQn, `${intsel14}`);" include="`${intsel14 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ15_IRQn, `${intsel15}`);" include="`${intsel15 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ16_IRQn, `${intsel16}`);" include="`${intsel16 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ17_IRQn, `${intsel17}`);" include="`${intsel17 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ18_IRQn, `${intsel18}`);" include="`${intsel18 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ19_IRQn, `${intsel19}`);" include="`${intsel19 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ20_IRQn, `${intsel20}`);" include="`${intsel20 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ21_IRQn, `${intsel21}`);" include="`${intsel21 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ22_IRQn, `${intsel22}`);" include="`${intsel22 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ23_IRQn, `${intsel23}`);" include="`${intsel23 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ24_IRQn, `${intsel24}`);" include="`${intsel24 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ25_IRQn, `${intsel25}`);" include="`${intsel25 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ26_IRQn, `${intsel26}`);" include="`${intsel26 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ27_IRQn, `${intsel27}`);" include="`${intsel27 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ28_IRQn, `${intsel28}`);" include="`${intsel28 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ29_IRQn, `${intsel29}`);" include="`${intsel29 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ30_IRQn, `${intsel30}`);" include="`${intsel30 ne NC}`" />
+    <ConfigInstruction value="XMC_SCU_SetInterruptControl(IRQ31_IRQn, `${intsel31}`);" include="`${intsel31 ne NC}`" />
+
+  </ConfigFirmware>
+</Personality>

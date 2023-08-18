@@ -1,0 +1,1190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___u_s_b_h" kind="group">
+    <compoundname>USBH</compoundname>
+    <title>Universal Serial Bus Host (USBH)</title>
+    <innerclass refid="struct_x_m_c___u_s_b_h0___d_e_v_i_c_e__t" prot="public">XMC_USBH0_DEVICE_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_h0__pipe__t" prot="public">XMC_USBH0_pipe_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_h___c_a_p_a_b_i_l_i_t_i_e_s__t" prot="public">XMC_USBH_CAPABILITIES_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_h___d_r_i_v_e_r__t" prot="public">XMC_USBH_DRIVER_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_h___d_r_i_v_e_r___v_e_r_s_i_o_n__t" prot="public">XMC_USBH_DRIVER_VERSION_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_h___p_o_r_t___s_t_a_t_e__t" prot="public">XMC_USBH_PORT_STATE_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___u_s_b_h_1ga55297f05d0b9bfba88ef5a531fb2f3ca" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBH_POWER_STATE_t</name>
+        <enumvalue id="group___u_s_b_h_1gga55297f05d0b9bfba88ef5a531fb2f3caa1f8d12109dd366ff55f5dce0d196a00c" prot="public">
+          <name>XMC_USBH_POWER_OFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Power off: no operation possible </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_h_1gga55297f05d0b9bfba88ef5a531fb2f3caa1685f6fdc563e0ecb1ba55c43350707c" prot="public">
+          <name>XMC_USBH_POWER_LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Low Power mode: retain state, detect and signal wake-up events </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_h_1gga55297f05d0b9bfba88ef5a531fb2f3caa00c8436c99f580ba058d07229d2642cb" prot="public">
+          <name>XMC_USBH_POWER_FULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Power on: full operation at maximum performance </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>General power states of USB peripheral driver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="229" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="228" bodyend="233"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___u_s_b_h_1gaa0c92489eba93ef5eb79366c004f4349" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t XMC_USBH_PIPE_HANDLE</definition>
+        <argsstring></argsstring>
+        <name>XMC_USBH_PIPE_HANDLE</name>
+        <briefdescription>
+<para>USB Host Pipe Handle. It represents the physical address of a USB channel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="260" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group___u_s_b_h_1ga7a9ae457e33df433c049068ad678bf1d" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* XMC_USBH_SignalPipeEvent_t) (XMC_USBH_PIPE_HANDLE pipe_hndl, uint32_t event)</definition>
+        <argsstring>)(XMC_USBH_PIPE_HANDLE pipe_hndl, uint32_t event)</argsstring>
+        <name>XMC_USBH_SignalPipeEvent_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to ARM_USBH_SignalPipeEvent : Signal Pipe Event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="277" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group___u_s_b_h_1ga11f0f54fab82857b429a9a47f7cb7381" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* XMC_USBH_SignalPortEvent_t) (uint8_t port, uint32_t event)</definition>
+        <argsstring>)(uint8_t port, uint32_t event)</argsstring>
+        <name>XMC_USBH_SignalPortEvent_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to ARM_USBH_SignalPortEvent : Signal Root HUB Port Event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="276" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___u_s_b_h_1gad579e9bf1acd53680dfa7766e74ccf64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_USBH_GetInterruptStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBH_GetInterruptStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>USB host mode interrupt status. Bit field USB0_BASE-&gt;GINTSTS_HOSTMODE</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Provides USB host global interrupt status. <linebreak/>
+This value can be used to provide interrupt status to the IRQ handler function <ref refid="group___u_s_b_h_1ga7eb1fb5999317c09b050cc0f0ac88d37" kindref="member">XMC_USBH_HandleIrq()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="404" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_h_1ga7eb1fb5999317c09b050cc0f0ac88d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBH_HandleIrq</definition>
+        <argsstring>(uint32_t gintsts)</argsstring>
+        <name>XMC_USBH_HandleIrq</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>gintsts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gintsts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>USB global interrupt status. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Updates logical state of the USB host driver based on the input status value. It handles port interrupt and channel interrupt. It responsible for updating data toggle information for multi-packet data transmission. It executes the callback function on transfer completion and reception of data. It also does error management and calls the relevant callback functions to indicate it to the application. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="371" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_h_1ga92bb3ee13933d0967272b43eb96167de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_USBH_osDelay</definition>
+        <argsstring>(uint32_t ms)</argsstring>
+        <name>XMC_USBH_osDelay</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Delay in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint8_t Value has no significance for the low level driver.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Function implements time delay logic. The USB host low level driver provides a weak definition for delay which has to re-implemented with time delay logic. The low level driver expects blocking implementation of the delay. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="381" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_h_1gafdcc40e6a8576832dd91e3423a29dce4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBH_Select_VBUS</definition>
+        <argsstring>(XMC_GPIO_PORT_t *port, uint32_t pin)</argsstring>
+        <name>XMC_USBH_Select_VBUS</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Address of the port which has the pin used to enable VBUS charge pump. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pin number in the port selected in previous argument using which the VBUS charge pump has to be enabled. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the port pin with alternate output function 1. VBUS enabling pins work with alternate output function 1. <linebreak/>
+<emphasis>Note:</emphasis>The input port pin should support USB VBUS as an alternate function. <linebreak/>
+Typical ports that support VBUS enable are: P3_2 and P0_1. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="394" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_h_1ga258114537ceeb2d1cffc5d0d527f2d94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBH_TurnOffResumeBit</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBH_TurnOffResumeBit</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>De-asserts resume bit. <linebreak/>
+The function shall be called 20ms after detecting port remote wakeup event. <linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="414" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___u_s_b_h_1ga7ef7e9a1944652a166af69cc00d336f9" prot="public" static="no">
+        <name>USB_CH_HCCHAR_LSDEV_Msk</name>
+        <initializer>(((uint32_t)    0x1   &lt;&lt; 15U) &amp; 0x1U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="126" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga8b7c728dcc2d6acf5cef2587cb7d4f74" prot="public" static="no">
+        <name>USB_CH_HCCHARx_DEVADDR</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   &lt;&lt; USB_CH_HCCHAR_DevAddr_Pos) &amp; (uint32_t)USB_CH_HCCHAR_DevAddr_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shifts the value to the position of endpoint type(EPType) in the HCCHAR register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="124" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaaa195397a345be4aa7fd58f9dab8330b" prot="public" static="no">
+        <name>USB_CH_HCCHARx_EPDIR</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   &lt;&lt; USB_CH_HCCHAR_EPDir_Pos) &amp; (uint32_t)USB_CH_HCCHAR_EPDir_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shifts the value to the position of endpoint direction(EPDir) in the HCCHAR register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="125" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gabcd06173e607d13547e0d46d3647b11a" prot="public" static="no">
+        <name>USB_CH_HCCHARx_EPNUM</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   &lt;&lt; USB_CH_HCCHAR_EPNum_Pos) &amp; (uint32_t)USB_CH_HCCHAR_EPNum_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shifts the value to the position of endpoint number(EPNum) in the HCCHAR register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="121" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gab664afcec04ee9504fc2bd510490afb9" prot="public" static="no">
+        <name>USB_CH_HCCHARx_EPTYPE</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   &lt;&lt; USB_CH_HCCHAR_EPType_Pos) &amp; (uint32_t)USB_CH_HCCHAR_EPType_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shifts the value to the position of endpoint type(EPType) in the HCCHAR register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="122" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gad0570b5d422fc99ccd1366c5e0b05291" prot="public" static="no">
+        <name>USB_CH_HCCHARx_MCEC</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   &lt;&lt; USB_CH_HCCHAR_MC_EC_Pos) &amp; (uint32_t)USB_CH_HCCHAR_MC_EC_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shifts the value to the position of multi-count(MC_EC) field in the HCCHAR register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="123" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gacdd8d2fd8759897140b07c6365d652a1" prot="public" static="no">
+        <name>USB_CH_HCCHARx_MPS</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   ) &amp; (uint32_t)USB_CH_HCCHAR_MPS_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Masks maximum packet size information from the HCCHAR register value provided as input </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="120" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga26a462926e373ef46ecb2d2e9d27f247" prot="public" static="no">
+        <name>USB_CH_HCFG_FSLSPCS</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x        ) &amp; USB_HCFG_FSLSPclkSel_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Provides register value to update PHY clock selection in register HCFG </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="138" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaeac15428712328b08aa433a7bb663c8a" prot="public" static="no">
+        <name>USB_CH_HCFG_FSLSSUP</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x  &lt;&lt;  USB_HCFG_FSLSSupp_Pos) &amp; USB_HCFG_FSLSSupp_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Provides register value to update USB full speed related mask FLSSupp of register HCFG </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="137" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga67229cf5682ce8dcab70475846587b7e" prot="public" static="no">
+        <name>USB_CH_HCINTx_ALL</name>
+        <initializer>(USB_CH_HCINTMSK_XferComplMsk_Msk | \
+                                                      USB_CH_HCINTMSK_ChHltdMsk_Msk | \
+                                                      USB_CH_HCINTMSK_StallMsk_Msk | \
+                                                      USB_CH_HCINTMSK_NakMsk_Msk | \
+                                                      USB_CH_HCINTMSK_AckMsk_Msk | \
+                                                      USB_CH_HCINTMSK_XactErrMsk_Msk | \
+                                                      USB_CH_HCINTMSK_BblErrMsk_Msk | \
+                                                      USB_CH_HCINTMSK_FrmOvrunMsk_Msk | \
+                                                      USB_CH_HCINTMSK_DataTglErrMsk_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mask for selecting all channel related events </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="140" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga2c45350898950b6c56154764b066c394" prot="public" static="no">
+        <name>USB_CH_HCINTx_ERRORS</name>
+        <initializer>(USB_CH_HCINTMSK_XactErrMsk_Msk | \
+                                                      USB_CH_HCINTMSK_BblErrMsk_Msk | \
+                                                      USB_CH_HCINTMSK_FrmOvrunMsk_Msk | \
+                                                      USB_CH_HCINTMSK_DataTglErrMsk_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mask for selecting all channel error related events </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="150" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga0e57de5ea5086408b7b0b862af345f5e" prot="public" static="no">
+        <name>USB_CH_HCTSIZx_DPID</name>
+        <param><defname>x</defname></param>
+        <initializer>(((uint32_t)    x   &lt;&lt; USB_CH_HCTSIZ_BUFFERMODE_Pid_Pos) &amp; (uint32_t)USB_CH_HCTSIZ_BUFFERMODE_Pid_Msk)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shifts the value to the position of packet ID (PID) in the HCTSIZ register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="127" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gafaa55618ffdce47ea957b3f74a57be9d" prot="public" static="no">
+        <name>USB_CH_HCTSIZx_DPID_DATA0</name>
+        <initializer>(<ref refid="group___u_s_b_h_1ga0e57de5ea5086408b7b0b862af345f5e" kindref="member">USB_CH_HCTSIZx_DPID</ref>(0U))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents DATA toggle DATA0 as in HCTSIZ register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="128" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga1064e5bca511e471df4b3105109f5661" prot="public" static="no">
+        <name>USB_CH_HCTSIZx_DPID_DATA1</name>
+        <initializer>(<ref refid="group___u_s_b_h_1ga0e57de5ea5086408b7b0b862af345f5e" kindref="member">USB_CH_HCTSIZx_DPID</ref>(2U))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents DATA toggle DATA1 as in HCTSIZ register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="130" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga64ff3c1c33ae655d511c089a2780a6f1" prot="public" static="no">
+        <name>USB_CH_HCTSIZx_DPID_DATA2</name>
+        <initializer>(<ref refid="group___u_s_b_h_1ga0e57de5ea5086408b7b0b862af345f5e" kindref="member">USB_CH_HCTSIZx_DPID</ref>(1U))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents DATA toggle DATA2 as in HCTSIZ register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="129" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga6ce39558ff596be4b422d91d3054b656" prot="public" static="no">
+        <name>USB_CH_HCTSIZx_DPID_MDATA</name>
+        <initializer>(<ref refid="group___u_s_b_h_1ga0e57de5ea5086408b7b0b862af345f5e" kindref="member">USB_CH_HCTSIZx_DPID</ref>(3U))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents DATA toggle MDATA as in HCTSIZ register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="131" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gab5ca30919df7f138374af13bfed0d572" prot="public" static="no">
+        <name>USB_CH_HCTSIZx_DPID_SETUP</name>
+        <initializer>(<ref refid="group___u_s_b_h_1ga0e57de5ea5086408b7b0b862af345f5e" kindref="member">USB_CH_HCTSIZx_DPID</ref>(3U))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents SETUP token as in HCTSIZ register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="132" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga1fd0a1c0870f947cc6acfc35ddf5948a" prot="public" static="no">
+        <name>USB_GRXSTSR_HOSTMODE_PktSts_IN_DATA_PKT</name>
+        <initializer>0x2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents IN data token as in receive status pop register(GRXSTSP) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="133" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga396bb3a30bc3b124efe1a45ea267e2e2" prot="public" static="no">
+        <name>USB_GRXSTSR_HOSTMODE_PktSts_IN_TRSF_CPL</name>
+        <initializer>0x3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents paket status information as in receive status pop register(GRXSTSP) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="134" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga0baa1aa1fba71ddd07c774d554115309" prot="public" static="no">
+        <name>USBH0_MAX_PIPE_NUM</name>
+        <initializer>(14U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Representation of number of pipes available </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="111" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga692086abe0c443a3f6b991dbefe23068" prot="public" static="no">
+        <name>USBH_PIPE_GET_INDEX</name>
+        <param><defname>handle</defname></param>
+        <initializer>(((uint32_t)handle - (uint32_t)USB0_CH0_BASE)/(0x20U))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Macro provides index of the USB channel based on its base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="155" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gabfdc598d1b6bec6dcd42d65c85232c8a" prot="public" static="no">
+        <name>XMC_USB_DRIVE_PORT1</name>
+        <initializer>P3_2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default port(PORT3, pin 2) used to enable VBUS voltage regulator on the board </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="107" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga5937402c2a53f3bee4b77f8df7ecb986" prot="public" static="no">
+        <name>XMC_USB_DRIVE_PORT2</name>
+        <initializer>P0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alternate port that can be used to enable VBUS voltage regulator(PORT0, pin 1) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="108" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gadd2660b113b11b8ba2b680b0ef035645" prot="public" static="no">
+        <name>XMC_USBH_API_VERSION</name>
+        <initializer>((uint16_t)((uint16_t)XMC_LIB_MAJOR_VERSION &lt;&lt; 8U) |XMC_LIB_MINOR_VERSION)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USBH low level driver API version </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="157" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaf598cee5d41867d98aac5e1a6eeafa41" prot="public" static="no">
+        <name>XMC_USBH_CLOCK_GATING_DISABLE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to disable clock gating when the driver is fully powered </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="118" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaa3e0669bcf5c9ff2da2a3bdedda63218" prot="public" static="no">
+        <name>XMC_USBH_CLOCK_GATING_ENABLE</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to enable clock gating when the driver is powered down </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="117" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga72f2215f1d2da424358ec09032e71bb2" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_ERROR</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unspecified error </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="161" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga13b610b74823c3b4ccb6edb1fe029552" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_ERROR_BUSY</name>
+        <initializer>-2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Driver is busy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="162" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga8efcaf1abb4665bb9b97b089a6751cc0" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_ERROR_PARAMETER</name>
+        <initializer>-5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parameter error </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="165" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga6f3d454ee61e2d7b15197f163e91b171" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_ERROR_SPECIFIC</name>
+        <initializer>-6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Start of driver specific errors </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="166" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaea4f5a7a3a5715902a2432f582eb7e00" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_ERROR_TIMEOUT</name>
+        <initializer>-3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Timeout occurred </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="163" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga9d145dcf37d2db9167fb40ae1b22cf27" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_ERROR_UNSUPPORTED</name>
+        <initializer>-4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Operation not supported </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="164" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gab6eb91be177d0b6dda4cf0cf4da4dd7e" prot="public" static="no">
+        <name>XMC_USBH_DRIVER_OK</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Operation succeeded </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="160" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga2c467277161f78fa0b4d3acb5a146140" prot="public" static="no">
+        <name>XMC_USBH_ENDPOINT_BULK</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bulk Endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="176" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga3bcc55d8ee25aaf9c2a7d6dc69e038a3" prot="public" static="no">
+        <name>XMC_USBH_ENDPOINT_CONTROL</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Control Endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="174" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga7036588de4ef317ac9a1e946b6c886ae" prot="public" static="no">
+        <name>XMC_USBH_ENDPOINT_INTERRUPT</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Interrupt Endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="177" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga93034689c451ed5fdf165017c16362b2" prot="public" static="no">
+        <name>XMC_USBH_ENDPOINT_ISOCHRONOUS</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Isochronous Endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="175" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaf14f757acb7b73878680a30995980692" prot="public" static="no">
+        <name>XMC_USBH_EP_HANDLE</name>
+        <initializer><ref refid="group___u_s_b_h_1gaa0c92489eba93ef5eb79366c004f4349" kindref="member">XMC_USBH_PIPE_HANDLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Legacy name for pipe handle used by CMSIS </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="261" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga60aa0518bb7a6e5d4b81c612c8280243" prot="public" static="no">
+        <name>XMC_USBH_EVENT_BUS_ERROR</name>
+        <initializer>(1UL &lt;&lt; 6)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bus Error detected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="221" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga09bc6c9c2da618d415846bf01d062970" prot="public" static="no">
+        <name>XMC_USBH_EVENT_CONNECT</name>
+        <initializer>(1UL &lt;&lt; 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device Connected to Port </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="206" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gadb91c2496ac04a3d9d871ed0b3980618" prot="public" static="no">
+        <name>XMC_USBH_EVENT_DISCONNECT</name>
+        <initializer>(1UL &lt;&lt; 1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device Disconnected from Port </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="207" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gad553c2d226a7c379d6428c0a090f29f6" prot="public" static="no">
+        <name>XMC_USBH_EVENT_HANDSHAKE_ERR</name>
+        <initializer>(1UL &lt;&lt; 5)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ERR Handshake received </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="220" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gabf2d080a8ce78010e5f61525667d40e5" prot="public" static="no">
+        <name>XMC_USBH_EVENT_HANDSHAKE_MDATA</name>
+        <initializer>(1UL &lt;&lt; 3)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>MDATA Handshake received </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="218" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga04c3b225310dbe40f13614425e0fc76f" prot="public" static="no">
+        <name>XMC_USBH_EVENT_HANDSHAKE_NAK</name>
+        <initializer>(1UL &lt;&lt; 1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>NAK Handshake received </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="216" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga1607d21c5c5622972318769cf447b687" prot="public" static="no">
+        <name>XMC_USBH_EVENT_HANDSHAKE_NYET</name>
+        <initializer>(1UL &lt;&lt; 2)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>NYET Handshake received </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="217" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gae93d6ef4b315b611716dfa3aea8b5840" prot="public" static="no">
+        <name>XMC_USBH_EVENT_HANDSHAKE_STALL</name>
+        <initializer>(1UL &lt;&lt; 4)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>STALL Handshake received </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="219" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga29a0a7a70697a9243bce50b8429ed204" prot="public" static="no">
+        <name>XMC_USBH_EVENT_OVERCURRENT</name>
+        <initializer>(1UL &lt;&lt; 2)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device caused Overcurrent </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="208" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaf685b08d9983cdbe6647a34deba68e13" prot="public" static="no">
+        <name>XMC_USBH_EVENT_REMOTE_WAKEUP</name>
+        <initializer>(1UL &lt;&lt; 6)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device activated Remote Wakeup </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="212" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga7cd243f779912555ddaaebc0d68460e2" prot="public" static="no">
+        <name>XMC_USBH_EVENT_RESET</name>
+        <initializer>(1UL &lt;&lt; 3)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Reset completed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="209" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga11a8960bd759275db9130d51e8f89919" prot="public" static="no">
+        <name>XMC_USBH_EVENT_RESUME</name>
+        <initializer>(1UL &lt;&lt; 5)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Resume occurred </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="211" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga6030850071004058fc33bee7d91267e5" prot="public" static="no">
+        <name>XMC_USBH_EVENT_SUSPEND</name>
+        <initializer>(1UL &lt;&lt; 4)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Suspend occurred </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="210" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga88c7aee51a5be561830b2026cb97a94f" prot="public" static="no">
+        <name>XMC_USBH_EVENT_TRANSFER_COMPLETE</name>
+        <initializer>(1UL &lt;&lt; 0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer completed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="215" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga325652aba9803949d35eca2cf4af4bf3" prot="public" static="no">
+        <name>XMC_USBH_PACKET_CSPLIT</name>
+        <initializer>(0x0CUL &lt;&lt; XMC_USBH_PACKET_SPLIT_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CSPLIT Packet </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="200" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga0ce1a8e91ce67f6ef8cff26ef4e262eb" prot="public" static="no">
+        <name>XMC_USBH_PACKET_DATA0</name>
+        <initializer>(0x01UL &lt;&lt; XMC_USBH_PACKET_DATA_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DATA0 PID </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="191" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga4c45b4a7b0f037adbc98fc96029c756c" prot="public" static="no">
+        <name>XMC_USBH_PACKET_DATA1</name>
+        <initializer>(0x02UL &lt;&lt; XMC_USBH_PACKET_DATA_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DATA1 PID </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="192" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gabbf351ced9ed5f88dfcbbd6deb5feeb5" prot="public" static="no">
+        <name>XMC_USBH_PACKET_DATA_Msk</name>
+        <initializer>(0x0FUL &lt;&lt; XMC_USBH_PACKET_DATA_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Packet data PID mask </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="190" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga095f7250e9eae3259613929d703fbb29" prot="public" static="no">
+        <name>XMC_USBH_PACKET_DATA_Pos</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Packet data PID position </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="189" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gada54eda1b4fb76a1998516504c2ae2eb" prot="public" static="no">
+        <name>XMC_USBH_PACKET_IN</name>
+        <initializer>(0x03UL &lt;&lt; XMC_USBH_PACKET_TOKEN_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IN Packet </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="186" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gac6b27f16a7f7b78b6d40b67da4b8c52e" prot="public" static="no">
+        <name>XMC_USBH_PACKET_OUT</name>
+        <initializer>(0x02UL &lt;&lt; XMC_USBH_PACKET_TOKEN_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>OUT Packet </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="185" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga728fee701c20a92c32561e4a444da11d" prot="public" static="no">
+        <name>XMC_USBH_PACKET_PING</name>
+        <initializer>(0x04UL &lt;&lt; XMC_USBH_PACKET_TOKEN_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PING Packet </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="187" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gae546687d26f7cb97256356c02cd5c9b0" prot="public" static="no">
+        <name>XMC_USBH_PACKET_PRE</name>
+        <initializer>(1UL &lt;&lt; 12)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PRE Token </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="202" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gafc16bd564752b18d0042f83cf9696a67" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SETUP</name>
+        <initializer>(0x01UL &lt;&lt; XMC_USBH_PACKET_TOKEN_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SETUP Packet </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="184" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga4585a09a823165cf6a9267aa7bab6022" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SPLIT_Msk</name>
+        <initializer>(0x0FUL &lt;&lt; XMC_USBH_PACKET_SPLIT_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="195" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga8a9fc148d773bbbba7a3953a3e9a30fc" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SPLIT_Pos</name>
+        <initializer>8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="194" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga4c2a81ff68205c0db3ea180a0da45a1d" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SSPLIT</name>
+        <initializer>(0x08UL &lt;&lt; XMC_USBH_PACKET_SPLIT_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SSPLIT Packet </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="196" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga54f9d0bd07a7cd3829894c79807388c4" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SSPLIT_E</name>
+        <initializer>(0x0AUL &lt;&lt; XMC_USBH_PACKET_SPLIT_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SSPLIT Packet: Data End </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="198" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga2d940d1d6d96f8f480acd59968552d5f" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SSPLIT_S</name>
+        <initializer>(0x09UL &lt;&lt; XMC_USBH_PACKET_SPLIT_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SSPLIT Packet: Data Start </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="197" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga7e630f075aa6825ff4b0919631357f3c" prot="public" static="no">
+        <name>XMC_USBH_PACKET_SSPLIT_S_E</name>
+        <initializer>(0x0BUL &lt;&lt; XMC_USBH_PACKET_SPLIT_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SSPLIT Packet: Data All </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="199" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga08886509d69c1328df1ea033168dbf68" prot="public" static="no">
+        <name>XMC_USBH_PACKET_TOKEN_Msk</name>
+        <initializer>(0x0FUL &lt;&lt; XMC_USBH_PACKET_TOKEN_Pos)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Packet token mask </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="183" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gaec4f689c739f53e637cccf22cb2fbb92" prot="public" static="no">
+        <name>XMC_USBH_PACKET_TOKEN_Pos</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Packet token position </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="182" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga010cffdd48ac794a6796e0b1c096edf8" prot="public" static="no">
+        <name>XMC_USBH_SignalEndpointEvent_t</name>
+        <initializer><ref refid="group___u_s_b_h_1ga7a9ae457e33df433c049068ad678bf1d" kindref="member">XMC_USBH_SignalPipeEvent_t</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Legacy name for the pipe event handler </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="179" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1gad726d940cc8e70e475a01dd10536eb4d" prot="public" static="no">
+        <name>XMC_USBH_SPEED_FULL</name>
+        <initializer>1U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Full-speed USB </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="170" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga7741f3032a4246f5b76365409c3fd392" prot="public" static="no">
+        <name>XMC_USBH_SPEED_HIGH</name>
+        <initializer>2U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>High-speed USB </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="171" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_h_1ga23e8b6de7799dee728ef8cec0605bd41" prot="public" static="no">
+        <name>XMC_USBH_SPEED_LOW</name>
+        <initializer>0U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Low-speed USB </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="169" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Universal Serial Bus Host (USBH) driver for the XMC4000 microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The USBH is the host mode device driver for the USB0 hardware module on XMC4000 family of microcontrollers. The USB0 module can be used to establish a USB interface between outside world and XMC4000 family of controllers. The USB module includes the following features in host mode:<orderedlist>
+<listitem><para>Complies with the USB 2.0 Specification.</para>
+</listitem><listitem><para>Supports up to 14 bidirectional pipes, including control pipe 0.</para>
+</listitem><listitem><para>Supports SOFs in Full-Speed modes.</para>
+</listitem><listitem><para>Supports clock gating for power saving.</para>
+</listitem><listitem><para>Supports FIFO mode data transaction.</para>
+</listitem></orderedlist>
+</para>
+<para>The below figure shows the overview of USB0 module in XMC4 microntroller. <image type="html" name="USB_module_overview.png"></image>
+ <image type="latex" name="USB_module_overview.png"></image>
+</para>
+<para>The USBH device driver supports the following features:<linebreak/>
+<orderedlist>
+<listitem><para>Initialize/Uninitialize the USB0 module on XMC4000 device.</para>
+</listitem><listitem><para>Control VBUS state.</para>
+</listitem><listitem><para>Reset USB port.</para>
+</listitem><listitem><para>Set the USB device address.</para>
+</listitem><listitem><para>Allocate pipe for new endpoint communication.</para>
+</listitem><listitem><para>Modify an existing pipe.</para>
+</listitem><listitem><para>Transfer data on selected pipe.</para>
+</listitem><listitem><para>Abort ongoing data transaction.</para>
+</listitem><listitem><para>Handle multi packet data transaction by updating toggle information.</para>
+</listitem></orderedlist>
+</para>
+<para>The USBH device driver expects registration of callback functions <ref refid="group___u_s_b_h_1ga11f0f54fab82857b429a9a47f7cb7381" kindref="member">XMC_USBH_SignalPortEvent_t</ref> and <ref refid="group___u_s_b_h_1ga7a9ae457e33df433c049068ad678bf1d" kindref="member">XMC_USBH_SignalPipeEvent_t</ref> to be executed when there is port event interrupt and pipe event interrupt respectively.<linebreak/>
+The USBH driver is CMSIS API compatible. Please use Driver_USBH0 to access the USBH API.<linebreak/>
+For example, to initialize the USB host controller, use Driver_USBH0.Initialize().<linebreak/>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

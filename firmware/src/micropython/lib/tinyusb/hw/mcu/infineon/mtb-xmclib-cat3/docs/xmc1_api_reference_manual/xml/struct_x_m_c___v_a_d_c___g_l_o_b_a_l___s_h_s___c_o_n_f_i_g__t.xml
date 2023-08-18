@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_GLOBAL_SHS_CONFIG_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a6a7e4503a029d174d20f0e94899ce3a7" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_GLOBAL_SHS_CONFIG_t::@225</type>
+        <definition>union XMC_VADC_GLOBAL_SHS_CONFIG_t::@225 @226</definition>
+        <argsstring></argsstring>
+        <name>@226</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1317" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 10</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1311" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 20</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1314" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1aecfd1f1737986f7dbec52e2c8aa52b1e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t analog_reference_select</definition>
+        <argsstring></argsstring>
+        <name>analog_reference_select</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>It is possible to different reference voltage for the SHS modules </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1313" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a7fa405417aa80333b7769a83d8d1a839" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t shscfg</definition>
+        <argsstring></argsstring>
+        <name>shscfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1316" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1316" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Sample and hold Initialization structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1302" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1301" bodyend="1321"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_SHS_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_SHS_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1aecfd1f1737986f7dbec52e2c8aa52b1e" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_SHS_CONFIG_t</scope><name>analog_reference_select</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___s_h_s___c_o_n_f_i_g__t_1a7fa405417aa80333b7769a83d8d1a839" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_SHS_CONFIG_t</scope><name>shscfg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

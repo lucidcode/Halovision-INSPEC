@@ -1,0 +1,283 @@
+{% macro peripheral(name, base_address, direct_irq=False, interrupt_offset=0) -%}
+    <peripheral>
+      <name>{{ name }}</name>
+      <description>Broadcom SPI Controller</description>
+      <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x200</size>
+        <usage>registers</usage>
+      </addressBlock>
+      {% if direct_irq %}
+      <interrupt>
+          <name>SPI</name>
+          <description>OR of all SPI interrupts except 1 and 2</description>
+          <value>{{ interrupt_offset + 54 }}</value>
+      </interrupt>
+      {% endif %}
+      <registers>
+        <register>
+          <name>CS</name>
+          <description>Control and Status</description>
+          <addressOffset>0x00</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00041000</resetValue>
+          <fields>
+            <field>
+              <name>LEN_LONG</name>
+              <description>Enable long data word in LoSSI mode</description>
+              <bitOffset>25</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>DMA_LEN</name>
+              <description>Enable DMA in LoSSI mode</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CSPOL2</name>
+              <description>Chip select 2 polarity</description>
+              <bitOffset>23</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CSPOL1</name>
+              <description>Chip select 1 polarity</description>
+              <bitOffset>22</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CSPOL0</name>
+              <description>Chip select 0 polarity</description>
+              <bitOffset>21</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>RXF</name>
+              <description>RX FIFO full</description>
+              <bitOffset>20</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>RXR</name>
+              <description>RX FIFO has data to be read</description>
+              <bitOffset>19</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TXD</name>
+              <description>TX FIFO can accept data</description>
+              <bitOffset>18</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>RXD</name>
+              <description>RX FIFO contains data</description>
+              <bitOffset>17</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>DONE</name>
+              <description>Transfer is done</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TE_EN</name>
+              <description></description>
+              <bitOffset>15</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>LMONO</name>
+              <description></description>
+              <bitOffset>14</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>LEN</name>
+              <description>LoSSI enable</description>
+              <bitOffset>13</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>REN</name>
+              <description>Read enable</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ADCS</name>
+              <description>Automatically deassert chip select</description>
+              <bitOffset>11</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>INTR</name>
+              <description>Interrupt on RX</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>INTD</name>
+              <description>Interrupt on done</description>
+              <bitOffset>9</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>DMAEN</name>
+              <description>Enable DMA</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>TA</name>
+              <description>Transfer active</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CSPOL</name>
+              <description>Chip select polarity</description>
+              <bitOffset>6</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CLEAR</name>
+              <description>Clear the FIFO(s)</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>2</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>TX</name><value>0x1</value></enumeratedValue>
+                <enumeratedValue><name>RX</name><value>0x2</value></enumeratedValue>
+                <enumeratedValue><name>BOTH</name><value>0x3</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>CPOL</name>
+              <description>Clock polarity</description>
+              <bitOffset>3</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CPHA</name>
+              <description>Clock phase</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CS</name>
+              <description>Chip select</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>FIFO</name>
+          <description>FIFO access</description>
+          <addressOffset>0x04</addressOffset>
+          <size>32</size>
+          <resetValue>0x00000000</resetValue>
+          <access>read-write</access>
+          <fields>
+            <field>
+              <name>DATA</name>
+              <description>Data</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>32</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CLK</name>
+          <description>Clock divider</description>
+          <addressOffset>0x08</addressOffset>
+          <size>32</size>
+          <resetValue>0x00000000</resetValue>
+          <access>read-write</access>
+          <fields>
+            <field>
+              <name>CDIV</name>
+              <description>Clock divider</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>16</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>DLEN</name>
+          <description>Data length</description>
+          <addressOffset>0x0C</addressOffset>
+          <size>32</size>
+          <resetValue>0x00000000</resetValue>
+          <access>read-write</access>
+          <fields>
+            <field>
+              <name>DLEN</name>
+              <description>Data length</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>16</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>LTOH</name>
+          <description>LoSSI output hold delay</description>
+          <addressOffset>0x10</addressOffset>
+          <size>32</size>
+          <resetValue>0x00000001</resetValue>
+          <access>read-write</access>
+          <fields>
+            <field>
+              <name>TOH</name>
+              <description>Output hold delay</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>DC</name>
+          <description></description>
+          <addressOffset>0x14</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x30201050</resetValue>
+          <fields>
+            <field>
+              <name>RPANIC</name>
+              <description>DMA read panic threshold</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+            <field>
+              <name>RDREQ</name>
+              <description>DMA read request threshold</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+            <field>
+              <name>TPANIC</name>
+              <description>DMA write panic threshold</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+            <field>
+              <name>TDREQ</name>
+              <description>DMA Write request threshold</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+{% endmacro %}

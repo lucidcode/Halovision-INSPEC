@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_USBD_STATE_t</compoundname>
+    <includes local="no">xmc_usbd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1ab22b96a3efad48f5a542f46c1b224800" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device active lag </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="359" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1abf1a0792d6af28877b0abd141d5524ac" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t connected</definition>
+        <argsstring></argsstring>
+        <name>connected</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device connected flag </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="358" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1a87bda24aab59a7311d18098fa2eff6a4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t powered</definition>
+        <argsstring></argsstring>
+        <name>powered</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device powered flag </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="357" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1a220859a8b5da0232739a11cbe7f79fc5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t speed</definition>
+        <argsstring></argsstring>
+        <name>speed</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Device speed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="360" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes the current USB Device State. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="356" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="355" bodyend="361"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1ab22b96a3efad48f5a542f46c1b224800" prot="public" virt="non-virtual"><scope>XMC_USBD_STATE_t</scope><name>active</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1abf1a0792d6af28877b0abd141d5524ac" prot="public" virt="non-virtual"><scope>XMC_USBD_STATE_t</scope><name>connected</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1a87bda24aab59a7311d18098fa2eff6a4" prot="public" virt="non-virtual"><scope>XMC_USBD_STATE_t</scope><name>powered</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t_1a220859a8b5da0232739a11cbe7f79fc5" prot="public" virt="non-virtual"><scope>XMC_USBD_STATE_t</scope><name>speed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

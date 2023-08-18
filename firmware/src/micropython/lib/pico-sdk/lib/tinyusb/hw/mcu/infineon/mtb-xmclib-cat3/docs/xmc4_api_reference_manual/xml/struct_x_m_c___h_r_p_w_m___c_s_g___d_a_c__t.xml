@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_HRPWM_CSG_DAC_t</compoundname>
+    <includes local="no">xmc_hrpwm.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t_1afe19a89adfbc633b28fb2513eb70cb99" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dac_dsv1</definition>
+        <argsstring></argsstring>
+        <name>dac_dsv1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DAC reference value 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="815" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="815" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t_1ad71e746b25fd3661ab4838a80912b804" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dac_dsv2</definition>
+        <argsstring></argsstring>
+        <name>dac_dsv2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DAC reference value 2 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="816" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="816" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t_1aa216d612f167ae6c0714e10f6d3fc713" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gadfaa9ad3d5d14d786ac920e411b1a4ce" kindref="member">XMC_HRPWM_CSG_SWSM_t</ref></type>
+        <definition>XMC_HRPWM_CSG_SWSM_t start_mode</definition>
+        <argsstring></argsstring>
+        <name>start_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initial DAC start mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="814" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="814" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>CSG Unit - DAC configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="813" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="812" bodyend="817"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t_1afe19a89adfbc633b28fb2513eb70cb99" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_DAC_t</scope><name>dac_dsv1</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t_1ad71e746b25fd3661ab4838a80912b804" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_DAC_t</scope><name>dac_dsv2</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t_1aa216d612f167ae6c0714e10f6d3fc713" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_DAC_t</scope><name>start_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

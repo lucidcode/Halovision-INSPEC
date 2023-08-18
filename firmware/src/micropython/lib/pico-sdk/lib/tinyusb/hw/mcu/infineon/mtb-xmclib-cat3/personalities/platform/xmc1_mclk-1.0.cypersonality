@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_mclk-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Master clock personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_mclk" name="MCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock\.periclk"/>
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="frequency" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- General -->
+    <ParamString id="fdiv_clock" name="Source Clock" group="General"
+      default="Fractional Divider" visible="true" editable="false"
+      desc="The frequency of MCLK is programmable through a fractional divider." />
+    <ParamString id="fdiv_resource" name="Source Resource" group="Internal"
+      default="scu[0].clock[0].fdivclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="fdiv_enabled" name="Source Enabled" group="Internal"
+      default="`${isBlockUsed(fdiv_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="fdiv_frequency" name="Source Frequency (Hz)" group="Internal"
+      default="`${fdiv_enabled ? getExposedMember(fdiv_resource, &quot;frequency&quot;) : 0.0}`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="fdiv_frequency_info" name="Source Frequency" group="General"
+      default="`${formatFrequency(fdiv_frequency)}`" visible="true" editable="false"
+      desc="The clock frequency produced by the fractional divider." />
+    <ParamString id="divider" name="Divider" group="General"
+      default="2" visible="true" editable="false" desc="Main clock divider." />
+
+    <ParamString id="frequency" name="Frequency (Hz)" group="Internal"
+      default="`${fdiv_frequency / divider}`" visible="false" editable="false" desc="" />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(frequency)}`" visible="true" editable="false"
+      desc="The resulting main clock frequency." />
+  </Parameters>
+
+  <ConfigFirmware>
+  </ConfigFirmware>
+</Personality>

@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t" kind="union" language="C++" prot="public">
+    <compoundname>XMC_ETH_MAC_PORT_CTRL_t</compoundname>
+    <includes local="no">xmc_eth_mac.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a4b188825a808cf94c85617dcd22f61cd" prot="public" static="no" mutable="no">
+        <type>struct XMC_ETH_MAC_PORT_CTRL_t::@179</type>
+        <definition>struct XMC_ETH_MAC_PORT_CTRL_t::@179 @180</definition>
+        <argsstring></argsstring>
+        <name>@180</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="356" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="352" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="354" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1ae90b6c9694a2bb6301212ae766463db5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t clk_rmii</definition>
+        <argsstring></argsstring>
+        <name>clk_rmii</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RMII: Continuous 50 MHz reference clock. MII: Receive clock, 25 MHz for 100Mbit/s, 2.5 MHz for 10Mbit/s (::XMC_ETH_MAC_PORT_CTRL_CLK_RMII_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="344" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a51487823abad851984dc52a3784ac4b0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t clk_tx</definition>
+        <argsstring></argsstring>
+        <name>clk_tx</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit clock (only MII), 25 MHz for 100Mbit/s, 2.5 MHz for 10Mbit/s (::XMC_ETH_MAC_PORT_CTRL_CLK_TX_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="351" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a9309031489739361fcd2c878d6f5ebf3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t col</definition>
+        <argsstring></argsstring>
+        <name>col</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Collision Detect for only MII (::XMC_ETH_MAC_PORT_CTRL_COL_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="350" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1ab21c8eb700e30c6d30cafa405d469880" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t crs</definition>
+        <argsstring></argsstring>
+        <name>crs</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Carrier sense for only MII (::XMC_ETH_MAC_PORT_CTRL_CRS_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="348" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a320e0dbe4408bde8eb2e3dda4704a6e7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t crs_dv</definition>
+        <argsstring></argsstring>
+        <name>crs_dv</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RMII: carrier sense/RX_Data valid. MII: RX_Data valid (::XMC_ETH_MAC_PORT_CTRL_CRS_DV_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="347" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a64c7c0762a879e3ada17a39e8a3080c9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mdio</definition>
+        <argsstring></argsstring>
+        <name>mdio</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bidirectional, push-pull management data I/O line (::XMC_ETH_MAC_PORT_CTRL_MDIO_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="353" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a6b29e4f37f4482274af785ad5ffe96a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RMII or MII (::XMC_ETH_MAC_PORT_CTRL_MODE_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="355" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a0a595268561edc58e347ca8387000bc6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw</definition>
+        <argsstring></argsstring>
+        <name>raw</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="358" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a293a1a55abd9118cbb42d03e382af6d9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd0</definition>
+        <argsstring></argsstring>
+        <name>rxd0</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 0 (::XMC_ETH_MAC_PORT_CTRL_RXD0_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="340" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a566d7eee6f8a71a3b96bc59aa0971f5c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd1</definition>
+        <argsstring></argsstring>
+        <name>rxd1</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 1 (::XMC_ETH_MAC_PORT_CTRL_RXD1_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="341" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1ae3826e1526ed6736e3f9ae543aa9375c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd2</definition>
+        <argsstring></argsstring>
+        <name>rxd2</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 2 (only MII) (::XMC_ETH_MAC_PORT_CTRL_RXD2_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="342" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a1526257b7badedbd75ffba3ff799c5e3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd3</definition>
+        <argsstring></argsstring>
+        <name>rxd3</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 3 (only MII) (::XMC_ETH_MAC_PORT_CTRL_RXD3_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="343" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1af8dc85700790fb1c7058ea89e5b7a536" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxer</definition>
+        <argsstring></argsstring>
+        <name>rxer</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive error (::XMC_ETH_MAC_PORT_CTRL_RXER_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="349" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ETH MAC port control </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="337" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="336" bodyend="359"/>
+    <listofallmembers>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>__pad0__</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>__pad1__</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1ae90b6c9694a2bb6301212ae766463db5" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>clk_rmii</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a51487823abad851984dc52a3784ac4b0" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>clk_tx</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a9309031489739361fcd2c878d6f5ebf3" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>col</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1ab21c8eb700e30c6d30cafa405d469880" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>crs</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a320e0dbe4408bde8eb2e3dda4704a6e7" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>crs_dv</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a64c7c0762a879e3ada17a39e8a3080c9" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>mdio</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a6b29e4f37f4482274af785ad5ffe96a7" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>mode</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a0a595268561edc58e347ca8387000bc6" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>raw</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a293a1a55abd9118cbb42d03e382af6d9" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>rxd0</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a566d7eee6f8a71a3b96bc59aa0971f5c" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>rxd1</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1ae3826e1526ed6736e3f9ae543aa9375c" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>rxd2</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1a1526257b7badedbd75ffba3ff799c5e3" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>rxd3</name></member>
+      <member refid="union_x_m_c___e_t_h___m_a_c___p_o_r_t___c_t_r_l__t_1af8dc85700790fb1c7058ea89e5b7a536" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_PORT_CTRL_t</scope><name>rxer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

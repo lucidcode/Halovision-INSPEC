@@ -1,0 +1,1669 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___e_r_u" kind="group">
+    <compoundname>ERU</compoundname>
+    <title>Event Request Unit (ERU)</title>
+    <innerclass refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t" prot="public">XMC_ERU_ETL_CONFIG_t</innerclass>
+    <innerclass refid="union_x_m_c___e_r_u___o_g_u___c_o_n_f_i_g__t" prot="public">XMC_ERU_OGU_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___e_r_u__t" prot="public">XMC_ERU_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___e_r_u_1ga853b59a72ff0b97692d690697f1c9553" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_EDGE_DETECTION_t</name>
+        <enumvalue id="group___e_r_u_1gga853b59a72ff0b97692d690697f1c9553a645885fd795a881dd721972fbf3cf98a" prot="public">
+          <name>XMC_ERU_ETL_EDGE_DETECTION_DISABLED</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>no event enabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga853b59a72ff0b97692d690697f1c9553aa985133b3949739b02349d5e17ce7cab" prot="public">
+          <name>XMC_ERU_ETL_EDGE_DETECTION_RISING</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>detection of rising edge generates the event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga853b59a72ff0b97692d690697f1c9553a2f7606c58021c54783e2a4e8ca6f5d9a" prot="public">
+          <name>XMC_ERU_ETL_EDGE_DETECTION_FALLING</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>detection of falling edge generates the event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga853b59a72ff0b97692d690697f1c9553ad17cba429516f4a2b6da8f1c30e159f4" prot="public">
+          <name>XMC_ERU_ETL_EDGE_DETECTION_BOTH</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>detection of either edges generates the event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines trigger edge for the event generation by ETLx (Event Trigger Logic, x = [0 to 3]) unit, by getting the signal from ERSx(Event request source, x = [0 to 3]) unit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="186" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="185" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1ga308f21ee6d582ff8551092860b3f5ba4" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_INPUT_A_t</name>
+        <enumvalue id="group___e_r_u_1gga308f21ee6d582ff8551092860b3f5ba4a2a48a6504d6dfbe37fa302e387f63049" prot="public">
+          <name>XMC_ERU_ETL_INPUT_A0</name>
+          <initializer>= 0x0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input A0 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga308f21ee6d582ff8551092860b3f5ba4a8c23ef4f4bfc8d119c75a47b0cbcbc2b" prot="public">
+          <name>XMC_ERU_ETL_INPUT_A1</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input A1 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga308f21ee6d582ff8551092860b3f5ba4a212ea13b2e200b2f320747ce42128efb" prot="public">
+          <name>XMC_ERU_ETL_INPUT_A2</name>
+          <initializer>= 0x2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input A2 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga308f21ee6d582ff8551092860b3f5ba4a0dbffba00730a26e60ce9fcad3b1290a" prot="public">
+          <name>XMC_ERU_ETL_INPUT_A3</name>
+          <initializer>= 0x3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input A3 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines input signal for path A of ERSx(Event request source, x = [0 to 3]) unit. <image type="html" name="eru_input_a.png">ETLx Input A selection</image>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="139" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1gac3fd5e4f15fa5da8177b31e28421bf42" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_INPUT_B_t</name>
+        <enumvalue id="group___e_r_u_1ggac3fd5e4f15fa5da8177b31e28421bf42a32207ebe3bf72fadb9d1b8a5283de3e0" prot="public">
+          <name>XMC_ERU_ETL_INPUT_B0</name>
+          <initializer>= 0x0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input B0 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggac3fd5e4f15fa5da8177b31e28421bf42a1d906d6bf951b0ffe585987a37537d58" prot="public">
+          <name>XMC_ERU_ETL_INPUT_B1</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input B1 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggac3fd5e4f15fa5da8177b31e28421bf42a941e3e2c1344950a985263641d098716" prot="public">
+          <name>XMC_ERU_ETL_INPUT_B2</name>
+          <initializer>= 0x2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input B2 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggac3fd5e4f15fa5da8177b31e28421bf42a321fdea9c9cf9633eb2154016581ae2a" prot="public">
+          <name>XMC_ERU_ETL_INPUT_B3</name>
+          <initializer>= 0x3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>input B3 is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines input signal for path B of ERSx(Event request source, x = [0 to 3]) unit. <image type="html" name="eru_input_b.png">ETLx Input B selection</image>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="151" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1ga15d2fb3d1c965b350e28bcfae34eae87" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL_t</name>
+        <enumvalue id="group___e_r_u_1gga15d2fb3d1c965b350e28bcfae34eae87a2b1ecb8037ab4c79389648c031cb4be3" prot="public">
+          <name>XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL0</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event from input ETLx triggers output OGU0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga15d2fb3d1c965b350e28bcfae34eae87addedc2d56ede0d207343f5f7b24ac537" prot="public">
+          <name>XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL1</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event from input ETLx triggers output OGU1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga15d2fb3d1c965b350e28bcfae34eae87aab49c9492b3b41265fc179e5be905fb1" prot="public">
+          <name>XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL2</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event from input ETLx triggers output OGU2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga15d2fb3d1c965b350e28bcfae34eae87ab0120f8b0d97ff7bdb8e35b6dae3c07c" prot="public">
+          <name>XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL3</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event from input ETLx triggers output OGU3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines Output Channel of OGUy(Output gating unit y = [0 to 3]) to be mapped by the trigger pulse generated by ETLx(Event Trigger Logic, x = [0 to 3]) unit. <simplesect kind="note"><para>Generation of output trigger pulse need to be enabled <ref refid="group___e_r_u_1gab2ee1dc0cb1c6218868da04976b6819a" kindref="member">XMC_ERU_OGU_PERIPHERAL_TRIGGER_t</ref> <image type="html" name="eru_connection_matrix.png">ERU_ETL ERU_OGU Connection matrix</image>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="200" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="199" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1ga5fff35391900fcd87c7497daee0d0739" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_OUTPUT_TRIGGER_t</name>
+        <enumvalue id="group___e_r_u_1gga5fff35391900fcd87c7497daee0d0739ad73b61f8848d24944749ff1057616172" prot="public">
+          <name>XMC_ERU_ETL_OUTPUT_TRIGGER_DISABLED</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>trigger pulse generation disabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga5fff35391900fcd87c7497daee0d0739a39ad1bcd93f3adcba320301cec2e399e" prot="public">
+          <name>XMC_ERU_ETL_OUTPUT_TRIGGER_ENABLED</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>trigger pulse generation enabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines generation of the trigger pulse by ETLx(Event Trigger Logic, x = [0 to 3]) unit. Use type XMC_ERU_ETL_OUTPUT_TRIGGER_t for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="212" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="211" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1gace2abdc83ae2a12af12ca448bc5faa1c" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_SOURCE_t</name>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1caeab420c3f80513096bf42848412814d6" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_A</name>
+          <initializer>= 0x0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (A) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1ca8f65af3ff5e5de3be3bad263c817d296" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_B</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1cafd2c864567fd1740bd9065d1ce243e23" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_A_OR_B</name>
+          <initializer>= 0x2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (A <bold>OR</bold> B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1cab7d2cd9aa27d4eaee8ba5ff94778602f" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_A_AND_B</name>
+          <initializer>= 0x3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (A <bold>AND</bold> B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1ca1af919c8a85b5d2983541b1b425a7bbc" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_NOT_A</name>
+          <initializer>= 0x4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (inverted A) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1ca7e36d354d8b6466855747aeb9d003d28" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_NOT_A_OR_B</name>
+          <initializer>= 0x6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (inverted A <bold>OR</bold> B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1caaf542d2e81deedf4d32546d728f1fee5" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_NOT_A_AND_B</name>
+          <initializer>= 0x7U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (inverted A <bold>AND</bold> B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1caf697d191ffa2fd991a0d7468ef798f14" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_NOT_B</name>
+          <initializer>= 0x9U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (inverted B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1ca967f6679770a1240d9220bba5a0fa393" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_A_OR_NOT_B</name>
+          <initializer>= 0xaU</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (A <bold>OR</bold> inverted B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1cae5170991e6ea496a066941a591a736f6" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_A_AND_NOT_B</name>
+          <initializer>= 0xbU</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (A <bold>AND</bold> inverted B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1ca35bb0af7037716205e823f52f5fb3bd1" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_NOT_A_OR_NOT_B</name>
+          <initializer>= 0xeU</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (inverted A <bold>OR</bold> inverted B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggace2abdc83ae2a12af12ca448bc5faa1ca977784360e18610c2db0206892403ebf" prot="public">
+          <name>XMC_ERU_ETL_SOURCE_NOT_A_AND_NOT_B</name>
+          <initializer>= 0xfU</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>select (inverted A <bold>AND</bold> inverted B) path as a event source </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines input path combination along with polarity for event generation by ERSx(Event request source) unit to ETLx(Event trigger logic),x = [0 to 3] unit. <image type="html" name="eru_input_trigger.png">ETLx input trigger signal generation</image>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="164" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="163" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1ga5ea4e2b56bf3f57b0b59e0158f53d42c" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_ETL_STATUS_FLAG_MODE_t</name>
+        <enumvalue id="group___e_r_u_1gga5ea4e2b56bf3f57b0b59e0158f53d42ca5965d4240ed8250ebda43a1883778367" prot="public">
+          <name>XMC_ERU_ETL_STATUS_FLAG_MODE_SWCTRL</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status flag is in sticky mode. Retain the same state until cleared by software. In case of pattern match this mode is used. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1gga5ea4e2b56bf3f57b0b59e0158f53d42cac365114ab18a4ca6fc9eec6b581c6ca9" prot="public">
+          <name>XMC_ERU_ETL_STATUS_FLAG_MODE_HWCTRL</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status flag is in non-sticky mode. Automatically cleared by the opposite edge detection.<linebreak/>
+ eg. if positive edge is selected as trigger event, for the negative edge event the status flag is cleared. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines status flag reset mode generated by ETLx(Event Trigger Logic, x = [0 to 3]) unit. Use type XMC_ERU_ETL_STATUS_FLAG_MODE_t for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="222" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="221" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1gafe843daae3d38c529ffd50b148d61628" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_OGU_PATTERN_DETECTION_INPUT_t</name>
+        <enumvalue id="group___e_r_u_1ggafe843daae3d38c529ffd50b148d61628adf1a26796fdb20a72cb1ca335d17085e" prot="public">
+          <name>XMC_ERU_OGU_PATTERN_DETECTION_INPUT0</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status flag ETL0, participating in pattern match </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggafe843daae3d38c529ffd50b148d61628a7016472cfdbf7886f3c25302c328f3fd" prot="public">
+          <name>XMC_ERU_OGU_PATTERN_DETECTION_INPUT1</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status flag ETL1, participating in pattern match </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggafe843daae3d38c529ffd50b148d61628a09b5cb435dabfd13ecc6d582bea54f5a" prot="public">
+          <name>XMC_ERU_OGU_PATTERN_DETECTION_INPUT2</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status flag ETL0, participating in pattern match </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggafe843daae3d38c529ffd50b148d61628ae0a0f7f22ac23f1899278e2e2cc107e8" prot="public">
+          <name>XMC_ERU_OGU_PATTERN_DETECTION_INPUT3</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status flag ETL0, participating in pattern match </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the inputs for Pattern detection. The configured status flag signal from the ETLx(Event Trigger Logic, x = [0 to 3]) unit indicates the pattern to be detected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="249" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1gaf46891d9f1772a8f9cfb385c0afd3ce2" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_OGU_PATTERN_DETECTION_t</name>
+        <enumvalue id="group___e_r_u_1ggaf46891d9f1772a8f9cfb385c0afd3ce2af44426efaa292f169ab278be1bab3e57" prot="public">
+          <name>XMC_ERU_OGU_PATTERN_DETECTION_DISABLED</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Pattern match is disabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggaf46891d9f1772a8f9cfb385c0afd3ce2aca3188f35e04a604d08e9d6dfbb0c56d" prot="public">
+          <name>XMC_ERU_OGU_PATTERN_DETECTION_ENABLED</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Pattern match is enabled, the selected status flags of ETLx(Event Trigger Logic, x = [0 to 3]) unit, are used in pattern detection. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines pattern detection feature to be enabled or not in OGUy(Output gating unit, y = [0 to 3]). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="237" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="236" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1gab2ee1dc0cb1c6218868da04976b6819a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_OGU_PERIPHERAL_TRIGGER_t</name>
+        <enumvalue id="group___e_r_u_1ggab2ee1dc0cb1c6218868da04976b6819aa3c1a210cfd4691164e334c87011ef5e4" prot="public">
+          <name>XMC_ERU_OGU_PERIPHERAL_TRIGGER1</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OGUy1 signal is mapped for event generation </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggab2ee1dc0cb1c6218868da04976b6819aa1c199c7b5768e348f02eade3297b1aaa" prot="public">
+          <name>XMC_ERU_OGU_PERIPHERAL_TRIGGER2</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OGUy2 signal is mapped for event generation </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggab2ee1dc0cb1c6218868da04976b6819aa63c69e2c28f6e1abce23f130be26b9cc" prot="public">
+          <name>XMC_ERU_OGU_PERIPHERAL_TRIGGER3</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OGUy3 signal is mapped for event generation </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines peripheral trigger signal for event generation. Based on the selected peripheral for event generation, the trigger signal is mapped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="261" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="260" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_r_u_1gaae4af18f2e9af9ae235a3d69b4007c0e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ERU_OGU_SERVICE_REQUEST_t</name>
+        <enumvalue id="group___e_r_u_1ggaae4af18f2e9af9ae235a3d69b4007c0ea13ca9db2aa531750aa70efdf176ec854" prot="public">
+          <name>XMC_ERU_OGU_SERVICE_REQUEST_DISABLED</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Service request blocked, ERUx_GOUTy = 0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggaae4af18f2e9af9ae235a3d69b4007c0ea5b62a526258183d0d1de2a8f491fd73d" prot="public">
+          <name>XMC_ERU_OGU_SERVICE_REQUEST_ON_TRIGGER</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Service request generated enabled, ERUx_GOUTy = 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggaae4af18f2e9af9ae235a3d69b4007c0ea57197232226ff2ba44702357f85a510f" prot="public">
+          <name>XMC_ERU_OGU_SERVICE_REQUEST_ON_TRIGGER_AND_PATTERN_MATCH</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Service request generated on trigger event and input pattern match, ERUx_GOUTy = ~pattern matching result </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_r_u_1ggaae4af18f2e9af9ae235a3d69b4007c0eaaf704994abfd3973cb9a9e0c132275dd" prot="public">
+          <name>XMC_ERU_OGU_SERVICE_REQUEST_ON_TRIGGER_AND_PATTERN_MISMATCH</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Service request generated on trigger event and input pattern mismatch, ERUx_GOUTy = pattern matching result </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the gating scheme for service request generation. In later stage of the OGUy(Output gating unit, y = [0 to 3]) based on the gating scheme selected ERU_GOUTy(gated output signal) output is defined. <image type="html" name="interrupt_gating_signal.png">Interrupt gating signal</image>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="273" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="272" bodyend="282"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___e_r_u_1ga91a95048baad39ad478b0af050e797dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_Disable</definition>
+        <argsstring>(XMC_ERU_t *const eru)</argsstring>
+        <name>XMC_ERU_Disable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables clock and releases reset for ERU1 module.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>Required to configure ERU1 module again after calling <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref> or <ref refid="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" kindref="member">XMC_ERU_OGU_Init()</ref>. Since the all the registers are reset with default values. </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gaa023eb9a0615ae0322706f53577f000e" kindref="member">XMC_ERU_Enable()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="484" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gaa023eb9a0615ae0322706f53577f000e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_Enable</definition>
+        <argsstring>(XMC_ERU_t *const eru)</argsstring>
+        <name>XMC_ERU_Enable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>If ERU1 module is selected, it enables clock and releases reset.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This API is called by <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref> or <ref refid="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" kindref="member">XMC_ERU_OGU_Init()</ref> and therefore no need to call it explicitly during initialization sequence. Call this API to enable ERU1 module once again if the module is disabled by calling <ref refid="group___e_r_u_1ga91a95048baad39ad478b0af050e797dd" kindref="member">XMC_ERU_Disable()</ref>. For ERU0 module clock gating and reset features are not available.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>Required to configure ERU1 module again after calling <ref refid="group___e_r_u_1ga91a95048baad39ad478b0af050e797dd" kindref="member">XMC_ERU_Disable()</ref>. Since the all the registers are reset with default values. </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>, <ref refid="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" kindref="member">XMC_ERU_OGU_Init()</ref>, <ref refid="group___e_r_u_1ga91a95048baad39ad478b0af050e797dd" kindref="member">XMC_ERU_Disable()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="461" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gab3e95f6b12bef69e7e6d1815048a34ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_ClearStatusFlag</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_ETL_ClearStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the status flag bit(FL) in EXICONx(x = [0 to 3]).<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>If auto clear of the status flag is not enabled by detection of the opposite edge of the event edge, this API clears the Flag. SO that next event is considered as new event. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gaf81afcd379c5d8dd9b91847a7266d20a" kindref="member">XMC_ERU_ETL_SetStatusFlag()</ref>, <ref refid="group___e_r_u_1ga83d258683013290648d57f18916e032c" kindref="member">XMC_ERU_ETL_GetStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="631" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="631" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gaba049d5d9c2647fc0a99068609650c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_DisableOutputTrigger</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_ETL_DisableOutputTrigger</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3].</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the trigger pulse generation by clearing the (PE) of the EXICONx(x = <emphasis>channel</emphasis>). </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Typically this can used when only pattern match is being used for event generation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1ga6335e7c97f4834704eb27876741310d7" kindref="member">XMC_ERU_ETL_EnableOutputTrigger()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="727" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga6335e7c97f4834704eb27876741310d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_EnableOutputTrigger</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL_t trigger)</argsstring>
+        <name>XMC_ERU_ETL_EnableOutputTrigger</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1ga15d2fb3d1c965b350e28bcfae34eae87" kindref="member">XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL_t</ref></type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output Channel of OGUy(Output gating unit y = [0 to 3]) to be mapped by the trigger pulse Refer <ref refid="group___e_r_u_1ga15d2fb3d1c965b350e28bcfae34eae87" kindref="member">XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL_t</ref> for valid value.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configure which Channel of OGUy(Output gating unit y = [0 to 3]) to be mapped by the trigger pulse generated by ETLx(Event Trigger Logic, x = <emphasis>channel</emphasis>) by setting (OCS and PE) bit fields. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The trigger pulse is generated for one clock pulse along with the flag status update. This is typically used to trigger the ISR for the external events. The configured OGUy(Output gating unit y = [0 to 3]), generates the event based on the trigger pulse.If output trigger pulse generation is disabled by <ref refid="group___e_r_u_1gaba049d5d9c2647fc0a99068609650c00" kindref="member">XMC_ERU_ETL_DisableOutputTrigger()</ref>, <ref refid="group___e_r_u_1ga6335e7c97f4834704eb27876741310d7" kindref="member">XMC_ERU_ETL_EnableOutputTrigger()</ref> can called to reconfigure. These values are set during initialization in <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>. Call this to change the trigger edge, as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gaba049d5d9c2647fc0a99068609650c00" kindref="member">XMC_ERU_ETL_DisableOutputTrigger()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="708" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gaa4690514e452e671401660e0962592c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___e_r_u_1ga853b59a72ff0b97692d690697f1c9553" kindref="member">XMC_ERU_ETL_EDGE_DETECTION_t</ref></type>
+        <definition>XMC_ERU_ETL_EDGE_DETECTION_t XMC_ERU_ETL_GetEdgeDetection</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_ETL_GetEdgeDetection</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ERU_ETL_EDGE_DETECTION_t indicate which egde/s is configured for event generation</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Return event trigger edge/s by reading (RE, FE) bits of EXICONx(x = [0 to 3]) register.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Rising edge, falling edge or either edges can be selected to generate the event. Call this to get the configured trigger edge. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="590" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga83d258683013290648d57f18916e032c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_ERU_ETL_GetStatusFlag</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_ETL_GetStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3].</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Current state of the status flag bit(FL). Result is in 32-bit format.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Returns status flag state of <emphasis>channel</emphasis>. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can typically be used to clear the status flag using software, when auto clear is not enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gaf81afcd379c5d8dd9b91847a7266d20a" kindref="member">XMC_ERU_ETL_SetStatusFlag()</ref>, <ref refid="group___e_r_u_1gab3e95f6b12bef69e7e6d1815048a34ff" kindref="member">XMC_ERU_ETL_ClearStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="654" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="654" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_Init</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_ETL_CONFIG_t *const config)</argsstring>
+        <name>XMC_ERU_ETL_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t" kindref="compound">XMC_ERU_ETL_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a constant ERU_ETLx configuration data structure. Refer data structure <ref refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t" kindref="compound">XMC_ERU_ETL_CONFIG_t</ref> for detail.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<bold>Description:</bold><linebreak/>
+ Initializes the selected ERU_ETLx <emphasis>channel</emphasis> with the <emphasis>config</emphasis> structure.<linebreak/>
+</para>
+<para>Invokes <ref refid="group___e_r_u_1gaa023eb9a0615ae0322706f53577f000e" kindref="member">XMC_ERU_Enable()</ref> to enable <emphasis>eru</emphasis> module clock. Then configures <itemizedlist>
+<listitem>
+<para>Input signal for path A and Path B, </para>
+</listitem>
+<listitem>
+<para>Trigger pulse generation, </para>
+</listitem>
+<listitem>
+<para>status flag clear mode, </para>
+</listitem>
+<listitem>
+<para>Event Trigger edge, </para>
+</listitem>
+<listitem>
+<para>Output Channel of OGUy(Output gating unit y = [0 to 3]) to be mapped by the trigger pulse, </para>
+</listitem>
+<listitem>
+<para>input path combination along with polarity for event generation </para>
+</listitem>
+</itemizedlist>
+. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="510" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga95937af5ccdea42b8a96a9e8aa3215dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_SetEdgeDetection</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_ETL_EDGE_DETECTION_t edge_detection)</argsstring>
+        <name>XMC_ERU_ETL_SetEdgeDetection</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1ga853b59a72ff0b97692d690697f1c9553" kindref="member">XMC_ERU_ETL_EDGE_DETECTION_t</ref></type>
+          <declname>edge_detection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edge_detection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>event trigger edge. Refer <ref refid="group___e_r_u_1ga853b59a72ff0b97692d690697f1c9553" kindref="member">XMC_ERU_ETL_EDGE_DETECTION_t</ref> enum for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configure event trigger edge/s by setting (RE, FE) bits of EXICONx(x = [0 to 3]) register.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Rising edge, falling edge or either edges can be selected to generate the event.These values are set during initialization in <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>. Call this to change the trigger edge, as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="574" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga4633b3a3c840ddab285503720b1e282e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_SetInput</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_ETL_INPUT_A_t input_a, const XMC_ERU_ETL_INPUT_B_t input_b)</argsstring>
+        <name>XMC_ERU_ETL_SetInput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1ga308f21ee6d582ff8551092860b3f5ba4" kindref="member">XMC_ERU_ETL_INPUT_A_t</ref></type>
+          <declname>input_a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1gac3fd5e4f15fa5da8177b31e28421bf42" kindref="member">XMC_ERU_ETL_INPUT_B_t</ref></type>
+          <declname>input_b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input signal for path A of ERSx(Event request source, x = [0 to 3]) unit.<linebreak/>
+ Refer XMC_ERU_ETL_INPUT_A_t for valid value or xmc1_eru_map.h/xmc4_eru_map.h file where the mapping of the input is done based on selected signal.<linebreak/>
+ e.g: ERU0_ETL3_INPUTA_P2_7. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input signal for path B of ERSx(Event request source, x = [0 to 3]) unit.<linebreak/>
+ Refer XMC_ERU_ETL_INPUT_B_t for valid value or xmc1_eru_map.h/xmc4_eru_map.h file where the mapping of the input is done based on selected signal.<linebreak/>
+ e.g: ERU0_ETL0_INPUTB_P2_0.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the event source for path A and path B in with selected <emphasis>input_a</emphasis> and <emphasis>input_b</emphasis> respectively.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>These values are set during initialization in <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>. Call this to change the input, as needed later in the program. According to the ports/peripheral selected, the event source has to be changed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="533" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gad32a6e519fa852eba1895ad9b2cb0448" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_SetSource</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_ETL_SOURCE_t source)</argsstring>
+        <name>XMC_ERU_ETL_SetSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1gace2abdc83ae2a12af12ca448bc5faa1c" kindref="member">XMC_ERU_ETL_SOURCE_t</ref></type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input path combination along with polarity for event generation by ERSx(Event request source) unit. Refer <ref refid="group___e_r_u_1gace2abdc83ae2a12af12ca448bc5faa1c" kindref="member">XMC_ERU_ETL_SOURCE_t</ref> enum for valid input values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Select input path combination along with polarity for event generation by setting (SS, NA, NB) bits in ERSx(Event request source) unit <linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The signal ERSxO is generated from the selection and this is connected to ETLx(Event trigger logic, x = [0 to 3]) for further action. These values are set during initialization in <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>. Call this to change the source, as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="555" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gaf81afcd379c5d8dd9b91847a7266d20a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_SetStatusFlag</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_ETL_SetStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the status flag bit(FL) in EXICONx(x = [0 to 3]).<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The status flag indicates that the configured event has occurred. This status flag is used in Pattern match detection by OGUy(Output gating unit, y = [0 to 3]). </para>
+</simplesect>
+<simplesect kind="par"><title></title><para></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gab3e95f6b12bef69e7e6d1815048a34ff" kindref="member">XMC_ERU_ETL_ClearStatusFlag()</ref>, <ref refid="group___e_r_u_1ga83d258683013290648d57f18916e032c" kindref="member">XMC_ERU_ETL_GetStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="608" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="608" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gae0f5c34432dc1067976409af3af971ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_ETL_SetStatusFlagMode</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_ETL_STATUS_FLAG_MODE_t mode)</argsstring>
+        <name>XMC_ERU_ETL_SetStatusFlagMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1ga5ea4e2b56bf3f57b0b59e0158f53d42c" kindref="member">XMC_ERU_ETL_STATUS_FLAG_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(Event trigger logic unit) channel. Range : [0 to 3]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set whether status flag has to be cleared by software or hardware. Refer <ref refid="group___e_r_u_1ga5ea4e2b56bf3f57b0b59e0158f53d42c" kindref="member">XMC_ERU_ETL_STATUS_FLAG_MODE_t</ref> for valid value.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the mode for status flag mode by setting (LD) bit in EXICONx(x = <emphasis>channel</emphasis>) register.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>If SWCTRL is selected, status flag has to be cleared by software. This is typically used for pattern match detection. If HWCTRL is selected, status flag is cleared by hardware. If Positive edge is selected as event edge, for negative edge status flag is cleared and vice versa.This is typically used for continuous event detection.These values are set during initialization in <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>. Call this to change the trigger edge, as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gab3e95f6b12bef69e7e6d1815048a34ff" kindref="member">XMC_ERU_ETL_ClearStatusFlag()</ref>, <ref refid="group___e_r_u_1ga83d258683013290648d57f18916e032c" kindref="member">XMC_ERU_ETL_GetStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="682" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gaeff77065724a9ad6c1f7da14fbf31af9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_OGU_DisablePatternDetection</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_OGU_DisablePatternDetection</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disable the pattern detection by clearing (GEEN) bit. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Typically XMC_ERU_OGU_DisablePatternDetection is used when events has to be generated peripheral triggers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1ga8575bda905514eb0dbf318c55ef7d96d" kindref="member">XMC_ERU_OGU_EnablePatternDetection()</ref>, <ref refid="group___e_r_u_1ga134cd43e144a5142b668ac2bc85fa984" kindref="member">XMC_ERU_OGU_GetPatternDetectionStatus()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="792" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga66ee1efaa21c1b581756765f6a991a66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_OGU_DisablePeripheralTrigger</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_OGU_DisablePeripheralTrigger</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables event generation based on peripheral trigger by clearing (ISS) bit. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This is typically used when peripheral trigger is no longer need. After calling <ref refid="group___e_r_u_1ga66ee1efaa21c1b581756765f6a991a66" kindref="member">XMC_ERU_OGU_DisablePeripheralTrigger()</ref>, <ref refid="group___e_r_u_1gafca497a2865ef65cba5a604483954bca" kindref="member">XMC_ERU_OGU_EnablePeripheralTrigger()</ref> has to be called to reconfigure the signals again.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gafca497a2865ef65cba5a604483954bca" kindref="member">XMC_ERU_OGU_EnablePeripheralTrigger()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="857" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga8575bda905514eb0dbf318c55ef7d96d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_OGU_EnablePatternDetection</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_OGU_PATTERN_DETECTION_INPUT_t input)</argsstring>
+        <name>XMC_ERU_OGU_EnablePatternDetection</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1gafe843daae3d38c529ffd50b148d61628" kindref="member">XMC_ERU_OGU_PATTERN_DETECTION_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_ETLx(x = [0 to 3]), for pattern match detection. Refer <ref refid="group___e_r_u_1gafe843daae3d38c529ffd50b148d61628" kindref="member">XMC_ERU_OGU_PATTERN_DETECTION_INPUT_t</ref> for valid values. Logical <bold>OR</bold> combination of the enum items can be passed as the input.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures ERU_ETLx(x = [0 to 3]) for pattern match detection by setting IPENx(x = [0 to 3]) and GEEN bits. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>These bits are dedicated to each channel of the ERU_ETLx(x = [0 to 3]). These values are set during initialization in <ref refid="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" kindref="member">XMC_ERU_OGU_Init()</ref>. Call this to change the pattern, as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1gaeff77065724a9ad6c1f7da14fbf31af9" kindref="member">XMC_ERU_OGU_DisablePatternDetection()</ref>, <ref refid="group___e_r_u_1ga134cd43e144a5142b668ac2bc85fa984" kindref="member">XMC_ERU_OGU_GetPatternDetectionStatus()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="773" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1gafca497a2865ef65cba5a604483954bca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_OGU_EnablePeripheralTrigger</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_OGU_PERIPHERAL_TRIGGER_t peripheral_trigger)</argsstring>
+        <name>XMC_ERU_OGU_EnablePeripheralTrigger</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1gab2ee1dc0cb1c6218868da04976b6819a" kindref="member">XMC_ERU_OGU_PERIPHERAL_TRIGGER_t</ref></type>
+          <declname>peripheral_trigger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>peripheral_trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>which peripheral trigger signal is used for event generation. Refer <ref refid="group___e_r_u_1gab2ee1dc0cb1c6218868da04976b6819a" kindref="member">XMC_ERU_OGU_PERIPHERAL_TRIGGER_t</ref> for the valid values, or xmc1_eru_map.h/xmc4_eru_map.h file where the mapping of the peripheral input is done based on input. e.g: ERU0_OGU0_PERIPHERAL_TRIGGER_CCU40_SR0.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures peripheral trigger input, by setting (ISS) bit. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Based on the peripheral the input signal has to be selected. These values are set during initialization in <ref refid="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" kindref="member">XMC_ERU_OGU_Init()</ref>. Call this to change the input, as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1ga66ee1efaa21c1b581756765f6a991a66" kindref="member">XMC_ERU_OGU_DisablePeripheralTrigger()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="836" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga134cd43e144a5142b668ac2bc85fa984" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_ERU_OGU_GetPatternDetectionStatus</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel)</argsstring>
+        <name>XMC_ERU_OGU_GetPatternDetectionStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t returns the pattern match result. Result is in 32-bit format.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>This API returns the pattern match result by reading (PDR) bit. </para>
+</simplesect>
+<simplesect kind="par"><title></title><para></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___e_r_u_1ga8575bda905514eb0dbf318c55ef7d96d" kindref="member">XMC_ERU_OGU_EnablePatternDetection()</ref>, <ref refid="group___e_r_u_1gaeff77065724a9ad6c1f7da14fbf31af9" kindref="member">XMC_ERU_OGU_DisablePatternDetection()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="807" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="807" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_OGU_Init</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_OGU_CONFIG_t *const config)</argsstring>
+        <name>XMC_ERU_OGU_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="union_x_m_c___e_r_u___o_g_u___c_o_n_f_i_g__t" kindref="compound">XMC_ERU_OGU_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to constant ERU_OGUy configuration data structure. Refer data structure <ref refid="union_x_m_c___e_r_u___o_g_u___c_o_n_f_i_g__t" kindref="compound">XMC_ERU_OGU_CONFIG_t</ref> for detail.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<bold>Description:</bold><linebreak/>
+ Initializes the selected ERU_OGUy <emphasis>channel</emphasis> with the <emphasis>config</emphasis> structure.<linebreak/>
+</para>
+<para>Invokes <ref refid="group___e_r_u_1gaa023eb9a0615ae0322706f53577f000e" kindref="member">XMC_ERU_Enable()</ref> to enable <emphasis>eru</emphasis> module clock. Then configures <itemizedlist>
+<listitem>
+<para>Pattern detection, </para>
+</listitem>
+<listitem>
+<para>Peripheral trigger input, </para>
+</listitem>
+<listitem>
+<para>Gating for service request generation </para>
+</listitem>
+</itemizedlist>
+. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="750" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_r_u_1ga5dc8b8a92b00cbcb2ed80fa5201a5ce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ERU_OGU_SetServiceRequestMode</definition>
+        <argsstring>(XMC_ERU_t *const eru, const uint8_t channel, const XMC_ERU_OGU_SERVICE_REQUEST_t mode)</argsstring>
+        <name>XMC_ERU_OGU_SetServiceRequestMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref> *const</type>
+          <declname>eru</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___e_r_u_1gaae4af18f2e9af9ae235a3d69b4007c0e" kindref="member">XMC_ERU_OGU_SERVICE_REQUEST_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eru</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_r_u__t" kindref="compound">XMC_ERU_t</ref>, pointing to the ERU base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ERU_OGUy(Output gating unit) channel Range : [0 to 3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>gating scheme for service request generation. Refer <ref refid="group___e_r_u_1gaae4af18f2e9af9ae235a3d69b4007c0e" kindref="member">XMC_ERU_OGU_SERVICE_REQUEST_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the gating scheme for service request generation by setting (GP) bit.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Typically this function is used to change the service request generation scheme. These values are set during initialization in <ref refid="group___e_r_u_1ga8f73655169649c7b0599688d390645a0" kindref="member">XMC_ERU_OGU_Init()</ref>. Call this to change the gating mode, as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="876" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Event Request Unit (ERU) driver for the XMC microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The Event Request Unit (ERU) is a versatile multiple input event detection and processing unit. The ERU module can be used to expand the P-to-P connections of the device: ports-to-peripherals, peripherals-to-peripherals and ports-to-ports. It also offers configurable logic, that allows the generation of triggers, pattern detection and real-time signal monitoring.</para>
+<para><image type="html" name="eru_overview.png"></image>
+</para>
+<para>The driver is divided into two sections: <simplesect kind="par"><title>Event trigger logic (ERU_ETL):</title><para>This section of the LLD provides the configuration structure <ref refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t" kindref="compound">XMC_ERU_ETL_CONFIG_t</ref> and the initialization function <ref refid="group___e_r_u_1ga0ada9e9c756616d815c573168c841bd4" kindref="member">XMC_ERU_ETL_Init()</ref>.<linebreak/>
+It can be used to:<orderedlist>
+<listitem><para>Select one out of two inputs (A and B). For each of these two inputs, a vector of 4 possible signals is available. (<ref refid="group___e_r_u_1gad32a6e519fa852eba1895ad9b2cb0448" kindref="member">XMC_ERU_ETL_SetSource()</ref>)</para>
+</listitem><listitem><para>Logically combine the two input signals to a common trigger. (<ref refid="group___e_r_u_1gad32a6e519fa852eba1895ad9b2cb0448" kindref="member">XMC_ERU_ETL_SetSource()</ref>)</para>
+</listitem><listitem><para>Define the transition (edge selection, or by software) that leads to a trigger event and can also store this status. (<ref refid="group___e_r_u_1ga95937af5ccdea42b8a96a9e8aa3215dc" kindref="member">XMC_ERU_ETL_SetEdgeDetection()</ref> and <ref refid="group___e_r_u_1gaf81afcd379c5d8dd9b91847a7266d20a" kindref="member">XMC_ERU_ETL_SetStatusFlag()</ref>)</para>
+</listitem><listitem><para>Distribute the events and status flags to the output channels. (<ref refid="group___e_r_u_1ga6335e7c97f4834704eb27876741310d7" kindref="member">XMC_ERU_ETL_EnableOutputTrigger()</ref>)</para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Output gating unit (ERU_OGU):</title><para>This section of the LLD provides the provides the configuration structure <ref refid="union_x_m_c___e_r_u___o_g_u___c_o_n_f_i_g__t" kindref="compound">XMC_ERU_OGU_CONFIG_t</ref> and the initialization function XMC_ERU_ETL_OGU_Init(). It can be used to:<orderedlist>
+<listitem><para>Combine the trigger events and status information and gates the output depending on a gating signal. (<ref refid="group___e_r_u_1ga8575bda905514eb0dbf318c55ef7d96d" kindref="member">XMC_ERU_OGU_EnablePatternDetection()</ref>, <ref refid="group___e_r_u_1ga66ee1efaa21c1b581756765f6a991a66" kindref="member">XMC_ERU_OGU_DisablePeripheralTrigger()</ref>, <ref refid="group___e_r_u_1ga5dc8b8a92b00cbcb2ed80fa5201a5ce0" kindref="member">XMC_ERU_OGU_SetServiceRequestMode()</ref>) </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

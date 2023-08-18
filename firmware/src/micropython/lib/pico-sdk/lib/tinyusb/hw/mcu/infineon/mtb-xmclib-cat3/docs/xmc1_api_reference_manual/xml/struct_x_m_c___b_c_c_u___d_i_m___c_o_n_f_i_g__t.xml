@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_BCCU_DIM_CONFIG_t</compoundname>
+    <includes local="no">xmc_bccu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1ab5e75da791c0ba57691e2f1eb62a18aa" prot="public" static="no" mutable="no">
+        <type>union XMC_BCCU_DIM_CONFIG_t::@24</type>
+        <definition>union XMC_BCCU_DIM_CONFIG_t::@24 @25</definition>
+        <argsstring></argsstring>
+        <name>@25</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="525" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="519" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a7f5274b46063cf95a03144ae963f58c0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t cur_sel</definition>
+        <argsstring></argsstring>
+        <name>cur_sel</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects a type of exponential curve. Use type <ref refid="group___b_c_c_u_1ga33d0f5b21f26601560c08b6abbb50830" kindref="member">XMC_BCCU_DIM_CURVE_t</ref>. If dither <linebreak/>
+ enabled, the configuration is being ignored </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="506" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a60c0b2184385e079a6ad99c31c3b54a8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dim_div</definition>
+        <argsstring></argsstring>
+        <name>dim_div</name>
+        <bitfield> 10</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures a dimming clock divider, used to adjust the fade rate. If 0, the dimming level <linebreak/>
+ as same as target dimming level on shadow transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="503" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a4dc5cc6e13d41d8a1632bc7299d221ec" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dither_en</definition>
+        <argsstring></argsstring>
+        <name>dither_en</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects a dither enable. Dithering added for every dimming step if dimming level &lt; 128. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="505" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a38558eb4468203f76f1b2bb47b71dd6d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dtt</definition>
+        <argsstring></argsstring>
+        <name>dtt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="524" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configures dimming engine settings of the BCCU module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="502" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="501" bodyend="508"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_BCCU_DIM_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a7f5274b46063cf95a03144ae963f58c0" prot="public" virt="non-virtual"><scope>XMC_BCCU_DIM_CONFIG_t</scope><name>cur_sel</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a60c0b2184385e079a6ad99c31c3b54a8" prot="public" virt="non-virtual"><scope>XMC_BCCU_DIM_CONFIG_t</scope><name>dim_div</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a4dc5cc6e13d41d8a1632bc7299d221ec" prot="public" virt="non-virtual"><scope>XMC_BCCU_DIM_CONFIG_t</scope><name>dither_en</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___d_i_m___c_o_n_f_i_g__t_1a38558eb4468203f76f1b2bb47b71dd6d" prot="public" virt="non-virtual"><scope>XMC_BCCU_DIM_CONFIG_t</scope><name>dtt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

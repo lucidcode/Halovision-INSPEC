@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___f_c_e__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_FCE_t</compoundname>
+    <includes local="no">xmc_fce.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___f_c_e__t_1a3d740f5abcec55615bf6597720d2ed90" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___f_c_e___c_o_n_f_i_g__t" kindref="compound">XMC_FCE_CONFIG_t</ref></type>
+        <definition>XMC_FCE_CONFIG_t fce_cfg_update</definition>
+        <argsstring></argsstring>
+        <name>fce_cfg_update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE CFG register update </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="236" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___f_c_e__t_1a46b3f5dce65dc84f4941a32d74ab9781" prot="public" static="no" mutable="no">
+        <type><ref refid="group___f_c_e_1gaa48f868a31e4d625cec55f99835f112d" kindref="member">XMC_FCE_Kernel_t</ref> *</type>
+        <definition>XMC_FCE_Kernel_t* kernel_ptr</definition>
+        <argsstring></argsstring>
+        <name>kernel_ptr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE Kernel Pointer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="235" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___f_c_e__t_1aabf7380877a26cb6078f166a4e6b088b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t seedvalue</definition>
+        <argsstring></argsstring>
+        <name>seedvalue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CRC seed value to be used </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="237" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>FCE handler </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="113">
+        <label>XMC_FCE_CONFIG_t</label>
+        <link refid="struct_x_m_c___f_c_e___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="112">
+        <label>XMC_FCE_t</label>
+        <link refid="struct_x_m_c___f_c_e__t"/>
+        <childnode refid="113" relation="usage">
+          <edgelabel>fce_cfg_update</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="234" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="233" bodyend="238"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___f_c_e__t_1a3d740f5abcec55615bf6597720d2ed90" prot="public" virt="non-virtual"><scope>XMC_FCE_t</scope><name>fce_cfg_update</name></member>
+      <member refid="struct_x_m_c___f_c_e__t_1a46b3f5dce65dc84f4941a32d74ab9781" prot="public" virt="non-virtual"><scope>XMC_FCE_t</scope><name>kernel_ptr</name></member>
+      <member refid="struct_x_m_c___f_c_e__t_1aabf7380877a26cb6078f166a4e6b088b" prot="public" virt="non-virtual"><scope>XMC_FCE_t</scope><name>seedvalue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

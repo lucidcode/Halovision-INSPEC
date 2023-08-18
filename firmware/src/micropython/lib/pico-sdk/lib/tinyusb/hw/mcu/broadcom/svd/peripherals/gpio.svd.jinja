@@ -1,0 +1,556 @@
+{% macro peripheral(name, base_address, altfunc, interrupt_offset=0) -%}
+        <peripheral>
+            <name>{{ name }}</name>
+            <description>Pin level and mux control</description>
+            <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+            <addressBlock>
+                <offset>0</offset>
+                <size>0xF4</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <interrupt>
+                <name>GPIO0</name>
+                <description>Interrupt from bank 0</description>
+                <value>{{ interrupt_offset + 49 }}</value>
+            </interrupt>
+            <interrupt>
+                <name>GPIO1</name>
+                <description>Interrupt from bank 1</description>
+                <value>{{ interrupt_offset + 50 }}</value>
+            </interrupt>
+            <interrupt>
+                <name>GPIO2</name>
+                <description>Interrupt from bank 2</description>
+                <value>{{ interrupt_offset + 51 }}</value>
+            </interrupt>
+            <interrupt>
+                <name>GPIO</name>
+                <description>OR of all GPIO interrupts</description>
+                <value>{{ interrupt_offset + 52 }}</value>
+            </interrupt>
+            <registers>
+                <register>
+                    <name>GPFSEL0</name>
+                    <description>GPIO Function Select 0</description>
+                    <addressOffset>0x00</addressOffset>
+                    {% macro fsel_fields(pin_offset, pin_count=10) -%}
+                    <fields>
+                        {% for i in range(0, pin_count) %}
+                        <field>
+                            <name>FSEL{{ pin_offset + i }}</name>
+                            <description>Function Select {{ pin_offset + i }}</description>
+                            <bitRange>[{{ 3 * i + 2 }}:{{ 3 * i }}]</bitRange>
+                            <access>read-write</access>
+                            <enumeratedValues>
+                                <usage>read-write</usage>
+                                <enumeratedValue>
+                                    <name>INPUT</name>
+                                    <description>Pin is an input</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>OUTPUT</name>
+                                    <description>Pin is an output</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                {% for bits in (4, 5, 6, 7, 3, 2) %}
+                                {% if altfunc[pin_offset + i][loop.index0] %}
+                                <enumeratedValue>
+                                    <name>{{ altfunc[pin_offset + i][loop.index0] }}</name>
+                                    <description>Pin is connected to {{ altfunc[pin_offset + i][loop.index0] }}</description>
+                                    <value>{{ bits }}</value>
+                                </enumeratedValue>
+                                {% else %}
+                                <enumeratedValue>
+                                    <name>RESERVED{{ loop.index0 }}</name>
+                                    <description>Alt function {{ loop.index0 }} reserved</description>
+                                    <value>{{ bits }}</value>
+                                </enumeratedValue>
+                                {% endif %}
+                                {% endfor %}
+                            </enumeratedValues>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                    {% endmacro %}
+                    {{ fsel_fields(0) }}
+                </register>
+                <register>
+                    <name>GPFSEL1</name>
+                    <description>GPIO Function Select 1</description>
+                    <addressOffset>0x04</addressOffset>
+                    {{ fsel_fields(10) }}
+                </register>
+                <register>
+                    <name>GPFSEL2</name>
+                    <description>GPIO Function Select 2</description>
+                    <addressOffset>0x08</addressOffset>
+                    {{ fsel_fields(20) }}
+                </register>
+                <register>
+                    <name>GPFSEL3</name>
+                    <description>GPIO Function Select 3</description>
+                    <addressOffset>0x0c</addressOffset>
+                    {{ fsel_fields(30) }}
+                </register>
+                <register>
+                    <name>GPFSEL4</name>
+                    <description>GPIO Function Select 4</description>
+                    <addressOffset>0x10</addressOffset>
+                    {{ fsel_fields(40) }}
+                </register>
+                <register>
+                    <name>GPFSEL5</name>
+                    <description>GPIO Function Select 5</description>
+                    <addressOffset>0x14</addressOffset>
+                    {{ fsel_fields(50, (altfunc | length - 50)) }}
+                </register>
+                <register>
+                    <name>GPSET0</name>
+                    <description>GPIO Pin Output Set 0</description>
+                    <addressOffset>0x1c</addressOffset>
+                    <access>write-only</access>
+                    <modifiedWriteValues>oneToSet</modifiedWriteValues>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>SET{{ i }}</name>
+                            <description>Set {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPSET1</name>
+                    <description>GPIO Pin Output Set 1</description>
+                    <addressOffset>0x20</addressOffset>
+                    <access>write-only</access>
+                    <modifiedWriteValues>oneToSet</modifiedWriteValues>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>SET{{ 32 + i }}</name>
+                            <description>Set {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPCLR0</name>
+                    <description>GPIO Pin Output Clear 0</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>write-only</access>
+                    <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>CLR{{ i }}</name>
+                            <description>Clear {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPCLR1</name>
+                    <description>GPIO Pin Output Clear 1</description>
+                    <addressOffset>0x2c</addressOffset>
+                    <access>write-only</access>
+                    <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>CLR{{ 32 + i }}</name>
+                            <description>Clear {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPLEV0</name>
+                    <description>GPIO Pin Level 0</description>
+                    <addressOffset>0x34</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>LEV{{ i }}</name>
+                            <description>Level {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPLEV1</name>
+                    <description>GPIO Pin Level 1</description>
+                    <addressOffset>0x38</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>LEV{{ 32 + i }}</name>
+                            <description>Level {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+  
+                <register>
+                    <name>GPEDS0</name>
+                    <description>GPIO Pin Event Detect Status 0</description>
+                    <addressOffset>0x40</addressOffset>
+                    <access>read-write</access>
+                    <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>EDS{{ i }}</name>
+                            <description>Event detected {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPEDS1</name>
+                    <description>GPIO Pin Event Detect Status 1</description>
+                    <addressOffset>0x44</addressOffset>
+                    <access>read-write</access>
+                    <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>EDS{{ 32 + i }}</name>
+                            <description>Event detected {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPREN0</name>
+                    <description>GPIO Pin Rising Edge Detect Enable 0</description>
+                    <addressOffset>0x4c</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>REN{{ i }}</name>
+                            <description>Rising edge enabled {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPREN1</name>
+                    <description>GPIO Pin Rising Edge Detect Enable 1</description>
+                    <addressOffset>0x50</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>REN{{ 32 + i }}</name>
+                            <description>Rising edge enabled {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPFEN0</name>
+                    <description>GPIO Pin Falling Edge Detect Enable 0</description>
+                    <addressOffset>0x58</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>FEN{{ i }}</name>
+                            <description>Falling edge enabled {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+
+                <register>
+                    <name>GPFEN1</name>
+                    <description>GPIO Pin Falling Edge Detect Enable 1</description>
+                    <addressOffset>0x5c</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>FEN{{ 32 + i }}</name>
+                            <description>Falling edge enabled {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPHEN0</name>
+                    <description>GPIO Pin High Detect Enable 0</description>
+                    <addressOffset>0x64</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>HEN{{ i }}</name>
+                            <description>High detect enabled {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPHEN1</name>
+                    <description>GPIO Pin High Detect Enable 1</description>
+                    <addressOffset>0x68</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>HEN{{ 32 + i }}</name>
+                            <description>High detect enabled {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPLEN0</name>
+                    <description>GPIO Pin Low Detect Enable 0</description>
+                    <addressOffset>0x70</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>LEN{{ i }}</name>
+                            <description>Low detect enabled {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+
+                <register>
+                    <name>GPLEN1</name>
+                    <description>GPIO Pin Low Detect Enable 1</description>
+                    <addressOffset>0x74</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>LEN{{ 32 + i }}</name>
+                            <description>Low detect enabled {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPAREN0</name>
+                    <description>GPIO Pin Async. Rising Edge Detect 0</description>
+                    <addressOffset>0x7c</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>AREN{{ i }}</name>
+                            <description>Async rising enabled {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPAREN1</name>
+                    <description>GPIO Pin Async. Rising Edge Detect 1</description>
+                    <addressOffset>0x80</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>AREN{{ 32 + i }}</name>
+                            <description>Async rising enabled {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPAFEN0</name>
+                    <description>GPIO Pin Async. Falling Edge Detect 0</description>
+                    <addressOffset>0x88</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, 32) %}
+                        <field>
+                            <name>AFEN{{ i }}</name>
+                            <description>Async falling enabled {{ i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPAFEN1</name>
+                    <description>GPIO Pin Async. Falling Edge Detect 1</description>
+                    <addressOffset>0x8c</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 32)) %}
+                        <field>
+                            <name>AFEN{{ 32 + i }}</name>
+                            <description>Async falling enabled {{ 32 + i }}</description>
+                            <bitOffset>{{ i }}</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>EXTRA_MUX</name>
+                    <description>Undocumented multiplexing bits</description>
+                    <addressOffset>0xD0</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>SDIO</name>
+                            <description>Switch peripheral connection to undocumented SDIO pins used on Pi 4</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <name>SDHOST</name>
+                                    <description>Connect the newer SD host</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>ARASAN</name>
+                                    <description>Connect Arasan SD/EMMC host</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>GPIO_PUP_PDN_CNTRL_REG0</name>
+                    <description>GPIO Pull-up / Pull-down Register 0</description>
+                    <addressOffset>0xe4</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>GPIO_PUP_PDN_CNTRL0</name>
+                            <description>Resistor select for 0</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues>
+                                <name>BP_PULL</name>
+                                <usage>read-write</usage>
+                                <headerEnumName>BP_PULL</headerEnumName>
+                                <enumeratedValue>
+                                    <name>NONE</name>
+                                    <description>No pull</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>UP</name>
+                                    <description>Pull up</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>DOWN</name>
+                                    <description>Pull down</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        {% for i in range(1, 16) %}
+                        <field>
+                            <name>GPIO_PUP_PDN_CNTRL{{ i }}</name>
+                            <description>Resistor select for {{ i }}</description>
+                            <bitOffset>{{ 2 * i }}</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues derivedFrom="GPIO.GPIO_PUP_PDN_CNTRL_REG0.GPIO_PUP_PDN_CNTRL0.BP_PULL"/>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPIO_PUP_PDN_CNTRL_REG1</name>
+                    <description>GPIO Pull-up / Pull-down Register 1</description>
+                    <addressOffset>0xe8</addressOffset>
+                    <fields>
+                        {% for i in range(0, 16) %}
+                        <field>
+                            <name>GPIO_PUP_PDN_CNTRL{{ 16 + i }}</name>
+                            <description>Resistor select for {{ 16 + i }}</description>
+                            <bitOffset>{{ 2 * i }}</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues derivedFrom="GPIO.GPIO_PUP_PDN_CNTRL_REG0.GPIO_PUP_PDN_CNTRL0.BP_PULL"/>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPIO_PUP_PDN_CNTRL_REG2</name>
+                    <description>GPIO Pull-up / Pull-down Register 2</description>
+                    <addressOffset>0xec</addressOffset>
+                    <fields>
+                        {% for i in range(0, 16) %}
+                        <field>
+                            <name>GPIO_PUP_PDN_CNTRL{{ 16 * 2 + i }}</name>
+                            <description>Resistor select for {{ 16 * 2 + i }}</description>
+                            <bitOffset>{{ 2 * i }}</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues derivedFrom="GPIO.GPIO_PUP_PDN_CNTRL_REG0.GPIO_PUP_PDN_CNTRL0.BP_PULL"/>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+                <register>
+                    <name>GPIO_PUP_PDN_CNTRL_REG3</name>
+                    <description>GPIO Pull-up / Pull-down Register 3</description>
+                    <addressOffset>0xf0</addressOffset>
+                    <fields>
+                        {% for i in range(0, (altfunc | length - 48)) %}
+                        <field>
+                            <name>GPIO_PUP_PDN_CNTRL{{ 16 * 3 + i }}</name>
+                            <description>Resistor select for {{ 16 * 3 + i }}</description>
+                            <bitOffset>{{ 2 * i }}</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues derivedFrom="GPIO.GPIO_PUP_PDN_CNTRL_REG0.GPIO_PUP_PDN_CNTRL0.BP_PULL"/>
+                        </field>
+                        {% endfor %}
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+{%- endmacro %}

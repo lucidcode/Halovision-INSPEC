@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Woundings xml_version="1" xmlns="http://cypress.com/xsd/cychipresourcewoundings_v1">
+  <RemoveListWounding name="CCU4_REMOVED">
+    <Block name="ccu4.ch"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="CCU8_REMOVED">
+    <Block name="ccu8.ch"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="POSIF_REMOVED">
+    <Block name="posif"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="BCCU_REMOVED">
+    <Block name="bccu"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="USIC_REMOVED">
+    <Block name="usic.ch"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="LEDTS_REMOVED">
+    <Block name="ledts"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="CAN_REMOVED">
+    <Block name="can"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="ADC_REMOVED">
+    <Block name="vadc"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="ACMP_REMOVED">
+    <Block name="scu.acmp"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="DAC_REMOVED">
+    <Block name="dac"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="DSD_REMOVED">
+    <Block name="dsd"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="USB_REMOVED">
+    <Block name="usb"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="HRPWM_REMOVED">
+    <Block name="hrpwm"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="SDMMC_REMOVED">
+    <Block name="sdmmc"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="ETH_REMOVED">
+    <Block name="eth"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="ECAT_REMOVED">
+    <Block name="ecat"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="EBU_REMOVED">
+    <Block name="ebu"/>
+  </RemoveListWounding>
+</Woundings>

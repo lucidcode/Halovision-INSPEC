@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_dco1-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* DCO1 clock personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_dco1" name="DCO1" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock\.dco1" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fDCO1" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamString id="oschp_resource" name="OSC_HP Resource" group="Internal"
+      default="scu[0].clock[0].osc_hp[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="oschp_enabled" name="OSC_HP Enabled" group="Internal"
+      default="`${isBlockUsed(oschp_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="fOSC_HP" name="OSC_HP Frequency (Hz)" group="Internal"
+      default="`${oschp_enabled ? getExposedMember(oschp_resource, &quot;frequency&quot;) : 1}`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="osclp_resource" name="OSC_LP Resource" group="Internal"
+      default="scu[0].clock[0].osc_lp[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="osclp_enabled" name="OSC_LP Enabled" group="Internal"
+      default="`${isBlockUsed(osclp_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="fDCO1" name="Frequency (Hz)" group="Internal"
+      default="`${lookupExpression(&quot;FDCO1_VALUE&quot;, 0)}`" visible="false" editable="false" desc="" />
+
+    <!-- General -->
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fDCO1)}`" visible="true" editable="false"
+      desc="The actual DCO1 frequency." />
+    <ParamBool id="calibration_enable" name="Automatic DCO1 Calibration"
+      group="General" default="false" visible="true" editable="true"
+      desc="Enable DCO1 clock frequency calibration automatically during runtime to achieve a better accuracy." />
+    <ParamChoice id="calibration_mode" name="Calibration Mode" group="General"
+      default="XMC_SCU_CLOCK_SYNC_CLKSRC_OSCHP" visible="`${calibration_enable}`" editable="true"
+      desc="Select clock source for DCO1 calibration." >
+      <Entry name="Based on OSC_HP" value="XMC_SCU_CLOCK_SYNC_CLKSRC_OSCHP" visible="true" />
+      <Entry name="Based on OSC_LP" value="XMC_SCU_CLOCK_SYNC_CLKSRC_OSCLP" visible="true" />
+    </ParamChoice>
+    <ParamString id="calibration_prescaler_oschp" name="Calibration Prescaler (OSC_HP)" group="Internal"
+      default="`${(fOSC_HP * 3000) / fDCO1}`" visible="false" editable="false" desc="" />
+    <ParamRange id="calibration_prescaler" name="Calibration Prescaler" group="Internal"
+      default="`${(calibration_enable &amp;&amp; (calibration_mode eq XMC_SCU_CLOCK_SYNC_CLKSRC_OSCHP)) ? ((calibration_prescaler_oschp &gt; 2047) ? 2047 : calibration_prescaler_oschp) : 2}`"
+      min="0" max="2047" resolution="1" visible="false" editable="false" desc="" />
+    <ParamString id="calibration_syn_preload_oschp" name="Calibration syn_preload Max Value (OSC_HP)" group="Internal"
+      default="`${(fDCO1 * calibration_prescaler) / fOSC_HP}`" visible="false" editable="false" desc="" />
+    <ParamRange id="calibration_syn_preload" name="Calibration syn_preload Max Value" group="Internal"
+      default="`${(calibration_enable &amp;&amp; (calibration_mode eq XMC_SCU_CLOCK_SYNC_CLKSRC_OSCHP)) ? ((calibration_syn_preload_oschp &gt; 8191) ? 8191 : calibration_syn_preload_oschp) : 2930}`"
+      min="0" max="8191" resolution="1" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for DCO1 calibration is not enabled"
+      condition="`${calibration_enable &amp;&amp; (calibration_mode eq XMC_SCU_CLOCK_SYNC_CLKSRC_OSCHP) &amp;&amp; !oschp_enabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${oschp_resource}`" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Source clock for DCO1 calibration is not enabled"
+      condition="`${calibration_enable &amp;&amp; (calibration_mode eq XMC_SCU_CLOCK_SYNC_CLKSRC_OSCLP) &amp;&amp; !osclp_enabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${osclp_resource}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_DCO1_SYNC_ENABLED" value="`${calibration_enable ? 1U : 0U}`" public="false" include="true" />
+    <ConfigDefine name="CLOCK_DCO1_SYNC_SEL" value="`${calibration_mode}`" public="false" include="`${calibration_enable}`" />
+    <ConfigDefine name="CLOCK_DCO1_SYNC_PRESCALER" value="`${calibration_prescaler}`U" public="false" include="`${calibration_enable}`" />
+    <ConfigDefine name="CLOCK_DCO1_SYNC_PRELOAD" value="`${calibration_syn_preload}`U" public="false" include="`${calibration_enable}`" />
+  </ConfigFirmware>
+</Personality>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
+    <vendor>BROADCOM</vendor>
+    <vendorID>BRCM</vendorID>
+    <name>{{ name }}</name>
+    <series>BCM2835</series>
+    <version>A</version>
+    <description>BCM2835 found in the Raspberry Pi 1 and Zero</description>
+    <cpu>
+        <!-- This definitely isn't right but SVDConv can't handle ARM1176. The header we import will work just fine. -->
+        <name>CA72</name>
+        <revision>r0p0</revision>
+        <endian>little</endian>
+        <nvicPrioBits>2</nvicPrioBits>
+    </cpu>
+    <headerSystemFilename>system_bcm2835</headerSystemFilename>
+    <addressUnitBits>8</addressUnitBits>
+    <width>64</width>
+    <size>32</size>
+    <peripherals>
+        {%- import "svd.jinja" as svd %}
+
+        {%- import "peripherals/vcmailbox.svd.jinja" as vcmailbox %}
+        {{ vcmailbox.peripheral("VCMAILBOX", peripheral_base + 0xB880) }}
+
+        {%- import "peripherals/bcm_power_manager.svd.jinja" as bcm_pm %}
+        {{ bcm_pm.peripheral("PM", peripheral_base + 0x100000)}}
+
+        {%- import "peripherals/bcm_clock_manager.svd.jinja" as bcm_cm %}
+        {{ bcm_cm.peripheral("CM_PCM", peripheral_base + 0x101098)}}
+        {{ svd.derived_peripheral("CM_PWM", peripheral_base + 0x1010a0, "CM_PCM") }}
+
+        {%- import "peripherals/gpio.svd.jinja" as gpio %}
+        {{ gpio.peripheral("GPIO", peripheral_base + 0x200000, altfunc)}}
+
+        {%- import "peripherals/bcm_system_timer.svd.jinja" as bcm_system_timer %}
+        {{ bcm_system_timer.peripheral("SYSTMR", peripheral_base + 0x3000)}}
+
+        {%- import "peripherals/arm_uart_pl011.svd.jinja" as arm_uart_pl011 %}
+        {{ arm_uart_pl011.peripheral("UART0", peripheral_base + 0x201000, direct_irq=True)}}
+
+        {%- import "peripherals/bcm_spi.svd.jinja" as bcm_spi %}
+        {{ bcm_spi.peripheral("SPI0", peripheral_base + 0x204000, direct_irq=True)}}
+
+        {%- import "peripherals/bcm_serial_controller.svd.jinja" as bcm_serial_controller %}
+        {{ bcm_serial_controller.peripheral("BSC0", peripheral_base + 0x205000, direct_irq=True)}}
+
+        {%- import "peripherals/bcm_pwm.svd.jinja" as bcm_pwm %}
+        {{ bcm_pwm.peripheral("PWM0", peripheral_base + 0x20C000)}}
+
+        {{ svd.derived_peripheral("BSC1", peripheral_base + 0x804000, "BSC0") }}
+        {{ svd.derived_peripheral("BSC2", peripheral_base + 0x805000, "BSC0") }}
+
+        {%- import "peripherals/bcm_aux.svd.jinja" as bcm_aux %}
+        {{ bcm_aux.peripheral(peripheral_base + 0x215000)}}
+
+        {%- import "peripherals/bcm_legacy_interrupt.svd.jinja" as bcm_legacy_interrupt %}
+        {{ bcm_legacy_interrupt.peripheral("LIC", peripheral_base + 0xB000, interrupt_names=interrupt_names)}}
+
+        {%- import "peripherals/synopsis_usb_dwc2.svd.jinja" as synopsis_usb_dwc2 %}
+        {{ synopsis_usb_dwc2.peripheral("USB_OTG", peripheral_base + 0x980000)}}
+
+        {%- import "peripherals/arasan_emmc.svd.jinja" as arasan_emmc %}
+        {{ arasan_emmc.peripheral("EMMC", peripheral_base + 0x300000)}}
+        {# {{ arasan_emmc.peripheral("EMMC2", peripheral_base + 0x340000)}} #}
+    </peripherals>
+</device>

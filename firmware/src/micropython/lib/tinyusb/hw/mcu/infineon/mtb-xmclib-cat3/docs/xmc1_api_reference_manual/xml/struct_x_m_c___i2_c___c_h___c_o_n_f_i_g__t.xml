@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_I2C_CH_CONFIG_t</compoundname>
+    <includes local="no">xmc_i2c.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1a643d30df67a67c5915fde941c934f9f8" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>slave address A 7-bit address needs to be left shifted it by 1. A 10-bit address needs to be ORed with XMC_I2C_10BIT_ADDR_GROUP. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="271" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t baudrate</definition>
+        <argsstring></argsstring>
+        <name>baudrate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>baud rate configuration upto max of 400KHz </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="269" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool normal_divider_mode</definition>
+        <argsstring></argsstring>
+        <name>normal_divider_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter at cost of frequency selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="270" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>I2C_CH configuration structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" line="268" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2c.h" bodystart="267" bodyend="274"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1a643d30df67a67c5915fde941c934f9f8" prot="public" virt="non-virtual"><scope>XMC_I2C_CH_CONFIG_t</scope><name>address</name></member>
+      <member refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" virt="non-virtual"><scope>XMC_I2C_CH_CONFIG_t</scope><name>baudrate</name></member>
+      <member refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" virt="non-virtual"><scope>XMC_I2C_CH_CONFIG_t</scope><name>normal_divider_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

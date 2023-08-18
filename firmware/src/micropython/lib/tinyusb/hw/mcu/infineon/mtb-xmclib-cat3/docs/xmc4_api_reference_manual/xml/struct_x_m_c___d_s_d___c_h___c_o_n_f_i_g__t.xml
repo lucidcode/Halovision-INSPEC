@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DSD_CH_CONFIG_t</compoundname>
+    <includes local="no">xmc_dsd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1ad94b1161b2558c3d34aa1b93f8a7e52a" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___d_s_d___c_h___a_u_x___f_i_l_t_e_r___c_o_n_f_i_g__t" kindref="compound">XMC_DSD_CH_AUX_FILTER_CONFIG_t</ref> *const</type>
+        <definition>XMC_DSD_CH_AUX_FILTER_CONFIG_t* const aux</definition>
+        <argsstring></argsstring>
+        <name>aux</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the aux_filter configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="570" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1afd933449f017f2895c7284d2118b58c5" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t" kindref="compound">XMC_DSD_CH_FILTER_CONFIG_t</ref> *const</type>
+        <definition>XMC_DSD_CH_FILTER_CONFIG_t* const filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the filter configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="567" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1ac199fa6050420c2e73399b8a60939a13" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t" kindref="compound">XMC_DSD_CH_INTEGRATOR_CONFIG_t</ref> *const</type>
+        <definition>XMC_DSD_CH_INTEGRATOR_CONFIG_t* const integrator</definition>
+        <argsstring></argsstring>
+        <name>integrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the integrator configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="568" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1aa66c85e5eddeb6ac10dca246c7e7b8a0" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t" kindref="compound">XMC_DSD_CH_RECTIFY_CONFIG_t</ref> *const</type>
+        <definition>XMC_DSD_CH_RECTIFY_CONFIG_t* const rectify</definition>
+        <argsstring></argsstring>
+        <name>rectify</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the rectify configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="571" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1a87f9e8de785453fff06d1c5014a98ff4" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t" kindref="compound">XMC_DSD_CH_TIMESTAMP_CONFIG_t</ref> *const</type>
+        <definition>XMC_DSD_CH_TIMESTAMP_CONFIG_t* const timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the time stamp configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="569" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DSD Enable Channel </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="46">
+        <label>XMC_DSD_CH_FILTER_CONFIG_t</label>
+        <link refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="42">
+        <label>XMC_DSD_CH_AUX_FILTER_CONFIG_t</label>
+        <link refid="struct_x_m_c___d_s_d___c_h___a_u_x___f_i_l_t_e_r___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="45">
+        <label>XMC_DSD_CH_RECTIFY_CONFIG_t</label>
+        <link refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="44">
+        <label>XMC_DSD_CH_INTEGRATOR_CONFIG_t</label>
+        <link refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="43">
+        <label>XMC_DSD_CH_TIMESTAMP_CONFIG_t</label>
+        <link refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="41">
+        <label>XMC_DSD_CH_CONFIG_t</label>
+        <link refid="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t"/>
+        <childnode refid="42" relation="usage">
+          <edgelabel>aux</edgelabel>
+        </childnode>
+        <childnode refid="43" relation="usage">
+          <edgelabel>timestamp</edgelabel>
+        </childnode>
+        <childnode refid="44" relation="usage">
+          <edgelabel>integrator</edgelabel>
+        </childnode>
+        <childnode refid="45" relation="usage">
+          <edgelabel>rectify</edgelabel>
+        </childnode>
+        <childnode refid="46" relation="usage">
+          <edgelabel>filter</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="566" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="565" bodyend="572"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1ad94b1161b2558c3d34aa1b93f8a7e52a" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_CONFIG_t</scope><name>aux</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1afd933449f017f2895c7284d2118b58c5" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_CONFIG_t</scope><name>filter</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1ac199fa6050420c2e73399b8a60939a13" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_CONFIG_t</scope><name>integrator</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1aa66c85e5eddeb6ac10dca246c7e7b8a0" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_CONFIG_t</scope><name>rectify</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___c_o_n_f_i_g__t_1a87f9e8de785453fff06d1c5014a98ff4" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_CONFIG_t</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

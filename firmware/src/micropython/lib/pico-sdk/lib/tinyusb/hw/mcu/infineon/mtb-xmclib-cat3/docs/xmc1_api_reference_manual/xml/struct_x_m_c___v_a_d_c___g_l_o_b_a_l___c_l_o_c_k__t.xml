@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_GLOBAL_CLOCK_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a4df7c6ec41d24828b4f064a765bb7f36" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_GLOBAL_CLOCK_t::@189</type>
+        <definition>union XMC_VADC_GLOBAL_CLOCK_t::@189 @190</definition>
+        <argsstring></argsstring>
+        <name>@190</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1078" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1071" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1071" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1074" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1074" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 17</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1075" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1075" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1ad6543a1d55b9138268a4f499940b8310" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t analog_clock_divider</definition>
+        <argsstring></argsstring>
+        <name>analog_clock_divider</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clock for the converter. <linebreak/>
+Range: [0x0 to 0x1F] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1070" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1070" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a850df74e63baeb55a064361fe3729a34" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t arbiter_clock_divider</definition>
+        <argsstring></argsstring>
+        <name>arbiter_clock_divider</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request source arbiter clock divider. <linebreak/>
+Range: [0x0 to 0x3] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1073" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1073" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1aca3b083d8a3825cdf0bb75b66ba6ddbe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t globcfg</definition>
+        <argsstring></argsstring>
+        <name>globcfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1077" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1077" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a347ed5af1726fc40b91afe8d000b5313" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t msb_conversion_clock</definition>
+        <argsstring></argsstring>
+        <name>msb_conversion_clock</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Additional clock cycle for analog converter </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1072" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1072" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure to initialize converter and arbiter clock configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1064" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1063" bodyend="1079"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1ad6543a1d55b9138268a4f499940b8310" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>analog_clock_divider</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a850df74e63baeb55a064361fe3729a34" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>arbiter_clock_divider</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1aca3b083d8a3825cdf0bb75b66ba6ddbe" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>globcfg</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___c_l_o_c_k__t_1a347ed5af1726fc40b91afe8d000b5313" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_CLOCK_t</scope><name>msb_conversion_clock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_HRPWM_CSG_INPUT_CONFIG_t</compoundname>
+    <includes local="no">xmc_hrpwm.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t_1a06cd86f88f58fba9ea9462198b9ff4c4" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gab2717581e740ad6f1dd2ad44db0674d9" kindref="member">XMC_HRPWM_CSG_EDGE_SEL_t</ref></type>
+        <definition>XMC_HRPWM_CSG_EDGE_SEL_t edge</definition>
+        <argsstring></argsstring>
+        <name>edge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Active edge of mapped_input </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="754" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t_1acd3fed7f3d2dad51b21f5f3ae830e0ef" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gae1274dea1f81c40a35649162cd449b81" kindref="member">XMC_HRPWM_CSG_LVL_SEL_t</ref></type>
+        <definition>XMC_HRPWM_CSG_LVL_SEL_t level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Active level of mapped_input </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="755" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t_1a834efa7d0bedc8463eb43476e593c178" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1ga37b76dfd8cf0debb56c2534914fb405c" kindref="member">XMC_HRPWM_CSG_INPUT_SEL_t</ref></type>
+        <definition>XMC_HRPWM_CSG_INPUT_SEL_t mapped_input</definition>
+        <argsstring></argsstring>
+        <name>mapped_input</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CSG input selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="753" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="753" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration data structure of a CSG input selection </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="752" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="751" bodyend="756"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t_1a06cd86f88f58fba9ea9462198b9ff4c4" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_INPUT_CONFIG_t</scope><name>edge</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t_1acd3fed7f3d2dad51b21f5f3ae830e0ef" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_INPUT_CONFIG_t</scope><name>level</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___i_n_p_u_t___c_o_n_f_i_g__t_1a834efa7d0bedc8463eb43476e593c178" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_INPUT_CONFIG_t</scope><name>mapped_input</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

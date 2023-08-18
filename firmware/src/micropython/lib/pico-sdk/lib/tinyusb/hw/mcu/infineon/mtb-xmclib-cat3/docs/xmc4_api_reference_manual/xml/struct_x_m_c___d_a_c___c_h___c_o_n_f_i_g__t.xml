@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DAC_CH_CONFIG_t</compoundname>
+    <includes local="no">xmc_dac.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a73269fb33ae795b72123a68727dec088" prot="public" static="no" mutable="no">
+        <type>union XMC_DAC_CH_CONFIG_t::@52</type>
+        <definition>union XMC_DAC_CH_CONFIG_t::@52 @53</definition>
+        <argsstring></argsstring>
+        <name>@53</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="330" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1ad9c59cd8cf5d3d77b312745e2006a86b" prot="public" static="no" mutable="no">
+        <type>union XMC_DAC_CH_CONFIG_t::@54</type>
+        <definition>union XMC_DAC_CH_CONFIG_t::@54 @55</definition>
+        <argsstring></argsstring>
+        <name>@55</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="340" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 23</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Not used bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="323" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Not used bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="325" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="327" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a2e218f8ad4d4e4c8ef674138f9ea4d0b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t cfg0</definition>
+        <argsstring></argsstring>
+        <name>cfg0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="329" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a6fb167833d994a61b25836e9a3331bbf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t cfg1</definition>
+        <argsstring></argsstring>
+        <name>cfg1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="339" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a50ff0d3568ca9c774b9d03df74b65770" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t data_type</definition>
+        <argsstring></argsstring>
+        <name>data_type</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>input data type - unsigned / signed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="324" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1ada18018e233cbe1ed86ee23e9d1146d5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t output_negation</definition>
+        <argsstring></argsstring>
+        <name>output_negation</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Negation of the output waveform enabled/disabled </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="326" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a7d829002ac890bf222cde950b8f8420d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t output_offset</definition>
+        <argsstring></argsstring>
+        <name>output_offset</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>offset value </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="336" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1ae669ee30a6ff1ec51dba7eab152c6c05" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t output_scale</definition>
+        <argsstring></argsstring>
+        <name>output_scale</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Scale value of type XMC_DAC_CH_OUTPUT_SCALE_t. It includes scaling + mul/div bit </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="335" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Channel related configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="318" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="317" bodyend="341"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a2e218f8ad4d4e4c8ef674138f9ea4d0b" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>cfg0</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a6fb167833d994a61b25836e9a3331bbf" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>cfg1</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a50ff0d3568ca9c774b9d03df74b65770" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>data_type</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1ada18018e233cbe1ed86ee23e9d1146d5" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>output_negation</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1a7d829002ac890bf222cde950b8f8420d" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>output_offset</name></member>
+      <member refid="struct_x_m_c___d_a_c___c_h___c_o_n_f_i_g__t_1ae669ee30a6ff1ec51dba7eab152c6c05" prot="public" virt="non-virtual"><scope>XMC_DAC_CH_CONFIG_t</scope><name>output_scale</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,865 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__scu_8h" kind="file" language="C++">
+    <compoundname>xmc_scu.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <includes local="yes">xmc1_scu.h</includes>
+    <includedby refid="xmc__can_8h" local="yes">xmc_can.h</includedby>
+    <includedby refid="xmc__dsd_8h" local="yes">xmc_dsd.h</includedby>
+    <includedby refid="xmc__ebu_8h" local="yes">xmc_ebu.h</includedby>
+    <includedby refid="xmc__ledts_8h" local="yes">xmc_ledts.h</includedby>
+    <includedby refid="xmc__posif_8h" local="yes">xmc_posif.h</includedby>
+    <includedby refid="xmc__usbd_8h" local="yes">xmc_usbd.h</includedby>
+    <includedby refid="xmc__usbh_8h" local="yes">xmc_usbh.h</includedby>
+    <includedby refid="xmc__vadc_8h" local="yes">xmc_vadc.h</includedby>
+    <includedby refid="xmc__wdt_8h" local="yes">xmc_wdt.h</includedby>
+    <incdepgraph>
+      <node id="90">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="91">
+        <label>xmc1_scu.h</label>
+      </node>
+      <node id="89">
+        <label>xmc_scu.h</label>
+        <link refid="xmc__scu_8h"/>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___s_c_u_1gaff029b1575acc0712d494932d8ca6d60" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SCU_STATUS_t</name>
+        <enumvalue id="group___s_c_u_1ggaff029b1575acc0712d494932d8ca6d60a764eaaa84d169b3222ae9174d1fa6855" prot="public">
+          <name>XMC_SCU_STATUS_OK</name>
+          <initializer>= 0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SCU related operation successfully completed. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_c_u_1ggaff029b1575acc0712d494932d8ca6d60aaf8f778e9be5e754dcaa0c1cf83e1e4b" prot="public">
+          <name>XMC_SCU_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SCU related operation failed. When API cannot fulfill request, this value is returned. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_c_u_1ggaff029b1575acc0712d494932d8ca6d60a6f6a43bd2a61be2a1b0b57601d58bd77" prot="public">
+          <name>XMC_SCU_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Cannot execute the SCU related operation request because another operation is in progress. <emphasis>XMC_SCU_STATUS_BUSY</emphasis> is returned when API is busy processing another request. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the status of SCU API execution, used to verify the SCU related API calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="175" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="174" bodyend="181"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___s_c_u_1ga4b50170c441fb21833c07a27b814a581" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* XMC_SCU_INTERRUPT_EVENT_HANDLER_t) (void)</definition>
+        <argsstring>)(void)</argsstring>
+        <name>XMC_SCU_INTERRUPT_EVENT_HANDLER_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Function pointer type used for registering callback functions on SCU event occurrence. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="191" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_CLOCK_GatePeripheralClock</definition>
+        <argsstring>(const XMC_SCU_PERIPHERAL_CLOCK_t peripheral)</argsstring>
+        <name>XMC_SCU_CLOCK_GatePeripheralClock</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The peripheral for which the clock has to be gated. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref> to identify the peripheral clock to be gated.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Blocks the supply of clock to the selected peripheral.<linebreak/>
+<linebreak/>
+Clock gating helps in reducing the power consumption. User can selectively gate the clocks of unused peripherals. fPERI is the source of clock to various peripherals. Some peripherals support clock gate. Such a gate blocks the clock supply for the selected peripheral. Software can request for individual gating of such peripheral clocks by enabling one of the <emphasis>SCU_CGATSET0</emphasis>, <emphasis>SCU_CGATSET1</emphasis> or <emphasis>SCU_CGATSET2</emphasis> register bitfields.</para>
+</simplesect>
+Note: Clock gating shall not be activated unless the module is in reset state. So use <emphasis><ref refid="group___s_c_u_1ga804f98badedf0e0ba4ce09f445687a37" kindref="member">XMC_SCU_CLOCK_IsPeripheralClockGated()</ref></emphasis> API before enabling the gating of any peripheral. <simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga804f98badedf0e0ba4ce09f445687a37" kindref="member">XMC_SCU_CLOCK_IsPeripheralClockGated()</ref>, <ref refid="group___s_c_u_1ga702904d10b6e6c6a55db381763fd322f" kindref="member">XMC_SCU_CLOCK_UngatePeripheralClock()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="476" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga3e78410c4d0c9f9b54aa0965d16c3795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SCU_CLOCK_GetCpuClockFrequency</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SCU_CLOCK_GetCpuClockFrequency</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Value of CPU clock frequency.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides the vlaue of CPU clock frequency.<linebreak/>
+<linebreak/>
+The value is stored in a global variable <emphasis><bold>SystemCoreClock</bold>.</emphasis> It is updated when the clock configuration is done using the SCU LLD APIs. The value represents the frequency of clock used for CPU operation. <bold>Range:</bold> Value is of type uint32_t, and gives the value of frequency in Hertz.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga55a1be4f0e96fcda7b2c0feb542af250" kindref="member">XMC_SCU_CLOCK_GetPeripheralClockFrequency()</ref>, <ref refid="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" kindref="member">XMC_SCU_CLOCK_GatePeripheralClock()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="429" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="429" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga55a1be4f0e96fcda7b2c0feb542af250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SCU_CLOCK_GetPeripheralClockFrequency</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SCU_CLOCK_GetPeripheralClockFrequency</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Value of peripheral clock frequency in Hertz.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides the vlaue of clock frequency at which the peripherals are working.<linebreak/>
+<linebreak/>
+The value is derived from the CPU frequency. <bold>Range:</bold> Value is of type uint32_t. It is represented in Hertz. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga3e78410c4d0c9f9b54aa0965d16c3795" kindref="member">XMC_SCU_CLOCK_GetCpuClockFrequency()</ref>,<ref refid="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" kindref="member">XMC_SCU_CLOCK_GatePeripheralClock()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="443" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga08c337e8a728604e7eb54dff78ae2d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_CLOCK_Init</definition>
+        <argsstring>(const XMC_SCU_CLOCK_CONFIG_t *const config)</argsstring>
+        <name>XMC_SCU_CLOCK_Init</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kindref="compound">XMC_SCU_CLOCK_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to structure holding the clock prescaler values and divider values for configuring clock generators and clock tree.<linebreak/>
+ <bold>Range:</bold> Configure the members of structure <ref refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kindref="compound">XMC_SCU_CLOCK_CONFIG_t</ref> for various parameters of clock setup.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Initializes clock generators and clock tree.<linebreak/>
+<linebreak/>
+Enables the high precision oscillator(fOHP) input and configures the system and peripheral clock frequencies. Based on the system clock source selected in <emphasis>config</emphasis>, either fPLL or fOFI will be chosen as system clock. Based on PLL mode(normal or prescaler mode) used, PLL ramps up in steps to achieve target frequency. The clock dividers for CPU, CCU and peripheral clocks will be set based on the input configuration. The <emphasis>SystemCoreClock</emphasis> variable is set with the value of system clock frequency. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga55a1be4f0e96fcda7b2c0feb542af250" kindref="member">XMC_SCU_CLOCK_GetPeripheralClockFrequency()</ref>, <ref refid="group___s_c_u_1ga3e78410c4d0c9f9b54aa0965d16c3795" kindref="member">XMC_SCU_CLOCK_GetCpuClockFrequency()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="294" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga804f98badedf0e0ba4ce09f445687a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SCU_CLOCK_IsPeripheralClockGated</definition>
+        <argsstring>(const XMC_SCU_PERIPHERAL_CLOCK_t peripheral)</argsstring>
+        <name>XMC_SCU_CLOCK_IsPeripheralClockGated</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The peripheral for which the check for clock gating has to be done. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref> to identify the peripheral.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Status of the peripheral clock gating. <bold>Range:</bold> true if the peripheral clock is gated. false if the peripheral clock ungated(gate de-asserted).</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Gives the status of peripheral clock gating.<linebreak/>
+<linebreak/>
+Checks the status of peripheral clock gating using one of CGATSTAT0, CGATSTAT1 or CGATSTAT2 registers. It is recommended to use this API before enabling the gating of any peripherals through <emphasis><ref refid="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" kindref="member">XMC_SCU_CLOCK_GatePeripheralClock()</ref></emphasis> API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga702904d10b6e6c6a55db381763fd322f" kindref="member">XMC_SCU_CLOCK_UngatePeripheralClock()</ref>, <ref refid="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" kindref="member">XMC_SCU_CLOCK_GatePeripheralClock()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="528" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga702904d10b6e6c6a55db381763fd322f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_CLOCK_UngatePeripheralClock</definition>
+        <argsstring>(const XMC_SCU_PERIPHERAL_CLOCK_t peripheral)</argsstring>
+        <name>XMC_SCU_CLOCK_UngatePeripheralClock</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The peripheral for which the clock has to be ungated. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref> to identify the peripheral.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the supply of clock to the selected peripheral.<linebreak/>
+<linebreak/>
+By default when the device powers on, the peripheral clock will be gated for the peripherals that support clock gating. The peripheral clock should be enabled before using it for any functionality. fPERI is the source of clock to various peripherals. Some peripherals support clock gate. Software can request for individual ungating of such peripheral clocks by setting the respective bits in one of <emphasis>SCU_CGATCLR0</emphasis>, <emphasis>SCU_CGATCLR1</emphasis> or <emphasis>SCU_CGATCLR2</emphasis> registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga804f98badedf0e0ba4ce09f445687a37" kindref="member">XMC_SCU_CLOCK_IsPeripheralClockGated()</ref>, <ref refid="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" kindref="member">XMC_SCU_CLOCK_GatePeripheralClock()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="504" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga494b75a841498374cfee9664e6ce9cee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SCU_GetMirrorStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SCU_GetMirrorStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Status of the register mirror update.<linebreak/>
+ <bold>Range:</bold> Use the bit mask of the SCU_GENERAL_MIRRSTS register for the mirror update event of interest. e.g.: SCU_GENERAL_MIRRSTS_RTC_CTR_Msk. Multiple update events can be combined using <emphasis>OR</emphasis> operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides the status of hibernate domain register update, when the respective mirror registers are changed. <linebreak/>
+<linebreak/>
+The hibernate domain is connected to the core domain via SPI serial communication. MIRRSTS is a status register representing the communication of changed value of a mirror register to its corresponding register in the hibernate domain. The bit fields of the register indicate that a corresponding register of the hibernate domain is ready to accept a write or that the communication interface is busy with executing the previous operation.<linebreak/>
+Note: There is no hibernate domain in XMC1x devices. This register is retained for legacy purpose. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="547" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="547" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1gabd2e577339ff5af48261d18e0e41dc50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_INTERRUPT_ClearEventStatus</definition>
+        <argsstring>(const XMC_SCU_INTERRUPT_EVENT_t event)</argsstring>
+        <name>XMC_SCU_INTERRUPT_ClearEventStatus</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bit mask of the events to clear. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref> for providing the input value. Multiple events can be combined using the <emphasis>OR</emphasis> operation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Clears the event status bit in SRRAW register.<linebreak/>
+<linebreak/>
+The events are cleared by writing value 1 to their bit positions in the SRCLR register. The API can be used when polling method is used. After detecting the event, the event status should be cleared using software to detect the event again.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1gae23dfad3e5e11c78791e5d5a777c44a8" kindref="member">XMC_SCU_INTERUPT_GetEventStatus()</ref>, <ref refid="group___s_c_u_1gaa55b2098ce803174e7dfd680d0c30728" kindref="member">XMC_SCU_INTERRUPT_TriggerEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="376" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1gaa814678729d6b7f41c558e768ba8ecd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_INTERRUPT_DisableEvent</definition>
+        <argsstring>(const XMC_SCU_INTERRUPT_EVENT_t event)</argsstring>
+        <name>XMC_SCU_INTERRUPT_DisableEvent</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bit mask of the event to disable. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref> for providing the input value. Multiple events can be combined using the <emphasis>OR</emphasis> operation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables generation of interrupt on occurrence of the input event.<linebreak/>
+<linebreak/>
+The events are disabled by resetting the respective bit fields in the SRMSK register. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>NVIC_DisableIRQ(), <ref refid="group___s_c_u_1gab4cfb9545d1e561e1f24aeaa69af821c" kindref="member">XMC_SCU_INTERRUPT_EnableEvent()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="327" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1gab4cfb9545d1e561e1f24aeaa69af821c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_INTERRUPT_EnableEvent</definition>
+        <argsstring>(const XMC_SCU_INTERRUPT_EVENT_t event)</argsstring>
+        <name>XMC_SCU_INTERRUPT_EnableEvent</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bit mask of the event to enable. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref> for providing the input value. Multiple events can be combined using the <emphasis>OR</emphasis> operation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the generation of interrupt for the input events.<linebreak/>
+<linebreak/>
+The events are enabled by setting the respective bit fields in the SRMSK register. <linebreak/>
+Note: User should separately enable the NVIC node responsible for handling the SCU interrupt. The interrupt will be generated when the respective event occurs. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>NVIC_EnableIRQ(), <ref refid="group___s_c_u_1gaa814678729d6b7f41c558e768ba8ecd4" kindref="member">XMC_SCU_INTERRUPT_DisableEvent()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="311" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga4ae03c6bcc3ccade266b46d84f7715e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_c_u_1gaff029b1575acc0712d494932d8ca6d60" kindref="member">XMC_SCU_STATUS_t</ref></type>
+        <definition>XMC_SCU_STATUS_t XMC_SCU_INTERRUPT_SetEventHandler</definition>
+        <argsstring>(const XMC_SCU_INTERRUPT_EVENT_t event, const XMC_SCU_INTERRUPT_EVENT_HANDLER_t handler)</argsstring>
+        <name>XMC_SCU_INTERRUPT_SetEventHandler</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga4b50170c441fb21833c07a27b814a581" kindref="member">XMC_SCU_INTERRUPT_EVENT_HANDLER_t</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event for which the interrupt handler is to be configured. <linebreak/>
+ <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref> for identifying the event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the function to be executed when the event if detected. <linebreak/>
+ <bold>Range:</bold> The function accepts no arguments and returns no value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_SCU_STATUS_t Status of configuring the event handler function for the selected event.<linebreak/>
+ <bold>Range:</bold> <emphasis>XMC_SCU_STATUS_OK</emphasis> if the event handler is successfully configured.<linebreak/>
+ <emphasis>XMC_SCU_STATUS_ERROR</emphasis> if the input event is invalid.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Assigns the event handler function to be executed on occurrence of the selected event.<linebreak/>
+<linebreak/>
+If the input event is valid, the handler function will be assigned to a table to be executed when the interrupt is generated and the event status is set in the event status register. By using this API, polling for a particular event can be avoided. This way the CPU utilization will be optimized. Multiple SCU events can generate a common interrupt. When the interrupt is generated, a common interrupt service routine is executed. It checks for status flags of events which can generate the interrupt. The handler function will be executed if the event flag is set.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1gaa55b2098ce803174e7dfd680d0c30728" kindref="member">XMC_SCU_INTERRUPT_TriggerEvent()</ref>, <ref refid="group___s_c_u_1gae23dfad3e5e11c78791e5d5a777c44a8" kindref="member">XMC_SCU_INTERUPT_GetEventStatus()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="572" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1gaa55b2098ce803174e7dfd680d0c30728" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_INTERRUPT_TriggerEvent</definition>
+        <argsstring>(const XMC_SCU_INTERRUPT_EVENT_t event)</argsstring>
+        <name>XMC_SCU_INTERRUPT_TriggerEvent</name>
+        <param>
+          <type>const <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bit mask of the event to be triggered. <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref> for providing the input value. Multiple events can be combined using the <emphasis>OR</emphasis> operation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Triggers the event as if the hardware raised it.<linebreak/>
+<linebreak/>
+Event will be triggered by setting the respective bitfield in the SRSET register.<linebreak/>
+Note: User should enable the NVIC node that handles the respective event for interrupt generation. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>NVIC_EnableIRQ(), <ref refid="group___s_c_u_1gae23dfad3e5e11c78791e5d5a777c44a8" kindref="member">XMC_SCU_INTERUPT_GetEventStatus()</ref>, <ref refid="group___s_c_u_1gabd2e577339ff5af48261d18e0e41dc50" kindref="member">XMC_SCU_INTERRUPT_ClearEventStatus()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="343" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1gae23dfad3e5e11c78791e5d5a777c44a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref></type>
+        <definition>XMC_SCU_INTERRUPT_EVENT_t XMC_SCU_INTERUPT_GetEventStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SCU_INTERUPT_GetEventStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Status of the SCU events.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides the status of all SCU events.<linebreak/>
+<linebreak/>
+The status is read from the SRRAW register. To check the status of a particular event, the returned value should be masked with the bit mask of the event. The bitmask of events can be obtained using the type <ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref>. Multiple events&apos; status can be checked by combining the bit masks using <emphasis>OR</emphasis> operation. After detecting the event, the event status should be cleared using software to detect the event again. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1gabd2e577339ff5af48261d18e0e41dc50" kindref="member">XMC_SCU_INTERRUPT_ClearEventStatus()</ref>, <ref refid="group___s_c_u_1gaa55b2098ce803174e7dfd680d0c30728" kindref="member">XMC_SCU_INTERRUPT_TriggerEvent()</ref>, <ref refid="group___s_c_u_1ga4ae03c6bcc3ccade266b46d84f7715e6" kindref="member">XMC_SCU_INTERRUPT_SetEventHandler()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="358" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga9ba1ce317ce89edfea107893fbd8a0be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_IRQHandler</definition>
+        <argsstring>(uint32_t sr_num)</argsstring>
+        <name>XMC_SCU_IRQHandler</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>sr_num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sr_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number identifying the SCU interrupt generated.<linebreak/>
+ <bold>Range:</bold> 0 to 2. XMC4x devices have one common SCU interrupt, so the value should be 0.<linebreak/>
+ But XMC1x devices support 3 interrupt nodes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None </para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>A common function to execute callback functions for multiple events.<linebreak/>
+<linebreak/>
+It checks for the status of events which can generate the interrupt with the selected service request. If the event is set, the corresponding callback function will be executed. It also clears the event status bit.<linebreak/>
+<bold>Note:</bold> This is an internal function. It should not be called by the user application.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga4ae03c6bcc3ccade266b46d84f7715e6" kindref="member">XMC_SCU_INTERRUPT_SetEventHandler()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="588" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga4bf9396e8b46be98f73999575d13bf6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_RESET_ClearDeviceResetReason</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SCU_RESET_ClearDeviceResetReason</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Clears the reset reason bits in the reset status register. <linebreak/>
+<linebreak/>
+Clearing of the reset status information in the <emphasis>SCU_RSTSTAT</emphasis> register via register bit <emphasis>RSTCLR.RSCLR</emphasis> is strongly recommended to ensure a clear indication of the cause of next reset.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga3f779c81bdc29b44c644017a52aff300" kindref="member">XMC_SCU_RESET_GetDeviceResetReason()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="410" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="410" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga3f779c81bdc29b44c644017a52aff300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SCU_RESET_GetDeviceResetReason</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SCU_RESET_GetDeviceResetReason</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Status representing the reason for device reset.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides the value representing the reason for device reset.<linebreak/>
+<linebreak/>
+The return value is an encoded word, which can indicate multiple reasons for the last reset. Each bit position of the returned word is representative of a last reset cause. The returned value should be appropriately masked to check the cause of reset. The cause of the last reset gets automatically stored in the <emphasis>SCU_RSTSTAT</emphasis> register. The reset status shall be reset after each startup in order to ensure consistent source indication after the next reset. <bold>Range:</bold> The type <ref refid="group___s_c_u_1gae01c08f5d524dadbc6e0c4128b348dc3" kindref="member">XMC_SCU_RESET_REASON_t</ref> can be used to get the bit masks of the reset cause.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___s_c_u_1ga4bf9396e8b46be98f73999575d13bf6d" kindref="member">XMC_SCU_RESET_ClearDeviceResetReason()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="395" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="395" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1gac10ca2cd72477476ffe38a4818bcae4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_SetCcuTriggerHigh</definition>
+        <argsstring>(const uint32_t trigger)</argsstring>
+        <name>XMC_SCU_SetCcuTriggerHigh</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CCU slices to be triggered synchronously via software. The value is a bitmask of CCU slice bits in the register CCUCON. <linebreak/>
+ <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga51850699f03c906a5fefcc4f04c6b2c1" kindref="member">XMC_SCU_CCU_TRIGGER_t</ref> for bitmask of individual CCU slices. Multiple slices can be combined using <emphasis>OR</emphasis> operation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Generates active edge(low to high) trigger for multiple CCU units at the same time.<linebreak/>
+<linebreak/>
+Before executing this API, all the required CCU timers should configure external start. The edge of the start signal should be selected as active edge. The input signal for the CCU slice should be selected as SCU input. The above mentioned configurations can be made using the CCU LLD API <ref refid="group___c_c_u4_1gac029dc08c5d54be8e773df0de9641691" kindref="member">XMC_CCU4_SLICE_StartConfig()</ref>. CCU timer slice should be started using <ref refid="group___c_c_u4_1ga9997bb59706a4034e3e3be33a4935a7c" kindref="member">XMC_CCU4_SLICE_StartTimer()</ref> before triggering the timer using this API.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___c_c_u4_1gac029dc08c5d54be8e773df0de9641691" kindref="member">XMC_CCU4_SLICE_StartConfig()</ref>, <ref refid="group___c_c_u4_1ga28e214514acb1a75a67de63e6d74b167" kindref="member">XMC_CCU4_SLICE_SetInput()</ref>, <ref refid="group___s_c_u_1ga53300d587bbd03bc34c5a4396f5a34b9" kindref="member">XMC_SCU_SetCcuTriggerLow()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="234" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_c_u_1ga53300d587bbd03bc34c5a4396f5a34b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SCU_SetCcuTriggerLow</definition>
+        <argsstring>(const uint32_t trigger)</argsstring>
+        <name>XMC_SCU_SetCcuTriggerLow</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CCU slices to be triggered synchronously via software. The value is a bitmask of CCU slice bits in the register CCUCON. <linebreak/>
+ <bold>Range:</bold> Use type <ref refid="group___s_c_u_1ga51850699f03c906a5fefcc4f04c6b2c1" kindref="member">XMC_SCU_CCU_TRIGGER_t</ref> for bitmask of individual CCU slices. Multiple slices can be combined using <emphasis>OR</emphasis> operation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Generates passive edge(high to low) trigger for multiple CCU units at the same time.<linebreak/>
+<linebreak/>
+Before executing this API, all the required CCU timers should configure external start. The edge of the start signal should be selected as passive edge. The input signal for the CCU slice should be selected as SCU input. The above mentioned configurations can be made using the CCU LLD API <ref refid="group___c_c_u4_1gac029dc08c5d54be8e773df0de9641691" kindref="member">XMC_CCU4_SLICE_StartConfig()</ref>. CCU timer slice should be started using <ref refid="group___c_c_u4_1ga9997bb59706a4034e3e3be33a4935a7c" kindref="member">XMC_CCU4_SLICE_StartTimer()</ref> before triggering the timer using this API.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___c_c_u4_1gac029dc08c5d54be8e773df0de9641691" kindref="member">XMC_CCU4_SLICE_StartConfig()</ref>, <ref refid="group___c_c_u4_1ga28e214514acb1a75a67de63e6d74b167" kindref="member">XMC_CCU4_SLICE_SetInput()</ref>, <ref refid="group___s_c_u_1gac10ca2cd72477476ffe38a4818bcae4b" kindref="member">XMC_SCU_SetCcuTriggerHigh()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" line="259" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h" bodystart="259" bodyend="262"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2019-12-02 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="70"><highlight class="preprocessor">#ifndef<sp/>XMC_SCU_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_SCU_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="74"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="75"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="165"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="166"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="169"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="170"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight></codeline>
+<codeline lineno="174"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_SCU_STATUS</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><ref refid="group___s_c_u_1ggaff029b1575acc0712d494932d8ca6d60a764eaaa84d169b3222ae9174d1fa6855" kindref="member">XMC_SCU_STATUS_OK</ref><sp/><sp/><sp/>=<sp/>0UL,<sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><ref refid="group___s_c_u_1ggaff029b1575acc0712d494932d8ca6d60aaf8f778e9be5e754dcaa0c1cf83e1e4b" kindref="member">XMC_SCU_STATUS_ERROR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><ref refid="group___s_c_u_1ggaff029b1575acc0712d494932d8ca6d60a6f6a43bd2a61be2a1b0b57601d58bd77" kindref="member">XMC_SCU_STATUS_BUSY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/><ref refid="group___s_c_u_1gaff029b1575acc0712d494932d8ca6d60" kindref="member">XMC_SCU_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="185"><highlight class="comment"><sp/>*<sp/>DATA<sp/>TYPES</highlight></codeline>
+<codeline lineno="186"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<ref refid="group___s_c_u_1ga4b50170c441fb21833c07a27b814a581" kindref="member">XMC_SCU_INTERRUPT_EVENT_HANDLER_t</ref>)(void);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="194"><highlight class="comment"><sp/>*<sp/>DEVICE<sp/>EXTENSIONS</highlight></codeline>
+<codeline lineno="195"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(UC_FAMILY<sp/>==<sp/>XMC1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc1_scu.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>(UC_FAMILY<sp/>==<sp/>XMC4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc4_scu.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#error<sp/>&quot;Unspecified<sp/>chipset&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="206"><highlight class="comment"><sp/>*<sp/>API<sp/>Prototypes</highlight></codeline>
+<codeline lineno="207"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1gac10ca2cd72477476ffe38a4818bcae4b" kindref="member">XMC_SCU_SetCcuTriggerHigh</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>trigger)</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>SCU_GENERAL-&gt;CCUCON<sp/>|=<sp/>(uint32_t)trigger;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga53300d587bbd03bc34c5a4396f5a34b9" kindref="member">XMC_SCU_SetCcuTriggerLow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>trigger)</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/>SCU_GENERAL-&gt;CCUCON<sp/>&amp;=<sp/>(uint32_t)~trigger;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga08c337e8a728604e7eb54dff78ae2d9d" kindref="member">XMC_SCU_CLOCK_Init</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kindref="compound">XMC_SCU_CLOCK_CONFIG_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>config);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1gab4cfb9545d1e561e1f24aeaa69af821c" kindref="member">XMC_SCU_INTERRUPT_EnableEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref><sp/>event);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1gaa814678729d6b7f41c558e768ba8ecd4" kindref="member">XMC_SCU_INTERRUPT_DisableEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref><sp/>event);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1gaa55b2098ce803174e7dfd680d0c30728" kindref="member">XMC_SCU_INTERRUPT_TriggerEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref><sp/><sp/>event);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref><sp/><ref refid="group___s_c_u_1gae23dfad3e5e11c78791e5d5a777c44a8" kindref="member">XMC_SCU_INTERUPT_GetEventStatus</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1gabd2e577339ff5af48261d18e0e41dc50" kindref="member">XMC_SCU_INTERRUPT_ClearEventStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref><sp/>event);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___s_c_u_1ga3f779c81bdc29b44c644017a52aff300" kindref="member">XMC_SCU_RESET_GetDeviceResetReason</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((SCU_RESET-&gt;RSTSTAT)<sp/>&amp;<sp/>SCU_RESET_RSTSTAT_RSTSTAT_Msk);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga4bf9396e8b46be98f73999575d13bf6d" kindref="member">XMC_SCU_RESET_ClearDeviceResetReason</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="411"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Clear<sp/>RSTSTAT.RSTSTAT<sp/>bitfield<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/>SCU_RESET-&gt;RSTCLR<sp/>=<sp/>(uint32_t)SCU_RESET_RSTCLR_RSCLR_Msk;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___s_c_u_1ga3e78410c4d0c9f9b54aa0965d16c3795" kindref="member">XMC_SCU_CLOCK_GetCpuClockFrequency</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="430"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>SystemCoreClock;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal">uint32_t<sp/><ref refid="group___s_c_u_1ga55a1be4f0e96fcda7b2c0feb542af250" kindref="member">XMC_SCU_CLOCK_GetPeripheralClockFrequency</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight><highlight class="preprocessor">#if(UC_SERIES<sp/>!=<sp/>XMC45)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1gab0af70f90b9a1f24d3a0a4764543d833" kindref="member">XMC_SCU_CLOCK_GatePeripheralClock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref><sp/>peripheral);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga702904d10b6e6c6a55db381763fd322f" kindref="member">XMC_SCU_CLOCK_UngatePeripheralClock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref><sp/>peripheral);</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga804f98badedf0e0ba4ce09f445687a37" kindref="member">XMC_SCU_CLOCK_IsPeripheralClockGated</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga29713150fdafc3c88f3c73f621410239" kindref="member">XMC_SCU_PERIPHERAL_CLOCK_t</ref><sp/>peripheral);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___s_c_u_1ga494b75a841498374cfee9664e6ce9cee" kindref="member">XMC_SCU_GetMirrorStatus</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="548"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(SCU_GENERAL-&gt;MIRRSTS);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><ref refid="group___s_c_u_1gaff029b1575acc0712d494932d8ca6d60" kindref="member">XMC_SCU_STATUS_t</ref><sp/><ref refid="group___s_c_u_1ga4ae03c6bcc3ccade266b46d84f7715e6" kindref="member">XMC_SCU_INTERRUPT_SetEventHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga18e68742408210603bed8d0806ce1573" kindref="member">XMC_SCU_INTERRUPT_EVENT_t</ref><sp/>event,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga4b50170c441fb21833c07a27b814a581" kindref="member">XMC_SCU_INTERRUPT_EVENT_HANDLER_t</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___s_c_u_1ga9ba1ce317ce89edfea107893fbd8a0be" kindref="member">XMC_SCU_IRQHandler</ref>(uint32_t<sp/>sr_num);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"></highlight></codeline>
+<codeline lineno="590"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>SCU_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_scu.h"/>
+  </compounddef>
+</doxygen>

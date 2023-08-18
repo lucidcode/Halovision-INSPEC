@@ -1,0 +1,120 @@
+{% macro peripheral(name, base_address, interrupt_offset=0) -%}
+    <peripheral>
+      <name>{{ name }}</name>
+      <description>Broadcom System Timer</description>
+      <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x80</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <interrupt>
+          <name>TIMER_0</name>
+          <description>Timer 0 matched</description>
+          <value>{{ interrupt_offset + 0 }}</value>
+      </interrupt>
+      <interrupt>
+          <name>TIMER_1</name>
+          <description>Timer 1 matched</description>
+          <value>{{ interrupt_offset + 1 }}</value>
+      </interrupt>
+      <interrupt>
+          <name>TIMER_2</name>
+          <description>Timer 2 matched</description>
+          <value>{{ interrupt_offset + 2 }}</value>
+      </interrupt>
+      <interrupt>
+          <name>TIMER_3</name>
+          <description>Timer 3 matched</description>
+          <value>{{ interrupt_offset + 3 }}</value>
+      </interrupt>
+      <registers>
+        <register>
+          <name>CS</name>
+          <description>Control / Status</description>
+          <addressOffset>0x00</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>M3</name>
+              <description>System timer match 3</description>
+              <bitOffset>3</bitOffset>
+              <bitWidth>1</bitWidth>
+              <modifiedWriteValues>oneToClear</modifiedWriteValues>
+            </field>
+            <field>
+              <name>M2</name>
+              <description>System timer match 2</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+              <modifiedWriteValues>oneToClear</modifiedWriteValues>
+            </field>
+            <field>
+              <name>M1</name>
+              <description>System timer match 1</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+              <modifiedWriteValues>oneToClear</modifiedWriteValues>
+            </field>
+            <field>
+              <name>M0</name>
+              <description>System timer match 0</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+              <modifiedWriteValues>oneToClear</modifiedWriteValues>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CLO</name>
+          <description>Lower 32 bits for the free running counter</description>
+          <addressOffset>0x04</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>CHI</name>
+          <description>Higher 32 bits for the free running counter</description>
+          <addressOffset>0x08</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>C0</name>
+          <description>Compare channel 0</description>
+          <addressOffset>0x0c</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>C1</name>
+          <description>Compare channel 1</description>
+          <addressOffset>0x10</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>C2</name>
+          <description>Compare channel 2</description>
+          <addressOffset>0x14</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>C3</name>
+          <description>Compare channel 3</description>
+          <addressOffset>0x18</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+      </registers>
+    </peripheral>
+{% endmacro %}

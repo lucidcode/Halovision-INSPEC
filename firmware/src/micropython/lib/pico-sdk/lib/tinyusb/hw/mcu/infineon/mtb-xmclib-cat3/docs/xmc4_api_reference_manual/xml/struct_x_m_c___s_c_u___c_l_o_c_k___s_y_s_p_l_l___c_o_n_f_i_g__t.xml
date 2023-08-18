@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</compoundname>
+    <includes local="no">xmc4_scu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1ac8ec466a72627bffd1b3072e4149deac" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1ga91284bbc86bb476327771f3639cbe440" kindref="member">XMC_SCU_CLOCK_SYSPLLCLKSRC_t</ref></type>
+        <definition>XMC_SCU_CLOCK_SYSPLLCLKSRC_t clksrc</definition>
+        <argsstring></argsstring>
+        <name>clksrc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PLL divider input frequency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="929" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="929" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1ad8f4946bc150aa980b8e0319fa533b23" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t k_div</definition>
+        <argsstring></argsstring>
+        <name>k_div</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>K1-Divider(Prescalar mode) or K2-Divider (Normal mode). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="927" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="927" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1af18af0543a393ec3d18f1d62590ce842" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1gad0bc6581cbe44ad6b1d649cbffe96875" kindref="member">XMC_SCU_CLOCK_SYSPLL_MODE_t</ref></type>
+        <definition>XMC_SCU_CLOCK_SYSPLL_MODE_t mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PLL mode of operation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="928" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="928" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1aaf1a79235eb65d30561037f100ba4e9e" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t n_div</definition>
+        <argsstring></argsstring>
+        <name>n_div</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PLL N-Divider value. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="925" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="925" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1a89b3cddaa1f65f5256ce636018135647" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t p_div</definition>
+        <argsstring></argsstring>
+        <name>p_div</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PLL P-Divider value. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="926" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="926" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines a data structure for initializing the PLL functional block. Structure holds divider values for N-DIV, P-DIV, K1-DIV, K2-DIV in order to generate desired frequency using VCO. It holds the PLL mode of operation either normal or prescaler (VCO bypassed). Use type <emphasis>XMC_SCU_CLOCK_PLL_CONFIG_t</emphasis> for accessing these structure parameters. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="924" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="923" bodyend="930"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1ac8ec466a72627bffd1b3072e4149deac" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</scope><name>clksrc</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1ad8f4946bc150aa980b8e0319fa533b23" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</scope><name>k_div</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1af18af0543a393ec3d18f1d62590ce842" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</scope><name>mode</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1aaf1a79235eb65d30561037f100ba4e9e" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</scope><name>n_div</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t_1a89b3cddaa1f65f5256ce636018135647" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</scope><name>p_div</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

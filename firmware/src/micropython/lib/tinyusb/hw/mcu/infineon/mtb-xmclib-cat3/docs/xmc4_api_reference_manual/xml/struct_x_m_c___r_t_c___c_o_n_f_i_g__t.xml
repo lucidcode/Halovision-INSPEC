@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_RTC_CONFIG_t</compoundname>
+    <includes local="no">xmc_rtc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___c_o_n_f_i_g__t_1aa741ee9486069d3208eaf0ee34de5c34" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref></type>
+        <definition>XMC_RTC_ALARM_t alarm</definition>
+        <argsstring></argsstring>
+        <name>alarm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="267" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___c_o_n_f_i_g__t_1aed7c15ebb12ef4b8e90c0c0e79d414a7" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t prescaler</definition>
+        <argsstring></argsstring>
+        <name>prescaler</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="268" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___c_o_n_f_i_g__t_1a3e9e8827b63f041fbe7057861836b5bb" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref></type>
+        <definition>XMC_RTC_TIME_t time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="266" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RTC initialization with time, alarm and clock divider(prescaler) configurations <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the time and alarm configurations for RTC. The <ref refid="group___r_t_c_1ga6d21f3c6b2be1975f1593301c4ba9698" kindref="member">XMC_RTC_Init()</ref> can be used to populate the structure with the time and alarm values of RTC. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="163">
+        <label>XMC_RTC_ALARM_t</label>
+        <link refid="struct_x_m_c___r_t_c___a_l_a_r_m__t"/>
+      </node>
+      <node id="162">
+        <label>XMC_RTC_CONFIG_t</label>
+        <link refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t"/>
+        <childnode refid="163" relation="usage">
+          <edgelabel>alarm</edgelabel>
+        </childnode>
+        <childnode refid="164" relation="usage">
+          <edgelabel>time</edgelabel>
+        </childnode>
+      </node>
+      <node id="164">
+        <label>XMC_RTC_TIME_t</label>
+        <link refid="struct_x_m_c___r_t_c___t_i_m_e__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="265" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="264" bodyend="269"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t_1aa741ee9486069d3208eaf0ee34de5c34" prot="public" virt="non-virtual"><scope>XMC_RTC_CONFIG_t</scope><name>alarm</name></member>
+      <member refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t_1aed7c15ebb12ef4b8e90c0c0e79d414a7" prot="public" virt="non-virtual"><scope>XMC_RTC_CONFIG_t</scope><name>prescaler</name></member>
+      <member refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t_1a3e9e8827b63f041fbe7057861836b5bb" prot="public" virt="non-virtual"><scope>XMC_RTC_CONFIG_t</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

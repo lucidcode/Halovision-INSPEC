@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DSD_CH_FILTER_CONFIG_t</compoundname>
+    <includes local="no">xmc_dsd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a733b045da2bfe6b77ae4fbd9691f5dba" prot="public" static="no" mutable="no">
+        <type>union XMC_DSD_CH_FILTER_CONFIG_t::@80</type>
+        <definition>union XMC_DSD_CH_FILTER_CONFIG_t::@80 @81</definition>
+        <argsstring></argsstring>
+        <name>@81</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="433" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a38f3eb99ebc7891b76c479cf73220c10" prot="public" static="no" mutable="no">
+        <type>union XMC_DSD_CH_FILTER_CONFIG_t::@82</type>
+        <definition>union XMC_DSD_CH_FILTER_CONFIG_t::@82 @83</definition>
+        <argsstring></argsstring>
+        <name>@83</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="447" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="427" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="430" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="442" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="443" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ad75caa2a4ae7d1bf58cad8f20676227b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t clock_divider</definition>
+        <argsstring></argsstring>
+        <name>clock_divider</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_CLK_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="420" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a6b0e79ef871d53c11270ff6980f5a6e5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t clock_source</definition>
+        <argsstring></argsstring>
+        <name>clock_source</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_CLOCK_SOURCE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="428" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ab80d6886684143814f11eeda5e092b7a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t data_source</definition>
+        <argsstring></argsstring>
+        <name>data_source</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_DATA_SOURCE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="426" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ac8badddd0704c5278b4f6463a45287bd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t decimation_factor</definition>
+        <argsstring></argsstring>
+        <name>decimation_factor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can be in range of 4 - 256[dec] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="448" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a037877e8a032c11fff2145515078647b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t demodulator_conf</definition>
+        <argsstring></argsstring>
+        <name>demodulator_conf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="432" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="432" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ae07810d364650c802825b263f8765660" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t filter_start_value</definition>
+        <argsstring></argsstring>
+        <name>filter_start_value</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can be in range of 4 - decimation_factor[dec] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="449" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a8e2f23725403bd88afed489a883799aa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t filter_type</definition>
+        <argsstring></argsstring>
+        <name>filter_type</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_FILTER_TYPE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="439" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a3fb1f431022a67732f10c815e62a68fb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t main_filter_conf</definition>
+        <argsstring></argsstring>
+        <name>main_filter_conf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="445" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a59f874d10bf763992bd4b427fdb7f0cd" prot="public" static="no" mutable="no">
+        <type>int16_t</type>
+        <definition>int16_t offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Offset subtracted from result.This parameter can take a value of int16_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="421" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a636dd3a4e59c0e5397ac1f0bd36563e1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t result_event</definition>
+        <argsstring></argsstring>
+        <name>result_event</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_RESULT_EVENT_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="441" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a42f8987f07f04638705e4f1ac630adbc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t strobe</definition>
+        <argsstring></argsstring>
+        <name>strobe</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_STROBE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="429" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DSD filter is the basic module of the DSD. It can be used separately or can be combined with the other modules like integrator, rectify, auxiliary filter etc. The filter demodulates the incoming bit stream from the delta sigma modulator to a 16 bit result. Note: Configure or reconfigure filter parameters while the channel is inactive. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="419" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="418" bodyend="451"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ad75caa2a4ae7d1bf58cad8f20676227b" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>clock_divider</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a6b0e79ef871d53c11270ff6980f5a6e5" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>clock_source</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ab80d6886684143814f11eeda5e092b7a" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>data_source</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ac8badddd0704c5278b4f6463a45287bd" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>decimation_factor</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a037877e8a032c11fff2145515078647b" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>demodulator_conf</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1ae07810d364650c802825b263f8765660" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>filter_start_value</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a8e2f23725403bd88afed489a883799aa" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>filter_type</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a3fb1f431022a67732f10c815e62a68fb" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>main_filter_conf</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a59f874d10bf763992bd4b427fdb7f0cd" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>offset</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a636dd3a4e59c0e5397ac1f0bd36563e1" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>result_event</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___f_i_l_t_e_r___c_o_n_f_i_g__t_1a42f8987f07f04638705e4f1ac630adbc" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_FILTER_CONFIG_t</scope><name>strobe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

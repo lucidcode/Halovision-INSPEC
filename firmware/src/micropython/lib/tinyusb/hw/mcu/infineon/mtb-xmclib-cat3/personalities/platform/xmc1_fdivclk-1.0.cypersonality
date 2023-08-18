@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_fdivclk-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Fractional divider personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_fdivclk" name="FDIVCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock\.fdivclk" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="frequency" />
+    <ExposedMember key="sourceClockDisplayName" paramId="dclk_src_display" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamBool id="hasFDiv10Bits" name="FDIV is 10-bit" group="Internal"
+      default="`${lookupExpression(&quot;HAS_FDIV_10BITS&quot;, 0) &gt; 0}`"
+      visible="false" editable="false" desc="" />
+
+    <!-- General -->
+    <ParamChoice id="dclk_src" name="Source Clock" group="General"
+      default="XMC_SCU_CLOCK_DCLKSRC_DCO1" visible="true" editable="true"
+      desc="Select the fractional divider clock source." >
+      <Entry name="DCO1"   value="XMC_SCU_CLOCK_DCLKSRC_DCO1"     visible="true" />
+      <Entry name="OSC_HP" value="XMC_SCU_CLOCK_DCLKSRC_EXT_XTAL" visible="true" />
+    </ParamChoice>
+    <ParamString id="dclk_src_display" name="Source Clock Display" group="Internal"
+      default="`${getParamValueDisplay(&quot;dclk_src&quot;)}`" visible="false" editable="false"
+      desc="The display name of the currently selected clock source." />
+    <ParamString id="source_resource" name="Source Resource" group="Internal"
+      default="scu[0].clock[0].`${(dclk_src eq XMC_SCU_CLOCK_DCLKSRC_DCO1) ?
+        &quot;dco1[0]&quot; : &quot;osc_hp[0]&quot;}`"
+      visible="false" editable="false" desc="" />
+    <ParamBool id="source_enabled" name="Source Enabled" group="Internal"
+      default="`${isBlockUsed(source_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_frequency" name="Source Frequency (Hz)" group="Internal"
+      default="`${source_enabled ? getExposedMember(source_resource, &quot;frequency&quot;) : 48000000.0 }`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="source_frequency_info" name="Source Frequency" group="General"
+      default="`${formatFrequency(source_frequency)}`" visible="true" editable="false"
+      desc="Source clock frequency" />
+
+    <ParamString id="dclk_freq" name="Doubler Clock Frequency (Hz)" group="Internal"
+      default="`${2 * source_frequency}`" visible="false" editable="false" desc="" />
+    <ParamString id="dclk_freq_mhz" name="Doubler Clock Frequency (MHz)" group="Internal"
+      default="`${dclk_freq / 1000000.0}`" visible="false" editable="false"
+      desc="Frequency generated from the Doubler clock output." />
+    <ParamString id="mclk_max" name="Main Clock Maximum Value" group="Internal"
+      default="`${dclk_freq}`" visible="false" editable="false" desc="" />
+    <ParamString id="mclk_min" name="Main Clock Minimum Value" group="Internal"
+      default="`${floor(dclk_freq / 255.0 / 1000.0 + 1) * 1000}`" visible="false" editable="false" desc="" />
+
+    <ParamChoice id="configuration" name="Configuration" group="General"
+      default="auto" visible="true" editable="true"
+      desc="Choose the automatic or manual divider tuning.">
+      <Entry name="Automatic" value="auto"   visible="true"/>
+      <Entry name="Manual"    value="manual" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="manConfig" name="manConfig" group="Internal"
+      default="`${configuration eq manual}`" visible="false" editable="false" desc="" />
+    <ParamRange id="fdiv_frequency" name="Desired Frequency (MHz)" group="General"
+      default="`${mclk_max / 1000000.0}`" visible="`${!manConfig}`" editable="`${!manConfig}`"
+      min="`${manConfig ? 0.0 : (mclk_min / 1000000.0)}`"
+      max="`${manConfig ? 96.0 : (mclk_max / 1000000.0)}`" resolution="0.001"
+      desc="The desired FDIV clock frequency in MHz." />
+    <ParamString id="callSolver" name="" group="Internal"
+      default="`${runTcl(&quot;xmc1_clk_solver-1.0.tcl&quot;, dclk_freq_mhz, fdiv_frequency)}`"
+      visible="false" editable="false" desc="" />
+    <ParamRange id="idiv" name="IDIV" group="General"
+      default="`${getTclVar(&quot;iDiv&quot;, callSolver)}`" min="0" max="255" resolution="1"
+      visible="true" editable="`${manConfig}`" desc="Integer divider selection." />
+    <ParamRange id="fdiv" name="FDIV" group="General"
+      default="`${getTclVar(&quot;fDiv&quot;, callSolver)}`" min="0" max="`${hasFDiv10Bits ? 1023 : 255}`"
+      resolution="1"  visible="true" editable="`${manConfig}`" desc="Fractional divider selection." />
+    <ParamString id="frequency" name="Actual Frequency (Hz)" group="Internal"
+      default="`${dclk_freq / (idiv + (fdiv / 1024.0))}`" visible="false" editable="false"
+      desc="The resulting FDIV clock frequency in Hz." />
+    <ParamString id="frequency_info" name="Actual Frequency" group="General"
+      default="`${formatFrequency(frequency)}`" visible="true" editable="false"
+      desc="The resulting FDIV clock frequency." />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for FDIVCLK is not enabled" condition="`${!source_enabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${source_resource}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_FDIV_SEL" value="`${dclk_src}`" public="false" include="true" />
+    <ConfigDefine name="CLOCK_FDIV_I" value="`${idiv}`U" public="false" include="true" />
+    <ConfigDefine name="CLOCK_FDIV_F" value="`${hasFDiv10Bits ? fdiv : (fdiv >> 2)}`U" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

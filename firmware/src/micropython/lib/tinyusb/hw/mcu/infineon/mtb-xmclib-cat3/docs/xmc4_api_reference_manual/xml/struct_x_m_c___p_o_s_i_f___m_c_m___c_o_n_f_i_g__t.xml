@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_POSIF_MCM_CONFIG_t</compoundname>
+    <includes local="no">xmc_posif.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1af59891affe90d97125f8fed543f2948f" prot="public" static="no" mutable="no">
+        <type>union XMC_POSIF_MCM_CONFIG_t::@233</type>
+        <definition>union XMC_POSIF_MCM_CONFIG_t::@233 @234</definition>
+        <argsstring></argsstring>
+        <name>@234</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="356" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="347" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="349" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="353" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1afee1a082e5170f69689f36ff8acc1ed7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mcm_config</definition>
+        <argsstring></argsstring>
+        <name>mcm_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="355" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1aeb24c1ad5b8d46951b303ef1271fd4e3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pattern_sw_update</definition>
+        <argsstring></argsstring>
+        <name>pattern_sw_update</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>should multi channel pattern updated by SW ? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="348" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a83672dd8d3eb4c5de6a74390a414f1d9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pattern_trigger_edge</definition>
+        <argsstring></argsstring>
+        <name>pattern_trigger_edge</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Which edge of the pattern update trigger is to be considered? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="351" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1abd38b6eec5d67d3010bc1d50977fb2f2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pattern_update_trigger</definition>
+        <argsstring></argsstring>
+        <name>pattern_update_trigger</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Of the 8 update triggers, which one is to be considered? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="350" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a0abf2c857918a97e8c0ef124c01f127e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pwm_sync</definition>
+        <argsstring></argsstring>
+        <name>pwm_sync</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Of the 4 pwm sync inputs, which one is to be considered? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="352" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines POSIF multi-channel mode initialization data structure. Use type <ref refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_MCM_CONFIG_t</ref> for this data structure. It used to initialize multi channel mode configuration using <emphasis>PCONF</emphasis> register. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="342" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="341" bodyend="357"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1afee1a082e5170f69689f36ff8acc1ed7" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>mcm_config</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1aeb24c1ad5b8d46951b303ef1271fd4e3" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>pattern_sw_update</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a83672dd8d3eb4c5de6a74390a414f1d9" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>pattern_trigger_edge</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1abd38b6eec5d67d3010bc1d50977fb2f2" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>pattern_update_trigger</name></member>
+      <member refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t_1a0abf2c857918a97e8c0ef124c01f127e" prot="public" virt="non-virtual"><scope>XMC_POSIF_MCM_CONFIG_t</scope><name>pwm_sync</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

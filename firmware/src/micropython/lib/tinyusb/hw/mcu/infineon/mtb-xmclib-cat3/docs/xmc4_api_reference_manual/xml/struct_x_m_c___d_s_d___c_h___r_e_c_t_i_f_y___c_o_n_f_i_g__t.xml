@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DSD_CH_RECTIFY_CONFIG_t</compoundname>
+    <includes local="no">xmc_dsd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a97c330aef056b04070dd08ff623c32b8" prot="public" static="no" mutable="no">
+        <type>union XMC_DSD_CH_RECTIFY_CONFIG_t::@104</type>
+        <definition>union XMC_DSD_CH_RECTIFY_CONFIG_t::@104 @105</definition>
+        <argsstring></argsstring>
+        <name>@105</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="547" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="542" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 26</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="544" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a70fbd315df33bf9039e036725b569e7f" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t delay</definition>
+        <argsstring></argsstring>
+        <name>delay</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="549" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="549" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1aaeaaf078b2a380b822b5b7841f1037d7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t half_cycle</definition>
+        <argsstring></argsstring>
+        <name>half_cycle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="550" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a9545151250eb0b7b78ef38120e104ec7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rectify_config</definition>
+        <argsstring></argsstring>
+        <name>rectify_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rectification configuration register(<emphasis>RECTCFG</emphasis>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="546" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a1f55f6c4570aac5bfe67763ce88db3ea" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sign_source</definition>
+        <argsstring></argsstring>
+        <name>sign_source</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Can take a value of XMC_DSD_CH_SIGN_SOURCE_t.Bitfields <emphasis>SSRC</emphasis> of <emphasis>RECTCFG</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="543" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DSD Rectify. Note: DSD Filter and integrator is mandatory to use this block. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="537" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="536" bodyend="552"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_RECTIFY_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_RECTIFY_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a70fbd315df33bf9039e036725b569e7f" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_RECTIFY_CONFIG_t</scope><name>delay</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1aaeaaf078b2a380b822b5b7841f1037d7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_RECTIFY_CONFIG_t</scope><name>half_cycle</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a9545151250eb0b7b78ef38120e104ec7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_RECTIFY_CONFIG_t</scope><name>rectify_config</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___r_e_c_t_i_f_y___c_o_n_f_i_g__t_1a1f55f6c4570aac5bfe67763ce88db3ea" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_RECTIFY_CONFIG_t</scope><name>sign_source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

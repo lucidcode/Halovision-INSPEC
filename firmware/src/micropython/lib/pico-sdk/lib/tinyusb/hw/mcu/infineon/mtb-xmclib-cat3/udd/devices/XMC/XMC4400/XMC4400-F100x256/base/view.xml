@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<baseview>
+  <mcu>CortexM4</mcu>
+  <vendor>Infineon</vendor>
+  <flash>262144</flash>
+  <ram>81920</ram>
+  <package>LQFP-100</package>
+  <minvoltage>0</minvoltage>
+  <maxvoltage>4300</maxvoltage>
+  <description>The XMC4400-F100x256 device.</description>
+</baseview>

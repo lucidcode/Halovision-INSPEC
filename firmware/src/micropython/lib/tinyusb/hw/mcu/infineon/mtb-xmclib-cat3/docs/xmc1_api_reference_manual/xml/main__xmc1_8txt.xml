@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="main__xmc1_8txt" kind="file" language="C++">
+    <compoundname>main_xmc1.txt</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/>*<sp/>#include<sp/></highlight><highlight class="stringliteral">&quot;xmc_gpio.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/>*<sp/>#include<sp/></highlight><highlight class="stringliteral">&quot;xmc_i2c.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/>*<sp/>...</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/>*<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Peripheral<sp/>configuration<sp/>and<sp/>initialization.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2C_CH_CONFIG_t</ref><sp/>i2c_cfg;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/>*<sp/><sp/><sp/>i2c_cfg.<ref refid="struct_x_m_c___i2_c___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" kindref="member">baudrate</ref><sp/>=<sp/>400000U;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1gafbab6cabacc65e03592b1c5d6cece11d" kindref="member">XMC_I2C_CH_Init</ref>(<ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>,<sp/>&amp;i2c_cfg);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Connectivity<sp/>configuration.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1ga358214504f42dac696c4519efa19307b" kindref="member">XMC_I2C_CH_SetInputSource</ref>(<ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>,<sp/><ref refid="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bdaba2847f3ec9aeb06277abdea4a9a51bc" kindref="member">XMC_I2C_CH_INPUT_SDA</ref>,<sp/>USIC1_C0_DX0_P2_14);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1ga358214504f42dac696c4519efa19307b" kindref="member">XMC_I2C_CH_SetInputSource</ref>(<ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>,<sp/><ref refid="group___i2_c_1gga76b49d68cc6d179beaf1dfe2998230bdaabd01419bb4afb47c665b94b4441dca9" kindref="member">XMC_I2C_CH_INPUT_SCL</ref>,<sp/>USIC1_C0_DX1_P5_8);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Event/interrupt<sp/>configuration.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1ga868f80d9e08a0518c38100dda3f77882" kindref="member">XMC_I2C_CH_EnableEvent</ref>(<ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>,<sp/><ref refid="group___i2_c_1gga4142054abf4133012810875bc5ac4f48a0ef9afd8b09cb8e99bcc7d342c0a38ee" kindref="member">XMC_I2C_CH_EVENT_ARBITRATION_LOST</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/>*<sp/><sp/><sp/>NVIC_SetPriority(USIC0_0_IRQn,<sp/>NVIC_GetPriorityGrouping(),<sp/>63,<sp/>0);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/>*<sp/><sp/><sp/>NVIC_EnableIRQ(USIC0_0_IRQn);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Start<sp/>operation.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1gad3de1b923c1a3c0a2b1ea9a8d9ff1d91" kindref="member">XMC_I2C_CH_Start</ref>(<ref refid="group___i2_c_1ga71176768512ab2836eb4dc41973c1339" kindref="member">XMC_I2C0_CH0</ref>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>IO<sp/>configuration.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode</ref>(P1_5,<sp/><ref refid="group___g_p_i_o_1gga9cd340b4c59ef98d0ab5a6ccebbacc4ca5da4dbfec1769060c67fd5879d9a19c9" kindref="member">XMC_GPIO_MODE_OUTPUT_OPEN_DRAIN</ref><sp/>|<sp/>P1_5_AF_U0C0_DOUT0);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode</ref>(P1_1,<sp/><ref refid="group___g_p_i_o_1gga9cd340b4c59ef98d0ab5a6ccebbacc4ca5da4dbfec1769060c67fd5879d9a19c9" kindref="member">XMC_GPIO_MODE_OUTPUT_OPEN_DRAIN</ref><sp/>|<sp/>P1_1_AF_U0C0_SCLKOUT);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/>*<sp/><sp/><sp/>...</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Manage<sp/>peripheral<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1gaebd425a409b805d4571e75f793317070" kindref="member">XMC_I2C_CH_MasterStart</ref>(<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<sp/>IO_EXPANDER_ADDRESS,<sp/><ref refid="group___i2_c_1ggaf81b9bb81ece318669b08149f1fd7f4baf3c121d840b85087f675d717adf27dc5" kindref="member">XMC_I2C_CH_CMD_WRITE</ref>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">((<ref refid="group___i2_c_1gaddc87a65cf16a2bf717f650a29506cef" kindref="member">XMC_I2C_CH_GetStatusFlag</ref>(<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>)<sp/>&amp;<sp/><ref refid="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497ab08a526647c7f9bd1bcad252e6a195c3" kindref="member">XMC_I2C_CH_STATUS_FLAG_ACK_RECEIVED</ref>)<sp/>==<sp/>0U)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/>*<sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/>*<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>wait<sp/>for<sp/>ACK<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/>*<sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/>*<sp/><sp/><sp/><ref refid="group___i2_c_1gab922e97164d14898b92df3d30c10fe83" kindref="member">XMC_I2C_CH_ClearStatusFlag</ref>(<ref refid="group___i2_c_1ga9ffc942d7d7d6a1a2653c4406f265a16" kindref="member">XMC_I2C1_CH0</ref>,<sp/><ref refid="group___i2_c_1ggae922e0696a07a1809a0d8e80248ce497ab08a526647c7f9bd1bcad252e6a195c3" kindref="member">XMC_I2C_CH_STATUS_FLAG_ACK_RECEIVED</ref>);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/>*<sp/><sp/><sp/>...</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keyword">@end</highlight><highlight class="normal">code</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/>*<sp/>@subsection<sp/>devices<sp/>Device<sp/>Names</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/>*<sp/>The<sp/>selection<sp/>of<sp/>the<sp/>target<sp/>device<sp/>is<sp/>done<sp/>through<sp/>preprocessor<sp/>macro,<sp/>i.e.<sp/>-DXMC1404_F064x0200<sp/>(refer<sp/>to<sp/>devices<sp/>names<sp/>below)</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/>*<sp/>XMC1400<sp/>Series<sp/>device<sp/>names:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1401_Q048x0064</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1401_Q048x0128</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1401_F064x0064</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1401_F064x0128</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_T038x0032</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_T038x0064</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_T038x0128</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_T038x0200</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q040x0032</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q040x0064</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q040x0128</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q040x0200</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q048x0032</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q048x0064</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q048x0128</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q048x0200</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q064x0064</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q064x0128</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_Q064x0200</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_F064x0064</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_F064x0128</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1402_F064x0200</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q040x0064</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q040x0128</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q040x0200</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q048x0064</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q048x0128</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q048x0200</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q064x0064</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q064x0128</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1403_Q064x0200</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_Q048x0064</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_Q048x0128</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_Q048x0200</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_Q064x0064</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_Q064x0128</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_Q064x0200</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_F064x0064</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_F064x0128</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1404_F064x0200</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/>*<sp/>XMC1300<sp/>Series<sp/>device<sp/>names:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T038x0200</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T038x0128</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T038x0064</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T038x0032</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T038x0016</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T028x0016</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T016x0032</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T016x0016</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_T016x0008</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q040x0200</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q040x0128</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q040x0064</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q040x0032</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q040x0016</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q024x0064</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q024x0032</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1302_Q024x0016</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_T038x0032</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_T038x0016</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_T038x0008</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_T016x0032</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_T016x0016</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_T016x0008</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_Q040x0032</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_Q040x0016</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_Q040x0008</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_Q024x0016</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1301_Q024x0008</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/>*<sp/>XMC1200<sp/>Series<sp/>device<sp/>names:</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_T028x0032</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_T028x0016</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_T016x0064</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_T016x0032</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_T016x0016</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_Q040x0032</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_Q040x0016</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_Q024x0032</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1202_Q024x0016</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T038x0200</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T038x0128</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T038x0064</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T038x0032</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T038x0016</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_Q040x0200</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_Q040x0128</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_Q040x0064</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_Q040x0032</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_Q040x0016</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T028x0016</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1201_T028x0032</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1200_T038x0200</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/>*<sp/>XMC1100<sp/>Series<sp/>device<sp/>names:</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T038x0064</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T038x0032</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T038x0016</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T016x0064</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T016x0032</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T016x0016</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_T016x0008</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q040x0064</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q040x0032</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q040x0016</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q024x0064</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q024x0032</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q024x0016</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/>*<sp/>-<sp/>XMC1100_Q024x0008</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/>*<sp/>@section<sp/>files<sp/>Directories<sp/>and<sp/>Files</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/>*<sp/>The<sp/>following<sp/>diagram<sp/>shows<sp/>the<sp/>most<sp/>important<sp/>directories<sp/>and<sp/>files<sp/>provided<sp/>in<sp/>the<sp/>distribution.</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/>*<sp/>@verbatim</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/>*<sp/>mtb-xmclib-cat3<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>XMClib<sp/>root<sp/>directory</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/>*<sp/><sp/>+--<sp/>CMSIS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>The<sp/>Cortex<sp/>Microcontroller<sp/>Software<sp/>Interface<sp/>Standard<sp/>abstraction<sp/>layer</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/>*<sp/>│  <sp/>+--<sp/>Core<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Hardware<sp/>Abstraction<sp/>Layer<sp/>(HAL)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>Cortex-M<sp/>processor<sp/>registers</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/>*<sp/>│  <sp/>+--<sp/>Infineon<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Includes<sp/>device<sp/>header<sp/>files,<sp/>system<sp/>and<sp/>startup<sp/>files</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/>*<sp/>+--<sp/>docs<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>XMC<sp/>Peripheral<sp/>Library<sp/>documentation<sp/>generated<sp/>with<sp/>Doxygen</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/>*<sp/>│  <sp/>+--<sp/>xmc1_api_reference_manual.html<sp/><sp/><sp/><sp/>-<sp/>XMC<sp/>Peripheral<sp/>Library<sp/>documentation<sp/>with<sp/>XMC1<sp/>specific<sp/>information</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/>*<sp/>│  <sp/>\--<sp/>xmc4_api_reference_manual.html<sp/><sp/><sp/><sp/>-<sp/>XMC<sp/>Peripheral<sp/>Library<sp/>documentation<sp/>with<sp/>XMC4<sp/>specific<sp/>information</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/>*<sp/>+--<sp/>Newlib<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>C<sp/>standard<sp/>library<sp/>implementation<sp/>intended<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>use<sp/>on<sp/>embedded<sp/>systems.</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/>*<sp/>+--<sp/>personalities<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Configuration<sp/>files<sp/>that<sp/>defines<sp/>a<sp/>resource<sp/>behavior<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ModusToolbox<sp/>Device<sp/>Configurator</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/>*<sp/>+--<sp/>udd<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Device<sp/>description<sp/>files<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ModusToolbox<sp/>Device<sp/>Configurator</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/>*<sp/>+--<sp/>XMCLib</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/>*<sp/>│  <sp/>+--<sp/>doc<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Doxygen<sp/>configuration<sp/>files<sp/>to<sp/>generate<sp/>documentation</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/>*<sp/>│  <sp/>+--<sp/>inc<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>XMC<sp/>Peripheral<sp/>Library<sp/>API<sp/></highlight><highlight class="keyword">interface<sp/></highlight><highlight class="normal">files</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/>*<sp/>│  <sp/>+--<sp/>src<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>XMC<sp/>Peripheral<sp/>Library<sp/>API<sp/>implementation<sp/>files</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/>*<sp/>+--<sp/>devicesupport.xml<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Device<sp/>description<sp/>file<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ModusToolbox<sp/>Device<sp/>Configurator</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/>*<sp/>+--<sp/>README.md<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Description<sp/>of<sp/>the<sp/>library</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/>*<sp/>+--<sp/>RELEASE.md<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>Description<sp/>of<sp/>the<sp/>changes<sp/>in<sp/>the<sp/>release</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keyword">@end</highlight><highlight class="normal">verbatim</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/>*<sp/>@section<sp/>examples<sp/>XMC<sp/>Lib<sp/>examples</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/>*<sp/>The<sp/>XMC<sp/>Lib<sp/>examples<sp/>could<sp/>be<sp/>found<sp/>at<sp/>https:</highlight><highlight class="comment">//github.com/cypresssemiconductorco/Code-Examples-for-ModusToolbox-Software</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/>*<sp/>Create<sp/>the<sp/>project<sp/>and<sp/>open<sp/>it<sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>one<sp/>of<sp/>the<sp/>following:</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/>*<sp/>@subsection<sp/>mtbide<sp/>In<sp/>Eclipse<sp/>IDE<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ModusToolbox</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/>*<sp/>1.<sp/>Click<sp/>the<sp/>**New<sp/>Application**<sp/>link<sp/>in<sp/>the<sp/>**Quick<sp/>Panel**<sp/>(or,<sp/>use<sp/>**File**<sp/>&gt;<sp/>**New**<sp/>&gt;<sp/>**ModusToolbox<sp/>Application**).</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/>*<sp/><sp/><sp/><sp/>This<sp/>launches<sp/>the<sp/>[Project<sp/>Creator](http:</highlight><highlight class="comment">//www.cypress.com/ModusToolboxProjectCreator)<sp/>tool.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/>*<sp/>2.<sp/>Pick<sp/>a<sp/>kit<sp/>supported<sp/>by<sp/>the<sp/>code<sp/>example<sp/>from<sp/>the<sp/>list<sp/>shown<sp/>in<sp/>the<sp/>**Project<sp/>Creator<sp/>-<sp/>Choose<sp/>Board<sp/>Support<sp/>Package<sp/>(BSP)**<sp/>dialog.</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/>*<sp/>3.<sp/>In<sp/>the<sp/>**Project<sp/>Creator<sp/>-<sp/>Select<sp/>Application**<sp/>dialog,<sp/>choose<sp/>the<sp/>example<sp/>by<sp/>enabling<sp/>the<sp/>checkbox.</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/>*<sp/>4.<sp/>Enter<sp/>the<sp/>local<sp/>path<sp/>in<sp/>the<sp/>**Application(s)<sp/>Root<sp/>Path**<sp/>field<sp/>to<sp/>indicate<sp/>where<sp/>the<sp/>application<sp/>needs<sp/>to<sp/>be<sp/>created.</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/>*<sp/>5.<sp/>Click<sp/>**Create**<sp/>to<sp/>complete<sp/>the<sp/>application<sp/>creation<sp/>process.</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/>*<sp/>For<sp/>more<sp/>details,<sp/>see<sp/>the<sp/>Eclipse<sp/>IDE<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>[ModusToolbox<sp/>User<sp/>Guide](https:</highlight><highlight class="comment">//www.cypress.com/MTBEclipseIDEUserGuide)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/>*<sp/>@subsection<sp/>cli<sp/>In<sp/>Command-line<sp/>Interface<sp/>(CLI)</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/>*<sp/>ModusToolbox<sp/>provides<sp/>the<sp/>Project<sp/>Creator<sp/>as<sp/>both<sp/>a<sp/>GUI<sp/>tool<sp/>and<sp/>a<sp/>command<sp/>line<sp/>tool<sp/>to<sp/>easily<sp/>create<sp/>one<sp/>or<sp/>more</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/>*<sp/>ModusToolbox<sp/>applications.<sp/>See<sp/>the<sp/></highlight><highlight class="stringliteral">&quot;Project<sp/>Creator<sp/>Tools&quot;</highlight><highlight class="normal"><sp/>section<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/>*<sp/>[ModusToolbox<sp/>User<sp/>Guide](https:</highlight><highlight class="comment">//www.cypress.com/ModusToolboxUserGuide)<sp/>for<sp/>more<sp/>details.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/>*<sp/>Alternatively,<sp/>you<sp/>can<sp/>manually<sp/>create<sp/>the<sp/>application<sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>the<sp/>following<sp/>steps:</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/>*<sp/>1.<sp/>Download<sp/>and<sp/>unzip<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>repository<sp/>onto<sp/>your<sp/>local<sp/>machine,<sp/>or<sp/>clone<sp/>the<sp/>repository.</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/>*<sp/>2.<sp/>Open<sp/>a<sp/>CLI<sp/>terminal<sp/>and<sp/>navigate<sp/>to<sp/>the<sp/>application<sp/>folder.</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/>*<sp/>3.<sp/>Import<sp/>the<sp/>required<sp/>libraries<sp/>by<sp/>executing<sp/>the<sp/>`make<sp/>getlibs`<sp/>command.</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/>*<sp/>Various<sp/>CLI<sp/>tools<sp/>include<sp/>a<sp/>`-h`<sp/>option<sp/>that<sp/>prints<sp/>help<sp/>information<sp/>to<sp/>the<sp/>terminal<sp/>screen<sp/>about<sp/>that<sp/>tool.</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/>*<sp/>For<sp/>more<sp/>details,<sp/>see<sp/>the<sp/>[ModusToolbox<sp/>User<sp/>Guide](https:</highlight><highlight class="comment">//www.cypress.com/ModusToolboxUserGuide).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/>*<sp/>@section<sp/>test<sp/>Test<sp/>conditions</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/>*<sp/><sp/>-<sp/>Limited<sp/>functional<sp/>test<sp/>is<sp/>applied<sp/>with<sp/>XMC1404-Q064x0200.</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/>*<sp/><sp/>Compilers<sp/>used<sp/>:</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/>*<sp/><sp/>-<sp/><sp/>GNU<sp/>GCC<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ARM<sp/>9.3.1.</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/>*<sp/>@section<sp/>licensing<sp/>XMC<sp/>Peripheral<sp/>Library<sp/>Licensing</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/>*<sp/>&lt;b&gt;<sp/>License<sp/>Terms<sp/>and<sp/>Copyright<sp/>Information<sp/>&lt;/b&gt;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/>*<sp/>Copyright<sp/>(c)<sp/>2015-2021,<sp/>Infineon<sp/>Technologies<sp/>AG</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/>*<sp/>All<sp/>rights<sp/>reserved.</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/>*<sp/>Boost<sp/>Software<sp/>License<sp/>-<sp/>Version<sp/>1.0<sp/>-<sp/>August<sp/>17th,<sp/>2003</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/>*<sp/>Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>or<sp/>organization</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/>*<sp/>obtaining<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>software<sp/>and<sp/>accompanying<sp/>documentation<sp/>covered<sp/>by</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>license<sp/>(the<sp/></highlight><highlight class="stringliteral">&quot;Software&quot;</highlight><highlight class="normal">)<sp/>to<sp/>use,<sp/>reproduce,<sp/>display,<sp/>distribute,</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/>*<sp/>execute,<sp/>and<sp/>transmit<sp/>the<sp/>Software,<sp/>and<sp/>to<sp/>prepare<sp/>derivative<sp/>works<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/>*<sp/>Software,<sp/>and<sp/>to<sp/>permit<sp/>third-parties<sp/>to<sp/>whom<sp/>the<sp/>Software<sp/>is<sp/>furnished<sp/>to</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>so,<sp/>all<sp/>subject<sp/>to<sp/>the<sp/>following:</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/>*<sp/>The<sp/>copyright<sp/>notices<sp/>in<sp/>the<sp/>Software<sp/>and<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>entire<sp/>statement,<sp/>including</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/>*<sp/>the<sp/>above<sp/>license<sp/>grant,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>restriction<sp/>and<sp/>the<sp/>following<sp/>disclaimer,</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/>*<sp/>must<sp/>be<sp/>included<sp/>in<sp/>all<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>in<sp/>whole<sp/>or<sp/>in<sp/>part,<sp/>and</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/>*<sp/>all<sp/>derivative<sp/>works<sp/>of<sp/>the<sp/>Software,<sp/>unless<sp/>such<sp/>copies<sp/>or<sp/>derivative</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/>*<sp/>works<sp/>are<sp/>solely<sp/>in<sp/>the<sp/>form<sp/>of<sp/>machine-executable<sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal"><sp/>code<sp/>generated<sp/>by</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/>*<sp/>a<sp/>source<sp/>language<sp/>processor.</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/>*<sp/>THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/></highlight><highlight class="stringliteral">&quot;AS<sp/>IS&quot;</highlight><highlight class="normal">,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,<sp/>EXPRESS<sp/>OR</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/>*<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY,</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/>*<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE,<sp/>TITLE<sp/>AND<sp/>NON-INFRINGEMENT.<sp/>IN<sp/>NO<sp/>EVENT</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/>*<sp/>SHALL<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>OR<sp/>ANYONE<sp/>DISTRIBUTING<sp/>THE<sp/>SOFTWARE<sp/>BE<sp/>LIABLE</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/>*<sp/>FOR<sp/>ANY<sp/>DAMAGES<sp/>OR<sp/>OTHER<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>TORT<sp/>OR<sp/>OTHERWISE,</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/>*<sp/>ARISING<sp/>FROM,<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE<sp/>SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/>*<sp/>DEALINGS<sp/>IN<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/>*<sp/>To<sp/>improve<sp/>the<sp/>quality<sp/>of<sp/>the<sp/>software,<sp/>users<sp/>are<sp/>encouraged<sp/>to<sp/>share</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/>*<sp/>modifications,<sp/>enhancements<sp/>or<sp/>bug<sp/>fixes<sp/>with<sp/>Infineon<sp/>Technologies<sp/>AG</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/>*<sp/>at<sp/>XMCSupport@infineon.com.</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/>*<sp/>&lt;b&gt;Legal<sp/>Disclaimer&lt;/b&gt;<sp/>The<sp/>information<sp/>given<sp/>in<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>document<sp/>shall<sp/>in<sp/>no<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>be<sp/>regarded<sp/>as<sp/>a<sp/>guarantee<sp/>of<sp/>conditions<sp/>or<sp/>characteristics.<sp/>With<sp/>respect<sp/>to<sp/>any<sp/>examples<sp/>or<sp/>hints<sp/>given<sp/>herein,<sp/>any<sp/>typical<sp/>values<sp/>stated<sp/>herein<sp/>and/or<sp/>any<sp/>information<sp/>regarding<sp/>the<sp/>application<sp/>of<sp/>the<sp/>device,<sp/>Infineon<sp/>Technologies<sp/>hereby<sp/>disclaims<sp/>any<sp/>and<sp/>all<sp/>warranties<sp/>and<sp/>liabilities<sp/>of<sp/>any<sp/>kind,<sp/>including<sp/>without<sp/>limitation,<sp/>warranties<sp/>of<sp/>non-infringement<sp/>of<sp/>intellectual<sp/></highlight><highlight class="keyword">property</highlight><highlight class="normal"><sp/>rights<sp/>of<sp/>any<sp/>third<sp/>party.</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/>*<sp/>&lt;b&gt;Information&lt;/b&gt;<sp/>For<sp/>further<sp/>information<sp/>on<sp/>technology,<sp/>delivery<sp/>terms<sp/>and<sp/>conditions<sp/>and<sp/>prices,<sp/>please<sp/>contact<sp/>the<sp/>nearest<sp/>Infineon<sp/>Technologies<sp/>Office<sp/>(www.infineon.com).</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/>*</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/>*<sp/>&lt;b&gt;Warnings&lt;/b&gt;<sp/>Due<sp/>to<sp/>technical<sp/>requirements,<sp/>components<sp/>may<sp/>contain<sp/>dangerous<sp/>substances.<sp/>For<sp/>information<sp/>on<sp/>the<sp/>types<sp/>in<sp/>question,<sp/>please<sp/>contact<sp/>the<sp/>nearest<sp/>Infineon<sp/>Technologies<sp/>Office.<sp/>Infineon<sp/>Technologies<sp/>components<sp/>may<sp/>be<sp/>used<sp/>in<sp/>life-support<sp/>devices<sp/>or<sp/>systems<sp/>only<sp/>with<sp/>the<sp/>express<sp/>written<sp/>approval<sp/>of<sp/>Infineon<sp/>Technologies,<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>a<sp/>failure<sp/>of<sp/>such<sp/>components<sp/>can<sp/>reasonably<sp/>be<sp/>expected<sp/>to<sp/>cause<sp/>the<sp/>failure<sp/>of<sp/>that<sp/>life-support<sp/>device<sp/>or<sp/>system<sp/>or<sp/>to<sp/>affect<sp/>the<sp/>safety<sp/>or<sp/>effectiveness<sp/>of<sp/>that<sp/>device<sp/>or<sp/>system.<sp/>Life<sp/>support<sp/>devices<sp/>or<sp/>systems<sp/>are<sp/>intended<sp/>to<sp/>be<sp/>implanted<sp/>in<sp/>the<sp/>human<sp/>body<sp/>or<sp/>to<sp/>support<sp/>and/or<sp/>maintain<sp/>and<sp/>sustain<sp/>and/or<sp/>protect<sp/>human<sp/>life.<sp/>If<sp/>they<sp/>fail,<sp/>it<sp/>is<sp/>reasonable<sp/>to<sp/>assume<sp/>that<sp/>the<sp/>health<sp/>of<sp/>the<sp/>user<sp/>or<sp/>other<sp/>persons<sp/>may<sp/>be<sp/>endangered.</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/>*/</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="main_xmc1.txt"/>
+  </compounddef>
+</doxygen>

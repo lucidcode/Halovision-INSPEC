@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_pclk-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Fast peripheral clock personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_pclk" name="PCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock\.ccuclk" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="frequency" />
+    <ExposedMember key="sourceClockDisplayName" paramId="pclk_src_display" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamString id="fdiv_resource" name="FDIV Resource" group="Internal"
+      default="scu[0].clock[0].fdivclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="fdiv_enabled" name="FDIV Enabled" group="Internal"
+      default="`${isBlockUsed(fdiv_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="fdiv_frequency" name="FDIV Frequency (Hz)" group="Internal"
+      default="`${fdiv_enabled ? getExposedMember(fdiv_resource, &quot;frequency&quot;) : 0.0 }`"
+      visible="false" editable="false" desc="" />
+
+    <!-- General -->
+    <ParamChoice id="pclk_src" name="Source Clock" group="General"
+      default="XMC_SCU_CLOCK_PCLKSRC_DOUBLE_MCLK" visible="true" editable="true"
+      desc="Desired PCLK clock source." >
+      <Entry name="MCLK"     value="XMC_SCU_CLOCK_PCLKSRC_MCLK"         visible="true" />
+      <Entry name="MCLK x 2" value="XMC_SCU_CLOCK_PCLKSRC_DOUBLE_MCLK"  visible="true" />
+    </ParamChoice>
+    <ParamString id="pclk_src_display" name="Source Clock Display" group="Internal"
+      default="`${getParamValueDisplay(&quot;pclk_src&quot;)}`" visible="false" editable="false"
+      desc="The display name of the currently selected clock source." />
+    <ParamString id="frequency" name="Frequency (Hz)" group="Internal"
+      default="`${(pclk_src eq XMC_SCU_CLOCK_PCLKSRC_MCLK) ? (fdiv_frequency / 2) : fdiv_frequency}`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(frequency)}`" visible="true" editable="false"
+      desc="The resulting peripheral clock frequency." />
+  </Parameters>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_PCLK_SEL" value="`${pclk_src}`" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

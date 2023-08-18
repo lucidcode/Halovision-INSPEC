@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_GLOBAL_DETAILED_RESULT_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1afa4ce16e35916ed14d233eabe7d3b393" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_GLOBAL_DETAILED_RESULT_t::@229</type>
+        <definition>union XMC_VADC_GLOBAL_DETAILED_RESULT_t::@229 @230</definition>
+        <argsstring></argsstring>
+        <name>@230</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1344" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a479ca40521feb861ab9ba723bba39457" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel_number</definition>
+        <argsstring></argsstring>
+        <name>channel_number</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Converted channel number </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1336" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a157e45bb747fa48e46d086638899e0da" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t converted_request_source</definition>
+        <argsstring></argsstring>
+        <name>converted_request_source</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Converted request source </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1339" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1af18431e0f7cefd721fd79ba1ddf9dab9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t emux_channel_number</definition>
+        <argsstring></argsstring>
+        <name>emux_channel_number</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Converted external multiplexer channel number. Only applicable for GxRES[0] result register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1337" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a1d07c27c30320c8ebd724410372b2544" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fast_compare_result</definition>
+        <argsstring></argsstring>
+        <name>fast_compare_result</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fast compare result if conversion mode is fast compare mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1340" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1ae250011d7f447e08a9162d1431cf544b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t group_number</definition>
+        <argsstring></argsstring>
+        <name>group_number</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Indicates the group to which the channel_number refers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1335" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a97e3bb97951482c8cf4d55a2d0bfcb62" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t res</definition>
+        <argsstring></argsstring>
+        <name>res</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1343" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a36692bbc61358ebc0e37a6fc6a395d28" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <bitfield> 16</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Result of the Analog to digital conversion </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1334" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1ade9c2ac5e8b69f959cbac08c84bf664d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t vaild_result</definition>
+        <argsstring></argsstring>
+        <name>vaild_result</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid flag is set when a new result is available </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1341" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1341" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Detailed global result structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1329" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1328" bodyend="1345"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a479ca40521feb861ab9ba723bba39457" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>channel_number</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a157e45bb747fa48e46d086638899e0da" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>converted_request_source</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1af18431e0f7cefd721fd79ba1ddf9dab9" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>emux_channel_number</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a1d07c27c30320c8ebd724410372b2544" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>fast_compare_result</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1ae250011d7f447e08a9162d1431cf544b" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>group_number</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a97e3bb97951482c8cf4d55a2d0bfcb62" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>res</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1a36692bbc61358ebc0e37a6fc6a395d28" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>result</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_l_o_b_a_l___d_e_t_a_i_l_e_d___r_e_s_u_l_t__t_1ade9c2ac5e8b69f959cbac08c84bf664d" prot="public" virt="non-virtual"><scope>XMC_VADC_GLOBAL_DETAILED_RESULT_t</scope><name>vaild_result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__eth__phy_8h" kind="file" language="C++">
+    <compoundname>xmc_eth_phy.h</compoundname>
+    <includes refid="xmc__eth__mac_8h" local="yes">xmc_eth_mac.h</includes>
+    <innerclass refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" prot="public">XMC_ETH_PHY_CONFIG_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___e_t_h___p_h_y_1gad1f5379cea34bc5bd9ecbda610860f85" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ETH_PHY_STATUS_t</name>
+        <enumvalue id="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85a79f6330f91fb9ba19d39ee9ea6db9563" prot="public">
+          <name>XMC_ETH_PHY_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OK. All is well! </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85a904b7dfc59ccb2f7d74912133f56517c" prot="public">
+          <name>XMC_ETH_PHY_STATUS_BUSY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Busy </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85ad1b980f1141fc235ba3322b6152f72a9" prot="public">
+          <name>XMC_ETH_PHY_STATUS_ERROR</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85ab8013496a66478125c6b135afc69081a" prot="public">
+          <name>XMC_ETH_PHY_STATUS_ERROR_DEVICE_ID</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Error in device identifier </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85a4cebd3072dadd1f7ba48bce14b975197" prot="public">
+          <name>XMC_ETH_PHY_STATUS_ERROR_TIMEOUT</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Time-out error </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH PHY status returns </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="82" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="81" bodyend="88"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1gac26b56e5c309c035e78a2f0292bb4478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_ETH_PHY_ExitPowerDown</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_ExitPowerDown</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int32_t return status XMC_ETH_PHY_STATUS_t</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Exit power down mode <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="149" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1ga32e1d4d44ad08831ac7aba7a35331a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___e_t_h___m_a_c_1gab7f9ae5d92570c07305898a48e5c5b9a" kindref="member">XMC_ETH_LINK_DUPLEX_t</ref></type>
+        <definition>XMC_ETH_LINK_DUPLEX_t XMC_ETH_PHY_GetLinkDuplex</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_GetLinkDuplex</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ETH_LINK_DUPLEX_t ETH link duplex settings</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get link duplex settings <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the physical layer interface and returns the link duplex settings. It returns either <ref refid="group___e_t_h___m_a_c_1ggab7f9ae5d92570c07305898a48e5c5b9aa4a8af65cc4d249aca5df386dd0a8cfab" kindref="member">XMC_ETH_LINK_DUPLEX_FULL</ref> or <ref refid="group___e_t_h___m_a_c_1ggab7f9ae5d92570c07305898a48e5c5b9aac2759735d5e529b08ae33a55b59f595b" kindref="member">XMC_ETH_LINK_DUPLEX_HALF</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="202" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1gaf533086ceb0b713358ff387761076908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___e_t_h___m_a_c_1ga29d7022e1e9e2c857f79efc6c281b531" kindref="member">XMC_ETH_LINK_SPEED_t</ref></type>
+        <definition>XMC_ETH_LINK_SPEED_t XMC_ETH_PHY_GetLinkSpeed</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_GetLinkSpeed</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ETH_LINK_SPEED_t ETH link speed</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get link speed <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the physical layer interface and returns the link speed. It returns either <ref refid="group___e_t_h___m_a_c_1gga29d7022e1e9e2c857f79efc6c281b531a5500817cb99d2be1f4f5fc2981053cac" kindref="member">XMC_ETH_LINK_SPEED_100M</ref> or <ref refid="group___e_t_h___m_a_c_1gga29d7022e1e9e2c857f79efc6c281b531a8c2a2a21c853992077a2ed3a746ab8fb" kindref="member">XMC_ETH_LINK_SPEED_10M</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="188" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1ga047c8d19d5ca5844a0ee9dd8ddf85207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___e_t_h___m_a_c_1ga98929c79969eb0198abe9f6aff564660" kindref="member">XMC_ETH_LINK_STATUS_t</ref></type>
+        <definition>XMC_ETH_LINK_STATUS_t XMC_ETH_PHY_GetLinkStatus</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_GetLinkStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ETH_LINK_STATUS_t ETH link status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get link status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the physical layer interface and returns the link status. It returns either <ref refid="group___e_t_h___m_a_c_1gga98929c79969eb0198abe9f6aff564660a3228fdde58088c1e5eb900ea6bce8711" kindref="member">XMC_ETH_LINK_STATUS_UP</ref> or <ref refid="group___e_t_h___m_a_c_1gga98929c79969eb0198abe9f6aff564660adb04bdcadaa17b5969f50ea662081ad2" kindref="member">XMC_ETH_LINK_STATUS_DOWN</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="174" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1gaf1b67eaa3fd4dba61f10afb9c1ab4625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_ETH_PHY_Init</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr, const XMC_ETH_PHY_CONFIG_t *const config)</argsstring>
+        <name>XMC_ETH_PHY_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" kindref="compound">XMC_ETH_PHY_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" kindref="compound">XMC_ETH_PHY_CONFIG_t</ref>, pointing to a physical layer config </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int32_t return status XMC_ETH_PHY_STATUS_t</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the ETH physical layer interface <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the link speed, applies the duplex mode, sets auto-negotiation and loop-back settings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="127" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1ga3c6c01ecd6c874d7262c3416b543562b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_ETH_PHY_IsAutonegotiationCompleted</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_IsAutonegotiationCompleted</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool True if autonegotiation process is finished otherwise false</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get status of autonegotiation <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="212" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1gaa0d615137bcef4fca822e2ab49bb58e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_ETH_PHY_PowerDown</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_PowerDown</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int32_t return status XMC_ETH_PHY_STATUS_t</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enter power down mode <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="138" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_t_h___p_h_y_1ga9f77136e532864b24617b6cb2a23402d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_ETH_PHY_Reset</definition>
+        <argsstring>(XMC_ETH_MAC_t *const eth_mac, uint8_t phy_addr)</argsstring>
+        <name>XMC_ETH_PHY_Reset</name>
+        <param>
+          <type><ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref> *const</type>
+          <declname>eth_mac</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eth_mac</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref>, pointing to the ETH MAC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Physical address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int32_t return status XMC_ETH_PHY_STATUS_t</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Reset transciver <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="160" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2019-12-02 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="65"><highlight class="preprocessor">#ifndef<sp/>XMC_ETH_PHY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ETH_PHY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/>*<sp/>INCLUDES</highlight></codeline>
+<codeline lineno="70"><highlight class="comment"><sp/>*******************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_eth_mac.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="75"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="76"><highlight class="comment"><sp/>*******************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ETH_PHY_STATUS</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85a79f6330f91fb9ba19d39ee9ea6db9563" kindref="member">XMC_ETH_PHY_STATUS_OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85a904b7dfc59ccb2f7d74912133f56517c" kindref="member">XMC_ETH_PHY_STATUS_BUSY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85ad1b980f1141fc235ba3322b6152f72a9" kindref="member">XMC_ETH_PHY_STATUS_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2U,<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85ab8013496a66478125c6b135afc69081a" kindref="member">XMC_ETH_PHY_STATUS_ERROR_DEVICE_ID</ref><sp/>=<sp/>3U,<sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___p_h_y_1ggad1f5379cea34bc5bd9ecbda610860f85a4cebd3072dadd1f7ba48bce14b975197" kindref="member">XMC_ETH_PHY_STATUS_ERROR_TIMEOUT</ref><sp/><sp/><sp/>=<sp/>4U<sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}<sp/><ref refid="group___e_t_h___p_h_y_1gad1f5379cea34bc5bd9ecbda610860f85" kindref="member">XMC_ETH_PHY_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="91"><highlight class="comment"><sp/>*<sp/>DATA<sp/>STRUCTURES</highlight></codeline>
+<codeline lineno="92"><highlight class="comment"><sp/>*******************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_ETH_PHY_CONFIG</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___m_a_c_1gaca9dd401fd15250f4b774698e481b0d1" kindref="member">XMC_ETH_LINK_INTERFACE_t</ref><sp/>interface;<sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___m_a_c_1ga29d7022e1e9e2c857f79efc6c281b531" kindref="member">XMC_ETH_LINK_SPEED_t</ref><sp/>speed;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><ref refid="group___e_t_h___m_a_c_1gab7f9ae5d92570c07305898a48e5c5b9a" kindref="member">XMC_ETH_LINK_DUPLEX_t</ref><sp/>duplex;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_auto_negotiate;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_loop_back;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" kindref="compound">XMC_ETH_PHY_CONFIG_t</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="108"><highlight class="comment"><sp/>*******************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">int32_t<sp/><ref refid="group___e_t_h___p_h_y_1gaf1b67eaa3fd4dba61f10afb9c1ab4625" kindref="member">XMC_ETH_PHY_Init</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" kindref="compound">XMC_ETH_PHY_CONFIG_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>config);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">int32_t<sp/><ref refid="group___e_t_h___p_h_y_1gaa0d615137bcef4fca822e2ab49bb58e7" kindref="member">XMC_ETH_PHY_PowerDown</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">int32_t<sp/><ref refid="group___e_t_h___p_h_y_1gac26b56e5c309c035e78a2f0292bb4478" kindref="member">XMC_ETH_PHY_ExitPowerDown</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">int32_t<sp/><ref refid="group___e_t_h___p_h_y_1ga9f77136e532864b24617b6cb2a23402d" kindref="member">XMC_ETH_PHY_Reset</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="group___e_t_h___m_a_c_1ga98929c79969eb0198abe9f6aff564660" kindref="member">XMC_ETH_LINK_STATUS_t</ref><sp/><ref refid="group___e_t_h___p_h_y_1ga047c8d19d5ca5844a0ee9dd8ddf85207" kindref="member">XMC_ETH_PHY_GetLinkStatus</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="group___e_t_h___m_a_c_1ga29d7022e1e9e2c857f79efc6c281b531" kindref="member">XMC_ETH_LINK_SPEED_t</ref><sp/><ref refid="group___e_t_h___p_h_y_1gaf533086ceb0b713358ff387761076908" kindref="member">XMC_ETH_PHY_GetLinkSpeed</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="group___e_t_h___m_a_c_1gab7f9ae5d92570c07305898a48e5c5b9a" kindref="member">XMC_ETH_LINK_DUPLEX_t</ref><sp/><ref refid="group___e_t_h___p_h_y_1ga32e1d4d44ad08831ac7aba7a35331a3c" kindref="member">XMC_ETH_PHY_GetLinkDuplex</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group___e_t_h___p_h_y_1ga3c6c01ecd6c874d7262c3416b543562b" kindref="member">XMC_ETH_PHY_IsAutonegotiationCompleted</ref>(<ref refid="struct_x_m_c___e_t_h___m_a_c__t" kindref="compound">XMC_ETH_MAC_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>eth_mac,<sp/>uint8_t<sp/>phy_addr);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_ETH_PHY_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h"/>
+  </compounddef>
+</doxygen>

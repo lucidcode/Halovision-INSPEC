@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_sysclock-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Top-level clock personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_clocks" name="SysClocks" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock" />
+  </Dependencies>
+  <ExposedMembers>
+  </ExposedMembers>
+
+  <Parameters>
+    <ParamDoc id="apiDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/xmc1_api_reference_manual/html/group___s_c_u.html" linkText="Open SCU Documentation" visible="true" desc="Opens the XMC Peripheral Library Documentation" />
+    <ParamString id="description" name="" group="About" default="This personality has no configuration options. It is used to generate an overall configuration function for setting all the system clock options. The code preview shows what will be generated based on the current configuration. The generated code will be located in GeneratedSource/cycfg_system.c" visible="true" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="xmc_scu.h" include="true" />
+    <ConfigFunction signature="void SystemCoreClockSetup(void)"
+                    body     ="
+ const XMC_SCU_CLOCK_CONFIG_t clock_config =&#xA;
+ {&#xA;
+   .pclk_src = CLOCK_PCLK_SEL,&#xA;
+   .rtc_src = CLOCK_RTCCLK_SEL,&#xA;
+   .fdiv = CLOCK_FDIV_F,&#xA;
+   .idiv = CLOCK_FDIV_I,&#xA;
+#if (UC_SERIES == XMC14)&#xA;
+   .dclk_src = CLOCK_FDIV_SEL,&#xA;
+#if defined(CLOCK_OSCHP_ENABLED)&#xA;
+   .oschp_mode = CLOCK_OSCHP_MODE,&#xA;
+#else&#xA;
+   .oschp_mode = XMC_SCU_CLOCK_OSCHP_MODE_DISABLED,&#xA;
+#endif&#xA;
+#if defined(CLOCK_OSCLP_ENABLED)&#xA;
+   .osclp_mode = XMC_SCU_CLOCK_OSCLP_MODE_OSC,&#xA;
+#else&#xA;
+   .osclp_mode = XMC_SCU_CLOCK_OSCLP_MODE_DISABLED,&#xA;
+#endif&#xA;
+#endif&#xA;
+ };&#xA;
+ &#xA;
+ XMC_SCU_CLOCK_Init(&amp;clock_config);&#xA;
+ &#xA;
+#if defined(CLOCK_DCO1_SYNC_ENABLED) &amp;&amp; CLOCK_DCO1_SYNC_ENABLED&#xA;
+ /* DCO1 Calibration using external oscillator */&#xA;
+ XMC_SCU_CLOCK_EnableDCO1ExtRefCalibration(CLOCK_DCO1_SYNC_SEL, CLOCK_DCO1_SYNC_PRESCALER, CLOCK_DCO1_SYNC_PRELOAD);&#xA;
+ while (XMC_SCU_CLOCK_IsDCO1ExtRefCalibrationReady() == false)&#xA;
+ {&#xA;
+     /* Wait for DCO1 synchronization */&#xA;
+ }&#xA;
+#endif&#xA;
+ " public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</compoundname>
+    <includes local="no">xmc_ccu8.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a6cc65fdcf202c055d70e00dbacc39407" prot="public" static="no" mutable="no">
+        <type>union XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t::@50</type>
+        <definition>union XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t::@50 @51</definition>
+        <argsstring></argsstring>
+        <name>@51</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="901" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a309440cb6c11908c929906783ebaaddf" prot="public" static="no" mutable="no">
+        <type>union XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t::@52</type>
+        <definition>union XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t::@52 @53</definition>
+        <argsstring></argsstring>
+        <name>@53</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="913" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1addd007639e8652025929e9a453543fbd" prot="public" static="no" mutable="no">
+        <type>union XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t::@54</type>
+        <definition>union XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t::@54 @55</definition>
+        <argsstring></argsstring>
+        <name>@55</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="925" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 24</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="898" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="898" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1aa0a3dd6fdc63d9dd784a7a38c492722c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel1_inv_st_path</definition>
+        <argsstring></argsstring>
+        <name>channel1_inv_st_path</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should dead time be applied to inverse ST output of Compare Channel-1? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="891" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="891" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a589ad08cdf9d652a909d6faffd5d1d4e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel1_st_falling_edge_counter</definition>
+        <argsstring></argsstring>
+        <name>channel1_st_falling_edge_counter</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains the delay value that is applied to the falling edge for compare channel-1. Range: [0x0 to 0xFF] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="908" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="908" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1af63a24d77156352927314fa0f205cebc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel1_st_path</definition>
+        <argsstring></argsstring>
+        <name>channel1_st_path</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should dead time be applied to ST output of Compare Channel-1? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="890" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="890" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1ab94b3dbe0ae82227ea698b5f07b54f98" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel1_st_rising_edge_counter</definition>
+        <argsstring></argsstring>
+        <name>channel1_st_rising_edge_counter</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains the delay value that is applied to the rising edge for compare channel-1. Range: [0x0 to 0xFF] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="906" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="906" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a3604c1c689092e362efc8f9f0569f618" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel2_inv_st_path</definition>
+        <argsstring></argsstring>
+        <name>channel2_inv_st_path</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should dead time be applied to inverse ST output of Compare Channel-2? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="894" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="894" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a563cb172bcbeb4cfaa8a2547e2600746" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel2_st_falling_edge_counter</definition>
+        <argsstring></argsstring>
+        <name>channel2_st_falling_edge_counter</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains the delay value that is applied to the falling edge for compare channel-2. Range: [0x0 to 0xFF] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="920" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="920" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a9597f980eb09a39f4002d35f5e29e0c0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel2_st_path</definition>
+        <argsstring></argsstring>
+        <name>channel2_st_path</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should dead time be applied to ST output of Compare Channel-2? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="893" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="893" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a091f1f718b83c6eb109ef4f22f7f138c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel2_st_rising_edge_counter</definition>
+        <argsstring></argsstring>
+        <name>channel2_st_rising_edge_counter</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Contains the delay value that is applied to the rising edge for compare channel-2. Range: [0x0 to 0xFF] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="918" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="918" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a04ea3f3d21e9539f9e76a75360b65902" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dc1r</definition>
+        <argsstring></argsstring>
+        <name>dc1r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="912" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="912" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a5377fdfc0b0cf5efcc0480282dc2c945" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dc2r</definition>
+        <argsstring></argsstring>
+        <name>dc2r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="924" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="924" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1abe79e68a56ca7dab755d2cd5e2f6cffc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t div</definition>
+        <argsstring></argsstring>
+        <name>div</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dead time prescaler divider value. Accepts enum <ref refid="group___c_c_u8_1ga7b0e2bc71e06aa4833f62b3d999b638d" kindref="member">XMC_CCU8_SLICE_DTC_DIV_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="896" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="896" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a2f98c39dcc9f76c61e0e767689ba72ee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dtc</definition>
+        <argsstring></argsstring>
+        <name>dtc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="900" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="900" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a2f26dcacfc3a9dd79c1212315ad1dd00" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_dead_time_channel1</definition>
+        <argsstring></argsstring>
+        <name>enable_dead_time_channel1</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable dead time for Compare Channel-1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="888" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="888" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1ac3076291941326a03b8a0baf7ec0e14f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_dead_time_channel2</definition>
+        <argsstring></argsstring>
+        <name>enable_dead_time_channel2</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable dead time for Compare Channel-2 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="889" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="889" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Dead Time configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="883" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="882" bodyend="926"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1aa0a3dd6fdc63d9dd784a7a38c492722c" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel1_inv_st_path</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a589ad08cdf9d652a909d6faffd5d1d4e" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel1_st_falling_edge_counter</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1af63a24d77156352927314fa0f205cebc" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel1_st_path</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1ab94b3dbe0ae82227ea698b5f07b54f98" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel1_st_rising_edge_counter</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a3604c1c689092e362efc8f9f0569f618" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel2_inv_st_path</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a563cb172bcbeb4cfaa8a2547e2600746" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel2_st_falling_edge_counter</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a9597f980eb09a39f4002d35f5e29e0c0" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel2_st_path</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a091f1f718b83c6eb109ef4f22f7f138c" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>channel2_st_rising_edge_counter</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a04ea3f3d21e9539f9e76a75360b65902" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>dc1r</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a5377fdfc0b0cf5efcc0480282dc2c945" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>dc2r</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1abe79e68a56ca7dab755d2cd5e2f6cffc" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>div</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a2f98c39dcc9f76c61e0e767689ba72ee" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>dtc</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1a2f26dcacfc3a9dd79c1212315ad1dd00" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>enable_dead_time_channel1</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___d_e_a_d___t_i_m_e___c_o_n_f_i_g__t_1ac3076291941326a03b8a0baf7ec0e14f" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_DEAD_TIME_CONFIG_t</scope><name>enable_dead_time_channel2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

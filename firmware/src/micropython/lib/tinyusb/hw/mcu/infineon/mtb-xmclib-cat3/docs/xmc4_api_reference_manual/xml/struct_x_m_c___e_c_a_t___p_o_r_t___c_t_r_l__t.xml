@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ECAT_PORT_CTRL_t</compoundname>
+    <includes local="no">xmc_ecat.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 7</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="148" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="150" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="152" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="154" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a7b2edc85d90e34c4435951e1e5c59517" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad4__</definition>
+        <argsstring></argsstring>
+        <name>__pad4__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="156" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1aa07fa9ecbb26c87b0d767aade6f0fc18" prot="public" static="no" mutable="no">
+        <type>union XMC_ECAT_PORT_CTRL_t::@168</type>
+        <definition>union XMC_ECAT_PORT_CTRL_t::@168  common</definition>
+        <argsstring></argsstring>
+        <name>common</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="160" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1af5105c675c5eaa94251e21ad545bc202" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_rstreq</definition>
+        <argsstring></argsstring>
+        <name>enable_rstreq</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Master can trigger a reset of the XMC4700 / XMC4800 (::bool) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="147" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a31dedc2c7ce3f3682a9c610fe0802368" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t latch_input0</definition>
+        <argsstring></argsstring>
+        <name>latch_input0</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Latch input 0 selection (::XMC_ECAT_PORT_LATCHIN0_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="149" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1ac039c6ce864b47c14511ef580823fe88" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t latch_input1</definition>
+        <argsstring></argsstring>
+        <name>latch_input1</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Latch input 1 selection (::XMC_ECAT_PORT_LATCHIN1_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="151" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a6163461798acb053ba062347095330e0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t link</definition>
+        <argsstring></argsstring>
+        <name>link</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Link status (::XMC_ECAT_PORT0_CTRL_LINK_t)</para>
+<para>Link status (::XMC_ECAT_PORT_CTRL_LINK_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="174" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a64c7c0762a879e3ada17a39e8a3080c9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mdio</definition>
+        <argsstring></argsstring>
+        <name>mdio</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bidirectional, push-pull management data I/O line (::XMC_ETH_MAC_PORT_CTRL_MDIO_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="155" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a80a432d4379551529d62aba3b58603fa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t phyaddr_offset</definition>
+        <argsstring></argsstring>
+        <name>phyaddr_offset</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ethernet PHY address offset, address of port 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="153" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a07e7e7ea28d084f1eb8667c71ad3879a" prot="public" static="no" mutable="no">
+        <type>union XMC_ECAT_PORT_CTRL_t::@169</type>
+        <definition>union XMC_ECAT_PORT_CTRL_t::@169  port0</definition>
+        <argsstring></argsstring>
+        <name>port0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="181" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a07b4608471c2fcf0ea8e7f49f8d5619a" prot="public" static="no" mutable="no">
+        <type>union XMC_ECAT_PORT_CTRL_t::@170</type>
+        <definition>union XMC_ECAT_PORT_CTRL_t::@170  port1</definition>
+        <argsstring></argsstring>
+        <name>port1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="202" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a0a595268561edc58e347ca8387000bc6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw</definition>
+        <argsstring></argsstring>
+        <name>raw</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="159" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a2be567cb9a63eebd46b36cfca645f589" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rx_clk</definition>
+        <argsstring></argsstring>
+        <name>rx_clk</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RX Clock (::XMC_ECAT_PORT0_CTRL_RX_CLK_t)</para>
+<para>RX Clock (::XMC_ECAT_PORT_CTRL_RX_CLK_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="172" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1aab914121f91beccd7f39d6915a2ebdc1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rx_dv</definition>
+        <argsstring></argsstring>
+        <name>rx_dv</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RX Data valid (::XMC_ECAT_PORT0_CTRL_RX_DV_t)</para>
+<para>RX Data valid (::XMC_ECAT_PORT_CTRL_RX_DV_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="171" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1af4cdaa4fcf622a60f8bcd1419c5ee352" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rx_err</definition>
+        <argsstring></argsstring>
+        <name>rx_err</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RX Error (::XMC_ECAT_PORT0_CTRL_RX_ERR_t)</para>
+<para>RX Error (::XMC_ECAT_PORT_CTRL_RX_ERR_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="170" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a293a1a55abd9118cbb42d03e382af6d9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd0</definition>
+        <argsstring></argsstring>
+        <name>rxd0</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 0 (::XMC_ECAT_PORT0_CTRL_RXD0_t)</para>
+<para>Receive data bit 0 (::XMC_ECAT_PORT_CTRL_RXD0_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="166" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a566d7eee6f8a71a3b96bc59aa0971f5c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd1</definition>
+        <argsstring></argsstring>
+        <name>rxd1</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 1 (::XMC_ECAT_PORT0_CTRL_RXD1_t)</para>
+<para>Receive data bit 1 (::XMC_ECAT_PORT_CTRL_RXD1_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="167" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1ae3826e1526ed6736e3f9ae543aa9375c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd2</definition>
+        <argsstring></argsstring>
+        <name>rxd2</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 2 (::XMC_ECAT_PORT0_CTRL_RXD2_t)</para>
+<para>Receive data bit 2 (::XMC_ECAT_PORT_CTRL_RXD2_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="168" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a1526257b7badedbd75ffba3ff799c5e3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t rxd3</definition>
+        <argsstring></argsstring>
+        <name>rxd3</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive data bit 3 (::XMC_ECAT_PORT0_CTRL_RXD3_t)</para>
+<para>Receive data bit 3 (::XMC_ECAT_PORT_CTRL_RXD3_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="169" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a980ee6580fbf842150e8856ef51a6eab" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t tx_clk</definition>
+        <argsstring></argsstring>
+        <name>tx_clk</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TX Clock (::XMC_ECAT_PORT0_CTRL_TX_CLK_t)</para>
+<para>TX Clock (::XMC_ECAT_PORT_CTRL_TX_CLK_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="176" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a70d88973938a54a9414af2b898db12a1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t tx_shift</definition>
+        <argsstring></argsstring>
+        <name>tx_shift</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TX signal delay (::XMC_ECAT_PORT0_CTRL_TX_SHIFT_t)</para>
+<para>TX signal delay (::XMC_ECAT_PORT1_CTRL_TX_SHIFT_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="177" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ECAT port control data structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="142" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="141" bodyend="204"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a7b2edc85d90e34c4435951e1e5c59517" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>__pad4__</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1aa07fa9ecbb26c87b0d767aade6f0fc18" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>common</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1af5105c675c5eaa94251e21ad545bc202" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>enable_rstreq</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a31dedc2c7ce3f3682a9c610fe0802368" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>latch_input0</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1ac039c6ce864b47c14511ef580823fe88" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>latch_input1</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a6163461798acb053ba062347095330e0" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>link</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a64c7c0762a879e3ada17a39e8a3080c9" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>mdio</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a80a432d4379551529d62aba3b58603fa" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>phyaddr_offset</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a07e7e7ea28d084f1eb8667c71ad3879a" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>port0</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a07b4608471c2fcf0ea8e7f49f8d5619a" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>port1</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a0a595268561edc58e347ca8387000bc6" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>raw</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a2be567cb9a63eebd46b36cfca645f589" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rx_clk</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1aab914121f91beccd7f39d6915a2ebdc1" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rx_dv</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1af4cdaa4fcf622a60f8bcd1419c5ee352" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rx_err</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a293a1a55abd9118cbb42d03e382af6d9" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rxd0</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a566d7eee6f8a71a3b96bc59aa0971f5c" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rxd1</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1ae3826e1526ed6736e3f9ae543aa9375c" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rxd2</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a1526257b7badedbd75ffba3ff799c5e3" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>rxd3</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a980ee6580fbf842150e8856ef51a6eab" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>tx_clk</name></member>
+      <member refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t_1a70d88973938a54a9414af2b898db12a1" prot="public" virt="non-virtual"><scope>XMC_ECAT_PORT_CTRL_t</scope><name>tx_shift</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

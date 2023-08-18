@@ -1,0 +1,725 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___e_c_a_t" kind="group">
+    <compoundname>ECAT</compoundname>
+    <title>EtherCAT (ECAT)</title>
+    <innerclass refid="union_x_m_c___e_c_a_t___c_o_n_f_i_g__t" prot="public">XMC_ECAT_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t" prot="public">XMC_ECAT_PORT_CTRL_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___e_c_a_t_1ga9402d2cecbc451c5d399b8421879a868" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ECAT_EVENT_t</name>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a4e2aa9cfeee708fd5fab4851419cd31d" prot="public">
+          <name>XMC_ECAT_EVENT_AL_CONTROL</name>
+          <initializer>= ECAT_AL_EVENT_MASK_AL_CE_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Application control event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a41112774f0b2f4e0ffec1fcc5d5864f2" prot="public">
+          <name>XMC_ECAT_EVENT_DC_LATCH</name>
+          <initializer>= ECAT_AL_EVENT_MASK_DC_LE_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Distributed Clock latch event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a1cc677fedae413d018ce84d1f27fbe2f" prot="public">
+          <name>XMC_ECAT_EVENT_DC_SYNC0</name>
+          <initializer>= ECAT_AL_EVENT_MASK_ST_S0_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>State of distributed clock sync-0 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868ac18135277393fd5800a1185c7f7f93a2" prot="public">
+          <name>XMC_ECAT_EVENT_DC_SYNC1</name>
+          <initializer>= ECAT_AL_EVENT_MASK_ST_S1_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>State of distributed clock sync-1 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868af2b5e847c4fc1f7dbfe6b27f5b589cdd" prot="public">
+          <name>XMC_ECAT_EVENT_SM_ACTIVATION_REGISTER</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SM_A_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SyncManager activation register mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a7274f70c022eb0ccb8756e0ee54e57fa" prot="public">
+          <name>XMC_ECAT_EVENT_EEPROM</name>
+          <initializer>= ECAT_AL_EVENT_MASK_EEP_E_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>EEPROM Emulation event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a13d25e8fc95c101d4ad26d3e3abcfdd2" prot="public">
+          <name>XMC_ECAT_EVENT_WATCHDOG</name>
+          <initializer>= ECAT_AL_EVENT_MASK_WP_D_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>WATCHDOG process data event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a03893697692f86b657a6eb1334865dc9" prot="public">
+          <name>XMC_ECAT_EVENT_SM0</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_0_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 0 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a2bf3f483b7e670934b03bbe8805988e0" prot="public">
+          <name>XMC_ECAT_EVENT_SM1</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_1_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 1 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868aa12ac74a4523870880fa6a831b6d7793" prot="public">
+          <name>XMC_ECAT_EVENT_SM2</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_2_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 2 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a7c4e7da792fcff011b030de6ac1bdaf9" prot="public">
+          <name>XMC_ECAT_EVENT_SM3</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_3_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 3 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868afb6edbdff957514248142646d1139d22" prot="public">
+          <name>XMC_ECAT_EVENT_SM4</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_4_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 4 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a23dcec8ab1292e89328c76b3aa9d9e96" prot="public">
+          <name>XMC_ECAT_EVENT_SM5</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_5_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 5 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a2c9c905fd4d55a8680ba080fd8ffe8db" prot="public">
+          <name>XMC_ECAT_EVENT_SM6</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_6_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 6 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1gga9402d2cecbc451c5d399b8421879a868a847c7259b2598f22e2d81b17b0204ab0" prot="public">
+          <name>XMC_ECAT_EVENT_SM7</name>
+          <initializer>= ECAT_AL_EVENT_MASK_SMI_7_MASK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sync Manager 7 event mask </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EtherCAT event enumeration types </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="108" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="107" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___e_c_a_t_1gab1b5537677cae18a8801a3441b49ee62" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ECAT_STATUS_t</name>
+        <enumvalue id="group___e_c_a_t_1ggab1b5537677cae18a8801a3441b49ee62a5bc826d8b68c209f80f0a7ea3e665933" prot="public">
+          <name>XMC_ECAT_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Driver accepted application request </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1ggab1b5537677cae18a8801a3441b49ee62a4b35955b9ab4d3bbb97a4f29d00ac0cf" prot="public">
+          <name>XMC_ECAT_STATUS_BUSY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Driver is busy and cannot handle request </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___e_c_a_t_1ggab1b5537677cae18a8801a3441b49ee62ac77d6331741ebb38bfed9c9f12b242d4" prot="public">
+          <name>XMC_ECAT_STATUS_ERROR</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Driver could not fulfil application request </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ECAT status return values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="98" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="97" bodyend="102"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___e_c_a_t_1ga81b5c1eaffe2c84cf73ce7ebac0544d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_Disable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ECAT_Disable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable the EtherCAT peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function asserts the peripheral reset. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="290" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga3e498babbb59882312137766d2b2e70f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_DisableEvent</definition>
+        <argsstring>(uint32_t event)</argsstring>
+        <name>XMC_ECAT_DisableEvent</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Single or logically OR&apos;d events specified in the enum type @refXMC_ECAT_EVENT_t </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable an ECAT event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can be used to disable ECAT event(s). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="363" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga20fbe77b86c01c3e311fd7ed4be50aa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_DisableSyncManChannel</definition>
+        <argsstring>(const uint8_t channel)</argsstring>
+        <name>XMC_ECAT_DisableSyncManChannel</name>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SyncManager channel number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disables selected SyncManager channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Sets bit 0 of the corresponding 0x807 register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="389" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1gaa35b5d6b5f3acbcc087884a05363c3ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_Enable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ECAT_Enable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable the EtherCAT peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function de-asserts the peripheral reset. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="278" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga290147da4fafee983cb87bd89e250422" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_EnableEvent</definition>
+        <argsstring>(uint32_t event)</argsstring>
+        <name>XMC_ECAT_EnableEvent</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Single or logically OR&apos;d events specified in the enum type @refXMC_ECAT_EVENT_t </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable ECAT event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can be used to enable ECAT event(s). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="351" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga825f2662f72b0c45f324632c7b678f2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_EnableSyncManChannel</definition>
+        <argsstring>(const uint8_t channel)</argsstring>
+        <name>XMC_ECAT_EnableSyncManChannel</name>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SyncManager channel number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enables selected SyncManager channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Resets bit 0 of the corresponding 0x807 register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="401" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga3f5f43ca67aec259a94d7fe58ae9777c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_ECAT_GetALEventMask</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ECAT_GetALEventMask</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Content of register 0x220-0x221</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get content of AL event register <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Get the first two bytes of the AL Event register (0x220-0x221). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="428" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="428" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1gaab9fab89dd35a17739178337fc8693e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_ECAT_GetALEventRegister</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ECAT_GetALEventRegister</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Content of register 0x220-0x221</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get content of AL event register <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Get the first two bytes of the AL Event register (0x220-0x221). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="413" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="413" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga0b0335de55c30755747fdf449645e1a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_ECAT_GetEventStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ECAT_GetEventStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Event status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the ECAT status and interrupt status as a single word. The user can then check the status of the events by using an appropriate mask. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="376" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1gafe24f6be2d2729750e60e87c27a71381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_Init</definition>
+        <argsstring>(XMC_ECAT_CONFIG_t *const config)</argsstring>
+        <name>XMC_ECAT_Init</name>
+        <param>
+          <type><ref refid="union_x_m_c___e_c_a_t___c_o_n_f_i_g__t" kindref="compound">XMC_ECAT_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="union_x_m_c___e_c_a_t___c_o_n_f_i_g__t" kindref="compound">XMC_ECAT_CONFIG_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ECAT_STATUS_t ECAT Initialization status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the Ethernet MAC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the link speed, applies the duplex mode, sets auto-negotiation and loop-back settings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="266" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga1c591d9ba2c9016f328ad79bca9ecbd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___e_c_a_t_1gab1b5537677cae18a8801a3441b49ee62" kindref="member">XMC_ECAT_STATUS_t</ref></type>
+        <definition>XMC_ECAT_STATUS_t XMC_ECAT_ReadPhy</definition>
+        <argsstring>(uint8_t phy_addr, uint8_t reg_addr, uint16_t *data)</argsstring>
+        <name>XMC_ECAT_ReadPhy</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>reg_addr</declname>
+        </param>
+        <param>
+          <type>uint16_t *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PHY address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destination to which the read data needs to be copied to.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ECAT_STATUS_t EtherCAT Read PHY API return status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Read a PHY register <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads a PHY register. It essentially polls busy bit during max PHY_TIMEOUT time and reads the information into &apos;data&apos; when not busy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="306" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga172c4c1cabfd29c981fed161ca4d366f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_SetALEventMask</definition>
+        <argsstring>(uint16_t intMask)</argsstring>
+        <name>XMC_ECAT_SetALEventMask</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>intMask</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>intMask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interrupt mask (disabled interrupt shall be zero) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets application event mask register <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Performs a logical OR with the AL Event Mask register (0x0204 : 0x0205). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="443" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="443" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga45a5a867acb63735113c118bcc1a4d51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ECAT_SetPortControl</definition>
+        <argsstring>(const XMC_ECAT_PORT_CTRL_t port_ctrl)</argsstring>
+        <name>XMC_ECAT_SetPortControl</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___e_c_a_t___p_o_r_t___c_t_r_l__t" kindref="compound">XMC_ECAT_PORT_CTRL_t</ref></type>
+          <declname>port_ctrl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port_ctrl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port control configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set port control configuration <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the port control by writing the configuration into the ECAT CON register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="334" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" bodystart="334" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="group___e_c_a_t_1ga7d058669f327b10b3725f3c09c30840f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___e_c_a_t_1gab1b5537677cae18a8801a3441b49ee62" kindref="member">XMC_ECAT_STATUS_t</ref></type>
+        <definition>XMC_ECAT_STATUS_t XMC_ECAT_WritePhy</definition>
+        <argsstring>(uint8_t phy_addr, uint8_t reg_addr, uint16_t data)</argsstring>
+        <name>XMC_ECAT_WritePhy</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>phy_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>reg_addr</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>phy_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PHY address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data to write </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_ECAT_STATUS_t EtherCAT Write PHY API return status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Write a PHY register <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads a PHY register. It essentially writes the data and polls the busy bit until it is no longer busy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ecat.h" line="321" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>EtherCAT Low level driver for XMC4800/XMC4300 series. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>EtherCAT is an Ethernet-based fieldbus system. The EtherCAT Slave Controller (ECAT) read the data addressed to them while the telegram passes through the device. An EtherCAT Slave Controller (ESC) takes care of the EtherCAT communication as an interface between the EtherCAT fieldbus and the slave application. EtherCAT uses standard IEEE 802.3 Ethernet frames, thus a standard network controller can be used and no special hardware is required on master side. EtherCAT has a reserved EtherType of 0x88A4 that distinguishes it from other Ethernet frames. Thus, EtherCAT can run in parallel to other Ethernet protocols. EtherCAT does not require the IP protocol, however it can be encapsulated in IP/UDP. The EtherCAT Slave Controller processes the frame in hardware. Thus, communication performance is independent from processor power.</para>
+<para>The XMC_ECAT low level driver provides functions to configure and initialize the ECAT hardware peripheral. For EHTERCAT stack integration, the necessary hardware accees layer APIs shall be explicitly implemented depending upon the stack provider. The XMC_ECAT lld layer provides only the hardware initialization functions for start up and basic functionalities. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

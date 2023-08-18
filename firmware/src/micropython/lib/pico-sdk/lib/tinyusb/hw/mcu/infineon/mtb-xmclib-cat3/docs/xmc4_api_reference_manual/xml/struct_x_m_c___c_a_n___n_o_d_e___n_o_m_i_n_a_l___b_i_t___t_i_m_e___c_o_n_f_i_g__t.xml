@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_CAN_NODE_NOMINAL_BIT_TIME_CONFIG_t</compoundname>
+    <includes local="no">xmc_can.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t baudrate</definition>
+        <argsstring></argsstring>
+        <name>baudrate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Specifies the node baud rate. Unit: baud <emphasis>baudrate</emphasis> shall be range of 100Kbps to 1000Kbps </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="479" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1a8f81d7c7e0a6f4e5d47b9c2465c44f62" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_frequency</definition>
+        <argsstring></argsstring>
+        <name>can_frequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Frequency of the CAN module(fCAN). <emphasis>can_frequency</emphasis> shall be range of 5MHz to 144MHz </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="478" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="478" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1a555b102b60c356e5366b17942215f572" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t sample_point</definition>
+        <argsstring></argsstring>
+        <name>sample_point</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sample point is used to compensate mismatch between transmitter and receiver clock phases detected in the synchronization segment. Sample point. Range = [0, 10000] with respect [0%, 100%] of the total bit time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="480" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1abaa743babb3f13593991273ceb998350" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t sjw</definition>
+        <argsstring></argsstring>
+        <name>sjw</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(Re) Synchronization Jump Width. Range:0-3 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="482" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines CAN node Nominal Bit Time. Use type <emphasis><ref refid="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t" kindref="compound">XMC_CAN_NODE_NOMINAL_BIT_TIME_CONFIG_t</ref></emphasis> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="477" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="476" bodyend="483"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" virt="non-virtual"><scope>XMC_CAN_NODE_NOMINAL_BIT_TIME_CONFIG_t</scope><name>baudrate</name></member>
+      <member refid="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1a8f81d7c7e0a6f4e5d47b9c2465c44f62" prot="public" virt="non-virtual"><scope>XMC_CAN_NODE_NOMINAL_BIT_TIME_CONFIG_t</scope><name>can_frequency</name></member>
+      <member refid="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1a555b102b60c356e5366b17942215f572" prot="public" virt="non-virtual"><scope>XMC_CAN_NODE_NOMINAL_BIT_TIME_CONFIG_t</scope><name>sample_point</name></member>
+      <member refid="struct_x_m_c___c_a_n___n_o_d_e___n_o_m_i_n_a_l___b_i_t___t_i_m_e___c_o_n_f_i_g__t_1abaa743babb3f13593991273ceb998350" prot="public" virt="non-virtual"><scope>XMC_CAN_NODE_NOMINAL_BIT_TIME_CONFIG_t</scope><name>sjw</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

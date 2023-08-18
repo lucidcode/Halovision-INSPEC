@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc1_oschp-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* High precision oscillator personality description file for XMC1000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc1_oschp" name="OSC_HP" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc1_scu" />
+    <Resource name="scu\.clock\.osc_hp" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fOSC_HP" />
+    <ExposedMember key="suppressCodeGen" paramId="suppressCodeGen" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamBool id="suppressCodeGen" name="suppressCodeGen" group="Internal"
+      default="true" visible="false" editable="false"
+      desc="Prevents pins connected to this personality to generate configuration code" />
+
+    <!-- General -->
+    <ParamChoice id="mode" name="Operating Mode" group="General"
+      default="XMC_SCU_CLOCK_OSCHP_MODE_OSC" visible="true" editable="true"
+      desc="Select clock source for OSC_HP." >
+      <Entry name="External Crystal" value="XMC_SCU_CLOCK_OSCHP_MODE_OSC" visible="true" />
+      <Entry name="External Direct Input" value="XMC_SCU_CLOCK_OSCHP_MODE_DIRECT" visible="true" />
+    </ParamChoice>
+    <ParamRange id="ext_frequency" name="Frequency (MHz)" group="General"
+      default="20" min="4" max="`${(mode eq XMC_SCU_CLOCK_OSCHP_MODE_OSC) ? 20 : 48}`" resolution="0.001"
+      visible="true" editable="true" desc="External Crystal Oscillator or External Direct Input clock frequency in MHz." />
+    <ParamRange id="fOSC_HP" name="Frequency (Hz)" group="Internal"
+      default="`${ext_frequency * 1000000}`" min="0" max="48000000" resolution="1"
+      visible="false" editable="false" desc="External clock frequency in Hz." />
+
+    <!-- Connections -->
+    <ParamSignal port="osc_hp_in[0]" name="Input" group="Connections"
+      visible="true" desc="The input pin connected as XTAL1." canBeEmpty="true" multiSelect="false" />
+    <ParamSignal port="osc_hp_out[0]" name="Output" group="Connections"
+      visible="true" desc="The output pin connected as XTAL2." canBeEmpty="true" multiSelect="false" />
+  </Parameters>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_OSCHP_ENABLED" value="1U" public="false" include="true" />
+    <ConfigDefine name="CLOCK_OSCHP_MODE" value="`${mode}`" public="false" include="true" />
+    <ConfigFunction signature="uint32_t OSCHP_GetFrequency(void)"
+                    body     ="    return `${fOSC_HP}`U;" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_m_a___l_l_i__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DMA_LLI_t</compoundname>
+    <includes local="no">xmc_dma.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a4baff9d19242cc5b8f9aabe2ab8685f8" prot="public" static="no" mutable="no">
+        <type>union XMC_DMA_LLI_t::@60</type>
+        <definition>union XMC_DMA_LLI_t::@60 @61</definition>
+        <argsstring></argsstring>
+        <name>@61</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="374" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="366" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="368" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved bits </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="371" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a9e3fb1e50a1c71b2337df296222d9553" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer block size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="375" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1af47d900be5b5e5b1cce48f959401cb4e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t control</definition>
+        <argsstring></argsstring>
+        <name>control</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="373" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1ad3367f6b5057b9c73b012338e5a437ae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dst_addr</definition>
+        <argsstring></argsstring>
+        <name>dst_addr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destination address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="351" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a4e917f7bdd327e83e22721cba4e6eb0a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dst_address_count_mode</definition>
+        <argsstring></argsstring>
+        <name>dst_address_count_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destination address count mode (:: XMC_DMA_CH_ADDRESS_COUNT_MODE_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="360" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a0a96024fabbc0a9422532edc431362a3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dst_burst_length</definition>
+        <argsstring></argsstring>
+        <name>dst_burst_length</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destination burst length (:: XMC_DMA_CH_BURST_LENGTH_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="362" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a9130bed051ab65c2d0eb4c3c80e286ee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dst_status</definition>
+        <argsstring></argsstring>
+        <name>dst_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destination status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="377" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1afd44b028b170c15b834e0d835e831743" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dst_transfer_width</definition>
+        <argsstring></argsstring>
+        <name>dst_transfer_width</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destination transfer width (:: XMC_DMA_CH_TRANSFER_WIDTH_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="358" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a3f7f46d04af68ef4debbcabe619980da" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_dst_linked_list</definition>
+        <argsstring></argsstring>
+        <name>enable_dst_linked_list</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable destination linked list? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="369" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a7ebf6417cf37ad64e574c6cc1b049f87" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_dst_scatter</definition>
+        <argsstring></argsstring>
+        <name>enable_dst_scatter</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable destination scatter? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="365" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1ab4451ed74feb37e9f912ef7bb15ba250" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_interrupt</definition>
+        <argsstring></argsstring>
+        <name>enable_interrupt</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable interrupts? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="357" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1acc4bff36f5f630e74eab2eb14bfc3b4f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_src_gather</definition>
+        <argsstring></argsstring>
+        <name>enable_src_gather</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable source gather? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="364" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a778cb0f865db4fef2d37e5cee8a6244e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_src_linked_list</definition>
+        <argsstring></argsstring>
+        <name>enable_src_linked_list</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable source linked list? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="370" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1ab2814fa924e173e03b62c0b1079db01f" prot="public" static="no" mutable="no">
+        <type>struct XMC_DMA_LLI *</type>
+        <definition>struct XMC_DMA_LLI* llp</definition>
+        <argsstring></argsstring>
+        <name>llp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Linked list pointer of type <ref refid="struct_x_m_c___d_m_a___l_l_i__t" kindref="compound">XMC_DMA_LLI_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="352" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a6a462ff6ecd832025b4f8934f226d5b5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t src_addr</definition>
+        <argsstring></argsstring>
+        <name>src_addr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="350" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a6944adbf1087cd2a5de47b88de218492" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t src_address_count_mode</definition>
+        <argsstring></argsstring>
+        <name>src_address_count_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source address count mode (:: XMC_DMA_CH_ADDRESS_COUNT_MODE_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="361" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1abb73dbea3dd5ccf42269058174ca26fa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t src_burst_length</definition>
+        <argsstring></argsstring>
+        <name>src_burst_length</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source burst length (:: XMC_DMA_CH_BURST_LENGTH_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="363" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a7e81b95f2d7d7d6972a6da4b40fde126" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t src_status</definition>
+        <argsstring></argsstring>
+        <name>src_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="376" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1ab5442f6d0d01b1f02b243a9049cb9d04" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t src_transfer_width</definition>
+        <argsstring></argsstring>
+        <name>src_transfer_width</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source transfer width (:: XMC_DMA_CH_TRANSFER_WIDTH_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="359" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_m_a___l_l_i__t_1a2bf00935d0ba45d2691847c5ca528993" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t transfer_flow</definition>
+        <argsstring></argsstring>
+        <name>transfer_flow</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA transfer flow (:: XMC_DMA_CH_TRANSFER_FLOW_t) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="367" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DMA channel linked list item. Note: Needs to be word aligned </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="349" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="348" bodyend="378"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a9e3fb1e50a1c71b2337df296222d9553" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>block_size</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1af47d900be5b5e5b1cce48f959401cb4e" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>control</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1ad3367f6b5057b9c73b012338e5a437ae" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>dst_addr</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a4e917f7bdd327e83e22721cba4e6eb0a" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>dst_address_count_mode</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a0a96024fabbc0a9422532edc431362a3" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>dst_burst_length</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a9130bed051ab65c2d0eb4c3c80e286ee" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>dst_status</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1afd44b028b170c15b834e0d835e831743" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>dst_transfer_width</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a3f7f46d04af68ef4debbcabe619980da" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>enable_dst_linked_list</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a7ebf6417cf37ad64e574c6cc1b049f87" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>enable_dst_scatter</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1ab4451ed74feb37e9f912ef7bb15ba250" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>enable_interrupt</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1acc4bff36f5f630e74eab2eb14bfc3b4f" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>enable_src_gather</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a778cb0f865db4fef2d37e5cee8a6244e" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>enable_src_linked_list</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1ab2814fa924e173e03b62c0b1079db01f" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>llp</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a6a462ff6ecd832025b4f8934f226d5b5" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>src_addr</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a6944adbf1087cd2a5de47b88de218492" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>src_address_count_mode</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1abb73dbea3dd5ccf42269058174ca26fa" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>src_burst_length</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a7e81b95f2d7d7d6972a6da4b40fde126" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>src_status</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1ab5442f6d0d01b1f02b243a9049cb9d04" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>src_transfer_width</name></member>
+      <member refid="struct_x_m_c___d_m_a___l_l_i__t_1a2bf00935d0ba45d2691847c5ca528993" prot="public" virt="non-virtual"><scope>XMC_DMA_LLI_t</scope><name>transfer_flow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

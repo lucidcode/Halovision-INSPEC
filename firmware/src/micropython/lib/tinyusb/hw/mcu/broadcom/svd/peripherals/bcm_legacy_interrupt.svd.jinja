@@ -1,0 +1,311 @@
+{% macro peripheral(name, base_address, basic_irq, interrupt_offset=0, interrupt_names={}) -%}
+    <peripheral>
+      <name>{{ name }}</name>
+      <description>Broadcom Legacy Interrupt Controller</description>
+      <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+      <headerStructName>BCM_LIC</headerStructName>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x400</size>
+        <usage>registers</usage>
+      </addressBlock>
+{#       <interrupt>
+          <name>HPTIMER</name>
+          <description>Core HP timer IRQ</description>
+          <value>26</value>
+      </interrupt>
+      <interrupt>
+          <name>VTIMER</name>
+          <description>Core V timer IRQ</description>
+          <value>27</value>
+      </interrupt>
+      <interrupt>
+          <name>LEGACY_FIQ</name>
+          <description>Legacy FIQ</description>
+          <value>28</value>
+      </interrupt>
+      <interrupt>
+          <name>PSTIMER</name>
+          <description>Core PS timer IRQ</description>
+          <value>29</value>
+      </interrupt>
+      <interrupt>
+          <name>PNSTIMER</name>
+          <description>Core PNS timer IRQ</description>
+          <value>30</value>
+      </interrupt>
+      <interrupt>
+          <name>LEGACY_IRQ</name>
+          <description>Legacy IRQ</description>
+          <value>31</value>
+      </interrupt> #}
+      <registers>
+        <register>
+          <name>BASIC_PENDING</name>
+          <description>Basic pending info</description>
+          <addressOffset>0x200</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+              {% for bit in range(8) %}
+              <field>
+                <name>{{ interrupt_names[64 + bit][0] }}</name>
+                <description>{{ interrupt_names[64 + bit][1] }}</description>
+                <bitOffset>{{ bit }}</bitOffset>
+                <bitWidth>1</bitWidth>
+              </field>
+              {% endfor %}
+              <field>
+                <name>PENDING_1</name>
+                <description>One or more bits are set in PENDING_1 (ignores 7, 9, 10, 18, 19)</description>
+                <bitOffset>8</bitOffset>
+                <bitWidth>1</bitWidth>
+              </field>
+              <field>
+                <name>PENDING_2</name>
+                <description>One or more bits are set in PENDING_2 (ignores 53 - 57, 62)</description>
+                <bitOffset>9</bitOffset>
+                <bitWidth>1</bitWidth>
+              </field>
+              {% for bit, irq in ((10, 7), (11, 9), (12, 10), (13, 18), (14, 19), (15, 53), (16, 54), (17, 55), (18, 56), (19, 57), (20, 62)) %}
+              <field>
+                {% if irq in interrupt_names %}
+                <name>{{ interrupt_names[interrupt_offset + irq][0] }}</name>
+                <description>{{ interrupt_names[interrupt_offset + irq][1] }}</description>
+                {% else %}
+                <name>INT{{ interrupt_offset + irq }}</name>
+                <description>Interrupt {{ interrupt_offset + irq }}</description>
+                {% endif %}
+                <bitOffset>{{ bit }}</bitOffset>
+                <bitWidth>1</bitWidth>
+              </field>
+              {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>PENDING_1</name>
+          <description>Pending state for interrupts 1 - 31</description>
+          <addressOffset>0x204</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            {% for bit in range(32) %}
+            {% set irq = interrupt_offset + bit %}
+            <field>
+              {% if irq in interrupt_names %}
+              <name>{{ interrupt_names[irq][0] }}</name>
+              <description>{{ interrupt_names[irq][1] }}</description>
+              {% else %}
+              <name>INT{{ irq }}</name>
+              <description>Interrupt {{ irq }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>PENDING_2</name>
+          <description>Pending state for interrupts 32 - 63</description>
+          <addressOffset>0x208</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            {% for bit in range(32) %}
+            {% set irq = interrupt_offset + 32 + bit %}
+            <field>
+              {% if irq in interrupt_names %}
+              <name>{{ interrupt_names[irq][0] }}</name>
+              <description>{{ interrupt_names[irq][1] }}</description>
+              {% else %}
+              <name>INT{{ irq }}</name>
+              <description>Interrupt {{ irq }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>FIQ_CONTROL</name>
+          <description>FIQ control</description>
+          <addressOffset>0x20C</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>ENABLE</name>
+              <description>FIQ Enable</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>SOURCE</name>
+              <description>FIQ Source</description>
+              <enumeratedValues>
+              {% for value in range(64 + 8) %}
+              {% set irq = interrupt_offset + value %}
+                <enumeratedValue>
+                  {% if irq in interrupt_names %}
+                  <name>{{ interrupt_names[irq][0] }}</name>
+                  <description>{{ interrupt_names[irq][1] }}</description>
+                  {% else %}
+                  <name>INT{{ irq }}</name>
+                  <description>Interrupt {{ irq }}</description>
+                  {% endif %}
+                  <value>{{ value }}</value>
+                </enumeratedValue>
+              {% endfor %}
+              </enumeratedValues>
+              <bitOffset>0</bitOffset>
+              <bitWidth>7</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ENABLE_1</name>
+          <description>Enable interrupts 1 - 31</description>
+          <addressOffset>0x210</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <modifiedWriteValues>oneToSet</modifiedWriteValues>
+          <fields>
+            {% for bit in range(32) %}
+            {% set irq = interrupt_offset + bit %}
+            <field>
+              {% if irq in interrupt_names %}
+              <name>{{ interrupt_names[irq][0] }}</name>
+              <description>{{ interrupt_names[irq][1] }}</description>
+              {% else %}
+              <name>INT{{ irq }}</name>
+              <description>Interrupt {{ irq }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>ENABLE_2</name>
+          <description>Enable interrupts 32 - 63</description>
+          <addressOffset>0x214</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <modifiedWriteValues>oneToSet</modifiedWriteValues>
+          <fields>
+            {% for bit in range(32) %}
+            {% set irq = interrupt_offset + 32 + bit %}
+            <field>
+              {% if irq in interrupt_names %}
+              <name>{{ interrupt_names[irq][0] }}</name>
+              <description>{{ interrupt_names[irq][1] }}</description>
+              {% else %}
+              <name>INT{{ irq }}</name>
+              <description>Interrupt {{ irq }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>ENABLE_BASIC</name>
+          <description>Enable basic interrupts</description>
+          <addressOffset>0x218</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <modifiedWriteValues>oneToSet</modifiedWriteValues>
+          <fields>
+            {% for bit in range(8) %}
+            <field>
+              <name>{{ interrupt_names[64 + bit][0] }}</name>
+              <description>{{ interrupt_names[64 + bit][1] }}</description>
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>DISABLE_1</name>
+          <description>Disable interrupts 1 - 31</description>
+          <addressOffset>0x21C</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <modifiedWriteValues>oneToClear</modifiedWriteValues>
+          <fields>
+            {% for bit in range(32) %}
+            {% set irq = interrupt_offset + bit %}
+            <field>
+              {% if irq in interrupt_names %}
+              <name>{{ interrupt_names[irq][0] }}</name>
+              <description>{{ interrupt_names[irq][1] }}</description>
+              {% else %}
+              <name>INT{{ irq }}</name>
+              <description>Interrupt {{ irq }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>DISABLE_2</name>
+          <description>Disable interrupts 32 - 63</description>
+          <addressOffset>0x220</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <modifiedWriteValues>oneToClear</modifiedWriteValues>
+          <fields>
+            {% for bit in range(32) %}
+            {% set irq = interrupt_offset + 32 + bit %}
+            <field>
+              {% if irq in interrupt_names %}
+              <name>{{ interrupt_names[irq][0] }}</name>
+              <description>{{ interrupt_names[irq][1] }}</description>
+              {% else %}
+              <name>INT{{ irq }}</name>
+              <description>Interrupt {{ irq }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        <register>
+          <name>DISABLE_BASIC</name>
+          <description>Disable basic interrupts</description>
+          <addressOffset>0x224</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <modifiedWriteValues>oneToClear</modifiedWriteValues>
+          <fields>
+            {% for bit in range(8) %}
+            <field>
+              <name>{{ interrupt_names[64 + bit][0] }}</name>
+              <description>{{ interrupt_names[64 + bit][1] }}</description>
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+{% endmacro %}

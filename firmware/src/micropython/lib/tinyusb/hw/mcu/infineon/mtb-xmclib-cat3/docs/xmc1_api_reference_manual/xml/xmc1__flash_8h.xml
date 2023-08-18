@@ -1,0 +1,1103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc1__flash_8h" kind="file" language="C++">
+    <compoundname>xmc1_flash.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <includes local="yes">XMC1000_RomFunctionTable.h</includes>
+    <includedby refid="xmc__flash_8h" local="yes">xmc_flash.h</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="4">
+        <label>XMC1000_RomFunctionTable.h</label>
+      </node>
+      <node id="2">
+        <label>xmc1_flash.h</label>
+        <link refid="xmc1__flash_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga0d2b9ed15806748ad4a5ec9f951be20e" prot="public" static="no">
+        <name>FLASH_BLOCK_ADDR_MASK</name>
+        <initializer>(15U)    /*   Bitwise AND with block address is done to check the address alignment.
+                                                 Applicable to XMC_FLASH_WriteBlocks() and XMC_FLASH_VerifyBlocks()
+                                                 APIs.*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="97" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga3f5991339fd9b6486a4840c010c3bdc6" prot="public" static="no">
+        <name>FLASH_PAGE_ADDR_MASK</name>
+        <initializer>(255U)   /*   Bitwise AND with page address is done to check the address alignment.
+                                                 Applicable to XMC_FLASH_ErasePages() API.*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="99" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga3199fac224380bc7a638a3125ffacb8e" prot="public" static="no">
+        <name>FLASH_SECTOR_ADDR_MASK</name>
+        <initializer>(4095U)  /*   Bitwise AND with sector address is done to check the address alignment.
+                                                 Applicable to XMC_FLASH_EraseSector API.*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="101" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga04349ce03dfa72d4f921e26fab7bb908" prot="public" static="no">
+        <name>XMC_FLASH_BASE</name>
+        <initializer>(0x10001000U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Starting address of flash for XMC1 family of microcontrollers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="103" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga4e9511c59c7236d5adfd24eccb00acf9" prot="public" static="no">
+        <name>XMC_FLASH_BLOCKS_PER_PAGE</name>
+        <initializer>(16U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of blocks in a page. A block consists of 4 words(16 bytes). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="85" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga264df7592f637691b17fda2a74f8e8b9" prot="public" static="no">
+        <name>XMC_FLASH_BYTES_PER_BLOCK</name>
+        <initializer>(16U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bytes in a block. (128 bits = 16 bytes) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="89" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga00b2a643c63a3ce66dc6fd2fb9ba5508" prot="public" static="no">
+        <name>XMC_FLASH_BYTES_PER_PAGE</name>
+        <initializer>(256U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bytes in a page. (16 blocks * 16 bytes = 256 bytes) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="88" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga3c8a7688649dce67701e362968ed8b71" prot="public" static="no">
+        <name>XMC_FLASH_BYTES_PER_SECTOR</name>
+        <initializer>(4096U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bytes in a sector. (16 pages * 256 bytes = 4096 bytes) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="87" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1gae4af65ad5452c6e96162582b28dc012f" prot="public" static="no">
+        <name>XMC_FLASH_PAGES_PER_SECTOR</name>
+        <initializer>(16U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of pages in a sector. A page consists of 16 blocks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="84" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1gad3630a52ad62064d7ec32acb9f6e0ada" prot="public" static="no">
+        <name>XMC_FLASH_WORDS_PER_BLOCK</name>
+        <initializer>(4U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of words in a block. (128 bit / 32 bit = 4 words) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="93" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga8baf803359cd0c484bed4123ea4d8446" prot="public" static="no">
+        <name>XMC_FLASH_WORDS_PER_PAGE</name>
+        <initializer>(64U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of words in a page. (16 blocks * 4 words = 64 words) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="92" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_l_a_s_h_1ga26910796f9c90bb2c88060381bc45ff6" prot="public" static="no">
+        <name>XMC_FLASH_WORDS_PER_SECTOR</name>
+        <initializer>(1024U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of words in a sector. (16 pages * 64 words = 1024 words) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="91" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___f_l_a_s_h_1ga1ef5e96ac5c0fd9dd006a9c3aead2a9d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FLASH_EVENT_t</name>
+        <enumvalue id="group___f_l_a_s_h_1gga1ef5e96ac5c0fd9dd006a9c3aead2a9dac7785d858af40ee0b8897931f58f1add" prot="public">
+          <name>XMC_FLASH_EVENT_READY</name>
+          <initializer>= NVM_NVMCONF_INT_ON_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Generates the NVM ready interrupts on flash sequence completion </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines NVM ready interrupt event. Use type <emphasis>XMC_FLASH_EVENT_t</emphasis> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="132" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_l_a_s_h_1gab0c36057e8d3848002e1bad7221badf9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FLASH_HARDREAD_LEVEL_t</name>
+        <enumvalue id="group___f_l_a_s_h_1ggab0c36057e8d3848002e1bad7221badf9a35f5a67f64daf0ee5a278816750ec2a8" prot="public">
+          <name>XMC_FLASH_HARDREAD_LEVEL_NORMAL</name>
+          <initializer>= (uint16_t)0x0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No <emphasis>hardread</emphasis> level verification enabled (Normal read) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggab0c36057e8d3848002e1bad7221badf9a2566fede36c5e94f1d0024869a69d3dd" prot="public">
+          <name>XMC_FLASH_HARDREAD_LEVEL_WRITTEN</name>
+          <initializer>= (uint16_t)0x1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables strict margin compare for written data cells </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggab0c36057e8d3848002e1bad7221badf9a576df2bd0dcf62e147fb2eba3e1770dd" prot="public">
+          <name>XMC_FLASH_HARDREAD_LEVEL_ERASED</name>
+          <initializer>= (uint16_t)0x2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables strict margin compare for erased data cells </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines hard read levels for strict data verification. Use type <emphasis>XMC_FLASH_HARDREAD_LEVEL_t</emphasis> for this enum. These <emphasis>hardread</emphasis> levels provide some margin to ensure that the data is really programmed with suitably distinct levels for written and erased bits. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="142" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_l_a_s_h_1gaec69607b9daecffb4215faca73d02ebc" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FLASH_STATUS_t</name>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebca083aba939fe424ed79247a2c2ae27807" prot="public">
+          <name>XMC_FLASH_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Flash related operation was successfully completed </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcaf9f87eda000da5d7cb50aed5d8d58835" prot="public">
+          <name>XMC_FLASH_STATUS_BUSY</name>
+          <initializer>= NVM_NVMSTATUS_BUSY_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Cannot execute the flash request because another operation is in progress </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcaac366f040e019a43084cac0959b51ce1" prot="public">
+          <name>XMC_FLASH_STATUS_SLEEP_MODE</name>
+          <initializer>= NVM_NVMSTATUS_SLEEP_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Flash is in sleep mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebca1bb4dde4b92f4e55b5f4ca9c8a7066f0" prot="public">
+          <name>XMC_FLASH_STATUS_VERIFY_ERROR</name>
+          <initializer>= NVM_NVMSTATUS_VERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Flash reported a verification failure </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebca8f630d2de1490fad7c5177ab40ba526a" prot="public">
+          <name>XMC_FLASH_STATUS_ECC1_READ_ERROR</name>
+          <initializer>= NVM_NVMSTATUS_ECC1READ_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Flash reports a single bit failure, and it is automatically corrected. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcaa617dbe3ef66c6652ce6f14c0809ab21" prot="public">
+          <name>XMC_FLASH_STATUS_ECC2_READ_ERROR</name>
+          <initializer>= NVM_NVMSTATUS_ECC2READ_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Flash reported at least two bit failure </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcae985a7ab48f1505274690d83dffb1319" prot="public">
+          <name>XMC_FLASH_STATUS_WRITE_PROTOCOL_ERROR</name>
+          <initializer>= NVM_NVMSTATUS_WRPERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Write/Verify operation on a block is failed due to protocol violations or write protected sectors </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the status of flash, to verify the flash related API calls. Use type <emphasis>XMC_FLASH_STATUS_t</emphasis> for this enum. The members defines the respective masked status bits of <emphasis>NVMSTATUS</emphasis> register. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="113" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="112" bodyend="126"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___f_l_a_s_h_1gae0073bec84d093e51c76769d076d8df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_EnterSleepMode</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FLASH_EnterSleepMode</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the flash to enter into sleep mode by resetting the NVMCONF register NVM_ON bit.<linebreak/>
+<linebreak/>
+ Flash can wake up from sleep mode on any flash operation completion ready event trigger. To disable the sleep mode any time during execution call the API <ref refid="group___f_l_a_s_h_1ga032a6acea8c8b125cde1da5941f89c30" kindref="member">XMC_FLASH_ExitSleepMode()</ref>.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___f_l_a_s_h_1ga032a6acea8c8b125cde1da5941f89c30" kindref="member">XMC_FLASH_ExitSleepMode()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="360" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="360" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga1d782bca8ed5b31fca6fa58cf6106b7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_FLASH_ErasePage</definition>
+        <argsstring>(uint32_t *address)</argsstring>
+        <name>XMC_FLASH_ErasePage</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of the page to be erased</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status of operation (NVM_STATUS)</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Erases a single flash page associated to the specified <emphasis>address</emphasis>.<linebreak/>
+<linebreak/>
+ XMC1000 Flash can be erased with granularity of one page = 16 blocks of 16 Bytes = 256 Bytes using this API. It internally calls the Flash Firmware routine <emphasis>XMC1000_NvmErasePage(unsigned long pageAddr)</emphasis> to perform the erase operation. Refer XMC1000 reference manual for more details on flash firmware routines (Section 25.3). Call <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API, to verify the erase operation.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___f_l_a_s_h_1ga581a2ddaeddb1b1ea1fe31ec222521d7" kindref="member">XMC_FLASH_ErasePages()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="323" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga581a2ddaeddb1b1ea1fe31ec222521d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_FLASH_ErasePages</definition>
+        <argsstring>(uint32_t *address, uint32_t num_pages)</argsstring>
+        <name>XMC_FLASH_ErasePages</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_pages</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of the flash page from where the erase starts </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_pages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of pages to be erased.<linebreak/>
+ Range: [1 to (flash size / 256)]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status of operation (NVM_STATUS)</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Erases a set of flash memory pages.<linebreak/>
+<linebreak/>
+ Erase starts from the specified <emphasis>address</emphasis>. It erases a maximum number of <emphasis>num_pages</emphasis> flash pages. The maximum erasable pages are limited to microcontroller flash size. It sets NVMPROG register to continuous page erase mode before erase and resets it action back to normal state on completion. Call <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> after calling this API to verify the erase operation.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Flash will be in busy state during erase operation. Hence no operations on flash are allowed until it completes.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___f_l_a_s_h_1gaf697ad9d71bc470ac59e0014bac57d43" kindref="member">XMC_FLASH_EraseSector()</ref>, <ref refid="group___f_l_a_s_h_1ga1d782bca8ed5b31fca6fa58cf6106b7b" kindref="member">XMC_FLASH_ErasePage()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="220" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1gaf697ad9d71bc470ac59e0014bac57d43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_FLASH_EraseSector</definition>
+        <argsstring>(uint32_t *address)</argsstring>
+        <name>XMC_FLASH_EraseSector</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of the page to be erased.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status of operation (NVM_STATUS)</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Erases a complete sector starting from the <emphasis>address</emphasis> specified.<linebreak/>
+<linebreak/>
+ XMC1000 Flash can be erased with granularity of one page = 16 blocks of 16 Bytes = 256 Bytes using this API. It internally calls XMC_FLASH_ErasePages API 16 times starting from the first page of the sector.. Call <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API, to verify the erase operation.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___f_l_a_s_h_1ga581a2ddaeddb1b1ea1fe31ec222521d7" kindref="member">XMC_FLASH_ErasePages()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="193" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga032a6acea8c8b125cde1da5941f89c30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_ExitSleepMode</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FLASH_ExitSleepMode</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the flash to exit from sleep mode by setting the NVMCONF register NVM_ON bit.<linebreak/>
+<linebreak/>
+ Calling the API <ref refid="group___f_l_a_s_h_1gae0073bec84d093e51c76769d076d8df7" kindref="member">XMC_FLASH_EnterSleepMode()</ref> allows the flash to renter into sleep mode.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___f_l_a_s_h_1gae0073bec84d093e51c76769d076d8df7" kindref="member">XMC_FLASH_EnterSleepMode()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="379" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="379" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1gabc93e46f19331fe15be8cd0f2a8fa28b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_FLASH_GetSectorAddress</definition>
+        <argsstring>(uint32_t sector)</argsstring>
+        <name>XMC_FLASH_GetSectorAddress</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>sector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flash sector number for which the address extraction is needed<linebreak/>
+ Range: [0 to 51]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Starting address of the sector specified<linebreak/>
+ Range: [0x10001000 to 0x10032000]</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Finds the starting address of the specified <emphasis>sector</emphasis> number.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>&lt; Starting address of flash for XMC1 family of microcontrollers</para>
+<para>&lt; Number of bytes in a sector. (16 pages * 256 bytes = 4096 bytes) </para>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="398" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="398" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga4374da8ed15f78a182dce3b262d4b6fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_FLASH_ProgramPage</definition>
+        <argsstring>(uint32_t *address, const uint32_t *data)</argsstring>
+        <name>XMC_FLASH_ProgramPage</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of flash page from where the programming starts. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the source address where targeted data is located.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status of operation (NVM_STATUS)</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Programs a single flash page associated with the specified <emphasis>address</emphasis>.<linebreak/>
+<linebreak/>
+ XMC1000 Flash can be programmed with one page (256 bytes) using this API. It calls the Flash Firmware routine <emphasis>XMC1000_NvmProgVerify(unsigned long pageAddr)</emphasis> to perform the programming. Refer XMC1000 reference manual of for more details on flash firmware routines (Section 25.3). Call <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API, to verify the programming operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Flash will be busy state during write is ongoing, hence no operations allowed until it completes.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="176" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1gab5d0302105a5696744a6dcfae19db64f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_FLASH_ProgramVerifyPage</definition>
+        <argsstring>(uint32_t *address, const uint32_t *data)</argsstring>
+        <name>XMC_FLASH_ProgramVerifyPage</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of flash page from where the programming starts. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the source address where targeted data blocks are located.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Status of operation (NVM_STATUS)</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Erases, programs and verifies a single flash page starting from the <emphasis>address</emphasis> specified.<linebreak/>
+<linebreak/>
+ XMC1000 Flash can be programmed with granularity of one page = 16 blocks of 16 Bytes = 256 Bytes using this API. It internally calls the Flash Firmware routine <emphasis>XMC1000_NvmProgVerify(unsigned long pageAddr)</emphasis> to perform the programming. Refer XMC1000 reference manual of for more details on flash firmware routines (Section 25.3). Call <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API, to verify the erase operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="343" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga90cec357405f2edafa4aa96cc3e1de1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_ReadBlocks</definition>
+        <argsstring>(uint32_t *address, uint32_t *data, uint32_t num_blocks)</argsstring>
+        <name>XMC_FLASH_ReadBlocks</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_blocks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of flash block from where the read starts. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the destination address, where the read data blocks to be stored. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of blocks to be read.<linebreak/>
+ Range: [1 to (flash size / 16)]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads multiple blocks from flash in one shot, starting from the <emphasis>address</emphasis> specified.<linebreak/>
+<linebreak/>
+ The read blocks are stored into the locations starting from the <emphasis>data</emphasis> address. Calling <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API verifies the read operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="284" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga4dc344064838670ac3b0d7b4c2c9a0fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_FLASH_ReadWord</definition>
+        <argsstring>(const uint32_t *const address)</argsstring>
+        <name>XMC_FLASH_ReadWord</name>
+        <param>
+          <type>const uint32_t *const</type>
+          <declname>address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the flash word address from where the read is expected</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><linebreak/>
+ a 32bit data word stored in the specified <emphasis>address</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads a single word from the specified flash<emphasis>address</emphasis>.<linebreak/>
+<linebreak/>
+ Calling <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API returns the read status.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___f_l_a_s_h_1ga90cec357405f2edafa4aa96cc3e1de1d" kindref="member">XMC_FLASH_ReadBlocks()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="302" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="302" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1gab71e15fdc8ded3ce14f2f697f6ff3027" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_SetHardReadLevel</definition>
+        <argsstring>(XMC_FLASH_HARDREAD_LEVEL_t level)</argsstring>
+        <name>XMC_FLASH_SetHardReadLevel</name>
+        <param>
+          <type><ref refid="group___f_l_a_s_h_1gab0c36057e8d3848002e1bad7221badf9" kindref="member">XMC_FLASH_HARDREAD_LEVEL_t</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hard read levels specified in <emphasis>XMC_FLASH_HARDREAD_LEVEL_t</emphasis>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the hard read level for verification process.<linebreak/>
+<linebreak/>
+ It insists the flash to do a strict margin compare with the written/erased data against the internal buffer. Sets the NVMCONF register HRLEV field with <emphasis>level</emphasis> value. This hardread level is used until the end of the verification sequence and, may not be changed in between.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="441" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="441" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1gab05fe59c132f2f7d9e5b8a5896aa4796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_SetSectorProtection</definition>
+        <argsstring>(uint32_t num_sectors)</argsstring>
+        <name>XMC_FLASH_SetSectorProtection</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_sectors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_sectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of sectors to be protected<linebreak/>
+ Range: [0 to 51]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Protect the flash sectors starting from 0th sector to the specified <emphasis>num_sectors</emphasis>.<linebreak/>
+<linebreak/>
+ It sets the NVMCONF register SECPROT field with the value specified in <emphasis>num_sectors</emphasis>. Changing the protection limit can be achieved by calling this API at runtime with a different value of <emphasis>num_sectors</emphasis>.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="419" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" bodystart="419" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga7159be439f872a52db4b20f74477e75d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_VerifyBlocks</definition>
+        <argsstring>(uint32_t *address, const uint32_t *data, uint32_t num_blocks)</argsstring>
+        <name>XMC_FLASH_VerifyBlocks</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_blocks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of flash block from where the verification starts. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the source address where targeted data blocks are located. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of flash blocks writes needed.<linebreak/>
+ Range: [1 to (flash size / 16)]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Performs verification of written data blocks.<linebreak/>
+<linebreak/>
+ After calling <ref refid="group___f_l_a_s_h_1ga9d23629533ee3a703972649db4372ebe" kindref="member">XMC_FLASH_WriteBlocks()</ref> API, calling this API will verify the correctness of written blocks. It sets the <emphasis>NVMPROG</emphasis> register into continuous block write mode before write and resets it action back to normal state on completion. It reads back the written data blocks from the flash and verify the values against the internal buffer values. Calling <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API validates the result of verification.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="264" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_l_a_s_h_1ga9d23629533ee3a703972649db4372ebe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FLASH_WriteBlocks</definition>
+        <argsstring>(uint32_t *address, const uint32_t *data, uint32_t num_blocks, bool verify)</argsstring>
+        <name>XMC_FLASH_WriteBlocks</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_blocks</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verify</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the starting address of flash block from where the write starts. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the source address where targeted data blocks are located. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of flash block writes needed.<linebreak/>
+ Range: [1 to (flash size / 16)] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verify</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If <emphasis>true</emphasis>, hardware verification after block write is enabled else disabled.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Writes a set of data blocks into the flash.<linebreak/>
+<linebreak/>
+ Minimum possible writable area is 16 byte block. It sets the NVMPROG register to continuous block write mode before write and resets it action back to normal state on completion. Call <ref refid="group___f_l_a_s_h_1ga50275a88263d4fdfb85261d352eac1d5" kindref="member">XMC_FLASH_GetStatus()</ref> API after calling this API to verify the erase operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>Flash will be busy state during write is ongoing, hence no operations allowed until it completes.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h" line="243" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2019-12-02 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="61"><highlight class="preprocessor">#ifndef<sp/>XMC1_FLASH_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC1_FLASH_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="65"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="66"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>UC_FAMILY<sp/>==<sp/>XMC1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;XMC1000_RomFunctionTable.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="81"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="82"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_FLASH_PAGES_PER_SECTOR<sp/>(16U)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="preprocessor">#define<sp/>XMC_FLASH_BLOCKS_PER_PAGE<sp/><sp/>(16U)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="preprocessor">#define<sp/>XMC_FLASH_BYTES_PER_SECTOR<sp/>(4096U)<sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="preprocessor">#define<sp/>XMC_FLASH_BYTES_PER_PAGE<sp/><sp/><sp/>(256U)<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="preprocessor">#define<sp/>XMC_FLASH_BYTES_PER_BLOCK<sp/><sp/>(16U)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="preprocessor">#define<sp/>XMC_FLASH_WORDS_PER_SECTOR<sp/>(1024U)<sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="preprocessor">#define<sp/>XMC_FLASH_WORDS_PER_PAGE<sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="preprocessor">#define<sp/>XMC_FLASH_WORDS_PER_BLOCK<sp/><sp/>(4U)<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="preprocessor">#define<sp/>FLASH_BLOCK_ADDR_MASK<sp/><sp/><sp/><sp/><sp/><sp/>(15U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/><sp/>Bitwise<sp/>AND<sp/>with<sp/>block<sp/>address<sp/>is<sp/>done<sp/>to<sp/>check<sp/>the<sp/>address<sp/>alignment.</highlight></codeline>
+<codeline lineno="96"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Applicable<sp/>to<sp/>XMC_FLASH_WriteBlocks()<sp/>and<sp/>XMC_FLASH_VerifyBlocks()</highlight></codeline>
+<codeline lineno="97"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>APIs.*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FLASH_PAGE_ADDR_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(255U)<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/><sp/>Bitwise<sp/>AND<sp/>with<sp/>page<sp/>address<sp/>is<sp/>done<sp/>to<sp/>check<sp/>the<sp/>address<sp/>alignment.</highlight></codeline>
+<codeline lineno="99"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Applicable<sp/>to<sp/>XMC_FLASH_ErasePages()<sp/>API.*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FLASH_SECTOR_ADDR_MASK<sp/><sp/><sp/><sp/><sp/>(4095U)<sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/><sp/>Bitwise<sp/>AND<sp/>with<sp/>sector<sp/>address<sp/>is<sp/>done<sp/>to<sp/>check<sp/>the<sp/>address<sp/>alignment.</highlight></codeline>
+<codeline lineno="101"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Applicable<sp/>to<sp/>XMC_FLASH_EraseSector<sp/>API.*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_FLASH_BASE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x10001000U)<sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="preprocessor"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="106"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_FLASH_STATUS</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebca083aba939fe424ed79247a2c2ae27807" kindref="member">XMC_FLASH_STATUS_OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcaf9f87eda000da5d7cb50aed5d8d58835" kindref="member">XMC_FLASH_STATUS_BUSY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>NVM_NVMSTATUS_BUSY_Msk,<sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcaac366f040e019a43084cac0959b51ce1" kindref="member">XMC_FLASH_STATUS_SLEEP_MODE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>NVM_NVMSTATUS_SLEEP_Msk,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebca1bb4dde4b92f4e55b5f4ca9c8a7066f0" kindref="member">XMC_FLASH_STATUS_VERIFY_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>NVM_NVMSTATUS_VERR_Msk,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebca8f630d2de1490fad7c5177ab40ba526a" kindref="member">XMC_FLASH_STATUS_ECC1_READ_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>NVM_NVMSTATUS_ECC1READ_Msk,<sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcaa617dbe3ef66c6652ce6f14c0809ab21" kindref="member">XMC_FLASH_STATUS_ECC2_READ_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>NVM_NVMSTATUS_ECC2READ_Msk,<sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggaec69607b9daecffb4215faca73d02ebcae985a7ab48f1505274690d83dffb1319" kindref="member">XMC_FLASH_STATUS_WRITE_PROTOCOL_ERROR</ref><sp/>=<sp/>NVM_NVMSTATUS_WRPERR_Msk,<sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/><ref refid="group___f_l_a_s_h_1gaec69607b9daecffb4215faca73d02ebc" kindref="member">XMC_FLASH_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_FLASH_EVENT</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1gga1ef5e96ac5c0fd9dd006a9c3aead2a9dac7785d858af40ee0b8897931f58f1add" kindref="member">XMC_FLASH_EVENT_READY</ref><sp/>=<sp/>NVM_NVMCONF_INT_ON_Msk<sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/><ref refid="group___f_l_a_s_h_1ga1ef5e96ac5c0fd9dd006a9c3aead2a9d" kindref="member">XMC_FLASH_EVENT_t</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_FLASH_HARDREAD_LEVEL</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggab0c36057e8d3848002e1bad7221badf9a35f5a67f64daf0ee5a278816750ec2a8" kindref="member">XMC_FLASH_HARDREAD_LEVEL_NORMAL</ref><sp/><sp/>=<sp/>(uint16_t)0x0,<sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggab0c36057e8d3848002e1bad7221badf9a2566fede36c5e94f1d0024869a69d3dd" kindref="member">XMC_FLASH_HARDREAD_LEVEL_WRITTEN</ref><sp/>=<sp/>(uint16_t)0x1,<sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><ref refid="group___f_l_a_s_h_1ggab0c36057e8d3848002e1bad7221badf9a576df2bd0dcf62e147fb2eba3e1770dd" kindref="member">XMC_FLASH_HARDREAD_LEVEL_ERASED</ref><sp/><sp/>=<sp/>(uint16_t)0x2<sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/><ref refid="group___f_l_a_s_h_1gab0c36057e8d3848002e1bad7221badf9" kindref="member">XMC_FLASH_HARDREAD_LEVEL_t</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="149"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="150"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">int32_t<sp/><ref refid="group___f_l_a_s_h_1ga4374da8ed15f78a182dce3b262d4b6fa" kindref="member">XMC_FLASH_ProgramPage</ref>(uint32_t<sp/>*address,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>*data);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">int32_t<sp/><ref refid="group___f_l_a_s_h_1gaf697ad9d71bc470ac59e0014bac57d43" kindref="member">XMC_FLASH_EraseSector</ref>(uint32_t<sp/>*address);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">int32_t<sp/><ref refid="group___f_l_a_s_h_1ga581a2ddaeddb1b1ea1fe31ec222521d7" kindref="member">XMC_FLASH_ErasePages</ref>(uint32_t<sp/>*address,<sp/>uint32_t<sp/>num_pages);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1ga9d23629533ee3a703972649db4372ebe" kindref="member">XMC_FLASH_WriteBlocks</ref>(uint32_t<sp/>*address,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>*data,<sp/>uint32_t<sp/>num_blocks,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verify);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1ga7159be439f872a52db4b20f74477e75d" kindref="member">XMC_FLASH_VerifyBlocks</ref>(uint32_t<sp/>*address,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>*data,<sp/>uint32_t<sp/>num_blocks);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1ga90cec357405f2edafa4aa96cc3e1de1d" kindref="member">XMC_FLASH_ReadBlocks</ref>(uint32_t<sp/>*address,<sp/>uint32_t<sp/>*data,<sp/>uint32_t<sp/>num_blocks);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___f_l_a_s_h_1ga4dc344064838670ac3b0d7b4c2c9a0fb" kindref="member">XMC_FLASH_ReadWord</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>address)</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*address;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">int32_t<sp/><ref refid="group___f_l_a_s_h_1ga1d782bca8ed5b31fca6fa58cf6106b7b" kindref="member">XMC_FLASH_ErasePage</ref>(uint32_t<sp/>*address);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal">int32_t<sp/><ref refid="group___f_l_a_s_h_1gab5d0302105a5696744a6dcfae19db64f" kindref="member">XMC_FLASH_ProgramVerifyPage</ref>(uint32_t<sp/>*address,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>*data);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1gae0073bec84d093e51c76769d076d8df7" kindref="member">XMC_FLASH_EnterSleepMode</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/>NVM-&gt;NVMCONF<sp/>&amp;=<sp/>(uint16_t)(~(uint32_t)NVM_NVMCONF_NVM_ON_Msk);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1ga032a6acea8c8b125cde1da5941f89c30" kindref="member">XMC_FLASH_ExitSleepMode</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/>NVM-&gt;NVMCONF<sp/>|=<sp/>(uint16_t)NVM_NVMCONF_NVM_ON_Msk;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___f_l_a_s_h_1gabc93e46f19331fe15be8cd0f2a8fa28b" kindref="member">XMC_FLASH_GetSectorAddress</ref>(uint32_t<sp/>sector)</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="group___f_l_a_s_h_1ga04349ce03dfa72d4f921e26fab7bb908" kindref="member">XMC_FLASH_BASE</ref><sp/>+<sp/>(<ref refid="group___f_l_a_s_h_1ga3c8a7688649dce67701e362968ed8b71" kindref="member">XMC_FLASH_BYTES_PER_SECTOR</ref><sp/>*<sp/>sector));</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1gab05fe59c132f2f7d9e5b8a5896aa4796" kindref="member">XMC_FLASH_SetSectorProtection</ref>(uint32_t<sp/>num_sectors)</highlight></codeline>
+<codeline lineno="420"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/>NVM-&gt;NVMCONF<sp/>&amp;=<sp/>(~(uint16_t)NVM_NVMCONF_SECPROT_Msk);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/>NVM-&gt;NVMCONF<sp/>|=<sp/>(uint16_t)((uint16_t)num_sectors<sp/>&lt;&lt;<sp/>NVM_NVMCONF_SECPROT_Pos);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___f_l_a_s_h_1gab71e15fdc8ded3ce14f2f697f6ff3027" kindref="member">XMC_FLASH_SetHardReadLevel</ref>(<ref refid="group___f_l_a_s_h_1gab0c36057e8d3848002e1bad7221badf9" kindref="member">XMC_FLASH_HARDREAD_LEVEL_t</ref><sp/>level)</highlight></codeline>
+<codeline lineno="442"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/>NVM-&gt;NVMCONF<sp/>&amp;=<sp/>(uint16_t)(~(uint16_t)NVM_NVMCONF_HRLEV_Msk);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/>NVM-&gt;NVMCONF<sp/>|=<sp/>(uint16_t)(level<sp/>&lt;&lt;<sp/>(uint16_t)NVM_NVMCONF_HRLEV_Pos);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="448"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>FLASH_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_flash.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SDMMC_RESPONSE_t</compoundname>
+    <includes local="no">xmc_sdmmc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1a841b2eed974d0e00c65f2884148bf1c7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t response_0</definition>
+        <argsstring></argsstring>
+        <name>response_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="618" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="618" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1a2e2c9b816e0821b2583a05e33d4dbc83" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t response_2</definition>
+        <argsstring></argsstring>
+        <name>response_2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="619" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="619" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1acb0f13b590e46ab5f745b5e9024dab9c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t response_4</definition>
+        <argsstring></argsstring>
+        <name>response_4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="620" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="620" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1a4a94bd9b2b3d88b1182d681baa8ed289" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t response_6</definition>
+        <argsstring></argsstring>
+        <name>response_6</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="621" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="621" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Card response structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="617" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="616" bodyend="622"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1a841b2eed974d0e00c65f2884148bf1c7" prot="public" virt="non-virtual"><scope>XMC_SDMMC_RESPONSE_t</scope><name>response_0</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1a2e2c9b816e0821b2583a05e33d4dbc83" prot="public" virt="non-virtual"><scope>XMC_SDMMC_RESPONSE_t</scope><name>response_2</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1acb0f13b590e46ab5f745b5e9024dab9c" prot="public" virt="non-virtual"><scope>XMC_SDMMC_RESPONSE_t</scope><name>response_4</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t_1a4a94bd9b2b3d88b1182d681baa8ed289" prot="public" virt="non-virtual"><scope>XMC_SDMMC_RESPONSE_t</scope><name>response_6</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_GROUP_CONFIG_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a34212ed1b38f04dbbc2c2dfacf31b0c4" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_GROUP_CONFIG_t::@327</type>
+        <definition>union XMC_VADC_GROUP_CONFIG_t::@327 @328</definition>
+        <argsstring></argsstring>
+        <name>@328</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1215" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a6deeaed37b9ac264f17a00de50d50294" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_GROUP_CONFIG_t::@329</type>
+        <definition>union XMC_VADC_GROUP_CONFIG_t::@329 @330</definition>
+        <argsstring></argsstring>
+        <name>@330</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1228" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1210" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1212" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 24</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1225" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a036485109eb610432834b802fe41091e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t arbiter_mode</definition>
+        <argsstring></argsstring>
+        <name>arbiter_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Arbiter mode - Select either Continuous mode or Demand based. Uses <ref refid="group___v_a_d_c_1gaeab802d00faa3aad6269c620a15a381b" kindref="member">XMC_VADC_GROUP_ARBMODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1223" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1af488a892a083f03bec1fb340dc7d999d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t arbitration_round_length</definition>
+        <argsstring></argsstring>
+        <name>arbitration_round_length</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of arbiter slots to be considered </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1221" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1afa1f8d0e8c195a4e11c173e796a0ccfa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t boundary0</definition>
+        <argsstring></argsstring>
+        <name>boundary0</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Boundary value for results comparison </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1209" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a526defd6dde917b2a3eb34bb6da90f83" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t boundary1</definition>
+        <argsstring></argsstring>
+        <name>boundary1</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Boundary value for results comparison </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1211" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a44b6e97897bc3fc1292e5cecea536f68" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_l_a_s_s__t" kindref="compound">XMC_VADC_GROUP_CLASS_t</ref></type>
+        <definition>XMC_VADC_GROUP_CLASS_t class0</definition>
+        <argsstring></argsstring>
+        <name>class0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ADC input conversion configurations for GxICLASS[0] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1203" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1aaf5ebade60ced173c84a643bd5badd73" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_l_a_s_s__t" kindref="compound">XMC_VADC_GROUP_CLASS_t</ref></type>
+        <definition>XMC_VADC_GROUP_CLASS_t class1</definition>
+        <argsstring></argsstring>
+        <name>class1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ADC input conversion configurations for GxICLASS[1] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1204" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1ac8bb4a20f80378f827f717f85f44de7a" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t" kindref="compound">XMC_VADC_GROUP_EMUXCFG_t</ref></type>
+        <definition>XMC_VADC_GROUP_EMUXCFG_t emux_config</definition>
+        <argsstring></argsstring>
+        <name>emux_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>External multiplexer related configurations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1202" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a40ddc9450de74928ae36b5515cd75796" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_arbcfg</definition>
+        <argsstring></argsstring>
+        <name>g_arbcfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1227" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1abfe965baccb63bb7a16c17ee24ce90f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_bound</definition>
+        <argsstring></argsstring>
+        <name>g_bound</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1214" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1214" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Group Configuration Data Structures </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="237">
+        <label>XMC_VADC_GROUP_CONFIG_t</label>
+        <link refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t"/>
+        <childnode refid="238" relation="usage">
+          <edgelabel>class0</edgelabel>
+          <edgelabel>class1</edgelabel>
+        </childnode>
+        <childnode refid="239" relation="usage">
+          <edgelabel>emux_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="238">
+        <label>XMC_VADC_GROUP_CLASS_t</label>
+        <link refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_l_a_s_s__t"/>
+      </node>
+      <node id="239">
+        <label>XMC_VADC_GROUP_EMUXCFG_t</label>
+        <link refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1201" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1200" bodyend="1229"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a036485109eb610432834b802fe41091e" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>arbiter_mode</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1af488a892a083f03bec1fb340dc7d999d" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>arbitration_round_length</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1afa1f8d0e8c195a4e11c173e796a0ccfa" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>boundary0</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a526defd6dde917b2a3eb34bb6da90f83" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>boundary1</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a44b6e97897bc3fc1292e5cecea536f68" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>class0</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1aaf5ebade60ced173c84a643bd5badd73" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>class1</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1ac8bb4a20f80378f827f717f85f44de7a" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>emux_config</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1a40ddc9450de74928ae36b5515cd75796" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>g_arbcfg</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___c_o_n_f_i_g__t_1abfe965baccb63bb7a16c17ee24ce90f7" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_CONFIG_t</scope><name>g_bound</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

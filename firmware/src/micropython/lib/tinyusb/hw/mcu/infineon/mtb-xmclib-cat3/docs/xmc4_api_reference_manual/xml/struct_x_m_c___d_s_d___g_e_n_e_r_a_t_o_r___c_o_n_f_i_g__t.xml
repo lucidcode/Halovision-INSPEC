@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DSD_GENERATOR_CONFIG_t</compoundname>
+    <includes local="no">xmc_dsd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a110d237c500614b82e320ad132340a14" prot="public" static="no" mutable="no">
+        <type>union XMC_DSD_GENERATOR_CONFIG_t::@76</type>
+        <definition>union XMC_DSD_GENERATOR_CONFIG_t::@76 @77</definition>
+        <argsstring></argsstring>
+        <name>@77</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="408" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 24</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="405" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a35e60d84658d7ee5c07092fdf99e2054" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bit_reverse</definition>
+        <argsstring></argsstring>
+        <name>bit_reverse</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>should PWM signal be bit-reversed? 0: Normal mode, 1:Bit-reverse mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="402" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1ab632fb0b4d5156ea4df0b1e15410e913" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Frequency divider value of PWM signal. This parameter can take a value of XMC_DSD_GENERATOR_CLKDIV_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="404" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a4cfd067f20c08d936b89fd5176ece465" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t generator_conf</definition>
+        <argsstring></argsstring>
+        <name>generator_conf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Carrier generator configuration register(CGCFG) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="407" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1ab5fe405f790eb71c879f6319a45599b0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t inverted_polarity</definition>
+        <argsstring></argsstring>
+        <name>inverted_polarity</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>should PWM signal start from negative max. 0: Normal, 1: Inverted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="403" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a6b29e4f37f4482274af785ad5ffe96a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>carrier generator operating mode. This parameter can take a value of XMC_DSD_GENERATOR_MODE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="401" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DSD generator generates several pattern and frequencies. Use type <ref refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t" kindref="compound">XMC_DSD_GENERATOR_CONFIG_t</ref> for this data structure. Note: Output pins have to be enabled by user. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="396" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="395" bodyend="409"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DSD_GENERATOR_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a35e60d84658d7ee5c07092fdf99e2054" prot="public" virt="non-virtual"><scope>XMC_DSD_GENERATOR_CONFIG_t</scope><name>bit_reverse</name></member>
+      <member refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1ab632fb0b4d5156ea4df0b1e15410e913" prot="public" virt="non-virtual"><scope>XMC_DSD_GENERATOR_CONFIG_t</scope><name>frequency</name></member>
+      <member refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a4cfd067f20c08d936b89fd5176ece465" prot="public" virt="non-virtual"><scope>XMC_DSD_GENERATOR_CONFIG_t</scope><name>generator_conf</name></member>
+      <member refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1ab5fe405f790eb71c879f6319a45599b0" prot="public" virt="non-virtual"><scope>XMC_DSD_GENERATOR_CONFIG_t</scope><name>inverted_polarity</name></member>
+      <member refid="struct_x_m_c___d_s_d___g_e_n_e_r_a_t_o_r___c_o_n_f_i_g__t_1a6b29e4f37f4482274af785ad5ffe96a7" prot="public" virt="non-virtual"><scope>XMC_DSD_GENERATOR_CONFIG_t</scope><name>mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

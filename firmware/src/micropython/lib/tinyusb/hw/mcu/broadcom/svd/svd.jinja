@@ -1,0 +1,6 @@
+{% macro derived_peripheral(name, base_address, derived_from) -%}
+        <peripheral derivedFrom="{{ derived_from }}">
+            <name>{{ name }}</name>
+            <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+        </peripheral>
+{%- endmacro %}

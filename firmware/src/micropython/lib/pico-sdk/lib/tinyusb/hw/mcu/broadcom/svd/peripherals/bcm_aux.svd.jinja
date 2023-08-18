@@ -1,0 +1,729 @@
+{% macro peripheral(base_address, interrupt_offset=0) -%}
+        <peripheral>
+            <name>AUX</name>
+            <description>Three auxiliary peripherals</description>
+            <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+            <addressBlock>
+                <offset>0</offset>
+                <size>0x40</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <interrupt>
+                <name>AUX</name>
+                <description>Interrupt from AUX</description>
+                <value>{{ interrupt_offset + 29 }}</value>
+            </interrupt>
+            <registers>
+                <register>
+                  <name>IRQ</name>
+                  <description>Interrupt status</description>
+                  <addressOffset>0x00</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                    <field>
+                        <name>SPI_2</name>
+                        <description>SPI2 interrupt active</description>
+                        <bitOffset>2</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    <field>
+                        <name>SPI_1</name>
+                        <description>SPI1 interrupt active</description>
+                        <bitOffset>1</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    <field>
+                        <name>UART_1</name>
+                        <description>UART1 interrupt active</description>
+                        <bitOffset>0</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                </fields>
+                </register>
+                <register>
+                  <name>ENABLES</name>
+                  <description>Enable sub-peripherals</description>
+                  <addressOffset>0x04</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                    <field>
+                        <name>SPI_2</name>
+                        <description>SPI2 enabled</description>
+                        <bitOffset>2</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    <field>
+                        <name>SPI_1</name>
+                        <description>SPI1 enabled</description>
+                        <bitOffset>1</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    <field>
+                        <name>UART_1</name>
+                        <description>UART1 enabled</description>
+                        <bitOffset>0</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                </fields>
+                </register>
+            </registers>
+        </peripheral>
+        <peripheral>
+            <name>UART1</name>
+            <description>Mini UART</description>
+            <baseAddress>{{ "0x{:x}".format(base_address + 0x40) }}</baseAddress>
+            <addressBlock>
+                <offset>0x00</offset>
+                <size>0x40</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>IO</name>
+                    <description>I/O Data</description>
+                    <addressOffset>0x00</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>DATA</name>
+                            <description>FIFO access</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>8</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>BAUDL</name>
+                    <description>Lower bits of baudrate when DLAB is set</description>
+                    <addressOffset>0x00</addressOffset>
+                    <alternateRegister>IO</alternateRegister>
+                    <size>8</size>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                </register>
+                <register>
+                    <name>IER</name>
+                    <description>Interrupt Enable</description>
+                    <addressOffset>0x04</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <!-- These bits are incorrect in the datasheets. -->
+                        <field>
+                            <name>TX_READY</name>
+                            <description>Transmit FIFO is empty</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DATA_READY</name>
+                            <description>Receive FIFO has at least 1 byte</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>BAUDH</name>
+                    <description>High bits of baudrate when DLAB is set</description>
+                    <addressOffset>0x04</addressOffset>
+                    <alternateRegister>IER</alternateRegister>
+                    <size>8</size>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                </register>
+                <register>
+                  <name>IIR</name>
+                  <description>Interrupt Identify</description>
+                  <addressOffset>0x08</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x0000b001</resetValue>
+                  <fields>
+                        <!-- These bits are incorrect in the datasheets. -->
+                        <field>
+                            <name>TX_READY</name>
+                            <description>Transmit FIFO is empty</description>
+                            <bitOffset>2</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DATA_READY</name>
+                            <description>Receive FIFO has at least 1 byte</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>nPENDING</name>
+                            <description>No pending interrupt</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>LCR</name>
+                  <description>Line control</description>
+                  <addressOffset>0x0c</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                        <field>
+                            <name>DLAB</name>
+                            <description>First two registers are baudrate</description>
+                            <bitOffset>7</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>BREAK</name>
+                            <description>Pull TX low continuously to send break</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DATA_SIZE</name>
+                            <description>UART word size</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues>
+                                <name>MODE</name>
+                                <enumeratedValue>
+                                    <name>7BIT</name>
+                                    <description>7 bit</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>8BIT</name>
+                                    <description>8 bit</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>MCR</name>
+                  <description>Modem Control</description>
+                  <addressOffset>0x10</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                        <field>
+                            <name>RTS</name>
+                            <description>RTS is low</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>LSR</name>
+                  <description>Line Status</description>
+                  <addressOffset>0x14</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                        <field>
+                            <name>TX_IDLE</name>
+                            <description>Transmit FIFO empty and all bits shifted out</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_EMPTY</name>
+                            <description>Transmit FIFO has room for at least one byte</description>
+                            <bitOffset>5</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_OVERRUN</name>
+                            <description>Receive FIFO overrun</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DATA_READY</name>
+                            <description>Receive FIFO has at least one byte</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>MSR</name>
+                  <description>Modem Status</description>
+                  <addressOffset>0x18</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                        <field>
+                            <name>CTS</name>
+                            <description>CTS is low</description>
+                            <bitOffset>4</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>SCRATCH</name>
+                  <description>Scratch</description>
+                  <addressOffset>0x1c</addressOffset>
+                  <size>8</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <!-- TODO: Add fields -->
+                </register>
+                <register>
+                    <name>CNTL</name>
+                    <description>Control</description>
+                    <addressOffset>0x20</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>CTS_ASSERT</name>
+                            <description>CTS assert level</description>
+                            <bitOffset>7</bitOffset>
+                            <bitWidth>1</bitWidth>
+                            <enumeratedValues>
+                                <name>ASSERT_LEVEL</name>
+                                <enumeratedValue>
+                                    <name>HIGH</name>
+                                    <description>Assert high</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>LOW</name>
+                                    <description>Assert low</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>RTS_ASSERT</name>
+                            <description>RTS assert level</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                            <enumeratedValues derivedFrom="UART1.CNTL.CTS_ASSERT.ASSERT_LEVEL"></enumeratedValues>
+                        </field>
+                        <field>
+                            <name>RTS_FIFO_LEVEL</name>
+                            <description>FIFO level to de-assert RTS</description>
+                            <bitOffset>4</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues>
+                                <name>FIFO_LEVEL</name>
+                                <enumeratedValue>
+                                    <name>3EMPTY</name>
+                                    <description>3 empty spaces</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>2EMPTY</name>
+                                    <description>2 empty spaces</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>1EMPTY</name>
+                                    <description>1 empty spaces</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>4EMPTY</name>
+                                    <description>4 empty spaces</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>CTS_ENABLE</name>
+                            <description>Enable auto transmit flow control with CTS</description>
+                            <bitOffset>3</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RTS_ENABLE</name>
+                            <description>Enable auto receive flow control with RTS</description>
+                            <bitOffset>2</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_ENABLE</name>
+                            <description>Enable transmit</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_ENABLE</name>
+                            <description>Enable receive</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>STAT</name>
+                  <description>Status</description>
+                  <addressOffset>0x24</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>TX_FIFO_LEVEL</name>
+                            <description>How many entries are filled in the TX FIFO</description>
+                            <bitOffset>24</bitOffset>
+                            <bitWidth>4</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_FIFO_LEVEL</name>
+                            <description>How many entries are filled in the RX FIFO</description>
+                            <bitOffset>16</bitOffset>
+                            <bitWidth>4</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_DONE</name>
+                            <description>Transmit FIFO is empty and transmitter is idle</description>
+                            <bitOffset>9</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_EMPTY</name>
+                            <description>Transmit FIFO is completely empty</description>
+                            <bitOffset>8</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>CTS_STATUS</name>
+                            <description>CTS state</description>
+                            <bitOffset>7</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RTS_STATUS</name>
+                            <description>RTS state</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_FULL</name>
+                            <description>Transmit FIFO is full</description>
+                            <bitOffset>5</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_OVERRUN</name>
+                            <description>Receive FIFO overrun</description>
+                            <bitOffset>4</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_IDLE</name>
+                            <description>Transmitter is idle</description>
+                            <bitOffset>3</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_IDLE</name>
+                            <description>Receiver is idle</description>
+                            <bitOffset>2</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_READY</name>
+                            <description>Transmit FIFO has space for at least one symbol</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DATA_READY</name>
+                            <description>Receive FIFO has at least one symbol</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>BAUD</name>
+                  <description>Baudrate</description>
+                  <addressOffset>0x28</addressOffset>
+                  <size>16</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                </register>
+            </registers>
+        </peripheral>
+        <peripheral>
+            <name>SPI1</name>
+            <description>Aux SPI</description>
+            <baseAddress>{{ "0x{:x}".format(base_address + 0x80) }}</baseAddress>
+            <addressBlock>
+                <offset>0x00</offset>
+                <size>0x40</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>CNTL0</name>
+                    <description>Control 0</description>
+                    <addressOffset>0x00</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <resetValue>0x000e0000</resetValue>
+                    <fields>
+                        <field>
+                            <name>SPEED</name>
+                            <description>SPI clock speed. clk = sys / 2 * (SPEED + 1)</description>
+                            <bitOffset>20</bitOffset>
+                            <bitWidth>12</bitWidth>
+                        </field>
+                        <field>
+                            <name>CHIP_SELECTS</name>
+                            <description>The CS pattern when active</description>
+                            <bitOffset>17</bitOffset>
+                            <bitWidth>3</bitWidth>
+                        </field>
+                        <field>
+                            <name>POST_INPUT</name>
+                            <description>Post input mode</description>
+                            <bitOffset>16</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>VARIABLE_CS</name>
+                            <description>Take CS pattern and data from TX FIFO (along with VARIABLE_WIDTH)</description>
+                            <bitOffset>15</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>VARIABLE_WIDTH</name>
+                            <description>Take shift length and data from FIFO</description>
+                            <bitOffset>14</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DOUT_HOLD_TIME</name>
+                            <description>Controls extra DOUT hold time in system clock cycles</description>
+                            <bitOffset>12</bitOffset>
+                            <bitWidth>2</bitWidth>
+                            <enumeratedValues>
+                                <enumeratedValue><name>0</name><value>0</value></enumeratedValue>
+                                <enumeratedValue><name>1</name><value>1</value></enumeratedValue>
+                                <enumeratedValue><name>4</name><value>2</value></enumeratedValue>
+                                <enumeratedValue><name>7</name><value>3</value></enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>ENABLE</name>
+                            <description>Enable the interface</description>
+                            <bitOffset>11</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>IN_RISING</name>
+                            <description>Data is clocked in on rising edge of CLK</description>
+                            <bitOffset>10</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>CLEAR_FIFOS</name>
+                            <description>Clear FIFOs</description>
+                            <bitOffset>9</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>OUT_RISING</name>
+                            <description>Data is clocked out on rising edge of CLK</description>
+                            <bitOffset>8</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>INVERT_CLK</name>
+                            <description>Idle clock high</description>
+                            <bitOffset>7</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>MSB_FIRST</name>
+                            <description>Shift out the most significant bit (MSB) first</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>SHIFT_LENGTH</name>
+                            <description>Number of bits to shift</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>6</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                  <name>CNTL1</name>
+                  <description>Control 1</description>
+                  <addressOffset>0x04</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>CS_HIGH_TIME</name>
+                            <description>Additional SPI clock cycles where CS is high</description>
+                            <bitOffset>8</bitOffset>
+                            <bitWidth>3</bitWidth>
+                        </field>
+                        <field>
+                            <name>TXE_ENABLE</name>
+                            <description>Enable TX empty interrupt</description>
+                            <bitOffset>7</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>DONE_ENABLE</name>
+                            <description>Enable DONE interrupt</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>MSB_FIRST</name>
+                            <description>Shift the most significant bit first (MSB)</description>
+                            <bitOffset>1</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>KEEP_INPUT</name>
+                            <description>Don't clear the RX shift register before a new transaction</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>STAT</name>
+                    <description>Status</description>
+                    <addressOffset>0x08</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>TX_LEVEL</name>
+                            <description>Number of entries in TX FIFO</description>
+                            <bitOffset>24</bitOffset>
+                            <bitWidth>4</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_LEVEL</name>
+                            <description>Number of entries in RX FIFO</description>
+                            <bitOffset>16</bitOffset>
+                            <bitWidth>4</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_FULL</name>
+                            <description>TX FIFO is full</description>
+                            <bitOffset>10</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>TX_EMPTY</name>
+                            <description>TX FIFO is empty</description>
+                            <bitOffset>9</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_FULL</name>
+                            <description>RX FIFO is full</description>
+                            <bitOffset>8</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>RX_EMPTY</name>
+                            <description>RX FIFO is empty</description>
+                            <bitOffset>7</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>BUSY</name>
+                            <description>Indicates a transfer is ongoing</description>
+                            <bitOffset>6</bitOffset>
+                            <bitWidth>1</bitWidth>
+                        </field>
+                        <field>
+                            <name>BIT_COUNT</name>
+                            <description>Number of bits left to be processed.</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>6</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>PEEK</name>
+                    <description>Read the RXFIFO without removing an entry</description>
+                    <addressOffset>0x0c</addressOffset>
+                    <size>32</size>
+                    <access>read-only</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>DATA</name>
+                            <description>FIFO data access</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>16</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>IO%s</name>
+                    <description>Writing to the FIFO will deassert CS at the end of the access</description>
+                    <addressOffset>0x10</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <dim>4</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>DATA</name>
+                            <description>FIFO data access</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>16</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>TXHOLD%s</name>
+                    <description>Writing to the FIFO will maintain CS at the end of the access</description>
+                    <addressOffset>0x20</addressOffset>
+                    <size>32</size>
+                    <access>read-write</access>
+                    <dim>4</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>DATA</name>
+                            <description>FIFO data access</description>
+                            <bitOffset>0</bitOffset>
+                            <bitWidth>16</bitWidth>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+        <peripheral derivedFrom="SPI1">
+            <name>SPI2</name>
+            <description>Aux SPI</description>
+            <baseAddress>{{ "0x{:x}".format(base_address + 0xc0) }}</baseAddress>
+        </peripheral>
+{% endmacro %}

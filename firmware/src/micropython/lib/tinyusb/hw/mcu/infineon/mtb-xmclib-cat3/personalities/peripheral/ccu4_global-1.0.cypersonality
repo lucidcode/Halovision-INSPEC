@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file ccu4_global-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* CCU4 global personality description file.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc_ccu4_global" name="CCU4 Global" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc_ccu4" />
+    <Resource name="ccu4"/>
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fCCU4" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamString id="module_num" name="CCU4 module index" group="Internal"
+      default="`${getInstNumber(&quot;ccu4&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="clock_resource" name="CCU Clock Resource" group="Internal"
+      default="scu[0].clock[0].ccuclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_error" name="Clock Error" group="Internal"
+      default="`${!isBlockUsed(clock_resource)}`" visible="false" editable="false" desc="" />
+
+    <!-- Peripheral documentation -->
+    <ParamDoc id="apiDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/`${lookupExpression(&quot;XMC1&quot;, 0) ? &quot;xmc1&quot; : &quot;xmc4&quot;}`_api_reference_manual/html/group___c_c_u4.html" linkText="Open CCU4 Documentation" visible="true" desc="Opens the XMC Peripheral Library Documentation" />
+
+    <!-- General -->
+    <ParamString id="fCCU4" name="Frequency (Hz)" group="General"
+      default="`${clock_error ? 0.0 : getExposedMember(clock_resource, &quot;frequency&quot;)}`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fCCU4)}`" visible="true" editable="false"
+      desc="Input frequency to CCU4 module from System Control Unit (SCU)." />
+    <ParamChoice id="mc_shadow_tx_function" name="Multi Channel Mode Shadow Transfer" group="General"
+      default="XMC_CCU4_SLICE_MCMS_ACTION_TRANSFER_PR_CR" visible="true" editable="true"
+      desc="Select this to allow the override of the status signal (CC4yST) with a value passed through an external signal. This will consume two events: one configured as edge that will act as trigger to override the status bit and the other configured as level that contains the value to be copied in the status bit." >
+      <Entry name="Period and Compare" value="XMC_CCU4_SLICE_MCMS_ACTION_TRANSFER_PR_CR" visible="true" />
+      <Entry name="Period, Compare and Prescaler" value="XMC_CCU4_SLICE_MCMS_ACTION_TRANSFER_PR_CR_PCMP" visible="true" />
+      <Entry name="Period, Compare, Prescaler and Dither" value="XMC_CCU4_SLICE_MCMS_ACTION_TRANSFER_PR_CR_PCMP_DIT" visible="true" />
+    </ParamChoice>
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="CCU4 source clock is not enabled" condition="`${clock_error}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${clock_resource}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="xmc_ccu4.h" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_NUM" value="`${module_num}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="CCU4`${module_num}`" public="true" include="true" />
+    <ConfigInstruction value="XMC_CCU4_Init(`${INST_NAME}`_HW, `${mc_shadow_tx_function}`);" include="true"/>
+    <ConfigInstruction value="XMC_CCU4_StartPrescaler(`${INST_NAME}`_HW);" include="true"/>
+  </ConfigFirmware>
+</Personality>

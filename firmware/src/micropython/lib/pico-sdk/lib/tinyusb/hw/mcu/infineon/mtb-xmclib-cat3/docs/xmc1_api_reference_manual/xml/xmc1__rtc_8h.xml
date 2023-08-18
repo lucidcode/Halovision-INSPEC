@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc1__rtc_8h" kind="file" language="C++">
+    <compoundname>xmc1_rtc.h</compoundname>
+    <includedby refid="xmc__rtc_8h" local="yes">xmc_rtc.h</includedby>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___r_t_c_1ga2f2c7d034888680751467b8226778f2a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_DEBUG_MODE_t</name>
+        <enumvalue id="group___r_t_c_1gga2f2c7d034888680751467b8226778f2aa8049e80e8fc6e7ef16eff40146b35b32" prot="public">
+          <name>XMC_RTC_RUN_IN_DEBUG_MODE</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RTC is not stopped during halting mode debug </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga2f2c7d034888680751467b8226778f2aa04d4f989e6cc62e6b133999741d8a6a0" prot="public">
+          <name>XMC_RTC_STOP_IN_DEBUG_MODE</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RTC is stopped during halting mode debug </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Debug mode status values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_rtc.h" line="71" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_rtc.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___r_t_c_1gafe70c1437b9b4af0c0c8ac85870d631c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetDebugMode</definition>
+        <argsstring>(const XMC_RTC_DEBUG_MODE_t debug_mode)</argsstring>
+        <name>XMC_RTC_SetDebugMode</name>
+        <param>
+          <type>const <ref refid="group___r_t_c_1ga2f2c7d034888680751467b8226778f2a" kindref="member">XMC_RTC_DEBUG_MODE_t</ref></type>
+          <declname>debug_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>debug_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Debug mode value containing in (<ref refid="group___r_t_c_1ga2f2c7d034888680751467b8226778f2a" kindref="member">XMC_RTC_DEBUG_MODE_t</ref>) to be set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Configures the RTC into running or stopping mode during halting mode debug <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CTR.SUS bitfield to configure the RTC into running or stopping mode during halting mode debug. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_rtc.h" line="95" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-05-20 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="54"><highlight class="preprocessor">#ifndef<sp/>XMC1_RTC_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC1_RTC_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="64"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="65"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_RTC_DEBUG_MODE</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga2f2c7d034888680751467b8226778f2aa8049e80e8fc6e7ef16eff40146b35b32" kindref="member">XMC_RTC_RUN_IN_DEBUG_MODE</ref><sp/><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><ref refid="group___r_t_c_1gga2f2c7d034888680751467b8226778f2aa04d4f989e6cc62e6b133999741d8a6a0" kindref="member">XMC_RTC_STOP_IN_DEBUG_MODE</ref><sp/>=<sp/>1U<sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}<sp/><ref refid="group___r_t_c_1ga2f2c7d034888680751467b8226778f2a" kindref="member">XMC_RTC_DEBUG_MODE_t</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="77"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="78"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1gafe70c1437b9b4af0c0c8ac85870d631c" kindref="member">XMC_RTC_SetDebugMode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___r_t_c_1ga2f2c7d034888680751467b8226778f2a" kindref="member">XMC_RTC_DEBUG_MODE_t</ref><sp/>debug_mode);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC1_RTC_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_rtc.h"/>
+  </compounddef>
+</doxygen>

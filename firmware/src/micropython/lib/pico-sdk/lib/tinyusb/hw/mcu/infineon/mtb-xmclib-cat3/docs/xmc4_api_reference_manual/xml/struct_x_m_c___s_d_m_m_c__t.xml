@@ -1,0 +1,467 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_d_m_m_c__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SDMMC_t</compoundname>
+    <includes local="no">xmc_sdmmc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a49f3e9622d8046ad8c4e1cc00e710f33" prot="public" static="no" mutable="no">
+        <type>__I uint16_t</type>
+        <definition>__I uint16_t ACMD_ERR_STATUS</definition>
+        <argsstring></argsstring>
+        <name>ACMD_ERR_STATUS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="516" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a171b1bf62ac9c78058e5e8a0e57018c4" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t ARGUMENT1</definition>
+        <argsstring></argsstring>
+        <name>ARGUMENT1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="497" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1af053ecc7234344e27df3fc430629d93b" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t BLOCK_COUNT</definition>
+        <argsstring></argsstring>
+        <name>BLOCK_COUNT</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="496" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1adc51c25e6e0abade3d3fab3a2c2fb861" prot="public" static="no" mutable="no">
+        <type>__IO uint8_t</type>
+        <definition>__IO uint8_t BLOCK_GAP_CTRL</definition>
+        <argsstring></argsstring>
+        <name>BLOCK_GAP_CTRL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="505" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a5ca86ca41bc8ecc93f0967164a3b164b" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t BLOCK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>BLOCK_SIZE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="495" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1af93694c549c4bc113787f673741a0d90" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t CLOCK_CTRL</definition>
+        <argsstring></argsstring>
+        <name>CLOCK_CTRL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="507" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a84d8e97589cfa9cad5faa2200c688c07" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t COMMAND</definition>
+        <argsstring></argsstring>
+        <name>COMMAND</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="499" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a2f23a98f715a35ab55a4159cd26e071a" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t DATA_BUFFER</definition>
+        <argsstring></argsstring>
+        <name>DATA_BUFFER</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="501" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a09d7ea68f55e46f38cc1369fde645a88" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t DEBUG_SEL</definition>
+        <argsstring></argsstring>
+        <name>DEBUG_SEL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="521" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="521" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1ae21bbc3ceaa69a5df723833a4f90b606" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t EN_INT_SIGNAL_ERR</definition>
+        <argsstring></argsstring>
+        <name>EN_INT_SIGNAL_ERR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="515" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1ac5e862578e4cd3249b79e24c202c1656" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t EN_INT_SIGNAL_NORM</definition>
+        <argsstring></argsstring>
+        <name>EN_INT_SIGNAL_NORM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="514" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a586c55ce2cccabd2f4651839d3fa7bf8" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t EN_INT_STATUS_ERR</definition>
+        <argsstring></argsstring>
+        <name>EN_INT_STATUS_ERR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="513" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a787f58cbfe2390afd67506a93d665b9b" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t EN_INT_STATUS_NORM</definition>
+        <argsstring></argsstring>
+        <name>EN_INT_STATUS_NORM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="512" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a809c5de0c72c260f15963f713af5a570" prot="public" static="no" mutable="no">
+        <type>__O uint16_t</type>
+        <definition>__O uint16_t FORCE_EVENT_ACMD_ERR_STATUS</definition>
+        <argsstring></argsstring>
+        <name>FORCE_EVENT_ACMD_ERR_STATUS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="518" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a30d0455c5b05e76b37f678f0449a9391" prot="public" static="no" mutable="no">
+        <type>__O uint16_t</type>
+        <definition>__O uint16_t FORCE_EVENT_ERR_STATUS</definition>
+        <argsstring></argsstring>
+        <name>FORCE_EVENT_ERR_STATUS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="519" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a47005dbaac86978ec4b5095f2cb62bbc" prot="public" static="no" mutable="no">
+        <type>__IO uint8_t</type>
+        <definition>__IO uint8_t HOST_CTRL</definition>
+        <argsstring></argsstring>
+        <name>HOST_CTRL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="503" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1aa7e5d903cf151245233003f79b92acbf" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t INT_STATUS_ERR</definition>
+        <argsstring></argsstring>
+        <name>INT_STATUS_ERR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="511" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a262d6a3839a8a84b0afcedf2ac787ea3" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t INT_STATUS_NORM</definition>
+        <argsstring></argsstring>
+        <name>INT_STATUS_NORM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="510" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a99c49b9f6d72a714f290ccdf2fe327bf" prot="public" static="no" mutable="no">
+        <type>__IO uint8_t</type>
+        <definition>__IO uint8_t POWER_CTRL</definition>
+        <argsstring></argsstring>
+        <name>POWER_CTRL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="504" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1ac13eee50785313d69939fa156c438b75" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t PRESENT_STATE</definition>
+        <argsstring></argsstring>
+        <name>PRESENT_STATE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="502" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1ad06839c5382047f4f9f2c74cc61db942" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED0</definition>
+        <argsstring></argsstring>
+        <name>RESERVED0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="494" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a9d7284df0bc8273080c3df803ce49e38" prot="public" static="no" mutable="no">
+        <type>__I uint16_t</type>
+        <definition>__I uint16_t RESERVED1[9]</definition>
+        <argsstring>[9]</argsstring>
+        <name>RESERVED1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="517" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a05d028eb06656a3055efdf2949c42708" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED2[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>RESERVED2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="520" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1ac2e6107db5e2e204edc64e576b5e15d8" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED3[30]</definition>
+        <argsstring>[30]</argsstring>
+        <name>RESERVED3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="522" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1adcde36755ddc4fd76b5514815f2fb143" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED4[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>RESERVED4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="524" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1ac7fcb2d43c981f8cf047dd089a500db3" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESPONSE[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>RESPONSE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="500" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a062eb6f9d1aa70b1d0639b63fa6960e8" prot="public" static="no" mutable="no">
+        <type>__I uint16_t</type>
+        <definition>__I uint16_t SLOT_INT_STATUS</definition>
+        <argsstring></argsstring>
+        <name>SLOT_INT_STATUS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="525" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a116a2d4c04b1b9dad505d70755035926" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SPI</definition>
+        <argsstring></argsstring>
+        <name>SPI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="523" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a3f60e810c162ab26fbde3c4c934609cf" prot="public" static="no" mutable="no">
+        <type>__IO uint8_t</type>
+        <definition>__IO uint8_t SW_RESET</definition>
+        <argsstring></argsstring>
+        <name>SW_RESET</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="509" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a878adcac72e4d05521e87ae61a19d94e" prot="public" static="no" mutable="no">
+        <type>__IO uint8_t</type>
+        <definition>__IO uint8_t TIMEOUT_CTRL</definition>
+        <argsstring></argsstring>
+        <name>TIMEOUT_CTRL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="508" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a451a0b9a07f306aacdab0bcb6ea56923" prot="public" static="no" mutable="no">
+        <type>__IO uint16_t</type>
+        <definition>__IO uint16_t TRANSFER_MODE</definition>
+        <argsstring></argsstring>
+        <name>TRANSFER_MODE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="498" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="498" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c__t_1a6b2d8ba4bda417e649603614ee545879" prot="public" static="no" mutable="no">
+        <type>__IO uint8_t</type>
+        <definition>__IO uint8_t WAKEUP_CTRL</definition>
+        <argsstring></argsstring>
+        <name>WAKEUP_CTRL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="506" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>SDMMC device structure <linebreak/>
+</para>
+<para>The structure represents a collection of all hardware registers used to configure the SDMMC peripheral on the XMC4500 microcontroller. The registers can be accessed with <ref refid="group___s_d_m_m_c_1gaf7ae2c4a41b8ae4666d05813c455b5a3" kindref="member">XMC_SDMMC</ref>. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="493" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="492" bodyend="526"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a49f3e9622d8046ad8c4e1cc00e710f33" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>ACMD_ERR_STATUS</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a171b1bf62ac9c78058e5e8a0e57018c4" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>ARGUMENT1</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1af053ecc7234344e27df3fc430629d93b" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>BLOCK_COUNT</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1adc51c25e6e0abade3d3fab3a2c2fb861" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>BLOCK_GAP_CTRL</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a5ca86ca41bc8ecc93f0967164a3b164b" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>BLOCK_SIZE</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1af93694c549c4bc113787f673741a0d90" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>CLOCK_CTRL</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a84d8e97589cfa9cad5faa2200c688c07" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>COMMAND</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a2f23a98f715a35ab55a4159cd26e071a" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>DATA_BUFFER</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a09d7ea68f55e46f38cc1369fde645a88" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>DEBUG_SEL</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1ae21bbc3ceaa69a5df723833a4f90b606" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>EN_INT_SIGNAL_ERR</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1ac5e862578e4cd3249b79e24c202c1656" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>EN_INT_SIGNAL_NORM</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a586c55ce2cccabd2f4651839d3fa7bf8" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>EN_INT_STATUS_ERR</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a787f58cbfe2390afd67506a93d665b9b" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>EN_INT_STATUS_NORM</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a809c5de0c72c260f15963f713af5a570" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>FORCE_EVENT_ACMD_ERR_STATUS</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a30d0455c5b05e76b37f678f0449a9391" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>FORCE_EVENT_ERR_STATUS</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a47005dbaac86978ec4b5095f2cb62bbc" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>HOST_CTRL</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1aa7e5d903cf151245233003f79b92acbf" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>INT_STATUS_ERR</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a262d6a3839a8a84b0afcedf2ac787ea3" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>INT_STATUS_NORM</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a99c49b9f6d72a714f290ccdf2fe327bf" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>POWER_CTRL</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1ac13eee50785313d69939fa156c438b75" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>PRESENT_STATE</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1ad06839c5382047f4f9f2c74cc61db942" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>RESERVED0</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a9d7284df0bc8273080c3df803ce49e38" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>RESERVED1</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a05d028eb06656a3055efdf2949c42708" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>RESERVED2</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1ac2e6107db5e2e204edc64e576b5e15d8" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>RESERVED3</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1adcde36755ddc4fd76b5514815f2fb143" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>RESERVED4</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1ac7fcb2d43c981f8cf047dd089a500db3" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>RESPONSE</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a062eb6f9d1aa70b1d0639b63fa6960e8" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>SLOT_INT_STATUS</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a116a2d4c04b1b9dad505d70755035926" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>SPI</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a3f60e810c162ab26fbde3c4c934609cf" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>SW_RESET</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a878adcac72e4d05521e87ae61a19d94e" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>TIMEOUT_CTRL</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a451a0b9a07f306aacdab0bcb6ea56923" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>TRANSFER_MODE</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c__t_1a6b2d8ba4bda417e649603614ee545879" prot="public" virt="non-virtual"><scope>XMC_SDMMC_t</scope><name>WAKEUP_CTRL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

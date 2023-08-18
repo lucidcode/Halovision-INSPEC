@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___r_t_c___a_l_a_r_m__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_RTC_ALARM_t</compoundname>
+    <includes local="no">xmc_rtc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a04c028502077a750330e540cbe975e3c" prot="public" static="no" mutable="no">
+        <type>union XMC_RTC_ALARM_t::@133</type>
+        <definition>union XMC_RTC_ALARM_t::@133 @134</definition>
+        <argsstring></argsstring>
+        <name>@134</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="195" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1af8ea2b52c112b6467c774eb10a1f2256" prot="public" static="no" mutable="no">
+        <type>union XMC_RTC_ALARM_t::@135</type>
+        <definition>union XMC_RTC_ALARM_t::@135 @136</definition>
+        <argsstring></argsstring>
+        <name>@136</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="207" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="187" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="189" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="191" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="193" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1abeaa166317605a05f2f68d23fbe4ee46" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t days</definition>
+        <argsstring></argsstring>
+        <name>days</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alarm days compare value (0-Actual days of month: Above this causes this bitfield to be set with 0) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="192" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1af5561af906efc39d2ece55211ad03ce4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hours</definition>
+        <argsstring></argsstring>
+        <name>hours</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alarm hours compare value (0-23: Above this causes this bitfield to be set with 0) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="190" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a2dcb690348d97b756f4d165c80c9af7d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t minutes</definition>
+        <argsstring></argsstring>
+        <name>minutes</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alarm minutes compare value (0-59: Above this causes this bitfield to be set with 0) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="188" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a55a5fa57878363d803833666ddf3c16f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t month</definition>
+        <argsstring></argsstring>
+        <name>month</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alarm month compare value (0-11: Above this causes this bitfield to be set with 0) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="203" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw0</definition>
+        <argsstring></argsstring>
+        <name>raw0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="183" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1acbe7c18e421b751048bd70d61fa08577" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw1</definition>
+        <argsstring></argsstring>
+        <name>raw1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="199" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a6d5694839ec935781627e5c52de21fda" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t seconds</definition>
+        <argsstring></argsstring>
+        <name>seconds</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alarm seconds compare value (0-59: Above this causes this bitfield to be set with 0) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="186" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___r_t_c___a_l_a_r_m__t_1aac3a162d2f192fe2360aba534eac7198" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t year</definition>
+        <argsstring></argsstring>
+        <name>year</name>
+        <bitfield> 16</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Alarm year compare value </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="205" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Alarm time values of RTC <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the alarm time values for seconds, minutes, hours, days, month and year of RTC. The <ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref> and <ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> can be used to populate the structure with the alarm time value of RTC </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="180" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="179" bodyend="208"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1abeaa166317605a05f2f68d23fbe4ee46" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>days</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1af5561af906efc39d2ece55211ad03ce4" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>hours</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a2dcb690348d97b756f4d165c80c9af7d" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>minutes</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a55a5fa57878363d803833666ddf3c16f" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>month</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>raw0</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1acbe7c18e421b751048bd70d61fa08577" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>raw1</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1a6d5694839ec935781627e5c52de21fda" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>seconds</name></member>
+      <member refid="struct_x_m_c___r_t_c___a_l_a_r_m__t_1aac3a162d2f192fe2360aba534eac7198" prot="public" virt="non-virtual"><scope>XMC_RTC_ALARM_t</scope><name>year</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

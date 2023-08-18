@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_LEDTS_LED_CONFIG_t</compoundname>
+    <includes local="no">xmc_ledts.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a3f9d73fd4a7c02c7dd6ae5f36cc86a4f" prot="public" static="no" mutable="no">
+        <type>union XMC_LEDTS_LED_CONFIG_t::@209</type>
+        <definition>union XMC_LEDTS_LED_CONFIG_t::@209 @210</definition>
+        <argsstring></argsstring>
+        <name>@210</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="539" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 28</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="530" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1ac1ef454479df3e711f7ddfb5ce8167f0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t column_active_level</definition>
+        <argsstring></argsstring>
+        <name>column_active_level</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When this bit is set LED column level is active high, otherwise column level is active low(COLLEV). Refer <ref refid="group___l_e_d_t_s_1gaefa5a159b6987abe40bbff31d7e6a8cf" kindref="member">XMC_LEDTS_ACTIVE_LEVEL_LED_COL_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="531" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a23372f31fd2f929735982d51122e9a3c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fnctl</definition>
+        <argsstring></argsstring>
+        <name>fnctl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="538" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a83bc27c56e03c499250af357df3c842d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t no_of_led_columns</definition>
+        <argsstring></argsstring>
+        <name>no_of_led_columns</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines number of LED columns(NR_LEDCOL). Range 0 - 7. Refer <ref refid="group___l_e_d_t_s_1gaf5d0b1885f5076156939dd46839e32a9" kindref="member">XMC_LEDTS_NUMBER_LED_COLUMNS_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="535" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Data structure for LED function initialization. Use type <ref refid="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t" kindref="compound">XMC_LEDTS_LED_CONFIG_t</ref> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="525" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="524" bodyend="540"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_LEDTS_LED_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1ac1ef454479df3e711f7ddfb5ce8167f0" prot="public" virt="non-virtual"><scope>XMC_LEDTS_LED_CONFIG_t</scope><name>column_active_level</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a23372f31fd2f929735982d51122e9a3c" prot="public" virt="non-virtual"><scope>XMC_LEDTS_LED_CONFIG_t</scope><name>fnctl</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___l_e_d___c_o_n_f_i_g__t_1a83bc27c56e03c499250af357df3c842d" prot="public" virt="non-virtual"><scope>XMC_LEDTS_LED_CONFIG_t</scope><name>no_of_led_columns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="dir_bfccd401955b95cf8c75461437045ac0" kind="dir">
+    <compoundname>inc</compoundname>
+    <innerfile refid="xmc4__flash_8h">xmc4_flash.h</innerfile>
+    <innerfile refid="xmc4__gpio_8h">xmc4_gpio.h</innerfile>
+    <innerfile refid="xmc4__rtc_8h">xmc4_rtc.h</innerfile>
+    <innerfile refid="xmc4__scu_8h">xmc4_scu.h</innerfile>
+    <innerfile refid="xmc__can_8h">xmc_can.h</innerfile>
+    <innerfile refid="xmc__ccu4_8h">xmc_ccu4.h</innerfile>
+    <innerfile refid="xmc__ccu8_8h">xmc_ccu8.h</innerfile>
+    <innerfile refid="xmc__dac_8h">xmc_dac.h</innerfile>
+    <innerfile refid="xmc__dma_8h">xmc_dma.h</innerfile>
+    <innerfile refid="xmc__dsd_8h">xmc_dsd.h</innerfile>
+    <innerfile refid="xmc__ebu_8h">xmc_ebu.h</innerfile>
+    <innerfile refid="xmc__ecat_8h">xmc_ecat.h</innerfile>
+    <innerfile refid="xmc__eru_8h">xmc_eru.h</innerfile>
+    <innerfile refid="xmc__eth__mac_8h">xmc_eth_mac.h</innerfile>
+    <innerfile refid="xmc__eth__mac__map_8h">xmc_eth_mac_map.h</innerfile>
+    <innerfile refid="xmc__eth__phy_8h">xmc_eth_phy.h</innerfile>
+    <innerfile refid="xmc__fce_8h">xmc_fce.h</innerfile>
+    <innerfile refid="xmc__flash_8h">xmc_flash.h</innerfile>
+    <innerfile refid="xmc__gpio_8h">xmc_gpio.h</innerfile>
+    <innerfile refid="xmc__hrpwm_8h">xmc_hrpwm.h</innerfile>
+    <innerfile refid="xmc__i2c_8h">xmc_i2c.h</innerfile>
+    <innerfile refid="xmc__i2s_8h">xmc_i2s.h</innerfile>
+    <innerfile refid="xmc__ledts_8h">xmc_ledts.h</innerfile>
+    <innerfile refid="xmc__posif_8h">xmc_posif.h</innerfile>
+    <innerfile refid="xmc__rtc_8h">xmc_rtc.h</innerfile>
+    <innerfile refid="xmc__scu_8h">xmc_scu.h</innerfile>
+    <innerfile refid="xmc__sdmmc_8h">xmc_sdmmc.h</innerfile>
+    <innerfile refid="xmc__spi_8h">xmc_spi.h</innerfile>
+    <innerfile refid="xmc__uart_8h">xmc_uart.h</innerfile>
+    <innerfile refid="xmc__usbd_8h">xmc_usbd.h</innerfile>
+    <innerfile refid="xmc__usbh_8h">xmc_usbh.h</innerfile>
+    <innerfile refid="xmc__usic_8h">xmc_usic.h</innerfile>
+    <innerfile refid="xmc__vadc_8h">xmc_vadc.h</innerfile>
+    <innerfile refid="xmc__wdt_8h">xmc_wdt.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/"/>
+  </compounddef>
+</doxygen>

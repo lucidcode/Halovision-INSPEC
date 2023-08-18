@@ -1,0 +1,774 @@
+{% macro peripheral(name, base_address, num_spis=192, interrupt_names={}) -%}
+    <peripheral>
+      <name>{{ name }}_DIST</name>
+      <description>ARM GIC-400 Generic Interrupt Controller Distributor</description>
+      <baseAddress>{{ "0x{:x}".format(base_address + 0x1000) }}</baseAddress>
+      <headerStructName>ARM_GIC400_Distributor</headerStructName>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x1000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      {% for i in range(16) %}
+      <interrupt>
+          <name>SGI{{ i }}</name>
+          <description>Software generated interrupt {{ i }}</description>
+          <value>{{ i }}</value>
+      </interrupt>
+      {% endfor %}
+      {# <interrupt>
+          <name>SPURIOUS</name>
+          <description>Spurious interrupt that is no longer pending</description>
+          <value>1023</value>
+      </interrupt> #}
+      <!-- Source: https://developer.arm.com/documentation/ddi0471/b -->
+      <registers>
+        <!-- 0x0000 - 0x0fff Reserved -->
+        <!-- 0x1000 - 0x1fff Distributor -->
+        <register>
+          <name>GICD_CTLR</name>
+          <description>Distributor Control Register</description>
+          <addressOffset>0x0000</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>ENABLE_GROUP0</name>
+              <description>Enable group 0 interrupts</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ENABLE_GROUP1</name>
+              <description>Enable group 1 interrupts</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICD_TYPER</name>
+          <description>Interrupt Controller Type Register</description>
+          <addressOffset>0x0004</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>IT_LINES_NUMBER</name>
+              <description>Interrupt line number</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>5</bitWidth>
+            </field>
+            <field>
+              <name>CPU_NUMBER</name>
+              <description>CPU number</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>SECURITY_EXTENSION</name>
+              <description>Security extension implemented</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>LSPI</name>
+              <description>Lockable SPI count</description>
+              <bitOffset>11</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICD_IIDR</name>
+          <description>Distributor Implementer Identification Register</description>
+          <addressOffset>0x0008</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0200143B</resetValue>
+          <fields>
+            <field>
+              <name>PRODUCT_ID</name>
+              <description>Product ID</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+            <field>
+              <name>VARIANT</name>
+              <description>Variant</description>
+              <bitOffset>16</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>REVISION</name>
+              <description>Revision</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>4</bitWidth>
+            </field>
+            <field>
+              <name>IMPLEMENTER</name>
+              <description>Implementer</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>12</bitWidth>
+            </field>
+          </fields>
+        </register>
+        {% for group_offset, name, description, write_mode in (
+            (0x0080, "GICD_IGROUPR", "Interrupt Group", "modify"),
+            (0x0100, "GICD_ISENABLER", "Interrupt Set-Enable", "oneToSet"),
+            (0x0180, "GICD_ICENABLER", "Interrupt Clear-Enable", "oneToClear"),
+            (0x0200, "GICD_ISPENDR", "Interrupt Set-Pending", "oneToSet"),
+            (0x0280, "GICD_ICPENDR", "Interrupt Clear-Pending", "oneToClear"),
+            (0x0300, "GICD_ISACTIVER", "Interrupt Set-Active", "oneToSet"),
+            (0x0380, "GICD_ICACTIVER", "Interrupt Clear-Active", "oneToClear"),
+            ) %}
+        <cluster>
+          <name>{{ name }}</name>
+          <description>{{ description }} Registers</description>
+          <addressOffset>{{ group_offset }}</addressOffset>
+        {% for offset in range(0, 32 + num_spis, 32) %}
+          <register>
+            <name>{{ name }}{{ offset // 32 }}</name>
+            <description>{{ description }}</description>
+            <addressOffset>{{ "0x{:04x}".format(offset // 8) }}</addressOffset>
+            <size>32</size>
+            <access>read-write</access>
+            <resetValue>0x00000000</resetValue>
+            <modifiedWriteValues>{{ write_mode }}</modifiedWriteValues>
+            <fields>
+              {% for bit in range(32) %}
+              <field>
+                {% if (offset + bit) in interrupt_names %}
+                <name>{{ interrupt_names[offset + bit][0] }}</name>
+                <description>{{ interrupt_names[offset + bit][1] }}</description>
+                {% else %}
+                <name>INT{{ offset + bit}}</name>
+                <description>Interrupt {{ offset + bit }}</description>
+                {% endif %}
+                <bitOffset>{{ bit }}</bitOffset>
+                <bitWidth>1</bitWidth>
+              </field>
+              {% endfor %}
+            </fields>
+          </register>
+        {% endfor %}
+        </cluster>
+        {% endfor %}
+
+        <cluster>
+          <name>GICD_IPRIORITYR</name>
+          <description>Interrupt Priority</description>
+          <addressOffset>0x0400</addressOffset>
+          {% for offset in range(0, 32 + num_spis, 4) %}
+          <register>
+            <name>GICD_IPRIORITYR{{ offset // 4 }}</name>
+            <description>Interrupt Priority {{ offset }} - {{ offset + 3 }} (Lower is first)</description>
+            <addressOffset>{{ "0x{:08x}".format(offset) }}</addressOffset>
+            <size>32</size>
+            <access>read-write</access>
+            <resetValue>0x00000000</resetValue>
+            <fields>
+              {% for i in range(4) %}
+              <field>
+                {% if (offset + i) in interrupt_names %}
+                <name>{{ interrupt_names[offset + i][0] }}</name>
+                <description>{{ interrupt_names[offset + i][1] }}</description>
+                {% else %}
+                <name>INT{{ offset + i }}</name>
+                <description>Interrupt {{ offset + i }}</description>
+                {% endif %}
+                <bitOffset>{{ i * 8 }}</bitOffset>
+                <bitWidth>8</bitWidth>
+              </field>
+              {% endfor %}
+            </fields>
+          </register>
+          {% endfor %}
+        </cluster>
+        <cluster>
+          <name>GICD_ITARGETSR</name>
+          <description>Interrupt Processor Targets</description>
+          <addressOffset>0x0800</addressOffset>
+          {% for offset in range(0, 32 + num_spis, 4) %}
+          <register>
+            <name>GICD_ITARGETSR{{ offset // 4 }}</name>
+            <description>Interrupt Processor Target {{ offset }} - {{ offset + 3 }}</description>
+            <addressOffset>{{ "0x{:04x}".format(offset) }}</addressOffset>
+            <size>32</size>
+            <access>read-write</access>
+            <resetValue>0x00000000</resetValue>
+            <fields>
+              {% for i in range(4) %}
+              <field>
+                {% if (offset + i) in interrupt_names %}
+                <name>{{ interrupt_names[offset + i][0] }}</name>
+                <description>{{ interrupt_names[offset + i][1] }}</description>
+                {% else %}
+                <name>INT{{ offset + i }}</name>
+                <description>Interrupt {{ offset + i }}</description>
+                {% endif %}
+                <bitOffset>{{ i * 8 }}</bitOffset>
+                <bitWidth>8</bitWidth>
+              </field>
+              {% endfor %}
+            </fields>
+          </register>
+        {% endfor %}
+        </cluster>
+        <cluster>
+          <name>GICD_ICFGR</name>
+          <description>Interrupt Configuration</description>
+          <addressOffset>0x0C00</addressOffset>
+          {% for offset in range(0, 32 + num_spis, 16) %}
+          <register>
+            <name>GICD_ICFGR{{ offset // 4 }}</name>
+            <description>Interrupt Configuration {{ offset }} - {{ offset + 15 }}</description>
+            <addressOffset>{{ "0x{:04x}".format(offset // 4) }}</addressOffset>
+            <size>32</size>
+            <access>read-write</access>
+            <resetValue>0x00000000</resetValue>
+            <fields>
+              {% for i in range(16) %}
+              <field>
+                {% if (offset + i) in interrupt_names %}
+                <name>{{ interrupt_names[offset + i][0] }}</name>
+                <description>{{ interrupt_names[offset + i][1] }}</description>
+                {% else %}
+                <name>INT{{ offset + i }}</name>
+                <description>Interrupt {{ offset + i }}</description>
+                {% endif %}
+                <bitOffset>{{ i * 2 + 1 }}</bitOffset>
+                <bitWidth>1</bitWidth>
+                <enumeratedValues>
+                  <enumeratedValue>
+                    <name>LEVEL</name>
+                    <description>Level sensitive</description>
+                    <value>0</value>
+                  </enumeratedValue>
+                  <enumeratedValue>
+                    <name>EDGE</name>
+                    <description>Edge triggered</description>
+                    <value>1</value>
+                  </enumeratedValue>
+                </enumeratedValues>
+              </field>
+              {% endfor %}
+            </fields>
+          </register>
+          {% endfor %}
+        </cluster>
+        <register>
+          <name>GICD_PPISR</name>
+          <description>Private Peripheral Interrupt Status Register</description>
+          <addressOffset>0x0D00</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>ID31</name>
+              <description>nLEGACYIRQ signal</description>
+              <bitOffset>15</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ID30</name>
+              <description>Non-secure physical timer event</description>
+              <bitOffset>14</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ID29</name>
+              <description>Secure physical timer event</description>
+              <bitOffset>13</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ID28</name>
+              <description>nLEGACYFIQ signal</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ID27</name>
+              <description>Virtual timer event</description>
+              <bitOffset>11</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ID26</name>
+              <description>Hypervisor timer event</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ID25</name>
+              <description>Virtual maintenance interrupt</description>
+              <bitOffset>9</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        {% for offset in range(0, num_spis, 32) %}
+        <register>
+          <name>GICD_SPISR{{ offset // 32 }}</name>
+          <description>Shared Peripheral Interrupt Status Registers</description>
+          <addressOffset>{{ "0x{:08x}".format(0x0D04 + offset // 8) }}</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            {% for bit in range(32) %}
+            <field>
+              {% if (offset + bit + 32) in interrupt_names %}
+              <name>{{ interrupt_names[offset + bit + 32][0] }}</name>
+              <description>{{ interrupt_names[offset + bit + 32][1] }}</description>
+              {% else %}
+              <name>SPI{{ offset + bit + 32}}</name>
+              <description>Shared interrupt {{ offset + bit + 32 }}</description>
+              {% endif %}
+              <bitOffset>{{ bit }}</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            {% endfor %}
+          </fields>
+        </register>
+        {% endfor %}
+        <register>
+          <name>GICD_SGIR</name>
+          <description>Software Generated Interrupt Register</description>
+          <addressOffset>0x0F00</addressOffset>
+          <size>32</size>
+          <access>write-only</access>
+        </register>
+        <register>
+          <name>GICD_CPENDSGIRn</name>
+          <description>SGI Clear-Pending Registers</description>
+          <addressOffset>0x0F10</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>GICD_SPENDSGIRn</name>
+          <description>SGI Set-Pending Registers</description>
+          <addressOffset>0x0F20</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        {% for value in (0x04, 0x00, 0x00, 0x00, 0x90, 0xB4, 0x2B, 0x00) %}
+        <register>
+          <name>GICD_PIDR{{ (loop.index0 + 4) % 8}}</name>
+          <description>Peripheral ID {{ (loop.index0 + 4) % 8 }}</description>
+          <addressOffset>{{ "0x{:08x}".format(0x0fd0 + loop.index0 * 4) }}</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>{{ "0x{:08x}".format(value) }}</resetValue>
+          <fields>
+            <field>
+              <name>GICD_PIDR{{ (loop.index0 + 4) % 8 }}</name>
+              <description>Peripheral ID {{ (loop.index0 + 4) % 8 }}</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>32</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>VALID</name>
+                  <description>Valid</description>
+                  <value>{{ value }}</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>INVALID</name>
+                  <description>Invalid</description>
+                  <isDefault>true</isDefault>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        {% endfor %}
+        {% for value in (0x0D, 0xF0, 0x05, 0xB1) %}
+        <register>
+          <name>GICD_CIDR{{ loop.index0 }}</name>
+          <description>Component ID {{ loop.index0 }}</description>
+          <addressOffset>{{ "0x{:08x}".format(0x0ff0 + loop.index0 * 4) }}</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>{{ "0x{:08x}".format(value) }}</resetValue>
+          <fields>
+            <field>
+              <name>GICD_CIDR{{ loop.index0 }}</name>
+              <description>Component ID {{ loop.index0 }}</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>32</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>VALID</name>
+                  <description>Valid</description>
+                  <value>{{ value }}</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>INVALID</name>
+                  <description>Invalid ID</description>
+                  <isDefault>true</isDefault>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        {% endfor %}
+{#         <register>
+          <name></name>
+          <description></description>
+          <addressOffset>0x1</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register> #}
+        <!-- 0x2000 - 0x3fff CPU Interfaces -->
+        <!-- 0x4000 - 0x4fff Virtual interface control block for processor performing the access -->
+        <!-- 0x5000 - 0x5fff Virtual interface control block of all processors -->
+        <!-- 0x6000 - 0x7fff Virtual CPU interfaces -->
+
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>{{ name }}_CPU</name>
+      <description>ARM GIC-400 Generic Interrupt Controller CPU Interface</description>
+      <baseAddress>{{ "0x{:x}".format(base_address + 0x2000) }}</baseAddress>
+      <headerStructName>ARM_GIC400_CPU</headerStructName>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x2000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>GICC_CTLR</name>
+          <description>CPU Interface Control</description>
+          <addressOffset>0x0000</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>ENABLE_GROUP_0</name>
+              <description>Enable signaling of group 0</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ENABLE_GROUP_1</name>
+              <description>Enable signaling of group 1</description>
+              <bitOffset>1</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ACKCTL</name>
+              <description>Whether a read of IAR acknowledges the interrupt</description>
+              <bitOffset>2</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>FIQEN</name>
+              <description>Group 0 triggers FIQ</description>
+              <bitOffset>3</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>CBPR</name>
+              <description>Common control of interrupts through GICC_BPR</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>FIQBYPDISGRP0</name>
+              <description>Bypass FIQ is not signaled to processor</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>IRQBYPDISGRP0</name>
+              <description>Bypass IRQ is not signaled to processor</description>
+              <bitOffset>6</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>FIQBYPDISGRP1</name>
+              <description>Alias of group 1 FIQ bypass disable</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>IRQBYPDISGRP1</name>
+              <description>Alias of group 1 IRQ bypass disable</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>EOIMODES</name>
+              <description>Secure EOIR does priority drop. DIR does deactivate.</description>
+              <bitOffset>9</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>EOIMODENS</name>
+              <description>Non-Secure EOIR does priority drop. DIR does deactivate.</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_PMR</name>
+          <description>Interrupt Priority Mask</description>
+          <addressOffset>0x0004</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>PRIORITY</name>
+              <description>Interrupts with a higher number are not signaled</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_BPR</name>
+          <description>Binary Point</description>
+          <addressOffset>0x0008</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>BINARY_POINT</name>
+              <description>Split point between group priority and subpriority</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_IAR</name>
+          <description>Interrupt Acknowledge</description>
+          <addressOffset>0x000C</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CPUID</name>
+              <description>CPUID that requested a software interrupt, 0 otherwise</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>INTERRUPT_ID</name>
+              <description>Interrupt ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_EOIR</name>
+          <description>End of Interrupt</description>
+          <addressOffset>0x0010</addressOffset>
+          <size>32</size>
+          <access>write-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CPUID</name>
+              <description>CPUID that requested a software interrupt, 0 otherwise</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>INTERRUPT_ID</name>
+              <description>Interrupt ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_RPR</name>
+          <description>Running Priority</description>
+          <addressOffset>0x0014</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>PRIORITY</name>
+              <description>Current running priority</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>8</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_HPPIR</name>
+          <description>Highest Priority Pending Interrupt</description>
+          <addressOffset>0x0018</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CPUID</name>
+              <description>CPUID that requested a software interrupt, 0 otherwise</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>INTERRUPT_ID</name>
+              <description>Pending Interrupt ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_ABPR</name>
+          <description>Aliased Binary Point</description>
+          <addressOffset>0x001C</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>BINARY_POINT</name>
+              <description>Split point between group priority and subpriority</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_AIAR</name>
+          <description>Aliased Interrupt Acknowledge</description>
+          <addressOffset>0x0020</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CPUID</name>
+              <description>CPUID that requested a software interrupt, 0 otherwise</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>INTERRUPT_ID</name>
+              <description>Interrupt ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_AEOIR</name>
+          <description>Aliased End of Interrupt</description>
+          <addressOffset>0x0024</addressOffset>
+          <size>32</size>
+          <access>write-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CPUID</name>
+              <description>CPUID that requested a software interrupt, 0 otherwise</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>INTERRUPT_ID</name>
+              <description>Interrupt ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_AHPPIR</name>
+          <description>Aliased Highest Priority Pending Interrupt</description>
+          <addressOffset>0x0028</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>CPUID</name>
+              <description>CPUID that requested a software interrupt, 0 otherwise</description>
+              <bitOffset>10</bitOffset>
+              <bitWidth>3</bitWidth>
+            </field>
+            <field>
+              <name>INTERRUPT_ID</name>
+              <description>Pending Interrupt ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>10</bitWidth>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_APR0</name>
+          <description>Active Priority</description>
+          <addressOffset>0x00D0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>GICC_NSAPR0</name>
+          <description>Non-Secure Active Priority</description>
+          <addressOffset>0x00E0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+        <register>
+          <name>GICC_IIDR</name>
+          <description>CPU Interface Identification Register</description>
+          <addressOffset>0x00FC</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0202143B</resetValue>
+          <fields>
+            <field>
+              <name>ID</name>
+              <description>ID</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>32</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>VALID</name>
+                  <description>ID is valid</description>
+                  <value>0x0202143B</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>INVALID</name>
+                  <description>ID is *NOT* valid</description>
+                  <isDefault>true</isDefault>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>GICC_DIR</name>
+          <description>Deactivate Interrupt</description>
+          <addressOffset>0x1000</addressOffset>
+          <size>32</size>
+          <access>write-only</access>
+          <resetValue>0x00000000</resetValue>
+        </register>
+      </registers>
+    </peripheral>
+{%- endmacro %}

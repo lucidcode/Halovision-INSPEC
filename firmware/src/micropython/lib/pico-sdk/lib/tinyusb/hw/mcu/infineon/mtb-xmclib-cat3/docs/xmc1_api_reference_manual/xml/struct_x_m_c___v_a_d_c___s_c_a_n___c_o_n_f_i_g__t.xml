@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_SCAN_CONFIG_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ac73edf5d35efe3ea46aae519b8c0b80f" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_SCAN_CONFIG_t::@153</type>
+        <definition>union XMC_VADC_SCAN_CONFIG_t::@153 @154</definition>
+        <argsstring></argsstring>
+        <name>@154</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="848" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ad46a780d50c13c4b6501393cc0d8af80" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_SCAN_CONFIG_t::@155</type>
+        <definition>union XMC_VADC_SCAN_CONFIG_t::@155 @156</definition>
+        <argsstring></argsstring>
+        <name>@156</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="862" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="833" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="833" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="836" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="836" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="839" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="839" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="842" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="842" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a7b2edc85d90e34c4435951e1e5c59517" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad4__</definition>
+        <argsstring></argsstring>
+        <name>__pad4__</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="845" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="845" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a5a5e459c8b48689d01c4d7c0cc94243a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t asctrl</definition>
+        <argsstring></argsstring>
+        <name>asctrl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="847" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="847" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a666d927d270ce5591f91ad6d21e16755" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t asmr</definition>
+        <argsstring></argsstring>
+        <name>asmr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="861" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="861" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1aaf70e6b630ea50bd06c3ef40bcda9932" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t conv_start_mode</definition>
+        <argsstring></argsstring>
+        <name>conv_start_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>One converter is shared between the queue and scan request sources of the same group. This field determines how scan request source would request for conversion. Uses <ref refid="group___v_a_d_c_1ga227aaa91c89c64c8402c869469276eb9" kindref="member">XMC_VADC_STARTMODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="816" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="816" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1af49959bd20deb85fe54ffcb06caea8e2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_auto_scan</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_scan</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables the continuous conversion mode. Conversion completion of the last channel in a scan sequence will cause a load event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="856" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="856" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a0a364133ff7f3b087ce66910e7571c4b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t external_trigger</definition>
+        <argsstring></argsstring>
+        <name>external_trigger</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conversions be initiated by external hardware trigger </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="854" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="854" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ab0bb051f7506be802853492074e4ee4f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t gate_signal</definition>
+        <argsstring></argsstring>
+        <name>gate_signal</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select one of the 16 possibilities for gating. Uses <ref refid="group___v_a_d_c_1gaa16f1136a4a4efddcd67ebd5fc69bc9f" kindref="member">XMC_VADC_GATE_INPUT_SELECT_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="840" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="840" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1aba4d2980c02b6afe5eae587ae27b3835" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t load_mode</definition>
+        <argsstring></argsstring>
+        <name>load_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects load event mode. Uses <ref refid="group___v_a_d_c_1ga1bf69f8d48c6280914a3a07c3330fd00" kindref="member">XMC_VADC_SCAN_LOAD_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="858" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="858" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1af0772f3db96475c069036a9f98af593a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t req_src_interrupt</definition>
+        <argsstring></argsstring>
+        <name>req_src_interrupt</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request source event can be generated after a conversion sequence </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="855" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="855" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ad5aab29eaf4874e556381d6f0aaf7193" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t req_src_priority</definition>
+        <argsstring></argsstring>
+        <name>req_src_priority</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request source priority for the arbiter. If the Conversion start mode has been selected as Cancel inject repeat/Never mode then this field would determine the priority of scan request source. Uses <ref refid="group___v_a_d_c_1ga9e8bcdf4c424a70b70e93368f1ef0021" kindref="member">XMC_VADC_GROUP_RS_PRIORITY_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="819" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="819" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ae0501a467f8d935cd743470ea1af9ef6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t src_specific_result_reg</definition>
+        <argsstring></argsstring>
+        <name>src_specific_result_reg</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use any one Group related result register as the destination for all conversions results. To use the individual result register from each channel configuration, configure this field with 0x0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="827" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="827" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a9cbe14785b93fb363b9e4c5d7f6769fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t timer_mode</definition>
+        <argsstring></argsstring>
+        <name>timer_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Decides whether timer mode for equi-distant sampling shall be activated or not. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="843" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="843" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a4e6fbc159b23f42921d9035c2e3d3c0a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trigger_edge</definition>
+        <argsstring></argsstring>
+        <name>trigger_edge</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Edge selection for trigger signal. Uses <ref refid="group___v_a_d_c_1gaabd0d22cd15f13e6e49809a3b811b241" kindref="member">XMC_VADC_TRIGGER_EDGE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="837" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="837" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ae5af4c51b0dd305cfbf9cca7b08de68f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trigger_signal</definition>
+        <argsstring></argsstring>
+        <name>trigger_signal</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select one of the 16 possibilities for trigger. Uses <ref refid="group___v_a_d_c_1gab71bdae1d928ee308430626a761eab97" kindref="member">XMC_VADC_TRIGGER_INPUT_SELECT_t</ref> enumeration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="834" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="834" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure initializing the VADC scan request source. Use type <ref refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t" kindref="compound">XMC_VADC_SCAN_CONFIG_t</ref> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="815" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="814" bodyend="863"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a7b2edc85d90e34c4435951e1e5c59517" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>__pad4__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a5a5e459c8b48689d01c4d7c0cc94243a" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>asctrl</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a666d927d270ce5591f91ad6d21e16755" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>asmr</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1aaf70e6b630ea50bd06c3ef40bcda9932" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>conv_start_mode</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1af49959bd20deb85fe54ffcb06caea8e2" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>enable_auto_scan</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a0a364133ff7f3b087ce66910e7571c4b" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>external_trigger</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ab0bb051f7506be802853492074e4ee4f" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>gate_signal</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1aba4d2980c02b6afe5eae587ae27b3835" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>load_mode</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1af0772f3db96475c069036a9f98af593a" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>req_src_interrupt</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ad5aab29eaf4874e556381d6f0aaf7193" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>req_src_priority</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ae0501a467f8d935cd743470ea1af9ef6" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>src_specific_result_reg</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a9cbe14785b93fb363b9e4c5d7f6769fe" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>timer_mode</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1a4e6fbc159b23f42921d9035c2e3d3c0a" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>trigger_edge</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___s_c_a_n___c_o_n_f_i_g__t_1ae5af4c51b0dd305cfbf9cca7b08de68f" prot="public" virt="non-virtual"><scope>XMC_VADC_SCAN_CONFIG_t</scope><name>trigger_signal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

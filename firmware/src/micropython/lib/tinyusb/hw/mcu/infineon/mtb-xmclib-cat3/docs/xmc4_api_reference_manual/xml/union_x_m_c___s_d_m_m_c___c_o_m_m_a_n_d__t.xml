@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t" kind="union" language="C++" prot="public">
+    <compoundname>XMC_SDMMC_COMMAND_t</compoundname>
+    <includes local="no">xmc_sdmmc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1ad11749d85e0277534aa471f26a3d1f68" prot="public" static="no" mutable="no">
+        <type>struct XMC_SDMMC_COMMAND_t::@259</type>
+        <definition>struct XMC_SDMMC_COMMAND_t::@259 @260</definition>
+        <argsstring></argsstring>
+        <name>@260</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="602" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a77132c2c26a75f5b8751b235cda23828" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="595" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="595" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1ab72e3a1f2f7db8695c60c658f5a0f11a" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="601" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="601" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a83c1e98f4ef1a44bb4923a4ebb8fe492" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t cmd</definition>
+        <argsstring></argsstring>
+        <name>cmd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="603" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1ae9deb10cdd143a2176b89113debcbd87" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t cmd_index</definition>
+        <argsstring></argsstring>
+        <name>cmd_index</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Command index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="600" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="600" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a3bce0b5ba2f67f9b7e6af3cf5903bad2" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t cmd_type</definition>
+        <argsstring></argsstring>
+        <name>cmd_type</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Command type <ref refid="group___s_d_m_m_c_1gaa604cac30b1304685508ba31be2d5c77" kindref="member">XMC_SDMMC_COMMAND_TYPE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="599" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a4f7201591a4cb63e38061d5a8fcdd1db" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t crc_check_en</definition>
+        <argsstring></argsstring>
+        <name>crc_check_en</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Command CRC check enable </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="596" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="596" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a385b41fd69503fecf6b94d6fe301cb50" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t dat_present_sel</definition>
+        <argsstring></argsstring>
+        <name>dat_present_sel</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data present select </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="598" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="598" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a8c5c8e55329b0293053511fa64b963ce" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t index_check_en</definition>
+        <argsstring></argsstring>
+        <name>index_check_en</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Command index check enable </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="597" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="597" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a9d45b7f16f7ff93fab865ef68cb47e23" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t response_type_sel</definition>
+        <argsstring></argsstring>
+        <name>response_type_sel</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Response type select <ref refid="group___s_d_m_m_c_1ga862cf0882d377669177bb266b05540cc" kindref="member">XMC_SDMMC_COMMAND_RESPONSE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="594" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Represent an SDMMC command <linebreak/>
+</para>
+<para>The structure holds the configuration for an SDMMC command. The SDMMC COMMAND register is a 16-bit register which is responsible for enabling configuration parameters like command type, response type, index check enable (and a few more). Once SDMMC.COMMAND is configured, the <ref refid="group___s_d_m_m_c_1ga4557c40f3b268fc69515d62d368fa20b" kindref="member">XMC_SDMMC_SendCommand()</ref> function can be used to send the command. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="591" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="590" bodyend="604"/>
+    <listofallmembers>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a77132c2c26a75f5b8751b235cda23828" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>__pad0__</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1ab72e3a1f2f7db8695c60c658f5a0f11a" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>__pad1__</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a83c1e98f4ef1a44bb4923a4ebb8fe492" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>cmd</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1ae9deb10cdd143a2176b89113debcbd87" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>cmd_index</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a3bce0b5ba2f67f9b7e6af3cf5903bad2" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>cmd_type</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a4f7201591a4cb63e38061d5a8fcdd1db" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>crc_check_en</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a385b41fd69503fecf6b94d6fe301cb50" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>dat_present_sel</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a8c5c8e55329b0293053511fa64b963ce" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>index_check_en</name></member>
+      <member refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t_1a9d45b7f16f7ff93fab865ef68cb47e23" prot="public" virt="non-virtual"><scope>XMC_SDMMC_COMMAND_t</scope><name>response_type_sel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_s_b_h0__pipe__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_USBH0_pipe_t</compoundname>
+    <includes local="no">xmc_usbh.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1abe222f6d3581e7920dcad5306cc906a8" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Holds address of data buffer. It represents source buffer for OUT or SETUP transfer and destination address for IN transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="327" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a20d471c00d2e0c0b055cb2c8157ed530" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ep_max_packet_size</definition>
+        <argsstring></argsstring>
+        <name>ep_max_packet_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum packet size for the selected pipe </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="332" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a791714ade336270a9c8fafef311b28f0" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ep_type</definition>
+        <argsstring></argsstring>
+        <name>ep_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Endpoint type for selected pipe </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="335" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1aeef6900f411bc223febdd92c9435693b" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Holds pipe specific event flags </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="339" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1ab9dc47a4845305fca4380f1825e90b72" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t in_use</definition>
+        <argsstring></argsstring>
+        <name>in_use</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set to true when transfer is in progress and reset only after the /ref num of bytes is transferred </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="336" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1ae12d840f42307e365b8207282b683daf" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t interrupt_triggered</definition>
+        <argsstring></argsstring>
+        <name>interrupt_triggered</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For INTERRUPT or ISOCHRONOUS pipe, indicates if retransmit timeout has occurred </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="338" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a6c52a3d605c056768b59164ce8df8334" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For INTERRUPT or ISOCHRONOUS pipe, it represents the decrementing count to reach 0 for initiating retransmission </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="334" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a5239f5359499e9d4716203757f5f00cb" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t interval_reload</definition>
+        <argsstring></argsstring>
+        <name>interval_reload</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>For INTERRUPT or ISOCHRONOUS pipe, it represents the period for repeated transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="333" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a7beea8f6745c478347f244cadef771c2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t num</definition>
+        <argsstring></argsstring>
+        <name>num</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bytes of data to be transmitted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="329" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a0229a078b96efa636e3ac5977c1e67bb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t num_transferred_total</definition>
+        <argsstring></argsstring>
+        <name>num_transferred_total</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bytes transmitted or received at the moment </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="330" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a261b04b773c1e521426fa8e052a4622c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t num_transferring</definition>
+        <argsstring></argsstring>
+        <name>num_transferring</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bytes being transmitted currently </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="331" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a3612c1c7ae9e7a13029f5d259fd7c6d5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t packet</definition>
+        <argsstring></argsstring>
+        <name>packet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Holds packet token and PID information of ongoing data packet transaction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="326" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h0__pipe__t_1a6c213ef3a3b8fdbb63707209b9d4286b" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t transfer_active</definition>
+        <argsstring></argsstring>
+        <name>transfer_active</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set to true when a transfer has been initiated and reset when event for transfer complete occurs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="337" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure to handle various states of USB host driver. An instance exists for each USB channel. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="325" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="324" bodyend="340"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1abe222f6d3581e7920dcad5306cc906a8" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>data</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a20d471c00d2e0c0b055cb2c8157ed530" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>ep_max_packet_size</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a791714ade336270a9c8fafef311b28f0" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>ep_type</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1aeef6900f411bc223febdd92c9435693b" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>event</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1ab9dc47a4845305fca4380f1825e90b72" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>in_use</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1ae12d840f42307e365b8207282b683daf" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>interrupt_triggered</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a6c52a3d605c056768b59164ce8df8334" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>interval</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a5239f5359499e9d4716203757f5f00cb" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>interval_reload</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a7beea8f6745c478347f244cadef771c2" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>num</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a0229a078b96efa636e3ac5977c1e67bb" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>num_transferred_total</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a261b04b773c1e521426fa8e052a4622c" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>num_transferring</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a3612c1c7ae9e7a13029f5d259fd7c6d5" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>packet</name></member>
+      <member refid="struct_x_m_c___u_s_b_h0__pipe__t_1a6c213ef3a3b8fdbb63707209b9d4286b" prot="public" virt="non-virtual"><scope>XMC_USBH0_pipe_t</scope><name>transfer_active</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

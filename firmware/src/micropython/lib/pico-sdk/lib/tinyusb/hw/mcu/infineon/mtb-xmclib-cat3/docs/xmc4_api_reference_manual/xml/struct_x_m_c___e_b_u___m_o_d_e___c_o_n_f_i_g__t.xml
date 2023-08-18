@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_MODE_CONFIG_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a11b70fa997cfa01e8a3e5edd113692b8" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_MODE_CONFIG_t::@112</type>
+        <definition>union XMC_EBU_MODE_CONFIG_t::@112 @113</definition>
+        <argsstring></argsstring>
+        <name>@113</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="551" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="538" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="540" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="540" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 15</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="548" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="548" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1ae7332b8d91580f896a87312900287eaa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bus_timeout_control</definition>
+        <argsstring></argsstring>
+        <name>bus_timeout_control</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Determines num of inactive cycles leading to a bus timeout after the EBU gains ownership <linebreak/>
+ 00H: Timeout is disabled <linebreak/>
+ 01H: Timeout is generated after 1 x 8 clock cycles <linebreak/>
+ FFH: Timeout is generated after 255 x 8 clock cycles <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="544" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1abccc76a0d96b0327d5b2f27a3f40cd63" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_ale_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_ale_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ALE mode. Switch the ADV output to be an active high ALE signal instead of active low ADV. (<ref refid="group___e_b_u_1ga55fd6d1503cba1b31a4df19ed1575bee" kindref="member">XMC_EBU_ALE_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="549" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="549" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1ae3445813fc00a59b18c410f438a638c0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_arbitration_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_arbitration_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Arbitration mode selection (<ref refid="group___e_b_u_1ga491fb478a64f0a07e571f98bc4bed8dd" kindref="member">XMC_EBU_ARB_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="543" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1ac973f71e7c621d6b9d016d8f9586034a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_arbsync</definition>
+        <argsstring></argsstring>
+        <name>ebu_arbsync</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>0 - arbitration inputs are sync; 1 - arbitration inputs are async </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="542" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a6ad219a708060c7d9a080ceba1a47575" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_extlock</definition>
+        <argsstring></argsstring>
+        <name>ebu_extlock</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>0 - ext bus is not locked after the EBU gains ownership; 1 - ext bus is not locked </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="541" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a1954f429c26701371861793627a7116e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_tristate</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_tristate</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>0 - SDRAM cannot be shared; 1 - SDRAM can be shared </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="539" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw0</definition>
+        <argsstring></argsstring>
+        <name>raw0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="535" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Mode configuration values for EBU <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the mode configuration, SDRAM tristate, external clock, arbitration, timeout control and ALE mode for EBU. The <ref refid="group___e_b_u_1ga8215e4bdc48f3d94cdacecc6856834a8" kindref="member">XMC_EBU_Init()</ref> can be used to populate the structure with the clock configuration values of the EBU module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="532" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="531" bodyend="552"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1ae7332b8d91580f896a87312900287eaa" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>bus_timeout_control</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1abccc76a0d96b0327d5b2f27a3f40cd63" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>ebu_ale_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1ae3445813fc00a59b18c410f438a638c0" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>ebu_arbitration_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1ac973f71e7c621d6b9d016d8f9586034a" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>ebu_arbsync</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a6ad219a708060c7d9a080ceba1a47575" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>ebu_extlock</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a1954f429c26701371861793627a7116e" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>ebu_sdram_tristate</name></member>
+      <member refid="struct_x_m_c___e_b_u___m_o_d_e___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" virt="non-virtual"><scope>XMC_EBU_MODE_CONFIG_t</scope><name>raw0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

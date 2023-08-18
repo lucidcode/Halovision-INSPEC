@@ -1,0 +1,781 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__acmp_8h" kind="file" language="C++">
+    <compoundname>xmc_acmp.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <incdepgraph>
+      <node id="16">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="15">
+        <label>xmc_acmp.h</label>
+        <link refid="xmc__acmp_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" prot="public">XMC_ACMP_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___a_c_m_p__t" prot="public">XMC_ACMP_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___a_c_m_p_1gad939e47a636a6e48c24816f43f2d05ba" prot="public" static="no">
+        <name>XMC_ACMP0</name>
+        <initializer>(<ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref>*)COMPARATOR</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comparator module base address defined </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="112" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___a_c_m_p_1gaff2a8d04396204031f93ab238af70f38" prot="public" static="no">
+        <name>XMC_ACMP_CHECK_INSTANCE</name>
+        <param><defname>INST</defname></param>
+        <initializer>(((INST)&lt; XMC_ACMP_MAX_INSTANCES))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="124" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___a_c_m_p_1ga1ca58b64f969c84835b1e4283e8b45a0" prot="public" static="no">
+        <name>XMC_ACMP_CHECK_MODULE_PTR</name>
+        <param><defname>PTR</defname></param>
+        <initializer>(((PTR)== (<ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref>*)COMPARATOR))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="121" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___a_c_m_p_1gafb7abf066809c543890fb4f6746a81e8" prot="public" static="no">
+        <name>XMC_ACMP_MAX_INSTANCES</name>
+        <initializer>(3U) /* Maximum number of Analog Comparators available*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="117" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___a_c_m_p_1ga7f82053d3127b9cba4b2f8d1fcc766e6" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ACMP_COMP_OUT_t</name>
+        <enumvalue id="group___a_c_m_p_1gga7f82053d3127b9cba4b2f8d1fcc766e6aa9ddca64b30cb79af05a6b2d56fadf07" prot="public">
+          <name>XMC_ACMP_COMP_OUT_NO_INVERSION</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMP output is HIGH when, Input Positive(INP) greater than Input Negative(INN). Vplus &gt; Vminus </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___a_c_m_p_1gga7f82053d3127b9cba4b2f8d1fcc766e6a5ba691b3bcca178319f11bb455c787d9" prot="public">
+          <name>XMC_ACMP_COMP_OUT_INVERSION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMP output is HIGH when, Input Negative(INN) greater than Input Positive(INP). Vminus &gt; Vplus </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the comparator output status options. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="154" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="153" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___a_c_m_p_1ga546a6854ef774ad521d9e63d0eb8b2dd" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ACMP_HYSTERESIS_t</name>
+        <enumvalue id="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2ddaf36f1219b945e12d74cf95a157684ba5" prot="public">
+          <name>XMC_ACMP_HYSTERESIS_OFF</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No hysteresis </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2ddadf6e560ad872baa7dc57489de67d14e1" prot="public">
+          <name>XMC_ACMP_HYSTERESIS_10</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hysteresis = 10mv </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2dda2268c3a95e90b1087607665ae7646865" prot="public">
+          <name>XMC_ACMP_HYSTERESIS_15</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hysteresis = 15mv </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2dda2a54b3681cc79e139505adf97738cbbf" prot="public">
+          <name>XMC_ACMP_HYSTERESIS_20</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hysteresis = 20mv </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the hysteresis voltage levels to reduce noise sensitivity. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="143" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="142" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___a_c_m_p_1gac75800cc508d9b37510b6cc7ab0b1696" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ACMP_INP_SOURCE_t</name>
+        <enumvalue id="group___a_c_m_p_1ggac75800cc508d9b37510b6cc7ab0b1696a53f20d2a8ce7558678208d3309e8ebbd" prot="public">
+          <name>XMC_ACMP_INP_SOURCE_STANDARD_PORT</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Input is connected to port </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___a_c_m_p_1ggac75800cc508d9b37510b6cc7ab0b1696a59496b49a4eac4f6f61fa16ca64915f8" prot="public">
+          <name>XMC_ACMP_INP_SOURCE_ACMP1_INP_PORT</name>
+          <initializer>= (uint16_t)(COMPARATOR_ANACMP0_ACMP0_SEL_Msk)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Input is connected to port and ACMP1 INP </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the analog comparator input connection method. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="165" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="164" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___a_c_m_p_1ga13cf6644d57d78d3778c19cee9076e10" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_ACMP_STATUS_t</name>
+        <enumvalue id="group___a_c_m_p_1gga13cf6644d57d78d3778c19cee9076e10ac464113eddd413e9aefb6669b4ab8b83" prot="public">
+          <name>XMC_ACMP_STATUS_SUCCESS</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>API completes the execution successfully </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___a_c_m_p_1gga13cf6644d57d78d3778c19cee9076e10aa46656996dc4bb32ea49c23a7834021c" prot="public">
+          <name>XMC_ACMP_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>API cannot fulfill the request </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the return value of an API. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="134" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="133" bodyend="137"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___a_c_m_p_1ga80862f9355703eda577173d00ae707e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_ClearLowPowerMode</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ACMP_ClearLowPowerMode</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Exits the low power mode by reseting LPWR bit of ANACMP0 register.<linebreak/>
+<linebreak/>
+The low power mode is controlled by ACMP0 module. Low power mode is applicable for all instances of the comparator. To re-enable the low power mode, call the related API <ref refid="group___a_c_m_p_1gac3ffd2fa0234684b9fe4745501255c44" kindref="member">XMC_ACMP_SetLowPowerMode()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___a_c_m_p_1gac3ffd2fa0234684b9fe4745501255c44" kindref="member">XMC_ACMP_SetLowPowerMode()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="409" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="409" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1ga5f32eab1a89f93c51c62775d26461ab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_DisableComparator</definition>
+        <argsstring>(XMC_ACMP_t *const peripheral, uint32_t instance)</argsstring>
+        <name>XMC_ACMP_DisableComparator</name>
+        <param>
+          <type><ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>instance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to analog comparator module, of <ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> type. Use <ref refid="group___a_c_m_p_1gad939e47a636a6e48c24816f43f2d05ba" kindref="member">XMC_ACMP0</ref> macro. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ACMP instance number. <linebreak/>
+ Range:<linebreak/>
+ 0 - ACMP0<linebreak/>
+ 1 - ACMP1<linebreak/>
+ 2 - ACMP2<linebreak/>
+ 3 - ACMP3 - Only applicable for XMC1400 devices <linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables an instance of ACMP module.<linebreak/>
+<linebreak/>
+Stops the comparator by resetting CMP_EN bit of respective ANACMP <emphasis>instance</emphasis> register. The <emphasis>instance</emphasis> number determines which analog comparator to be switched off.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___a_c_m_p_1ga71c782676692d67267ae0f80cbb641f9" kindref="member">XMC_ACMP_EnableComparator()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="298" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="298" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1gac456ec0a0eb51391059a5e42d8b123b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_DisableReferenceDivider</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ACMP_DisableReferenceDivider</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the reference divider for analog comparator instance 1.<linebreak/>
+<linebreak/>
+ACMP1 input INP is disconnected from the reference divider. This is achieved by reseting DIV_EN bit of ANACMP1 register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="338" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="338" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1ga71c782676692d67267ae0f80cbb641f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_EnableComparator</definition>
+        <argsstring>(XMC_ACMP_t *const peripheral, uint32_t instance)</argsstring>
+        <name>XMC_ACMP_EnableComparator</name>
+        <param>
+          <type><ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>instance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to analog comparator module, of <ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> type. Use <ref refid="group___a_c_m_p_1gad939e47a636a6e48c24816f43f2d05ba" kindref="member">XMC_ACMP0</ref> macro. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ACMP instance number. <linebreak/>
+ Range:<linebreak/>
+ 0 - ACMP0<linebreak/>
+ 1 - ACMP1<linebreak/>
+ 2 - ACMP2<linebreak/>
+ 3 - ACMP3 - Only applicable for XMC1400 devices <linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables an instance of ACMP module.<linebreak/>
+<linebreak/>
+Starts the comparator by setting CMP_EN bit of respective ANACMP <emphasis>instance</emphasis> register. The <emphasis>instance</emphasis> number determines which analog comparator to be switched on. Call this API after the successful completion of the comparator initilization and input selection.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___a_c_m_p_1ga5f32eab1a89f93c51c62775d26461ab8" kindref="member">XMC_ACMP_DisableComparator()</ref>.<linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="271" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="271" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1gafd4c955902ff6621c3458d7cde8ef3d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_EnableReferenceDivider</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ACMP_EnableReferenceDivider</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the reference divider for analog comparator instance 1.<linebreak/>
+<linebreak/>
+ACMP1 input INP is driven by an internal reference voltage by setting DIV_EN bit of ANACMP1 register. Other comparator instances can also share this reference divider option by calling the <ref refid="group___a_c_m_p_1ga890bdf38f4eb75ffe6a9f954eb847abb" kindref="member">XMC_ACMP_SetInput()</ref> API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___a_c_m_p_1ga890bdf38f4eb75ffe6a9f954eb847abb" kindref="member">XMC_ACMP_SetInput()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="319" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="319" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1ga2e5c715a935e7d7cb020f52d3c7386e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_Init</definition>
+        <argsstring>(XMC_ACMP_t *const peripheral, uint32_t instance, const XMC_ACMP_CONFIG_t *const config)</argsstring>
+        <name>XMC_ACMP_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" kindref="compound">XMC_ACMP_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to analog comparator module, of <ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> type. Use <ref refid="group___a_c_m_p_1gad939e47a636a6e48c24816f43f2d05ba" kindref="member">XMC_ACMP0</ref> macro. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ACMP instance number. <linebreak/>
+ Range:<linebreak/>
+ 0 - ACMP0<linebreak/>
+ 1 - ACMP1<linebreak/>
+ 2 - ACMP2<linebreak/>
+ 3 - ACMP3 - Only applicable for XMC1400 devices <linebreak/>
+</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to configuration data. Refer data structure <ref refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" kindref="compound">XMC_ACMP_CONFIG_t</ref> for settings. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes an instance of analog comparator module.<linebreak/>
+<linebreak/>
+ Configures the ANACMP resister with hysteresis, comparator filter and inverted comparator output.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="250" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1ga890bdf38f4eb75ffe6a9f954eb847abb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_SetInput</definition>
+        <argsstring>(XMC_ACMP_t *const peripheral, uint32_t instance, const XMC_ACMP_INP_SOURCE_t source)</argsstring>
+        <name>XMC_ACMP_SetInput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___a_c_m_p_1gac75800cc508d9b37510b6cc7ab0b1696" kindref="member">XMC_ACMP_INP_SOURCE_t</ref></type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to analog comparator module, of <ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref> type. Use <ref refid="group___a_c_m_p_1gad939e47a636a6e48c24816f43f2d05ba" kindref="member">XMC_ACMP0</ref> macro. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ACMP instance number. <linebreak/>
+ Range:<linebreak/>
+ 0 - ACMP0<linebreak/>
+ 2 - ACMP2<linebreak/>
+ 3 - ACMP3 - Only applicable for XMC1400 devices <linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ACMP input source selection options.<linebreak/>
+ Range:<linebreak/>
+ XMC_ACMP_INP_SOURCE_STANDARD_PORT - Input is connected to port<linebreak/>
+ XMC_ACMP_INP_SOURCE_ACMP1_INP_PORT - Input is connected to port and ACMP1 INP <linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the analog comparartor input selection for ACMP0, ACMP2 instances.<linebreak/>
+<linebreak/>
+Apart from ACMP1 instance, each ACMP instances can be connected to its own port and ACMP1 INP. Calling <ref refid="group___a_c_m_p_1gafd4c955902ff6621c3458d7cde8ef3d8" kindref="member">XMC_ACMP_EnableReferenceDivider()</ref> API, after this API can share the reference divider to one of the comparartor input as explained in the following options.<linebreak/>
+ The hardware options to set input are listed below.<linebreak/>
+ <orderedlist>
+<listitem>
+<para>The comparator inputs aren&apos;t connected to other ACMP1 comparator inputs. </para>
+</listitem>
+<listitem>
+<para>Can program the comparator-0 to connect ACMP0.INP to ACMP1.INP in XMC1200 AA or XMC1300 AA </para>
+</listitem>
+<listitem>
+<para>Can program the comparator-0 to connect ACMP0.INN to ACMP1.INP in XMC1200 AB or XMC1300 AB or XMC1400 AA </para>
+</listitem>
+<listitem>
+<para>Can program the comparator-2 to connect ACMP2.INP to ACMP1.INP </para>
+</listitem>
+</orderedlist>
+<linebreak/>
+ Directly accessed registers are ANACMP0, ANACMP2 according to the availability of instance in the devices.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___a_c_m_p_1gafd4c955902ff6621c3458d7cde8ef3d8" kindref="member">XMC_ACMP_EnableReferenceDivider</ref>.<linebreak/>
+ <ref refid="group___a_c_m_p_1gac456ec0a0eb51391059a5e42d8b123b7" kindref="member">XMC_ACMP_DisableReferenceDivider</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="374" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___a_c_m_p_1gac3ffd2fa0234684b9fe4745501255c44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_ACMP_SetLowPowerMode</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_ACMP_SetLowPowerMode</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the comparartors to operate in low power mode, by setting the LPWR bit of ANACMP0 register.<linebreak/>
+<linebreak/>
+The low power mode is controlled by ACMP0 instance. Low power mode is applicable for all instances of the comparator. In low power mode, blanking time will be introduced to ensure the stability of comparartor output. This will slow down the comparator operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___a_c_m_p_1ga80862f9355703eda577173d00ae707e0" kindref="member">XMC_ACMP_ClearLowPowerMode()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="391" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="391" bodyend="394"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-09-02 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="74"><highlight class="preprocessor">#ifndef<sp/>XMC_ACMP_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ACMP_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="102"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="103"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="108"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>If<sp/>ACMP<sp/>is<sp/>available*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined<sp/>(COMPARATOR)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ACMP0<sp/>(XMC_ACMP_t*)COMPARATOR<sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="preprocessor">#if<sp/>UC_SERIES<sp/>==<sp/>XMC14</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ACMP_MAX_INSTANCES<sp/><sp/><sp/><sp/><sp/>(4U)<sp/></highlight><highlight class="comment">/*<sp/>Maximum<sp/>number<sp/>of<sp/>Analog<sp/>Comparators<sp/>available*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ACMP_MAX_INSTANCES<sp/><sp/><sp/><sp/><sp/>(3U)<sp/></highlight><highlight class="comment">/*<sp/>Maximum<sp/>number<sp/>of<sp/>Analog<sp/>Comparators<sp/>available*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Checks<sp/>if<sp/>the<sp/>pointer<sp/>being<sp/>passed<sp/>is<sp/>valid*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ACMP_CHECK_MODULE_PTR(PTR)<sp/><sp/>(((PTR)==<sp/>(XMC_ACMP_t*)COMPARATOR))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Checks<sp/>if<sp/>the<sp/>instance<sp/>being<sp/>addressed<sp/>is<sp/>valid*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_ACMP_CHECK_INSTANCE(INST)<sp/><sp/><sp/>(((INST)&lt;<sp/>XMC_ACMP_MAX_INSTANCES))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="127"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="128"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ACMP_STATUS</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga13cf6644d57d78d3778c19cee9076e10ac464113eddd413e9aefb6669b4ab8b83" kindref="member">XMC_ACMP_STATUS_SUCCESS</ref><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga13cf6644d57d78d3778c19cee9076e10aa46656996dc4bb32ea49c23a7834021c" kindref="member">XMC_ACMP_STATUS_ERROR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/><ref refid="group___a_c_m_p_1ga13cf6644d57d78d3778c19cee9076e10" kindref="member">XMC_ACMP_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ACMP_HYSTERESIS</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2ddaf36f1219b945e12d74cf95a157684ba5" kindref="member">XMC_ACMP_HYSTERESIS_OFF</ref><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2ddadf6e560ad872baa7dc57489de67d14e1" kindref="member">XMC_ACMP_HYSTERESIS_10</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2dda2268c3a95e90b1087607665ae7646865" kindref="member">XMC_ACMP_HYSTERESIS_15</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga546a6854ef774ad521d9e63d0eb8b2dda2a54b3681cc79e139505adf97738cbbf" kindref="member">XMC_ACMP_HYSTERESIS_20</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}<sp/><ref refid="group___a_c_m_p_1ga546a6854ef774ad521d9e63d0eb8b2dd" kindref="member">XMC_ACMP_HYSTERESIS_t</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ACMP_COMP_OUT</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga7f82053d3127b9cba4b2f8d1fcc766e6aa9ddca64b30cb79af05a6b2d56fadf07" kindref="member">XMC_ACMP_COMP_OUT_NO_INVERSION</ref><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1gga7f82053d3127b9cba4b2f8d1fcc766e6a5ba691b3bcca178319f11bb455c787d9" kindref="member">XMC_ACMP_COMP_OUT_INVERSION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/><ref refid="group___a_c_m_p_1ga7f82053d3127b9cba4b2f8d1fcc766e6" kindref="member">XMC_ACMP_COMP_OUT_t</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_ACMP_INP_SOURCE</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1ggac75800cc508d9b37510b6cc7ab0b1696a53f20d2a8ce7558678208d3309e8ebbd" kindref="member">XMC_ACMP_INP_SOURCE_STANDARD_PORT</ref><sp/><sp/>=<sp/>0U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><ref refid="group___a_c_m_p_1ggac75800cc508d9b37510b6cc7ab0b1696a59496b49a4eac4f6f61fa16ca64915f8" kindref="member">XMC_ACMP_INP_SOURCE_ACMP1_INP_PORT</ref><sp/>=<sp/>(uint16_t)(COMPARATOR_ANACMP0_ACMP0_SEL_Msk)<sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/><ref refid="group___a_c_m_p_1gac75800cc508d9b37510b6cc7ab0b1696" kindref="member">XMC_ACMP_INP_SOURCE_t</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="172"><highlight class="comment"><sp/>*<sp/>DATA<sp/>STRUCTURES</highlight></codeline>
+<codeline lineno="173"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">/*Anonymous<sp/>structure/union<sp/>guard<sp/>start*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CC_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>push</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>anon_unions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__TASKING__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning<sp/>586</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="struct_x_m_c___a_c_m_p__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_ACMP</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/>__IO<sp/>uint32_t<sp/><sp/>ORCCTRL;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/>__I<sp/><sp/>uint32_t<sp/><sp/>RESERVED[726];</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>__IO<sp/>uint32_t<sp/><sp/>ANACMP[XMC_ACMP_MAX_INSTANCES];</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref>;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_ACMP_CONFIG</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>filter_disable<sp/><sp/><sp/>:<sp/>1;<sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>output_invert<sp/><sp/><sp/><sp/>:<sp/>1;<sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>hysteresis<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;<sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>26;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>anacmp;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" kindref="compound">XMC_ACMP_CONFIG_t</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">/*Anonymous<sp/>structure/union<sp/>guard<sp/>end*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CC_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>pop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__TASKING__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="228"><highlight class="comment"><sp/>*<sp/>API<sp/>Prototypes</highlight></codeline>
+<codeline lineno="229"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1ga2e5c715a935e7d7cb020f52d3c7386e1" kindref="member">XMC_ACMP_Init</ref>(<ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>peripheral,<sp/>uint32_t<sp/>instance,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" kindref="compound">XMC_ACMP_CONFIG_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>config);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1ga71c782676692d67267ae0f80cbb641f9" kindref="member">XMC_ACMP_EnableComparator</ref>(<ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>peripheral,<sp/>uint32_t<sp/>instance)</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_ACMP_EnableComparator:Wrong<sp/>module<sp/>pointer&quot;</highlight><highlight class="normal">,<sp/>XMC_ACMP_CHECK_MODULE_PTR(peripheral))</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_ACMP_EnableComparator:Wrong<sp/>instance<sp/>number&quot;</highlight><highlight class="normal">,<sp/>XMC_ACMP_CHECK_INSTANCE(instance)<sp/>)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/>peripheral-&gt;ANACMP[instance]<sp/>|=<sp/>(uint16_t)COMPARATOR_ANACMP0_CMP_EN_Msk;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1ga5f32eab1a89f93c51c62775d26461ab8" kindref="member">XMC_ACMP_DisableComparator</ref>(<ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>peripheral,<sp/>uint32_t<sp/>instance)</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_ACMP_DisableComparator:Wrong<sp/>module<sp/>pointer&quot;</highlight><highlight class="normal">,<sp/>XMC_ACMP_CHECK_MODULE_PTR(peripheral))</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_ACMP_DisableComparator:Wrong<sp/>instance<sp/>number&quot;</highlight><highlight class="normal">,<sp/>XMC_ACMP_CHECK_INSTANCE(instance)<sp/>)</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/>peripheral-&gt;ANACMP[instance]<sp/>&amp;=<sp/>(uint16_t)(~((uint32_t)COMPARATOR_ANACMP0_CMP_EN_Msk));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1gafd4c955902ff6621c3458d7cde8ef3d8" kindref="member">XMC_ACMP_EnableReferenceDivider</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Enable<sp/>the<sp/>divider<sp/>switch<sp/>and<sp/>connect<sp/>the<sp/>divided<sp/>reference<sp/>to<sp/>ACMP1.INP<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/>COMPARATOR-&gt;ANACMP1<sp/>|=<sp/>(uint16_t)(COMPARATOR_ANACMP1_REF_DIV_EN_Msk);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1gac456ec0a0eb51391059a5e42d8b123b7" kindref="member">XMC_ACMP_DisableReferenceDivider</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Disable<sp/>the<sp/>divider<sp/>switch<sp/>and<sp/>use<sp/>ACMP1.INP<sp/>as<sp/>standard<sp/>port*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/>COMPARATOR-&gt;ANACMP1<sp/>&amp;=<sp/>(uint16_t)(~(COMPARATOR_ANACMP1_REF_DIV_EN_Msk));</highlight></codeline>
+<codeline lineno="342"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1ga890bdf38f4eb75ffe6a9f954eb847abb" kindref="member">XMC_ACMP_SetInput</ref>(<ref refid="struct_x_m_c___a_c_m_p__t" kindref="compound">XMC_ACMP_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>peripheral,<sp/>uint32_t<sp/>instance,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1gac75800cc508d9b37510b6cc7ab0b1696" kindref="member">XMC_ACMP_INP_SOURCE_t</ref><sp/>source);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1gac3ffd2fa0234684b9fe4745501255c44" kindref="member">XMC_ACMP_SetLowPowerMode</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/>COMPARATOR-&gt;ANACMP0<sp/>|=<sp/>(uint16_t)COMPARATOR_ANACMP0_CMP_LPWR_Msk;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___a_c_m_p_1ga80862f9355703eda577173d00ae707e0" kindref="member">XMC_ACMP_ClearLowPowerMode</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/>COMPARATOR-&gt;ANACMP0<sp/>&amp;=<sp/>(uint16_t)(~(uint16_t)COMPARATOR_ANACMP0_CMP_LPWR_Msk);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>If<sp/>ACMP<sp/>is<sp/>available*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_ACMP_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h"/>
+  </compounddef>
+</doxygen>

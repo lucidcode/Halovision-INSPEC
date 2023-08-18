@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ACMP_CONFIG_t</compoundname>
+    <includes local="no">xmc_acmp.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1aa3f4ffc2778134aede7eb40e8a0b5ef9" prot="public" static="no" mutable="no">
+        <type>union XMC_ACMP_CONFIG_t::@0</type>
+        <definition>union XMC_ACMP_CONFIG_t::@0 @1</definition>
+        <argsstring></argsstring>
+        <name>@1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="213" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="203" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="206" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 26</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="210" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1acb9275a93321833838555581d14ce1f4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t anacmp</definition>
+        <argsstring></argsstring>
+        <name>anacmp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="212" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a950755b04f231cbf2a4454ff2b1718ae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t filter_disable</definition>
+        <argsstring></argsstring>
+        <name>filter_disable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comparator filter option for removing glitches. By default this option is selected in ANACMP register. Setting this option disables the filter </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="204" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a73b2ee931ebdf7de31212be70ba607e9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hysteresis</definition>
+        <argsstring></argsstring>
+        <name>hysteresis</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hysteresis voltage to reduce noise sensitivity. Select the voltage levels from the values defined in <ref refid="group___a_c_m_p_1ga546a6854ef774ad521d9e63d0eb8b2dd" kindref="member">XMC_ACMP_HYSTERESIS_t</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="208" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a516cec45d30e10094aa0f1e0fa348051" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t output_invert</definition>
+        <argsstring></argsstring>
+        <name>output_invert</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Option to invert the comparator output. Use XMC_<ref refid="group___a_c_m_p_1ga7f82053d3127b9cba4b2f8d1fcc766e6" kindref="member">XMC_ACMP_COMP_OUT_t</ref> type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="207" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure for initializing the ACMP module. It configures the ANACMP register of the respective input. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" line="198" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_acmp.h" bodystart="197" bodyend="214"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1acb9275a93321833838555581d14ce1f4" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>anacmp</name></member>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a950755b04f231cbf2a4454ff2b1718ae" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>filter_disable</name></member>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a73b2ee931ebdf7de31212be70ba607e9" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>hysteresis</name></member>
+      <member refid="struct_x_m_c___a_c_m_p___c_o_n_f_i_g__t_1a516cec45d30e10094aa0f1e0fa348051" prot="public" virt="non-virtual"><scope>XMC_ACMP_CONFIG_t</scope><name>output_invert</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

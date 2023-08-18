@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Parameters xml_version="1" xmlns="http://cypress.com/xsd/cydatawounding_v1">
+  <Param name="PartNumber" value="XMC1301-Q024x0016" />
+  <Param name="PartAvailability" value="Active" />
+  <Param name="DeviceDie" value="XMC1300" />
+  <Param name="Package" value="VQFN-24" />
+  <Param name="CPU" value="ARM CM0" />
+  <Param name="DeviceSeries" value="XMC1300" />
+  <Param name="Speed_MHz" value="32" />
+  <Param name="Flash_KB" value="16" />
+  <Param name="SRAM_KB" value="16" />
+  <Param name="MATH_Count" value="0" />
+  <Param name="CCU4_Count" value="4" />
+  <Param name="CCU4_removed" value="NA" />
+  <Param name="CCU8_Count" value="4" />
+  <Param name="CCU8_removed" value="NA" />
+  <Param name="POSIF_Count" value="1" />
+  <Param name="POSIF_removed" value="NA" />
+  <Param name="BCCU_Count" value="0" />
+  <Param name="BCCU_removed" value="0" />
+  <Param name="USIC_Count" value="2" />
+  <Param name="USIC_removed" value="NA" />
+  <Param name="LEDTS_Count" value="0" />
+  <Param name="LEDTS_removed" value="NA" />
+  <Param name="CAN_Count" value="0" />
+  <Param name="CAN_removed" value="NA" />
+  <Param name="ADC_Count" value="2" />
+  <Param name="ADC_removed" value="NA" />
+  <Param name="ACMP_Count" value="3" />
+  <Param name="ACMP_removed" value="NA" />
+  <Param name="Vddmin_volts" value="1.8" />
+  <Param name="Vddmax_volts" value="5.5" />
+  <Param name="TempMin_Celsius" value="-40" />
+  <Param name="TempMax_Celsius" value="105" />
+  <Param name="REQUIRED_KITS" value="None" />
+  <Param name="Next_Best_Alt_Part" value="None" />
+</Parameters>

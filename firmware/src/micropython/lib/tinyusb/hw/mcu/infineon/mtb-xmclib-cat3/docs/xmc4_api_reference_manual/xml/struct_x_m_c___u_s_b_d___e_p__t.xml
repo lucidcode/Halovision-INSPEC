@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_s_b_d___e_p__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_USBD_EP_t</compoundname>
+    <includes local="no">xmc_usbd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1ac0d31ca829f934cccd89f8054e02773e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The endpoint address including the direction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="373" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1abf8d570adffcb088884d287a21e25f69" prot="public" static="no" mutable="no">
+        <type>struct XMC_USBD_EP_t::@261::@262</type>
+        <definition>struct XMC_USBD_EP_t::@261::@262  address_st</definition>
+        <argsstring></argsstring>
+        <name>address_st</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="379" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a204ada188693126e63efec15844d1ccc" prot="public" static="no" mutable="no">
+        <type>union XMC_USBD_EP_t::@261</type>
+        <definition>union XMC_USBD_EP_t::@261  address_u</definition>
+        <argsstring></argsstring>
+        <name>address_u</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="380" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a2148ffb99828aeaced6a5655502434ac" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The endpoint direction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="378" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a2576e682d5f9c67dfdf5fc956ef4631f" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* inBuffer</definition>
+        <argsstring></argsstring>
+        <name>inBuffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The buffer for operation as IN endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="394" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1aaca115c329d074b835b620b7358b6ebe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t inBufferSize</definition>
+        <argsstring></argsstring>
+        <name>inBufferSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The size of the EP IN buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="395" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a24ee1676f3a4ccab4ed315248af14a07" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t inInUse</definition>
+        <argsstring></argsstring>
+        <name>inInUse</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets if the selected USB IN endpoint is currently in use </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="383" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a0048a7d4bfc9149c30fbd5891f7b1b83" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t isConfigured</definition>
+        <argsstring></argsstring>
+        <name>isConfigured</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The flag showing, if the endpoint is configured </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="382" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1ad2b3b1032ce21d5e94bcea7d1b0db1d6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t isStalled</definition>
+        <argsstring></argsstring>
+        <name>isStalled</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets if the selected USB endpoint is stalled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="385" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a0367f6aa235958aaef52e59a26c2a942" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t maxPacketSize</definition>
+        <argsstring></argsstring>
+        <name>maxPacketSize</name>
+        <bitfield> 7</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The maximum size of packet for USB endpoint ( due to FS Speed device only 64 Byte ) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="388" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a2c1bb0fb2d5bc7a42e9a1cf94b15b239" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t maxTransferSize</definition>
+        <argsstring></argsstring>
+        <name>maxTransferSize</name>
+        <bitfield> 19</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The maximum amount of data the core can send at once. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="389" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1ad50c630d233a71112a7df136970caefc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t number</definition>
+        <argsstring></argsstring>
+        <name>number</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The endpoint number.It can be from 0 to 6 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="376" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a408bb9688f91c83741c2f07ed3d50d66" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* outBuffer</definition>
+        <argsstring></argsstring>
+        <name>outBuffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The buffer for operation as OUT endpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="390" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a0589fd8808073ba7e096d51488962ec7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t outBufferSize</definition>
+        <argsstring></argsstring>
+        <name>outBufferSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The size of the EP OUT buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="392" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1aa6458dee9393432a46d6c9f369ba8d35" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t outBytesAvailable</definition>
+        <argsstring></argsstring>
+        <name>outBytesAvailable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of bytes available in the EP OUT buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="391" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a4bfb3b9bd68ad2900c933c09e95cf02d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t outInUse</definition>
+        <argsstring></argsstring>
+        <name>outInUse</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets if the selected USB OUT endpoint is currently in use </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="384" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a0633e68aa51d01355435f18ca3acb751" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t outOffset</definition>
+        <argsstring></argsstring>
+        <name>outOffset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The read offset of the EP OUT buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="393" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1aa5e27043126a4e5b2fffaeaf7648e989" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pading</definition>
+        <argsstring></argsstring>
+        <name>pading</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Padding between number and direction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="377" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a7ffb5c4c557134e94bb5bf68af448139" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sendZeroLengthPacket</definition>
+        <argsstring></argsstring>
+        <name>sendZeroLengthPacket</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If set, a zero length packet will be send at the end of the transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="387" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a0d8ba3f4ed4634c5e9c3203e8b8bef9d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t txFifoNum</definition>
+        <argsstring></argsstring>
+        <name>txFifoNum</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Endpoint transmit Fifo Number </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="386" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1ad44b615021ed3ccb734fcaf583ef4a03" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The endpoint type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="381" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1aa6cfc4888b14aad0940d4219ea715403" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* xferBuffer</definition>
+        <argsstring></argsstring>
+        <name>xferBuffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The buffer of the current transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="396" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a3bc4a81cdbffc1f75960335517ba9214" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t xferCount</definition>
+        <argsstring></argsstring>
+        <name>xferCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bytes transfered of the current USB data transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="398" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a76938d47322192ccf243a949eba95497" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t xferLength</definition>
+        <argsstring></argsstring>
+        <name>xferLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The length of the current transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="397" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_d___e_p__t_1a726d91b11038718d5bf06cf51fbbc795" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t xferTotal</definition>
+        <argsstring></argsstring>
+        <name>xferTotal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The length of total data in buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="399" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes a USB endpoint<linebreak/>
+</para>
+<para>All information to control an endpoint is stored in this structure. It contains information about the endpoints and the status of the device. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="370" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="369" bodyend="400"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1ac0d31ca829f934cccd89f8054e02773e" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>address</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1abf8d570adffcb088884d287a21e25f69" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>address_st</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a204ada188693126e63efec15844d1ccc" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>address_u</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a2148ffb99828aeaced6a5655502434ac" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>direction</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a2576e682d5f9c67dfdf5fc956ef4631f" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>inBuffer</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1aaca115c329d074b835b620b7358b6ebe" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>inBufferSize</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a24ee1676f3a4ccab4ed315248af14a07" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>inInUse</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a0048a7d4bfc9149c30fbd5891f7b1b83" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>isConfigured</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1ad2b3b1032ce21d5e94bcea7d1b0db1d6" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>isStalled</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a0367f6aa235958aaef52e59a26c2a942" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>maxPacketSize</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a2c1bb0fb2d5bc7a42e9a1cf94b15b239" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>maxTransferSize</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1ad50c630d233a71112a7df136970caefc" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>number</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a408bb9688f91c83741c2f07ed3d50d66" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>outBuffer</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a0589fd8808073ba7e096d51488962ec7" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>outBufferSize</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1aa6458dee9393432a46d6c9f369ba8d35" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>outBytesAvailable</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a4bfb3b9bd68ad2900c933c09e95cf02d" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>outInUse</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a0633e68aa51d01355435f18ca3acb751" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>outOffset</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1aa5e27043126a4e5b2fffaeaf7648e989" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>pading</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a7ffb5c4c557134e94bb5bf68af448139" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>sendZeroLengthPacket</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a0d8ba3f4ed4634c5e9c3203e8b8bef9d" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>txFifoNum</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1ad44b615021ed3ccb734fcaf583ef4a03" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>type</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1aa6cfc4888b14aad0940d4219ea715403" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>xferBuffer</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a3bc4a81cdbffc1f75960335517ba9214" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>xferCount</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a76938d47322192ccf243a949eba95497" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>xferLength</name></member>
+      <member refid="struct_x_m_c___u_s_b_d___e_p__t_1a726d91b11038718d5bf06cf51fbbc795" prot="public" virt="non-virtual"><scope>XMC_USBD_EP_t</scope><name>xferTotal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

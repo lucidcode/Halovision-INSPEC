@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_HRPWM_HRC_CONFIG_t</compoundname>
+    <includes local="no">xmc_hrpwm.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a90218978598f84063632b275211e7173" prot="public" static="no" mutable="no">
+        <type>union XMC_HRPWM_HRC_CONFIG_t::@185</type>
+        <definition>union XMC_HRPWM_HRC_CONFIG_t::@185 @186</definition>
+        <argsstring></argsstring>
+        <name>@186</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="731" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a659866c0a0982350f1dda1aee0b0d815" prot="public" static="no" mutable="no">
+        <type>union XMC_HRPWM_HRC_CONFIG_t::@187</type>
+        <definition>union XMC_HRPWM_HRC_CONFIG_t::@187 @188</definition>
+        <argsstring></argsstring>
+        <name>@188</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="742" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="714" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="715" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="716" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="726" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="726" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a7b2edc85d90e34c4435951e1e5c59517" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad4__</definition>
+        <argsstring></argsstring>
+        <name>__pad4__</name>
+        <bitfield> 15</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="728" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="728" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a58eb10593ce40759c48244ea8d479e32" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dt_enable</definition>
+        <argsstring></argsstring>
+        <name>dt_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables dead time. Accepts enum <ref refid="group___h_r_p_w_m_1ga92348e75fa87c899d8e1e42b17ade149" kindref="member">XMC_HRPWM_FUNC_STATUS_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="717" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1acef5d0cd3de7154917e8fba9592e26ef" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dt_shadow_xfer_linktoCCU8</definition>
+        <argsstring></argsstring>
+        <name>dt_shadow_xfer_linktoCCU8</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shadow transfer for DCR and DCF linked to shadow transfer trigger of CCU8 slice. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="722" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="722" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a55572360683f7951a4ad380e9c0a294c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dt_trigger_sel</definition>
+        <argsstring></argsstring>
+        <name>dt_trigger_sel</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of trigger for dead time shadow transfer. Accepts enum XMC_HRPWM_HRC_DT_TR_SEL_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="727" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="727" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a5cd7fce1b19b421508b3e762f096fddc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t gc</definition>
+        <argsstring></argsstring>
+        <name>gc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>General high resolution channel configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="730" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="730" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a15fffe732ee85d43b56a82aa3ca8754e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hr_out0_inv_enable</definition>
+        <argsstring></argsstring>
+        <name>hr_out0_inv_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables inversion of HROUT0 output pin. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="724" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="724" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1ac2cda5426d51d141c8741c374ce519e9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hr_out0_passive_level_out</definition>
+        <argsstring></argsstring>
+        <name>hr_out0_passive_level_out</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of HROUT0 passive level. Accepts enum XMC_HRPWM_HRC_OUT_PASSIVE_LVL_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="737" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a4789ff9c209fdafc831de869ab74bef7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hr_out0_trap_enable</definition>
+        <argsstring></argsstring>
+        <name>hr_out0_trap_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables trap for HROUT0. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="718" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="718" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a05ae216cad51c21097c9f6eea9e37b97" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hr_out1_inv_enable</definition>
+        <argsstring></argsstring>
+        <name>hr_out1_inv_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables inversion of HROUT1 output pin. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="725" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="725" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a374f0046640097abdf661dad91db194d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hr_out1_passive_level_out</definition>
+        <argsstring></argsstring>
+        <name>hr_out1_passive_level_out</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of HROUT0 passive level. Accepts enum XMC_HRPWM_HRC_OUT_PASSIVE_LVL_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="738" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="738" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a61ebde92a5c69d35ffd102208345231d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hr_out1_trap_enable</definition>
+        <argsstring></argsstring>
+        <name>hr_out1_trap_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables trap for HROUT1. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="719" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="719" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1aeb35cc19f116b39b1a2031b145c48672" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t hrc_shadow_xfer_linktoCCU8</definition>
+        <argsstring></argsstring>
+        <name>hrc_shadow_xfer_linktoCCU8</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Shadow transfer for CR1 and CR2 linked to shadow transfer trigger of CCU8 slice. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="720" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1ac21a0214624498ff7f1b15ba93f5f1aa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t psl</definition>
+        <argsstring></argsstring>
+        <name>psl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Output passive level configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="741" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="741" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HRPWM HRC configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="709" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="708" bodyend="743"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a7b2edc85d90e34c4435951e1e5c59517" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>__pad4__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a58eb10593ce40759c48244ea8d479e32" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>dt_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1acef5d0cd3de7154917e8fba9592e26ef" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>dt_shadow_xfer_linktoCCU8</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a55572360683f7951a4ad380e9c0a294c" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>dt_trigger_sel</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a5cd7fce1b19b421508b3e762f096fddc" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>gc</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a15fffe732ee85d43b56a82aa3ca8754e" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hr_out0_inv_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1ac2cda5426d51d141c8741c374ce519e9" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hr_out0_passive_level_out</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a4789ff9c209fdafc831de869ab74bef7" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hr_out0_trap_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a05ae216cad51c21097c9f6eea9e37b97" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hr_out1_inv_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a374f0046640097abdf661dad91db194d" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hr_out1_passive_level_out</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1a61ebde92a5c69d35ffd102208345231d" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hr_out1_trap_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1aeb35cc19f116b39b1a2031b145c48672" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>hrc_shadow_xfer_linktoCCU8</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___c_o_n_f_i_g__t_1ac21a0214624498ff7f1b15ba93f5f1aa" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_CONFIG_t</scope><name>psl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

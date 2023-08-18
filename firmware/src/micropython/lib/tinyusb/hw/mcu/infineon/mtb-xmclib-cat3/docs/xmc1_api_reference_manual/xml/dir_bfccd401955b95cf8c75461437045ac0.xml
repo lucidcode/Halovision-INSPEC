@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="dir_bfccd401955b95cf8c75461437045ac0" kind="dir">
+    <compoundname>inc</compoundname>
+    <innerfile refid="xmc1__flash_8h">xmc1_flash.h</innerfile>
+    <innerfile refid="xmc1__gpio_8h">xmc1_gpio.h</innerfile>
+    <innerfile refid="xmc1__rtc_8h">xmc1_rtc.h</innerfile>
+    <innerfile refid="xmc1__scu_8h">xmc1_scu.h</innerfile>
+    <innerfile refid="xmc__acmp_8h">xmc_acmp.h</innerfile>
+    <innerfile refid="xmc__bccu_8h">xmc_bccu.h</innerfile>
+    <innerfile refid="xmc__can_8h">xmc_can.h</innerfile>
+    <innerfile refid="xmc__ccu4_8h">xmc_ccu4.h</innerfile>
+    <innerfile refid="xmc__ccu8_8h">xmc_ccu8.h</innerfile>
+    <innerfile refid="xmc__eru_8h">xmc_eru.h</innerfile>
+    <innerfile refid="xmc__flash_8h">xmc_flash.h</innerfile>
+    <innerfile refid="xmc__gpio_8h">xmc_gpio.h</innerfile>
+    <innerfile refid="xmc__i2c_8h">xmc_i2c.h</innerfile>
+    <innerfile refid="xmc__i2s_8h">xmc_i2s.h</innerfile>
+    <innerfile refid="xmc__ledts_8h">xmc_ledts.h</innerfile>
+    <innerfile refid="xmc__math_8h">xmc_math.h</innerfile>
+    <innerfile refid="xmc__pau_8h">xmc_pau.h</innerfile>
+    <innerfile refid="xmc__posif_8h">xmc_posif.h</innerfile>
+    <innerfile refid="xmc__prng_8h">xmc_prng.h</innerfile>
+    <innerfile refid="xmc__rtc_8h">xmc_rtc.h</innerfile>
+    <innerfile refid="xmc__scu_8h">xmc_scu.h</innerfile>
+    <innerfile refid="xmc__spi_8h">xmc_spi.h</innerfile>
+    <innerfile refid="xmc__uart_8h">xmc_uart.h</innerfile>
+    <innerfile refid="xmc__usic_8h">xmc_usic.h</innerfile>
+    <innerfile refid="xmc__vadc_8h">xmc_vadc.h</innerfile>
+    <innerfile refid="xmc__wdt_8h">xmc_wdt.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/"/>
+  </compounddef>
+</doxygen>

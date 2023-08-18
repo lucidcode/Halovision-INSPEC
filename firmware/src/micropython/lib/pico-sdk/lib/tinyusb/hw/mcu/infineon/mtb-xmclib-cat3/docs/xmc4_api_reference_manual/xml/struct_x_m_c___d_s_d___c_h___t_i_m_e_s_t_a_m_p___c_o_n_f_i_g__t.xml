@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DSD_CH_TIMESTAMP_CONFIG_t</compoundname>
+    <includes local="no">xmc_dsd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a1b70dd10cdc8e9ad25db2de51c40b819" prot="public" static="no" mutable="no">
+        <type>union XMC_DSD_CH_TIMESTAMP_CONFIG_t::@92</type>
+        <definition>union XMC_DSD_CH_TIMESTAMP_CONFIG_t::@92 @93</definition>
+        <argsstring></argsstring>
+        <name>@93</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="496" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 10</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="490" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="490" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 17</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="493" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1ac2c739abd7b7ff733dec0c388322850e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t timestamp_conf</definition>
+        <argsstring></argsstring>
+        <name>timestamp_conf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="495" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a6384651f4a6552da03d2458a2db91dce" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trigger_mode</definition>
+        <argsstring></argsstring>
+        <name>trigger_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_TIMESTAMP_TRIGGER_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="491" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a142018736ea30d27e6d10463091c7ce4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trigger_source</definition>
+        <argsstring></argsstring>
+        <name>trigger_source</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This parameter can take a value of XMC_DSD_CH_TRIGGER_SOURCE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="492" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DSD timestamp saves result, filter counter register and integrator count register. Note: Trigger source for timestamp and integrator trigger are shared. DSD Filter is mandatory to use this block. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="485" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="484" bodyend="497"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_TIMESTAMP_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_TIMESTAMP_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1ac2c739abd7b7ff733dec0c388322850e" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_TIMESTAMP_CONFIG_t</scope><name>timestamp_conf</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a6384651f4a6552da03d2458a2db91dce" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_TIMESTAMP_CONFIG_t</scope><name>trigger_mode</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___t_i_m_e_s_t_a_m_p___c_o_n_f_i_g__t_1a142018736ea30d27e6d10463091c7ce4" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_TIMESTAMP_CONFIG_t</scope><name>trigger_source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

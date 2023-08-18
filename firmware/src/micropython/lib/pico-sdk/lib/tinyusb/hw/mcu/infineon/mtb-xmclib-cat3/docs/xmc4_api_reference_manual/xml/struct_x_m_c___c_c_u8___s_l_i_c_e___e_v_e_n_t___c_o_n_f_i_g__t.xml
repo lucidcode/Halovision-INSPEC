@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_CCU8_SLICE_EVENT_CONFIG_t</compoundname>
+    <includes local="no">xmc_ccu8.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1a11c90451f175f8b0e687992e609b64d6" prot="public" static="no" mutable="no">
+        <type><ref refid="group___c_c_u8_1gac4f04c5f9737e441bf4f0f587f78255e" kindref="member">XMC_CCU8_SLICE_EVENT_FILTER_t</ref></type>
+        <definition>XMC_CCU8_SLICE_EVENT_FILTER_t duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Low Pass filter duration in terms of fCCU clock cycles. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="868" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="868" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1a4132bee9f09ed2c6dc928efcc84f709e" prot="public" static="no" mutable="no">
+        <type><ref refid="group___c_c_u8_1ga1127c5f846e6a1acce3c27f8eb0860c8" kindref="member">XMC_CCU8_SLICE_EVENT_EDGE_SENSITIVITY_t</ref></type>
+        <definition>XMC_CCU8_SLICE_EVENT_EDGE_SENSITIVITY_t edge</definition>
+        <argsstring></argsstring>
+        <name>edge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the event edge of the input signal. This is needed for an edge sensitive External function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="864" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="864" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1a027e27e584a06a9d915e93819e75a3c0" prot="public" static="no" mutable="no">
+        <type><ref refid="group___c_c_u8_1ga5736fda0968cf11f40d90bcd741fdba5" kindref="member">XMC_CCU8_SLICE_EVENT_LEVEL_SENSITIVITY_t</ref></type>
+        <definition>XMC_CCU8_SLICE_EVENT_LEVEL_SENSITIVITY_t level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the event level of the input signal. This is needed for an level sensitive External function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="866" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="866" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1ae54dbe0f9fe842d4deaf568b99a15b1b" prot="public" static="no" mutable="no">
+        <type><ref refid="group___c_c_u8_1ga6c4633f53c40c3904d457acc65aecb4c" kindref="member">XMC_CCU8_SLICE_INPUT_t</ref></type>
+        <definition>XMC_CCU8_SLICE_INPUT_t mapped_input</definition>
+        <argsstring></argsstring>
+        <name>mapped_input</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Required input signal for the Event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="863" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="863" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration data structure of an External Event(Event-0/1/2). Needed to configure the various aspects of an External Event. This structure will not connect the external event with an external function. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="862" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="861" bodyend="869"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1a11c90451f175f8b0e687992e609b64d6" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_EVENT_CONFIG_t</scope><name>duration</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1a4132bee9f09ed2c6dc928efcc84f709e" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_EVENT_CONFIG_t</scope><name>edge</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1a027e27e584a06a9d915e93819e75a3c0" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_EVENT_CONFIG_t</scope><name>level</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___e_v_e_n_t___c_o_n_f_i_g__t_1ae54dbe0f9fe842d4deaf568b99a15b1b" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_EVENT_CONFIG_t</scope><name>mapped_input</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

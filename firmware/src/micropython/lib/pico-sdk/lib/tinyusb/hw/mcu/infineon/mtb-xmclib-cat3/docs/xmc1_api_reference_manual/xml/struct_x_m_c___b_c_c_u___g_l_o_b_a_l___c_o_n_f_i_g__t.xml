@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_BCCU_GLOBAL_CONFIG_t</compoundname>
+    <includes local="no">xmc_bccu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a5174a0ea9861e1ff7929421a24526c31" prot="public" static="no" mutable="no">
+        <type>union XMC_BCCU_GLOBAL_CONFIG_t::@4</type>
+        <definition>union XMC_BCCU_GLOBAL_CONFIG_t::@4 @5</definition>
+        <argsstring></argsstring>
+        <name>@5</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="402" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1ab9e1067c87ea0f1e386d7f16aa74b8f2" prot="public" static="no" mutable="no">
+        <type>union XMC_BCCU_GLOBAL_CONFIG_t::@6</type>
+        <definition>union XMC_BCCU_GLOBAL_CONFIG_t::@6 @7</definition>
+        <argsstring></argsstring>
+        <name>@7</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="413" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="396" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="398" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a0f03be015d092eee14ba06e50e408a11" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t bclk_sel</definition>
+        <argsstring></argsstring>
+        <name>bclk_sel</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects the bit clock. Use type <ref refid="group___b_c_c_u_1gaf940a779ec7b7ea19cb4a0ba10aeb8fd" kindref="member">XMC_BCCU_BCLK_MODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="409" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a4762e50668b09085d0e8d3c38fc064b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t dclk_ps</definition>
+        <argsstring></argsstring>
+        <name>dclk_ps</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures the ratio between dimmer clock and module clock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="410" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1ac3a291cefc4a99df22f7bfbd45333b43" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fclk_ps</definition>
+        <argsstring></argsstring>
+        <name>fclk_ps</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures the ratio between fast clock and module clock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="407" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a2c7f4046f8083e8dc42699ea013632fa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t global_dimlevel</definition>
+        <argsstring></argsstring>
+        <name>global_dimlevel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures global dimming engine dimming level </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="414" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="414" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a2359b8ee23e77348967410020ebacfae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t globclk</definition>
+        <argsstring></argsstring>
+        <name>globclk</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="412" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a9b6c12e739ac483fbe8b57836799c148" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t globcon</definition>
+        <argsstring></argsstring>
+        <name>globcon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="401" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a5e732088f23e54d42e6c1174fa9e7ae9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t maxzero_at_output</definition>
+        <argsstring></argsstring>
+        <name>maxzero_at_output</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures maximum 0&apos;s allowed at modulator output </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="399" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1ac49fde2058f40c7affa31ce40c1150a1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trig_delay</definition>
+        <argsstring></argsstring>
+        <name>trig_delay</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects trigger delay between channel &amp; module trigger. <linebreak/>
+ Use type <ref refid="group___b_c_c_u_1ga6f6fb567878a0d4ba8918f35fc95f195" kindref="member">XMC_BCCU_TRIGDELAY_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="397" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a5d8561d1de6e6e520f7d0eb2a8898868" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trig_mode</definition>
+        <argsstring></argsstring>
+        <name>trig_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects trigger Mode. Use type <ref refid="group___b_c_c_u_1ga84257e9d3bdd4274a489fe19660bebb6" kindref="member">XMC_BCCU_TRIGMODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="395" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configures a global setting of the BCCU module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" line="390" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_bccu.h" bodystart="389" bodyend="415"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a0f03be015d092eee14ba06e50e408a11" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>bclk_sel</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a4762e50668b09085d0e8d3c38fc064b3" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>dclk_ps</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1ac3a291cefc4a99df22f7bfbd45333b43" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>fclk_ps</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a2c7f4046f8083e8dc42699ea013632fa" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>global_dimlevel</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a2359b8ee23e77348967410020ebacfae" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>globclk</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a9b6c12e739ac483fbe8b57836799c148" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>globcon</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a5e732088f23e54d42e6c1174fa9e7ae9" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>maxzero_at_output</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1ac49fde2058f40c7affa31ce40c1150a1" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>trig_delay</name></member>
+      <member refid="struct_x_m_c___b_c_c_u___g_l_o_b_a_l___c_o_n_f_i_g__t_1a5d8561d1de6e6e520f7d0eb2a8898868" prot="public" virt="non-virtual"><scope>XMC_BCCU_GLOBAL_CONFIG_t</scope><name>trig_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

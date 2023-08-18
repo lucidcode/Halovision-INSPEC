@@ -1,0 +1,921 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__gpio_8h" kind="file" language="C++">
+    <compoundname>xmc_gpio.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <includes refid="xmc1__gpio_8h" local="yes">xmc1_gpio.h</includes>
+    <incdepgraph>
+      <node id="42">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="41">
+        <label>xmc_gpio.h</label>
+        <link refid="xmc__gpio_8h"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___g_p_i_o_1ga5fe17c3dc6387b1ccfbc4c5c667c58a1" prot="public" static="no">
+        <name>PORT_IOCR_PC_Msk</name>
+        <initializer>PORT0_IOCR0_PC0_Msk</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="99" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___g_p_i_o_1ga669e3b046e7ee4d93631b0befa10ca24" prot="public" static="no">
+        <name>PORT_IOCR_PC_Pos</name>
+        <initializer>PORT0_IOCR0_PC0_Pos</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="98" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___g_p_i_o_1ga22bdd3c6eb0d689b8807fdd9440c74ae" prot="public" static="no">
+        <name>PORT_IOCR_PC_Size</name>
+        <initializer>(8U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="101" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___g_p_i_o_1gab47a25c59fc1f4a049cdf650da1a3f8a" prot="public" static="no">
+        <name>XMC_GPIO_CHECK_HWCTRL</name>
+        <param><defname>hwctrl</defname></param>
+        <initializer>((hwctrl == <ref refid="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba3208a9c87eb07229a05a4c9fac116316" kindref="member">XMC_GPIO_HWCTRL_DISABLED</ref>) || \
+                                       (hwctrl == <ref refid="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba334857542b61d28cf718f9209f907c3e" kindref="member">XMC_GPIO_HWCTRL_PERIPHERAL1</ref>) || \
+                                       (hwctrl == <ref refid="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba87350dd2a252b6113d23b84187b84d50" kindref="member">XMC_GPIO_HWCTRL_PERIPHERAL2</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="107" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___g_p_i_o_1gac5ca4560fae138b25b4ee4e09762d3d2" prot="public" static="no">
+        <name>XMC_GPIO_CHECK_OUTPUT_LEVEL</name>
+        <param><defname>level</defname></param>
+        <initializer>((level == <ref refid="group___g_p_i_o_1ggae796714115da2c77c076003e8ad2053fa0b47a549e84c8546805265a5aac61830" kindref="member">XMC_GPIO_OUTPUT_LEVEL_LOW</ref>) || \
+                                            (level == <ref refid="group___g_p_i_o_1ggae796714115da2c77c076003e8ad2053fafcc6153b96e6dcd46e5fd5efd72e3b3e" kindref="member">XMC_GPIO_OUTPUT_LEVEL_HIGH</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="104" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___g_p_i_o_1gaf85dc33336968687ecddaee8e7e8f6eb" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_GPIO_HWCTRL_t</name>
+        <enumvalue id="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba3208a9c87eb07229a05a4c9fac116316" prot="public">
+          <name>XMC_GPIO_HWCTRL_DISABLED</name>
+          <initializer>= 0x0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Software control only </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba334857542b61d28cf718f9209f907c3e" prot="public">
+          <name>XMC_GPIO_HWCTRL_PERIPHERAL1</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>HWI0/HWO0 control path can override the software configuration </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba87350dd2a252b6113d23b84187b84d50" prot="public">
+          <name>XMC_GPIO_HWCTRL_PERIPHERAL2</name>
+          <initializer>= 0x2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>HWI1/HWO1 control path can override the software configuration </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines direct hardware control characteristics of the pin . Use type <emphasis>XMC_GPIO_HWCTRL_t</emphasis> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="129" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="128" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___g_p_i_o_1gae796714115da2c77c076003e8ad2053f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_GPIO_OUTPUT_LEVEL_t</name>
+        <enumvalue id="group___g_p_i_o_1ggae796714115da2c77c076003e8ad2053fa0b47a549e84c8546805265a5aac61830" prot="public">
+          <name>XMC_GPIO_OUTPUT_LEVEL_LOW</name>
+          <initializer>= 0x10000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Reset bit </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___g_p_i_o_1ggae796714115da2c77c076003e8ad2053fafcc6153b96e6dcd46e5fd5efd72e3b3e" prot="public">
+          <name>XMC_GPIO_OUTPUT_LEVEL_HIGH</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Set bit </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines output level of a pin. Use type <emphasis>XMC_GPIO_OUTPUT_LEVEL_t</emphasis> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="120" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="119" bodyend="123"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___g_p_i_o_1gad796aedef4f81dd1d163da303dfd1ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_DisableDigitalInput</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_DisableDigitalInput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_PDISC. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disable digital input path for analog pins and configures Pn_PDISC register.This configuration is applicable only for analog port pins. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="459" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="459" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1gae5ea48c27cd7c4d0503defafd137af94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_DisablePowerSaveMode</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_DisablePowerSaveMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_PPS. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables pin power save mode and configures Pn_PPS register.This configuration is useful when the controller enters Deep Sleep mode. This configuration enables input Schmitt-Trigger and output driver stage(if pin is enabled power save mode previously). By default port <emphasis>pin</emphasis> does not react to power save mode request.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___g_p_i_o_1gae1948ff74f8934cc1f8adbf1be58ec0b" kindref="member">XMC_GPIO_EnablePowerSaveMode()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Do not enable the Pin Power Save function for pins configured for Hardware Control (Pn_HWSEL.HWx != 00B). Doing so may result in an undefined behavior of the pin when the device enters the Deep Sleep state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="391" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="391" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1gab0944440c16de2b1ae3fd4f328b77cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_EnableDigitalInput</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_EnableDigitalInput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_PDISC. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enable digital input path for analog pins and configures Pn_PDISC register.This configuration is applicable only for analog port pins. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="436" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="436" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1gae1948ff74f8934cc1f8adbf1be58ec0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_EnablePowerSaveMode</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_EnablePowerSaveMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_PPS. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables pin power save mode and configures Pn_PPS register.This configuration is useful when the controller enters Deep Sleep mode.Port pin enabled with power save mode option are set to a defined state and the input Schmitt-Trigger as well as the output driver stage are switched off. By default port pin does not react to power save mode request.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___g_p_i_o_1gae5ea48c27cd7c4d0503defafd137af94" kindref="member">XMC_GPIO_DisablePowerSaveMode()</ref></para>
+</simplesect>
+<bold>Note:</bold><linebreak/>
+ Do not enable the Pin Power Save function for pins configured for Hardware Control (Pn_HWSEL.HWx != 00B). Doing so may result in an undefined behavior of the pin when the device enters the Deep Sleep state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="362" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="362" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1gaeaa8eff8bbe2c83be674169ce3ac29fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_GPIO_GetInput</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_GetInput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_IN. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t pin logic level status.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads the Pn_IN register and returns the current logical value at the GPIO pin.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Prior to this api, user has to configure port pin to input mode using <ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="334" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="334" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1ga05749322fa717f789b178838955b8c5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_Init</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_CONFIG_t *const config)</argsstring>
+        <name>XMC_GPIO_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___g_p_i_o___c_o_n_f_i_g__t" kindref="compound">XMC_GPIO_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer pointing to GPIO port, to access port registers like Pn_OUT,Pn_OMR,Pn_IOCR etc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port pin number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>GPIO configuration data structure. Refer data structure <ref refid="struct_x_m_c___g_p_i_o___c_o_n_f_i_g__t" kindref="compound">XMC_GPIO_CONFIG_t</ref> for details.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes input / output mode settings like, pull up / pull down devices,hysteresis, push pull /open drain. Also configures alternate function outputs and clears hardware port control for a selected <emphasis>port</emphasis> <emphasis>and</emphasis> <emphasis>pin</emphasis>. <emphasis>config</emphasis> provides selected I/O settings. It configures hardware registers Pn_IOCR,Pn_OUT, Pn_OMR,Pn_PDISC and Pn_PHCR.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called in definition of DAVE_init by code generation and therefore should not be explicitly called for the normal operation. Use other APIs only after DAVE_init is called successfully (returns DAVE_STATUS_SUCCESS). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="186" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1ga90b8519a240ddb93289d8960c6c276b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_SetHardwareControl</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_HWCTRL_t hwctrl)</argsstring>
+        <name>XMC_GPIO_SetHardwareControl</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___g_p_i_o_1gaf85dc33336968687ecddaee8e7e8f6eb" kindref="member">XMC_GPIO_HWCTRL_t</ref></type>
+          <declname>hwctrl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_HWSEL. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hwctrl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>direct hardware control selection. Refer <ref refid="group___g_p_i_o_1gaf85dc33336968687ecddaee8e7e8f6eb" kindref="member">XMC_GPIO_HWCTRL_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Selects direct hard ware control and configures Pn_HWSEL register.This configuration is useful for the port pins overlaid with peripheral functions for which the connected peripheral needs hardware control.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Do not enable the Pin Power Save function for pins configured for Hardware Control (Pn_HWSEL.HWx != 00B). Doing so may result in an undefined behavior of the pin when the device enters the Deep Sleep state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="419" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_SetMode</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_MODE_t mode)</argsstring>
+        <name>XMC_GPIO_SetMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___g_p_i_o_1ga9cd340b4c59ef98d0ab5a6ccebbacc4c" kindref="member">XMC_GPIO_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer pointing to GPIO port, to access hardware register Pn_IOCR. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port pin number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input / output functionality selection. Refer <ref refid="group___g_p_i_o_1ga9cd340b4c59ef98d0ab5a6ccebbacc4c" kindref="member">XMC_GPIO_MODE_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets digital input and output driver functionality and characteristics of a GPIO port pin. It configures hardware registers Pn_IOCR. <emphasis>mode</emphasis> is initially configured during initialization in <ref refid="group___g_p_i_o_1ga05749322fa717f789b178838955b8c5b" kindref="member">XMC_GPIO_Init()</ref>. Call this API to alter the port direction functionality as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para>None </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="206" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1ga01459125b23da366e2024fe0a1bd2fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_SetOutputHigh</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_SetOutputHigh</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_OMR. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets port pin output to high. It configures hardware registers Pn_OMR.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___g_p_i_o_1gad2e15116d55939bd7dda8e6d435af306" kindref="member">XMC_GPIO_SetOutputLow()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Prior to this api, user has to configure port pin to output mode using <ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode()</ref>.<linebreak/>
+Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value of 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="257" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="257" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1ga852f4a9186180e6b1b2479409d6137c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_SetOutputLevel</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_OUTPUT_LEVEL_t level)</argsstring>
+        <name>XMC_GPIO_SetOutputLevel</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___g_p_i_o_1gae796714115da2c77c076003e8ad2053f" kindref="member">XMC_GPIO_OUTPUT_LEVEL_t</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer pointing to GPIO port, to access hardware register Pn_OMR. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port pin number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>output level selection. Refer <ref refid="group___g_p_i_o_1gae796714115da2c77c076003e8ad2053f" kindref="member">XMC_GPIO_OUTPUT_LEVEL_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set port pin output level to high or low.It configures hardware registers Pn_OMR.<emphasis>level</emphasis> is initially configured during initialization in <ref refid="group___g_p_i_o_1ga05749322fa717f789b178838955b8c5b" kindref="member">XMC_GPIO_Init()</ref>. Call this API to alter output level as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___g_p_i_o_1ga01459125b23da366e2024fe0a1bd2fcf" kindref="member">XMC_GPIO_SetOutputHigh()</ref>, <ref refid="group___g_p_i_o_1gad2e15116d55939bd7dda8e6d435af306" kindref="member">XMC_GPIO_SetOutputLow()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Prior to this api, user has to configure port pin to output mode using <ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="230" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="230" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1gad2e15116d55939bd7dda8e6d435af306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_SetOutputLow</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_SetOutputLow</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_OMR. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets port pin output to low. It configures hardware registers Pn_OMR.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:&gt;</title><para><ref refid="group___g_p_i_o_1ga01459125b23da366e2024fe0a1bd2fcf" kindref="member">XMC_GPIO_SetOutputHigh()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Prior to this api, user has to configure port pin to output mode using <ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode()</ref>. Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value of 0.<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="283" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="283" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="group___g_p_i_o_1ga155edaad7a177ff1779c0e59b3df6e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_GPIO_ToggleOutput</definition>
+        <argsstring>(XMC_GPIO_PORT_t *const port, const uint8_t pin)</argsstring>
+        <name>XMC_GPIO_ToggleOutput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> *const</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>constant pointer pointing to GPIO port, to access hardware register Pn_OMR. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>port pin number.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures port pin output to Toggle. It configures hardware registers Pn_OMR.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___g_p_i_o_1ga01459125b23da366e2024fe0a1bd2fcf" kindref="member">XMC_GPIO_SetOutputHigh()</ref>, <ref refid="group___g_p_i_o_1gad2e15116d55939bd7dda8e6d435af306" kindref="member">XMC_GPIO_SetOutputLow()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Prior to this api, user has to configure port pin to output mode using <ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode()</ref>. Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value of 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" line="309" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h" bodystart="309" bodyend="314"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-06-20 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="55"><highlight class="preprocessor">#ifndef<sp/>XMC_GPIO_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_GPIO_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="95"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="96"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PORT_IOCR_PC_Pos<sp/>PORT0_IOCR0_PC0_Pos</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PORT_IOCR_PC_Msk<sp/>PORT0_IOCR0_PC0_Msk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PORT_IOCR_PC_Size<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(8U)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_GPIO_CHECK_OUTPUT_LEVEL(level)<sp/>((level<sp/>==<sp/>XMC_GPIO_OUTPUT_LEVEL_LOW)<sp/>||<sp/>\</highlight></codeline>
+<codeline lineno="105"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(level<sp/>==<sp/>XMC_GPIO_OUTPUT_LEVEL_HIGH))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_GPIO_CHECK_HWCTRL(hwctrl)<sp/>((hwctrl<sp/>==<sp/>XMC_GPIO_HWCTRL_DISABLED)<sp/>||<sp/>\</highlight></codeline>
+<codeline lineno="108"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(hwctrl<sp/>==<sp/>XMC_GPIO_HWCTRL_PERIPHERAL1)<sp/>||<sp/>\</highlight></codeline>
+<codeline lineno="109"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(hwctrl<sp/>==<sp/>XMC_GPIO_HWCTRL_PERIPHERAL2))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="112"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="113"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_GPIO_OUTPUT_LEVEL</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><ref refid="group___g_p_i_o_1ggae796714115da2c77c076003e8ad2053fa0b47a549e84c8546805265a5aac61830" kindref="member">XMC_GPIO_OUTPUT_LEVEL_LOW</ref><sp/><sp/>=<sp/>0x10000U,<sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><ref refid="group___g_p_i_o_1ggae796714115da2c77c076003e8ad2053fafcc6153b96e6dcd46e5fd5efd72e3b3e" kindref="member">XMC_GPIO_OUTPUT_LEVEL_HIGH</ref><sp/>=<sp/>0x1U,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><ref refid="group___g_p_i_o_1gae796714115da2c77c076003e8ad2053f" kindref="member">XMC_GPIO_OUTPUT_LEVEL_t</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_GPIO_HWCTRL</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><ref refid="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba3208a9c87eb07229a05a4c9fac116316" kindref="member">XMC_GPIO_HWCTRL_DISABLED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0U,<sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><ref refid="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba334857542b61d28cf718f9209f907c3e" kindref="member">XMC_GPIO_HWCTRL_PERIPHERAL1</ref><sp/><sp/>=<sp/>0x1U,<sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><ref refid="group___g_p_i_o_1ggaf85dc33336968687ecddaee8e7e8f6eba87350dd2a252b6113d23b84187b84d50" kindref="member">XMC_GPIO_HWCTRL_PERIPHERAL2</ref><sp/><sp/>=<sp/>0x2U<sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}<sp/><ref refid="group___g_p_i_o_1gaf85dc33336968687ecddaee8e7e8f6eb" kindref="member">XMC_GPIO_HWCTRL_t</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="136"><highlight class="comment"><sp/>*<sp/>DEVICE<sp/>FAMILY<sp/>EXTENSIONS</highlight></codeline>
+<codeline lineno="137"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>UC_FAMILY<sp/>==<sp/>XMC1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc1_gpio.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>UC_FAMILY<sp/>==<sp/>XMC4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc4_gpio.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#error<sp/>&quot;xmc_gpio.h:<sp/>family<sp/>device<sp/>not<sp/>supported&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="148"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="149"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga05749322fa717f789b178838955b8c5b" kindref="member">XMC_GPIO_Init</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___g_p_i_o___c_o_n_f_i_g__t" kindref="compound">XMC_GPIO_CONFIG_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>config);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga2d52a863e693424c88d5dd8ecf9f2e46" kindref="member">XMC_GPIO_SetMode</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga9cd340b4c59ef98d0ab5a6ccebbacc4c" kindref="member">XMC_GPIO_MODE_t</ref><sp/>mode);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga852f4a9186180e6b1b2479409d6137c3" kindref="member">XMC_GPIO_SetOutputLevel</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gae796714115da2c77c076003e8ad2053f" kindref="member">XMC_GPIO_OUTPUT_LEVEL_t</ref><sp/>level)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_SetOutputLevel:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_OUTPUT_PORT(port));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_SetOutputLevel:<sp/>Invalid<sp/>output<sp/>level&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_OUTPUT_LEVEL(level));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a88c96396fe255aecb1ccc63d88e4bc27" kindref="member">OMR</ref><sp/>=<sp/>(uint32_t)level<sp/>&lt;&lt;<sp/>pin;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga01459125b23da366e2024fe0a1bd2fcf" kindref="member">XMC_GPIO_SetOutputHigh</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_SetOutputHigh:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_OUTPUT_PORT(port));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a88c96396fe255aecb1ccc63d88e4bc27" kindref="member">OMR</ref><sp/>=<sp/>(uint32_t)0x1U<sp/>&lt;&lt;<sp/>pin;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gad2e15116d55939bd7dda8e6d435af306" kindref="member">XMC_GPIO_SetOutputLow</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_SetOutputLow:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_OUTPUT_PORT(port));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a88c96396fe255aecb1ccc63d88e4bc27" kindref="member">OMR</ref><sp/>=<sp/>0x10000U<sp/>&lt;&lt;<sp/>pin;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga155edaad7a177ff1779c0e59b3df6e01" kindref="member">XMC_GPIO_ToggleOutput</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_ToggleOutput:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_OUTPUT_PORT(port));</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a88c96396fe255aecb1ccc63d88e4bc27" kindref="member">OMR</ref><sp/>=<sp/>0x10001U<sp/>&lt;&lt;<sp/>pin;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___g_p_i_o_1gaeaa8eff8bbe2c83be674169ce3ac29fb" kindref="member">XMC_GPIO_GetInput</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_GetInput:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_PORT(port));</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(((port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a63da21d554c311fef9904c93f828ef36" kindref="member">IN</ref>)<sp/>&gt;&gt;<sp/>pin)<sp/>&amp;<sp/>0x1U);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gae1948ff74f8934cc1f8adbf1be58ec0b" kindref="member">XMC_GPIO_EnablePowerSaveMode</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_EnablePowerSaveMode:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_PORT(port));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a8b69daa24570140d4ff7e3b24399c59f" kindref="member">PPS</ref><sp/>|=<sp/>(uint32_t)0x1U<sp/>&lt;&lt;<sp/>pin;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gae5ea48c27cd7c4d0503defafd137af94" kindref="member">XMC_GPIO_DisablePowerSaveMode</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_DisablePowerSaveMode:<sp/>Invalid<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_PORT(port));</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a8b69daa24570140d4ff7e3b24399c59f" kindref="member">PPS</ref><sp/>&amp;=<sp/>~(uint32_t)((uint32_t)0x1U<sp/>&lt;&lt;<sp/>pin);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1ga90b8519a240ddb93289d8960c6c276b1" kindref="member">XMC_GPIO_SetHardwareControl</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gaf85dc33336968687ecddaee8e7e8f6eb" kindref="member">XMC_GPIO_HWCTRL_t</ref><sp/>hwctrl);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gab0944440c16de2b1ae3fd4f328b77cc6" kindref="member">XMC_GPIO_EnableDigitalInput</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="437"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_EnableDigitalInput:<sp/>Invalid<sp/>analog<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_ANALOG_PORT(port));</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a7b401f77239b98780f08a10dab3a02c5" kindref="member">PDISC</ref><sp/>&amp;=<sp/>~(uint32_t)((uint32_t)0x1U<sp/>&lt;&lt;<sp/>pin);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___g_p_i_o_1gad796aedef4f81dd1d163da303dfd1ade" kindref="member">XMC_GPIO_DisableDigitalInput</ref>(<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>port,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>pin)</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/>XMC_ASSERT(</highlight><highlight class="stringliteral">&quot;XMC_GPIO_EnableDigitalInput:<sp/>Invalid<sp/>analog<sp/>port&quot;</highlight><highlight class="normal">,<sp/>XMC_GPIO_CHECK_ANALOG_PORT(port));</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/>port-&gt;<ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a7b401f77239b98780f08a10dab3a02c5" kindref="member">PDISC</ref><sp/>|=<sp/>(uint32_t)0x1U<sp/>&lt;&lt;<sp/>pin;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_GPIO_H<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_gpio.h"/>
+  </compounddef>
+</doxygen>

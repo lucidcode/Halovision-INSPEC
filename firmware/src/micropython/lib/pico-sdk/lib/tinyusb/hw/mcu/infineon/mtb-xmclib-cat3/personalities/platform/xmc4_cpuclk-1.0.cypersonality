@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc4_cpuclk-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* CPU clock personality description file for XMC4000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc4_cpuclk" name="CPUCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc4_scu" />
+    <Resource name="scu\.clock\.cpuclk" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fCPU" />
+    <ExposedMember key="divider" paramId="divider" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamString id="sysclk_resource" name="System Clock Resource" group="Internal"
+      default="scu[0].clock[0].sysclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="sysclk_enabled" name="System Clock Enabled" group="Internal"
+      default="`${isBlockUsed(sysclk_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="fSYS" name="System Clock Frequency (Hz)" group="Internal"
+      default="`${sysclk_enabled ? getExposedMember(sysclk_resource, &quot;frequency&quot;) : 0.0}`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="ccuclk_resource" name="CCU Clock Resource" group="Internal"
+      default="scu[0].clock[0].ccuclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="ccuclk_enabled" name="CCU Clock Enabled" group="Internal"
+      default="`${isBlockUsed(ccuclk_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="periclk_resource" name="Peripheral Clock Resource" group="Internal"
+      default="scu[0].clock[0].periclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="periclk_enabled" name="Peripheral Clock Enabled" group="Internal"
+      default="`${isBlockUsed(periclk_resource)}`" visible="false" editable="false" desc="" />
+
+    <!-- General -->
+    <ParamString id="clock_source_info" name="Source Clock" group="General"
+      default="System Clock (`${formatFrequency(fSYS)}`)"
+      visible="true" editable="false" desc="CPU clock source" />
+    <ParamRange id="divider" name="Divider" group="General"
+      default="1" min="1" max="2" resolution="1"
+      visible="true" editable="true" desc="CPU clock divider." />
+    <ParamString id="fCPU" name="Frequency (Hz)" group="Internal"
+      default="`${(fSYS / divider)}`" visible="false" editable="false" desc="" />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fCPU)}`" visible="true" editable="false"
+      desc="Actual CPU clock frequency." />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Invalid combination of values for clock dividers for fCCU , fCPU and fPERI clocks" condition="`${
+      (divider == 2) &amp;&amp;
+      periclk_enabled &amp;&amp;
+      (getExposedMember(periclk_resource, &quot;divider&quot;) == 2)}`">
+      <FixIt action="SET_PARAM" target="divider" value="1" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Invalid combination of values for clock dividers for fCCU , fCPU and fPERI clocks" condition="`${
+      ccuclk_enabled &amp;&amp;
+      periclk_enabled &amp;&amp;
+      (getExposedMember(ccuclk_resource, &quot;divider&quot;) == 2) &amp;&amp;
+      (divider == 1) &amp;&amp;
+      (getExposedMember(periclk_resource, &quot;divider&quot;) == 1)}`">
+      <FixIt action="SET_PARAM" target="divider" value="2" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_CPUCLK_DIV" value="`${divider}`U" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

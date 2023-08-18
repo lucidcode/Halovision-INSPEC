@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_t_h___m_a_c__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ETH_MAC_t</compoundname>
+    <includes local="no">xmc_eth_mac.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1ab6b52376c1b9d81e6ea6f95a1225f832" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>MAC address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="391" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a1ba01ed0f91e266ea6807a11dfb7a8d2" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* frame_end</definition>
+        <argsstring></argsstring>
+        <name>frame_end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>End of assembled frame fragments </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="396" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a4f3e754421d66a7ab11eb638c1d1fc95" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t num_rx_buf</definition>
+        <argsstring></argsstring>
+        <name>num_rx_buf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How many RX descriptors? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="397" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a4fc231264b9b91e8a8100e19e4749412" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t num_tx_buf</definition>
+        <argsstring></argsstring>
+        <name>num_tx_buf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How many TX descriptors? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="398" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a7febd80638cbe7497e478e50cb3dada0" prot="public" static="no" mutable="no">
+        <type>ETH_GLOBAL_TypeDef *</type>
+        <definition>ETH_GLOBAL_TypeDef* regs</definition>
+        <argsstring></argsstring>
+        <name>regs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH module 0 (now, we have a single ETH module) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="390" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1abb15c7b538096e612c6d3b0000936966" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* rx_buf</definition>
+        <argsstring></argsstring>
+        <name>rx_buf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RX buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="394" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1af66e76bbc240b59944cc76eb7bf67c6e" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t" kindref="compound">XMC_ETH_MAC_DMA_DESC_t</ref> *</type>
+        <definition>XMC_ETH_MAC_DMA_DESC_t* rx_desc</definition>
+        <argsstring></argsstring>
+        <name>rx_desc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA descriptor: RX </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="392" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1ac4b08f79fc99cb2c9c396b1d2be494bb" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t rx_index</definition>
+        <argsstring></argsstring>
+        <name>rx_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive descriptor index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="400" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a8a75dbee0db96d1e078035555512308c" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* tx_buf</definition>
+        <argsstring></argsstring>
+        <name>tx_buf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TX buffer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="395" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a43510ff59f7aa55c21781f9806391d69" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t" kindref="compound">XMC_ETH_MAC_DMA_DESC_t</ref> *</type>
+        <definition>XMC_ETH_MAC_DMA_DESC_t* tx_desc</definition>
+        <argsstring></argsstring>
+        <name>tx_desc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA descriptor: TX </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="393" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1afe6711d9a4857506ccc25f1b7c6be7fb" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t tx_index</definition>
+        <argsstring></argsstring>
+        <name>tx_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit descriptor index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="399" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c__t_1a260b65b2a7127af0c216a4ab76100ed7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t tx_ts_index</definition>
+        <argsstring></argsstring>
+        <name>tx_ts_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transmit time-stamp descriptor index </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="401" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ETH driver structure </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="103">
+        <label>XMC_ETH_MAC_t</label>
+        <link refid="struct_x_m_c___e_t_h___m_a_c__t"/>
+        <childnode refid="104" relation="usage">
+          <edgelabel>rx_desc</edgelabel>
+          <edgelabel>tx_desc</edgelabel>
+        </childnode>
+      </node>
+      <node id="104">
+        <label>XMC_ETH_MAC_DMA_DESC_t</label>
+        <link refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="389" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="388" bodyend="402"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1ab6b52376c1b9d81e6ea6f95a1225f832" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>address</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a1ba01ed0f91e266ea6807a11dfb7a8d2" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>frame_end</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a4f3e754421d66a7ab11eb638c1d1fc95" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>num_rx_buf</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a4fc231264b9b91e8a8100e19e4749412" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>num_tx_buf</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a7febd80638cbe7497e478e50cb3dada0" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>regs</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1abb15c7b538096e612c6d3b0000936966" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>rx_buf</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1af66e76bbc240b59944cc76eb7bf67c6e" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>rx_desc</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1ac4b08f79fc99cb2c9c396b1d2be494bb" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>rx_index</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a8a75dbee0db96d1e078035555512308c" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>tx_buf</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a43510ff59f7aa55c21781f9806391d69" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>tx_desc</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1afe6711d9a4857506ccc25f1b7c6be7fb" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>tx_index</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c__t_1a260b65b2a7127af0c216a4ab76100ed7" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_t</scope><name>tx_ts_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

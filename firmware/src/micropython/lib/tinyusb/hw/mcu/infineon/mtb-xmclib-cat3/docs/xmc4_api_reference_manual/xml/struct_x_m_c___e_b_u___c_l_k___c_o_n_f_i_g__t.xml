@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_CLK_CONFIG_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a52915698145e503382786493deb73aec" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_CLK_CONFIG_t::@108</type>
+        <definition>union XMC_EBU_CLK_CONFIG_t::@108 @109</definition>
+        <argsstring></argsstring>
+        <name>@109</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="520" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 16</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="514" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="518" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1ad753d31b9d0766627fd62ec39e4074b2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_clk_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_clk_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clocking mode (<ref refid="group___e_b_u_1gac7ec8f923b93a818d30bab867b841cb4" kindref="member">XMC_EBU_CLK_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="515" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a531271845fed54efdcc4ab40f2ad67bc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_clock_divide_ratio</definition>
+        <argsstring></argsstring>
+        <name>ebu_clock_divide_ratio</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clock divide ratio (<ref refid="group___e_b_u_1gac16ab2bd9706fcb054ff1d957406e58c" kindref="member">XMC_EBU_CLOCK_DIVIDE_RATIO_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="517" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a03a46293c6499313c577a0b3d867ebdd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_div2_clk_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_div2_clk_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DIV2 clocking mode (<ref refid="group___e_b_u_1ga5be38f9f088c193d4b51ee01167dceb4" kindref="member">XMC_EBU_DIV2_CLK_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="516" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw0</definition>
+        <argsstring></argsstring>
+        <name>raw0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="511" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Clock configuration values of EBU <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the clock configuration values for clock mode, div2 clock mode and clock divide ratio of EBU. The <ref refid="group___e_b_u_1ga8215e4bdc48f3d94cdacecc6856834a8" kindref="member">XMC_EBU_Init()</ref> can be used to populate the structure with the clock configuration values of the EBU module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="508" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="507" bodyend="521"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_EBU_CLK_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_EBU_CLK_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1ad753d31b9d0766627fd62ec39e4074b2" prot="public" virt="non-virtual"><scope>XMC_EBU_CLK_CONFIG_t</scope><name>ebu_clk_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a531271845fed54efdcc4ab40f2ad67bc" prot="public" virt="non-virtual"><scope>XMC_EBU_CLK_CONFIG_t</scope><name>ebu_clock_divide_ratio</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a03a46293c6499313c577a0b3d867ebdd" prot="public" virt="non-virtual"><scope>XMC_EBU_CLK_CONFIG_t</scope><name>ebu_div2_clk_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___c_l_k___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" virt="non-virtual"><scope>XMC_EBU_CLK_CONFIG_t</scope><name>raw0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

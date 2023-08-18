@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___g_p_i_o___p_o_r_t__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_GPIO_PORT_t</compoundname>
+    <includes local="no">xmc1_gpio.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a9562dc45396d32b99ca9c3e231fae2c4" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t HWSEL</definition>
+        <argsstring></argsstring>
+        <name>HWSEL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pin Hardware Select Register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="216" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a63da21d554c311fef9904c93f828ef36" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t IN</definition>
+        <argsstring></argsstring>
+        <name>IN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The logic level of a GPIO pin can be read via the read-only port input register Pn_IN </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="207" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1ad48ed6e9d87a94ee8bed86d892ff8c2e" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t IOCR[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>IOCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The port input/output control registers select the digital output and input driver functionality and characteristics of a GPIO port pin </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="204" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a88c96396fe255aecb1ccc63d88e4bc27" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t OMR</definition>
+        <argsstring></argsstring>
+        <name>OMR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The port output modification register contains control bits that make it possible to individually set, reset, or toggle the logic state of a single port line </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="200" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a2ab2b086280d99c3849902774755e7ea" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t OUT</definition>
+        <argsstring></argsstring>
+        <name>OUT</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The port output register determines the value of a GPIO pin when it is selected by Pn_IOCRx as output </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="198" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a7b401f77239b98780f08a10dab3a02c5" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PDISC</definition>
+        <argsstring></argsstring>
+        <name>PDISC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pin Function Decision Control Register is to disable/enable the digital pad structure in shared analog and digital ports </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="212" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1ae0779961be5379027809dc2d0e384799" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PHCR[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>PHCR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pad hysteresis control register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="210" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a8b69daa24570140d4ff7e3b24399c59f" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PPS</definition>
+        <argsstring></argsstring>
+        <name>PPS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pin Power Save Register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="215" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1afa4dc3d56731301faf2021a9ce818a59" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED0[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>RESERVED0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="203" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a39fbdbb7ad559315fa9c23de59936655" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED1</definition>
+        <argsstring></argsstring>
+        <name>RESERVED1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="206" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a07f7fd079e4049c700187210dc53c67b" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED2[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>RESERVED2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="209" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a56ebfb64490f6461d0383a743ee6d8c5" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED3[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>RESERVED3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="211" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a49af9f39c846fab6b41cb6dc156fd25a" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED4[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>RESERVED4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="214" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure points port hardware registers. Use type <ref refid="struct_x_m_c___g_p_i_o___p_o_r_t__t" kindref="compound">XMC_GPIO_PORT_t</ref> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" line="197" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_gpio.h" bodystart="196" bodyend="217"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a9562dc45396d32b99ca9c3e231fae2c4" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>HWSEL</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a63da21d554c311fef9904c93f828ef36" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>IN</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1ad48ed6e9d87a94ee8bed86d892ff8c2e" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>IOCR</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a88c96396fe255aecb1ccc63d88e4bc27" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>OMR</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a2ab2b086280d99c3849902774755e7ea" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>OUT</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a7b401f77239b98780f08a10dab3a02c5" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>PDISC</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1ae0779961be5379027809dc2d0e384799" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>PHCR</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a8b69daa24570140d4ff7e3b24399c59f" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>PPS</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1afa4dc3d56731301faf2021a9ce818a59" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>RESERVED0</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a39fbdbb7ad559315fa9c23de59936655" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>RESERVED1</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a07f7fd079e4049c700187210dc53c67b" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>RESERVED2</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a56ebfb64490f6461d0383a743ee6d8c5" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>RESERVED3</name></member>
+      <member refid="struct_x_m_c___g_p_i_o___p_o_r_t__t_1a49af9f39c846fab6b41cb6dc156fd25a" prot="public" virt="non-virtual"><scope>XMC_GPIO_PORT_t</scope><name>RESERVED4</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
