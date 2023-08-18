@@ -24,6 +24,10 @@
  * This file is part of the TinyUSB stack.
  */
 
+#include "tusb_option.h"
+
+#if CFG_TUD_ENABLED && (CFG_TUSB_MCU == OPT_MCU_VALENTYUSB_EPTRI)
+
 #ifndef DEBUG
 #define DEBUG 0
 #endif
@@ -31,10 +35,6 @@
 #ifndef LOG_USB
 #define LOG_USB 0
 #endif
-
-#include "tusb_option.h"
-
-#if TUSB_OPT_DEVICE_ENABLED && (CFG_TUSB_MCU == OPT_MCU_VALENTYUSB_EPTRI)
 
 #include "device/dcd.h"
 #include "dcd_eptri.h"
@@ -314,13 +314,13 @@ static void dcd_reset(void)
   usb_in_ctrl_write(1 << CSR_USB_IN_CTRL_RESET_OFFSET);
   usb_out_ctrl_write(1 << CSR_USB_OUT_CTRL_RESET_OFFSET);
 
-  memset((void *)rx_buffer, 0, sizeof(rx_buffer));
-  memset((void *)rx_buffer_max, 0, sizeof(rx_buffer_max));
-  memset((void *)rx_buffer_offset, 0, sizeof(rx_buffer_offset));
+  memset((void *)(uintptr_t) rx_buffer, 0, sizeof(rx_buffer));
+  memset((void *)(uintptr_t) rx_buffer_max, 0, sizeof(rx_buffer_max));
+  memset((void *)(uintptr_t) rx_buffer_offset, 0, sizeof(rx_buffer_offset));
 
-  memset((void *)tx_buffer, 0, sizeof(tx_buffer));
-  memset((void *)tx_buffer_max, 0, sizeof(tx_buffer_max));
-  memset((void *)tx_buffer_offset, 0, sizeof(tx_buffer_offset));
+  memset((void *)(uintptr_t) tx_buffer, 0, sizeof(tx_buffer));
+  memset((void *)(uintptr_t) tx_buffer_max, 0, sizeof(tx_buffer_max));
+  memset((void *)(uintptr_t) tx_buffer_offset, 0, sizeof(tx_buffer_offset));
   tx_ep = 0;
   tx_active = false;
 
@@ -401,6 +401,13 @@ void dcd_disconnect(uint8_t rhport)
   usb_pullup_out_write(0);
 }
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
 
 //--------------------------------------------------------------------+
 // DCD Endpoint Port

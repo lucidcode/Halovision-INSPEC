@@ -24,7 +24,7 @@ Example usage for driving the 128x160 LCD shield::
 Functions
 ---------
 
-.. function:: lcd.init([type=lcd.LCD_SHIELD, [width=128, [height=160, [framesize=lcd.FWVGA, [refresh=60, [triple_buffer=False, [bgr=False]]]]]]])
+.. function:: init([type=lcd.LCD_SHIELD, [width=128, [height=160, [framesize=lcd.FWVGA, [refresh=60, [triple_buffer=False, [bgr=False, [byte_reverse=False]]]]]]]])
 
    Initializes an attached lcd module.
 
@@ -52,61 +52,69 @@ Functions
     ``triple_buffer`` If True then makes updates to the screen non-blocking in `lcd.LCD_SHIELD`
     mode at the cost of 3X the display RAM. In LCD_DISPLAY* modes triple_buffer is always on.
 
-    ``bgr`` set to True in `lcd.LCD_SHIELD` to swap the red and blue channels.
+    ``bgr`` set to True in `lcd.LCD_SHIELD` to swap the red and blue channels. This argument
+    allows you to use our driver with more types of displays.
 
-.. function:: lcd.deinit()
+    ``byte_reverse`` set to True in `lcd.LCD_SHIELD` to swap RGB565 pixel bytes sent to the LCD.
+    This argument allows you to use our driver with more types of displays.
+
+.. function:: deinit()
 
    Deinitializes the lcd module, internal/external hardware, and I/O pins.
 
-.. function:: lcd.width()
+.. function:: width()
 
    Returns the width of the screen that was set during `lcd.init()`.
 
-.. function:: lcd.height()
+.. function:: height()
 
    Returns the height of the screen that was set during `lcd.init()`.
 
-.. function:: lcd.type()
+.. function:: type()
 
    Returns the type of the screen that was set during `lcd.init()`.
 
-.. function:: lcd.triple_buffer()
+.. function:: triple_buffer()
 
    Returns if triple buffering is enabled that was set during `lcd.init()`.
 
-.. function:: lcd.bgr()
+.. function:: bgr()
 
    Returns if the red and blue channels are swapped that was set during `lcd.init()`.
 
-.. function:: lcd.framesize()
+.. function:: byte_reverse()
+
+   Returns if the RGB565 pixels are displayed byte reversed that was set during `lcd.init()`.
+
+.. function:: framesize()
 
    Returns the framesize that was set during `lcd.init()`.
 
-.. function:: lcd.refresh()
+.. function:: refresh()
 
    Returns the refresh rate that was set during `lcd.init()`.
 
-.. function:: lcd.set_backlight(value)
+.. function:: set_backlight(value)
 
    Sets the lcd backlight dimming value. 0 (off) to 255 (on).
 
-   In `lcd.LCD_SHIELD` mode this controls the DAC on P5 to provide the dimming value. If set to 0
-   P5 is pulled low and if set to 255 P5 is unitialized assuming that the SPI LCD shield's backlight
+   In `lcd.LCD_SHIELD` mode this controls the DAC on P6 to provide the dimming value. If set to 0
+   P6 is pulled low and if set to 255 P6 is unitialized assuming that the SPI LCD shield's backlight
    is by default always on.
 
    In LCD_DISPLAY* modes this controls a PWM signal to a standard backlight dimming circuit.
 
-.. function:: lcd.get_backlight()
+.. function:: get_backlight()
 
    Returns the lcd backlight dimming value.
 
-.. function:: lcd.get_display_connected()
+.. function:: get_display_connected()
 
    In LCD_DISPLAY_*_HDMI modes returns if an external display is connected.
 
    This function can be called before `lcd.init()` so you can control how you init this module.
 
-.. function:: lcd.register_hotplug_cb(callback)
+.. function:: register_hotplug_cb(callback)
 
    In LCD_DISPLAY_*_HDMI modes registers a ``callback`` function that be called whenever the state
    of an external display being connected changes. The new state will be passed as an argument.
@@ -114,7 +122,7 @@ Functions
    If you use this method do not call `lcd.get_display_connected()` anymore until the callback is
    disabled by pass ``None`` as the callback for this method.
 
-.. function:: lcd.get_display_id_data()
+.. function:: get_display_id_data()
 
    In LCD_DISPLAY_*_HDMI modes this function returns the external display EDID data as a bytes()
    object. Verifying the EDID headers, checksums, and concatenating all sections into one bytes()
@@ -122,18 +130,18 @@ Functions
 
    This function can be called before `lcd.init()` so you can control how you init this module.
 
-.. function:: lcd.send_frame(dst_addr, src_addr, bytes)
+.. function:: send_frame(dst_addr, src_addr, bytes)
 
    In LCD_DISPLAY_*_HDMI modes this function sends a packet on the HDMI-CEC bus to ``dst_addr`` with
    source ``src_addr`` and data ``bytes``.
 
-.. function:: lcd.receive_frame(dst_addr, timeout=1000)
+.. function:: receive_frame(dst_addr, timeout=1000)
 
    In LCD_DISPLAY_*_HDMI modes this function waits ``timeout`` milliseconds to receive an HDMI-CEC
    frame for address ``dst_addr``. Returns True if the received frame was for ``dst_addr`` and False
    if not. On timeout throws an `OSError` Exception.
 
-.. function:: lcd.register_receive_cb(callback, dst_addr)
+.. function:: register_receive_cb(callback, dst_addr)
 
    In LCD_DISPLAY_*_HDMI modes registers a ``callback`` which will be called on reception of an
    HDMI-CEC frame. The callback will receive one argument of True or False if the HDMI-CEC frame
@@ -142,7 +150,7 @@ Functions
    If you use this method do not call `lcd.receive_frame()` anymore until the callback is
    disabled by pass ``None`` as the callback for this method.
 
-.. function:: lcd.received_frame_src_addr()
+.. function:: received_frame_src_addr()
 
    In LCD_DISPLAY_*_HDMI modes returns the received HDMI-CEC frame source address if
    `lcd.receive_frame()` or the callback in `lcd.register_receive_cb()` returned True.
@@ -150,7 +158,7 @@ Functions
    When a callback is enabled for the HDMI-CEC bus this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.received_frame_bytes()
+.. function:: received_frame_bytes()
 
    In LCD_DISPLAY_*_HDMI modes returns the received HDMI-CEC frame data payload as a bytes object
    if `lcd.receive_frame()` or the callback in `lcd.register_receive_cb()` returned True.
@@ -158,12 +166,12 @@ Functions
    When a callback is enabled for the HDMI-CEC bus this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.update_touch_points()
+.. function:: update_touch_points()
 
    In LCD_DISPLAY* modes this function reads the touch screen state and returns the number of touch
    points (0-5).
 
-.. function:: lcd.register_touch_cb(callback)
+.. function:: register_touch_cb(callback)
 
    In LCD_DISPLAY* modes this function registers a callback which will receive the number of touch
    points (0-5) when a touch event happens.
@@ -171,7 +179,7 @@ Functions
    If you use this method do not call `lcd.update_touch_points()` anymore until the callback is
    disabled by pass ``None`` as the callback for this method.
 
-.. function:: lcd.get_gesture()
+.. function:: get_gesture()
 
    In LCD_DISPLAY* modes this returns the current touch gesture.
 
@@ -180,14 +188,14 @@ Functions
    When a callback is enabled for the touch screen this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.get_points()
+.. function:: get_points()
 
    In LCD_DISPLAY* modes this returns the current number of touch points (0-5).
 
    When a callback is enabled for the touch screen this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.get_point_flag(index)
+.. function:: get_point_flag(index)
 
    In LCD_DISPLAY* modes this returns the current touch point state of the point at ``index``.
 
@@ -196,7 +204,7 @@ Functions
    When a callback is enabled for the touch screen this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.get_point_id(index)
+.. function:: get_point_id(index)
 
    In LCD_DISPLAY* modes this returns the current touch point ``id`` of the point at ``index``.
 
@@ -206,7 +214,7 @@ Functions
    When a callback is enabled for the touch screen this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.get_point_x_position(index)
+.. function:: get_point_x_position(index)
 
    In LCD_DISPLAY* modes this returns the current touch point x position of the point at ``index``.
 
@@ -215,7 +223,7 @@ Functions
    When a callback is enabled for the touch screen this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.get_point_y_position(index)
+.. function:: get_point_y_position(index)
 
    In LCD_DISPLAY* modes this returns the current touch point y position of the point at ``index``.
 
@@ -224,7 +232,7 @@ Functions
    When a callback is enabled for the touch screen this method should not be called anymore except
    inside of the callback.
 
-.. function:: lcd.display(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None]]]]]]]]]]]])
+.. function:: display(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None]]]]]]]]]]]])
 
    Displays an ``image`` whose top-left corner starts at location x, y. You may either pass x, y
    separately, as a tuple (x, y), or neither.
@@ -274,8 +282,6 @@ Functions
    ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
    ``y_size`` to maintain the aspect-ratio.
 
-   Not supported for compressed images.
-
 .. function:: lcd.clear([display_off=False])
 
    Clears the lcd screen to black.
@@ -287,95 +293,95 @@ Functions
 Constants
 ---------
 
-.. data:: lcd.LCD_NONE
+.. data:: LCD_NONE
 
    Returned by `lcd.type()` when the this module is not initialized.
 
-.. data:: lcd.LCD_SHIELD
+.. data:: LCD_SHIELD
 
    Used to initialize the LCD module in SPI LCD drive mode.
 
-.. data:: lcd.LCD_DISPLAY
+.. data:: LCD_DISPLAY
 
    Used to initialize the LCD module driving a high resolution display.
 
-.. data:: lcd.LCD_DISPLAY_WITH_HDMI
+.. data:: LCD_DISPLAY_WITH_HDMI
 
    Used to initialize the LCD module driving a high resolution display with a secondary mirrored HDMI output.
 
-.. data:: lcd.LCD_DISPLAY_ONLY_HDMI
+.. data:: LCD_DISPLAY_ONLY_HDMI
 
    Used to initialize the LCD module driving an HDMI output.
 
-.. data:: lcd.QVGA
+.. data:: QVGA
 
    320x240 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.TQVGA
+.. data:: TQVGA
 
    240x320 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.FHVGA
+.. data:: FHVGA
 
    480x272 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.FHVGA2
+.. data:: FHVGA2
 
    480x128 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.VGA
+.. data:: VGA
 
    640x480 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.THVGA
+.. data:: THVGA
 
    320x480 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.FWVGA
+.. data:: FWVGA
 
    800x480 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.FWVGA2
+.. data:: FWVGA2
 
    800x320 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.TFWVGA
+.. data:: TFWVGA
 
    480x800 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.TFWVGA2
+.. data:: TFWVGA2
 
    480x480 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.SVGA
+.. data:: SVGA
 
    800x600 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.WSVGA
+.. data:: WSVGA
 
    1024x600 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.XGA
+.. data:: XGA
 
    1024x768 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.SXGA
+.. data:: SXGA
 
    1280x1024 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.SXGA2
+.. data:: SXGA2
 
    1280x400 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.UXGA
+.. data:: UXGA
 
    1600x1200 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.HD
+.. data:: HD
 
    1280x720 resolution for LCD_DISPLAY* modes.
 
-.. data:: lcd.FHD
+.. data:: FHD
 
    1920x1080 resolution for LCD_DISPLAY* modes.
 
@@ -384,42 +390,42 @@ Constants
       Use a ``refresh`` of 30 Hz in `lcd.init()` with this setting. The STM32H7 is not capable of
       driving 1080p at 60 Hz.
 
-.. data:: lcd.LCD_GESTURE_MOVE_UP
+.. data:: LCD_GESTURE_MOVE_UP
 
    Touch screen move up gesture.
 
-.. data:: lcd.LCD_GESTURE_MOVE_LEFT
+.. data:: LCD_GESTURE_MOVE_LEFT
 
    Touch screen move left gesture.
 
-.. data:: lcd.LCD_GESTURE_MOVE_DOWN
+.. data:: LCD_GESTURE_MOVE_DOWN
 
    Touch screen move down gesture.
 
-.. data:: lcd.LCD_GESTURE_MOVE_RIGHT
+.. data:: LCD_GESTURE_MOVE_RIGHT
 
    Touch screen move right gesture.
 
-.. data:: lcd.LCD_GESTURE_ZOOM_IN
+.. data:: LCD_GESTURE_ZOOM_IN
 
    Touch screen zoom in gesture.
 
-.. data:: lcd.LCD_GESTURE_ZOOM_OUT
+.. data:: LCD_GESTURE_ZOOM_OUT
 
    Touch screen zoom out gesture.
 
-.. data:: lcd.LCD_GESTURE_NONE
+.. data:: LCD_GESTURE_NONE
 
    Touch screen no gesture.
 
-.. data:: lcd.LCD_FLAG_PRESSED
+.. data:: LCD_FLAG_PRESSED
 
    Touch point is pressed.
 
-.. data:: lcd.LCD_FLAG_RELEASED
+.. data:: LCD_FLAG_RELEASED
 
    Touch point is released.
 
-.. data:: lcd.LCD_FLAG_MOVED
+.. data:: LCD_FLAG_MOVED
 
    Touch point is moved.

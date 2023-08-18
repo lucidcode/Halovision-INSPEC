@@ -16,14 +16,14 @@ CFLAGS += \
   -mfpu=fpv5-d16 \
   -nostdlib -nostartfiles \
   -DCFG_TUSB_MCU=OPT_MCU_STM32F7 \
-  -DBOARD_DEVICE_RHPORT_NUM=$(PORT)
+  -DBOARD_TUD_RHPORT=$(PORT)
 
 ifeq ($(PORT), 1)
   ifeq ($(SPEED), high)
-    CFLAGS += -DBOARD_DEVICE_RHPORT_SPEED=OPT_MODE_HIGH_SPEED
+    CFLAGS += -DBOARD_TUD_MAX_SPEED=OPT_MODE_HIGH_SPEED
     $(info "Using OTG_HS in HighSpeed mode")
   else
-    CFLAGS += -DBOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
+    CFLAGS += -DBOARD_TUD_MAX_SPEED=OPT_MODE_FULL_SPEED
     $(info "Using OTG_HS in FullSpeed mode")
   endif
 else
@@ -34,7 +34,7 @@ endif
 CFLAGS += -Wno-error=shadow -Wno-error=cast-align
 
 SRC_C += \
-	src/portable/st/synopsys/dcd_synopsys.c \
+	src/portable/synopsys/dwc2/dcd_dwc2.c \
 	$(ST_CMSIS)/Source/Templates/system_stm32$(ST_FAMILY)xx.c \
 	$(ST_HAL_DRIVER)/Src/stm32$(ST_FAMILY)xx_hal.c \
 	$(ST_HAL_DRIVER)/Src/stm32$(ST_FAMILY)xx_hal_cortex.c \

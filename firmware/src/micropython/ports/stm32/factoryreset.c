@@ -37,16 +37,20 @@
 #if MICROPY_VFS_FAT
 
 static const char fresh_boot_py[] =
-    "# boot.py -- run on boot-up\r\n"
-    "# can run arbitrary Python, but best to keep it minimal\r\n"
+    "# boot.py -- run on boot to configure USB and filesystem\r\n"
+    "# Put app code in main.py\r\n"
     "\r\n"
     "import machine\r\n"
     "import pyb\r\n"
-    "pyb.country('US') # ISO 3166-1 Alpha-2 code, eg US, GB, DE, AU\r\n"
     "#pyb.main('main.py') # main script to run after this one\r\n"
 #if MICROPY_HW_ENABLE_USB
     "#pyb.usb_mode('VCP+MSC') # act as a serial and a storage device\r\n"
     "#pyb.usb_mode('VCP+HID') # act as a serial device and a mouse\r\n"
+#endif
+#if MICROPY_PY_NETWORK
+    "#import network\r\n"
+    "#network.country('US') # ISO 3166-1 Alpha-2 code, eg US, GB, DE, AU or XX for worldwide\r\n"
+    "#network.hostname('...') # DHCP/mDNS hostname\r\n"
 #endif
 ;
 
@@ -109,6 +113,7 @@ MP_WEAK int factory_reset_create_filesystem(void) {
     uint32_t start_tick = HAL_GetTick();
 
     fs_user_mount_t vfs;
+    vfs.blockdev.flags = 0;
     pyb_flash_init_vfs(&vfs);
     uint8_t working_buf[FF_MAX_SS];
     FRESULT res = f_mkfs(&vfs.fatfs, FM_FAT, 0, working_buf, sizeof(working_buf));

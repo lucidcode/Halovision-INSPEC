@@ -29,7 +29,7 @@
 #include "py/mperrno.h"
 #include "shared/netutils/netutils.h"
 #include "pin_static_af.h"
-#include "modnetwork.h"
+#include "extmod/modnetwork.h"
 #include "mpu.h"
 #include "eth.h"
 
@@ -737,7 +737,7 @@ STATIC void eth_lwip_init(eth_t *self) {
     n->name[0] = 'e';
     n->name[1] = '0';
     netif_add(n, &ipconfig[0], &ipconfig[1], &ipconfig[2], self, eth_netif_init, ethernet_input);
-    netif_set_hostname(n, "MPY");
+    netif_set_hostname(n, mod_network_hostname);
     netif_set_default(n);
     netif_set_up(n);
 

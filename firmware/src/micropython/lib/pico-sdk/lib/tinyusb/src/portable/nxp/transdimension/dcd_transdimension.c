@@ -26,13 +26,15 @@
 
 #include "tusb_option.h"
 
-#if TUSB_OPT_DEVICE_ENABLED && \
-    (CFG_TUSB_MCU == OPT_MCU_LPC18XX || CFG_TUSB_MCU == OPT_MCU_LPC43XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX)
+#if CFG_TUD_ENABLED && \
+    (CFG_TUSB_MCU == OPT_MCU_LPC18XX || CFG_TUSB_MCU == OPT_MCU_LPC43XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT)
+
+#warning "transdimenion is renamed to chipidea (portable/chipidea/ci_hs) to match other opensource naming convention such as linux. This file will be removed in the future, please update your makefile accordingly"
 
 //--------------------------------------------------------------------+
 // INCLUDE
 //--------------------------------------------------------------------+
-#if CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX
+#if CFG_TUSB_MCU == OPT_MCU_MIMXRT
   #include "fsl_device_registers.h"
   #define INCLUDE_FSL_DEVICE_REGISTERS
 #else
@@ -151,7 +153,7 @@ typedef struct
   const uint8_t ep_count; // Max bi-directional Endpoints
 }dcd_controller_t;
 
-#if CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX
+#if CFG_TUSB_MCU == OPT_MCU_MIMXRT
   static const dcd_controller_t _dcd_controller[] =
   {
     // RT1010 and RT1020 only has 1 USB controller
@@ -177,8 +179,8 @@ typedef struct {
   // Must be at 2K alignment
   // Each endpoint with direction (IN/OUT) occupies a queue head
   // for portability, TinyUSB only queue 1 TD for each Qhd
-  dcd_qhd_t qhd[DCD_ATTR_ENDPOINT_MAX][2] TU_ATTR_ALIGNED(64);
-  dcd_qtd_t qtd[DCD_ATTR_ENDPOINT_MAX][2] TU_ATTR_ALIGNED(32);
+  dcd_qhd_t qhd[TUP_DCD_ENDPOINT_MAX][2] TU_ATTR_ALIGNED(64);
+  dcd_qtd_t qtd[TUP_DCD_ENDPOINT_MAX][2] TU_ATTR_ALIGNED(32);
 }dcd_data_t;
 
 CFG_TUSB_MEM_SECTION TU_ATTR_ALIGNED(2048)
@@ -292,6 +294,14 @@ void dcd_disconnect(uint8_t rhport)
   dcd_reg->USBCMD &= ~USBCMD_RUN_STOP;
 }
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
+
 //--------------------------------------------------------------------+
 // HELPER
 //--------------------------------------------------------------------+
@@ -365,7 +375,7 @@ bool dcd_edpt_open(uint8_t rhport, tusb_desc_endpoint_t const * p_endpoint_desc)
   tu_memclr(p_qhd, sizeof(dcd_qhd_t));
 
   p_qhd->zero_length_termination = 1;
-  p_qhd->max_packet_size         = p_endpoint_desc->wMaxPacketSize.size;
+  p_qhd->max_packet_size         = tu_edpt_packet_size(p_endpoint_desc);
   if (p_endpoint_desc->bmAttributes.xfer == TUSB_XFER_ISOCHRONOUS)
   {
     p_qhd->iso_mult = 1;
@@ -636,7 +646,7 @@ void dcd_int_handler(uint8_t rhport)
       // 23.10.10.2 Operational model for setup transfers
       dcd_reg->ENDPTSETUPSTAT = dcd_reg->ENDPTSETUPSTAT;
 
-      dcd_event_setup_received(rhport, (uint8_t*) &_dcd_data.qhd[0][0].setup_request, true);
+      dcd_event_setup_received(rhport, (uint8_t*)(uintptr_t) &_dcd_data.qhd[0][0].setup_request, true);
     }
 
     // 23.10.12.3 Failed QTD also get ENDPTCOMPLETE set
@@ -645,7 +655,7 @@ void dcd_int_handler(uint8_t rhport)
 
     if ( edpt_complete )
     {
-      for(uint8_t epnum = 0; epnum < DCD_ATTR_ENDPOINT_MAX; epnum++)
+      for(uint8_t epnum = 0; epnum < TUP_DCD_ENDPOINT_MAX; epnum++)
       {
         if ( tu_bit_test(edpt_complete, epnum)    ) process_edpt_complete_isr(rhport, epnum, TUSB_DIR_OUT);
         if ( tu_bit_test(edpt_complete, epnum+16) ) process_edpt_complete_isr(rhport, epnum, TUSB_DIR_IN);

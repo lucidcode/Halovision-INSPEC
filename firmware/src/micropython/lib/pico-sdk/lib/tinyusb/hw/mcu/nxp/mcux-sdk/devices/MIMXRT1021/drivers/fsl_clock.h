@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 - 2020 NXP
+ * Copyright 2018 - 2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -39,8 +39,8 @@
 
 /*! @name Driver version */
 /*@{*/
-/*! @brief CLOCK driver version 2.4.0. */
-#define FSL_CLOCK_DRIVER_VERSION (MAKE_VERSION(2, 4, 0))
+/*! @brief CLOCK driver version 2.5.1. */
+#define FSL_CLOCK_DRIVER_VERSION (MAKE_VERSION(2, 5, 1))
 
 /* Definition for delay API in clock driver, users can redefine it to the real application. */
 #ifndef SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY
@@ -464,8 +464,7 @@ typedef enum _clock_ip_name
     /* CCM CCGR0 */
     kCLOCK_Aips_tz1    = (0U << 8U) | CCM_CCGR0_CG0_SHIFT,  /*!< CCGR0, CG0   */
     kCLOCK_Aips_tz2    = (0U << 8U) | CCM_CCGR0_CG1_SHIFT,  /*!< CCGR0, CG1   */
-    kCLOCK_Mqs         = (0U << 8U) | CCM_CCGR0_CG2_SHIFT,  /*!< CCGR0, CG2, Reserved  */
-    kCLOCK_FlexSpiExsc = (0U << 8U) | CCM_CCGR0_CG3_SHIFT,  /*!< CCGR0, CG3   */
+    kCLOCK_Mqs         = (0U << 8U) | CCM_CCGR0_CG2_SHIFT,  /*!< CCGR0, CG2   */
     kCLOCK_Sim_m_clk_r = (0U << 8U) | CCM_CCGR0_CG4_SHIFT,  /*!< CCGR0, CG4   */
     kCLOCK_Dcp         = (0U << 8U) | CCM_CCGR0_CG5_SHIFT,  /*!< CCGR0, CG5   */
     kCLOCK_Lpuart3     = (0U << 8U) | CCM_CCGR0_CG6_SHIFT,  /*!< CCGR0, CG6   */
@@ -480,14 +479,13 @@ typedef enum _clock_ip_name
     kCLOCK_Gpio2       = (0U << 8U) | CCM_CCGR0_CG15_SHIFT, /*!< CCGR0, CG15  */
 
     /* CCM CCGR1 */
-    kCLOCK_Lpspi1 = (1U << 8U) | CCM_CCGR1_CG0_SHIFT,    /*!< CCGR1, CG0   */
-    kCLOCK_Lpspi2 = (1U << 8U) | CCM_CCGR1_CG1_SHIFT,    /*!< CCGR1, CG1   */
-    kCLOCK_Lpspi3 = (1U << 8U) | CCM_CCGR1_CG2_SHIFT,    /*!< CCGR1, CG2   */
-    kCLOCK_Lpspi4 = (1U << 8U) | CCM_CCGR1_CG3_SHIFT,    /*!< CCGR1, CG3   */
-    kCLOCK_Adc2   = (1U << 8U) | CCM_CCGR1_CG4_SHIFT,    /*!< CCGR1, CG4   */
-    kCLOCK_Enet   = (1U << 8U) | CCM_CCGR1_CG5_SHIFT,    /*!< CCGR1, CG5   */
-    kCLOCK_Pit    = (1U << 8U) | CCM_CCGR1_CG6_SHIFT,    /*!< CCGR1, CG6   */
-                                                         /*!< CCGR1, CG7, Reserved */
+    kCLOCK_Lpspi1   = (1U << 8U) | CCM_CCGR1_CG0_SHIFT,  /*!< CCGR1, CG0   */
+    kCLOCK_Lpspi2   = (1U << 8U) | CCM_CCGR1_CG1_SHIFT,  /*!< CCGR1, CG1   */
+    kCLOCK_Lpspi3   = (1U << 8U) | CCM_CCGR1_CG2_SHIFT,  /*!< CCGR1, CG2   */
+    kCLOCK_Lpspi4   = (1U << 8U) | CCM_CCGR1_CG3_SHIFT,  /*!< CCGR1, CG3   */
+    kCLOCK_Adc2     = (1U << 8U) | CCM_CCGR1_CG4_SHIFT,  /*!< CCGR1, CG4   */
+    kCLOCK_Enet     = (1U << 8U) | CCM_CCGR1_CG5_SHIFT,  /*!< CCGR1, CG5   */
+    kCLOCK_Pit      = (1U << 8U) | CCM_CCGR1_CG6_SHIFT,  /*!< CCGR1, CG6   */
     kCLOCK_Adc1     = (1U << 8U) | CCM_CCGR1_CG8_SHIFT,  /*!< CCGR1, CG8   */
     kCLOCK_SemcExsc = (1U << 8U) | CCM_CCGR1_CG9_SHIFT,  /*!< CCGR1, CG9   */
     kCLOCK_Gpt1     = (1U << 8U) | CCM_CCGR1_CG10_SHIFT, /*!< CCGR1, CG10  */
@@ -498,76 +496,59 @@ typedef enum _clock_ip_name
     kCLOCK_Gpio5    = (1U << 8U) | CCM_CCGR1_CG15_SHIFT, /*!< CCGR1, CG15  */
 
     /* CCM CCGR2 */
-    kCLOCK_OcramExsc = (2U << 8U) | CCM_CCGR2_CG0_SHIFT,  /*!< CCGR2, CG0   */
-                                                          /*!< CCGR2, CG1, Reserved */
-    kCLOCK_IomuxcSnvs = (2U << 8U) | CCM_CCGR2_CG2_SHIFT, /*!< CCGR2, CG2   */
-    kCLOCK_Lpi2c1     = (2U << 8U) | CCM_CCGR2_CG3_SHIFT, /*!< CCGR2, CG3   */
-    kCLOCK_Lpi2c2     = (2U << 8U) | CCM_CCGR2_CG4_SHIFT, /*!< CCGR2, CG4   */
-    kCLOCK_Lpi2c3     = (2U << 8U) | CCM_CCGR2_CG5_SHIFT, /*!< CCGR2, CG5   */
-    kCLOCK_Ocotp      = (2U << 8U) | CCM_CCGR2_CG6_SHIFT, /*!< CCGR2, CG6   */
-                                                          /*!< CCGR2, CG7, Reserved */
-                                                          /*!< CCGR2, CG8, Reserved */
-                                                          /*!< CCGR2, CG9, Reserved */
-                                                          /*!< CCGR2, CG10, Reserved */
-    kCLOCK_Xbar1 = (2U << 8U) | CCM_CCGR2_CG11_SHIFT,     /*!< CCGR2, CG11  */
-    kCLOCK_Xbar2 = (2U << 8U) | CCM_CCGR2_CG12_SHIFT,     /*!< CCGR2, CG12  */
-    kCLOCK_Gpio3 = (2U << 8U) | CCM_CCGR2_CG13_SHIFT,     /*!< CCGR2, CG13  */
-                                                          /*!< CCGR2, CG14, Reserved */
-                                                          /*!< CCGR2, CG15, Reserved */
+    kCLOCK_OcramExsc  = (2U << 8U) | CCM_CCGR2_CG0_SHIFT,  /*!< CCGR2, CG0   */
+    kCLOCK_IomuxcSnvs = (2U << 8U) | CCM_CCGR2_CG2_SHIFT,  /*!< CCGR2, CG2   */
+    kCLOCK_Lpi2c1     = (2U << 8U) | CCM_CCGR2_CG3_SHIFT,  /*!< CCGR2, CG3   */
+    kCLOCK_Lpi2c2     = (2U << 8U) | CCM_CCGR2_CG4_SHIFT,  /*!< CCGR2, CG4   */
+    kCLOCK_Lpi2c3     = (2U << 8U) | CCM_CCGR2_CG5_SHIFT,  /*!< CCGR2, CG5   */
+    kCLOCK_Ocotp      = (2U << 8U) | CCM_CCGR2_CG6_SHIFT,  /*!< CCGR2, CG6   */
+    kCLOCK_Xbar1      = (2U << 8U) | CCM_CCGR2_CG11_SHIFT, /*!< CCGR2, CG11  */
+    kCLOCK_Xbar2      = (2U << 8U) | CCM_CCGR2_CG12_SHIFT, /*!< CCGR2, CG12  */
+    kCLOCK_Gpio3      = (2U << 8U) | CCM_CCGR2_CG13_SHIFT, /*!< CCGR2, CG13  */
 
     /* CCM CCGR3 */
-    /*!< CCGR3, CG0, Reserved */
-    kCLOCK_Lpuart5 = (3U << 8U) | CCM_CCGR3_CG1_SHIFT,        /*!< CCGR3, CG1   */
-    kCLOCK_Semc    = (3U << 8U) | CCM_CCGR3_CG2_SHIFT,        /*!< CCGR3, CG2   */
-    kCLOCK_Lpuart6 = (3U << 8U) | CCM_CCGR3_CG3_SHIFT,        /*!< CCGR3, CG3   */
-    kCLOCK_Aoi     = (3U << 8U) | CCM_CCGR3_CG4_SHIFT,        /*!< CCGR3, CG4   */
-                                                              /*!< CCGR3, CG5, Reserved */
-                                                              /*!< CCGR3, CG6, Reserved */
-    kCLOCK_Ewm0    = (3U << 8U) | CCM_CCGR3_CG7_SHIFT,        /*!< CCGR3, CG7   */
-    kCLOCK_Wdog1   = (3U << 8U) | CCM_CCGR3_CG8_SHIFT,        /*!< CCGR3, CG8   */
-    kCLOCK_FlexRam = (3U << 8U) | CCM_CCGR3_CG9_SHIFT,        /*!< CCGR3, CG9   */
-    kCLOCK_Acmp1   = (3U << 8U) | CCM_CCGR3_CG10_SHIFT,       /*!< CCGR3, CG10  */
-    kCLOCK_Acmp2   = (3U << 8U) | CCM_CCGR3_CG11_SHIFT,       /*!< CCGR3, CG11  */
-    kCLOCK_Acmp3   = (3U << 8U) | CCM_CCGR3_CG12_SHIFT,       /*!< CCGR3, CG12  */
-    kCLOCK_Acmp4   = (3U << 8U) | CCM_CCGR3_CG13_SHIFT,       /*!< CCGR3, CG13  */
-                                                              /*!< CCGR3, CG14, Reserved */
+    kCLOCK_Lpuart5       = (3U << 8U) | CCM_CCGR3_CG1_SHIFT,  /*!< CCGR3, CG1   */
+    kCLOCK_Semc          = (3U << 8U) | CCM_CCGR3_CG2_SHIFT,  /*!< CCGR3, CG2   */
+    kCLOCK_Lpuart6       = (3U << 8U) | CCM_CCGR3_CG3_SHIFT,  /*!< CCGR3, CG3   */
+    kCLOCK_Aoi           = (3U << 8U) | CCM_CCGR3_CG4_SHIFT,  /*!< CCGR3, CG4   */
+    kCLOCK_Ewm0          = (3U << 8U) | CCM_CCGR3_CG7_SHIFT,  /*!< CCGR3, CG7   */
+    kCLOCK_Wdog1         = (3U << 8U) | CCM_CCGR3_CG8_SHIFT,  /*!< CCGR3, CG8   */
+    kCLOCK_FlexRam       = (3U << 8U) | CCM_CCGR3_CG9_SHIFT,  /*!< CCGR3, CG9   */
+    kCLOCK_Acmp1         = (3U << 8U) | CCM_CCGR3_CG10_SHIFT, /*!< CCGR3, CG10  */
+    kCLOCK_Acmp2         = (3U << 8U) | CCM_CCGR3_CG11_SHIFT, /*!< CCGR3, CG11  */
+    kCLOCK_Acmp3         = (3U << 8U) | CCM_CCGR3_CG12_SHIFT, /*!< CCGR3, CG12  */
+    kCLOCK_Acmp4         = (3U << 8U) | CCM_CCGR3_CG13_SHIFT, /*!< CCGR3, CG13  */
     kCLOCK_IomuxcSnvsGpr = (3U << 8U) | CCM_CCGR3_CG15_SHIFT, /*!< CCGR3, CG15  */
 
     /* CCM CCGR4 */
-    kCLOCK_Sim_m7_clk_r = (4U << 8U) | CCM_CCGR4_CG0_SHIFT, /*!< CCGR4, CG0   */
-    kCLOCK_Iomuxc       = (4U << 8U) | CCM_CCGR4_CG1_SHIFT, /*!< CCGR4, CG1   */
-    kCLOCK_IomuxcGpr    = (4U << 8U) | CCM_CCGR4_CG2_SHIFT, /*!< CCGR4, CG2   */
-    kCLOCK_Bee          = (4U << 8U) | CCM_CCGR4_CG3_SHIFT, /*!< CCGR4, CG3   */
-    kCLOCK_SimM7        = (4U << 8U) | CCM_CCGR4_CG4_SHIFT, /*!< CCGR4, CG4   */
-    kCLOCK_Tsc          = (4U << 8U) | CCM_CCGR4_CG5_SHIFT, /*!< CCGR4, CG5, Reserved */
-    kCLOCK_SimM         = (4U << 8U) | CCM_CCGR4_CG6_SHIFT, /*!< CCGR4, CG6   */
-    kCLOCK_SimEms       = (4U << 8U) | CCM_CCGR4_CG7_SHIFT, /*!< CCGR4, CG7   */
-    kCLOCK_Pwm1         = (4U << 8U) | CCM_CCGR4_CG8_SHIFT, /*!< CCGR4, CG8   */
-    kCLOCK_Pwm2         = (4U << 8U) | CCM_CCGR4_CG9_SHIFT, /*!< CCGR4, CG9   */
-                                                            /*!< CCGR4, CG10, Reserved */
-                                                            /*!< CCGR4, CG11, Reserved */
-    kCLOCK_Enc1 = (4U << 8U) | CCM_CCGR4_CG12_SHIFT,        /*!< CCGR4, CG12  */
-    kCLOCK_Enc2 = (4U << 8U) | CCM_CCGR4_CG13_SHIFT,        /*!< CCGR4, CG13  */
-                                                            /*!< CCGR4, CG14, Reserved */
-                                                            /*!< CCGR4, CG15, Reserved */
+    kCLOCK_Sim_m7_clk_r = (4U << 8U) | CCM_CCGR4_CG0_SHIFT,  /*!< CCGR4, CG0   */
+    kCLOCK_Iomuxc       = (4U << 8U) | CCM_CCGR4_CG1_SHIFT,  /*!< CCGR4, CG1   */
+    kCLOCK_IomuxcGpr    = (4U << 8U) | CCM_CCGR4_CG2_SHIFT,  /*!< CCGR4, CG2   */
+    kCLOCK_Bee          = (4U << 8U) | CCM_CCGR4_CG3_SHIFT,  /*!< CCGR4, CG3   */
+    kCLOCK_SimM7        = (4U << 8U) | CCM_CCGR4_CG4_SHIFT,  /*!< CCGR4, CG4   */
+    kCLOCK_SimM         = (4U << 8U) | CCM_CCGR4_CG6_SHIFT,  /*!< CCGR4, CG6   */
+    kCLOCK_SimEms       = (4U << 8U) | CCM_CCGR4_CG7_SHIFT,  /*!< CCGR4, CG7   */
+    kCLOCK_Pwm1         = (4U << 8U) | CCM_CCGR4_CG8_SHIFT,  /*!< CCGR4, CG8   */
+    kCLOCK_Pwm2         = (4U << 8U) | CCM_CCGR4_CG9_SHIFT,  /*!< CCGR4, CG9   */
+    kCLOCK_Enc1         = (4U << 8U) | CCM_CCGR4_CG12_SHIFT, /*!< CCGR4, CG12  */
+    kCLOCK_Enc2         = (4U << 8U) | CCM_CCGR4_CG13_SHIFT, /*!< CCGR4, CG13  */
 
     /* CCM CCGR5 */
-    kCLOCK_Rom      = (5U << 8U) | CCM_CCGR5_CG0_SHIFT, /*!< CCGR5, CG0   */
-    kCLOCK_Flexio1  = (5U << 8U) | CCM_CCGR5_CG1_SHIFT, /*!< CCGR5, CG1   */
-    kCLOCK_Wdog3    = (5U << 8U) | CCM_CCGR5_CG2_SHIFT, /*!< CCGR5, CG2   */
-    kCLOCK_Dma      = (5U << 8U) | CCM_CCGR5_CG3_SHIFT, /*!< CCGR5, CG3   */
-    kCLOCK_Kpp      = (5U << 8U) | CCM_CCGR5_CG4_SHIFT, /*!< CCGR5, CG4   */
-    kCLOCK_Wdog2    = (5U << 8U) | CCM_CCGR5_CG5_SHIFT, /*!< CCGR5, CG5   */
-    kCLOCK_Aips_tz4 = (5U << 8U) | CCM_CCGR5_CG6_SHIFT, /*!< CCGR5, CG6   */
-    kCLOCK_Spdif    = (5U << 8U) | CCM_CCGR5_CG7_SHIFT, /*!< CCGR5, CG7   */
-                                                        /*!< CCGR5, CG8, Reserved */
-    kCLOCK_Sai1    = (5U << 8U) | CCM_CCGR5_CG9_SHIFT,  /*!< CCGR5, CG9   */
-    kCLOCK_Sai2    = (5U << 8U) | CCM_CCGR5_CG10_SHIFT, /*!< CCGR5, CG10  */
-    kCLOCK_Sai3    = (5U << 8U) | CCM_CCGR5_CG11_SHIFT, /*!< CCGR5, CG11  */
-    kCLOCK_Lpuart1 = (5U << 8U) | CCM_CCGR5_CG12_SHIFT, /*!< CCGR5, CG12  */
-    kCLOCK_Lpuart7 = (5U << 8U) | CCM_CCGR5_CG13_SHIFT, /*!< CCGR5, CG13  */
-    kCLOCK_SnvsHp  = (5U << 8U) | CCM_CCGR5_CG14_SHIFT, /*!< CCGR5, CG14  */
-    kCLOCK_SnvsLp  = (5U << 8U) | CCM_CCGR5_CG15_SHIFT, /*!< CCGR5, CG15  */
+    kCLOCK_Rom      = (5U << 8U) | CCM_CCGR5_CG0_SHIFT,  /*!< CCGR5, CG0   */
+    kCLOCK_Flexio1  = (5U << 8U) | CCM_CCGR5_CG1_SHIFT,  /*!< CCGR5, CG1   */
+    kCLOCK_Wdog3    = (5U << 8U) | CCM_CCGR5_CG2_SHIFT,  /*!< CCGR5, CG2   */
+    kCLOCK_Dma      = (5U << 8U) | CCM_CCGR5_CG3_SHIFT,  /*!< CCGR5, CG3   */
+    kCLOCK_Kpp      = (5U << 8U) | CCM_CCGR5_CG4_SHIFT,  /*!< CCGR5, CG4   */
+    kCLOCK_Wdog2    = (5U << 8U) | CCM_CCGR5_CG5_SHIFT,  /*!< CCGR5, CG5   */
+    kCLOCK_Aips_tz4 = (5U << 8U) | CCM_CCGR5_CG6_SHIFT,  /*!< CCGR5, CG6   */
+    kCLOCK_Spdif    = (5U << 8U) | CCM_CCGR5_CG7_SHIFT,  /*!< CCGR5, CG7   */
+    kCLOCK_Sai1     = (5U << 8U) | CCM_CCGR5_CG9_SHIFT,  /*!< CCGR5, CG9   */
+    kCLOCK_Sai2     = (5U << 8U) | CCM_CCGR5_CG10_SHIFT, /*!< CCGR5, CG10  */
+    kCLOCK_Sai3     = (5U << 8U) | CCM_CCGR5_CG11_SHIFT, /*!< CCGR5, CG11  */
+    kCLOCK_Lpuart1  = (5U << 8U) | CCM_CCGR5_CG12_SHIFT, /*!< CCGR5, CG12  */
+    kCLOCK_Lpuart7  = (5U << 8U) | CCM_CCGR5_CG13_SHIFT, /*!< CCGR5, CG13  */
+    kCLOCK_SnvsHp   = (5U << 8U) | CCM_CCGR5_CG14_SHIFT, /*!< CCGR5, CG14  */
+    kCLOCK_SnvsLp   = (5U << 8U) | CCM_CCGR5_CG15_SHIFT, /*!< CCGR5, CG15  */
 
     /* CCM CCGR6 */
     kCLOCK_UsbOh3   = (6U << 8U) | CCM_CCGR6_CG0_SHIFT,  /*!< CCGR6, CG0   */
@@ -585,7 +566,6 @@ typedef enum _clock_ip_name
     kCLOCK_Lpi2c4   = (6U << 8U) | CCM_CCGR6_CG12_SHIFT, /*!< CCGR6, CG12  */
     kCLOCK_Timer1   = (6U << 8U) | CCM_CCGR6_CG13_SHIFT, /*!< CCGR6, CG13  */
     kCLOCK_Timer2   = (6U << 8U) | CCM_CCGR6_CG14_SHIFT, /*!< CCGR6, CG14  */
-                                                         /*!< CCGR6, CG15, Reserved  */
 
 } clock_ip_name_t;
 
@@ -825,6 +805,224 @@ typedef enum _clock_div
     kCLOCK_NonePreDiv = CLOCK_ROOT_NONE_PRE_DIV,     /*!< None Pre div. */
 } clock_div_t;
 
+/*!
+ * @brief Clock divider value.
+ */
+typedef enum _clock_div_value
+{
+    kCLOCK_ArmDivBy1 = 0, /*!< ARM clock divider set to divided by 1. */
+    kCLOCK_ArmDivBy2 = 1, /*!< ARM clock divider set to divided by 2. */
+    kCLOCK_ArmDivBy3 = 2, /*!< ARM clock divider set to divided by 3. */
+    kCLOCK_ArmDivBy4 = 3, /*!< ARM clock divider set to divided by 4. */
+    kCLOCK_ArmDivBy5 = 4, /*!< ARM clock divider set to divided by 5. */
+    kCLOCK_ArmDivBy6 = 5, /*!< ARM clock divider set to divided by 6. */
+    kCLOCK_ArmDivBy7 = 6, /*!< ARM clock divider set to divided by 7. */
+    kCLOCK_ArmDivBy8 = 7, /*!< ARM clock divider set to divided by 8. */
+
+    kCLOCK_PeriphClk2DivBy1 = 0, /*!< PeriphClk2 divider set to divided by 1. */
+    kCLOCK_PeriphClk2DivBy2 = 1, /*!< PeriphClk2 divider set to divided by 2. */
+    kCLOCK_PeriphClk2DivBy3 = 2, /*!< PeriphClk2 divider set to divided by 3. */
+    kCLOCK_PeriphClk2DivBy4 = 3, /*!< PeriphClk2 divider set to divided by 4. */
+    kCLOCK_PeriphClk2DivBy5 = 4, /*!< PeriphClk2 divider set to divided by 5. */
+    kCLOCK_PeriphClk2DivBy6 = 5, /*!< PeriphClk2 divider set to divided by 6. */
+    kCLOCK_PeriphClk2DivBy7 = 6, /*!< PeriphClk2 divider set to divided by 7. */
+    kCLOCK_PeriphClk2DivBy8 = 7, /*!< PeriphClk2 divider set to divided by 8. */
+
+    kCLOCK_SemcDivBy1 = 0, /*!< SEMC divider set to divided by 1. */
+    kCLOCK_SemcDivBy2 = 1, /*!< SEMC divider set to divided by 2. */
+    kCLOCK_SemcDivBy3 = 2, /*!< SEMC divider set to divided by 3. */
+    kCLOCK_SemcDivBy4 = 3, /*!< SEMC divider set to divided by 4. */
+    kCLOCK_SemcDivBy5 = 4, /*!< SEMC divider set to divided by 5. */
+    kCLOCK_SemcDivBy6 = 5, /*!< SEMC divider set to divided by 6. */
+    kCLOCK_SemcDivBy7 = 6, /*!< SEMC divider set to divided by 7. */
+    kCLOCK_SemcDivBy8 = 7, /*!< SEMC divider set to divided by 8. */
+
+    kCLOCK_AhbDivBy1 = 0, /*!< AHB divider set to divided by 1. */
+    kCLOCK_AhbDivBy2 = 1, /*!< AHB divider set to divided by 2. */
+    kCLOCK_AhbDivBy3 = 2, /*!< AHB divider set to divided by 3. */
+    kCLOCK_AhbDivBy4 = 3, /*!< AHB divider set to divided by 4. */
+    kCLOCK_AhbDivBy5 = 4, /*!< AHB divider set to divided by 5. */
+    kCLOCK_AhbDivBy6 = 5, /*!< AHB divider set to divided by 6. */
+    kCLOCK_AhbDivBy7 = 6, /*!< AHB divider set to divided by 7. */
+    kCLOCK_AhbDivBy8 = 7, /*!< AHB divider set to divided by 8. */
+
+    kCLOCK_IpgDivBy1 = 0, /*!< Ipg divider set to divided by 1. */
+    kCLOCK_IpgDivBy2 = 1, /*!< Ipg divider set to divided by 2. */
+    kCLOCK_IpgDivBy3 = 2, /*!< Ipg divider set to divided by 3. */
+    kCLOCK_IpgDivBy4 = 3, /*!< Ipg divider set to divided by 4. */
+
+    kCLOCK_LpspiDivBy1 = 0, /*!< LPSPI divider set to divided by 1. */
+    kCLOCK_LpspiDivBy2 = 1, /*!< LPSPI divider set to divided by 2. */
+    kCLOCK_LpspiDivBy3 = 2, /*!< LPSPI divider set to divided by 3. */
+    kCLOCK_LpspiDivBy4 = 3, /*!< LPSPI divider set to divided by 4. */
+    kCLOCK_LpspiDivBy5 = 4, /*!< LPSPI divider set to divided by 5. */
+    kCLOCK_LpspiDivBy6 = 5, /*!< LPSPI divider set to divided by 6. */
+    kCLOCK_LpspiDivBy7 = 6, /*!< LPSPI divider set to divided by 7. */
+    kCLOCK_LpspiDivBy8 = 7, /*!< LPSPI divider set to divided by 8. */
+
+    kCLOCK_FlexspiDivBy1 = 0, /*!< FLEXSPI divider set to divided by 1. */
+    kCLOCK_FlexspiDivBy2 = 1, /*!< FLEXSPI divider set to divided by 2. */
+    kCLOCK_FlexspiDivBy3 = 2, /*!< FLEXSPI divider set to divided by 3. */
+    kCLOCK_FlexspiDivBy4 = 3, /*!< FLEXSPI divider set to divided by 4. */
+    kCLOCK_FlexspiDivBy5 = 4, /*!< FLEXSPI divider set to divided by 5. */
+    kCLOCK_FlexspiDivBy6 = 5, /*!< FLEXSPI divider set to divided by 6. */
+    kCLOCK_FlexspiDivBy7 = 6, /*!< FLEXSPI divider set to divided by 7. */
+    kCLOCK_FlexspiDivBy8 = 7, /*!< FLEXSPI divider set to divided by 8. */
+
+    kCLOCK_TraceDivBy1 = 0, /*!< TRACE divider set to divided by 1. */
+    kCLOCK_TraceDivBy2 = 1, /*!< TRACE divider set to divided by 2. */
+    kCLOCK_TraceDivBy3 = 2, /*!< TRACE divider set to divided by 3. */
+    kCLOCK_TraceDivBy4 = 3, /*!< TRACE divider set to divided by 4. */
+
+    kCLOCK_Usdhc2DivBy1 = 0, /*!< USDHC2 divider set to divided by 1. */
+    kCLOCK_Usdhc2DivBy2 = 1, /*!< USDHC2 divider set to divided by 2. */
+    kCLOCK_Usdhc2DivBy3 = 2, /*!< USDHC2 divider set to divided by 3. */
+    kCLOCK_Usdhc2DivBy4 = 3, /*!< USDHC2 divider set to divided by 4. */
+    kCLOCK_Usdhc2DivBy5 = 4, /*!< USDHC2 divider set to divided by 5. */
+    kCLOCK_Usdhc2DivBy6 = 5, /*!< USDHC2 divider set to divided by 6. */
+    kCLOCK_Usdhc2DivBy7 = 6, /*!< USDHC2 divider set to divided by 7. */
+    kCLOCK_Usdhc2DivBy8 = 7, /*!< USDHC2 divider set to divided by 8. */
+
+    kCLOCK_Usdhc1DivBy1 = 0, /*!< USDHC1 divider set to divided by 1. */
+    kCLOCK_Usdhc1DivBy2 = 1, /*!< USDHC1 divider set to divided by 2. */
+    kCLOCK_Usdhc1DivBy3 = 2, /*!< USDHC1 divider set to divided by 3. */
+    kCLOCK_Usdhc1DivBy4 = 3, /*!< USDHC1 divider set to divided by 4. */
+    kCLOCK_Usdhc1DivBy5 = 4, /*!< USDHC1 divider set to divided by 5. */
+    kCLOCK_Usdhc1DivBy6 = 5, /*!< USDHC1 divider set to divided by 6. */
+    kCLOCK_Usdhc1DivBy7 = 6, /*!< USDHC1 divider set to divided by 7. */
+    kCLOCK_Usdhc1DivBy8 = 7, /*!< USDHC1 divider set to divided by 8. */
+
+    kCLOCK_Flexio1DivBy1 = 0, /*!< Flexio1 divider set to divided by 1. */
+    kCLOCK_Flexio1DivBy2 = 1, /*!< Flexio1 divider set to divided by 2. */
+    kCLOCK_Flexio1DivBy3 = 2, /*!< Flexio1 divider set to divided by 3. */
+    kCLOCK_Flexio1DivBy4 = 3, /*!< Flexio1 divider set to divided by 4. */
+    kCLOCK_Flexio1DivBy5 = 4, /*!< Flexio1 divider set to divided by 5. */
+    kCLOCK_Flexio1DivBy6 = 5, /*!< Flexio1 divider set to divided by 6. */
+    kCLOCK_Flexio1DivBy7 = 6, /*!< Flexio1 divider set to divided by 7. */
+    kCLOCK_Flexio1DivBy8 = 7, /*!< Flexio1 divider set to divided by 8. */
+
+    kCLOCK_Sai3PreDivBy1 = 0, /*!< SAI3ClkPred divider set to divided by 1. */
+    kCLOCK_Sai3PreDivBy2 = 1, /*!< SAI3ClkPred divider set to divided by 2. */
+    kCLOCK_Sai3PreDivBy3 = 2, /*!< SAI3ClkPred divider set to divided by 3. */
+    kCLOCK_Sai3PreDivBy4 = 3, /*!< SAI3ClkPred divider set to divided by 4. */
+    kCLOCK_Sai3PreDivBy5 = 4, /*!< SAI3ClkPred divider set to divided by 5. */
+    kCLOCK_Sai3PreDivBy6 = 5, /*!< SAI3ClkPred divider set to divided by 6. */
+    kCLOCK_Sai3PreDivBy7 = 6, /*!< SAI3ClkPred divider set to divided by 7. */
+    kCLOCK_Sai3PreDivBy8 = 7, /*!< SAI3ClkPred divider set to divided by 8. */
+
+    kCLOCK_Flexio1PreDivBy1 = 0, /*!< Flexio1 pred divider set to divided by 1. */
+    kCLOCK_Flexio1PreDivBy2 = 1, /*!< Flexio1 pred divider set to divided by 2. */
+    kCLOCK_Flexio1PreDivBy3 = 2, /*!< Flexio1 pred divider set to divided by 3. */
+    kCLOCK_Flexio1PreDivBy4 = 3, /*!< Flexio1 pred divider set to divided by 4. */
+    kCLOCK_Flexio1PreDivBy5 = 4, /*!< Flexio1 pred divider set to divided by 5. */
+    kCLOCK_Flexio1PreDivBy6 = 5, /*!< Flexio1 pred divider set to divided by 6. */
+    kCLOCK_Flexio1PreDivBy7 = 6, /*!< Flexio1 pred divider set to divided by 7. */
+    kCLOCK_Flexio1PreDivBy8 = 7, /*!< Flexio1 pred divider set to divided by 8. */
+
+    kCLOCK_Sai1PreDivBy1 = 0, /*!< SAI1 pred divider set to divided by 1. */
+    kCLOCK_Sai1PreDivBy2 = 1, /*!< SAI1 pred divider set to divided by 2. */
+    kCLOCK_Sai1PreDivBy3 = 2, /*!< SAI1 pred divider set to divided by 3. */
+    kCLOCK_Sai1PreDivBy4 = 3, /*!< SAI1 pred divider set to divided by 4. */
+    kCLOCK_Sai1PreDivBy5 = 4, /*!< SAI1 pred divider set to divided by 5. */
+    kCLOCK_Sai1PreDivBy6 = 5, /*!< SAI1 pred divider set to divided by 6. */
+    kCLOCK_Sai1PreDivBy7 = 6, /*!< SAI1 pred divider set to divided by 7. */
+    kCLOCK_Sai1PreDivBy8 = 7, /*!< SAI1 pred divider set to divided by 8. */
+
+    kCLOCK_Sai2PreDivBy1 = 0, /*!< SAI2ClkPred divider set to divided by 1. */
+    kCLOCK_Sai2PreDivBy2 = 1, /*!< SAI2ClkPred divider set to divided by 2. */
+    kCLOCK_Sai2PreDivBy3 = 2, /*!< SAI2ClkPred divider set to divided by 3. */
+    kCLOCK_Sai2PreDivBy4 = 3, /*!< SAI2ClkPred divider set to divided by 4. */
+    kCLOCK_Sai2PreDivBy5 = 4, /*!< SAI2ClkPred divider set to divided by 5. */
+    kCLOCK_Sai2PreDivBy6 = 5, /*!< SAI2ClkPred divider set to divided by 6. */
+    kCLOCK_Sai2PreDivBy7 = 6, /*!< SAI2ClkPred divider set to divided by 7. */
+    kCLOCK_Sai2PreDivBy8 = 7, /*!< SAI2ClkPred divider set to divided by 8. */
+
+    kCLOCK_Spdif0PreDivBy1 = 0, /*!< SPDIF0ClkPred divider set to divided by 1. */
+    kCLOCK_Spdif0PreDivBy2 = 1, /*!< SPDIF0ClkPred divider set to divided by 2. */
+    kCLOCK_Spdif0PreDivBy3 = 2, /*!< SPDIF0ClkPred divider set to divided by 3. */
+    kCLOCK_Spdif0PreDivBy4 = 3, /*!< SPDIF0ClkPred divider set to divided by 4. */
+    kCLOCK_Spdif0PreDivBy5 = 4, /*!< SPDIF0ClkPred divider set to divided by 5. */
+    kCLOCK_Spdif0PreDivBy6 = 5, /*!< SPDIF0ClkPred divider set to divided by 6. */
+    kCLOCK_Spdif0PreDivBy7 = 6, /*!< SPDIF0ClkPred divider set to divided by 7. */
+    kCLOCK_Spdif0PreDivBy8 = 7, /*!< SPDIF0ClkPred divider set to divided by 8. */
+
+    kCLOCK_Spdif0DivBy1 = 0, /*!< SPDIF0ClkPodf divider set to divided by 1. */
+    kCLOCK_Spdif0DivBy2 = 1, /*!< SPDIF0ClkPodf divider set to divided by 2. */
+    kCLOCK_Spdif0DivBy3 = 2, /*!< SPDIF0ClkPodf divider set to divided by 3. */
+    kCLOCK_Spdif0DivBy4 = 3, /*!< SPDIF0ClkPodf divider set to divided by 4. */
+    kCLOCK_Spdif0DivBy5 = 4, /*!< SPDIF0ClkPodf divider set to divided by 5. */
+    kCLOCK_Spdif0DivBy6 = 5, /*!< SPDIF0ClkPodf divider set to divided by 6. */
+    kCLOCK_Spdif0DivBy7 = 6, /*!< SPDIF0ClkPodf divider set to divided by 7. */
+    kCLOCK_Spdif0DivBy8 = 7, /*!< SPDIF0ClkPodf divider set to divided by 8. */
+
+    /* Only kCLOCK_PerclkDiv, kCLOCK_CanDiv,kCLOCK_UartDiv, kCLOCK_Sai3Div, kCLOCK_Sai1Div,
+     * kCLOCK_Sai2Div, kCLOCK_Lpi2cDiv can use these.*/
+    kCLOCK_MiscDivBy1  = 0,  /*!< Misc divider like LPI2C set to divided by 1. */
+    kCLOCK_MiscDivBy2  = 1,  /*!< Misc divider like LPI2C set to divided by 2. */
+    kCLOCK_MiscDivBy3  = 2,  /*!< Misc divider like LPI2C set to divided by 3. */
+    kCLOCK_MiscDivBy4  = 3,  /*!< Misc divider like LPI2C set to divided by 4. */
+    kCLOCK_MiscDivBy5  = 4,  /*!< Misc divider like LPI2C set to divided by 5. */
+    kCLOCK_MiscDivBy6  = 5,  /*!< Misc divider like LPI2C set to divided by 6. */
+    kCLOCK_MiscDivBy7  = 6,  /*!< Misc divider like LPI2C set to divided by 7. */
+    kCLOCK_MiscDivBy8  = 7,  /*!< Misc divider like LPI2C set to divided by 8. */
+    kCLOCK_MiscDivBy9  = 8,  /*!< Misc divider like LPI2C set to divided by 9. */
+    kCLOCK_MiscDivBy10 = 9,  /*!< Misc divider like LPI2C set to divided by 10. */
+    kCLOCK_MiscDivBy11 = 10, /*!< Misc divider like LPI2C set to divided by 11. */
+    kCLOCK_MiscDivBy12 = 11, /*!< Misc divider like LPI2C set to divided by 12. */
+    kCLOCK_MiscDivBy13 = 12, /*!< Misc divider like LPI2C set to divided by 13. */
+    kCLOCK_MiscDivBy14 = 13, /*!< Misc divider like LPI2C set to divided by 14. */
+    kCLOCK_MiscDivBy15 = 14, /*!< Misc divider like LPI2C set to divided by 15. */
+    kCLOCK_MiscDivBy16 = 15, /*!< Misc divider like LPI2C set to divided by 16. */
+    kCLOCK_MiscDivBy17 = 16, /*!< Misc divider like LPI2C set to divided by 17. */
+    kCLOCK_MiscDivBy18 = 17, /*!< Misc divider like LPI2C set to divided by 18. */
+    kCLOCK_MiscDivBy19 = 18, /*!< Misc divider like LPI2C set to divided by 19. */
+    kCLOCK_MiscDivBy20 = 19, /*!< Misc divider like LPI2C set to divided by 20. */
+    kCLOCK_MiscDivBy21 = 20, /*!< Misc divider like LPI2C set to divided by 21. */
+    kCLOCK_MiscDivBy22 = 21, /*!< Misc divider like LPI2C set to divided by 22. */
+    kCLOCK_MiscDivBy23 = 22, /*!< Misc divider like LPI2C set to divided by 23. */
+    kCLOCK_MiscDivBy24 = 23, /*!< Misc divider like LPI2C set to divided by 24. */
+    kCLOCK_MiscDivBy25 = 24, /*!< Misc divider like LPI2C set to divided by 25. */
+    kCLOCK_MiscDivBy26 = 25, /*!< Misc divider like LPI2C set to divided by 26. */
+    kCLOCK_MiscDivBy27 = 26, /*!< Misc divider like LPI2C set to divided by 27. */
+    kCLOCK_MiscDivBy28 = 27, /*!< Misc divider like LPI2C set to divided by 28. */
+    kCLOCK_MiscDivBy29 = 28, /*!< Misc divider like LPI2C set to divided by 29. */
+    kCLOCK_MiscDivBy30 = 29, /*!< Misc divider like LPI2C set to divided by 30. */
+    kCLOCK_MiscDivBy31 = 30, /*!< Misc divider like LPI2C set to divided by 31. */
+    kCLOCK_MiscDivBy32 = 31, /*!< Misc divider like LPI2C set to divided by 32. */
+    kCLOCK_MiscDivBy33 = 32, /*!< Misc divider like LPI2C set to divided by 33. */
+    kCLOCK_MiscDivBy34 = 33, /*!< Misc divider like LPI2C set to divided by 34. */
+    kCLOCK_MiscDivBy35 = 34, /*!< Misc divider like LPI2C set to divided by 35. */
+    kCLOCK_MiscDivBy36 = 35, /*!< Misc divider like LPI2C set to divided by 36. */
+    kCLOCK_MiscDivBy37 = 36, /*!< Misc divider like LPI2C set to divided by 37. */
+    kCLOCK_MiscDivBy38 = 37, /*!< Misc divider like LPI2C set to divided by 38. */
+    kCLOCK_MiscDivBy39 = 38, /*!< Misc divider like LPI2C set to divided by 39. */
+    kCLOCK_MiscDivBy40 = 39, /*!< Misc divider like LPI2C set to divided by 40. */
+    kCLOCK_MiscDivBy41 = 40, /*!< Misc divider like LPI2C set to divided by 41. */
+    kCLOCK_MiscDivBy42 = 41, /*!< Misc divider like LPI2C set to divided by 42. */
+    kCLOCK_MiscDivBy43 = 42, /*!< Misc divider like LPI2C set to divided by 43. */
+    kCLOCK_MiscDivBy44 = 43, /*!< Misc divider like LPI2C set to divided by 44. */
+    kCLOCK_MiscDivBy45 = 44, /*!< Misc divider like LPI2C set to divided by 45. */
+    kCLOCK_MiscDivBy46 = 45, /*!< Misc divider like LPI2C set to divided by 46. */
+    kCLOCK_MiscDivBy47 = 46, /*!< Misc divider like LPI2C set to divided by 47. */
+    kCLOCK_MiscDivBy48 = 47, /*!< Misc divider like LPI2C set to divided by 48. */
+    kCLOCK_MiscDivBy49 = 48, /*!< Misc divider like LPI2C set to divided by 49. */
+    kCLOCK_MiscDivBy50 = 49, /*!< Misc divider like LPI2C set to divided by 50. */
+    kCLOCK_MiscDivBy51 = 50, /*!< Misc divider like LPI2C set to divided by 51. */
+    kCLOCK_MiscDivBy52 = 51, /*!< Misc divider like LPI2C set to divided by 52. */
+    kCLOCK_MiscDivBy53 = 52, /*!< Misc divider like LPI2C set to divided by 53. */
+    kCLOCK_MiscDivBy54 = 53, /*!< Misc divider like LPI2C set to divided by 54. */
+    kCLOCK_MiscDivBy55 = 54, /*!< Misc divider like LPI2C set to divided by 55. */
+    kCLOCK_MiscDivBy56 = 55, /*!< Misc divider like LPI2C set to divided by 56. */
+    kCLOCK_MiscDivBy57 = 56, /*!< Misc divider like LPI2C set to divided by 57. */
+    kCLOCK_MiscDivBy58 = 57, /*!< Misc divider like LPI2C set to divided by 58. */
+    kCLOCK_MiscDivBy59 = 58, /*!< Misc divider like LPI2C set to divided by 59. */
+    kCLOCK_MiscDivBy60 = 59, /*!< Misc divider like LPI2C set to divided by 60. */
+    kCLOCK_MiscDivBy61 = 60, /*!< Misc divider like LPI2C set to divided by 61. */
+    kCLOCK_MiscDivBy62 = 61, /*!< Misc divider like LPI2C set to divided by 62. */
+    kCLOCK_MiscDivBy63 = 62, /*!< Misc divider like LPI2C set to divided by 63. */
+    kCLOCK_MiscDivBy64 = 63, /*!< Misc divider like LPI2C set to divided by 64. */
+} clock_div_value_t;
+
 /*! @brief USB clock source definition. */
 typedef enum _clock_usb_src
 {
@@ -1041,10 +1239,25 @@ static inline uint32_t CLOCK_GetMux(clock_mux_t mux)
 }
 
 /*!
- * @brief Set CCM DIV node to certain value.
+ * @brief Set clock divider value.
  *
- * @param divider Which div node to set, see \ref clock_div_t.
- * @param value   Clock div value to set, different divider has different value range.
+ * Example, set the ARM clock divider to divide by 2:
+ * @code
+   CLOCK_SetDiv(kCLOCK_ArmDiv, kCLOCK_ArmDivBy2);
+   @endcode
+ *
+ * Example, set the LPI2C clock divider to divide by 5.
+ * @code
+   CLOCK_SetDiv(kCLOCK_Lpi2cDiv, kCLOCK_MiscDivBy5);
+   @endcode
+ *
+ * Only @ref kCLOCK_PerclkDiv, @ref kCLOCK_CanDiv,@ref kCLOCK_UartDiv, @ref kCLOCK_Sai3Div,
+ * @ref kCLOCK_Sai1Div, @ref kCLOCK_Sai2Div, @ref kCLOCK_Lpi2cDiv can use the divider kCLOCK_MiscDivByxxx.
+ *
+ * @param divider Which divider node to set.
+ * @param value   Clock div value to set, different divider has different value range. See @ref clock_div_value_t
+ *                for details.
+ *                Divided clock frequency = Undivided clock frequency / (value + 1)
  */
 static inline void CLOCK_SetDiv(clock_div_t divider, uint32_t value)
 {
@@ -1090,8 +1303,8 @@ static inline void CLOCK_ControlGate(clock_ip_name_t name, clock_gate_value_t va
 
     assert(index <= 6UL);
 
-    reg  = (volatile uint32_t *)((uint32_t)((volatile uint32_t *)&CCM->CCGR0) + sizeof(volatile uint32_t *) * index);
-    *reg = ((*reg) & ~(3UL << shift)) | (((uint32_t)value) << shift);
+    reg = (volatile uint32_t *)((uint32_t)((volatile uint32_t *)&CCM->CCGR0) + sizeof(volatile uint32_t *) * index);
+    SDK_ATOMIC_LOCAL_CLEAR_AND_SET(reg, (3UL << shift), (((uint32_t)value) << shift));
 }
 
 /*!
@@ -1462,6 +1675,16 @@ void CLOCK_InitSysPfd(clock_pfd_t pfd, uint8_t pfdFrac);
 void CLOCK_DeinitSysPfd(clock_pfd_t pfd);
 
 /*!
+ * @brief Check if Sys PFD is enabled
+ *
+ * @param pfd PFD control name
+ * @return PFD bypass status.
+ *         - true: power on.
+ *         - false: power off.
+ */
+bool CLOCK_IsSysPfdEnabled(clock_pfd_t pfd);
+
+/*!
  * @brief Initialize the USB1 PLL PFD.
  *
  * This function initializes the USB1 PLL PFD. During new value setting,
@@ -1481,6 +1704,16 @@ void CLOCK_InitUsb1Pfd(clock_pfd_t pfd, uint8_t pfdFrac);
  * @param pfd Which PFD clock to disable.
  */
 void CLOCK_DeinitUsb1Pfd(clock_pfd_t pfd);
+
+/*!
+ * @brief Check if Usb1 PFD is enabled
+ *
+ * @param pfd PFD control name.
+ * @return PFD bypass status.
+ *         - true: power on.
+ *         - false: power off.
+ */
+bool CLOCK_IsUsb1PfdEnabled(clock_pfd_t pfd);
 
 /*!
  * @brief Get current System PLL PFD output frequency.

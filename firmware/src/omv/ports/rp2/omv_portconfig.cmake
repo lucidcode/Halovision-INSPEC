@@ -10,20 +10,16 @@ set(CM4_DIR                 cm4)
 set(BOOTLDR_DIR             bootloader)
 set(CUBEAI_DIR              stm32cubeai)
 set(CMSIS_DIR               hal/cmsis)
-#set(MICROPY_DIR micropython)
 set(LEPTON_DIR              drivers/lepton)
 set(LSM6DS3_DIR             drivers/lsm6ds3)
 set(WINC1500_DIR            drivers/winc1500)
-set(NINAW10_DIR             drivers/ninaw10)
 set(MLX90621_DIR            drivers/mlx90621)
 set(MLX90640_DIR            drivers/mlx90640)
 set(MLX90641_DIR            drivers/mlx90641)
 set(OPENPDM_DIR             ${TOP_DIR}/lib/openpdm)
 set(TENSORFLOW_DIR          ${TOP_DIR}/lib/libtf)
 set(OMV_BOARD_CONFIG_DIR    ${TOP_DIR}/${OMV_DIR}/boards/${TARGET}/)
-#set(MP_BOARD_CONFIG_DIR    ${TOP_DIR}/${MICROPY_DIR}/ports/${PORT}/boards/${TARGET}/
-set(MPY_LIB_DIR             ${TOP_DIR}/../scripts/libraries)
-set(FROZEN_MANIFEST         ${OMV_BOARD_CONFIG_DIR}/manifest.py)
+set(OMV_LIB_DIR             ${TOP_DIR}/../scripts/libraries)
 set(OMV_COMMON_DIR          ${TOP_DIR}/${OMV_DIR}/common)
 set(PORT_DIR                ${TOP_DIR}/${OMV_DIR}/ports/${PORT})
 
@@ -58,9 +54,7 @@ pico_set_linker_script(${MICROPY_TARGET} ${BUILD}/rp2.ld)
 file(GLOB OMV_SRC_QSTR1 ${TOP_DIR}/${OMV_DIR}/modules/*.c)
 file(GLOB OMV_SRC_QSTR2 ${TOP_DIR}/${OMV_DIR}/ports/${PORT}/modules/*.c)
 list(APPEND MICROPY_SOURCE_QSTR ${OMV_SRC_QSTR1} ${OMV_SRC_QSTR2})
-
-# Override manifest file
-set(MICROPY_FROZEN_MANIFEST ${FROZEN_MANIFEST})
+set(MPY_PENDSV_ENTRIES PENDSV_DISPATCH_CDC,)
 
 target_include_directories(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${CMSIS_DIR}/include/
@@ -82,7 +76,6 @@ target_include_directories(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${LEPTON_DIR}/include/
     ${TOP_DIR}/${LSM6DS3_DIR}/include/
     ${TOP_DIR}/${WINC1500_DIR}/include/
-    ${TOP_DIR}/${NINAW10}/include/
     ${TOP_DIR}/${MLX90621_DIR}/include/
     ${TOP_DIR}/${MLX90640_DIR}/include/
     ${TOP_DIR}/${MLX90641_DIR}/include/
@@ -106,6 +99,7 @@ target_sources(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${OMV_DIR}/common/trace.c
     ${TOP_DIR}/${OMV_DIR}/common/mutex.c
     ${TOP_DIR}/${OMV_DIR}/common/usbdbg.c
+    ${TOP_DIR}/${OMV_DIR}/common/tinyusb_debug.c
     ${TOP_DIR}/${OMV_DIR}/common/sensor_utils.c
     ${TOP_DIR}/${OMV_DIR}/common/factoryreset.c
 
@@ -147,6 +141,7 @@ target_sources(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${OMV_DIR}/imlib/imlib.c
     ${TOP_DIR}/${OMV_DIR}/imlib/integral.c
     ${TOP_DIR}/${OMV_DIR}/imlib/integral_mw.c
+    ${TOP_DIR}/${OMV_DIR}/imlib/isp.c
     ${TOP_DIR}/${OMV_DIR}/imlib/jpegd.c
     ${TOP_DIR}/${OMV_DIR}/imlib/jpeg.c
     ${TOP_DIR}/${OMV_DIR}/imlib/lodepng.c
@@ -170,6 +165,7 @@ target_sources(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${OMV_DIR}/imlib/selective_search.c
     ${TOP_DIR}/${OMV_DIR}/imlib/sincos_tab.c
     ${TOP_DIR}/${OMV_DIR}/imlib/stats.c
+    ${TOP_DIR}/${OMV_DIR}/imlib/stereo.c
     ${TOP_DIR}/${OMV_DIR}/imlib/template.c
     ${TOP_DIR}/${OMV_DIR}/imlib/xyz_tab.c
     ${TOP_DIR}/${OMV_DIR}/imlib/yuv.c
@@ -223,27 +219,36 @@ if(MICROPY_PY_ULAB)
     )
 
     set(ULAB_SOURCES
-	    ${MICROPY_ULAB_DIR}/code/scipy/optimize/optimize.c
-	    ${MICROPY_ULAB_DIR}/code/scipy/signal/signal.c
-	    ${MICROPY_ULAB_DIR}/code/scipy/special/special.c
-	    ${MICROPY_ULAB_DIR}/code/ndarray_operators.c
-	    ${MICROPY_ULAB_DIR}/code/ulab_tools.c
-	    ${MICROPY_ULAB_DIR}/code/ndarray.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/approx/approx.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/compare/compare.c
-	    ${MICROPY_ULAB_DIR}/code/ulab_create.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/fft/fft.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/fft/fft_tools.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/filter/filter.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/linalg/linalg.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/linalg/linalg_tools.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/numerical/numerical.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/poly/poly.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/vector/vector.c
-	    ${MICROPY_ULAB_DIR}/code/user/user.c
-	    ${MICROPY_ULAB_DIR}/code/numpy/numpy.c
-	    ${MICROPY_ULAB_DIR}/code/scipy/scipy.c
-	    ${MICROPY_ULAB_DIR}/code/ulab.c
+        ${MICROPY_ULAB_DIR}/code/ndarray.c
+        ${MICROPY_ULAB_DIR}/code/ndarray_operators.c
+        ${MICROPY_ULAB_DIR}/code/ndarray_properties.c
+        ${MICROPY_ULAB_DIR}/code/numpy/approx.c
+        ${MICROPY_ULAB_DIR}/code/numpy/carray/carray.c
+        ${MICROPY_ULAB_DIR}/code/numpy/carray/carray_tools.c
+        ${MICROPY_ULAB_DIR}/code/numpy/compare.c
+        ${MICROPY_ULAB_DIR}/code/numpy/create.c
+        ${MICROPY_ULAB_DIR}/code/numpy/fft/fft.c
+        ${MICROPY_ULAB_DIR}/code/numpy/fft/fft_tools.c
+        ${MICROPY_ULAB_DIR}/code/numpy/filter.c
+        ${MICROPY_ULAB_DIR}/code/numpy/io/io.c
+        ${MICROPY_ULAB_DIR}/code/numpy/linalg/linalg.c
+        ${MICROPY_ULAB_DIR}/code/numpy/linalg/linalg_tools.c
+        ${MICROPY_ULAB_DIR}/code/numpy/ndarray/ndarray_iter.c
+        ${MICROPY_ULAB_DIR}/code/numpy/numerical.c
+        ${MICROPY_ULAB_DIR}/code/numpy/numpy.c
+        ${MICROPY_ULAB_DIR}/code/numpy/poly.c
+        ${MICROPY_ULAB_DIR}/code/numpy/stats.c
+        ${MICROPY_ULAB_DIR}/code/numpy/transform.c
+        ${MICROPY_ULAB_DIR}/code/numpy/vector.c
+        ${MICROPY_ULAB_DIR}/code/scipy/linalg/linalg.c
+        ${MICROPY_ULAB_DIR}/code/scipy/optimize/optimize.c
+        ${MICROPY_ULAB_DIR}/code/scipy/scipy.c
+        ${MICROPY_ULAB_DIR}/code/scipy/signal/signal.c
+        ${MICROPY_ULAB_DIR}/code/scipy/special/special.c
+        ${MICROPY_ULAB_DIR}/code/ulab.c
+        ${MICROPY_ULAB_DIR}/code/ulab_tools.c
+        ${MICROPY_ULAB_DIR}/code/user/user.c
+        ${MICROPY_ULAB_DIR}/code/utils/utils.c
     )
 
     target_sources(${MICROPY_TARGET} PRIVATE ${ULAB_SOURCES})
@@ -256,26 +261,9 @@ if(MICROPY_PY_ULAB)
     )
 endif()
 
-if(MICROPY_PY_NINAW10)
-    target_include_directories(${MICROPY_TARGET} PRIVATE
-        ${TOP_DIR}/${NINAW10_DIR}/include/
-    )
-
-    set(NINA_SOURCES
-        ${TOP_DIR}/${NINAW10_DIR}/src/nina.c
-        ${TOP_DIR}/${OMV_DIR}/ports/${PORT}/nina_bsp.c
-        ${TOP_DIR}/${OMV_DIR}/ports/${PORT}/modules/py_nina.c
-    )
-
-    target_sources(${MICROPY_TARGET} PRIVATE ${NINA_SOURCES})
-
-    target_compile_definitions(${MICROPY_TARGET} PRIVATE
-        NINA_DEBUG=0
-        MICROPY_PY_USOCKET=1
-        MICROPY_PY_NETWORK=1
-        MICROPY_PY_NINAW10=1
-    )
-endif()
+target_compile_definitions(${MICROPY_TARGET} PRIVATE
+    MICROPY_BOARD_PENDSV_ENTRIES=${MPY_PENDSV_ENTRIES}
+)
 
 add_custom_command(TARGET ${MICROPY_TARGET}
     POST_BUILD

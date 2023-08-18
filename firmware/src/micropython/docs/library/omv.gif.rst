@@ -36,7 +36,7 @@ Example usage::
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: gif.Gif(filename, [width, [height, [color, [loop=True]]]])
+.. class:: Gif(filename, [width, [height, [color, [loop=True]]]])
 
    Create a Gif object which you can add frames to. ``filename`` is the path to
    save the gif recording to.
@@ -55,39 +55,39 @@ Constructors
 
    ``loop`` when True results in the gif automatically looping on playback.
 
-Methods
-~~~~~~~
+   Methods
+   ~~~~~~~
 
-.. method:: gif.width()
+   .. method:: width()
 
-   Returns the width (horizontal resolution) for the gif object.
+      Returns the width (horizontal resolution) for the gif object.
 
-.. method:: gif.height()
+   .. method:: height()
 
-   Returns the height (vertical resolution) for the gif object.
+      Returns the height (vertical resolution) for the gif object.
 
-.. method:: gif.format()
+   .. method:: format()
 
-   Returns `sensor.RGB565` if color is True or `sensor.GRAYSCALE` if not.
+      Returns `sensor.RGB565` if color is True or `sensor.GRAYSCALE` if not.
 
-.. method:: gif.size()
+   .. method:: size()
 
-   Returns the file size of the gif so far. This value is updated after adding frames.
+      Returns the file size of the gif so far. This value is updated after adding frames.
 
-.. method:: gif.loop()
+   .. method:: loop()
 
-   Returns if the gif object had loop set in its constructor.
+      Returns if the gif object had loop set in its constructor.
 
-.. method:: gif.add_frame(image, [delay=10])
+   .. method:: add_frame(image, [delay=10])
 
-   Add an image to the gif recording. The image width, height, and color mode,
-   must be equal to the same width, height, and color modes used in the constructor
-   for the gif.
+      Add an image to the gif recording. The image width, height, and color mode,
+      must be equal to the same width, height, and color modes used in the constructor
+      for the gif.
 
-   ``delay`` is the number of centi-seconds to wait before displaying this frame
-   after the previous frame (if not the first frame).
+      ``delay`` is the number of centi-seconds to wait before displaying this frame
+      after the previous frame (if not the first frame).
 
-.. method:: gif.close()
+   .. method:: close()
 
-   Finalizes the gif recording. This method must be called once the recording
-   is complete to make the file viewable.
+      Finalizes the gif recording. This method must be called once the recording
+      is complete to make the file viewable.

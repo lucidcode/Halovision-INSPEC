@@ -50,7 +50,7 @@ module and are intended to be a drop-in replacement for the standard Python
 library.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    array.rst
    binascii.rst
@@ -65,6 +65,7 @@ library.
    json.rst
    math.rst
    os.rst
+   random.rst
    re.rst
    select.rst
    socket.rst
@@ -84,7 +85,7 @@ Functionality specific to the MicroPython implementation is available in
 the following libraries.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    bluetooth.rst
    btree.rst
@@ -96,6 +97,8 @@ the following libraries.
    network.rst
    uctypes.rst
    mutex.rst
+   uping.rst
+   urequests.rst
 
 Libraries specific to the OpenMV Cam
 ------------------------------------
@@ -103,9 +106,10 @@ Libraries specific to the OpenMV Cam
 The following libraries are specific to the OpenMV Cam.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    pyb.rst
+   stm.rst
    omv.sensor.rst
    omv.image.rst
    omv.tf.rst
@@ -162,13 +166,11 @@ Examples scripts are located in OpenMV IDE under the ``IMU Shield`` examples fol
 
 Examples scripts are located in OpenMV IDE under the ``Motor Shield`` examples folder.
 
-:mod:`vl53l1x` --- `ToF Distance Sensor Driver <https://github.com/openmv/openmv/blob/master/scripts/libraries/vl53l1x.py>`_
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:mod:`lsm6dsox` --- `lsm6dsox Driver <https://github.com/openmv/openmv/blob/master/scripts/libraries/lsm6dsox.py>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. module:: vl53l1x
-   :synopsis: ToF Distance Sensor Driver
-
-Examples scripts are located in OpenMV IDE under the ``Distance Shield`` examples folder.
+.. module:: lsm6dsox
+   :synopsis: lsm6dsox Driver
 
 :mod:`modbus` --- `modbus protocol library <https://github.com/openmv/openmv/blob/master/scripts/libraries/modbus.py>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,3 +188,31 @@ Examples scripts are located in OpenMV IDE under the ``Modbus`` examples folder.
 
 Examples scripts are located in OpenMV IDE under the ``WiFi Shield`` examples folder.
 
+:mod:`vl53l1x` --- `ToF Distance Sensor Driver <https://github.com/openmv/openmv/blob/master/scripts/libraries/vl53l1x.py>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. module:: vl53l1x
+   :synopsis: ToF Distance Sensor Driver
+
+Examples scripts are located in OpenMV IDE under the ``Distance Shield`` examples folder.
+
+Extending built-in libraries from Python
+----------------------------------------
+
+In most cases, the above modules are actually named ``umodule`` rather than
+``module``, but MicroPython will alias any module prefixed with a ``u`` to the
+non-``u`` version. However a file (or :term:`frozen module`) named
+``module.py`` will take precedence over this alias.
+
+This allows the user to provide an extended implementation of a built-in library
+(perhaps to provide additional CPython compatibility). The user-provided module
+(in ``module.py``) can still use the built-in functionality by importing
+``umodule`` directly. This is used extensively in :term:`micropython-lib`. See
+:ref:`packages` for more information.
+
+This applies to both the Python standard libraries (e.g. ``os``, ``time``, etc),
+but also the MicroPython libraries too (e.g. ``machine``, ``bluetooth``, etc).
+The main exception is the port-specific libraries (``pyb``, ``esp``, etc).
+
+*Other than when you specifically want to force the use of the built-in module,
+we recommend always using* ``import module`` *rather than* ``import umodule``.

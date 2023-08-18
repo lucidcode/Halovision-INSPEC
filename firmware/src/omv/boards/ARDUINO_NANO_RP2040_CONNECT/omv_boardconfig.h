@@ -16,9 +16,11 @@
 #define OMV_BOARD_TYPE          "PICO"
 
 #ifndef LINKER_SCRIPT
-extern unsigned char *OMV_UNIQUE_ID_ADDR;
+extern unsigned char *OMV_UNIQUE_ID_ADDR;   // Unique address.
 #endif
-#define OMV_UNIQUE_ID_SIZE      2 // 2 words
+#define OMV_UNIQUE_ID_SIZE      2           // Unique ID size in words.
+#define OMV_UNIQUE_ID_OFFSET    4           // Bytes offset for multi-word UIDs.
+
 
 #define OMV_XCLK_MCO            (0U)
 #define OMV_XCLK_TIM            (1U)
@@ -29,9 +31,6 @@ extern unsigned char *OMV_UNIQUE_ID_ADDR;
 // Sensor external clock timer frequency.
 // TODO Not actually used right now, frequency is hardcoded.
 #define OMV_XCLK_FREQUENCY      (12500000)
-
-// RAW buffer size
-#define OMV_RAW_BUF_SIZE        (100*1024)
 
 // Enable hardware JPEG
 #define OMV_HARDWARE_JPEG       (0)
@@ -65,6 +64,8 @@ extern unsigned char *OMV_UNIQUE_ID_ADDR;
 
 // Enable WiFi debug
 #define OMV_ENABLE_WIFIDBG      (0)
+#define OMV_ENABLE_TUSBDBG      (1)
+#define OMV_TUSBDBG_PACKET      (64)
 
 // Enable self-tests on first boot
 #define OMV_ENABLE_SELFTEST     (0)
@@ -85,12 +86,7 @@ extern unsigned char *OMV_UNIQUE_ID_ADDR;
 
 // USB IRQn.
 #define OMV_USB_IRQN            (USBCTRL_IRQ_IRQn)
-
-// Jump to bootloader function.
-#ifndef LINKER_SCRIPT
-void pico_reset_to_bootloader(void);
-#endif
-#define MICROPY_RESET_TO_BOOTLOADER pico_reset_to_bootloader
+#define OMV_USB1_IRQ_HANDLER    (USBD_IRQHandler)
 
 // Linker script constants (see the linker script template port/x.ld.S).
 #define OMV_FB_MEMORY           RAM    // Framebuffer, fb_alloc
@@ -100,7 +96,7 @@ void pico_reset_to_bootloader(void);
 #define OMV_FB_SIZE             (100K) // FB memory
 #define OMV_FB_ALLOC_SIZE       (16K)  // minimum fb alloc size
 #define OMV_STACK_SIZE          (16K)
-#define OMV_HEAP_SIZE           (64 * 1024) // MicroPython's heap
+#define OMV_HEAP_SIZE           (60 * 1024) // MicroPython's heap
 #define OMV_JPEG_BUF_SIZE       (20 * 1024) // IDE JPEG buffer (header + data).
 
 // GP LED

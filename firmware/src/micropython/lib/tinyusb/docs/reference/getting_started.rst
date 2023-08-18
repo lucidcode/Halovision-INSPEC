@@ -37,7 +37,7 @@ It is relatively simple to incorporate tinyusb to your (existing) project
 Examples
 --------
 
-For your convenience, TinyUSB contains a handful of examples for both host and device with/without RTOS to quickly test the functionality as well as demonstrate how API() should be used. Most examples will work on most of `the supported Boards <boards.md>`_. Firstly we need to ``git clone`` if not already
+For your convenience, TinyUSB contains a handful of examples for both host and device with/without RTOS to quickly test the functionality as well as demonstrate how API() should be used. Most examples will work on most of `the supported boards <supported.rst>`_. Firstly we need to ``git clone`` if not already
 
 .. code-block::
 
@@ -50,7 +50,14 @@ Some TinyUSB examples also requires external submodule libraries in ``/lib`` suc
 
    $ git submodule update --init lib
 
-In addition, MCU driver submodule is also needed to provide low-level MCU peripheral's driver. Luckily, it will be fetched if needed when you run the ``make`` to build your board.
+In addition, MCU driver submodule is also needed to provide low-level MCU peripheral's driver. To download these depencies for your board, run the ``get-dpes`` as follow.
+
+.. code-block::
+
+   $ make BOARD=feather_nrf52840_express get-deps
+
+
+Some modules will also require a module-specific SDK (e.g. RP2040) or binary (e.g. Sony Spresense) to build examples.
 
 Note: some examples especially those that uses Vendor class (e.g webUSB) may requires udev permission on Linux (and/or macOS) to access usb device. It depends on your OS distro, typically copy ``/examples/device/99-tinyusb.rules`` file to /etc/udev/rules.d/ then run ``sudo udevadm control --reload-rules && sudo udevadm trigger`` is good enough.
 
@@ -62,6 +69,8 @@ To build example, first change directory to an example folder.
 .. code-block::
 
    $ cd examples/device/cdc_msc
+
+Some modules (e.g. RP2040 and ESP32s2) require the project makefiles to be customized using CMake. If necessary apply any setup steps for the platform's SDK.
 
 Then compile with ``make BOARD=[board_name] all``\ , for example
 

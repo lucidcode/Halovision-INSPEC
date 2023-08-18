@@ -16,9 +16,10 @@
 #define OMV_BOARD_TYPE          "PICO"
 
 #ifndef LINKER_SCRIPT
-extern unsigned char *OMV_UNIQUE_ID_ADDR;
+extern unsigned char *OMV_UNIQUE_ID_ADDR;   // Unique ID address.
 #endif
-#define OMV_UNIQUE_ID_SIZE      2 // 2 words
+#define OMV_UNIQUE_ID_SIZE      2           // Unique ID size in words.
+#define OMV_UNIQUE_ID_OFFSET    4           // Bytes offset for multi-word UIDs.
 
 #define OMV_XCLK_MCO            (0U)
 #define OMV_XCLK_TIM            (1U)
@@ -29,9 +30,6 @@ extern unsigned char *OMV_UNIQUE_ID_ADDR;
 // Sensor external clock timer frequency.
 // TODO Not actually used right now, frequency is hardcoded.
 #define OMV_XCLK_FREQUENCY      (12500000)
-
-// RAW buffer size
-#define OMV_RAW_BUF_SIZE        (151*1024)
 
 // Enable hardware JPEG
 #define OMV_HARDWARE_JPEG       (0)
@@ -85,12 +83,7 @@ extern unsigned char *OMV_UNIQUE_ID_ADDR;
 
 // USB IRQn.
 #define OMV_USB_IRQN            (USBCTRL_IRQ_IRQn)
-
-// Jump to bootloader function.
-#ifndef LINKER_SCRIPT
-void pico_reset_to_bootloader(void);
-#endif
-#define MICROPY_RESET_TO_BOOTLOADER pico_reset_to_bootloader
+#define OMV_USB1_IRQ_HANDLER    (USBD_IRQHandler)
 
 // Linker script constants (see the linker script template port/x.ld.S).
 #define OMV_FB_MEMORY           RAM    // Framebuffer, fb_alloc

@@ -29,6 +29,9 @@
 // Enable midpoint pooling
 #define IMLIB_ENABLE_MIDPOINT_POOLING
 
+// Enable ISP ops
+#define IMLIB_ENABLE_ISP_OPS
+
 // Enable binary ops
 #define IMLIB_ENABLE_BINARY_OPS
 
@@ -141,7 +144,7 @@
 #define IMLIB_ENABLE_DESCRIPTOR
 
 // Enable find_hog()
-#define IMLIB_ENABLE_HOG
+// #define IMLIB_ENABLE_HOG
 
 // Enable STM32 DMA2D
 #define IMLIB_ENABLE_DMA2D
@@ -149,5 +152,8 @@
 // Enable PNG encoder/decoder
 #define IMLIB_ENABLE_PNG_ENCODER
 #define IMLIB_ENABLE_PNG_DECODER
+
+// Stereo Imaging
+// #define IMLIB_ENABLE_STEREO_DISPARITY
 
 #endif //__IMLIB_CONFIG_H__

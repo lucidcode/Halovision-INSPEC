@@ -14,7 +14,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include "cambus.h"
 #include "sensor.h"
@@ -22,8 +21,26 @@
 #include "gc2145_regs.h"
 #include "py/mphal.h"
 
-#define GC_MAX_WIN_W    (1600)
-#define GC_MAX_WIN_H    (1200)
+#define BLANK_LINES     16
+#define DUMMY_LINES     16
+
+#define BLANK_COLUMNS   0
+#define DUMMY_COLUMNS   8
+
+#define SENSOR_WIDTH    1616
+#define SENSOR_HEIGHT   1248
+
+#define ACTIVE_SENSOR_WIDTH     (SENSOR_WIDTH - BLANK_COLUMNS - (2 * DUMMY_COLUMNS))
+#define ACTIVE_SENSOR_HEIGHT    (SENSOR_HEIGHT - BLANK_LINES - (2 * DUMMY_LINES))
+
+#define DUMMY_WIDTH_BUFFER      16
+#define DUMMY_HEIGHT_BUFFER     8
+
+static int16_t readout_x = 0;
+static int16_t readout_y = 0;
+
+static uint16_t readout_w = ACTIVE_SENSOR_WIDTH;
+static uint16_t readout_h = ACTIVE_SENSOR_HEIGHT;
 
 // SLAVE ADDR 0x78
 static const uint8_t default_regs[][2] = {
@@ -60,7 +77,11 @@ static const uint8_t default_regs[][2] = {
     {0x9a, 0x0E},   // Subsample mode
 
     {0x12, 0x2e},   //
+#if (OMV_GC2145_ROTATE == 1)
+    {0x17, 0x17},   // Analog Mode 1 (vflip/mirror[1:0])
+#else
     {0x17, 0x14},   // Analog Mode 1 (vflip/mirror[1:0])
+#endif
     {0x18, 0x22},   // Analog Mode 2
     {0x19, 0x0e},
     {0x1a, 0x01},
@@ -700,6 +721,12 @@ static int reset(sensor_t *sensor)
 {
     int ret = 0;
 
+    readout_x = 0;
+    readout_y = 0;
+
+    readout_w = ACTIVE_SENSOR_WIDTH;
+    readout_h = ACTIVE_SENSOR_HEIGHT;
+
     // Write default regsiters
     for (int i = 0; default_regs[i][0]; i++) {
         ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, default_regs[i][0], default_regs[i][1]);
@@ -707,6 +734,23 @@ static int reset(sensor_t *sensor)
 
     // Delay 10 ms
     mp_hal_delay_ms(10);
+
+    return ret;
+}
+
+static int sleep(sensor_t *sensor, int enable)
+{
+    int ret = 0;
+
+    if (enable) {
+        ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xF2, 0x0);
+        ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xF7, 0x10);
+        ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xFC, 0x01);
+    } else {
+        ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xF2, 0x0F);
+        ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xF7, 0x1d);
+        ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xFC, 0x06);
+    }
 
     return ret;
 }
@@ -747,9 +791,6 @@ static int set_pixformat(sensor_t *sensor, pixformat_t pixformat)
                     REG_OUTPUT_FMT, REG_OUTPUT_SET_FMT(reg, REG_OUTPUT_FMT_YCBYCR));
             break;
         case PIXFORMAT_BAYER:
-            // Make sure odd/even row are switched to work with our bayer conversion.
-            ret |= cambus_writeb(&sensor->bus, sensor->slv_addr,
-                    REG_SYNC_MODE, REG_SYNC_MODE_DEF | REG_SYNC_MODE_ROW_SWITCH);
             ret |= cambus_writeb(&sensor->bus, sensor->slv_addr,
                     REG_OUTPUT_FMT, REG_OUTPUT_SET_FMT(reg, REG_OUTPUT_FMT_BAYER));
             break;
@@ -790,49 +831,62 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize)
 {
     int ret = 0;
 
-    uint16_t win_w;
-    uint16_t win_h;
-
     uint16_t w = resolution[framesize][0];
     uint16_t h = resolution[framesize][1];
 
-    if (w < resolution[FRAMESIZE_QVGA][0] && h < resolution[FRAMESIZE_QVGA][1]) {
-        win_w = w * 4;
-        win_h = h * 4;
-    } else if (w < resolution[FRAMESIZE_VGA][0] && h < resolution[FRAMESIZE_VGA][1]) {
-        win_w = w * 3;
-        win_h = h * 3;
-    } else if (w < resolution[FRAMESIZE_SVGA][0] && h < resolution[FRAMESIZE_SVGA][1]) {
-        win_w = w * 2;
-        win_h = h * 2;
-    } else if (w <= resolution[FRAMESIZE_UXGA][0] && h <= resolution[FRAMESIZE_UXGA][1]) {
-        // For frames bigger than subsample using full UXGA window.
-        win_w = resolution[FRAMESIZE_UXGA][0];
-        win_h = resolution[FRAMESIZE_UXGA][1];
-    } else {
+    // Invalid resolution.
+    if ((w > ACTIVE_SENSOR_WIDTH) || (h > ACTIVE_SENSOR_HEIGHT)) {
         return -1;
     }
 
-    uint16_t c_ratio = win_w / w;
-    uint16_t r_ratio = win_h / h;
+    // Step 0: Clamp readout settings.
 
-    uint16_t x = (((win_w / c_ratio) - w) / 2);
-    uint16_t y = (((win_h / r_ratio) - h) / 2);
+    readout_w = IM_MAX(readout_w, w);
+    readout_h = IM_MAX(readout_h, h);
 
-    uint16_t win_x = ((GC_MAX_WIN_W - win_w) / 2);
-    uint16_t win_y = ((GC_MAX_WIN_H - win_h) / 2);
+    int readout_x_max = (ACTIVE_SENSOR_WIDTH - readout_w) / 2;
+    int readout_y_max = (ACTIVE_SENSOR_HEIGHT - readout_h) / 2;
+    readout_x = IM_MAX(IM_MIN(readout_x, readout_x_max), -readout_x_max);
+    readout_y = IM_MAX(IM_MIN(readout_y, readout_y_max), -readout_y_max);
 
-    // Set readout window first.
-    ret |= set_window(sensor, 0x09, win_x, win_y, win_w + 16, win_h + 8);
+    // Step 1: Determine sub-readout window.
+
+    uint16_t ratio = fast_floorf(IM_MIN(readout_w / ((float) w), readout_h / ((float) h)));
+
+    // Limit the maximum amount of scaling allowed to keep the frame rate up.
+    ratio = IM_MIN(ratio, 3);
+
+    if (!(ratio % 2)) { // camera outputs messed up bayer images at even ratios for some reason...
+        ratio -= 1;
+    }
+
+    uint16_t sub_readout_w = w * ratio;
+    uint16_t sub_readout_h = h * ratio;
+
+    // Step 2: Determine horizontal and vertical start and end points.
+
+    uint16_t sensor_w = sub_readout_w + DUMMY_WIDTH_BUFFER; // camera hardware needs dummy pixels to sync
+    uint16_t sensor_h = sub_readout_h + DUMMY_HEIGHT_BUFFER; // camera hardware needs dummy lines to sync
+
+    uint16_t sensor_x = IM_MAX(IM_MIN((((ACTIVE_SENSOR_WIDTH - sensor_w) / 4) - (readout_x / 2)) * 2,
+            ACTIVE_SENSOR_WIDTH - sensor_w), -(DUMMY_WIDTH_BUFFER / 2)) + DUMMY_COLUMNS; // must be multiple of 2
+
+    uint16_t sensor_y = IM_MAX(IM_MIN((((ACTIVE_SENSOR_HEIGHT - sensor_h) / 4) - (readout_y / 2)) * 2,
+            ACTIVE_SENSOR_HEIGHT - sensor_h), -(DUMMY_HEIGHT_BUFFER / 2)) + DUMMY_LINES; // must be multiple of 2
+
+    // Step 3: Write regs.
+
+    // Set Readout window first.
+    ret |= set_window(sensor, 0x09, sensor_x, sensor_y, sensor_w, sensor_h);
 
     // Set cropping window next.
-    ret |= set_window(sensor, 0x91, x, y, w, h);
+    ret |= set_window(sensor, 0x91, 0, 0, w, h);
 
     // Enable crop
     ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0x90, 0x01);
 
     // Set Sub-sampling ratio and mode
-    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0x99, ((r_ratio << 4) | c_ratio));
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0x99, ((ratio << 4) | (ratio)));
     ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0x9A, 0x0E);
 
     return ret;
@@ -846,7 +900,7 @@ static int set_hmirror(sensor_t *sensor, int enable)
     // P0 regs
     ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xFE, 0x00);
     ret |= cambus_readb(&sensor->bus, sensor->slv_addr, REG_AMODE1, &reg);
-    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, REG_AMODE1, REG_AMODE1_SET_HMIRROR(reg, enable)) ;
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, REG_AMODE1, REG_AMODE1_SET_HMIRROR(reg, enable));
     return ret;
 }
 
@@ -858,7 +912,70 @@ static int set_vflip(sensor_t *sensor, int enable)
     // P0 regs
     ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xFE, 0x00);
     ret |= cambus_readb(&sensor->bus, sensor->slv_addr, REG_AMODE1, &reg);
-    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, REG_AMODE1, REG_AMODE1_SET_VMIRROR(reg, enable)) ;
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, REG_AMODE1, REG_AMODE1_SET_VMIRROR(reg, enable));
+    return ret;
+}
+
+static int set_auto_exposure(sensor_t *sensor, int enable, int exposure_us)
+{
+    int ret = 0;
+    uint8_t reg;
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xFE, 0x00);
+    ret |= cambus_readb(&sensor->bus, sensor->slv_addr, 0xb6, &reg);
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xb6, (reg & 0xFE) | (enable & 0x01)) ;
+    return ret;
+}
+
+static int set_auto_whitebal(sensor_t *sensor, int enable, float r_gain_db, float g_gain_db, float b_gain_db)
+{
+    int ret = 0;
+    uint8_t reg;
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0xFE, 0x00);
+    ret |= cambus_readb(&sensor->bus, sensor->slv_addr, 0x82, &reg);
+    ret |= cambus_writeb(&sensor->bus, sensor->slv_addr, 0x82, (reg & 0xFD) | ((enable & 0x01) << 1));
+    return ret;
+}
+
+static int ioctl(sensor_t *sensor, int request, va_list ap)
+{
+    int ret = 0;
+
+    switch (request) {
+        case IOCTL_SET_READOUT_WINDOW: {
+            int tmp_readout_x = va_arg(ap, int);
+            int tmp_readout_y = va_arg(ap, int);
+            int tmp_readout_w = IM_MAX(IM_MIN(va_arg(ap, int), ACTIVE_SENSOR_WIDTH),
+                                       resolution[sensor->framesize][0]);
+            int tmp_readout_h = IM_MAX(IM_MIN(va_arg(ap, int), ACTIVE_SENSOR_HEIGHT),
+                                       resolution[sensor->framesize][1]);
+            int readout_x_max = (ACTIVE_SENSOR_WIDTH - tmp_readout_w) / 2;
+            int readout_y_max = (ACTIVE_SENSOR_HEIGHT - tmp_readout_h) / 2;
+            tmp_readout_x = IM_MAX(IM_MIN(tmp_readout_x, readout_x_max), -readout_x_max);
+            tmp_readout_y = IM_MAX(IM_MIN(tmp_readout_y, readout_y_max), -readout_y_max);
+            bool changed = (tmp_readout_x != readout_x) || (tmp_readout_y != readout_y) ||
+                           (tmp_readout_w != readout_w) || (tmp_readout_h != readout_h);
+            readout_x = tmp_readout_x;
+            readout_y = tmp_readout_y;
+            readout_w = tmp_readout_w;
+            readout_h = tmp_readout_h;
+            if (changed && (sensor->framesize != FRAMESIZE_INVALID)) {
+                set_framesize(sensor, sensor->framesize);
+            }
+            break;
+        }
+        case IOCTL_GET_READOUT_WINDOW: {
+            *va_arg(ap, int *) = readout_x;
+            *va_arg(ap, int *) = readout_y;
+            *va_arg(ap, int *) = readout_w;
+            *va_arg(ap, int *) = readout_h;
+            break;
+        }
+        default: {
+            ret = -1;
+            break;
+        }
+    }
+
     return ret;
 }
 
@@ -866,12 +983,16 @@ int gc2145_init(sensor_t *sensor)
 {
     // Initialize sensor structure.
     sensor->reset               = reset;
+    sensor->sleep               = sleep;
     sensor->read_reg            = read_reg;
     sensor->write_reg           = write_reg;
     sensor->set_pixformat       = set_pixformat;
     sensor->set_framesize       = set_framesize;
     sensor->set_hmirror         = set_hmirror;
     sensor->set_vflip           = set_vflip;
+    sensor->set_auto_exposure   = set_auto_exposure;
+    sensor->set_auto_whitebal   = set_auto_whitebal;
+    sensor->ioctl               = ioctl;
 
     // Set sensor flags
     sensor->hw_flags.vsync      = 0;
@@ -881,7 +1002,7 @@ int gc2145_init(sensor_t *sensor)
     sensor->hw_flags.jpege      = 0;
     sensor->hw_flags.gs_bpp     = 2;
     sensor->hw_flags.rgb_swap   = 1;
-    sensor->hw_flags.yuv_order  = SENSOR_HW_FLAGS_YVU422;
+    sensor->hw_flags.bayer      = SENSOR_HW_FLAGS_BAYER_GBRG;
 
     return 0;
 }

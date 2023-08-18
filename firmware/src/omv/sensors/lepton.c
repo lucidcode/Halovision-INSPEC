@@ -11,6 +11,7 @@
 #include "omv_boardconfig.h"
 #if (OMV_ENABLE_LEPTON == 1)
 
+#include <stdio.h>
 #include STM32_HAL_H
 #include "irq.h"
 #include "cambus.h"
@@ -18,6 +19,7 @@
 #include "py/mphal.h"
 #include "framebuffer.h"
 #include "common.h"
+#include "dma_alloc.h"
 
 #include "crc16.h"
 #include "LEPTON_SDK.h"
@@ -40,8 +42,13 @@
 #define VOSPI_FIRST_PACKET      (0)
 #define VOSPI_FIRST_SEGMENT     (1)
 #define LEPTON_TIMEOUT          (1000)
-#define DEFAULT_MIN_TEMP        (-17.7778f)
-#define DEFAULT_MAX_TEMP        (37.7778f)
+// Temperatures in Celsius
+#define DEFAULT_MIN_TEMP        (-10.0f)
+#define DEFAULT_MAX_TEMP        (40.0f)
+#define LEPTON_MIN_TEMP_NORM    (-10.0f)
+#define LEPTON_MAX_TEMP_NORM    (140.0f)
+#define LEPTON_MIN_TEMP_HIGH    (-10.0f)
+#define LEPTON_MAX_TEMP_HIGH    (600.0f)
 
 static bool radiometry = false;
 static int h_res = 0;
@@ -49,22 +56,22 @@ static int v_res = 0;
 static bool v_flip = false;
 static bool h_mirror = false;
 static bool measurement_mode = false;
+static bool high_temp_mode = false;
 static float min_temp = DEFAULT_MIN_TEMP;
 static float max_temp = DEFAULT_MAX_TEMP;
 
 extern SPI_HandleTypeDef ISC_SPIHandle;
 static DMA_HandleTypeDef DMAHandle;
 LEP_CAMERA_PORT_DESC_T   LEPHandle;
-extern uint8_t _line_buf[];
 extern uint8_t _vospi_buf[];
 
 static bool vospi_resync = true;
-static uint8_t *vospi_packet = _line_buf;
+static uint8_t *vospi_packet = NULL;
 static uint8_t *vospi_buffer = _vospi_buf;
 static volatile uint32_t vospi_pid = 0;
 static volatile uint32_t vospi_seg = 1;
 static uint32_t vospi_packets = 60;
-static int lepton_reset(sensor_t *sensor, bool measurement_mode);
+static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_mode);
 
 static void lepton_sync()
 {
@@ -280,23 +287,29 @@ static int ioctl(sensor_t *sensor, int request, va_list ap)
             break;
         }
         case IOCTL_LEPTON_SET_MEASUREMENT_MODE: {
-            int enabled = va_arg(ap, int);
-            if (measurement_mode != enabled) {
-                measurement_mode = enabled;
-                ret = lepton_reset(sensor, measurement_mode);
+            int measurement_mode_in = va_arg(ap, int);
+            int high_temp_mode_in = va_arg(ap, int);
+            if (measurement_mode != measurement_mode_in) {
+                measurement_mode = measurement_mode_in;
+                high_temp_mode = high_temp_mode_in;
+                ret = lepton_reset(sensor, measurement_mode, high_temp_mode);
             }
             break;
         }
         case IOCTL_LEPTON_GET_MEASUREMENT_MODE: {
-            bool *enabled = va_arg(ap, bool *);
-            *enabled = measurement_mode;
+            int *measurement_mode_out = va_arg(ap, int *);
+            int *high_temp_mode_out = va_arg(ap, int *);
+            *measurement_mode_out = measurement_mode;
+            *high_temp_mode_out = high_temp_mode;
             break;
         }
         case IOCTL_LEPTON_SET_MEASUREMENT_RANGE: {
             float *arg_min_temp = va_arg(ap, float *);
             float *arg_max_temp = va_arg(ap, float *);
-            min_temp = IM_MAX(IM_MIN(*arg_min_temp, *arg_max_temp), -10.0f);
-            max_temp = IM_MIN(IM_MAX(*arg_max_temp, *arg_min_temp), 140.0f);
+            float min_temp_range = (high_temp_mode) ? LEPTON_MIN_TEMP_HIGH : LEPTON_MIN_TEMP_NORM;
+            float max_temp_range = (high_temp_mode) ? LEPTON_MAX_TEMP_HIGH : LEPTON_MAX_TEMP_NORM;
+            min_temp = IM_MAX(IM_MIN(*arg_min_temp, *arg_max_temp), min_temp_range);
+            max_temp = IM_MIN(IM_MAX(*arg_max_temp, *arg_min_temp), max_temp_range);
             break;
         }
         case IOCTL_LEPTON_GET_MEASUREMENT_RANGE: {
@@ -315,8 +328,7 @@ static int ioctl(sensor_t *sensor, int request, va_list ap)
     return ret;
 }
 
-
-static int lepton_reset(sensor_t *sensor, bool measurement_mode)
+static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_mode)
 {
     DCMI_PWDN_LOW();
     mp_hal_delay_ms(10);
@@ -374,6 +386,12 @@ static int lepton_reset(sensor_t *sensor, bool measurement_mode)
         return -1;
     }
 
+    // Use the low gain mode to enable high temperature readings (~450C) on Lepton 3.5
+    LEP_SYS_GAIN_MODE_E gain_mode = high_temp_mode ? LEP_SYS_GAIN_MODE_LOW : LEP_SYS_GAIN_MODE_HIGH;
+    if (LEP_SetSysGainMode(&LEPHandle, gain_mode) != LEP_OK) {
+        return -1;
+    }
+
     if (!measurement_mode) {
         if (LEP_SetRadEnableState(&LEPHandle, LEP_RAD_DISABLE) != LEP_OK
             || LEP_SetAgcEnableState(&LEPHandle, LEP_AGC_ENABLE) != LEP_OK
@@ -405,9 +423,10 @@ static int reset(sensor_t *sensor)
     h_mirror = false;
     radiometry = false;
     measurement_mode = false;
+    high_temp_mode = false;
     min_temp = DEFAULT_MIN_TEMP;
     max_temp = DEFAULT_MAX_TEMP;
-    return lepton_reset(sensor, false);
+    return lepton_reset(sensor, false, false);
 }
 
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
@@ -504,7 +523,7 @@ static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
             // The FLIR lepton might have crashed so reset it (it does this).
             bool temp_h_mirror = h_mirror;
             bool temp_v_flip = v_flip;
-            int ret = lepton_reset(sensor, measurement_mode);
+            int ret = lepton_reset(sensor, measurement_mode, high_temp_mode);
             h_mirror = temp_h_mirror;
             v_flip = temp_v_flip;
 
@@ -625,6 +644,12 @@ int lepton_init(sensor_t *sensor)
     sensor->hw_flags.jpege      = 0;
     sensor->hw_flags.gs_bpp     = 1;
 
+    // Allocate packet buffer in the same domain as the DMA instance.
+    vospi_packet = dma_alloc(VOSPI_PACKET_SIZE, ISC_SPI_DMA_STREAM);
+    if (vospi_packet == NULL) {
+        return -1;
+    }
+
     // Configure the DMA handler for Transmission process
     DMAHandle.Instance                 = ISC_SPI_DMA_STREAM;
     DMAHandle.Init.Request             = ISC_SPI_DMA_REQUEST;
@@ -647,6 +672,10 @@ int lepton_init(sensor_t *sensor)
     // NVIC configuration for DMA transfer complete interrupt
     NVIC_SetPriority(ISC_SPI_DMA_IRQn, IRQ_PRI_DMA21);
     HAL_NVIC_DisableIRQ(ISC_SPI_DMA_IRQn);
+
+    #if defined(ISC_SPI_DMA_CLK_ENABLE)
+    ISC_SPI_DMA_CLK_ENABLE();
+    #endif
 
     HAL_DMA_DeInit(&DMAHandle);
     if (HAL_DMA_Init(&DMAHandle) != HAL_OK) {
@@ -684,6 +713,27 @@ int lepton_init(sensor_t *sensor)
     // NVIC configuration for SPI transfer complete interrupt
     NVIC_SetPriority(ISC_SPI_IRQn, IRQ_PRI_DCMI);
     HAL_NVIC_EnableIRQ(ISC_SPI_IRQn);
+
+    LEP_OEM_PART_NUMBER_T part;
+    if ((!reset(sensor))
+    && (LEP_GetOemFlirPartNumber(&LEPHandle, &part) == LEP_OK)) {
+        // 500 == Lepton
+        // xxxx == Version
+        // 01/00 == Shutter/NoShutter
+        if (!strncmp(part.value, "500-0771", 8)) {
+            sensor->chip_id_w = LEPTON_3_5;
+        } else if (!strncmp(part.value, "500-0726", 8)) {
+            sensor->chip_id_w = LEPTON_3_0;
+        } else if (!strncmp(part.value, "500-0763", 8)) {
+            sensor->chip_id_w = LEPTON_2_5;
+        } else if (!strncmp(part.value, "500-0659", 8)) {
+            sensor->chip_id_w = LEPTON_2_0;
+        } else if (!strncmp(part.value, "500-0690", 8)) {
+            sensor->chip_id_w = LEPTON_1_6;
+        } else if (!strncmp(part.value, "500-0643", 8)) {
+            sensor->chip_id_w = LEPTON_1_5;
+        }
+    }
 
     return 0;
 }

@@ -269,9 +269,6 @@ soft_reset:
 
     // MicroPython init
     mp_init();
-    mp_obj_list_init(mp_sys_path, 0);
-    mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR_)); // current dir (or base dir of the script)
-    mp_obj_list_init(mp_sys_argv, 0);
 
     readline_init0();
 
@@ -301,7 +298,7 @@ soft_reset:
     #endif
 
     #if MICROPY_MODULE_FROZEN
-    pyexec_frozen_module("boot.py");
+    pyexec_frozen_module("boot.py", false);
     #else
     if (!pyexec_file_if_exists("/boot.py")) {
         flash_error(4);
@@ -313,7 +310,7 @@ soft_reset:
 
     // run main script
     #if MICROPY_MODULE_FROZEN
-    pyexec_frozen_module("main.py");
+    pyexec_frozen_module("main.py", true);
     #else
     {
         vstr_t *vstr = vstr_new(16);

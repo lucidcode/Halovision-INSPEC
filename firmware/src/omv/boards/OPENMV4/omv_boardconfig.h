@@ -14,15 +14,12 @@
 // Architecture info
 #define OMV_ARCH_STR            "OMV4 H7 1024" // 33 chars max
 #define OMV_BOARD_TYPE          "H7"
-#define OMV_UNIQUE_ID_ADDR      0x1FF1E800
-#define OMV_UNIQUE_ID_SIZE      3 // 3 words
+#define OMV_UNIQUE_ID_ADDR      0x1FF1E800  // Unique ID address.
+#define OMV_UNIQUE_ID_SIZE      3           // Unique ID size in words.
+#define OMV_UNIQUE_ID_OFFSET    4           // Bytes offset for multi-word UIDs.
 
 // Needed by the SWD JTAG testrig - located at the bottom of the frame buffer stack.
 #define OMV_SELF_TEST_SWD_ADDR  MAIN_FB()->pixfmt
-
-// Flash sectors for the bootloader.
-// Flash FS sector, main FW sector, max sector.
-#define OMV_FLASH_LAYOUT        {1, 2, 15}
 
 #define OMV_XCLK_MCO            (0U)
 #define OMV_XCLK_TIM            (1U)
@@ -47,13 +44,6 @@
 #define OMV_OV5640_REV_Y_FREQ   (25000000)
 #define OMV_OV5640_REV_Y_CTRL2  (0x54)
 #define OMV_OV5640_REV_Y_CTRL3  (0x13)
-
-// Bootloader LED GPIO port/pin
-#define OMV_BOOTLDR_LED_PIN     (GPIO_PIN_1)
-#define OMV_BOOTLDR_LED_PORT    (GPIOC)
-
-// RAW buffer size
-#define OMV_RAW_BUF_SIZE        (409600)
 
 // Enable hardware JPEG
 #define OMV_HARDWARE_JPEG       (1)
@@ -168,32 +158,37 @@
 #define OMV_FB_SIZE             (400K)      // FB memory: header + VGA/GS image
 #define OMV_FB_ALLOC_SIZE       (100K)      // minimum fb alloc size
 #define OMV_STACK_SIZE          (64K)
-#define OMV_HEAP_SIZE           (236K)
+#define OMV_HEAP_SIZE           (229K)
 
-#define OMV_LINE_BUF_SIZE       (3 * 1024)  // Image line buffer round(640 * 2BPP * 2 buffers).
+#define OMV_LINE_BUF_SIZE       (5 * 1024)  // Image line buffer.
 #define OMV_MSC_BUF_SIZE        (2K)        // USB MSC bot data
 #define OMV_VFS_BUF_SIZE        (1K)        // VFS sturct + FATFS file buffer (624 bytes)
 #define OMV_FIR_LEPTON_BUF_SIZE (1K)        // FIR Lepton Packet Double Buffer (328 bytes)
 #define OMV_JPEG_BUF_SIZE       (32 * 1024) // IDE JPEG buffer (header + data).
 
-#define OMV_BOOT_ORIGIN         0x08000000
-#define OMV_BOOT_LENGTH         128K
-#define OMV_TEXT_ORIGIN         0x08040000
-#define OMV_TEXT_LENGTH         1792K
+// Memory map.
+#define OMV_FLASH_ORIGIN        0x08000000
+#define OMV_FLASH_LENGTH        2048K
 #define OMV_DTCM_ORIGIN         0x20000000  // Note accessible by CPU and MDMA only.
 #define OMV_DTCM_LENGTH         128K
 #define OMV_ITCM_ORIGIN         0x00000000
 #define OMV_ITCM_LENGTH         64K
 #define OMV_SRAM1_ORIGIN        0x30000000
-#define OMV_SRAM1_LENGTH        248K
-#define OMV_SRAM2_ORIGIN        0x3003E000  // 8KB of SRAM1
-#define OMV_SRAM2_LENGTH        8K
+#define OMV_SRAM1_LENGTH        240K
+#define OMV_SRAM2_ORIGIN        0x3003C000  // 16KB of SRAM1
+#define OMV_SRAM2_LENGTH        16K
 #define OMV_SRAM3_ORIGIN        0x30040000
 #define OMV_SRAM3_LENGTH        32K
 #define OMV_SRAM4_ORIGIN        0x38000000
 #define OMV_SRAM4_LENGTH        64K
 #define OMV_AXI_SRAM_ORIGIN     0x24000000
 #define OMV_AXI_SRAM_LENGTH     512K
+
+// Flash configuration.
+#define OMV_FLASH_FFS_ORIGIN    0x08020000
+#define OMV_FLASH_FFS_LENGTH    128K
+#define OMV_FLASH_TXT_ORIGIN    0x08040000
+#define OMV_FLASH_TXT_LENGTH    1792K
 
 // Domain 1 DMA buffers region.
 #define OMV_DMA_MEMORY_D1       AXI_SRAM
@@ -203,9 +198,9 @@
 
 // Domain 2 DMA buffers region.
 #define OMV_DMA_MEMORY_D2       SRAM2
-#define OMV_DMA_MEMORY_D2_SIZE  (1*1024) // Reserved memory for DMA buffers
+#define OMV_DMA_MEMORY_D2_SIZE  (6*1024) // Reserved memory for DMA buffers
 #define OMV_DMA_REGION_D2_BASE  (OMV_SRAM2_ORIGIN+(0*1024))
-#define OMV_DMA_REGION_D2_SIZE  MPU_REGION_SIZE_8KB
+#define OMV_DMA_REGION_D2_SIZE  MPU_REGION_SIZE_16KB
 
 // Domain 3 DMA buffers region.
 //#define OMV_DMA_MEMORY_D3       SRAM4
@@ -298,8 +293,10 @@
 #define DCMI_FSYNC_LOW()        HAL_GPIO_WritePin(DCMI_FSYNC_PORT, DCMI_FSYNC_PIN, GPIO_PIN_RESET)
 #define DCMI_FSYNC_HIGH()       HAL_GPIO_WritePin(DCMI_FSYNC_PORT, DCMI_FSYNC_PIN, GPIO_PIN_SET)
 
-#define DCMI_VSYNC_IRQN         EXTI9_5_IRQn
-#define DCMI_VSYNC_IRQ_LINE     (7)
+#define DCMI_VSYNC_EXTI_IRQN    (EXTI9_5_IRQn)
+#define DCMI_VSYNC_EXTI_LINE    (7)
+#define DCMI_VSYNC_EXTI_GPIO    (EXTI_GPIOB)
+#define DCMI_VSYNC_EXTI_SHARED  (0)
 
 #define WINC_SPI                (SPI2)
 #define WINC_SPI_AF             (GPIO_AF5_SPI2)

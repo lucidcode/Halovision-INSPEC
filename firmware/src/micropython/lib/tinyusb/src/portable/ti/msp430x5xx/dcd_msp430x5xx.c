@@ -27,7 +27,7 @@
 
 #include "tusb_option.h"
 
-#if TUSB_OPT_DEVICE_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_MSP430x5xx )
+#if CFG_TUD_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_MSP430x5xx )
 
 #include "msp430.h"
 #include "device/dcd.h"
@@ -222,6 +222,14 @@ void dcd_disconnect(uint8_t rhport)
   dcd_int_enable(rhport);
 }
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
+
 /*------------------------------------------------------------------*/
 /* DCD Endpoint port
  *------------------------------------------------------------------*/
@@ -242,7 +250,7 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * desc_edpt)
   }
 
   xfer_ctl_t * xfer = XFER_CTL_BASE(epnum, dir);
-  xfer->max_size = desc_edpt->wMaxPacketSize.size;
+  xfer->max_size = tu_edpt_packet_size(desc_edpt);
 
   // Buffer allocation scheme:
   // For simplicity, only single buffer for now, since tinyusb currently waits
@@ -275,7 +283,7 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * desc_edpt)
   // Also, DBUF got set on OUT EP 2 while debugging. Only OUT EPs seem to be
   // affected at this time. USB RAM directly precedes main RAM; perhaps I'm
   // overwriting registers via buffer overflow w/ my debugging code?
-  ep_regs[SIZXY] = desc_edpt->wMaxPacketSize.size;
+  ep_regs[SIZXY] = tu_edpt_packet_size(desc_edpt);
   ep_regs[BCTX] |= NAK;
   ep_regs[BBAX] = buf_base;
   ep_regs[CNF] &= ~(TOGGLE | STALL | DBUF); // ISO xfers not supported on
@@ -547,6 +555,7 @@ static void transmit_packet(uint8_t ep_num)
   }
 
   // Then actually commit to transmit a packet.
+  uint8_t * base = (xfer->buffer + xfer->queued_len);
   uint16_t remaining = xfer->total_len - xfer->queued_len;
   uint8_t xfer_size = (xfer->max_size < xfer->total_len) ? xfer->max_size : remaining;
 
@@ -560,7 +569,6 @@ static void transmit_packet(uint8_t ep_num)
   if(ep_num == 0)
   {
     volatile uint8_t * ep0in_buf = &USBIEP0BUF;
-    uint8_t * base = (xfer->buffer + xfer->queued_len);
     for(uint16_t i = 0; i < xfer_size; i++)
     {
       ep0in_buf[i] = base[i];
@@ -582,7 +590,6 @@ static void transmit_packet(uint8_t ep_num)
     else
 #endif
     {
-      uint8_t * base = (xfer->buffer + xfer->queued_len);
       for(int i = 0; i < xfer_size; i++)
       {
         ep_buf[i] = base[i];
@@ -624,7 +631,18 @@ void dcd_int_handler(uint8_t rhport)
     handle_setup_packet();
   }
 
-  uint16_t curr_vector = USBVECINT;
+  // Workaround possible bug in MSP430 GCC 9.3.0 where volatile variable
+  // USBVECINT is read from twice when only once is intended. The second
+  // (garbage) read seems to be triggered by certain switch statement
+  // configurations.
+  uint16_t curr_vector;
+  #if __GNUC__ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ > 2)
+    asm volatile ("mov %1, %0"
+                  : "=r" (curr_vector)
+                  : "m" (USBVECINT));
+  #else
+    curr_vector = USBVECINT;
+  #endif
 
   switch(curr_vector)
   {

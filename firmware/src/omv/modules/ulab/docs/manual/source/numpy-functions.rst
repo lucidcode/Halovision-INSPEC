@@ -3,31 +3,166 @@ Numpy functions
 ===============
 
 This section of the manual discusses those functions that were adapted
-from ``numpy``.
+from ``numpy``. Starred functions accept complex arrays as arguments, if
+the firmware was compiled with complex support.
 
-1.  `numpy.argmax <#argmax>`__
-2.  `numpy.argmin <#argmin>`__
-3.  `numpy.argsort <#argsort>`__
-4.  `numpy.clip <#clip>`__
-5.  `numpy.convolve <#convolve>`__
-6.  `numpy.diff <#diff>`__
-7.  `numpy.equal <#equal>`__
-8.  `numpy.flip <#flip>`__
-9.  `numpy.interp <#interp>`__
-10. `numpy.max <#max>`__
-11. `numpy.maximum <#maximum>`__
-12. `numpy.mean <#mean>`__
-13. `numpy.median <#median>`__
-14. `numpy.min <#min>`__
-15. `numpy.minimum <#minimum>`__
-16. `numpy.not_equal <#equal>`__
-17. `numpy.polyfit <#polyfit>`__
-18. `numpy.polyval <#polyval>`__
-19. `numpy.roll <#roll>`__
-20. `numpy.sort <#sort>`__
-21. `numpy.std <#std>`__
-22. `numpy.sum <#sum>`__
-23. `numpy.trapz <#trapz>`__
+1.  `numpy.all\* <#all>`__
+2.  `numpy.any\* <#any>`__
+3.  `numpy.argmax <#argmax>`__
+4.  `numpy.argmin <#argmin>`__
+5.  `numpy.argsort <#argsort>`__
+6.  `numpy.asarray\* <#asarray>`__
+7.  `numpy.clip <#clip>`__
+8.  `numpy.compress\* <#compress>`__
+9.  `numpy.conjugate\* <#conjugate>`__
+10. `numpy.convolve\* <#convolve>`__
+11. `numpy.delete <#delete>`__
+12. `numpy.diff <#diff>`__
+13. `numpy.dot <#dot>`__
+14. `numpy.equal <#equal>`__
+15. `numpy.flip\* <#flip>`__
+16. `numpy.imag\* <#imag>`__
+17. `numpy.interp <#interp>`__
+18. `numpy.isfinite <#isfinite>`__
+19. `numpy.isinf <#isinf>`__
+20. `numpy.load <#load>`__
+21. `numpy.loadtxt <#loadtxt>`__
+22. `numpy.max <#max>`__
+23. `numpy.maximum <#maximum>`__
+24. `numpy.mean <#mean>`__
+25. `numpy.median <#median>`__
+26. `numpy.min <#min>`__
+27. `numpy.minimum <#minimum>`__
+28. `numpy.nozero <#nonzero>`__
+29. `numpy.not_equal <#equal>`__
+30. `numpy.polyfit <#polyfit>`__
+31. `numpy.polyval <#polyval>`__
+32. `numpy.real\* <#real>`__
+33. `numpy.roll <#roll>`__
+34. `numpy.save <#save>`__
+35. `numpy.savetxt <#savetxt>`__
+36. `numpy.size <#size>`__
+37. `numpy.sort <#sort>`__
+38. `numpy.sort_complex\* <#sort_complex>`__
+39. `numpy.std <#std>`__
+40. `numpy.sum <#sum>`__
+41. `numpy.trace <#trace>`__
+42. `numpy.trapz <#trapz>`__
+43. `numpy.where <#where>`__
+
+all
+---
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.all.html
+
+The function takes one positional, and one keyword argument, the
+``axis``, with a default value of ``None``, and tests, whether *all*
+array elements along the given axis evaluate to ``True``. If the keyword
+argument is ``None``, the flattened array is inspected.
+
+Elements of an array evaluate to ``True``, if they are not equal to
+zero, or the Boolean ``False``. The return value if a Boolean
+``ndarray``.
+
+If the firmware was compiled with complex support, the function can
+accept complex arrays.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(12)).reshape((3, 4))
+    
+    print('\na:\n', a)
+    
+    b = np.all(a)
+    print('\nall of the flattened array:\n', b)
+    
+    c = np.all(a, axis=0)
+    print('\nall of a along 0th axis:\n', c)
+    
+    d = np.all(a, axis=1)
+    print('\nall of a along 1st axis:\n', d)
+
+.. parsed-literal::
+
+    
+    a:
+     array([[0.0, 1.0, 2.0, 3.0],
+           [4.0, 5.0, 6.0, 7.0],
+           [8.0, 9.0, 10.0, 11.0]], dtype=float64)
+    
+    all of the flattened array:
+     False
+    
+    all of a along 0th axis:
+     array([False, True, True, True], dtype=bool)
+    
+    all of a along 1st axis:
+     array([False, True, True], dtype=bool)
+    
+    
+
+
+any
+---
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.any.html
+
+The function takes one positional, and one keyword argument, the
+``axis``, with a default value of ``None``, and tests, whether *any*
+array element along the given axis evaluates to ``True``. If the keyword
+argument is ``None``, the flattened array is inspected.
+
+Elements of an array evaluate to ``True``, if they are not equal to
+zero, or the Boolean ``False``. The return value if a Boolean
+``ndarray``.
+
+If the firmware was compiled with complex support, the function can
+accept complex arrays.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(12)).reshape((3, 4))
+    
+    print('\na:\n', a)
+    
+    b = np.any(a)
+    print('\nany of the flattened array:\n', b)
+    
+    c = np.any(a, axis=0)
+    print('\nany of a along 0th axis:\n', c)
+    
+    d = np.any(a, axis=1)
+    print('\nany of a along 1st axis:\n', d)
+
+.. parsed-literal::
+
+    
+    a:
+     array([[0.0, 1.0, 2.0, 3.0],
+           [4.0, 5.0, 6.0, 7.0],
+           [8.0, 9.0, 10.0, 11.0]], dtype=float64)
+    
+    any of the flattened array:
+     True
+    
+    any of a along 0th axis:
+     array([True, True, True, True], dtype=bool)
+    
+    any of a along 1st axis:
+     array([True, True, True], dtype=bool)
+    
+    
+
 
 argmax
 ------
@@ -141,6 +276,53 @@ example:
     
 
 
+asarray
+-------
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html
+
+The function takes a single positional argument, and an optional keyword
+argument, ``dtype``, with a default value of ``None``.
+
+If the positional argument is an ``ndarray``, and its ``dtypes`` is
+identical to the value of the keyword argument, or if the keyword
+argument is ``None``, then the positional argument is simply returned.
+If the original ``dtype``, and the value of the keyword argument are
+different, then a copy is returned, with appropriate ``dtype``
+conversion.
+
+If the positional argument is an iterable, then the function is simply
+an alias for ``array``.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(9), dtype=np.uint8)
+    b = np.asarray(a)
+    c = np.asarray(a, dtype=np.int8)
+    print('a:{}'.format(a))
+    print('b:{}'.format(b))
+    print('a == b: {}'.format(a is b))
+    
+    print('\nc:{}'.format(c))
+    print('a == c: {}'.format(a is c))
+
+.. parsed-literal::
+
+    a:array([0, 1, 2, 3, 4, 5, 6, 7, 8], dtype=uint8)
+    b:array([0, 1, 2, 3, 4, 5, 6, 7, 8], dtype=uint8)
+    a == b: True
+    
+    c:array([0, 1, 2, 3, 4, 5, 6, 7, 8], dtype=int8)
+    a == c: False
+    
+    
+
+
 clip
 ----
 
@@ -180,6 +362,78 @@ the output is upcast as in `Binary operators <#Binary-operators>`__.
     
 
 
+compress
+--------
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.compress.html
+
+The function returns selected slices of an array along given axis. If
+the axis keyword is ``None``, the flattened array is used.
+
+If the firmware was compiled with complex support, the function can
+accept complex arguments.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(6)).reshape((2, 3))
+    
+    print('a:\n', a)
+    print('\ncompress(a):\n', np.compress([0, 1], a, axis=0))
+
+.. parsed-literal::
+
+    a:
+     array([[0.0, 1.0, 2.0],
+           [3.0, 4.0, 5.0]], dtype=float64)
+    
+    compress(a):
+     array([[3.0, 4.0, 5.0]], dtype=float64)
+    
+    
+
+
+conjugate
+---------
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.conjugate.html
+
+If the firmware was compiled with complex support, the function
+calculates the complex conjugate of the input array. If the input array
+is of real ``dtype``, then the output is simply a copy, preserving the
+``dtype``.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array([1, 2, 3, 4], dtype=np.uint8)
+    b = np.array([1+1j, 2-2j, 3+3j, 4-4j], dtype=np.complex)
+    
+    print('a:\t\t', a)
+    print('conjugate(a):\t', np.conjugate(a))
+    print()
+    print('b:\t\t', b)
+    print('conjugate(b):\t', np.conjugate(b))
+
+.. parsed-literal::
+
+    a:		 array([1, 2, 3, 4], dtype=uint8)
+    conjugate(a):	 array([1, 2, 3, 4], dtype=uint8)
+    
+    b:		 array([1.0+1.0j, 2.0-2.0j, 3.0+3.0j, 4.0-4.0j], dtype=complex)
+    conjugate(b):	 array([1.0-1.0j, 2.0+2.0j, 3.0-3.0j, 4.0+4.0j], dtype=complex)
+    
+    
+
+
 convolve
 --------
 
@@ -191,6 +445,9 @@ Returns the discrete, linear convolution of two one-dimensional arrays.
 Only the ``full`` mode is supported, and the ``mode`` named parameter is
 not accepted. Note that all other modes can be had by slicing a ``full``
 result.
+
+If the firmware was compiled with complex support, the function can
+accept complex arrays.
 
 .. code::
         
@@ -206,6 +463,67 @@ result.
 .. parsed-literal::
 
     array([1.0, 12.0, 123.0, 1230.0, 2300.0, 3000.0], dtype=float64)
+    
+    
+
+
+delete
+------
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.delete.html
+
+The function returns a new array with sub-arrays along an axis deleted.
+It takes two positional arguments, the array, and the indices, which
+will be removed, as well as the ``axis`` keyword argument with a default
+value of ``None``. If the ``axis`` is ``None``, the will be flattened
+first.
+
+The second positional argument can be a scalar, or any ``micropython``
+iterable. Since ``range`` can also be passed in place of the indices,
+slicing can be emulated. If the indices are negative, the elements are
+counted from the end of the axis.
+
+Note that the function creates a copy of the indices first, because it
+is not guaranteed that the indices are ordered. Keep this in mind, when
+working with large arrays.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(25), dtype=np.uint8).reshape((5,5))
+    print('a:\n', a)
+    print('\naxis = 0\n', np.delete(a, 2, axis=0))
+    print('\naxis = 1\n', np.delete(a, -2, axis=1))
+    print('\naxis = None\n', np.delete(a, [0, 1, 2, 22]))
+
+.. parsed-literal::
+
+    a:
+     array([[0, 1, 2, 3, 4],
+           [5, 6, 7, 8, 9],
+           [10, 11, 12, 13, 14],
+           [15, 16, 17, 18, 19],
+           [20, 21, 22, 23, 24]], dtype=uint8)
+    
+    axis = 0
+     array([[0, 1, 2, 3, 4],
+           [5, 6, 7, 8, 9],
+           [15, 16, 17, 18, 19],
+           [20, 21, 22, 23, 24]], dtype=uint8)
+    
+    axis = 1
+     array([[0, 1, 2, 4],
+           [5, 6, 7, 9],
+           [10, 11, 12, 14],
+           [15, 16, 17, 19],
+           [20, 21, 22, 24]], dtype=uint8)
+    
+    axis = None
+     array([3, 4, 5, ..., 21, 23, 24], dtype=uint8)
     
     
 
@@ -287,6 +605,87 @@ and ``append`` keywords that can be found in ``numpy``.
     
 
 
+dot
+---
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.dot.html
+
+**WARNING:** numpy applies upcasting rules for the multiplication of
+matrices, while ``ulab`` simply returns a float matrix.
+
+Once you can invert a matrix, you might want to know, whether the
+inversion is correct. You can simply take the original matrix and its
+inverse, and multiply them by calling the ``dot`` function, which takes
+the two matrices as its arguments. If the matrix dimensions do not
+match, the function raises a ``ValueError``. The result of the
+multiplication is expected to be the unit matrix, which is demonstrated
+below.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    m = np.array([[1, 2, 3], [4, 5, 6], [7, 10, 9]], dtype=np.uint8)
+    n = np.linalg.inv(m)
+    print("m:\n", m)
+    print("\nm^-1:\n", n)
+    # this should be the unit matrix
+    print("\nm*m^-1:\n", np.dot(m, n))
+
+.. parsed-literal::
+
+    m:
+     array([[1, 2, 3],
+           [4, 5, 6],
+           [7, 10, 9]], dtype=uint8)
+    
+    m^-1:
+     array([[-1.25, 1.0, -0.25],
+           [0.4999999999999998, -1.0, 0.5],
+           [0.4166666666666668, 0.3333333333333333, -0.25]], dtype=float64)
+    
+    m*m^-1:
+     array([[1.0, 0.0, 0.0],
+           [4.440892098500626e-16, 1.0, 0.0],
+           [8.881784197001252e-16, 0.0, 1.0]], dtype=float64)
+    
+    
+
+
+Note that for matrix multiplication you don’t necessarily need square
+matrices, it is enough, if their dimensions are compatible (i.e., the
+the left-hand-side matrix has as many columns, as does the
+right-hand-side matrix rows):
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    m = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], dtype=np.uint8)
+    n = np.array([[1, 2], [3, 4], [5, 6], [7, 8]], dtype=np.uint8)
+    print(m)
+    print(n)
+    print(np.dot(m, n))
+
+.. parsed-literal::
+
+    array([[1, 2, 3, 4],
+           [5, 6, 7, 8]], dtype=uint8)
+    array([[1, 2],
+           [3, 4],
+           [5, 6],
+           [7, 8]], dtype=uint8)
+    array([[50.0, 60.0],
+           [114.0, 140.0]], dtype=float64)
+    
+    
+
+
 equal
 -----
 
@@ -348,6 +747,9 @@ along the given axis. If the keyword argument is ``None``, the matrix’
 entries are flipped along all axes. ``flip`` returns a new copy of the
 array.
 
+If the firmware was compiled with complex support, the function can
+accept complex arrays.
+
 .. code::
         
     # code to be run in micropython
@@ -380,6 +782,41 @@ array.
     
     a flipped horizontally+vertically
      array([9, 8, 7, 6, 5, 4, 3, 2, 1], dtype=uint8)
+    
+    
+
+
+imag
+----
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.imag.html
+
+The ``imag`` function returns the imaginary part of an array, or scalar.
+It cannot accept a generic iterable as its argument. The function is
+defined only, if the firmware was compiled with complex support.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array([1, 2, 3], dtype=np.uint16)
+    print("a:\t\t", a)
+    print("imag(a):\t", np.imag(a))
+    
+    b = np.array([1, 2+1j, 3-1j], dtype=np.complex)
+    print("\nb:\t\t", b)
+    print("imag(b):\t", np.imag(b))
+
+.. parsed-literal::
+
+    a:		 array([1, 2, 3], dtype=uint16)
+    imag(a):	 array([0, 0, 0], dtype=uint16)
+    
+    b:		 array([1.0+0.0j, 2.0+1.0j, 3.0-1.0j], dtype=complex)
+    imag(b):	 array([0.0, 1.0, -1.0], dtype=float64)
     
     
 
@@ -422,6 +859,238 @@ respectively. If these arguments are not supplied, ``left``, and
     array([1.0, 1.8, 2.8, 4.6, 5.0], dtype=float64)
     array([0.0, 1.8, 2.8, 4.6, 5.0], dtype=float64)
     array([1.0, 1.8, 2.8, 4.6, 10.0], dtype=float64)
+    
+    
+
+
+isfinite
+--------
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.isfinite.html
+
+Returns a Boolean array of the same shape as the input, or a
+``True/False``, if the input is a scalar. In the return value, all
+elements are ``True`` at positions, where the input value was finite.
+Integer types are automatically finite, therefore, if the input is of
+integer type, the output will be the ``True`` tensor.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    print('isfinite(0): ', np.isfinite(0))
+    
+    a = np.array([1, 2, np.nan])
+    print('\n' + '='*20)
+    print('a:\n', a)
+    print('\nisfinite(a):\n', np.isfinite(a))
+    
+    b = np.array([1, 2, np.inf])
+    print('\n' + '='*20)
+    print('b:\n', b)
+    print('\nisfinite(b):\n', np.isfinite(b))
+    
+    c = np.array([1, 2, 3], dtype=np.uint16)
+    print('\n' + '='*20)
+    print('c:\n', c)
+    print('\nisfinite(c):\n', np.isfinite(c))
+
+.. parsed-literal::
+
+    isfinite(0):  True
+    
+    ====================
+    a:
+     array([1.0, 2.0, nan], dtype=float64)
+    
+    isfinite(a):
+     array([True, True, False], dtype=bool)
+    
+    ====================
+    b:
+     array([1.0, 2.0, inf], dtype=float64)
+    
+    isfinite(b):
+     array([True, True, False], dtype=bool)
+    
+    ====================
+    c:
+     array([1, 2, 3], dtype=uint16)
+    
+    isfinite(c):
+     array([True, True, True], dtype=bool)
+    
+    
+
+
+isinf
+-----
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.isinf.html
+
+Similar to `isfinite <#isfinite>`__, but the output is ``True`` at
+positions, where the input is infinite. Integer types return the
+``False`` tensor.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    print('isinf(0): ', np.isinf(0))
+    
+    a = np.array([1, 2, np.nan])
+    print('\n' + '='*20)
+    print('a:\n', a)
+    print('\nisinf(a):\n', np.isinf(a))
+    
+    b = np.array([1, 2, np.inf])
+    print('\n' + '='*20)
+    print('b:\n', b)
+    print('\nisinf(b):\n', np.isinf(b))
+    
+    c = np.array([1, 2, 3], dtype=np.uint16)
+    print('\n' + '='*20)
+    print('c:\n', c)
+    print('\nisinf(c):\n', np.isinf(c))
+
+.. parsed-literal::
+
+    isinf(0):  False
+    
+    ====================
+    a:
+     array([1.0, 2.0, nan], dtype=float64)
+    
+    isinf(a):
+     array([False, False, False], dtype=bool)
+    
+    ====================
+    b:
+     array([1.0, 2.0, inf], dtype=float64)
+    
+    isinf(b):
+     array([False, False, True], dtype=bool)
+    
+    ====================
+    c:
+     array([1, 2, 3], dtype=uint16)
+    
+    isinf(c):
+     array([False, False, False], dtype=bool)
+    
+    
+
+
+load
+----
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html
+
+The function reads data from a file in ``numpy``\ ’s
+`platform-independent
+format <https://numpy.org/doc/stable/reference/generated/numpy.lib.format.html#module-numpy.lib.format>`__,
+and returns the generated array. If the endianness of the data in the
+file and the microcontroller differ, the bytes are automatically
+swapped.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.load('a.npy')
+    print(a)
+
+.. parsed-literal::
+
+    array([[0.0, 1.0, 2.0, 3.0, 4.0],
+           [5.0, 6.0, 7.0, 8.0, 9.0],
+           [10.0, 11.0, 12.0, 13.0, 14.0],
+           [15.0, 16.0, 17.0, 18.0, 19.0],
+           [20.0, 21.0, 22.0, 23.0, 24.0]], dtype=float64)
+    
+    
+
+
+loadtxt
+-------
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.loadtxt.html
+
+The function reads data from a text file, and returns the generated
+array. It takes a file name as the single positional argument, and the
+following keyword arguments:
+
+1. ``comments='#'``
+2. ``dtype=float``
+3. ``delimiter=','``
+4. ``max_rows`` (with a default of all rows)
+5. ``skip_rows=0``
+6. ``usecols`` (with a default of all columns)
+
+If ``dtype`` is supplied and is not ``float``, the data entries will be
+converted to the appropriate integer type by rounding the values.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    print('read all data')
+    print(np.loadtxt('loadtxt.dat'))
+    
+    print('\nread maximum 5 rows (first row is a comment line)')
+    print(np.loadtxt('loadtxt.dat', max_rows=5))
+    
+    print('\nread maximum 5 rows, convert dtype (first row is a comment line)')
+    print(np.loadtxt('loadtxt.dat', max_rows=5, dtype=np.uint8))
+    
+    print('\nskip the first 3 rows, convert dtype (first row is a comment line)')
+    print(np.loadtxt('loadtxt.dat', skiprows=3, dtype=np.uint8))
+
+.. parsed-literal::
+
+    read all data
+    array([[0.0, 1.0, 2.0, 3.0],
+           [4.0, 5.0, 6.0, 7.0],
+           [8.0, 9.0, 10.0, 11.0],
+           [12.0, 13.0, 14.0, 15.0],
+           [16.0, 17.0, 18.0, 19.0],
+           [20.0, 21.0, 22.0, 23.0],
+           [24.0, 25.0, 26.0, 27.0],
+           [28.00000000000001, 29.0, 30.0, 31.0],
+           [32.0, 33.0, 34.00000000000001, 35.0]], dtype=float64)
+    
+    read maximum 5 rows (first row is a comment line)
+    array([[0.0, 1.0, 2.0, 3.0],
+           [4.0, 5.0, 6.0, 7.0],
+           [8.0, 9.0, 10.0, 11.0],
+           [12.0, 13.0, 14.0, 15.0]], dtype=float64)
+    
+    read maximum 5 rows, convert dtype (first row is a comment line)
+    array([[0, 1, 2, 3],
+           [4, 5, 6, 7],
+           [8, 9, 10, 11],
+           [12, 13, 14, 15]], dtype=uint8)
+    
+    skip the first 3 rows, convert dtype (first row is a comment line)
+    array([[8, 9, 10, 11],
+           [12, 13, 14, 15],
+           [16, 17, 18, 19],
+           [20, 21, 22, 23],
+           [24, 25, 26, 27],
+           [28, 29, 30, 31],
+           [32, 33, 34, 35]], dtype=uint8)
     
     
 
@@ -621,6 +1290,46 @@ implemented.
     
 
 
+nonzero
+-------
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.nonzero.html
+
+``nonzero`` returns the indices of the elements of an array that are not
+zero. If the number of dimensions of the array is larger than one, a
+tuple of arrays is returned, one for each dimension, containing the
+indices of the non-zero elements in that dimension.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(9)) - 5
+    print('a:\n', a)
+    print(np.nonzero(a))
+    
+    a = a.reshape((3,3))
+    print('\na:\n', a)
+    print(np.nonzero(a))
+
+.. parsed-literal::
+
+    a:
+     array([-5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0], dtype=float64)
+    (array([0, 1, 2, 3, 4, 6, 7, 8], dtype=uint16),)
+    
+    a:
+     array([[-5.0, -4.0, -3.0],
+           [-2.0, -1.0, 0.0],
+           [1.0, 2.0, 3.0]], dtype=float64)
+    (array([0, 0, 0, 1, 1, 2, 2, 2], dtype=uint16), array([0, 1, 2, 0, 1, 0, 1, 2], dtype=uint16))
+    
+    
+
+
 not_equal
 ---------
 
@@ -632,11 +1341,12 @@ polyfit
 ``numpy``:
 https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html
 
-polyfit takes two, or three arguments. The last one is the degree of the
-polynomial that will be fitted, the last but one is an array or iterable
-with the ``y`` (dependent) values, and the first one, an array or
-iterable with the ``x`` (independent) values, can be dropped. If that is
-the case, ``x`` will be generated in the function as ``range(len(y))``.
+``polyfit`` takes two, or three arguments. The last one is the degree of
+the polynomial that will be fitted, the last but one is an array or
+iterable with the ``y`` (dependent) values, and the first one, an array
+or iterable with the ``x`` (independent) values, can be dropped. If that
+is the case, ``x`` will be generated in the function as
+``range(len(y))``.
 
 If the lengths of ``x``, and ``y`` are not the same, the function raises
 a ``ValueError``.
@@ -735,6 +1445,41 @@ iterables returning scalars.
     
     ndarray (a):  array([0.0, 1.0, 2.0, 3.0, 4.0], dtype=float64)
     value of p(a):  array([0.0, 3.0, 14.0, 39.0, 84.0], dtype=float64)
+    
+    
+
+
+real
+----
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.real.html
+
+The ``real`` function returns the real part of an array, or scalar. It
+cannot accept a generic iterable as its argument. The function is
+defined only, if the firmware was compiled with complex support.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array([1, 2, 3], dtype=np.uint16)
+    print("a:\t\t", a)
+    print("real(a):\t", np.real(a))
+    
+    b = np.array([1, 2+1j, 3-1j], dtype=np.complex)
+    print("\nb:\t\t", b)
+    print("real(b):\t", np.real(b))
+
+.. parsed-literal::
+
+    a:		 array([1, 2, 3], dtype=uint16)
+    real(a):	 array([1, 2, 3], dtype=uint16)
+    
+    b:		 array([1.0+0.0j, 2.0+1.0j, 3.0-1.0j], dtype=complex)
+    real(b):	 array([1.0, 2.0, 3.0], dtype=float64)
     
     
 
@@ -839,6 +1584,108 @@ Vertical rolls require two internal copies of single columns.
     
 
 
+save
+----
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.save.html
+
+With the help of this function, numerical array can be saved in
+``numpy``\ ’s `platform-independent
+format <https://numpy.org/doc/stable/reference/generated/numpy.lib.format.html#module-numpy.lib.format>`__.
+
+The function takes two positional arguments, the name of the output
+file, and the array.
+
+.. code::
+
+    # code to be run in CPython
+    
+    a = np.array(range(25)).reshape((5, 5))
+    np.save('a.npy', a)
+savetxt
+-------
+
+``numpy``:
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html
+
+With the help of this function, numerical array can be saved in a text
+file. The function takes two positional arguments, the name of the
+output file, and the array, and also implements the ``comments='#'``
+``delimiter=' '``, the ``header=''``, and ``footer=''`` keyword
+arguments. The input is treated as of type ``float``, i.e., the output
+is always in the floating point representation.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array(range(12), dtype=np.uint8).reshape((3, 4))
+    np.savetxt('savetxt.dat', a)
+    
+    with open('savetxt.dat', 'r') as fin:
+        print(fin.read())
+        
+    np.savetxt('savetxt.dat', a, 
+               comments='!', 
+               delimiter=';', 
+               header='col1;col2;col3;col4', 
+               footer='saved data')
+    
+    with open('savetxt.dat', 'r') as fin:
+        print(fin.read())
+
+.. parsed-literal::
+
+    0.000000000000000 1.000000000000000 2.000000000000000 3.000000000000000
+    4.000000000000000 5.000000000000000 6.000000000000000 7.000000000000000
+    8.000000000000000 9.000000000000000 10.000000000000000 11.000000000000000
+    
+    !col1;col2;col3;col4
+    0.000000000000000;1.000000000000000;2.000000000000000;3.000000000000000
+    4.000000000000000;5.000000000000000;6.000000000000000;7.000000000000000
+    8.000000000000000;9.000000000000000;10.000000000000000;11.000000000000000
+    !saved data
+    
+    
+    
+
+
+size
+----
+
+The function takes a single positional argument, and an optional keyword
+argument, ``axis``, with a default value of ``None``, and returns the
+size of an array along that axis. If ``axis`` is ``None``, the total
+length of the array (the product of the elements of its shape) is
+returned.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.ones((2, 3))
+    
+    print(a)
+    print('size(a, axis=0): ', np.size(a, axis=0))
+    print('size(a, axis=1): ', np.size(a, axis=1))
+    print('size(a, axis=None): ', np.size(a, axis=None))
+
+.. parsed-literal::
+
+    array([[1.0, 1.0, 1.0],
+           [1.0, 1.0, 1.0]], dtype=float64)
+    size(a, axis=0):  2
+    size(a, axis=1):  3
+    size(a, axis=None):  6
+    
+    
+
+
 sort
 ----
 
@@ -917,18 +1764,53 @@ spaced numbers between 0, and two pi, and sort them:
         
     # code to be run in micropython
     
-    import ulab as np
-    from ulab import vector
-    from ulab import numerical
+    from ulab import numpy as np
     
     @timeit
     def sort_time(array):
-        return numerical.sort(array)
+        return nup.sort(array)
     
-    b = vector.sin(np.linspace(0, 6.28, num=1000))
+    b = np.sin(np.linspace(0, 6.28, num=1000))
     print('b: ', b)
     sort_time(b)
     print('\nb sorted:\n', b)
+sort_complex
+------------
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.sort_complex.html
+
+If the firmware was compiled with complex support, the functions sorts
+the input array first according to its real part, and then the imaginary
+part. The input must be a one-dimensional array. The output is always of
+``dtype`` complex, even if the input was real integer.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array([5, 4, 3, 2, 1], dtype=np.int16)
+    print('a:\t\t\t', a)
+    print('sort_complex(a):\t', np.sort_complex(a))
+    print()
+    
+    b = np.array([5, 4+3j, 4-2j, 0, 1j], dtype=np.complex)
+    print('b:\t\t\t', b)
+    print('sort_complex(b):\t', np.sort_complex(b))
+
+.. parsed-literal::
+
+    a:			 array([5, 4, 3, 2, 1], dtype=int16)
+    sort_complex(a):	 array([1.0+0.0j, 2.0+0.0j, 3.0+0.0j, 4.0+0.0j, 5.0+0.0j], dtype=complex)
+    
+    b:			 array([5.0+0.0j, 4.0+3.0j, 4.0-2.0j, 0.0+0.0j, 0.0+1.0j], dtype=complex)
+    sort_complex(b):	 array([0.0+0.0j, 0.0+1.0j, 4.0-2.0j, 4.0+3.0j, 5.0+0.0j], dtype=complex)
+    
+    
+
+
 std
 ---
 
@@ -1000,6 +1882,52 @@ array. Otherwise, the calculation is along the given axis.
     
 
 
+trace
+-----
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.trace.html
+
+The ``trace`` function returns the sum of the diagonal elements of a
+square matrix. If the input argument is not a square matrix, an
+exception will be raised.
+
+The scalar so returned will inherit the type of the input array, i.e.,
+integer arrays have integer trace, and floating point arrays a floating
+point trace.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    from ulab import numpy as np
+    
+    a = np.array([[25, 15, -5], [15, 18,  0], [-5,  0, 11]], dtype=np.int8)
+    print('a: ', a)
+    print('\ntrace of a: ', np.trace(a))
+    
+    b = np.array([[25, 15, -5], [15, 18,  0], [-5,  0, 11]], dtype=np.float)
+    
+    print('='*20 + '\nb: ', b)
+    print('\ntrace of b: ', np.trace(b))
+
+.. parsed-literal::
+
+    a:  array([[25, 15, -5],
+           [15, 18, 0],
+           [-5, 0, 11]], dtype=int8)
+    
+    trace of a:  54
+    ====================
+    b:  array([[25.0, 15.0, -5.0],
+           [15.0, 18.0, 0.0],
+           [-5.0, 0.0, 11.0]], dtype=float64)
+    
+    trace of b:  54.0
+    
+    
+
+
 trapz
 -----
 
@@ -1033,6 +1961,71 @@ points corresponding to ``y``.
     ============================
     integral of y:  244.5
     integral of y at x:  244.5
+    
+    
+
+
+where
+-----
+
+``numpy``:
+https://numpy.org/doc/stable/reference/generated/numpy.where.html
+
+The function takes three positional arguments, ``condition``, ``x``, and
+``y``, and returns a new ``ndarray``, whose values are taken from either
+``x``, or ``y``, depending on the truthness of ``condition``. The three
+arguments are broadcast together, and the function raises a
+``ValueError`` exception, if broadcasting is not possible.
+
+The function is implemented for ``ndarray``\ s only: other iterable
+types can be passed after casting them to an ``ndarray`` by calling the
+``array`` constructor.
+
+If the ``dtype``\ s of ``x``, and ``y`` differ, the output is upcast as
+discussed earlier.
+
+Note that the ``condition`` is expanded into an Boolean ``ndarray``.
+This means that the storage required to hold the condition should be
+taken into account, whenever the function is called.
+
+The following example returns an ``ndarray`` of length 4, with 1 at
+positions, where ``condition`` is smaller than 3, and with -1 otherwise.
+
+.. code::
+        
+    # code to be run in micropython
+    
+    
+    from ulab import numpy as np
+    
+    condition = np.array([1, 2, 3, 4], dtype=np.uint8)
+    print(np.where(condition < 3, 1, -1))
+
+.. parsed-literal::
+
+    array([1, 1, -1, -1], dtype=int16)
+    
+    
+
+
+The next snippet shows, how values from two arrays can be fed into the
+output:
+
+.. code::
+        
+    # code to be run in micropython
+    
+    
+    from ulab import numpy as np
+    
+    condition = np.array([1, 2, 3, 4], dtype=np.uint8)
+    x = np.array([11, 22, 33, 44], dtype=np.uint8)
+    y = np.array([1, 2, 3, 4], dtype=np.uint8)
+    print(np.where(condition < 3, x, y))
+
+.. parsed-literal::
+
+    array([11, 22, 3, 4], dtype=uint8)
     
     
 

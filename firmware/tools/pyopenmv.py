@@ -1,8 +1,8 @@
 #!/usr/bin/env python2
 # This file is part of the OpenMV project.
 #
-# Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
-# Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+# Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+# Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
 #
 # This work is licensed under the MIT license, see the file LICENSE for details.
 #
@@ -33,6 +33,7 @@ __USBDBG_DESCRIPTOR_SAVE= 0x09
 __USBDBG_ATTR_READ      = 0x8A
 __USBDBG_ATTR_WRITE     = 0x0B
 __USBDBG_SYS_RESET      = 0x0C
+__USBDBG_SYS_RESET_TO_BL= 0x0E
 __USBDBG_FB_ENABLE      = 0x0D
 __USBDBG_TX_BUF_LEN     = 0x8E
 __USBDBG_TX_BUF         = 0x8F
@@ -137,6 +138,9 @@ def get_attr(attr):
 
 def reset():
     __serial.write(struct.pack("<BBI", __USBDBG_CMD, __USBDBG_SYS_RESET, 0))
+
+def reset_to_bl():
+    __serial.write(struct.pack("<BBI", __USBDBG_CMD, __USBDBG_SYS_RESET_TO_BL, 0))
 
 def bootloader_start():
     __serial.write(struct.pack("<I", __BOOTLDR_START))

@@ -58,6 +58,12 @@ STATIC const pyb_led_obj_t pyb_led_obj[] = {
     {{&pyb_led_type}, 3, MICROPY_HW_LED3},
     #if defined(MICROPY_HW_LED4)
     {{&pyb_led_type}, 4, MICROPY_HW_LED4},
+    #if defined(MICROPY_HW_LED5)
+    {{&pyb_led_type}, 5, MICROPY_HW_LED5},
+    #if defined(MICROPY_HW_LED6)
+    {{&pyb_led_type}, 6, MICROPY_HW_LED6},
+    #endif
+    #endif
     #endif
     #endif
     #endif
@@ -82,7 +88,9 @@ void led_init(void) {
 #if defined(MICROPY_HW_LED1_PWM) \
     || defined(MICROPY_HW_LED2_PWM) \
     || defined(MICROPY_HW_LED3_PWM) \
-    || defined(MICROPY_HW_LED4_PWM)
+    || defined(MICROPY_HW_LED4_PWM) \
+    || defined(MICROPY_HW_LED5_PWM) \
+    || defined(MICROPY_HW_LED6_PWM)
 
 // The following is semi-generic code to control LEDs using PWM.
 // It currently supports TIM1, TIM2 and TIM3, channels 1-4.
@@ -103,6 +111,12 @@ void led_init(void) {
 #ifndef MICROPY_HW_LED4_PWM
 #define MICROPY_HW_LED4_PWM { NULL, 0, 0, 0 }
 #endif
+#ifndef MICROPY_HW_LED5_PWM
+#define MICROPY_HW_LED5_PWM { NULL, 0, 0, 0 }
+#endif
+#ifndef MICROPY_HW_LED6_PWM
+#define MICROPY_HW_LED6_PWM { NULL, 0, 0, 0 }
+#endif
 
 #define LED_PWM_TIM_PERIOD (10000) // TIM runs at 1MHz and fires every 10ms
 
@@ -121,6 +135,8 @@ STATIC const led_pwm_config_t led_pwm_config[] = {
     MICROPY_HW_LED2_PWM,
     MICROPY_HW_LED3_PWM,
     MICROPY_HW_LED4_PWM,
+    MICROPY_HW_LED5_PWM,
+    MICROPY_HW_LED6_PWM,
 };
 
 STATIC uint8_t led_pwm_state = 0;
@@ -201,8 +217,7 @@ void led_state(pyb_led_t led, int state) {
     }
 
     const pin_obj_t *led_pin = pyb_led_obj[led - 1].led_pin;
-    //printf("led_state(%d,%d)\n", led, state);
-    if (state == 0) { // Note LED4 (IR LED on OMV2 is inverted
+    if (state == 0) {
         // turn LED off
         if (led == 4) {
             MICROPY_HW_LED_ON(led_pin);
@@ -378,13 +393,14 @@ STATIC const mp_rom_map_elem_t led_locals_dict_table[] = {
 
 STATIC MP_DEFINE_CONST_DICT(led_locals_dict, led_locals_dict_table);
 
-const mp_obj_type_t pyb_led_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_LED,
-    .print = led_obj_print,
-    .make_new = led_obj_make_new,
-    .locals_dict = (mp_obj_dict_t *)&led_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    pyb_led_type,
+    MP_QSTR_LED,
+    MP_TYPE_FLAG_NONE,
+    make_new, led_obj_make_new,
+    print, led_obj_print,
+    locals_dict, &led_locals_dict
+    );
 
 #else
 // For boards with no LEDs, we leave an empty function here so that we don't

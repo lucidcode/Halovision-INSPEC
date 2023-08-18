@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -24,7 +24,7 @@
 /*! @name Driver version */
 /*@{*/
 /*! @brief LPI2C driver version. */
-#define FSL_LPI2C_DRIVER_VERSION (MAKE_VERSION(2, 2, 0))
+#define FSL_LPI2C_DRIVER_VERSION (MAKE_VERSION(2, 3, 1))
 /*@}*/
 
 /*! @brief Retry times for waiting flag. */
@@ -250,11 +250,16 @@ struct _lpi2c_master_handle
     uint8_t state;                                       /*!< Transfer state machine current state. */
     uint16_t remainingBytes;                             /*!< Remaining byte count in current state. */
     uint8_t *buf;                                        /*!< Buffer pointer for current state. */
-    uint16_t commandBuffer[7];                           /*!< LPI2C command sequence. */
+    uint16_t commandBuffer[6];                           /*!< LPI2C command sequence. When all 6 command words are used:
+         Start&addr&write[1 word] + subaddr[4 words] + restart&addr&read[1 word] */
     lpi2c_master_transfer_t transfer;                    /*!< Copy of the current transfer info. */
     lpi2c_master_transfer_callback_t completionCallback; /*!< Callback function pointer. */
     void *userData;                                      /*!< Application data passed to callback. */
 };
+
+/*! @brief Typedef for master interrupt handler, used internally for LPI2C master interrupt and EDMA transactional APIs.
+ */
+typedef void (*lpi2c_master_isr_t)(LPI2C_Type *base, void *handle);
 
 /*! @} */
 
@@ -345,8 +350,10 @@ typedef struct _lpi2c_slave_config
     } sclStall;
     bool ignoreAck;                   /*!< Continue transfers after a NACK is detected. */
     bool enableReceivedAddressRead;   /*!< Enable reading the address received address as the first byte of data. */
-    uint32_t sdaGlitchFilterWidth_ns; /*!< Width in nanoseconds of the digital filter on the SDA signal. */
-    uint32_t sclGlitchFilterWidth_ns; /*!< Width in nanoseconds of the digital filter on the SCL signal. */
+    uint32_t sdaGlitchFilterWidth_ns; /*!< Width in nanoseconds of the digital filter on the SDA signal. Set to 0 to
+                                         disable. */
+    uint32_t sclGlitchFilterWidth_ns; /*!< Width in nanoseconds of the digital filter on the SCL signal. Set to 0 to
+                                         disable. */
     uint32_t dataValidDelay_ns;       /*!< Width in nanoseconds of the data valid delay. */
     uint32_t clockHoldTime_ns;        /*!< Width in nanoseconds of the clock hold time. */
 } lpi2c_slave_config_t;
@@ -422,12 +429,38 @@ struct _lpi2c_slave_handle
 /*! @} */
 
 /*******************************************************************************
+ * Variables
+ ******************************************************************************/
+/*! Array to map LPI2C instance number to IRQ number, used internally for LPI2C master interrupt and EDMA transactional
+APIs. */
+extern IRQn_Type const kLpi2cIrqs[];
+
+/*! Pointer to master IRQ handler for each instance, used internally for LPI2C master interrupt and EDMA transactional
+APIs. */
+extern lpi2c_master_isr_t s_lpi2cMasterIsr;
+
+/*! Pointers to master handles for each instance, used internally for LPI2C master interrupt and EDMA transactional
+APIs. */
+extern void *s_lpi2cMasterHandle[];
+
+/*******************************************************************************
  * API
  ******************************************************************************/
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
+/*!
+ * @brief Returns an instance number given a base address.
+ *
+ * If an invalid base address is passed, debug builds will assert. Release builds will just return
+ * instance number 0.
+ *
+ * @param base The LPI2C peripheral base address.
+ * @return LPI2C instance number starting from 0.
+ */
+uint32_t LPI2C_GetInstance(LPI2C_Type *base);
 
 /*!
  * @addtogroup lpi2c_master_driver
@@ -914,9 +947,9 @@ void LPI2C_MasterTransferAbort(LPI2C_Type *base, lpi2c_master_handle_t *handle);
  * @note This function does not need to be called unless you are reimplementing the
  *  nonblocking API's interrupt handler routines to add special functionality.
  * @param base The LPI2C peripheral base address.
- * @param handle Pointer to the LPI2C master driver handle.
+ * @param lpi2cMasterHandle Pointer to the LPI2C master driver handle.
  */
-void LPI2C_MasterTransferHandleIRQ(LPI2C_Type *base, lpi2c_master_handle_t *handle);
+void LPI2C_MasterTransferHandleIRQ(LPI2C_Type *base, void *lpi2cMasterHandle);
 
 /*@}*/
 

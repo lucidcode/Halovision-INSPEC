@@ -1,5 +1,5 @@
 /*
- * Copyright 2017, 2020 NXP
+ * Copyright 2017, 2020-2021 NXP
  * All rights reserved.
  *
  *
@@ -13,6 +13,15 @@
 
 /*
  * Change log:
+ *
+ *   1.0.5
+ *     - Fix IAR Pa082 warning.
+ *
+ *   1.0.4
+ *     - Add LUT8 definition.
+ *
+ *   1.0.3
+ *     - Add RAW8 definition.
  *
  *   1.0.2
  *     - Fixed MISRA-C 2012 issues.
@@ -41,6 +50,12 @@
 /*! @brief Pixel format definition. */
 typedef enum _video_pixel_format
 {
+    /* RAW */
+    kVIDEO_PixelFormatRAW8 = FSL_VIDEO_FOURCC('G', 'R', 'B', 'G'), /*!< RAW8, GRBG. */
+
+    /* LUT/palette */
+    kVIDEO_PixelFormatLUT8 = FSL_VIDEO_FOURCC('L', 'U', 'T', '8'), /*!< 8-bit Indexed Color. */
+
     /* RGB */
     kVIDEO_PixelFormatXRGB8888 = FSL_VIDEO_FOURCC('X', 'R', '2', '4'), /*!< 32-bit XRGB8888. */
     kVIDEO_PixelFormatRGBX8888 = FSL_VIDEO_FOURCC('R', 'X', '2', '4'), /*!< 32-bit RGBX8888. */

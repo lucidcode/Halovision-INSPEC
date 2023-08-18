@@ -24,19 +24,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 #include "py/runtime.h"
 #include "py/mperrno.h"
 #include "py/mphal.h"
 #include "py/stream.h"
 
 #if MICROPY_PY_BLUETOOTH && MICROPY_BLUETOOTH_NIMBLE
+
 #define DEBUG_printf(...) // printf("mpnimbleport.c: " __VA_ARGS__)
 
 #include "host/ble_hs.h"
 #include "nimble/nimble_npl.h"
 
-#include "extmod/mpbthci.h"
 #include "extmod/modbluetooth.h"
+#include "extmod/mpbthci.h"
 #include "extmod/nimble/modbluetooth_nimble.h"
 #include "extmod/nimble/hal/hal_uart.h"
 #include "mpbthciport.h"

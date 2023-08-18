@@ -16,14 +16,14 @@ Constructors
 
    Creates a MicroSpeech voice recognition class.
 
-   .. method:: MicroSpeech.audio_callback(buf_in)
+   .. method:: audio_callback(buf_in)
 
       Pass this method to `audio.start_streaming()` to fill the `MicroSpeech` class with audio samples.
 
       `MicroSpeech` will compute the FFT of the audio samples and keep a sliding window internally
       of the FFT the last 100ms or so of audio samples received as features for voice recognition.
 
-   .. method:: MicroSpeech.listen(tf_model, [threshold=0.9, [timeout=1000, [filter=None]]])
+   .. method:: listen(tf_model, [threshold=0.9, [timeout=1000, [filter=None]]])
 
       Executes the tensor flow lite model ``tf_model``, which should be a path to a tensor flow lite
       model on disk, on the audio stream.

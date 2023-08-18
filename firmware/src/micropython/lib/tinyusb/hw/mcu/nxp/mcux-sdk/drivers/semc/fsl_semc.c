@@ -728,7 +728,12 @@ status_t SEMC_ConfigureNOR(SEMC_Type *base, semc_nor_config_t *config, uint32_t 
 #endif /* FSL_FEATURE_SEMC_HAS_NOR_WDH_TIME */
     timing |= SEMC_NORCR2_TA(SEMC_ConvertTiming(config->tTurnAround_Ns, clkSrc_Hz));
     timing |= SEMC_NORCR2_AWDH((uint32_t)SEMC_ConvertTiming(config->tAddr2WriteHold_Ns, clkSrc_Hz) + 0x01UL);
-    timing |= SEMC_NORCR2_LC(config->latencyCount) | SEMC_NORCR2_RD((uint32_t)config->readCycle - 0x01UL);
+#if defined(FSL_FEATURE_SEMC_HAS_NOR_LC_TIME) && (FSL_FEATURE_SEMC_HAS_NOR_LC_TIME)
+    timing |= SEMC_NORCR2_LC(config->latencyCount);
+#endif
+#if defined(FSL_FEATURE_SEMC_HAS_NOR_RD_TIME) && (FSL_FEATURE_SEMC_HAS_NOR_RD_TIME)
+    timing |= SEMC_NORCR2_RD((uint32_t)config->readCycle - 0x01UL);
+#endif
 
     /* NORCR2 timing setting. */
     base->NORCR2 = timing;
@@ -737,7 +742,7 @@ status_t SEMC_ConfigureNOR(SEMC_Type *base, semc_nor_config_t *config, uint32_t 
 }
 
 /*!
- * brief Configures SRAM controller in SEMC.
+ * brief Configures SRAM controller in SEMC, which can be used only for specific chip selection CS0.
  *
  * param base SEMC peripheral base address.
  * param config The sram configuration.
@@ -749,7 +754,7 @@ status_t SEMC_ConfigureSRAM(SEMC_Type *base, semc_sram_config_t *config, uint32_
 }
 
 /*!
- * brief Configures SRAM controller in SEMC.
+ * brief Configures SRAM controller in SEMC, which can be used up to four chip selections CS0/CS1/CS2/CS3..
  *
  * param base SEMC peripheral base address.
  * param cs The chip selection.
@@ -977,11 +982,21 @@ status_t SEMC_ConfigureSRAMWithChipSelection(SEMC_Type *base,
         /* SRAMCR1 timing setting. */
         base->SRAMCR1 = timing;
 
-        timing = SEMC_SRAMCR2_WDS(SEMC_ConvertTiming(config->tWriteSetup_Ns, clkSrc_Hz));
+        timing = 0x00U;
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_WDS_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_WDS_TIME)
+        timing |= SEMC_SRAMCR2_WDS(SEMC_ConvertTiming(config->tWriteSetup_Ns, clkSrc_Hz));
+#endif
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_WDH_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_WDH_TIME)
         timing |= SEMC_SRAMCR2_WDH((uint32_t)SEMC_ConvertTiming(config->tWriteHold_Ns, clkSrc_Hz) + 1UL);
+#endif
         timing |= SEMC_SRAMCR2_TA(SEMC_ConvertTiming(config->tTurnAround_Ns, clkSrc_Hz));
         timing |= SEMC_SRAMCR2_AWDH(SEMC_ConvertTiming(config->tAddr2WriteHold_Ns, clkSrc_Hz));
-        timing |= SEMC_SRAMCR2_LC(config->latencyCount) | SEMC_SRAMCR2_RD((uint32_t)config->readCycle - 1UL);
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_LC_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_LC_TIME)
+        timing |= SEMC_SRAMCR2_LC(config->latencyCount);
+#endif
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_RD_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_RD_TIME)
+        timing |= SEMC_SRAMCR2_RD((uint32_t)config->readCycle - 1UL);
+#endif
         timing |= SEMC_SRAMCR2_CEITV(SEMC_ConvertTiming(config->tCeInterval_Ns, clkSrc_Hz));
 #if defined(FSL_FEATURE_SEMC_HAS_SRAM_RDH_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_RDH_TIME)
         timing |= SEMC_SRAMCR2_RDH((uint32_t)SEMC_ConvertTiming(config->readHoldTime_Ns, clkSrc_Hz) + 0x01U);
@@ -1005,11 +1020,21 @@ status_t SEMC_ConfigureSRAMWithChipSelection(SEMC_Type *base,
         /* SRAMCR5 timing setting. */
         base->SRAMCR5 = timing;
 
+        timing = 0x00U;
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_WDS_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_WDS_TIME)
         timing = SEMC_SRAMCR6_WDS(SEMC_ConvertTiming(config->tWriteSetup_Ns, clkSrc_Hz));
+#endif
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_WDH_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_WDH_TIME)
         timing |= SEMC_SRAMCR6_WDH((uint32_t)SEMC_ConvertTiming(config->tWriteHold_Ns, clkSrc_Hz) + 1UL);
+#endif
         timing |= SEMC_SRAMCR6_TA(SEMC_ConvertTiming(config->tTurnAround_Ns, clkSrc_Hz));
         timing |= SEMC_SRAMCR6_AWDH(SEMC_ConvertTiming(config->tAddr2WriteHold_Ns, clkSrc_Hz));
-        timing |= SEMC_SRAMCR6_LC(config->latencyCount) | SEMC_SRAMCR2_RD((uint32_t)config->readCycle - 1UL);
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_LC_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_LC_TIME)
+        timing |= SEMC_SRAMCR6_LC(config->latencyCount);
+#endif
+#if defined(FSL_FEATURE_SEMC_HAS_SRAM_RD_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_RD_TIME)
+        timing |= SEMC_SRAMCR6_RD((uint32_t)config->readCycle - 1UL);
+#endif
         timing |= SEMC_SRAMCR6_CEITV(SEMC_ConvertTiming(config->tCeInterval_Ns, clkSrc_Hz));
 #if defined(FSL_FEATURE_SEMC_HAS_SRAM_RDH_TIME) && (FSL_FEATURE_SEMC_HAS_SRAM_RDH_TIME)
         timing |= SEMC_SRAMCR6_RDH((uint32_t)SEMC_ConvertTiming(config->readHoldTime_Ns, clkSrc_Hz) + 0x01U);
@@ -1068,10 +1093,20 @@ status_t SEMC_ConfigureDBI(SEMC_Type *base, semc_dbi_config_t *config, uint32_t 
     timing |= SEMC_DBICR1_WEH(SEMC_ConvertTiming(config->tWexHigh_Ns, clkSrc_Hz));
     timing |= SEMC_DBICR1_REL(SEMC_ConvertTiming(config->tRdxLow_Ns, clkSrc_Hz));
     timing |= SEMC_DBICR1_REH(SEMC_ConvertTiming(config->tRdxHigh_Ns, clkSrc_Hz));
+#if defined(SEMC_DBICR1_CEITV_MASK)
     timing |= SEMC_DBICR1_CEITV(SEMC_ConvertTiming(config->tCsxInterval_Ns, clkSrc_Hz));
+#endif /* SEMC_DBICR1_CEITV_MASK */
 
     /* DBICR1 timing setting. */
     base->DBICR1 = timing;
+
+#if defined(SEMC_DBICR2_CEITV_MASK)
+    timing = SEMC_DBICR2_CEITV(SEMC_ConvertTiming(config->tCsxInterval_Ns, clkSrc_Hz));
+
+    /* DBICR2 timing setting. */
+    base->DBICR2 = timing;
+#endif /* SEMC_DBICR2_CEITV_MASK */
+
     return SEMC_ConfigureIPCommand(base, ((uint8_t)config->portSize + 1U));
 }
 

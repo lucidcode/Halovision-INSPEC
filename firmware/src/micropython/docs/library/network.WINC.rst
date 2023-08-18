@@ -47,145 +47,158 @@ Constructors
 
        This mode enables WiFi module firmware update.
 
-Methods
--------
-
-.. method:: WINC.connect(ssid, [key=None, [security=WPA_PSK]])
-
-   Connect to a wifi network with ssid ``ssid`` using key ``key`` with
-   security ``security``.
-
-   After connecting to the network use the :mod:`usocket` module to open TCP/UDP
-   ports to send and receive data.
-
    .. note::
 
-      This method takes a little while to return.
+      ``mode`` can also be ``network.STA_IF`` (station aka client, connects to upstream WiFi access
+      points) and and ``network.AP_IF`` (access point, allows other WiFi clients to
+      connect). Availability of the methods below depends on interface type.
+      For example, only STA interface may `WLAN.connect()` to an access point.
 
-.. method:: WINC.start_ap(ssid, [key=None, [security=OPEN, [channel=1]]])
+   Methods
+   -------
 
-   When running in AP mode this method must be called after creating
-   a WINC object to configure and start the AP .
+   .. method:: active([is_active])
 
-     * ssid: The AP SSID (must be set).
-     * key: The AP encryption key. A Key is required only if security is WEP.
-     * security: AP security mode (only OPEN or WEP are supported).
-     * channel: WiFi channel, change this if you have another AP running at the same channel.
+      Activate ("up") or deactivate ("down") network interface, if boolean
+      argument is passed. Otherwise, query current state if no argument is
+      provided. Most other methods require active interface.
 
-.. method:: WINC.disconnect()
+   .. method:: connect(ssid, [key=None, [security=WPA_PSK]])
 
-   Disconnect from the wifi network.
+      Connect to a wifi network with ssid ``ssid`` using key ``key`` with
+      security ``security``.
 
-.. method:: WINC.isconnected()
+      After connecting to the network use the :mod:`usocket` module to open TCP/UDP
+      ports to send and receive data.
 
-   Returns True if connected to an access point and an IP address has been
-   obtained.
+      .. note::
 
-.. method:: WINC.connected_sta()
+         This method takes a little while to return.
 
-   This method returns a list containing the connected client's IP adress.
+   .. method:: start_ap(ssid, [key=None, [security=OPEN, [channel=1]]])
 
-.. method:: WINC.wait_for_sta(timeout)
+      When running in AP mode this method must be called after creating
+      a WINC object to configure and start the AP .
 
-   This method blocks and waits for a client to connect. If timeout is 0
-   this will block forever. This method returns a list containing the
-   connected client's IP adress.
+      * ssid: The AP SSID (must be set).
+      * key: The AP encryption key. A Key is required only if security is WEP.
+      * security: AP security mode (only OPEN or WEP are supported).
+      * channel: WiFi channel, change this if you have another AP running at the same channel.
 
-.. method:: WINC.ifconfig([ip_addr, subnet_addr, gateway_addr, dns_addr])
+   .. method:: disconnect()
 
-   Returns a tuple containing:
+      Disconnect from the wifi network.
 
-      * [0]: IP Address String (XXX.XXX.XXX.XXX)
-      * [1]: Subnet Address String (XXX.XXX.XXX.XXX)
-      * [2]: Gateway String (XXX.XXX.XXX.XXX)
-      * [3]: DNS Address String (XXX.XXX.XXX.XXX)
+   .. method:: isconnected()
 
-   While connected to the network.
+      Returns True if connected to an access point and an IP address has been
+      obtained.
 
-   You may optionally pass a tuple/list of the ip_addr, subnet_addr,
-   gateway_addr, and dns_addr strings in ipv4 (XXX.XXX.XXX.XXX) format
-   to set a static IP address versus an address obtained through DHCP (which happens by default).
+   .. method:: connected_sta()
 
-   Example usage::
+      This method returns a list containing the connected client's IP adress.
 
-       wlan = network.WINC()
-       wlan.ifconfig(('192.168.1.100', '255.255.255.0', '192.168.1.1', '192.168.1.1'))
-       wlan.connect(SSID, key=KEY, security=wlan.WPA_PSK)
+   .. method:: wait_for_sta(timeout)
 
-.. method: WINC.netinfo()
+      This method blocks and waits for a client to connect. If timeout is 0
+      this will block forever. This method returns a list containing the
+      connected client's IP adress.
 
-   Returns a tuple containing:
+   .. method:: ifconfig([ip_addr, subnet_addr, gateway_addr, dns_addr])
 
-      * [0]: RSSI - received signal strength indicator (int)
-      * [1]: Authorization Type (see constants)
-      * [2]: Set Service Identifier String (SSID)
-      * [3]: MAC Address String (XX:XX:XX:XX:XX:XX) (BSSID)
-      * [4]: IP Address String (XXX.XXX.XXX.XXX)
+      Returns a tuple containing:
 
-   While connected to the network.
+         * [0]: IP Address String (XXX.XXX.XXX.XXX)
+         * [1]: Subnet Address String (XXX.XXX.XXX.XXX)
+         * [2]: Gateway String (XXX.XXX.XXX.XXX)
+         * [3]: DNS Address String (XXX.XXX.XXX.XXX)
 
-.. method:: WINC.scan()
+      While connected to the network.
 
-   Returns a list containing:
+      You may optionally pass a tuple/list of the ip_addr, subnet_addr,
+      gateway_addr, and dns_addr strings in ipv4 (XXX.XXX.XXX.XXX) format
+      to set a static IP address versus an address obtained through DHCP (which happens by default).
 
-      * [0]: Channel Number (int)
-      * [1]: RSSI - received signal strength indicator (int)
-      * [2]: Authorization Type (see constants)
-      * [3]: MAC Address String (XX:XX:XX:XX:XX:XX) (BSSID)
-      * [4]: Set Service Identifier String (SSID)
+      Example usage::
 
-   You don't need to be connected to call this.
+         wlan = network.WINC()
+         wlan.ifconfig(('192.168.1.100', '255.255.255.0', '192.168.1.1', '192.168.1.1'))
+         wlan.connect(SSID, key=KEY, security=wlan.WPA_PSK)
 
-.. method:: WINC.rssi()
+   .. method:: netinfo()
 
-   Returns the received signal strength indicator (int) of the currently
-   connected network.
+      Returns a tuple containing:
 
-.. method:: WINC.fw_version()
+         * [0]: RSSI - received signal strength indicator (int)
+         * [1]: Authorization Type (see constants)
+         * [2]: Set Service Identifier String (SSID)
+         * [3]: MAC Address String (XX:XX:XX:XX:XX:XX) (BSSID)
+         * [4]: IP Address String (XXX.XXX.XXX.XXX)
 
-   Returns a tuple containing the wifi shield firmware version number.
+      While connected to the network.
 
-      * [0]: Firmware Major Version Number (int)
-      * [1]: Firmware Minor Version Number (int)
-      * [2]: Firmware Patch Version Number (int)
-      * [3]: Driver Major Version Number (int)
-      * [4]: Driver Minor Version Number (int)
-      * [5]: Driver Patch Version Number (int)
-      * [6]: Hardware Revision Number - Chip ID (int)
+   .. method:: scan()
 
-.. method:: WINC.fw_dump(path)
+      Returns a list containing:
 
-   Dumps the wifi shield firmware to a binary file at ``path``. You must
-   have put the module into firmware mode to use this.
+         * [0]: Channel Number (int)
+         * [1]: RSSI - received signal strength indicator (int)
+         * [2]: Authorization Type (see constants)
+         * [3]: MAC Address String (XX:XX:XX:XX:XX:XX) (BSSID)
+         * [4]: Set Service Identifier String (SSID)
 
-.. method:: WINC.fw_update(path)
+      You don't need to be connected to call this.
 
-   Programs the wifi shield with binary image found at ``path``. You must
-   have put the module into firmware mode to use this.
+   .. method:: rssi()
 
-Constants
----------
+      Returns the received signal strength indicator (int) of the currently
+      connected network.
 
-.. data:: WINC.OPEN
+   .. method:: fw_version()
 
-   For connecting to an open wifi network.
+      Returns a tuple containing the wifi shield firmware version number.
 
-.. data:: WINC.WEP
+         * [0]: Firmware Major Version Number (int)
+         * [1]: Firmware Minor Version Number (int)
+         * [2]: Firmware Patch Version Number (int)
+         * [3]: Driver Major Version Number (int)
+         * [4]: Driver Minor Version Number (int)
+         * [5]: Driver Patch Version Number (int)
+         * [6]: Hardware Revision Number - Chip ID (int)
 
-   For connecting to a WEP based password protected network.
+   .. method:: fw_dump(path)
 
-.. data:: WINC.WPA_PSK
+      Dumps the wifi shield firmware to a binary file at ``path``. You must
+      have put the module into firmware mode to use this.
 
-   For connecting to a WPA/PSK based password protected network.
+   .. method:: fw_update(path)
 
-.. data:: WINC.MODE_STA
+      Programs the wifi shield with binary image found at ``path``. You must
+      have put the module into firmware mode to use this.
 
-   Start in station mode (i.e. connect to a network).
+   Constants
+   ---------
 
-.. data:: WINC.MODE_AP
+   .. data:: OPEN
 
-   Start in access point mode (i.e. become the network).
+      For connecting to an open wifi network.
 
-.. data:: WINC.MODE_FIRMWARE
+   .. data:: WEP
 
-   Setup in firmware update mode.
+      For connecting to a WEP based password protected network.
+
+   .. data:: WPA_PSK
+
+      For connecting to a WPA/PSK based password protected network.
+
+   .. data:: MODE_STA
+
+      Start in station mode (i.e. connect to a network).
+
+   .. data:: MODE_AP
+
+      Start in access point mode (i.e. become the network).
+
+   .. data:: MODE_FIRMWARE
+
+      Setup in firmware update mode.

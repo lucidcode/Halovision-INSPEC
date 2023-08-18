@@ -48,7 +48,7 @@ enum {
     /* control */\
     + TUD_VIDEO_DESC_STD_VC_LEN\
     + (TUD_VIDEO_DESC_CS_VC_LEN + 1/*bInCollection*/)\
-    + TUD_VIDEO_DESC_INPUT_TERM_LEN\
+    + TUD_VIDEO_DESC_CAMERA_TERM_LEN\
     + TUD_VIDEO_DESC_OUTPUT_TERM_LEN\
     /* Interface 1, Alternate 0 */\
     + TUD_VIDEO_DESC_STD_VS_LEN\
@@ -79,9 +79,11 @@ enum {
   TUD_VIDEO_DESC_STD_VC(ITF_NUM_VIDEO_CONTROL, 0, _stridx), \
     TUD_VIDEO_DESC_CS_VC( /* UVC 1.5*/ 0x0150, \
          /* wTotalLength - bLength */ \
-         TUD_VIDEO_DESC_INPUT_TERM_LEN + TUD_VIDEO_DESC_OUTPUT_TERM_LEN, \
+         TUD_VIDEO_DESC_CAMERA_TERM_LEN + TUD_VIDEO_DESC_OUTPUT_TERM_LEN, \
          UVC_CLOCK_FREQUENCY, 1), \
-      TUD_VIDEO_DESC_INPUT_TERM(UVC_ENTITY_CAP_INPUT_TERMINAL, VIDEO_ETT_COMPOSITE_CONNECTOR, 0, 0), \
+      TUD_VIDEO_DESC_CAMERA_TERM(UVC_ENTITY_CAP_INPUT_TERMINAL, 0, 0,\
+                                 /*wObjectiveFocalLengthMin*/0, /*wObjectiveFocalLengthMax*/0,\
+                                 /*wObjectiveFocalLength*/0, /*bmControls*/0), \
       TUD_VIDEO_DESC_OUTPUT_TERM(UVC_ENTITY_CAP_OUTPUT_TERMINAL, VIDEO_TT_STREAMING, 0, 1, 0), \
   /* Video stream alt. 0 */ \
   TUD_VIDEO_DESC_STD_VS( 1, 0, 0, 0), \
@@ -101,12 +103,11 @@ enum {
         TUD_VIDEO_DESC_CS_VS_FRM_UNCOMPR_CONT(/*bFrameIndex */1, 0, _width, _height, \
             _width * _height * 16, _width * _height * 16 * _fps, \
             _width * _height * 16, \
-            (10000000/_fps), (10000000/_fps), 10000000, 100000), \
+            (10000000/_fps), (10000000/_fps), (10000000/_fps)*_fps, (10000000/_fps)), \
         TUD_VIDEO_DESC_CS_VS_COLOR_MATCHING(VIDEO_COLOR_PRIMARIES_BT709, VIDEO_COLOR_XFER_CH_BT709, VIDEO_COLOR_COEF_SMPTE170M), \
   /* VS alt 1 */\
   TUD_VIDEO_DESC_STD_VS(1, 1, 1, 0), \
     /* EP */ \
     TUD_VIDEO_DESC_EP_ISO(_epin, _epsize, 1)
-
 
 #endif

@@ -1,7 +1,7 @@
 .. figure:: docs/assets/logo.svg
    :alt: TinyUSB
 
-|Build Status| |Documentation Status| |License|
+|Build Status| |Documentation Status| |Fuzzing Status| |License|
 
 TinyUSB is an open-source cross-platform USB Host/Device stack for
 embedded system, designed to be memory-safe with no dynamic allocation
@@ -32,24 +32,29 @@ Supported MCUs
 
 The stack supports the following MCUs:
 
+- **Allwinner:** F1C100s/F1C200s
+- **Broadcom:** BCM2837, BCM2711
 - **Dialog:** DA1469x
 - **Espressif:** ESP32-S2, ESP32-S3
+- **GigaDevice:** GD32VF103
+- **Infineon:** XMC4500
 - **MicroChip:** SAMD11, SAMD21, SAMD51, SAME5x, SAMG55, SAML21, SAML22, SAME7x
-- **NordicSemi:** nRF52833, nRF52840
+- **NordicSemi:** nRF52833, nRF52840, nRF5340
 - **Nuvoton:** NUC120, NUC121/NUC125, NUC126, NUC505
 - **NXP:**
 
-  - iMX RT Series: RT1011, RT1015, RT1021, RT1052, RT1062, RT1064
-  - Kinetis: KL25, K32L2Bxx
+  - iMX RT Series: RT10xx, RT11xx
+  - Kinetis: KL25, K32L2
   - LPC Series: 11u, 13, 15, 17, 18, 40, 43, 51u, 54, 55
 
 - **Raspberry Pi:** RP2040
-- **Renesas:** RX63N, RX65N
-- **Silabs:** EFM32GG12
+- **Renesas:** RX63N, RX65N, RX72N
+- **Silabs:** EFM32GG
 - **Sony:** CXD56
-- **ST:** STM32 series: L0, L1, F0, F1, F2, F3, F4, F7, H7 both FullSpeed and HighSpeed
-- **TI:** MSP430
+- **ST:** STM32 series: F0, F1, F2, F3, F4, F7, H7, G4, L0, L1, L4, L4+, WB
+- **TI:** MSP430, MSP432E4, TM4C123
 - **ValentyUSB:** eptri
+- **WCH:** CH32V307
 
 Here is the list of `Supported Devices`_ that can be used with provided examples.
 
@@ -61,7 +66,7 @@ Supports multiple device configurations by dynamically changing USB descriptors,
 -  Audio Class 2.0 (UAC2)
 -  Bluetooth Host Controller Interface (BTH HCI)
 -  Communication Device Class (CDC)
--  Device Firmware Update (DFU): DFU mode (WIP) and Runtinme
+-  Device Firmware Update (DFU): DFU mode (WIP) and Runtime
 -  Human Interface Device (HID): Generic (In & Out), Keyboard, Mouse, Gamepad etc ...
 -  Mass Storage Class (MSC): with multiple LUNs
 -  Musical Instrument Digital Interface (MIDI)
@@ -71,14 +76,14 @@ Supports multiple device configurations by dynamically changing USB descriptors,
 -  Vendor-specific class support with generic In & Out endpoints. Can be used with MS OS 2.0 compatible descriptor to load winUSB driver without INF file.
 -  `WebUSB <https://github.com/WICG/webusb>`__ with vendor-specific class
 
-If you have a special requirement, `usbd_app_driver_get_cb()` can be used to write your own class driver without modifying the stack. Here is how the RPi team added their reset interface [raspberrypi/pico-sdk#197](https://github.com/raspberrypi/pico-sdk/pull/197)
+If you have a special requirement, `usbd_app_driver_get_cb()` can be used to write your own class driver without modifying the stack. Here is how the RPi team added their reset interface `raspberrypi/pico-sdk#197 <https://github.com/raspberrypi/pico-sdk/pull/197>`_
 
 Host Stack
 ==========
 
 - Human Interface Device (HID): Keyboard, Mouse, Generic
 - Mass Storage Class (MSC)
-- Hub currently only supports 1 level of hub (due to my laziness)
+- Hub with multiple-level support
 
 OS Abstraction layer
 ====================
@@ -87,10 +92,11 @@ TinyUSB is completely thread-safe by pushing all Interrupt Service Request (ISR)
 
 - **No OS**
 - **FreeRTOS**
-- **Mynewt** Due to the newt package build system, Mynewt examples are better to be on its [own repo](https://github.com/hathach/mynewt-tinyusb-example)
+- `RT-Thread <https://github.com/RT-Thread/rt-thread>`_: `repo <https://github.com/RT-Thread-packages/tinyusb>`_
+- **Mynewt** Due to the newt package build system, Mynewt examples are better to be on its `own repo <https://github.com/hathach/mynewt-tinyusb-example>`_
 
-Local Docs
-==========
+Docs
+====
 
 - Info
 
@@ -124,6 +130,8 @@ in your project.
    :target: https://github.com/hathach/tinyusb/actions
 .. |Documentation Status| image:: https://readthedocs.org/projects/tinyusb/badge/?version=latest
    :target: https://docs.tinyusb.org/en/latest/?badge=latest
+.. |Fuzzing Status| image:: https://oss-fuzz-build-logs.storage.googleapis.com/badges/tinyusb.svg
+   :target: https://oss-fuzz-build-logs.storage.googleapis.com/index.html#tinyusb
 .. |License| image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
    :target: https://opensource.org/licenses/MIT
 

@@ -20,14 +20,17 @@ Constructors
 
 .. class:: WDT(id=0, timeout=5000)
 
-   Create a WDT object and start it. The timeout must be given in seconds and
-   the minimum value that is accepted is 1 second. Once it is running the timeout
-   cannot be changed and the WDT cannot be stopped either.
+   Create a WDT object and start it. The timeout must be given in milliseconds.
+   Once it is running the timeout cannot be changed and the WDT cannot be stopped either.
+
+   Notes: On the esp32 the minimum timeout is 1 second. On the esp8266 a timeout
+   cannot be specified, it is determined by the underlying system. On rp2040 devices,
+   the maximum timeout is 8388 ms.
 
 Methods
 -------
 
-.. method:: wdt.feed()
+.. method:: WDT.feed()
 
    Feed the WDT to prevent it from resetting the system. The application
    should place this call in a sensible place ensuring that the WDT is

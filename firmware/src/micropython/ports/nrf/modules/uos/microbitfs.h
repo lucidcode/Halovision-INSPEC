@@ -1,5 +1,5 @@
 /*
- * This file is part of the Micro Python project, http://micropython.org/
+ * This file is part of the MicroPython project, http://micropython.org/
  *
  * The MIT License (MIT)
  *
@@ -27,6 +27,7 @@
 #ifndef __MICROPY_INCLUDED_FILESYSTEM_H__
 #define __MICROPY_INCLUDED_FILESYSTEM_H__
 
+#include "py/builtin.h"
 #include "py/obj.h"
 #include "py/lexer.h"
 

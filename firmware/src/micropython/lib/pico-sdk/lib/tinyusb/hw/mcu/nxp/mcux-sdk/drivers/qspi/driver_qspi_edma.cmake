@@ -6,10 +6,16 @@ target_sources(${MCUX_SDK_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/fsl_qspi_edma.c
 )
 
-target_include_directories(${MCUX_SDK_PROJECT_NAME} PRIVATE
+target_include_directories(${MCUX_SDK_PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/.
 )
 
+#OR Logic component
+if(${MCUX_DEVICE} STREQUAL "MCIMX7U5")
+    include(driver_edma_MCIMX7U5)
+endif()
+if(${MCUX_DEVICE} STREQUAL "MK28FA15")
+    include(driver_edma_MK28FA15)
+endif()
 
 include(driver_qspi)
-include(driver_edma)

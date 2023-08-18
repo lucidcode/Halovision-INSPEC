@@ -223,7 +223,7 @@ if you select an area of the frame buffer by clicking and dragging on it then
 the histogram will only show the distribution of colors in that area. This
 features makes the histogram display super useful for determining the correct
 Grayscale and LAB color channel settings you need to use in your scripts for
-`image.find_blobs()` and `image.binary()`.
+`Image.find_blobs()` and `Image.binary()`.
 
 Finally, the image resolution and ROI (x, y, w, h) of the bounding box you
 select on the image are displayed above the histogram graphs.

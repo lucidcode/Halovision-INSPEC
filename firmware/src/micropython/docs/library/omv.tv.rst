@@ -24,7 +24,7 @@ Example usage::
 Functions
 ---------
 
-.. function:: tv.init([type=tv.TV_SHIELD, [triple_buffer=False]])
+.. function:: init([type=tv.TV_SHIELD, [triple_buffer=False]])
 
    Initializes an attached tv output module.
 
@@ -36,36 +36,36 @@ Functions
     ``triple_buffer`` If True then makes updates to the screen non-blocking in `tv.TV_SHIELD`
     mode at the cost of 3X the display RAM (495 KB).
 
-.. function:: tv.deinit()
+.. function:: deinit()
 
    Deinitializes the tv module, internal/external hardware, and I/O pins.
 
-.. function:: lcd.width()
+.. function:: width()
 
    Returns 352 pixels. This is the `sensor.SIF` resolution.
 
-.. function:: lcd.height()
+.. function:: height()
 
    Returns 240 pixels. This is the `sensor.SIF` resolution.
 
-.. function:: tv.type()
+.. function:: type()
 
    Returns the type of the screen that was set during `tv.init()`.
 
-.. function:: tv.triple_buffer()
+.. function:: triple_buffer()
 
    Returns if triple buffering is enabled that was set during `tv.init()`.
 
-.. function:: tv.refresh()
+.. function:: refresh()
 
    Returns 60 Hz.
 
-.. function:: tv.channel([channel])
+.. function:: channel([channel])
 
    For the wireless TV shield this sets the broadcast channel between 1-8. If passed without a channel
    argument then this method returns the previously set channel (1-8). Default is channel 8.
 
-.. function:: tv.display(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None]]]]]]]]]]]])
+.. function:: display(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None]]]]]]]]]]]])
 
    Displays an ``image`` whose top-left corner starts at location x, y. You may either pass x, y
    separately, as a tuple (x, y), or neither.
@@ -115,15 +115,13 @@ Functions
    ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
    ``y_size`` to maintain the aspect-ratio.
 
-   Not supported for compressed images.
-
 Constants
 ---------
 
-.. data:: tv.TV_NONE
+.. data:: TV_NONE
 
    Returned by `tv.type()` when the this module is not initialized.
 
-.. data:: tv.TV_SHIELD
+.. data:: TV_SHIELD
 
    Used to initialize the TV module.

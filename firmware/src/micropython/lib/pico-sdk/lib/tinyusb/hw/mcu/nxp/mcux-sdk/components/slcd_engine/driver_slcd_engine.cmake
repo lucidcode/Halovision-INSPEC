@@ -6,7 +6,7 @@ target_sources(${MCUX_SDK_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/slcd_engine.c
 )
 
-target_include_directories(${MCUX_SDK_PROJECT_NAME} PRIVATE
+target_include_directories(${MCUX_SDK_PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/.
 )
 
@@ -14,7 +14,13 @@ target_include_directories(${MCUX_SDK_PROJECT_NAME} PRIVATE
 if(${MCUX_DEVICE} STREQUAL "K32L2B31A")
     include(driver_slcd_lcd_s401m16kr)
 endif()
+if(${MCUX_DEVICE} STREQUAL "MKM34ZA5")
+    include(driver_slcd_gdh_1247wp)
+endif()
 if(${MCUX_DEVICE} STREQUAL "MKM35Z7")
+    include(driver_slcd_gdh_1247wp)
+endif()
+if(${MCUX_DEVICE} STREQUAL "MKM34Z7")
     include(driver_slcd_gdh_1247wp)
 endif()
 

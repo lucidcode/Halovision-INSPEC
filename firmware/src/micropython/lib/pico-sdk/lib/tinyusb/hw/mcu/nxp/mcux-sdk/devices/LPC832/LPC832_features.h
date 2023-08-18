@@ -1,13 +1,13 @@
 /*
 ** ###################################################################
 **     Version:             rev. 1.2, 2017-06-08
-**     Build:               b201012
+**     Build:               b210823
 **
 **     Abstract:
 **         Chip specific module features.
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2020 NXP
+**     Copyright 2016-2021 NXP
 **     All rights reserved.
 **
 **     SPDX-License-Identifier: BSD-3-Clause
@@ -72,7 +72,7 @@
 /* ADC module features */
 
 /* @brief Do not has input select (register INSEL). */
-#define FSL_FEATURE_ADC_HAS_NO_INSEL  (1)
+#define FSL_FEATURE_ADC_HAS_NO_INSEL (1)
 /* @brief Has ASYNMODE bitfile in CTRL reigster. */
 #define FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE (0)
 /* @brief Has ASYNMODE bitfile in CTRL reigster. */
@@ -117,14 +117,14 @@
 
 /* MRT module features */
 
-/* @brief Writing a zero asserts the MRT reset. */
-#define FSL_FEATURE_MRT_WRITE_ZERO_ASSERT_RESET (1)
+/* @brief number of channels. */
+#define FSL_FEATURE_MRT_NUMBER_OF_CHANNELS (4)
 /* @brief Has no MULTITASK bitfile in MODCFG reigster. */
 #define FSL_FEATURE_MRT_HAS_NO_MODCFG_MULTITASK (1)
 /* @brief Has no INUSE bitfile in STAT reigster. */
 #define FSL_FEATURE_MRT_HAS_NO_CHANNEL_STAT_INUSE (1)
-/* @brief number of channels. */
-#define FSL_FEATURE_MRT_NUMBER_OF_CHANNELS  (4)
+/* @brief Writing a zero asserts the MRT reset. */
+#define FSL_FEATURE_MRT_WRITE_ZERO_ASSERT_RESET (1)
 
 /* NVIC module features */
 
@@ -144,10 +144,10 @@
 #define FSL_FEATURE_SCT_NUMBER_OF_STATES (8)
 /* @brief Number of match capture */
 #define FSL_FEATURE_SCT_NUMBER_OF_MATCH_CAPTURE (8)
-/* @brief Writing a zero asserts the SCT reset. */
-#define FSL_FEATURE_SCT_WRITE_ZERO_ASSERT_RESET (1)
 /* @brief Number of outputs */
 #define FSL_FEATURE_SCT_NUMBER_OF_OUTPUTS (6)
+/* @brief Writing a zero asserts the SCT reset. */
+#define FSL_FEATURE_SCT_WRITE_ZERO_ASSERT_RESET (1)
 
 /* SPI module features */
 
@@ -168,13 +168,13 @@
 #define FSL_FEATURE_SWM_HAS_PINENABLE0_ACMP_I4 (0)
 /* @brief Has SWM PINENABLE0 ACMP I5. */
 #define FSL_FEATURE_SWM_HAS_PINENABLE0_ACMP_I5 (0)
-/* @brief Has SWM PINENABLE1. */
-#define FSL_FEATURE_SWM_HAS_PINENABLE1_REGISTER (0)
 
 /* SYSCON module features */
 
 /* @brief Pointer to ROM IAP entry functions */
 #define FSL_FEATURE_SYSCON_IAP_ENTRY_LOCATION (0x1fff1ff1)
+/* @brief IAP Reinvoke ISP command parameter is pointer */
+#define FSL_FEATURE_SYSCON_IAP_REINVOKE_ISP_PARAM_POINTER (0)
 /* @brief Flash page size in bytes */
 #define FSL_FEATURE_SYSCON_FLASH_PAGE_SIZE_BYTES (64)
 /* @brief Flash sector size in bytes */
@@ -208,4 +208,3 @@
 #define FSL_FEATURE_WWDT_HAS_NO_RESET (1)
 
 #endif /* _LPC832_FEATURES_H_ */
-

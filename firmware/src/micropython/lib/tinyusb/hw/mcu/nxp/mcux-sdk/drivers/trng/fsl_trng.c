@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2017, 2020 NXP
+ * Copyright 2016-2017, 2020-2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -27,7 +27,7 @@
 #elif (defined(KV56F24_SERIES) || defined(KV58F24_SERIES) || defined(KL28Z7_SERIES) || defined(KL81Z7_SERIES) || \
        defined(KL82Z7_SERIES) || defined(K32L2A41A_SERIES))
 #define TRNG_USER_CONFIG_DEFAULT_OSC_DIV kTRNG_RingOscDiv4
-#elif defined(K81F25615_SERIES)
+#elif (defined(K81F25615_SERIES) || defined(K32L3A60_cm4_SERIES) || defined(K32L3A60_cm0plus_SERIES))
 #define TRNG_USER_CONFIG_DEFAULT_OSC_DIV kTRNG_RingOscDiv2
 #else
 /* Default value for the TRNG user configuration structure can be optionally
@@ -1875,6 +1875,16 @@ status_t TRNG_GetRandomData(TRNG_Type *base, void *data, size_t dataSize)
     /* Check input parameters.*/
     if ((NULL != base) && (NULL != data) && (0U != dataSize))
     {
+        /* After a deepsleep exit some errors bits are set in MCTL and must be cleared before processing further.
+            Also, trigger new 512 bits entropy generation to be sure we will have fresh bits.*/
+        if (0U != TRNG_RD_MCTL_ERR(base))
+        {
+            /* clear errors bits */
+            TRNG_WR_MCTL_ERR(base, 1);
+            /* restart new entropy generation */
+            (void)trng_ReadEntropy(base, (TRNG_ENT_COUNT - 1u));
+        }
+
         do
         {
             /* Wait for Valid or Error flag*/
@@ -1919,7 +1929,7 @@ status_t TRNG_GetRandomData(TRNG_Type *base, void *data, size_t dataSize)
 
         /* Start a new entropy generation.
         It is done by reading of the last entropy register.*/
-        if (((unsigned)index % TRNG_ENT_COUNT) != (TRNG_ENT_COUNT - 1u))
+        if (((unsigned)index % TRNG_ENT_COUNT) != 0U)
         {
             (void)trng_ReadEntropy(base, (TRNG_ENT_COUNT - 1u));
         }

@@ -28,9 +28,11 @@
 
 #include "py/mphal.h"
 #include "py/runtime.h"
-#include "shared/runtime/interrupt_char.h"
 #include "pendsv.h"
 #include "nrf_nvic.h"
+
+#define NVIC_PRIORITYGROUP_4    ((uint32_t)0x00000003)
+#define IRQ_PRI_PENDSV          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 15, 0)
 
 // This variable is used to save the exception object between a ctrl-C and the
 // PENDSV call that actually raises the exception.  It must be non-static
@@ -50,31 +52,8 @@ void pendsv_init(void) {
     #if defined(PENDSV_DISPATCH_NUM_SLOTS)
     pendsv_dispatch_active = false;
     #endif
-    NVIC_DisableIRQ(PendSV_IRQn);
-    __ISB();
     // Set PendSV to lowest priority.
-    NVIC_SetPriority(PendSV_IRQn, 7);
-    __ISB();
-    NVIC_EnableIRQ(PendSV_IRQn);
-    __ISB();
-}
-
-// Call this function to raise a pending exception during an interrupt.
-// It will first try to raise the exception "softly" by setting the
-// mp_pending_exception variable and hoping that the VM will notice it.
-// If this function is called a second time (ie with the mp_pending_exception
-// variable already set) then it will force the exception by using the hardware
-// PENDSV feature.  This will wait until all interrupts are finished then raise
-// the given exception object using nlr_jump in the context of the top-level
-// thread.
-void pendsv_kbd_intr(void) {
-    if (MP_STATE_MAIN_THREAD(mp_pending_exception) == MP_OBJ_NULL) {
-        mp_sched_keyboard_interrupt();
-    } else {
-        MP_STATE_MAIN_THREAD(mp_pending_exception) = MP_OBJ_NULL;
-        pendsv_object = &MP_STATE_VM(mp_kbd_exception);
-        SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
-    }
+    NVIC_SetPriority(PendSV_IRQn, IRQ_PRI_PENDSV);
 }
 
 // This will always force the exception by using the hardware PENDSV 

@@ -449,7 +449,7 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data)
     size_t image_row_size = image_size(&temp) / data->dst_img->h;
 
     data->toggle = 0;
-    data->row_buffer[0] = fb_alloc(image_row_size, FB_ALLOC_NO_HINT);
+    data->row_buffer[0] = fb_alloc(image_row_size, FB_ALLOC_CACHE_ALIGN);
 
 #ifdef IMLIB_ENABLE_DMA2D
     data->dma2d_enabled = false;
@@ -461,7 +461,7 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data)
         ((data->src_img_pixfmt == PIXFORMAT_GRAYSCALE) ||
         ((data->src_img_pixfmt == PIXFORMAT_RGB565) && (data->rgb_channel < 0)
          && (data->alpha != 256) && (!data->color_palette) && (!data->alpha_palette)))) {
-        data->row_buffer[1] = fb_alloc(image_row_size, FB_ALLOC_NO_HINT);
+        data->row_buffer[1] = fb_alloc(image_row_size, FB_ALLOC_CACHE_ALIGN);
         data->dma2d_enabled = true;
         data->dma2d_initialized = true;
 
@@ -2565,8 +2565,15 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
         y_scale = -y_scale;
     }
 
-    int src_img_w = roi ? roi->w : src_img->w, w_limit = src_img_w - 1, w_limit_m_1 = w_limit - 1;
-    int src_img_h = roi ? roi->h : src_img->h, h_limit = src_img_h - 1, h_limit_m_1 = h_limit - 1;
+    int src_img_w = roi ? roi->w : src_img->w;
+    int w_start = roi ? roi->x : 0, w_start_p_1 = w_start + 1, w_start_p_2 = w_start_p_1 + 1;
+    int w_limit = w_start + src_img_w - 1;
+    int w_limit_m_1 = w_limit - 1;
+
+    int src_img_h = roi ? roi->h : src_img->h;
+    int h_start = roi ? roi->y : 0, h_start_p_1 = h_start + 1, h_start_p_2 = h_start_p_1 + 1;
+    int h_limit = h_start + src_img_h - 1;
+    int h_limit_m_1 = h_limit - 1;
 
     int src_width_scaled = fast_floorf(x_scale * src_img_w);
     int src_height_scaled = fast_floorf(y_scale * src_img_h);
@@ -2734,7 +2741,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
         if (!src_img->is_mutable) {
             new_src_img.pixfmt = new_not_mutable_pixfmt;
             size_t size = image_size(&new_src_img);
-            new_src_img.data = fb_alloc(size, FB_ALLOC_NO_HINT);
+            new_src_img.data = fb_alloc(size, FB_ALLOC_CACHE_ALIGN);
 
             switch (new_src_img.pixfmt) {
                 case PIXFORMAT_BINARY: {
@@ -2743,7 +2750,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     } else if (src_img->is_yuv) {
                         imlib_deyuv_image(&new_src_img, src_img);
                     } else if (is_jpeg) {
-                        jpeg_decompress_image_to_binary(&new_src_img, src_img);
+                        jpeg_decompress(&new_src_img, src_img);
                     } else if (is_png) {
                         png_decompress(&new_src_img, src_img);
                     }
@@ -2755,7 +2762,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     } else if (src_img->is_yuv) {
                         imlib_deyuv_image(&new_src_img, src_img);
                     } else if (is_jpeg) {
-                        jpeg_decompress_image_to_grayscale(&new_src_img, src_img);
+                        jpeg_decompress(&new_src_img, src_img);
                     } else if (is_png) {
                         png_decompress(&new_src_img, src_img);
                     }
@@ -2767,7 +2774,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     } else if (src_img->is_yuv) {
                         imlib_deyuv_image(&new_src_img, src_img);
                     } else if (is_jpeg) {
-                        jpeg_decompress_image_to_rgb565(&new_src_img, src_img);
+                        jpeg_decompress(&new_src_img, src_img);
                     } else if (is_png) {
                         png_decompress(&new_src_img, src_img);
                     }
@@ -2835,7 +2842,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     while (y_not_done) {
                         int src_y_index = next_src_y_index;
                         int src_y_index_end = src_y_index + src_y_frac_size;
-                        if (src_y_index_end > src_img_h) src_y_index_end = src_img_h;
+                        if (src_y_index_end >= h_limit) src_y_index_end = h_limit + 1;
                         int height = src_y_index_end - src_y_index;
 
                         // Must be called per loop to get the address of the temp buffer to blend with
@@ -2851,7 +2858,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                         while (x_not_done) {
                             int src_x_index = next_src_x_index;
                             int src_x_index_end = src_x_index + src_x_frac_size;
-                            if (src_x_index_end > src_img_w) src_x_index_end = src_img_w;
+                            if (src_x_index_end >= w_limit) src_x_index_end = w_limit + 1;
                             int width = src_x_index_end - src_x_index;
 
                             uint32_t area = width * height;
@@ -2889,7 +2896,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     while (y_not_done) {
                         int src_y_index = next_src_y_index;
                         int src_y_index_end = src_y_index + src_y_frac_size;
-                        if (src_y_index_end > src_img_h) src_y_index_end = src_img_h;
+                        if (src_y_index_end >= h_limit) src_y_index_end = h_limit + 1;
                         int height = src_y_index_end - src_y_index;
 
                         // Must be called per loop to get the address of the temp buffer to blend with
@@ -2905,7 +2912,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                         while (x_not_done) {
                             int src_x_index = next_src_x_index;
                             int src_x_index_end = src_x_index + src_x_frac_size;
-                            if (src_x_index_end > src_img_w) src_x_index_end = src_img_w;
+                            if (src_x_index_end >= w_limit) src_x_index_end = w_limit + 1;
                             int width = src_x_index_end - src_x_index;
 
                             uint32_t area = width * height;
@@ -2974,7 +2981,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     while (y_not_done) {
                         int src_y_index = next_src_y_index;
                         int src_y_index_end = src_y_index + src_y_frac_size;
-                        if (src_y_index_end > src_img_h) src_y_index_end = src_img_h;
+                        if (src_y_index_end >= h_limit) src_y_index_end = h_limit + 1;
                         int height = src_y_index_end - src_y_index;
 
                         // Must be called per loop to get the address of the temp buffer to blend with
@@ -2990,7 +2997,7 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                         while (x_not_done) {
                             int src_x_index = next_src_x_index;
                             int src_x_index_end = src_x_index + src_x_frac_size;
-                            if (src_x_index_end > src_img_w) src_x_index_end = src_img_w;
+                            if (src_x_index_end >= w_limit) src_x_index_end = w_limit + 1;
                             int width = src_x_index_end - src_x_index;
 
                             uint32_t area = width * height;
@@ -3057,21 +3064,34 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
         } else { // slow
             switch (src_img->pixfmt) {
                 case PIXFORMAT_BINARY: {
+                    int t_b_weight_sum = 256 + ((src_y_frac >> 8) & 0xFF);
+                    int l_r_weight_sum = 256 + ((src_x_frac >> 8) & 0xFF);
                     while (y_not_done) {
                         int src_y_index = next_src_y_index, src_y_index_p_1 = src_y_index + 1;
                         int src_y_index_end = src_y_index + src_y_frac_size - 1; // inclusive end
 
-                        int t_y_weight = 256 - ((src_y_accum >> 8) & 0xFF);
-                        int b_y_weight = ((src_y_accum + src_y_frac) >> 8) & 0xFF;
+                        int t_y_weight = 256 - (((src_y_accum + 255) >> 8) & 0xFF);
+                        int b_y_weight = ((src_y_accum + src_y_frac + 255) >> 8) & 0xFF;
                         // Since src_y_index_end is inclusive this should be 256 when there's perfect overlap.
-                        if (!b_y_weight) b_y_weight = 256;
+                        if ((!b_y_weight) && (t_y_weight < t_b_weight_sum)) b_y_weight = 256;
 
                         // Handle end being off the edge.
                         if (src_y_index_end > h_limit) {
                             src_y_index_end = h_limit;
-                            // Either we don't need end of we chopped off the last part.
+                            // Either we don't need end this or we chopped off the last part.
                             if (src_y_index_end == src_y_index) b_y_weight = 0;
                             else b_y_weight = 256; // max out if we chopped off
+                        }
+
+                        // Handle discontinuities.
+                        if ((t_y_weight + b_y_weight) < 256) {
+                            t_y_weight += 128;
+                            b_y_weight += 128;
+                        }
+
+                        // Weights must be balanced.
+                        if ((t_y_weight + b_y_weight) > t_b_weight_sum) {
+                            b_y_weight -= 1; // It's only ever over by 1.
                         }
 
                         int y_height_m_2 = src_y_index_end - src_y_index - 1;
@@ -3093,17 +3113,28 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int src_x_index = next_src_x_index, src_x_index_p_1 = src_x_index + 1;
                             int src_x_index_end = src_x_index + src_x_frac_size - 1; // inclusive end
 
-                            int l_x_weight = 256 - ((src_x_accum >> 8) & 0xFF);
-                            int r_x_weight = ((src_x_accum + src_x_frac) >> 8) & 0xFF;
+                            int l_x_weight = 256 - (((src_x_accum + 255) >> 8) & 0xFF);
+                            int r_x_weight = ((src_x_accum + src_x_frac + 255) >> 8) & 0xFF;
                             // Since src_x_index_end is inclusive this should be 256 when there's perfect overlap.
-                            if (!r_x_weight) r_x_weight = 256;
+                            if ((!r_x_weight) && (l_x_weight < l_r_weight_sum)) r_x_weight = 256;
 
                             // Handle end being off the edge.
                             if (src_x_index_end > w_limit) {
                                 src_x_index_end = w_limit;
-                                // Either we don't need end of we chopped off the last part.
+                                // Either we don't need end this or we chopped off the last part.
                                 if (src_x_index_end == src_x_index) r_x_weight = 0;
                                 else r_x_weight = 256; // max out if we chopped off
+                            }
+
+                            // Handle discontinuities.
+                            if ((l_x_weight + r_x_weight) < 256) {
+                                l_x_weight += 128;
+                                r_x_weight += 128;
+                            }
+
+                            // Weights must be balanced.
+                            if ((l_x_weight + r_x_weight) > l_r_weight_sum) {
+                                r_x_weight -= 1; // It's only ever over by 1.
                             }
 
                             int x_width_m_2 = src_x_index_end - src_x_index - 1;
@@ -3178,21 +3209,34 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     break;
                 }
                 case PIXFORMAT_GRAYSCALE: {
+                    int t_b_weight_sum = 256 + ((src_y_frac >> 8) & 0xFF);
+                    int l_r_weight_sum = 256 + ((src_x_frac >> 8) & 0xFF);
                     while (y_not_done) {
                         int src_y_index = next_src_y_index, src_y_index_p_1 = src_y_index + 1;
                         int src_y_index_end = src_y_index + src_y_frac_size - 1; // inclusive end
 
-                        int t_y_weight = 256 - ((src_y_accum >> 8) & 0xFF);
-                        int b_y_weight = ((src_y_accum + src_y_frac) >> 8) & 0xFF;
+                        int t_y_weight = 256 - (((src_y_accum + 255) >> 8) & 0xFF);
+                        int b_y_weight = ((src_y_accum + src_y_frac + 255) >> 8) & 0xFF;
                         // Since src_y_index_end is inclusive this should be 256 when there's perfect overlap.
-                        if (!b_y_weight) b_y_weight = 256;
+                        if ((!b_y_weight) && (t_y_weight < t_b_weight_sum)) b_y_weight = 256;
 
                         // Handle end being off the edge.
                         if (src_y_index_end > h_limit) {
                             src_y_index_end = h_limit;
-                            // Either we don't need end of we chopped off the last part.
+                            // Either we don't need end this or we chopped off the last part.
                             if (src_y_index_end == src_y_index) b_y_weight = 0;
                             else b_y_weight = 256; // max out if we chopped off
+                        }
+
+                        // Handle discontinuities.
+                        if ((t_y_weight + b_y_weight) < t_b_weight_sum) {
+                            t_y_weight += 128;
+                            b_y_weight += 128;
+                        }
+
+                        // Weights must be balanced.
+                        if ((t_y_weight + b_y_weight) > t_b_weight_sum) {
+                            b_y_weight -= 1; // It's only ever over by 1.
                         }
 
                         int y_height_m_2 = src_y_index_end - src_y_index - 1;
@@ -3214,17 +3258,28 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int src_x_index = next_src_x_index, src_x_index_p_1 = src_x_index + 1;
                             int src_x_index_end = src_x_index + src_x_frac_size - 1; // inclusive end
 
-                            int l_x_weight = 256 - ((src_x_accum >> 8) & 0xFF);
-                            int r_x_weight = ((src_x_accum + src_x_frac) >> 8) & 0xFF;
+                            int l_x_weight = 256 - (((src_x_accum + 255) >> 8) & 0xFF);
+                            int r_x_weight = ((src_x_accum + src_x_frac + 255) >> 8) & 0xFF;
                             // Since src_x_index_end is inclusive this should be 256 when there's perfect overlap.
-                            if (!r_x_weight) r_x_weight = 256;
+                            if ((!r_x_weight) && (l_x_weight < l_r_weight_sum)) r_x_weight = 256;
 
                             // Handle end being off the edge.
                             if (src_x_index_end > w_limit) {
                                 src_x_index_end = w_limit;
-                                // Either we don't need end of we chopped off the last part.
+                                // Either we don't need end this or we chopped off the last part.
                                 if (src_x_index_end == src_x_index) r_x_weight = 0;
                                 else r_x_weight = 256; // max out if we chopped off
+                            }
+
+                            // Handle discontinuities.
+                            if ((l_x_weight + r_x_weight) < l_r_weight_sum) {
+                                l_x_weight += 128;
+                                r_x_weight += 128;
+                            }
+
+                            // Weights must be balanced.
+                            if ((l_x_weight + r_x_weight) > l_r_weight_sum) {
+                                r_x_weight -= 1; // It's only ever over by 1.
                             }
 
                             int x_width_m_2 = src_x_index_end - src_x_index - 1;
@@ -3332,21 +3387,34 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     break;
                 }
                 case PIXFORMAT_RGB565: {
+                    int t_b_weight_sum = 64 + ((src_y_frac >> 10) & 0x3F);
+                    int l_r_weight_sum = 64 + ((src_x_frac >> 10) & 0x3F);
                     while (y_not_done) {
                         int src_y_index = next_src_y_index, src_y_index_p_1 = src_y_index + 1;
                         int src_y_index_end = src_y_index + src_y_frac_size - 1; // inclusive end
 
-                        int t_y_weight = 128 - ((src_y_accum >> 9) & 0x7F);
-                        int b_y_weight = ((src_y_accum + src_y_frac) >> 9) & 0x7F;
+                        int t_y_weight = 64 - (((src_y_accum + 63) >> 10) & 0x3F);
+                        int b_y_weight = ((src_y_accum + src_y_frac + 63) >> 10) & 0x3F;
                         // Since src_y_index_end is inclusive this should be 128 when there's perfect overlap.
-                        if (!b_y_weight) b_y_weight = 128;
+                        if ((!b_y_weight) && (t_y_weight < t_b_weight_sum)) b_y_weight = 64;
 
                         // Handle end being off the edge.
                         if (src_y_index_end > h_limit) {
                             src_y_index_end = h_limit;
-                            // Either we don't need end of we chopped off the last part.
+                            // Either we don't need end this or we chopped off the last part.
                             if (src_y_index_end == src_y_index) b_y_weight = 0;
-                            else b_y_weight = 128; // max out if we chopped off
+                            else b_y_weight = 64; // max out if we chopped off
+                        }
+
+                        // Handle discontinuities.
+                        if ((t_y_weight + b_y_weight) < t_b_weight_sum) {
+                            t_y_weight += 32;
+                            b_y_weight += 32;
+                        }
+
+                        // Weights must be balanced.
+                        if ((t_y_weight + b_y_weight) > t_b_weight_sum) {
+                            b_y_weight -= 1; // It's only ever over by 1.
                         }
 
                         int y_height_m_2 = src_y_index_end - src_y_index - 1;
@@ -3369,17 +3437,28 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int src_x_index = next_src_x_index, src_x_index_p_1 = src_x_index + 1;
                             int src_x_index_end = src_x_index + src_x_frac_size - 1; // inclusive end
 
-                            int l_x_weight = 128 - ((src_x_accum >> 9) & 0x7F);
-                            int r_x_weight = ((src_x_accum + src_x_frac) >> 9) & 0x7F;
+                            int l_x_weight = 64 - (((src_x_accum + 63) >> 10) & 0x3F);
+                            int r_x_weight = ((src_x_accum + src_x_frac + 63) >> 10) & 0x3F;
                             // Since src_x_index_end is inclusive this should be 128 when there's perfect overlap.
-                            if (!r_x_weight) r_x_weight = 128;
+                            if ((!r_x_weight) && (l_x_weight < l_r_weight_sum)) r_x_weight = 64;
 
                             // Handle end being off the edge.
                             if (src_x_index_end > w_limit) {
                                 src_x_index_end = w_limit;
-                                // Either we don't need end of we chopped off the last part.
+                                // Either we don't need end this or we chopped off the last part.
                                 if (src_x_index_end == src_x_index) r_x_weight = 0;
-                                else r_x_weight = 128; // max out if we chopped off
+                                else r_x_weight = 64; // max out if we chopped off
+                            }
+
+                            // Handle discontinuities.
+                            if ((l_x_weight + r_x_weight) < l_r_weight_sum) {
+                                l_x_weight += 32;
+                                r_x_weight += 32;
+                            }
+
+                            // Weights must be balanced.
+                            if ((l_x_weight + r_x_weight) > l_r_weight_sum) {
+                                r_x_weight -= 1; // It's only ever over by 1.
                             }
 
                             int x_width_m_2 = src_x_index_end - src_x_index - 1;
@@ -3420,10 +3499,10 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             long b_b = b_pixels & 0x1F001F;
                             b_acc = __SMLAD(b_b, b_smlad_x_weight, b_acc);
 
-                            area = (area + 127) >> 7;
-                            r_acc = (r_acc + 64) >> 7;
-                            g_acc = (g_acc + 64) >> 7;
-                            b_acc = (b_acc + 64) >> 7;
+                            area = (area + 63) >> 6;
+                            r_acc = (r_acc + 63) >> 6;
+                            g_acc = (g_acc + 63) >> 6;
+                            b_acc = (b_acc + 63) >> 6;
 
                             if (x_width_m_2 > 0) { // sum top/bot
                                 area += x_width_m_2 * (t_y_weight + b_y_weight);
@@ -3464,10 +3543,10 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                                 }
                             }
 
-                            area = (area + 127) >> 7;
-                            r_acc = (r_acc + 64) >> 7;
-                            g_acc = (g_acc + 64) >> 7;
-                            b_acc = (b_acc + 64) >> 7;
+                            area = (area + 63) >> 6;
+                            r_acc = (r_acc + 63) >> 6;
+                            g_acc = (g_acc + 63) >> 6;
+                            b_acc = (b_acc + 63) >> 6;
 
                             if ((x_width_m_2 > 0) && (y_height_m_2 > 0)) { // sum middle
                                 area += x_width_m_2 * y_height_m_2;
@@ -3557,13 +3636,13 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     uint32_t *src_row_ptr_0, *src_row_ptr_1, *src_row_ptr_2, *src_row_ptr_3;
 
                     // keep row pointers in bounds
-                    if (src_y_index < 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = src_row_ptr_2 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, 0);
-                        src_row_ptr_3 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, 1);
-                    } else if (src_y_index == 0) {
+                    if (src_y_index < h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = src_row_ptr_2 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, h_start);
+                        src_row_ptr_3 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, h_start_p_1);
+                    } else if (src_y_index == h_start) {
                         src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, 0);
-                        src_row_ptr_2 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, 1);
-                        src_row_ptr_3 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, 2);
+                        src_row_ptr_2 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, h_start_p_1);
+                        src_row_ptr_3 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, h_start_p_2);
                     } else if (src_y_index == h_limit_m_1) {
                         int src_y_index_m_1 = src_y_index - 1;
                         src_row_ptr_0 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, src_y_index_m_1);
@@ -3609,13 +3688,13 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int pixel_x_offests[4];
 
                             // keep pixels in bounds
-                            if (src_x_index < 0) {
-                                pixel_x_offests[0] = pixel_x_offests[1] = pixel_x_offests[2] = 0;
-                                pixel_x_offests[3] = 1;
-                            } else if (src_x_index == 0) {
-                                pixel_x_offests[0] = pixel_x_offests[1] = 0;
-                                pixel_x_offests[2] = 1;
-                                pixel_x_offests[3] = 2;
+                            if (src_x_index < w_start) {
+                                pixel_x_offests[0] = pixel_x_offests[1] = pixel_x_offests[2] = w_start;
+                                pixel_x_offests[3] = w_start_p_1;
+                            } else if (src_x_index == w_start) {
+                                pixel_x_offests[0] = pixel_x_offests[1] = w_start;
+                                pixel_x_offests[2] = w_start_p_1;
+                                pixel_x_offests[3] = w_start_p_2;
                             } else if (src_x_index == w_limit_m_1) {
                                 pixel_x_offests[0] = src_x_index_m_1;
                                 pixel_x_offests[1] = w_limit_m_1;
@@ -3695,12 +3774,12 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
 
                     // keep row pointers in bounds
                     if (src_y_index < 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = src_row_ptr_2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, 0);
-                        src_row_ptr_3 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, 1);
-                    } else if (src_y_index == 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, 0);
-                        src_row_ptr_2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, 1);
-                        src_row_ptr_3 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, 2);
+                        src_row_ptr_0 = src_row_ptr_1 = src_row_ptr_2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_start);
+                        src_row_ptr_3 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_start_p_1);
+                    } else if (src_y_index == h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_start);
+                        src_row_ptr_2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_start_p_1);
+                        src_row_ptr_3 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_start_p_2);
                     } else if (src_y_index == h_limit_m_1) {
                         int src_y_index_m_1 = src_y_index - 1;
                         src_row_ptr_0 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, src_y_index_m_1);
@@ -3750,16 +3829,16 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             // Column 2 = Bits[23:16]
                             // Column 3 = Bits[31:24]
 
-                            if (src_x_index < 0) {
-                                pixel_row_0 = ((*src_row_ptr_0) * 0x010101) | ((*(src_row_ptr_0 + 1)) << 24);
-                                pixel_row_1 = ((*src_row_ptr_1) * 0x010101) | ((*(src_row_ptr_1 + 1)) << 24);
-                                pixel_row_2 = ((*src_row_ptr_2) * 0x010101) | ((*(src_row_ptr_2 + 1)) << 24);
-                                pixel_row_3 = ((*src_row_ptr_3) * 0x010101) | ((*(src_row_ptr_3 + 1)) << 24);
-                            } else if (src_x_index == 0) {
-                                pixel_row_0 = ((*src_row_ptr_0) * 0x0101) | ((*((uint16_t *) (src_row_ptr_0 + 1))) << 16);
-                                pixel_row_1 = ((*src_row_ptr_1) * 0x0101) | ((*((uint16_t *) (src_row_ptr_1 + 1))) << 16);
-                                pixel_row_2 = ((*src_row_ptr_2) * 0x0101) | ((*((uint16_t *) (src_row_ptr_2 + 1))) << 16);
-                                pixel_row_3 = ((*src_row_ptr_3) * 0x0101) | ((*((uint16_t *) (src_row_ptr_3 + 1))) << 16);
+                            if (src_x_index < w_start) {
+                                pixel_row_0 = ((*(src_row_ptr_0 + w_start)) * 0x010101) | ((*(src_row_ptr_0 + w_start_p_1)) << 24);
+                                pixel_row_1 = ((*(src_row_ptr_1 + w_start)) * 0x010101) | ((*(src_row_ptr_1 + w_start_p_1)) << 24);
+                                pixel_row_2 = ((*(src_row_ptr_2 + w_start)) * 0x010101) | ((*(src_row_ptr_2 + w_start_p_1)) << 24);
+                                pixel_row_3 = ((*(src_row_ptr_3 + w_start)) * 0x010101) | ((*(src_row_ptr_3 + w_start_p_1)) << 24);
+                            } else if (src_x_index == w_start) {
+                                pixel_row_0 = ((*(src_row_ptr_0 + w_start)) * 0x0101) | ((*((uint16_t *) (src_row_ptr_0 + w_start_p_1))) << 16);
+                                pixel_row_1 = ((*(src_row_ptr_1 + w_start)) * 0x0101) | ((*((uint16_t *) (src_row_ptr_1 + w_start_p_1))) << 16);
+                                pixel_row_2 = ((*(src_row_ptr_2 + w_start)) * 0x0101) | ((*((uint16_t *) (src_row_ptr_2 + w_start_p_1))) << 16);
+                                pixel_row_3 = ((*(src_row_ptr_3 + w_start)) * 0x0101) | ((*((uint16_t *) (src_row_ptr_3 + w_start_p_1))) << 16);
                             } else if (src_x_index == w_limit_m_1) {
                                 pixel_row_0 = (*((uint16_t *) (src_row_ptr_0 + src_x_index_m_1))) | ((*(src_row_ptr_0 + w_limit)) * 0x01010000);
                                 pixel_row_1 = (*((uint16_t *) (src_row_ptr_1 + src_x_index_m_1))) | ((*(src_row_ptr_1 + w_limit)) * 0x01010000);
@@ -3838,13 +3917,13 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int pixel_x_offests[4];
 
                             // keep pixels in bounds
-                            if (src_x_index < 0) {
-                                pixel_x_offests[0] = pixel_x_offests[1] = pixel_x_offests[2] = 0;
-                                pixel_x_offests[3] = 1;
-                            } else if (src_x_index == 0) {
-                                pixel_x_offests[0] = pixel_x_offests[1] = 0;
-                                pixel_x_offests[2] = 1;
-                                pixel_x_offests[3] = 2;
+                            if (src_x_index < w_start) {
+                                pixel_x_offests[0] = pixel_x_offests[1] = pixel_x_offests[2] = w_start;
+                                pixel_x_offests[3] = w_start_p_1;
+                            } else if (src_x_index == w_start) {
+                                pixel_x_offests[0] = pixel_x_offests[1] = w_start;
+                                pixel_x_offests[2] = w_start_p_1;
+                                pixel_x_offests[3] = w_start_p_2;
                             } else if (src_x_index == w_limit_m_1) {
                                 pixel_x_offests[0] = src_x_index_m_1;
                                 pixel_x_offests[1] = w_limit_m_1;
@@ -3924,13 +4003,13 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     uint16_t *src_row_ptr_0, *src_row_ptr_1, *src_row_ptr_2, *src_row_ptr_3;
 
                     // keep row pointers in bounds
-                    if (src_y_index < 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = src_row_ptr_2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, 0);
-                        src_row_ptr_3 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, 1);
-                    } else if (src_y_index == 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, 0);
-                        src_row_ptr_2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, 1);
-                        src_row_ptr_3 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, 2);
+                    if (src_y_index < h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = src_row_ptr_2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_start);
+                        src_row_ptr_3 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_start_p_1);
+                    } else if (src_y_index == h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_start);
+                        src_row_ptr_2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_start_p_1);
+                        src_row_ptr_3 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_start_p_2);
                     } else if (src_y_index == h_limit_m_1) {
                         int src_y_index_m_1 = src_y_index - 1;
                         src_row_ptr_0 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, src_y_index_m_1);
@@ -3977,24 +4056,24 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             // Column 0 = Bits[15:0]
                             // Column 1 = Bits[31:16]
 
-                            if (src_x_index < 0) {
-                                pixel_row_0[0] = (*src_row_ptr_0) * 0x10001;
-                                pixel_row_0[1] = __PKHBT(pixel_row_0[0], *(src_row_ptr_0 + 1), 16);
-                                pixel_row_1[0] = (*src_row_ptr_1) * 0x10001;
-                                pixel_row_1[1] = __PKHBT(pixel_row_1[0], *(src_row_ptr_1 + 1), 16);
-                                pixel_row_2[0] = (*src_row_ptr_2) * 0x10001;
-                                pixel_row_2[1] = __PKHBT(pixel_row_2[0], *(src_row_ptr_2 + 1), 16);
-                                pixel_row_3[0] = (*src_row_ptr_3) * 0x10001;
-                                pixel_row_3[1] = __PKHBT(pixel_row_3[0], *(src_row_ptr_3 + 1), 16);
-                            } else if (src_x_index == 0) {
-                                pixel_row_0[0] = (*src_row_ptr_0) * 0x10001;
-                                pixel_row_0[1] = *((uint32_t *) (src_row_ptr_0 + 1));
-                                pixel_row_1[0] = (*src_row_ptr_1) * 0x10001;
-                                pixel_row_1[1] = *((uint32_t *) (src_row_ptr_1 + 1));
-                                pixel_row_2[0] = (*src_row_ptr_2) * 0x10001;
-                                pixel_row_2[1] = *((uint32_t *) (src_row_ptr_2 + 1));
-                                pixel_row_3[0] = (*src_row_ptr_3) * 0x10001;
-                                pixel_row_3[1] = *((uint32_t *) (src_row_ptr_3 + 1));
+                            if (src_x_index < w_start) {
+                                pixel_row_0[0] = (*(src_row_ptr_0 + w_start)) * 0x10001;
+                                pixel_row_0[1] = __PKHBT(pixel_row_0[0], *(src_row_ptr_0 + w_start_p_1), 16);
+                                pixel_row_1[0] = (*(src_row_ptr_1 + w_start)) * 0x10001;
+                                pixel_row_1[1] = __PKHBT(pixel_row_1[0], *(src_row_ptr_1 + w_start_p_1), 16);
+                                pixel_row_2[0] = (*(src_row_ptr_2 + w_start)) * 0x10001;
+                                pixel_row_2[1] = __PKHBT(pixel_row_2[0], *(src_row_ptr_2 + w_start_p_1), 16);
+                                pixel_row_3[0] = (*(src_row_ptr_3 + w_start)) * 0x10001;
+                                pixel_row_3[1] = __PKHBT(pixel_row_3[0], *(src_row_ptr_3 + w_start_p_1), 16);
+                            } else if (src_x_index == w_start) {
+                                pixel_row_0[0] = (*(src_row_ptr_0 + w_start)) * 0x10001;
+                                pixel_row_0[1] = *((uint32_t *) (src_row_ptr_0 + w_start_p_1));
+                                pixel_row_1[0] = (*(src_row_ptr_1 + w_start)) * 0x10001;
+                                pixel_row_1[1] = *((uint32_t *) (src_row_ptr_1 + w_start_p_1));
+                                pixel_row_2[0] = (*(src_row_ptr_2 + w_start)) * 0x10001;
+                                pixel_row_2[1] = *((uint32_t *) (src_row_ptr_2 + w_start_p_1));
+                                pixel_row_3[0] = (*(src_row_ptr_3 + w_start)) * 0x10001;
+                                pixel_row_3[1] = *((uint32_t *) (src_row_ptr_3 + w_start_p_1));
                             } else if (src_x_index == w_limit_m_1) {
                                 pixel_row_0[0] = *((uint32_t *) (src_row_ptr_0 + src_x_index_m_1));
                                 pixel_row_0[1] = (*(src_row_ptr_0 + w_limit)) * 0x10001;
@@ -4084,13 +4163,13 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int pixel_x_offests[4];
 
                             // keep pixels in bounds
-                            if (src_x_index < 0) {
-                                pixel_x_offests[0] = pixel_x_offests[1] = pixel_x_offests[2] = 0;
-                                pixel_x_offests[3] = 1;
+                            if (src_x_index < w_start) {
+                                pixel_x_offests[0] = pixel_x_offests[1] = pixel_x_offests[2] = w_start;
+                                pixel_x_offests[3] = w_start_p_1;
                             } else if (src_x_index == 0) {
-                                pixel_x_offests[0] = pixel_x_offests[1] = 0;
-                                pixel_x_offests[2] = 1;
-                                pixel_x_offests[3] = 2;
+                                pixel_x_offests[0] = pixel_x_offests[1] = w_start;
+                                pixel_x_offests[2] = w_start_p_1;
+                                pixel_x_offests[3] = w_start_p_2;
                             } else if (src_x_index == w_limit_m_1) {
                                 pixel_x_offests[0] = src_x_index_m_1;
                                 pixel_x_offests[1] = w_limit_m_1;
@@ -4246,8 +4325,8 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     uint32_t *src_row_ptr_0, *src_row_ptr_1;
 
                     // keep row pointers in bounds
-                    if (src_y_index < 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, 0);
+                    if (src_y_index < h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, h_start);
                     } else if (src_y_index >= h_limit) {
                         src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(src_img, h_limit);
                     } else { // get 2 neighboring rows
@@ -4274,8 +4353,8 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int pixel_0, pixel_1;
 
                             // keep pixels in bounds
-                            if (src_x_index < 0) {
-                                pixel_0 = pixel_1 = IMAGE_GET_BINARY_PIXEL_FAST(src_row_ptr, 0);
+                            if (src_x_index < w_start) {
+                                pixel_0 = pixel_1 = IMAGE_GET_BINARY_PIXEL_FAST(src_row_ptr, w_start);
                             } else if (src_x_index >= w_limit) {
                                 pixel_0 = pixel_1 = IMAGE_GET_BINARY_PIXEL_FAST(src_row_ptr, w_limit);
                             } else { // get 4 neighboring pixels
@@ -4314,8 +4393,8 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     uint8_t *src_row_ptr_0, *src_row_ptr_1;
 
                     // keep row pointers in bounds
-                    if (src_y_index < 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, 0);
+                    if (src_y_index < h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_start);
                     } else if (src_y_index >= h_limit) {
                         src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(src_img, h_limit);
                     } else { // get 2 neighboring rows
@@ -4344,9 +4423,9 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int pixel_00, pixel_10, pixel_01, pixel_11;
 
                             // keep pixels in bounds
-                            if (src_x_index < 0) {
-                                pixel_00 = pixel_10 = src_row_ptr_0[0];
-                                pixel_01 = pixel_11 = src_row_ptr_1[0];
+                            if (src_x_index < w_start) {
+                                pixel_00 = pixel_10 = src_row_ptr_0[w_start];
+                                pixel_01 = pixel_11 = src_row_ptr_1[w_start];
                             } else if (src_x_index >= w_limit) {
                                 pixel_00 = pixel_10 = src_row_ptr_0[w_limit];
                                 pixel_01 = pixel_11 = src_row_ptr_1[w_limit];
@@ -4398,8 +4477,8 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                     uint16_t *src_row_ptr_0, *src_row_ptr_1;
 
                     // keep row pointers in bounds
-                    if (src_y_index < 0) {
-                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, 0);
+                    if (src_y_index < h_start) {
+                        src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_start);
                     } else if (src_y_index >= h_limit) {
                         src_row_ptr_0 = src_row_ptr_1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(src_img, h_limit);
                     } else { // get 2 neighboring rows
@@ -4428,9 +4507,9 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
                             int pixel_00, pixel_10, pixel_01, pixel_11;
 
                             // keep pixels in bounds
-                            if (src_x_index < 0) {
-                                pixel_00 = pixel_10 = src_row_ptr_0[0];
-                                pixel_01 = pixel_11 = src_row_ptr_1[0];
+                            if (src_x_index < w_start) {
+                                pixel_00 = pixel_10 = src_row_ptr_0[w_start];
+                                pixel_01 = pixel_11 = src_row_ptr_1[w_start];
                             } else if (src_x_index >= w_limit) {
                                 pixel_00 = pixel_10 = src_row_ptr_0[w_limit];
                                 pixel_01 = pixel_11 = src_row_ptr_1[w_limit];

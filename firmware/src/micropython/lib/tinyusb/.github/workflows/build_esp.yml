@@ -18,7 +18,8 @@ jobs:
         # ESP32-S2
         - 'espressif_saola_1'
         # ESP32-S3
-        - 'espressif_addax_1'
+        #- 'espressif_s3_devkitm'
+        # S3 compile error with "dangerous relocation: call8: call target out of range: memcpy"
 
     steps:
     - name: Setup Python
@@ -28,10 +29,10 @@ jobs:
       run: docker pull espressif/idf:latest
 
     - name: Checkout TinyUSB
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Checkout hathach/linkermap
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
          repository: hathach/linkermap
          path: linkermap

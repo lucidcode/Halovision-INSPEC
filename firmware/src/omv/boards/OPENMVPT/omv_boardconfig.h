@@ -14,16 +14,9 @@
 // Architecture info
 #define OMV_ARCH_STR                    "OPENMVPT 65536 SDRAM" // 33 chars max
 #define OMV_BOARD_TYPE                  "H7"
-#define OMV_UNIQUE_ID_ADDR              0x1FF1E800
-#define OMV_UNIQUE_ID_SIZE              3 // 3 words
-
-// Flash sectors for the bootloader.
-// Flash FS sector, main FW sector, max sector.
-#define OMV_FLASH_LAYOUT                {1, 2, 15}
-
-// QSPI Flash layout for the bootloader.
-// First block, maximum block, block size in bytes.
-#define OMV_QSPIF_LAYOUT                {0, 511, 64*1024}
+#define OMV_UNIQUE_ID_ADDR              0x1FF1E800  // Unique ID address.
+#define OMV_UNIQUE_ID_SIZE              3           // Unique ID size in words.
+#define OMV_UNIQUE_ID_OFFSET            4           // Bytes offset for multi-word UIDs.
 
 #define OMV_XCLK_MCO                    (0U)
 #define OMV_XCLK_TIM                    (1U)
@@ -48,13 +41,6 @@
 #define OMV_OV5640_REV_Y_FREQ           (25000000)
 #define OMV_OV5640_REV_Y_CTRL2          (0x54)
 #define OMV_OV5640_REV_Y_CTRL3          (0x13)
-
-// Bootloader LED GPIO port/pin
-#define OMV_BOOTLDR_LED_PIN             (GPIO_PIN_1)
-#define OMV_BOOTLDR_LED_PORT            (GPIOC)
-
-// RAW buffer size
-#define OMV_RAW_BUF_SIZE                (33554432)
 
 // Enable hardware JPEG
 #define OMV_HARDWARE_JPEG               (1)
@@ -136,11 +122,17 @@
 #define OMV_OSC_USB_CLKSOURCE           RCC_USBCLKSOURCE_PLL
 #define OMV_OSC_RNG_CLKSOURCE           RCC_RNGCLKSOURCE_HSI48
 #define OMV_OSC_ADC_CLKSOURCE           RCC_ADCCLKSOURCE_PLL2
+//#define OMV_OSC_RTC_CLKSOURCE           RCC_RTCCLKSOURCE_LSE
 #define OMV_OSC_SPI123_CLKSOURCE        RCC_SPI123CLKSOURCE_PLL2
 
 // HSE/HSI/CSI State
+// The LSE/LSI and RTC are managed by micropython's rtc.c.
+// #define OMV_OSC_LSE_STATE               (RCC_LSE_ON)
+// #define OMV_OSC_LSE_DRIVE               (RCC_LSEDRIVE_HIGH)
 #define OMV_OSC_HSE_STATE               (RCC_HSE_ON)
 #define OMV_OSC_HSI48_STATE             (RCC_HSI48_ON)
+// Errata
+#define OMV_OMVPT_ERRATA_RTC            (1)
 
 // Flash Latency
 #define OMV_FLASH_LATENCY               (FLASH_LATENCY_2)
@@ -159,10 +151,10 @@
 #define OMV_JPEG_MEMORY_OFFSET          (63M)       // JPEG buffer is placed after FB/fballoc memory.
 #define OMV_VOSPI_MEMORY                SRAM4       // VoSPI buffer memory.
 #define OMV_FB_OVERLAY_MEMORY           AXI_SRAM    // Fast fb_alloc memory.
-#define OMV_FB_OVERLAY_MEMORY_OFFSET    (496*1024)  // Fast fb_alloc memory size.
 
 #define OMV_FB_SIZE                     (32M)       // FB memory: header + VGA/GS image
 #define OMV_FB_ALLOC_SIZE               (31M)       // minimum fb alloc size
+#define OMV_FB_OVERLAY_SIZE             (496*1024)  // Fast fb_alloc memory size.
 #define OMV_STACK_SIZE                  (64K)
 #define OMV_HEAP_SIZE                   (250K)
 #define OMV_SDRAM_SIZE                  (64 * 1024 * 1024) // This needs to be here for UVC firmware.
@@ -173,10 +165,9 @@
 #define OMV_FIR_LEPTON_BUF_SIZE         (1K)        // FIR Lepton Packet Double Buffer (328 bytes)
 #define OMV_JPEG_BUF_SIZE               (1024*1024) // IDE JPEG buffer (header + data).
 
-#define OMV_BOOT_ORIGIN                 0x08000000
-#define OMV_BOOT_LENGTH                 128K
-#define OMV_TEXT_ORIGIN                 0x08040000
-#define OMV_TEXT_LENGTH                 1792K
+// Memory map.
+#define OMV_FLASH_ORIGIN                0x08000000
+#define OMV_FLASH_LENGTH                2048K
 #define OMV_DTCM_ORIGIN                 0x20000000  // Note accessible by CPU and MDMA only.
 #define OMV_DTCM_LENGTH                 128K
 #define OMV_ITCM_ORIGIN                 0x00000000
@@ -192,10 +183,16 @@
 #define OMV_DRAM_ORIGIN                 0xC0000000
 #define OMV_DRAM_LENGTH                 64M
 
+// Flash configuration.
+#define OMV_FLASH_FFS_ORIGIN            0x08020000
+#define OMV_FLASH_FFS_LENGTH            128K
+#define OMV_FLASH_TXT_ORIGIN            0x08040000
+#define OMV_FLASH_TXT_LENGTH            1792K
+
 // Domain 1 DMA buffers region.
 #define OMV_DMA_MEMORY_D1               AXI_SRAM
 #define OMV_DMA_MEMORY_D1_SIZE          (16*1024) // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D1_BASE          (OMV_AXI_SRAM_ORIGIN+OMV_FB_OVERLAY_MEMORY_OFFSET)
+#define OMV_DMA_REGION_D1_BASE          (OMV_AXI_SRAM_ORIGIN+OMV_FB_OVERLAY_SIZE)
 #define OMV_DMA_REGION_D1_SIZE          MPU_REGION_SIZE_16KB
 
 // Domain 2 DMA buffers region.
@@ -291,8 +288,10 @@
 #define DCMI_PWDN_LOW()                 HAL_GPIO_WritePin(DCMI_PWDN_PORT, DCMI_PWDN_PIN, GPIO_PIN_RESET)
 #define DCMI_PWDN_HIGH()                HAL_GPIO_WritePin(DCMI_PWDN_PORT, DCMI_PWDN_PIN, GPIO_PIN_SET)
 
-#define DCMI_VSYNC_IRQN                 EXTI9_5_IRQn
-#define DCMI_VSYNC_IRQ_LINE             (7)
+#define DCMI_VSYNC_EXTI_IRQN            (EXTI9_5_IRQn)
+#define DCMI_VSYNC_EXTI_LINE            (7)
+#define DCMI_VSYNC_EXTI_GPIO            (EXTI_GPIOB)
+#define DCMI_VSYNC_EXTI_SHARED          (0)
 
 #define WINC_SPI                        (SPI5)
 #define WINC_SPI_AF                     (GPIO_AF5_SPI5)
@@ -339,57 +338,6 @@
 #define SOFT_I2C_SIOD_WRITE(bit)        HAL_GPIO_WritePin(SOFT_I2C_PORT, SOFT_I2C_SIOD_PIN, bit)
 
 #define SOFT_I2C_SPIN_DELAY             64
-
-// QSPI flash configuration for the bootloader.
-#define QSPIF_SIZE_BITS                 (25)        // 2**25 == 32MBytes.
-#define QSPIF_SR_WIP_MASK               (1 << 0)
-#define QSPIF_SR_WEL_MASK               (1 << 1)
-#define QSPIF_READ_QUADIO_DCYC          (6)
-
-#define QSPIF_PAGE_SIZE                 (0x100)     // 256 bytes pages.
-#define QSPIF_NUM_PAGES                 (0x20000)   // 131072 pages of 256 bytes
-
-#define QSPIF_SECTOR_SIZE               (0x1000)    // 4K bytes sectors.
-#define QSPIF_NUM_SECTORS               (0x2000)    // 8192 sectors of 4K bytes
-
-#define QSPIF_BLOCK_SIZE                (0x10000)   // 64K bytes blocks.
-#define QSPIF_NUM_BLOCKS                (0x200)     // 512 blocks of 64K bytes
-
-#define QSPIF_CLK_PIN                   (GPIO_PIN_10)
-#define QSPIF_CLK_PORT                  (GPIOF)
-#define QSPIF_CLK_ALT                   (GPIO_AF9_QUADSPI)
-
-#define QSPIF_CS_PIN                    (GPIO_PIN_6)
-#define QSPIF_CS_PORT                   (GPIOG)
-#define QSPIF_CS_ALT                    (GPIO_AF10_QUADSPI)
-
-#define QSPIF_D0_PIN                    (GPIO_PIN_8)
-#define QSPIF_D0_PORT                   (GPIOF)
-#define QSPIF_D0_ALT                    (GPIO_AF10_QUADSPI)
-
-#define QSPIF_D1_PIN                    (GPIO_PIN_9)
-#define QSPIF_D1_PORT                   (GPIOF)
-#define QSPIF_D1_ALT                    (GPIO_AF10_QUADSPI)
-
-#define QSPIF_D2_PIN                    (GPIO_PIN_7)
-#define QSPIF_D2_PORT                   (GPIOF)
-#define QSPIF_D2_ALT                    (GPIO_AF9_QUADSPI)
-
-#define QSPIF_D3_PIN                    (GPIO_PIN_6)
-#define QSPIF_D3_PORT                   (GPIOF)
-#define QSPIF_D3_ALT                    (GPIO_AF9_QUADSPI)
-
-#define QSPIF_CLK_ENABLE()              __HAL_RCC_QSPI_CLK_ENABLE()
-#define QSPIF_CLK_DISABLE()             __HAL_RCC_QSPI_CLK_DISABLE()
-#define QSPIF_FORCE_RESET()             __HAL_RCC_QSPI_FORCE_RESET()
-#define QSPIF_RELEASE_RESET()           __HAL_RCC_QSPI_RELEASE_RESET()
-
-#define QSPIF_CLK_GPIO_CLK_ENABLE()     __HAL_RCC_GPIOF_CLK_ENABLE()
-#define QSPIF_CS_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOG_CLK_ENABLE()
-#define QSPIF_D0_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOF_CLK_ENABLE()
-#define QSPIF_D1_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOF_CLK_ENABLE()
-#define QSPIF_D2_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOF_CLK_ENABLE()
-#define QSPIF_D3_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOF_CLK_ENABLE()
 
 // LCD Interface
 #define OMV_LCD_CONTROLLER                  (LTDC)
@@ -653,13 +601,11 @@
 #define OMV_BUZZER_TIM_RELEASE_RESET()          __HAL_RCC_TIM2_RELEASE_RESET()
 #define OMV_BUZZER_TIM_PCLK_FREQ()              HAL_RCC_GetPCLK1Freq()
 
-// Enable additional GPIO banks for DRAM...
+// Enable additional GPIO banks
 #define OMV_ENABLE_GPIO_BANK_F
 #define OMV_ENABLE_GPIO_BANK_G
 #define OMV_ENABLE_GPIO_BANK_H
 #define OMV_ENABLE_GPIO_BANK_I
-
-// Enable additional GPIO banks for LCD...
 #define OMV_ENABLE_GPIO_BANK_J
 #define OMV_ENABLE_GPIO_BANK_K
 

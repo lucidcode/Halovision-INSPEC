@@ -3,6 +3,7 @@
 
 from . import core
 
+
 # Lock class for primitive mutex capability
 class Lock:
     def __init__(self):
@@ -22,16 +23,17 @@ class Lock:
             raise RuntimeError("Lock not acquired")
         if self.waiting.peek():
             # Task(s) waiting on lock, schedule next Task
-            self.state = self.waiting.pop_head()
-            core._task_queue.push_head(self.state)
+            self.state = self.waiting.pop()
+            core._task_queue.push(self.state)
         else:
             # No Task waiting so unlock
             self.state = 0
 
-    async def acquire(self):
+    # async
+    def acquire(self):
         if self.state != 0:
             # Lock unavailable, put the calling Task on the waiting queue
-            self.waiting.push_head(core.cur_task)
+            self.waiting.push(core.cur_task)
             # Set calling task's data to the lock's queue so it can be removed if needed
             core.cur_task.data = self.waiting
             try:

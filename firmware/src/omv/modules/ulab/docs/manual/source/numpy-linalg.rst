@@ -1,17 +1,16 @@
 
-Linalg
-======
+numpy.linalg
+============
 
 Functions in the ``linalg`` module can be called by prepending them by
 ``numpy.linalg.``. The module defines the following seven functions:
 
 1. `numpy.linalg.cholesky <#cholesky>`__
 2. `numpy.linalg.det <#det>`__
-3. `numpy.linalg.dot <#dot>`__
-4. `numpy.linalg.eig <#eig>`__
-5. `numpy.linalg.inv <#inv>`__
-6. `numpy.linalg.norm <#norm>`__
-7. `numpy.linalg.trace <#trace>`__
+3. `numpy.linalg.eig <#eig>`__
+4. `numpy.linalg.inv <#inv>`__
+5. `numpy.linalg.norm <#norm>`__
+6. `numpy.linalg.qr <#qr>`__
 
 cholesky
 --------
@@ -103,86 +102,6 @@ times are similar:
 .. parsed-literal::
 
     execution time:  294  us
-    
-
-
-dot
----
-
-``numpy``:
-https://docs.scipy.org/doc/numpy/reference/generated/numpy.dot.html
-
-**WARNING:** numpy applies upcasting rules for the multiplication of
-matrices, while ``ulab`` simply returns a float matrix.
-
-Once you can invert a matrix, you might want to know, whether the
-inversion is correct. You can simply take the original matrix and its
-inverse, and multiply them by calling the ``dot`` function, which takes
-the two matrices as its arguments. If the matrix dimensions do not
-match, the function raises a ``ValueError``. The result of the
-multiplication is expected to be the unit matrix, which is demonstrated
-below.
-
-.. code::
-        
-    # code to be run in micropython
-    
-    from ulab import numpy as np
-    
-    m = np.array([[1, 2, 3], [4, 5, 6], [7, 10, 9]], dtype=np.uint8)
-    n = np.linalg.inv(m)
-    print("m:\n", m)
-    print("\nm^-1:\n", n)
-    # this should be the unit matrix
-    print("\nm*m^-1:\n", np.linalg.dot(m, n))
-
-.. parsed-literal::
-
-    m:
-     array([[1, 2, 3],
-    	 [4, 5, 6],
-    	 [7, 10, 9]], dtype=uint8)
-    
-    m^-1:
-     array([[-1.25, 1.0, -0.25],
-    	 [0.5, -1.0, 0.5],
-    	 [0.4166667, 0.3333334, -0.25]], dtype=float)
-    
-    m*m^-1:
-     array([[1.0, 2.384186e-07, -1.490116e-07],
-    	 [-2.980232e-07, 1.000001, -4.172325e-07],
-    	 [-3.278255e-07, 1.311302e-06, 0.9999992]], dtype=float)
-    
-
-
-Note that for matrix multiplication you don’t necessarily need square
-matrices, it is enough, if their dimensions are compatible (i.e., the
-the left-hand-side matrix has as many columns, as does the
-right-hand-side matrix rows):
-
-.. code::
-        
-    # code to be run in micropython
-    
-    from ulab import numpy as np
-    
-    m = np.array([[1, 2, 3, 4], [5, 6, 7, 8]], dtype=np.uint8)
-    n = np.array([[1, 2], [3, 4], [5, 6], [7, 8]], dtype=np.uint8)
-    print(m)
-    print(n)
-    print(np.linalg.dot(m, n))
-
-.. parsed-literal::
-
-    array([[1, 2, 3, 4],
-    	 [5, 6, 7, 8]], dtype=uint8)
-    array([[1, 2],
-    	 [3, 4],
-    	 [5, 6],
-    	 [7, 8]], dtype=uint8)
-    array([[7.0, 10.0],
-    	 [23.0, 34.0]], dtype=float)
-    
     
 
 
@@ -399,19 +318,20 @@ The function takes a vector or matrix without options, and returns its
     
 
 
-trace
------
+qr
+--
 
 ``numpy``:
-https://docs.scipy.org/doc/numpy-1.17.0/reference/generated/numpy.linalg.trace.html
+https://numpy.org/doc/stable/reference/generated/numpy.linalg.qr.html
 
-The ``trace`` function returns the sum of the diagonal elements of a
-square matrix. If the input argument is not a square matrix, an
-exception will be raised.
-
-The scalar so returned will inherit the type of the input array, i.e.,
-integer arrays have integer trace, and floating point arrays a floating
-point trace.
+The function computes the QR decomposition of a matrix ``m`` of
+dimensions ``(M, N)``, i.e., it returns two such matrices, ``q``\ ’, and
+``r``, that ``m = qr``, where ``q`` is orthonormal, and ``r`` is upper
+triangular. In addition to the input matrix, which is the first
+positional argument, the function accepts the ``mode`` keyword argument
+with a default value of ``reduced``. If ``mode`` is ``reduced``, ``q``,
+and ``r`` are returned in the reduced representation. Otherwise, the
+outputs will have dimensions ``(M, M)``, and ``(M, N)``, respectively.
 
 .. code::
         
@@ -419,28 +339,48 @@ point trace.
     
     from ulab import numpy as np
     
-    a = np.array([[25, 15, -5], [15, 18,  0], [-5,  0, 11]], dtype=np.int8)
-    print('a: ', a)
-    print('\ntrace of a: ', np.linalg.trace(a))
+    A = np.arange(6).reshape((3, 2))
+    print('A: \n', A)
     
-    b = np.array([[25, 15, -5], [15, 18,  0], [-5,  0, 11]], dtype=np.float)
+    print('complete decomposition')
+    q, r = np.linalg.qr(A, mode='complete')
+    print('q: \n', q)
+    print()
+    print('r: \n', r)
     
-    print('='*20 + '\nb: ', b)
-    print('\ntrace of b: ', np.linalg.trace(b))
+    print('\n\nreduced decomposition')
+    q, r = np.linalg.qr(A, mode='reduced')
+    print('q: \n', q)
+    print()
+    print('r: \n', r)
 
 .. parsed-literal::
 
-    a:  array([[25, 15, -5],
-    	 [15, 18, 0],
-    	 [-5, 0, 11]], dtype=int8)
+    A: 
+     array([[0, 1],
+           [2, 3],
+           [4, 5]], dtype=int16)
+    complete decomposition
+    q: 
+     array([[0.0, -0.9128709291752768, 0.408248290463863],
+           [-0.447213595499958, -0.3651483716701107, -0.8164965809277261],
+           [-0.8944271909999159, 0.1825741858350553, 0.408248290463863]], dtype=float64)
     
-    trace of a:  54
-    ====================
-    b:  array([[25.0, 15.0, -5.0],
-    	 [15.0, 18.0, 0.0],
-    	 [-5.0, 0.0, 11.0]], dtype=float)
+    r: 
+     array([[-4.47213595499958, -5.813776741499454],
+           [0.0, -1.095445115010332],
+           [0.0, 0.0]], dtype=float64)
     
-    trace of b:  54.0
+    
+    reduced decomposition
+    q: 
+     array([[0.0, -0.9128709291752768],
+           [-0.447213595499958, -0.3651483716701107],
+           [-0.8944271909999159, 0.1825741858350553]], dtype=float64)
+    
+    r: 
+     array([[-4.47213595499958, -5.813776741499454],
+           [0.0, -1.095445115010332]], dtype=float64)
     
     
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 NXP
+ * Copyright 2018-2021 NXP
  * All rights reserved.
  *
  *
@@ -37,17 +37,20 @@
 #else
 static void puf_wait_usec(volatile uint32_t usec, uint32_t coreClockFrequencyMHz)
 {
-    while (usec > 0U)
-    {
-        usec--;
+    SDK_DelayAtLeastUs(usec, coreClockFrequencyMHz * 1000000U);
 
-        /* number of MHz is directly number of core clocks to wait 1 usec. */
-        /* the while loop below is actually 4 clocks so divide by 4 for ~1 usec */
-        register uint32_t ticksCount = coreClockFrequencyMHz / 4u + 1u;
-        while (0U != ticksCount--)
-        {
-        }
-    }
+    /* Instead of calling SDK_DelayAtLeastUs() implement delay loop here */
+    // while (usec > 0U)
+    // {
+    //     usec--;
+
+    //     number of MHz is directly number of core clocks to wait 1 usec.
+    //     the while loop below is actually 4 clocks so divide by 4 for ~1 usec
+    //     volatile uint32_t ticksCount = coreClockFrequencyMHz / 4u + 1u;
+    //     while (0U != ticksCount--)
+    //     {
+    //     }
+    // }
 }
 #endif /* defined(FSL_FEATURE_PUF_HAS_SRAM_CTRL) && (FSL_FEATURE_PUF_HAS_SRAM_CTRL > 0) */
 
@@ -178,7 +181,7 @@ void PUF_GetDefaultConfig(puf_config_t *conf)
     conf->CKGATING = DEFAULT_CKGATING; /* PUF SRAM Clock Gating */
 #endif                                 /* FSL_FEATURE_PUF_HAS_SRAM_CTRL */
 
-    conf->dischargeTimeMsec    = KEYSTORE_PUF_DISCHARGE_TIME_MAX_MS;
+    conf->dischargeTimeMsec    = KEYSTORE_PUF_DISCHARGE_TIME_FIRST_TRY_MS;
     conf->coreClockFrequencyHz = CLOCK_GetFreq(kCLOCK_CoreSysClk);
 
     return;
@@ -217,9 +220,19 @@ status_t PUF_Init(PUF_Type *base, puf_config_t *conf)
     /* Wait for peripheral to become ready */
     status = puf_waitForInit(base);
 
-    /* In case of error or enroll & start not allowed, do power-cycle */
-    if ((status != kStatus_Success) || (0U != (base->ALLOW & (PUF_ALLOW_ALLOWENROLL_MASK | PUF_ALLOW_ALLOWSTART_MASK))))
+    /* In case of error or enroll or start not allowed, do power-cycle */
+    /* First try with shorter discharge time, if then it also fails try with longer time */
+    /* conf->dischargeTimeMsec    = KEYSTORE_PUF_DISCHARGE_TIME_FIRST_TRY_MS; */
+    if ((status != kStatus_Success) || (0U == (base->ALLOW & (PUF_ALLOW_ALLOWENROLL_MASK | PUF_ALLOW_ALLOWSTART_MASK))))
     {
+        (void)PUF_PowerCycle(base, conf);
+        status = puf_waitForInit(base);
+    }
+
+    /* In case of error or enroll or start not allowed, do power-cycle with worst discharge timing */
+    if ((status != kStatus_Success) || (0U == (base->ALLOW & (PUF_ALLOW_ALLOWENROLL_MASK | PUF_ALLOW_ALLOWSTART_MASK))))
+    {
+        conf->dischargeTimeMsec = KEYSTORE_PUF_DISCHARGE_TIME_MAX_MS;
         (void)PUF_PowerCycle(base, conf);
         status = puf_waitForInit(base);
     }

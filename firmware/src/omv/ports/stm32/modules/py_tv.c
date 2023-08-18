@@ -580,7 +580,7 @@ static void spi_tv_callback(SPI_HandleTypeDef *hspi)
             }
             case SPI_TX_CB_MEMORY_WRITE: {
                 uint8_t *addr = spi_tx_cb_state_memory_write_addr;
-                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, (65536-16));
+                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, (65536-16u));
                 spi_tx_cb_state = (spi_tx_cb_state_memory_write_count > (65536-16))
                         ? SPI_TX_CB_MEMORY_WRITE
                         : SPI_TX_CB_MEMORY_WRITE_CMD;
@@ -1109,5 +1109,5 @@ void py_tv_init0()
     py_tv_deinit();
 }
 
-MP_REGISTER_MODULE(MP_QSTR_tv, tv_module, MICROPY_PY_TV);
+MP_REGISTER_MODULE(MP_QSTR_tv, tv_module);
 #endif // MICROPY_PY_TV

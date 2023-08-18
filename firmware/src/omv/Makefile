@@ -23,6 +23,7 @@ SRCS += $(addprefix common/,    \
 	trace.c                     \
 	mutex.c                     \
 	usbdbg.c                    \
+	tinyusb_debug.c             \
 	sensor_utils.c              \
 	factoryreset.c              \
    )
@@ -38,6 +39,7 @@ SRCS += $(addprefix sensors/,   \
 	mt9m114.c                   \
 	lepton.c                    \
 	hm01b0.c                    \
+	hm0360.c                    \
 	gc2145.c                    \
 	paj6100.c                   \
 	frogeye2020.c               \
@@ -70,6 +72,7 @@ SRCS += $(addprefix imlib/,     \
 	imlib.c                     \
 	integral.c                  \
 	integral_mw.c               \
+	isp.c                       \
 	jpegd.c                     \
 	jpeg.c                      \
 	lodepng.c                   \
@@ -93,6 +96,7 @@ SRCS += $(addprefix imlib/,     \
 	selective_search.c          \
 	sincos_tab.c                \
 	stats.c                     \
+	stereo.c                    \
 	template.c                  \
 	xyz_tab.c                   \
 	yuv.c                       \

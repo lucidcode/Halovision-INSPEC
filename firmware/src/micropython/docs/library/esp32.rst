@@ -18,6 +18,11 @@ Functions
     Configure whether or not a touch will wake the device from sleep.
     *wake* should be a boolean value.
 
+.. function:: wake_on_ulp(wake)
+
+    Configure whether or not the Ultra-Low-Power co-processor can wake the
+    device from sleep. *wake* should be a boolean value.
+
 .. function:: wake_on_ext0(pin, level)
 
     Configure how EXT0 wakes the device from sleep.  *pin* can be ``None``
@@ -29,6 +34,11 @@ Functions
     Configure how EXT1 wakes the device from sleep.  *pins* can be ``None``
     or a tuple/list of valid Pin objects.  *level* should be ``esp32.WAKEUP_ALL_LOW``
     or ``esp32.WAKEUP_ANY_HIGH``.
+
+.. function:: gpio_deep_sleep_hold(enable)
+
+    Configure whether non-RTC GPIO pin configuration is retained during
+    deep-sleep mode for held pads. *enable* should be a boolean value.
 
 .. function:: raw_temperature()
 
@@ -68,16 +78,20 @@ Flash partitions
 This class gives access to the partitions in the device's flash memory and includes
 methods to enable over-the-air (OTA) updates.
 
-.. class:: Partition(id)
+.. class:: Partition(id, block_size=4096, /)
 
     Create an object representing a partition.  *id* can be a string which is the label
     of the partition to retrieve, or one of the constants: ``BOOT`` or ``RUNNING``.
+    *block_size* specifies the byte size of an individual block.
 
-.. classmethod:: Partition.find(type=TYPE_APP, subtype=0xff, label=None)
+.. classmethod:: Partition.find(type=TYPE_APP, subtype=0xff, label=None, block_size=4096)
 
     Find a partition specified by *type*, *subtype* and *label*.  Returns a
     (possibly empty) list of Partition objects. Note: ``subtype=0xff`` matches any subtype
     and ``label=None`` matches any label.
+
+    *block_size* specifies the byte size of an individual block used by the returned
+    objects.
 
 .. method:: Partition.info()
 
@@ -250,6 +264,17 @@ For more details see Espressif's `ESP-IDF RMT documentation.
     new sequence of pulses. Looping sequences longer than 126 pulses is not
     supported by the hardware.
 
+.. staticmethod:: RMT.bitstream_channel([value])
+
+    Select which RMT channel is used by the `machine.bitstream` implementation.
+    *value* can be ``None`` or a valid RMT channel number.  The default RMT
+    channel is the highest numbered one.
+
+    Passing in ``None`` disables the use of RMT and instead selects a bit-banging
+    implementation for `machine.bitstream`.
+
+    Passing in no argument will not change the channel.  This function returns
+    the current channel number.
 
 Ultra-Low-Power co-processor
 ----------------------------

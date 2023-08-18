@@ -8,10 +8,13 @@
  *
  * Python Tensorflow library wrapper.
  */
+#include <stdio.h>
 #include "py/runtime.h"
 #include "py/obj.h"
 #include "py/objlist.h"
 #include "py/objtuple.h"
+#include "py/objarray.h"
+#include "py/binary.h"
 
 #include "py_helper.h"
 #include "imlib_config.h"
@@ -20,7 +23,7 @@
 #include "py_image.h"
 #include "ff_wrapper.h"
 #include "py_tf.h"
-
+#include "libtf_builtin_models.h"
 #define GRAYSCALE_RANGE ((COLOR_GRAYSCALE_MAX) - (COLOR_GRAYSCALE_MIN))
 #define GRAYSCALE_MID   (((GRAYSCALE_RANGE) + 1) / 2)
 
@@ -136,13 +139,14 @@ STATIC const mp_rom_map_elem_t py_tf_classification_locals_dict_table[] = {
 
 STATIC MP_DEFINE_CONST_DICT(py_tf_classification_locals_dict, py_tf_classification_locals_dict_table);
 
-static const mp_obj_type_t py_tf_classification_type = {
-    { &mp_type_type },
-    .name  = MP_QSTR_tf_classification,
-    .print = py_tf_classification_print,
-    .subscr = py_tf_classification_subscr,
-    .locals_dict = (mp_obj_t) &py_tf_classification_locals_dict
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    py_tf_classification_type,
+    MP_QSTR_tf_classification,
+    MP_TYPE_FLAG_NONE,
+    print, py_tf_classification_print,
+    subscr, py_tf_classification_subscr,
+    locals_dict, &py_tf_classification_locals_dict
+);
 
 static const mp_obj_type_t py_tf_model_type;
 
@@ -155,11 +159,17 @@ STATIC mp_obj_t int_py_tf_load(mp_obj_t path_obj, bool alloc_mode, bool helper_m
     const char *path = mp_obj_str_get_str(path_obj);
     py_tf_model_obj_t *tf_model = m_new_obj(py_tf_model_obj_t);
     tf_model->base.type = &py_tf_model_type;
+    tf_model->model_data = NULL;
 
-    if (!strcmp(path, "person_detection")) {
-        tf_model->model_data = (unsigned char *) g_person_detect_model_data;
-        tf_model->model_data_len = g_person_detect_model_data_len;
-    } else {
+    for (int i=0; i<MP_ARRAY_SIZE(libtf_builtin_models); i++) {
+        const libtf_builtin_model_t *model = &libtf_builtin_models[i];
+        if (!strcmp(path, model->name)) {
+            tf_model->model_data = (unsigned char *) model->data;
+            tf_model->model_data_len = model->size;
+        }
+    }
+
+    if (tf_model->model_data == NULL) {
         #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
         FIL fp;
         file_read_open(&fp, path);
@@ -207,11 +217,30 @@ STATIC mp_obj_t int_py_tf_load(mp_obj_t path_obj, bool alloc_mode, bool helper_m
 
 STATIC mp_obj_t py_tf_load(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
 {
-    return int_py_tf_load(args[0],
-                          py_helper_keyword_int(n_args, args, 1, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_load_to_fb), false),
-                          false);
+    bool alloc_mode = py_helper_keyword_int(n_args, args, 1, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_load_to_fb), false);
+    return int_py_tf_load(args[0], alloc_mode, false);
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_tf_load_obj, 1, py_tf_load);
+
+STATIC mp_obj_t py_tf_load_builtin_model(mp_obj_t path_obj)
+{
+    mp_obj_t net = int_py_tf_load(path_obj, false, false);
+    const char *path = mp_obj_str_get_str(path_obj);
+    mp_obj_t labels = mp_obj_new_list(0, NULL);
+
+    for (int i=0; i<MP_ARRAY_SIZE(libtf_builtin_models); i++) {
+        const libtf_builtin_model_t *model = &libtf_builtin_models[i];
+        if (!strcmp(path, model->name)) {
+            for (int l=0; l < model->n_labels; l++) {
+                const char *label = model->labels[l];
+                mp_obj_list_append(labels, mp_obj_new_str(label, strlen(label)));
+            }
+            break;
+        }
+    }
+    return mp_obj_new_tuple(2, (mp_obj_t []) {labels, net});
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_1(py_tf_load_builtin_model_obj, py_tf_load_builtin_model);
 
 STATIC mp_obj_t py_tf_free_from_fb()
 {
@@ -228,6 +257,53 @@ STATIC py_tf_model_obj_t *py_tf_load_alloc(mp_obj_t path_obj)
         return (py_tf_model_obj_t *) int_py_tf_load(path_obj, true, true);
     }
 }
+
+STATIC mp_obj_t py_tf_regression(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
+{
+    fb_alloc_mark();
+    py_tf_alloc_putchar_buffer();
+
+    // read model
+    py_tf_model_obj_t *arg_model = py_tf_load_alloc(args[0]);
+
+    size_t input_size = (&arg_model->params)->input_width;
+    size_t output_size = (&arg_model->params)->output_channels;
+
+    // read input
+    mp_obj_array_t *arg_input_array = args[1];
+
+    // check for the input size
+    if (input_size != arg_input_array->len) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Input array size is not same as model input size!"));
+    }
+
+    float input_array[input_size];
+    for (size_t i=0; i<input_size; i++) {
+        input_array[i] = (float) mp_obj_float_get(
+                mp_binary_get_val_array(arg_input_array->typecode, arg_input_array->items, i)
+                );
+    }
+
+    uint8_t *tensor_arena = fb_alloc(arg_model->params.tensor_arena_size, FB_ALLOC_PREFER_SPEED | FB_ALLOC_CACHE_ALIGN);
+
+    float output_data[output_size];
+
+    // predict the output using tflite model
+    if (libtf_regression_1Dinput_1Doutput(arg_model->model_data,
+                tensor_arena, &arg_model->params, input_array, output_data) != 0){
+        mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Coundnt execute the model to predict the output"));
+    }
+
+    // read output
+    mp_obj_list_t * out = (mp_obj_list_t *) mp_obj_new_list(output_size, NULL);
+    for (size_t j=0; j<(output_size); j++) {
+        out->items[j] = mp_obj_new_float(output_data[j]);
+    }
+
+    fb_alloc_free_till_mark();
+    return out;
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_tf_regression_obj, 2, py_tf_regression);
 
 typedef struct py_tf_input_data_callback_data {
     image_t *img;
@@ -365,10 +441,15 @@ STATIC void py_tf_classify_output_data_callback(void *callback_data,
             ((mp_obj_list_t *) arg->out)->items[i] =
                 mp_obj_new_float(((float *) model_output)[i]);
         }
+    } else if (params->output_datatype == LIBTF_DATATYPE_INT8) {
+        for (int i = 0, ii = params->output_channels; i < ii; i++) {
+            ((mp_obj_list_t *) arg->out)->items[i] =
+                mp_obj_new_float( ((float) (((int8_t *) model_output)[i] - params->output_zero_point)) * params->output_scale);
+        }
     } else {
         for (int i = 0, ii = params->output_channels; i < ii; i++) {
             ((mp_obj_list_t *) arg->out)->items[i] =
-                mp_obj_new_float((((uint8_t *) model_output)[i] - params->output_zero_point) * params->output_scale);
+                mp_obj_new_float( ((float) (((uint8_t *) model_output)[i] - params->output_zero_point)) * params->output_scale);
         }
     }
 }
@@ -758,34 +839,40 @@ STATIC const mp_rom_map_elem_t locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_output_zero_point),   MP_ROM_PTR(&py_tf_output_zero_point_obj) },
     { MP_ROM_QSTR(MP_QSTR_classify),            MP_ROM_PTR(&py_tf_classify_obj) },
     { MP_ROM_QSTR(MP_QSTR_segment),             MP_ROM_PTR(&py_tf_segment_obj) },
-    { MP_ROM_QSTR(MP_QSTR_detect),              MP_ROM_PTR(&py_tf_detect_obj) }
+    { MP_ROM_QSTR(MP_QSTR_detect),              MP_ROM_PTR(&py_tf_detect_obj) },
+    { MP_ROM_QSTR(MP_QSTR_regression),          MP_ROM_PTR(&py_tf_regression_obj) }
 };
 
-STATIC MP_DEFINE_CONST_DICT(locals_dict, locals_dict_table);
+STATIC MP_DEFINE_CONST_DICT(py_tf_locals_dict, locals_dict_table);
 
-STATIC const mp_obj_type_t py_tf_model_type = {
-    { &mp_type_type },
-    .name  = MP_QSTR_tf_model,
-    .print = py_tf_model_print,
-    .locals_dict = (mp_obj_t) &locals_dict
-};
+STATIC MP_DEFINE_CONST_OBJ_TYPE(
+    py_tf_model_type,
+    MP_QSTR_tf_model,
+    MP_TYPE_FLAG_NONE,
+    print, py_tf_model_print,
+    locals_dict, &py_tf_locals_dict
+);
 
 #endif // IMLIB_ENABLE_TF
 
 STATIC const mp_rom_map_elem_t globals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__),        MP_OBJ_NEW_QSTR(MP_QSTR_tf) },
 #ifdef IMLIB_ENABLE_TF
-    { MP_ROM_QSTR(MP_QSTR_load),            MP_ROM_PTR(&py_tf_load_obj) },
-    { MP_ROM_QSTR(MP_QSTR_free_from_fb),    MP_ROM_PTR(&py_tf_free_from_fb_obj) },
-    { MP_ROM_QSTR(MP_QSTR_classify),        MP_ROM_PTR(&py_tf_classify_obj) },
-    { MP_ROM_QSTR(MP_QSTR_segment),         MP_ROM_PTR(&py_tf_segment_obj) },
-    { MP_ROM_QSTR(MP_QSTR_detect),          MP_ROM_PTR(&py_tf_detect_obj) },
+    { MP_ROM_QSTR(MP_QSTR_load),                MP_ROM_PTR(&py_tf_load_obj) },
+    { MP_ROM_QSTR(MP_QSTR_load_builtin_model),  MP_ROM_PTR(&py_tf_load_builtin_model_obj) },
+    { MP_ROM_QSTR(MP_QSTR_free_from_fb),        MP_ROM_PTR(&py_tf_free_from_fb_obj) },
+    { MP_ROM_QSTR(MP_QSTR_classify),            MP_ROM_PTR(&py_tf_classify_obj) },
+    { MP_ROM_QSTR(MP_QSTR_segment),             MP_ROM_PTR(&py_tf_segment_obj) },
+    { MP_ROM_QSTR(MP_QSTR_detect),              MP_ROM_PTR(&py_tf_detect_obj) },
+    { MP_ROM_QSTR(MP_QSTR_regression),          MP_ROM_PTR(&py_tf_regression_obj) }
 #else
-    { MP_ROM_QSTR(MP_QSTR_load),            MP_ROM_PTR(&py_func_unavailable_obj) },
-    { MP_ROM_QSTR(MP_QSTR_free_from_fb),    MP_ROM_PTR(&py_func_unavailable_obj) },
-    { MP_ROM_QSTR(MP_QSTR_classify),        MP_ROM_PTR(&py_func_unavailable_obj) },
-    { MP_ROM_QSTR(MP_QSTR_segment),         MP_ROM_PTR(&py_func_unavailable_obj) },
-    { MP_ROM_QSTR(MP_QSTR_detect),          MP_ROM_PTR(&py_func_unavailable_obj) }
+    { MP_ROM_QSTR(MP_QSTR_load),                MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_load_builtin_model),  MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_free_from_fb),        MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_classify),            MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_segment),             MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_detect),              MP_ROM_PTR(&py_func_unavailable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_regression),          MP_ROM_PTR(&py_func_unavailable_obj) }
 #endif // IMLIB_ENABLE_TF
 };
 
@@ -796,4 +883,4 @@ const mp_obj_module_t tf_module = {
     .globals = (mp_obj_t) &globals_dict
 };
 
-MP_REGISTER_MODULE(MP_QSTR_tf, tf_module, 1);
+MP_REGISTER_MODULE(MP_QSTR_tf, tf_module);

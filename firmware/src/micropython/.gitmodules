@@ -16,3 +16,9 @@
 [submodule "lib/lwip"]
 	path = lib/lwip
 	url = https://github.com/lwip-tcpip/lwip.git
+[submodule "lib/cyw43-driver"]
+	path = lib/cyw43-driver
+	url = https://github.com/georgerobotics/cyw43-driver.git
+[submodule "lib/micropython-lib"]
+	path = lib/micropython-lib
+	url = https://github.com/micropython/micropython-lib.git

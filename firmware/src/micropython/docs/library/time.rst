@@ -10,8 +10,8 @@ The ``time`` module provides functions for getting the current time and date,
 measuring time intervals, and for delays.
 
 **Time Epoch**: Unix port uses standard for POSIX systems epoch of
-1970-01-01 00:00:00 UTC. However, embedded ports use epoch of
-2000-01-01 00:00:00 UTC.
+1970-01-01 00:00:00 UTC. However, some embedded ports use epoch of
+2000-01-01 00:00:00 UTC. Epoch year may be determined with ``gmtime(0)[0]``.
 
 **Maintaining actual calendar date/time**: This requires a
 Real Time Clock (RTC). On systems with underlying OS (including some
@@ -248,3 +248,35 @@ Functions
 
     Similar to `time()` but returns nanoseconds since the Epoch, as an integer (usually
     a big integer, so will allocate on the heap).
+
+Constructors
+------------
+
+.. class:: clock()
+
+   Returns a clock object.
+
+   Methods
+   -------
+
+   .. method:: tick()
+
+      Starts tracking elapsed time.
+
+   .. method:: fps()
+
+      Stops tracking the elapsed time and returns the current FPS
+      (frames per second).
+
+      Always call ``tick`` first before calling this function.
+
+   .. method:: avg()
+
+      Stops tracking the elapsed time and returns the current average elapsed time
+      in milliseconds.
+
+      Always call ``tick`` first before calling this function.
+
+   .. method:: reset()
+
+      Resets the clock object.

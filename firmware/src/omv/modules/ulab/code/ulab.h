@@ -6,7 +6,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019-2021 Zoltán Vörös
+ * Copyright (c) 2019-2022 Zoltán Vörös
 */
 
 #ifndef __ULAB__
@@ -18,19 +18,23 @@
 //
 // - how many dimensions ulab can handle
 // - which functions are included in the compiled firmware
-// - whether the python syntax is numpy-like, or modular
 // - whether arrays can be sliced and iterated over
 // - which binary/unary operators are supported
+// - whether ulab can deal with complex numbers
 //
 // A considerable amount of flash space can be saved by removing (setting
 // the corresponding constants to 0) the unnecessary functions and features.
 
-// Values defined here can be overridden by your own config file as 
+// Values defined here can be overridden by your own config file as
 // make -DULAB_CONFIG_FILE="my_ulab_config.h"
 #if defined(ULAB_CONFIG_FILE)
 #include ULAB_CONFIG_FILE
 #endif
 
+// Adds support for complex ndarrays
+#ifndef ULAB_SUPPORTS_COMPLEX
+#define ULAB_SUPPORTS_COMPLEX               (1)
+#endif
 
 // Determines, whether scipy is defined in ulab. The sub-modules and functions
 // of scipy have to be defined separately
@@ -40,12 +44,16 @@
 
 // The maximum number of dimensions the firmware should be able to support
 // Possible values lie between 1, and 4, inclusive
+#ifndef ULAB_MAX_DIMS
 #define ULAB_MAX_DIMS                       2
+#endif
 
 // By setting this constant to 1, iteration over array dimensions will be implemented
 // as a function (ndarray_rewind_array), instead of writing out the loops in macros
 // This reduces firmware size at the expense of speed
+#ifndef ULAB_HAS_FUNCTION_ITERATOR
 #define ULAB_HAS_FUNCTION_ITERATOR          (0)
+#endif
 
 // If NDARRAY_IS_ITERABLE is 1, the ndarray object defines its own iterator function
 // This option saves approx. 250 bytes of flash space
@@ -91,6 +99,10 @@
 
 #ifndef NDARRAY_HAS_BINARY_OP_EQUAL
 #define NDARRAY_HAS_BINARY_OP_EQUAL         (1)
+#endif
+
+#ifndef NDARRAY_HAS_BINARY_OP_FLOOR_DIVIDE
+#define NDARRAY_HAS_BINARY_OP_FLOOR_DIVIDE  (1)
 #endif
 
 #ifndef NDARRAY_HAS_BINARY_OP_LESS
@@ -180,6 +192,10 @@
 
 
 // determines, which ndarray methods are available
+#ifndef NDARRAY_HAS_BYTESWAP
+#define NDARRAY_HAS_BYTESWAP            (1)
+#endif
+
 #ifndef NDARRAY_HAS_COPY
 #define NDARRAY_HAS_COPY                (1)
 #endif
@@ -220,6 +236,10 @@
 #define NDARRAY_HAS_TOBYTES             (1)
 #endif
 
+#ifndef NDARRAY_HAS_TOLIST
+#define NDARRAY_HAS_TOLIST              (1)
+#endif
+
 #ifndef NDARRAY_HAS_TRANSPOSE
 #define NDARRAY_HAS_TRANSPOSE           (1)
 #endif
@@ -256,6 +276,12 @@
 #define ULAB_NUMPY_HAS_NDINFO           (1)
 #endif
 
+// if this constant is set to 1, the interpreter can iterate
+// over the flat array without copying any data
+#ifndef NDARRAY_HAS_FLATITER
+#define NDARRAY_HAS_FLATITER            (1)
+#endif
+
 // frombuffer adds 600 bytes to the firmware
 #ifndef ULAB_NUMPY_HAS_FROMBUFFER
 #define ULAB_NUMPY_HAS_FROMBUFFER       (1)
@@ -272,6 +298,10 @@
 
 #ifndef ULAB_NUMPY_HAS_DIAG
 #define ULAB_NUMPY_HAS_DIAG             (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_EMPTY
+#define ULAB_NUMPY_HAS_EMPTY            (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_EYE
@@ -307,8 +337,12 @@
 #define ULAB_NUMPY_HAS_EQUAL            (1)
 #endif
 
-#ifndef ULAB_NUMPY_HAS_NOTEQUAL
-#define ULAB_NUMPY_HAS_NOTEQUAL         (1)
+#ifndef ULAB_NUMPY_HAS_ISFINITE
+#define ULAB_NUMPY_HAS_ISFINITE         (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_ISINF
+#define ULAB_NUMPY_HAS_ISINF            (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_MAXIMUM
@@ -317,6 +351,18 @@
 
 #ifndef ULAB_NUMPY_HAS_MINIMUM
 #define ULAB_NUMPY_HAS_MINIMUM          (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_NONZERO
+#define ULAB_NUMPY_HAS_NONZERO          (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_NOTEQUAL
+#define ULAB_NUMPY_HAS_NOTEQUAL         (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_WHERE
+#define ULAB_NUMPY_HAS_WHERE            (1)
 #endif
 
 // the linalg module; functions of the linalg module still have
@@ -333,10 +379,6 @@
 #define ULAB_LINALG_HAS_DET             (1)
 #endif
 
-#ifndef ULAB_LINALG_HAS_DOT
-#define ULAB_LINALG_HAS_DOT             (1)
-#endif
-
 #ifndef ULAB_LINALG_HAS_EIG
 #define ULAB_LINALG_HAS_EIG             (1)
 #endif
@@ -349,14 +391,23 @@
 #define ULAB_LINALG_HAS_NORM            (1)
 #endif
 
-#ifndef ULAB_LINALG_HAS_TRACE
-#define ULAB_LINALG_HAS_TRACE           (1)
+#ifndef ULAB_LINALG_HAS_QR
+#define ULAB_LINALG_HAS_QR              (1)
 #endif
 
 // the FFT module; functions of the fft module still have
 // to be defined separately
 #ifndef ULAB_NUMPY_HAS_FFT_MODULE
 #define ULAB_NUMPY_HAS_FFT_MODULE       (1)
+#endif
+
+// By setting this constant to 1, the FFT routine will behave in a
+// numpy-compatible way, i.e., it will output a complex array
+// This setting has no effect, if ULAB_SUPPORTS_COMPLEX is 0
+// Note that in this case, the input also must be numpythonic,
+// i.e., the real an imaginary parts cannot be passed as two arguments
+#ifndef ULAB_FFT_IS_NUMPY_COMPATIBLE
+#define ULAB_FFT_IS_NUMPY_COMPATIBLE    (0)
 #endif
 
 #ifndef ULAB_FFT_HAS_FFT
@@ -367,12 +418,28 @@
 #define ULAB_FFT_HAS_IFFT               (1)
 #endif
 
+#ifndef ULAB_NUMPY_HAS_ALL
+#define ULAB_NUMPY_HAS_ALL              (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_ANY
+#define ULAB_NUMPY_HAS_ANY              (1)
+#endif
+
 #ifndef ULAB_NUMPY_HAS_ARGMINMAX
 #define ULAB_NUMPY_HAS_ARGMINMAX        (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_ARGSORT
 #define ULAB_NUMPY_HAS_ARGSORT          (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_ASARRAY
+#define ULAB_NUMPY_HAS_ASARRAY          (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_COMPRESS
+#define ULAB_NUMPY_HAS_COMPRESS         (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_CONVOLVE
@@ -383,8 +450,16 @@
 #define ULAB_NUMPY_HAS_CROSS            (1)
 #endif
 
+#ifndef ULAB_NUMPY_HAS_DELETE
+#define ULAB_NUMPY_HAS_DELETE           (1)
+#endif
+
 #ifndef ULAB_NUMPY_HAS_DIFF
 #define ULAB_NUMPY_HAS_DIFF             (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_DOT
+#define ULAB_NUMPY_HAS_DOT              (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_FLIP
@@ -393,6 +468,14 @@
 
 #ifndef ULAB_NUMPY_HAS_INTERP
 #define ULAB_NUMPY_HAS_INTERP           (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_LOAD
+#define ULAB_NUMPY_HAS_LOAD             (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_LOADTXT
+#define ULAB_NUMPY_HAS_LOADTXT          (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_MEAN
@@ -419,6 +502,18 @@
 #define ULAB_NUMPY_HAS_ROLL             (1)
 #endif
 
+#ifndef ULAB_NUMPY_HAS_SAVE
+#define ULAB_NUMPY_HAS_SAVE             (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_SAVETXT
+#define ULAB_NUMPY_HAS_SAVETXT          (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_SIZE
+#define ULAB_NUMPY_HAS_SIZE             (1)
+#endif
+
 #ifndef ULAB_NUMPY_HAS_SORT
 #define ULAB_NUMPY_HAS_SORT             (1)
 #endif
@@ -429,6 +524,10 @@
 
 #ifndef ULAB_NUMPY_HAS_SUM
 #define ULAB_NUMPY_HAS_SUM              (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_TRACE
+#define ULAB_NUMPY_HAS_TRACE            (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_TRAPZ
@@ -537,12 +636,39 @@
 #define ULAB_NUMPY_HAS_VECTORIZE        (1)
 #endif
 
-#ifndef ULAB_SCIPY_HAS_SIGNAL_MODULE
-#define ULAB_SCIPY_HAS_SIGNAL_MODULE        (1)
+// Complex functions. The implementations are compiled into
+// the firmware, only if ULAB_SUPPORTS_COMPLEX is set to 1
+#ifndef ULAB_NUMPY_HAS_CONJUGATE
+#define ULAB_NUMPY_HAS_CONJUGATE        (1)
 #endif
 
-#ifndef ULAB_SCIPY_SIGNAL_HAS_SPECTROGRAM
-#define ULAB_SCIPY_SIGNAL_HAS_SPECTROGRAM   (1)
+#ifndef ULAB_NUMPY_HAS_IMAG
+#define ULAB_NUMPY_HAS_IMAG             (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_REAL
+#define ULAB_NUMPY_HAS_REAL             (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_SORT_COMPLEX
+#define ULAB_NUMPY_HAS_SORT_COMPLEX     (1)
+#endif
+
+// scipy modules
+#ifndef ULAB_SCIPY_HAS_LINALG_MODULE
+#define ULAB_SCIPY_HAS_LINALG_MODULE        (1)
+#endif
+
+#ifndef ULAB_SCIPY_LINALG_HAS_CHO_SOLVE
+#define ULAB_SCIPY_LINALG_HAS_CHO_SOLVE     (1)
+#endif
+
+#ifndef ULAB_SCIPY_LINALG_HAS_SOLVE_TRIANGULAR
+#define ULAB_SCIPY_LINALG_HAS_SOLVE_TRIANGULAR  (1)
+#endif
+
+#ifndef ULAB_SCIPY_HAS_SIGNAL_MODULE
+#define ULAB_SCIPY_HAS_SIGNAL_MODULE        (1)
 #endif
 
 #ifndef ULAB_SCIPY_SIGNAL_HAS_SOSFILT
@@ -587,6 +713,31 @@
 
 #ifndef ULAB_SCIPY_SPECIAL_HAS_GAMMALN
 #define ULAB_SCIPY_SPECIAL_HAS_GAMMALN      (1)
+#endif
+
+// functions of the utils module
+#ifndef ULAB_HAS_UTILS_MODULE
+#define ULAB_HAS_UTILS_MODULE               (1)
+#endif
+
+#ifndef ULAB_UTILS_HAS_FROM_INT16_BUFFER
+#define ULAB_UTILS_HAS_FROM_INT16_BUFFER    (1)
+#endif
+
+#ifndef ULAB_UTILS_HAS_FROM_UINT16_BUFFER
+#define ULAB_UTILS_HAS_FROM_UINT16_BUFFER   (1)
+#endif
+
+#ifndef ULAB_UTILS_HAS_FROM_INT32_BUFFER
+#define ULAB_UTILS_HAS_FROM_INT32_BUFFER    (1)
+#endif
+
+#ifndef ULAB_UTILS_HAS_FROM_UINT32_BUFFER
+#define ULAB_UTILS_HAS_FROM_UINT32_BUFFER   (1)
+#endif
+
+#ifndef ULAB_UTILS_HAS_SPECTROGRAM
+#define ULAB_UTILS_HAS_SPECTROGRAM          (1)
 #endif
 
 // user-defined module; source of the module and

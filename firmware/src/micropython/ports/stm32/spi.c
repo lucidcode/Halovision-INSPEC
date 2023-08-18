@@ -24,12 +24,11 @@
  * THE SOFTWARE.
  */
 
-#include <stdio.h>
-#include <string.h>
-
 #include "py/runtime.h"
+#include "py/mperrno.h"
 #include "py/mphal.h"
 #include "spi.h"
+#include "extmod/machine_spi.h"
 
 // Possible DMA configurations for SPI buses:
 // SPI1_TX: DMA2_Stream3.CHANNEL_3 or DMA2_Stream5.CHANNEL_3
@@ -46,22 +45,22 @@
 // SPI6_RX: DMA2_Stream6.CHANNEL_1
 
 #if defined(MICROPY_HW_SPI1_SCK)
-SPI_HandleTypeDef SPIHandle1 = {.Instance = NULL};
+STATIC SPI_HandleTypeDef SPIHandle1 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI2_SCK)
-SPI_HandleTypeDef SPIHandle2 = {.Instance = NULL};
+STATIC SPI_HandleTypeDef SPIHandle2 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI3_SCK)
-SPI_HandleTypeDef SPIHandle3 = {.Instance = NULL};
+STATIC SPI_HandleTypeDef SPIHandle3 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI4_SCK)
-SPI_HandleTypeDef SPIHandle4 = {.Instance = NULL};
+STATIC SPI_HandleTypeDef SPIHandle4 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI5_SCK)
-SPI_HandleTypeDef SPIHandle5 = {.Instance = NULL};
+STATIC SPI_HandleTypeDef SPIHandle5 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI6_SCK)
-SPI_HandleTypeDef SPIHandle6 = {.Instance = NULL};
+STATIC SPI_HandleTypeDef SPIHandle6 = {.Instance = NULL};
 #endif
 
 const spi_t spi_obj[6] = {
@@ -222,7 +221,7 @@ int spi_find_index(mp_obj_t id) {
 }
 
 STATIC uint32_t spi_get_source_freq(SPI_HandleTypeDef *spi) {
-    #if defined(STM32F0)
+    #if defined(STM32F0) || defined(STM32G0)
     return HAL_RCC_GetPCLK1Freq();
     #elif defined(STM32H7)
     if (spi->Instance == SPI1 || spi->Instance == SPI2 || spi->Instance == SPI3) {
@@ -301,7 +300,7 @@ void spi_set_params(const spi_t *spi_obj, uint32_t prescale, int32_t baudrate,
 }
 
 // TODO allow to take a list of pins to use
-void spi_init(const spi_t *self, bool enable_nss_pin) {
+int spi_init(const spi_t *self, bool enable_nss_pin) {
     SPI_HandleTypeDef *spi = self->spi;
     uint32_t irqn = 0;
     const pin_obj_t *pins[4] = { NULL, NULL, NULL, NULL };
@@ -323,7 +322,11 @@ void spi_init(const spi_t *self, bool enable_nss_pin) {
     #endif
     #if defined(MICROPY_HW_SPI2_SCK)
     } else if (spi->Instance == SPI2) {
+        #if defined(STM32G0)
+        irqn = SPI2_3_IRQn;
+        #else
         irqn = SPI2_IRQn;
+        #endif
         #if defined(MICROPY_HW_SPI2_NSS)
         pins[0] = MICROPY_HW_SPI2_NSS;
         #endif
@@ -337,7 +340,11 @@ void spi_init(const spi_t *self, bool enable_nss_pin) {
     #endif
     #if defined(MICROPY_HW_SPI3_SCK)
     } else if (spi->Instance == SPI3) {
+        #if defined(STM32G0)
+        irqn = SPI2_3_IRQn;
+        #else
         irqn = SPI3_IRQn;
+        #endif
         #if defined(MICROPY_HW_SPI3_NSS)
         pins[0] = MICROPY_HW_SPI3_NSS;
         #endif
@@ -393,7 +400,7 @@ void spi_init(const spi_t *self, bool enable_nss_pin) {
     #endif
     } else {
         // SPI does not exist for this board (shouldn't get here, should be checked by caller)
-        return;
+        return -MP_EINVAL;
     }
 
     // init the GPIO lines
@@ -409,10 +416,7 @@ void spi_init(const spi_t *self, bool enable_nss_pin) {
     // init the SPI device
     if (HAL_SPI_Init(spi) != HAL_OK) {
         // init error
-        // TODO should raise an exception, but this function is not necessarily going to be
-        // called via Python, so may not be properly wrapped in an NLR handler
-        printf("OSError: HAL_SPI_Init failed\n");
-        return;
+        return -MP_EIO;
     }
 
     // After calling HAL_SPI_Init() it seems that the DMA gets disconnected if
@@ -423,6 +427,8 @@ void spi_init(const spi_t *self, bool enable_nss_pin) {
 
     NVIC_SetPriority(irqn, IRQ_PRI_SPI);
     HAL_NVIC_EnableIRQ(irqn);
+
+    return 0; // success
 }
 
 void spi_deinit(const spi_t *spi_obj) {
@@ -447,14 +453,22 @@ void spi_deinit(const spi_t *spi_obj) {
         __HAL_RCC_SPI2_FORCE_RESET();
         __HAL_RCC_SPI2_RELEASE_RESET();
         __HAL_RCC_SPI2_CLK_DISABLE();
+        #if defined(STM32G0)
+        HAL_NVIC_DisableIRQ(SPI2_3_IRQn);
+        #else
         HAL_NVIC_DisableIRQ(SPI2_IRQn);
+        #endif
     #endif
     #if defined(MICROPY_HW_SPI3_SCK)
     } else if (spi->Instance == SPI3) {
         __HAL_RCC_SPI3_FORCE_RESET();
         __HAL_RCC_SPI3_RELEASE_RESET();
         __HAL_RCC_SPI3_CLK_DISABLE();
+        #if defined(STM32G0)
+        HAL_NVIC_DisableIRQ(SPI2_3_IRQn);
+        #else
         HAL_NVIC_DisableIRQ(SPI3_IRQn);
+        #endif
     #endif
     #if defined(MICROPY_HW_SPI4_SCK)
     } else if (spi->Instance == SPI4) {
@@ -682,10 +696,24 @@ const spi_t *spi_from_mp_obj(mp_obj_t o) {
     if (mp_obj_is_type(o, &pyb_spi_type)) {
         pyb_spi_obj_t *self = MP_OBJ_TO_PTR(o);
         return self->spi;
-    } else if (mp_obj_is_type(o, &machine_hard_spi_type)) {
+    } else if (mp_obj_is_type(o, &machine_spi_type)) {
         machine_hard_spi_obj_t *self = MP_OBJ_TO_PTR(o);
         return self->spi;
     } else {
+        mp_raise_TypeError(MP_ERROR_TEXT("expecting an SPI object"));
+    }
+}
+
+mp_obj_base_t *mp_hal_get_spi_obj(mp_obj_t o) {
+    if (mp_obj_is_type(o, &machine_spi_type)) {
+        return MP_OBJ_TO_PTR(o);
+    }
+    #if MICROPY_PY_MACHINE_SOFTSPI
+    else if (mp_obj_is_type(o, &mp_machine_soft_spi_type)) {
+        return MP_OBJ_TO_PTR(o);
+    }
+    #endif
+    else {
         mp_raise_TypeError(MP_ERROR_TEXT("expecting an SPI object"));
     }
 }
@@ -705,8 +733,7 @@ STATIC int spi_proto_ioctl(void *self_in, uint32_t cmd) {
             self->spi->spi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
             spi_set_params(self->spi, 0xffffffff, self->baudrate,
                 self->polarity, self->phase, self->bits, self->firstbit);
-            spi_init(self->spi, false);
-            break;
+            return spi_init(self->spi, false);
 
         case MP_SPI_IOCTL_DEINIT:
             spi_deinit(self->spi);

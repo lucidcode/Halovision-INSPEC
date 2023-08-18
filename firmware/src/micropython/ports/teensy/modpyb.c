@@ -111,7 +111,7 @@ STATIC mp_obj_t pyb_info(uint n_args, const mp_obj_t *args) {
 
     if (n_args == 1) {
         // arg given means dump gc allocation table
-        gc_dump_alloc_table();
+        gc_dump_alloc_table(&mp_plat_print);
     }
 
     return mp_const_none;
@@ -360,3 +360,5 @@ const mp_obj_module_t pyb_module = {
     .base = { &mp_type_module },
     .globals = (mp_obj_dict_t *)&pyb_module_globals,
 };
+
+MP_REGISTER_MODULE(MP_QSTR_pyb, pyb_module);

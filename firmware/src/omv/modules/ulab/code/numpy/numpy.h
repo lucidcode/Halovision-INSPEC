@@ -13,9 +13,9 @@
 #ifndef _NUMPY_
 #define _NUMPY_
 
-#include "ulab.h"
-#include "ndarray.h"
+#include "../ulab.h"
+#include "../ndarray.h"
 
-extern mp_obj_module_t ulab_numpy_module;
+extern const mp_obj_module_t ulab_numpy_module;
 
 #endif /* _NUMPY_ */

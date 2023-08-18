@@ -35,7 +35,7 @@
 
 #include "tusb_option.h"
 
-#if TUSB_OPT_DEVICE_ENABLED && (CFG_TUSB_MCU == OPT_MCU_NUC505)
+#if CFG_TUD_ENABLED && (CFG_TUSB_MCU == OPT_MCU_NUC505)
 
 #include "device/dcd.h"
 #include "NUC505Series.h"
@@ -144,7 +144,9 @@ static USBD_EP_T *ep_entry(uint8_t ep_addr, bool add)
   enum ep_enum ep_index;
   struct xfer_ctl_t *xfer;
 
-  for (ep_index = PERIPH_EPA, xfer = &xfer_table[PERIPH_EPA], ep = USBD->EP; ep_index < PERIPH_MAX_EP; ep_index++, xfer++, ep++)
+  for (ep_index = PERIPH_EPA, xfer = &xfer_table[PERIPH_EPA], ep = USBD->EP;
+       ep_index < PERIPH_MAX_EP;
+       ep_index++, xfer++, ep++)
   {
     if (add)
     {
@@ -179,7 +181,7 @@ static void dcd_userEP_in_xfer(struct xfer_ctl_t *xfer, USBD_EP_T *ep)
     ep->EPINTEN = USBD_EPINTEN_TXPKIEN_Msk;
   }
 
-  /* provided buffers are thankfully 32-bit aligned, allowing most data to be transfered as 32-bit */
+  /* provided buffers are thankfully 32-bit aligned, allowing most data to be transferred as 32-bit */
 #if 0 // TODO support dcd_edpt_xfer_fifo API
   if (xfer->ff)
   {
@@ -325,7 +327,7 @@ bool dcd_edpt_open(uint8_t rhport, tusb_desc_endpoint_t const * p_endpoint_desc)
 
   /* mine the data for the information we need */
   int const dir = tu_edpt_dir(p_endpoint_desc->bEndpointAddress);
-  int const size = p_endpoint_desc->wMaxPacketSize.size;
+  int const size = tu_edpt_packet_size(p_endpoint_desc);
   tusb_xfer_type_t const type = p_endpoint_desc->bmAttributes.xfer;
   struct xfer_ctl_t *xfer = &xfer_table[ep - USBD->EP];
 
@@ -396,6 +398,7 @@ bool dcd_edpt_xfer(uint8_t rhport, uint8_t ep_addr, uint8_t *buffer, uint16_t to
     /* mine the data for the information we need */
     tusb_dir_t dir = tu_edpt_dir(ep_addr);
     USBD_EP_T *ep = ep_entry(ep_addr, false);
+    TU_ASSERT(ep);
     struct xfer_ctl_t *xfer = &xfer_table[ep - USBD->EP];
 
     /* store away the information we'll needing now and later */
@@ -457,6 +460,7 @@ void dcd_edpt_stall(uint8_t rhport, uint8_t ep_addr)
   if (tu_edpt_number(ep_addr))
   {
     USBD_EP_T *ep = ep_entry(ep_addr, false);
+    TU_ASSERT(ep, );
     ep->EPRSPCTL = (ep->EPRSPCTL & 0xf7) | USBD_EPRSPCTL_HALT_Msk;
   }
   else
@@ -472,6 +476,7 @@ void dcd_edpt_clear_stall(uint8_t rhport, uint8_t ep_addr)
   if (tu_edpt_number(ep_addr))
   {
     USBD_EP_T *ep = ep_entry(ep_addr, false);
+    TU_ASSERT(ep, );
     ep->EPRSPCTL = USBD_EPRSPCTL_TOGGLE_Msk;
   }
 }
@@ -713,6 +718,14 @@ void dcd_connect(uint8_t rhport)
 {
   (void) rhport;
   usb_attach();
+}
+
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
 }
 
 #endif

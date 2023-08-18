@@ -41,7 +41,11 @@ void ticks_init(void) {
     ticks_ms_upper = 0;
 
     gpt_config_t config;
+    #if defined MIMXRT117x_SERIES
+    config.clockSource = kGPT_ClockSource_HighFreq;
+    #else
     config.clockSource = kGPT_ClockSource_Osc;
+    #endif
     config.divider = 24; // XTAL is 24MHz
     config.enableFreeRun = true;
     config.enableRunInWait = true;
@@ -56,6 +60,9 @@ void ticks_init(void) {
     NVIC_EnableIRQ(GPTx_IRQn);
 
     GPT_StartTimer(GPTx);
+    #ifdef NDEBUG
+    mp_hal_ticks_cpu_enable();
+    #endif
 }
 
 void GPTx_IRQHandler(void) {
@@ -128,9 +135,7 @@ void ticks_delay_us64(uint64_t us) {
             dt = 0xffffffff;
         }
         ticks_wake_after_us32((uint32_t)dt);
-        if (dt < 50) {
-            __WFE();
-        } else {
+        if (dt > 50) {
             MICROPY_EVENT_POLL_HOOK
         }
     }

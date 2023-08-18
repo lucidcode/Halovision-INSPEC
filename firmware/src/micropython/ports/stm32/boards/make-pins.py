@@ -219,23 +219,24 @@ class Pin(object):
     def parse_adc(self, adc_str):
         if adc_str[:3] != "ADC":
             return
+        adc, channel = None, None
 
         if adc_str.find("_INP") != -1:
             # STM32H7xx, entries have the form: ADCxx_IN[PN]yy/...
-            # for now just pick the entry with the most ADC periphs
-            adc, channel = None, None
-            for ss in adc_str.split("/"):
-                if ss.find("_INP") != -1:
-                    a, c = ss.split("_")
-                    if adc is None or len(a) > len(adc):
-                        adc, channel = a, c
-            if adc is None:
-                return
-            channel = channel[3:]
+            sep = "_INP"
         else:
             # all other MCUs, entries have the form: ADCxx_INyy
-            adc, channel = adc_str.split("_")
-            channel = channel[2:]
+            sep = "_IN"
+
+        # Pick the entry with the most ADC peripherals
+        for ss in adc_str.split("/"):
+            if ss.find(sep) != -1:
+                a, c = ss.split("_")
+                if adc is None or len(a) > len(adc):
+                    adc, channel = a, c
+        if adc is None:
+            return
+        channel = channel[len(sep) - 1 :]
 
         for idx in range(3, len(adc)):
             adc_num = int(adc[idx])  # 1, 2, or 3
@@ -427,7 +428,7 @@ class Pins(object):
         if adc_pins:
             table_size = max(adc_pins) + 1
         else:
-            # If ADCx pins are all hidden, print an empty table to prevent linker errors.
+            # If ADCx pins are hidden, print an empty table to prevent linker errors.
             table_size = 0
         self.adc_table_size[adc_num] = table_size
         print("")
@@ -505,7 +506,6 @@ class Pins(object):
 
     def print_af_defs(self, af_defs_filename, cmp_strings):
         with open(af_defs_filename, "wt") as af_defs_file:
-
             STATIC_AF_TOKENS = {}
             for named_pin in self.cpu_pins:
                 for af in named_pin.pin().alt_fn:

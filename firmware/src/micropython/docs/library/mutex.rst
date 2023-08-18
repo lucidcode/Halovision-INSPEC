@@ -63,14 +63,14 @@ Constructors
 
    Creates an unlocked mutex object.
 
-Methods
-~~~~~~~
+   Methods
+   ~~~~~~~
 
-.. method:: mutex.release()
+   .. method:: release()
 
    Unlock the mutex.
 
-.. method:: mutex.test()
+   .. method:: test()
 
    Try to acquire the mutex in a non-blocking way. Return ``True`` on success and ``False`` on failure.
 

@@ -1,9 +1,10 @@
 /*
- * This file is part of the MicroPython project, http://micropython.org/
+ * This file is part of the OpenMV project, https://openmv.io.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +23,19 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * NINA-W10 Bluetooth HCI driver.
  */
+
+#include "py/mphal.h"
+
+#if MICROPY_PY_BLUETOOTH && MICROPY_PY_NETWORK_NINAW10
 
 #include <stdio.h>
 #include <string.h>
 
 #include "py/runtime.h"
-#include "py/mphal.h"
 #include "extmod/mpbthci.h"
-
-#if MICROPY_PY_BLUETOOTH && MICROPY_PY_NETWORK_NINAW10
 
 #define HCI_COMMAND_PACKET      (0x01)
 #define HCI_ACLDATA_PACKET      (0x02)
@@ -47,7 +51,7 @@
 #define OCF_RESET               (0x0003)
 
 #define error_printf(...)   mp_printf(&mp_plat_print, "nina_bt_hci.c: " __VA_ARGS__)
-#define debug_printf(...)   //mp_printf(&mp_plat_print, "nina_bt_hci.c: " __VA_ARGS__)
+#define debug_printf(...)   // mp_printf(&mp_plat_print, "nina_bt_hci.c: " __VA_ARGS__)
 
 // Provided by the port, and also possibly shared with the stack.
 extern uint8_t mp_bluetooth_hci_cmd_buf[4 + 256];
@@ -63,7 +67,7 @@ static int nina_hci_cmd(int ogf, int ocf, size_t param_len, const uint8_t *param
     if (param_len) {
         memcpy(buf + 4, param_buf, param_len);
     }
-    
+
     debug_printf("HCI Command: %02x %02x %02x %02x\n", buf[0], buf[1], buf[2], buf[3]);
 
     mp_bluetooth_hci_uart_write(buf, 4 + param_len);
@@ -109,7 +113,7 @@ static int nina_hci_cmd(int ogf, int ocf, size_t param_len, const uint8_t *param
 
     // Log event.
     debug_printf("HCI Event packet: %02x %02x %02x %02x %02x %02x %02x\n",
-            buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6]);
+        buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6]);
 
     // Status code.
     return buf[6];
@@ -123,7 +127,7 @@ int mp_bluetooth_hci_controller_init(void) {
     mp_hal_pin_write(MICROPY_HW_NINA_GPIO1, 0);
     mp_hal_pin_write(MICROPY_HW_NINA_RESET, 0);
     mp_hal_delay_ms(100);
-    
+
     mp_hal_pin_write(MICROPY_HW_NINA_RESET, 1);
     mp_hal_delay_ms(750);
 
@@ -142,4 +146,5 @@ int mp_bluetooth_hci_controller_deinit(void) {
     mp_hal_pin_write(MICROPY_HW_NINA_RESET, 0);
     return 0;
 }
+
 #endif

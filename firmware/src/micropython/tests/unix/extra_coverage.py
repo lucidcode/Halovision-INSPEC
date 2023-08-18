@@ -49,11 +49,6 @@ print(buf.write(bytearray(16)))
 # function defined in C++ code
 print("cpp", extra_cpp_coverage())
 
-# test user C module
-import cexample
-
-print(cexample.add_ints(3, 2))
-
 # test user C module mixed with C++ code
 import cppexample
 
@@ -89,13 +84,15 @@ try:
 except ZeroDivisionError:
     print("ZeroDivisionError")
 
-# test loading a resource from a frozen string
-import uio
-
-buf = uio.resource_stream("frzstr_pkg2", "mod.py")
-print(buf.read(21))
+# test importing various objects
+import frzmpy3
 
 # test for MP_QSTR_NULL regression
 from frzqstr import returns_NULL
 
 print(returns_NULL())
+
+# test for freeze_mpy
+import frozentest
+
+print(frozentest.__file__)

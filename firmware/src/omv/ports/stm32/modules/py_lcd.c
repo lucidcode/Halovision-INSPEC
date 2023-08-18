@@ -43,6 +43,7 @@ static enum {
 
 static bool lcd_triple_buffer = false;
 static bool lcd_bgr = false;
+static bool lcd_byte_reverse = false;
 
 static enum {
     LCD_DISPLAY_QVGA,
@@ -274,27 +275,29 @@ static void spi_lcd_callback(SPI_HandleTypeDef *hspi)
             }
             case SPI_TX_CB_MEMORY_WRITE: {
                 uint16_t *addr = spi_tx_cb_state_memory_write_addr;
-                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, (65536-8));
-                spi_tx_cb_state = (spi_tx_cb_state_memory_write_count > (65536-8)) ? SPI_TX_CB_MEMORY_WRITE : SPI_TX_CB_DISPLAY_ON;
+                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, (65536-8u));
+                spi_tx_cb_state = (spi_tx_cb_state_memory_write_count > (65536-8u)) ? SPI_TX_CB_MEMORY_WRITE : SPI_TX_CB_DISPLAY_ON;
                 spi_tx_cb_state_memory_write_addr += count;
                 spi_tx_cb_state_memory_write_count -= count;
                 if (spi_tx_cb_state_memory_write_first) {
                     OMV_SPI_LCD_CS_HIGH();
                     OMV_SPI_LCD_RS_OFF();
                     spi_tx_cb_state_memory_write_first = false;
-                    OMV_SPI_LCD_CONTROLLER->spi->Init.DataSize = SPI_DATASIZE_16BIT;
+                    if (!lcd_byte_reverse) {
+                        OMV_SPI_LCD_CONTROLLER->spi->Init.DataSize = SPI_DATASIZE_16BIT;
 #if defined(MCU_SERIES_H7)
-                    OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 =
-                        (OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 & ~SPI_CFG1_DSIZE_Msk) | SPI_DATASIZE_16BIT;
-                    OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 =
-                        (OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 & ~SPI_CFG1_FTHLV_Msk) | SPI_FIFO_THRESHOLD_08DATA;
+                        OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 =
+                            (OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 & ~SPI_CFG1_DSIZE_Msk) | SPI_DATASIZE_16BIT;
+                        OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 =
+                            (OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 & ~SPI_CFG1_FTHLV_Msk) | SPI_FIFO_THRESHOLD_08DATA;
 #elif defined(MCU_SERIES_F7)
-                    OMV_SPI_LCD_CONTROLLER->spi->Instance->CR2 =
-                        (OMV_SPI_LCD_CONTROLLER->spi->Instance->CR2 & ~SPI_CR2_DS_Msk) | SPI_DATASIZE_16BIT;
+                        OMV_SPI_LCD_CONTROLLER->spi->Instance->CR2 =
+                            (OMV_SPI_LCD_CONTROLLER->spi->Instance->CR2 & ~SPI_CR2_DS_Msk) | SPI_DATASIZE_16BIT;
 #elif defined(MCU_SERIES_F4)
-                    OMV_SPI_LCD_CONTROLLER->spi->Instance->CR1 =
-                        (OMV_SPI_LCD_CONTROLLER->spi->Instance->CR1 & ~SPI_CR1_DFF_Msk) | SPI_DATASIZE_16BIT;
+                        OMV_SPI_LCD_CONTROLLER->spi->Instance->CR1 =
+                            (OMV_SPI_LCD_CONTROLLER->spi->Instance->CR1 & ~SPI_CR1_DFF_Msk) | SPI_DATASIZE_16BIT;
 #endif
+                    }
                     OMV_SPI_LCD_CS_LOW();
                 }
                 HAL_SPI_Transmit_DMA(OMV_SPI_LCD_CONTROLLER->spi, (uint8_t *) addr, count);
@@ -451,7 +454,7 @@ static void spi_lcd_display(image_t *src_img, int dst_x_start, int dst_y_start, 
 
         #ifdef __DCACHE_PRESENT
         // Flush data for DMA
-        SCB_CleanDCache();
+        SCB_CleanDCache_by_Addr((uint32_t *) dst_img.data, image_size(&dst_img));
         #endif
 
         // Update tail which means a new image is ready.
@@ -1030,7 +1033,7 @@ static void ltdc_display(image_t *src_img, int dst_x_start, int dst_y_start, flo
 
     #ifdef __DCACHE_PRESENT
     // Flush data for DMA
-    if (!black) SCB_CleanDCache();
+    if (!black) SCB_CleanDCache_by_Addr((uint32_t *) dst_img.data, image_size(&dst_img));
     #endif
 
     // Update tail which means a new image is ready.
@@ -1139,7 +1142,8 @@ mp_obj_t ltdc_dvi_user_cb = NULL;
 
 static mp_obj_t ltdc_dvi_get_display_connected()
 {
-    mp_obj_base_t *bus = ltdc_dvi_bus ? ltdc_dvi_bus : ((mp_obj_base_t *) mp_machine_soft_i2c_type.make_new(&mp_machine_soft_i2c_type, 2, 0, (const mp_obj_t []) {
+    mp_obj_base_t *bus = ltdc_dvi_bus ? ltdc_dvi_bus : ((mp_obj_base_t *) MP_OBJ_TYPE_GET_SLOT(
+                &mp_machine_soft_i2c_type, make_new)(&mp_machine_soft_i2c_type, 2, 0, (const mp_obj_t []) {
         (mp_obj_t) OMV_DVI_SCL_PIN, (mp_obj_t) OMV_DVI_SDA_PIN
     }));
 
@@ -1180,7 +1184,9 @@ static bool ltdc_dvi_checksum(uint8_t *data, int long_count)
 
 static mp_obj_t ltdc_dvi_get_display_id_data()
 {
-    mp_obj_base_t *bus = ltdc_ddc_bus ? ltdc_ddc_bus : ((mp_obj_base_t *) mp_machine_soft_i2c_type.make_new(&mp_machine_soft_i2c_type, 2, 1, (const mp_obj_t []) {
+    mp_obj_base_t *bus = ltdc_ddc_bus ? ltdc_ddc_bus :
+        ((mp_obj_base_t *) MP_OBJ_TYPE_GET_SLOT(
+            &mp_machine_soft_i2c_type, make_new)(&mp_machine_soft_i2c_type, 2, 1, (const mp_obj_t []) {
         (mp_obj_t) OMV_DDC_SCL_PIN, (mp_obj_t) OMV_DDC_SDA_PIN,
             MP_OBJ_NEW_QSTR(MP_QSTR_freq),
             MP_OBJ_NEW_SMALL_INT(100000)
@@ -1265,12 +1271,14 @@ static void ltdc_dvi_init()
     HAL_GPIO_WritePin(OMV_DVI_RESET_PIN->gpio, OMV_DVI_RESET_PIN->pin_mask, GPIO_PIN_SET);
     HAL_Delay(1);
 
-    ltdc_dvi_bus = (mp_obj_base_t *) mp_machine_soft_i2c_type.make_new(&mp_machine_soft_i2c_type, 2, 0, (const mp_obj_t []) {
+    ltdc_dvi_bus = (mp_obj_base_t *) MP_OBJ_TYPE_GET_SLOT(
+            &mp_machine_soft_i2c_type, make_new)(&mp_machine_soft_i2c_type, 2, 0, (const mp_obj_t []) {
         (mp_obj_t) OMV_DVI_SCL_PIN, (mp_obj_t) OMV_DVI_SDA_PIN
     });
 
     #ifdef OMV_DDC_PRESENT
-    ltdc_ddc_bus = (mp_obj_base_t *) mp_machine_soft_i2c_type.make_new(&mp_machine_soft_i2c_type, 2, 1, (const mp_obj_t []) {
+    ltdc_ddc_bus = (mp_obj_base_t *) MP_OBJ_TYPE_GET_SLOT(
+            &mp_machine_soft_i2c_type, make_new)(&mp_machine_soft_i2c_type, 2, 1, (const mp_obj_t []) {
         (mp_obj_t) OMV_DDC_SCL_PIN, (mp_obj_t) OMV_DDC_SDA_PIN,
             MP_OBJ_NEW_QSTR(MP_QSTR_freq),
             MP_OBJ_NEW_SMALL_INT(100000)
@@ -1360,6 +1368,7 @@ STATIC mp_obj_t py_lcd_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_args
             if ((refresh_rate < 30) || (120 < refresh_rate)) mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid Refresh Rate!"));
             bool triple_buffer = py_helper_keyword_int(n_args, args, 4, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_triple_buffer), false);
             bool bgr = py_helper_keyword_int(n_args, args, 5, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_bgr), false);
+            bool byte_reverse = py_helper_keyword_int(n_args, args, 6, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_byte_reverse), false);
             spi_config_init(w, h, refresh_rate, triple_buffer, bgr);
             #ifdef OMV_SPI_LCD_BL_PIN
             spi_lcd_set_backlight(255); // to on state
@@ -1369,6 +1378,7 @@ STATIC mp_obj_t py_lcd_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_args
             lcd_type = LCD_SHIELD;
             lcd_triple_buffer = triple_buffer;
             lcd_bgr = bgr;
+            lcd_byte_reverse = byte_reverse;
             lcd_resolution = 0;
             lcd_refresh = refresh_rate;
             break;
@@ -1448,6 +1458,13 @@ STATIC mp_obj_t py_lcd_bgr()
     return mp_obj_new_int(lcd_bgr);
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_lcd_bgr_obj, py_lcd_bgr);
+
+STATIC mp_obj_t py_lcd_byte_reverse()
+{
+    if (lcd_type == LCD_NONE) return mp_const_none;
+    return mp_obj_new_int(lcd_byte_reverse);
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_lcd_byte_reverse_obj, py_lcd_byte_reverse);
 
 STATIC mp_obj_t py_lcd_framesize()
 {
@@ -1663,6 +1680,10 @@ STATIC mp_obj_t py_lcd_display(uint n_args, const mp_obj_t *args, mp_map_t *kw_a
     if ((!got_x_scale) && (!got_x_size) && got_y_size) arg_x_scale = arg_y_scale;
     if ((!got_y_scale) && (!got_y_size) && got_x_size) arg_y_scale = arg_x_scale;
 
+    if ((!lcd_triple_buffer) && (arg_y_scale < 0)) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Vertical flip requires triple buffering!"));
+    }
+
     switch (lcd_type) {
         #ifdef OMV_SPI_LCD_CONTROLLER
         case LCD_SHIELD: {
@@ -1776,6 +1797,7 @@ STATIC const mp_rom_map_elem_t globals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_type),                    MP_ROM_PTR(&py_lcd_type_obj)                    },
     { MP_ROM_QSTR(MP_QSTR_triple_buffer),           MP_ROM_PTR(&py_lcd_triple_buffer_obj)           },
     { MP_ROM_QSTR(MP_QSTR_bgr),                     MP_ROM_PTR(&py_lcd_bgr_obj)                     },
+    { MP_ROM_QSTR(MP_QSTR_byte_reverse),            MP_ROM_PTR(&py_lcd_byte_reverse_obj)            },
     { MP_ROM_QSTR(MP_QSTR_framesize),               MP_ROM_PTR(&py_lcd_framesize_obj)               },
     { MP_ROM_QSTR(MP_QSTR_refresh),                 MP_ROM_PTR(&py_lcd_refresh_obj)                 },
     { MP_ROM_QSTR(MP_QSTR_get_backlight),           MP_ROM_PTR(&py_lcd_get_backlight_obj)           },
@@ -1840,5 +1862,5 @@ void py_lcd_init0()
     py_lcd_deinit();
 }
 
-MP_REGISTER_MODULE(MP_QSTR_lcd, lcd_module, MICROPY_PY_LCD);
+MP_REGISTER_MODULE(MP_QSTR_lcd, lcd_module);
 #endif // MICROPY_PY_LCD

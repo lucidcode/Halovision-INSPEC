@@ -1,6 +1,13 @@
 #define MICROPY_HW_BOARD_NAME       "OPENMV4"
 #define MICROPY_HW_MCU_NAME         "STM32H743"
 #define MICROPY_PY_SYS_PLATFORM     "OpenMV4-H7"
+#define MICROPY_STREAMS_POSIX_API   (1)
+
+#define MICROPY_OBJ_REPR            (MICROPY_OBJ_REPR_C)
+#define UINT_FMT                    "%u"
+#define INT_FMT                     "%d"
+typedef int mp_int_t;               // must be pointer size
+typedef unsigned int mp_uint_t;     // must be pointer size
 
 #define MICROPY_FATFS_EXFAT         (1)
 #define MICROPY_HW_ENABLE_RNG       (1)
@@ -12,10 +19,14 @@
 #define MICROPY_HW_ENABLE_SPI2      (1)
 #define MICROPY_HW_ENABLE_USB       (1)
 #define MICROPY_HW_ENABLE_SDCARD    (1)
+
 // Reserved DMA streams
 #define MICROPY_HW_DMA1S0_IS_RESERVED
 #define MICROPY_HW_DMA2S1_IS_RESERVED
 #define MICROPY_HW_TIM_IS_RESERVED(id) (id == 1 || id == 6)
+
+#define MICROPY_HW_ENTER_BOOTLOADER_VIA_RESET   (0)
+#define MICROPY_BOARD_ENTER_BOOTLOADER(nargs, args) NVIC_SystemReset()
 
 // Note these are not used in top system.c.
 #define MICROPY_HW_CLK_PLLM         (3)
@@ -72,9 +83,10 @@
 #define MICROPY_HW_SPI2_MOSI (pin_B15)
 
 // FDCAN bus
-#define MICROPY_HW_CAN2_NAME  "FDCAN2"
-#define MICROPY_HW_CAN2_TX    (pin_B13)
-#define MICROPY_HW_CAN2_RX    (pin_B12)
+#define MICROPY_HW_CAN2_NAME "FDCAN2"
+#define MICROPY_HW_CAN2_TX   (pin_B13)
+#define MICROPY_HW_CAN2_RX   (pin_B12)
+#define MICROPY_HW_CAN_IS_RESERVED(id) (id != PYB_CAN_2)
 
 // SD card detect switch
 #define MICROPY_HW_SDCARD_DETECT_PIN        (pin_D0)
@@ -99,3 +111,13 @@
 
 // Servos
 #define PYB_SERVO_NUM (4)
+
+#if MICROPY_PY_WINC1500
+extern const struct _mp_obj_type_t mod_network_nic_type_winc;
+#define MICROPY_PY_USOCKET_EXTENDED_STATE   (1)
+#define MICROPY_BOARD_NETWORK_INTERFACES \
+    { MP_ROM_QSTR(MP_QSTR_WINC), MP_ROM_PTR(&mod_network_nic_type_winc) },\
+    { MP_ROM_QSTR(MP_QSTR_WLAN), MP_ROM_PTR(&mod_network_nic_type_winc) },
+#else
+#define MICROPY_BOARD_NETWORK_INTERFACES
+#endif

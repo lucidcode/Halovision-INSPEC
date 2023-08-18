@@ -33,8 +33,10 @@ body:
     attributes:
       label: Firmware
       placeholder: |
-        e.g examples/device/cdc_msc.
-        If it is custom firmware, please provide links to your minimal sources or as attached files.
+        e.g examples/device/cdc_msc. If it is custom firmware, it is preferably compiled like one in example folder and reviewable for people to comment on. The easiest way is
+        - Fork this repo, checkout a new branch
+        - Add your-own-example based on stock one
+        - Push and post it here.
     validations:
       required: true
 
@@ -49,6 +51,7 @@ body:
     attributes:
       label: How to reproduce ?
       placeholder: |
+        Exact steps in chronological order, details should be specific e.g if you use a command/script to test with, please post it as well.
         1. Go to '...'
         2. Click on '....'
         3. See error      
@@ -57,11 +60,12 @@ body:
 
   - type: textarea
     attributes:
-      label: Debug Log
+      label: Debug Log as txt file
       placeholder: |
-        TinyUSB debug log where the issue occurred as attached txt file, best with comments to explain the actual events.
-
-        Note: To enable logging, add `LOG=3` to to the make command if building with stock examples or set `CFG_TUSB_DEBUG=3` in your tusb_config.h. 
+        Attach your debug log txt file here, where the issue occurred, best with comments to explain the actual events.
+        
+        Note1: Please DO NOT paste your lengthy log contents here since it hurts the readibility.
+        Note2: To enable logging, add `LOG=3` to to the make command if building with stock examples or set `CFG_TUSB_DEBUG=3` in your tusb_config.h. 
         More information can be found at [example's readme](https://github.com/hathach/tinyusb/blob/master/docs/getting_started.md)
     validations:
       required: false

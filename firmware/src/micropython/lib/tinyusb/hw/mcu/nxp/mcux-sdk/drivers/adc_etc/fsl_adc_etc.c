@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -80,25 +80,38 @@ void ADC_ETC_Init(ADC_ETC_Type *base, const adc_etc_config_t *config)
     ADC_ETC_DoSoftwareReset(base, false);
 
     /* Set ADC_ETC_CTRL register. */
-    tmp32 = ADC_ETC_CTRL_EXT0_TRIG_PRIORITY(config->TSC0triggerPriority) |
-            ADC_ETC_CTRL_EXT1_TRIG_PRIORITY(config->TSC1triggerPriority) |
-            ADC_ETC_CTRL_PRE_DIVIDER(config->clockPreDivider) | ADC_ETC_CTRL_TRIG_ENABLE(config->XBARtriggerMask)
+    tmp32 =
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
+        ADC_ETC_CTRL_EXT0_TRIG_PRIORITY(config->TSC0triggerPriority) |
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
+        ADC_ETC_CTRL_EXT1_TRIG_PRIORITY(config->TSC1triggerPriority) |
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+        ADC_ETC_CTRL_PRE_DIVIDER(config->clockPreDivider) | ADC_ETC_CTRL_TRIG_ENABLE(config->XBARtriggerMask)
 #if defined(FSL_FEATURE_ADC_ETC_HAS_CTRL_DMA_MODE_SEL) && FSL_FEATURE_ADC_ETC_HAS_CTRL_DMA_MODE_SEL
-            | ADC_ETC_CTRL_DMA_MODE_SEL(config->dmaMode)
+        | ADC_ETC_CTRL_DMA_MODE_SEL(config->dmaMode)
 #endif /*FSL_FEATURE_ADC_ETC_HAS_CTRL_DMA_MODE_SEL*/
         ;
+
+#if (!(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)) || \
+    (!(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG))
     if (config->enableTSCBypass)
     {
         tmp32 |= ADC_ETC_CTRL_TSC_BYPASS_MASK;
     }
+#endif
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
     if (config->enableTSC0Trigger)
     {
         tmp32 |= ADC_ETC_CTRL_EXT0_TRIG_ENABLE_MASK;
     }
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
     if (config->enableTSC1Trigger)
     {
         tmp32 |= ADC_ETC_CTRL_EXT1_TRIG_ENABLE_MASK;
     }
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
     base->CTRL = tmp32;
 }
 
@@ -140,16 +153,32 @@ void ADC_ETC_GetDefaultConfig(adc_etc_config_t *config)
     /* Initializes the configure structure to zero. */
     (void)memset(config, 0, sizeof(*config));
 
-    config->enableTSCBypass   = true;
+#if (!(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)) || \
+    (!(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG))
+    config->enableTSCBypass = true;
+#endif
+
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
     config->enableTSC0Trigger = false;
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
     config->enableTSC1Trigger = false;
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+
 #if defined(FSL_FEATURE_ADC_ETC_HAS_CTRL_DMA_MODE_SEL) && FSL_FEATURE_ADC_ETC_HAS_CTRL_DMA_MODE_SEL
     config->dmaMode = kADC_ETC_TrigDMAWithLatchedSignal;
 #endif /*FSL_FEATURE_ADC_ETC_HAS_CTRL_DMA_MODE_SEL*/
+
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
     config->TSC0triggerPriority = 0U;
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+
+#if !(defined(FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG) && FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG)
     config->TSC1triggerPriority = 0U;
-    config->clockPreDivider     = 0U;
-    config->XBARtriggerMask     = 0U;
+#endif /* FSL_FEATURE_ADC_ETC_HAS_NO_TSC0_TRIG */
+    config->clockPreDivider = 0U;
+    config->XBARtriggerMask = 0U;
 }
 
 /*!
@@ -314,19 +343,19 @@ uint32_t ADC_ETC_GetInterruptStatusFlags(ADC_ETC_Type *base, adc_etc_external_tr
         tmp32 |= (uint32_t)kADC_ETC_Done1StatusFlagMask; /* Customized DONE1 status flags mask, which is defined in
                                                   fsl_adc_etc.h file. */
     }
-    if (((base->DONE2_ERR_IRQ) & ((uint32_t)ADC_ETC_DONE2_ERR_IRQ_TRIG0_DONE2_MASK << (uint32_t)sourceIndex)) != 0U)
+    if (((base->DONE2_3_ERR_IRQ) & ((uint32_t)ADC_ETC_DONE2_3_ERR_IRQ_TRIG0_DONE2_MASK << (uint32_t)sourceIndex)) != 0U)
     {
         tmp32 |= (uint32_t)kADC_ETC_Done2StatusFlagMask; /* Customized DONE2 status flags mask, which is defined in
                                                   fsl_adc_etc.h file. */
     }
 #if defined(FSL_FEATURE_ADC_ETC_HAS_TRIGm_CHAIN_a_b_IEn_EN) && FSL_FEATURE_ADC_ETC_HAS_TRIGm_CHAIN_a_b_IEn_EN
-    if (((base->DONE2_ERR_IRQ) & ((uint32_t)ADC_ETC_DONE2_ERR_IRQ_TRIG0_DONE3_MASK << (uint32_t)sourceIndex)) != 0U)
+    if (((base->DONE2_3_ERR_IRQ) & ((uint32_t)ADC_ETC_DONE2_3_ERR_IRQ_TRIG0_DONE3_MASK << (uint32_t)sourceIndex)) != 0U)
     {
         tmp32 |= (uint32_t)kADC_ETC_Done3StatusFlagMask; /* Customized DONE3 status flags mask, which is defined in
                                                   fsl_adc_etc.h file. */
     }
 #endif /* FSL_FEATURE_ADC_ETC_HAS_TRIGm_CHAIN_a_b_IEn_EN */
-    if (((base->DONE2_ERR_IRQ) & ((uint32_t)ADC_ETC_DONE2_ERR_IRQ_TRIG0_ERR_MASK << (uint32_t)sourceIndex)) != 0U)
+    if (((base->DONE2_3_ERR_IRQ) & ((uint32_t)ADC_ETC_DONE2_3_ERR_IRQ_TRIG0_ERR_MASK << (uint32_t)sourceIndex)) != 0U)
     {
         tmp32 |= (uint32_t)kADC_ETC_ErrorStatusFlagMask; /* Customized ERROR status flags mask, which is defined in
                                                   fsl_adc_etc.h file. */
@@ -353,17 +382,17 @@ void ADC_ETC_ClearInterruptStatusFlags(ADC_ETC_Type *base, adc_etc_external_trig
     }
     if (0U != (mask & (uint32_t)kADC_ETC_Done2StatusFlagMask)) /* Write 1 to clear DONE2 status flags. */
     {
-        base->DONE2_ERR_IRQ = ((uint32_t)ADC_ETC_DONE2_ERR_IRQ_TRIG0_DONE2_MASK << (uint32_t)sourceIndex);
+        base->DONE2_3_ERR_IRQ = ((uint32_t)ADC_ETC_DONE2_3_ERR_IRQ_TRIG0_DONE2_MASK << (uint32_t)sourceIndex);
     }
 #if defined(FSL_FEATURE_ADC_ETC_HAS_TRIGm_CHAIN_a_b_IEn_EN) && FSL_FEATURE_ADC_ETC_HAS_TRIGm_CHAIN_a_b_IEn_EN
     if (0U != (mask & (uint32_t)kADC_ETC_Done3StatusFlagMask)) /* Write 1 to clear DONE3 status flags. */
     {
-        base->DONE2_ERR_IRQ = ((uint32_t)ADC_ETC_DONE2_ERR_IRQ_TRIG0_DONE3_MASK << (uint32_t)sourceIndex);
+        base->DONE2_3_ERR_IRQ = ((uint32_t)ADC_ETC_DONE2_3_ERR_IRQ_TRIG0_DONE3_MASK << (uint32_t)sourceIndex);
     }
 #endif                                                         /* FSL_FEATURE_ADC_ETC_HAS_TRIGm_CHAIN_a_b_IEn_EN */
     if (0U != (mask & (uint32_t)kADC_ETC_ErrorStatusFlagMask)) /* Write 1 to clear ERROR status flags. */
     {
-        base->DONE2_ERR_IRQ = ((uint32_t)ADC_ETC_DONE2_ERR_IRQ_TRIG0_ERR_MASK << (uint32_t)sourceIndex);
+        base->DONE2_3_ERR_IRQ = ((uint32_t)ADC_ETC_DONE2_3_ERR_IRQ_TRIG0_ERR_MASK << (uint32_t)sourceIndex);
     }
 }
 

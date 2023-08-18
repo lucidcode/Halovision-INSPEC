@@ -74,18 +74,17 @@ void usb_init(void) {
         .callback_line_coding_changed = NULL
     };
     ESP_ERROR_CHECK(tusb_cdc_acm_init(&amc_cfg));
+
 }
 
 void usb_tx_strn(const char *str, size_t len) {
-    while (len) {
-        size_t l = len;
-        if (l > CONFIG_USB_CDC_TX_BUFSIZE) {
-            l = CONFIG_USB_CDC_TX_BUFSIZE;
-        }
-        tinyusb_cdcacm_write_queue(CDC_ITF, (uint8_t *)str, l);
-        tinyusb_cdcacm_write_flush(CDC_ITF, pdMS_TO_TICKS(1000));
+    // Write out the data to the CDC interface, but only while the USB host is connected.
+    uint64_t timeout = esp_timer_get_time() + (uint64_t)(MICROPY_HW_USB_CDC_TX_TIMEOUT * 1000);
+    while (tud_cdc_n_connected(CDC_ITF) && len && esp_timer_get_time() < timeout) {
+        size_t l = tinyusb_cdcacm_write_queue(CDC_ITF, (uint8_t *)str, len);
         str += l;
         len -= l;
+        tud_cdc_n_write_flush(CDC_ITF);
     }
 }
 

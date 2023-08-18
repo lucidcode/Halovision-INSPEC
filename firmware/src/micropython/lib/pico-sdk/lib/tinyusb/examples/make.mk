@@ -45,21 +45,35 @@ else
   SRC_C += $(subst $(TOP)/,,$(wildcard $(TOP)/$(FAMILY_PATH)/*.c))
 endif
 
-# Fetch submodules depended by family
-fetch_submodule_if_empty = $(if $(wildcard $(TOP)/$1/*),,$(info $(shell git -C $(TOP) submodule update --init $1)))
-ifdef DEPS_SUBMODULES
-  $(foreach s,$(DEPS_SUBMODULES),$(call fetch_submodule_if_empty,$(s)))
-endif
 
 #-------------- Cross Compiler  ------------
 # Can be set by board, default to ARM GCC
 CROSS_COMPILE ?= arm-none-eabi-
 
-CC = $(CROSS_COMPILE)gcc
-CXX = $(CROSS_COMPILE)g++
-GDB = $(CROSS_COMPILE)gdb
-OBJCOPY = $(CROSS_COMPILE)objcopy
-SIZE = $(CROSS_COMPILE)size
+# Allow for -Os to be changed by board makefiles in case -Os is not allowed
+CFLAGS_OPTIMIZED ?= -Os
+
+ifeq ($(CC),iccarm)
+USE_IAR = 1
+endif
+
+ifdef USE_IAR
+  AS = iasmarm
+  LD = ilinkarm
+  OBJCOPY = ielftool
+  SIZE = echo "size not available for IAR"
+
+else
+  CC = $(CROSS_COMPILE)gcc
+  CXX = $(CROSS_COMPILE)g++
+  AS = $(CC) -x assembler-with-cpp
+  LD = $(CC)
+  
+  GDB = $(CROSS_COMPILE)gdb
+  OBJCOPY = $(CROSS_COMPILE)objcopy
+  SIZE = $(CROSS_COMPILE)size
+endif
+
 MKDIR = mkdir
 
 ifeq ($(CMDEXE),1)
@@ -81,20 +95,20 @@ SRC_C += $(subst $(TOP)/,,$(wildcard $(TOP)/$(BOARD_PATH)/*.c))
 
 INC   += $(TOP)/$(FAMILY_PATH)
 
-# Compiler Flags
-CFLAGS += \
+# GCC Compiler Flags
+GCC_CFLAGS += \
   -ggdb \
   -fdata-sections \
   -ffunction-sections \
   -fsingle-precision-constant \
   -fno-strict-aliasing \
-  -Wdouble-promotion \
-  -Wstrict-prototypes \
-  -Wstrict-overflow \
   -Wall \
   -Wextra \
   -Werror \
   -Wfatal-errors \
+  -Wdouble-promotion \
+  -Wstrict-prototypes \
+  -Wstrict-overflow \
   -Werror-implicit-function-declaration \
   -Wfloat-equal \
   -Wundef \
@@ -104,13 +118,22 @@ CFLAGS += \
   -Wmissing-format-attribute \
   -Wunreachable-code \
   -Wcast-align \
-  -Wcast-function-type
+  -Wcast-function-type \
+  -Wcast-qual \
+  -Wnull-dereference \
+  -Wuninitialized \
+  -Wunused \
+  -Wredundant-decls
+
+# conversion is too strict for most mcu driver, may be disable sign/int/arith-conversion
+#  -Wconversion
 
 # Debugging/Optimization
 ifeq ($(DEBUG), 1)
-  CFLAGS += -Og
+  GCC_CFLAGS += -O0
+  NO_LTO = 1
 else
-  CFLAGS += -Os
+  GCC_CFLAGS += $(CFLAGS_OPTIMIZED)
 endif
 
 # Log level is mapped to TUSB DEBUG option

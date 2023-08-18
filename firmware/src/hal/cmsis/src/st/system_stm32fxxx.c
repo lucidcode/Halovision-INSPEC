@@ -224,13 +224,28 @@ void SystemClock_Config(void)
     }
     #endif
 
+    #if defined(OMV_OSC_LSE_DRIVE)
+    // Configure LSE drive strength.
+    HAL_PWR_EnableBkUpAccess();
+    __HAL_RCC_LSEDRIVE_CONFIG(OMV_OSC_LSE_DRIVE);
+    HAL_PWR_DisableBkUpAccess();
+    #endif
+
     /* Macro to configure the PLL clock source */
     __HAL_RCC_PLL_PLLSOURCE_CONFIG(OMV_OSC_PLL_CLKSOURCE);
 
     /* Enable HSE Oscillator and activate PLL with HSE as source */
+    #if defined(OMV_OSC_LSE_STATE)
+    RCC_OscInitStruct.LSEState = OMV_OSC_LSE_STATE;
+    RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_LSE;
+    #endif
     #if defined(OMV_OSC_HSE_STATE)
     RCC_OscInitStruct.HSEState = OMV_OSC_HSE_STATE;
     RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_HSE;
+    #endif
+    #if defined(OMV_OSC_LSI_STATE)
+    RCC_OscInitStruct.LSIState = OMV_OSC_LSI_STATE;
+    RCC_OscInitStruct.OscillatorType |= RCC_OSCILLATORTYPE_LSI;
     #endif
     #if defined(OMV_OSC_HSI_STATE)
     RCC_OscInitStruct.HSIState = OMV_OSC_HSI_STATE;
@@ -304,8 +319,15 @@ void SystemClock_Config(void)
     #endif
 
     #if defined(MCU_SERIES_H7)
+
+    #if !defined(OMV_OMVPT_ERRATA_RTC)
     PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_RTC;
+    #if defined(OMV_OSC_RTC_CLKSOURCE)
+    PeriphClkInitStruct.RTCClockSelection     = OMV_OSC_RTC_CLKSOURCE;
+    #else
     PeriphClkInitStruct.RTCClockSelection     = RCC_RTCCLKSOURCE_LSI;
+    #endif
+    #endif
 
     PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_RNG;
     PeriphClkInitStruct.RngClockSelection     = OMV_OSC_RNG_CLKSOURCE;
@@ -330,6 +352,11 @@ void SystemClock_Config(void)
 
     PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_SPI123;
     PeriphClkInitStruct.Spi123ClockSelection  = OMV_OSC_SPI123_CLKSOURCE;
+
+    #if defined(OMV_OSC_SPI6_CLKSOURCE)
+    PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_SPI6;
+    PeriphClkInitStruct.Spi6ClockSelection    = OMV_OSC_SPI6_CLKSOURCE;
+    #endif
 
     PeriphClkInitStruct.PeriphClockSelection |= RCC_PERIPHCLK_I2C123;
     PeriphClkInitStruct.I2c123ClockSelection  = RCC_I2C123CLKSOURCE_D2PCLK1;

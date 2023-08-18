@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -22,8 +22,8 @@
 
 /*! @name Driver version */
 /*@{*/
-/*! @brief UART EDMA driver version 2.4.0. */
-#define FSL_UART_EDMA_DRIVER_VERSION (MAKE_VERSION(2, 4, 0))
+/*! @brief UART EDMA driver version. */
+#define FSL_UART_EDMA_DRIVER_VERSION (MAKE_VERSION(2, 5, 2))
 /*@}*/
 
 /* Forward declaration of the handle typedef. */
@@ -161,6 +161,16 @@ status_t UART_TransferGetSendCountEDMA(UART_Type *base, uart_edma_handle_t *hand
  * @retval kStatus_Success Get successfully through the parameter \p count;
  */
 status_t UART_TransferGetReceiveCountEDMA(UART_Type *base, uart_edma_handle_t *handle, uint32_t *count);
+
+/*!
+ * @brief UART eDMA IRQ handle function.
+ *
+ * This function handles the UART transmit complete IRQ request and invoke user callback.
+ *
+ * @param base UART peripheral base address.
+ * @param uartEdmaHandle UART handle pointer.
+ */
+void UART_TransferEdmaHandleIRQ(UART_Type *base, void *uartEdmaHandle);
 
 /*@}*/
 

@@ -1,3 +1,484 @@
+Sun, 7 May 2023
+
+version 6.0.12
+
+    ndarray_from_mp_obj correctly treats Boolean arguments
+    
+Sat, 6 May 2023
+
+version 6.0.11
+
+    .reshape can now interpret unknown shape dimension
+
+Sat, 6 May 2023
+
+version 6.0.10
+
+    fix binary division
+    
+Sun, 21 Jan 2023
+
+version 6.0.6
+
+    raise proper exception in arange
+    
+Sun, 21 Jan 2023
+
+version 6.0.7
+
+    treat empty arrays in sort_complex correctly
+    
+Sun, 21 Jan 2023
+
+version 6.0.5
+
+    fix ones()/zeros() method when the amount of memory to allocate overflows
+
+Sun, 15 Jan 2023
+
+version 6.0.4
+
+    fix dot function
+    
+Sat, 14 Jan 2023
+
+version 6.0.3
+
+    fix how concatenate deals with scalar inputs
+
+Tue, 3 Jan 2023
+
+version 6.0.2
+
+    fix vectorize
+
+Sat, 5 Nov 2022
+
+version 6.0.1
+
+    fix fft.ifft
+
+Wed, 21 Sep 2022
+
+version 6.0.0
+
+    bring ulab in line with the latest version of micropython
+
+Thu, 4 Aug 2022
+
+version 5.1.1
+
+    fix how arctan2 treats scalars
+
+Mon, 25 July 2022
+
+version 5.1.0
+
+    add nonzero
+
+Mon, 16 May 2022
+
+version 5.0.7
+
+    fix in-place assignment from slices
+
+Thu, 14 Apr 2022
+
+version 5.0.6
+
+    use m_new0 conditionally
+
+Thu, 14 Apr 2022
+
+version 5.0.5
+
+    fix sorting on empty arrays
+
+Fri, 18 Feb 2022
+
+version 5.0.4
+
+    fix the handling of empty arrays in binary_op
+
+Thu, 10 Feb 2022
+
+version 5.0.3
+
+    fix complex slicing
+
+Tue, 8 Feb 2022
+
+version 5.0.2
+
+    fix np.diag
+
+Thu, 3 Feb 2022
+
+version 5.0.1
+
+    add optional ULAB_HASH string
+
+Tue, 1 Feb 2022
+
+version 5.0.0
+
+    move scipy.signal.spectrogram to utils.spectrogram
+
+Tue, 1 Feb 2022
+
+version 4.4.2
+
+    add skiprows keyword to loadtxt
+
+Sat, 29 Jan 2022
+
+version 4.4.1
+
+    add dtype keyword to loadtxt
+
+Thu, 27 Jan 2022
+
+version 4.4.0
+
+    implement numpy.savetxt, numpy.loadtxt
+
+Tue, 15 Jan 2022
+
+version 4.3.2
+
+    fix rp2 port compilation
+
+Wed, 19 Jan 2022
+
+version 4.3.1
+
+    fix signal.sosfilt
+
+Wed, 19 Jan 2022
+
+version 4.3.0
+
+    implement numpy.save, numpy.load
+
+Tue, 18 Jan 2022
+
+version 4.2.1
+
+    fix ndarray_copy_view for Boolean dtypes
+
+Fri, 14 Jan 2022
+
+version 4.2.0
+
+    add numpy.size, asarray
+
+Wed, 12 Jan 2022
+
+    version 4.2.0
+
+    implement numpy.save, numpy.load
+
+Wed, 12 Jan 2022
+
+version 4.1.1
+
+    fix complex printout for long arrays
+
+Wed, 12 Jan 2022
+
+version 4.1.0
+
+    add numpy.delete
+
+Sat, 8 Jan 2022
+
+version 4.0.0
+
+    add complex support, .tolist() method, .imag, .real array properties, compress, conjugate, imag, real, sort_complex functions
+
+Fri, 3 Dec 2021
+
+version 3.3.8
+
+    fix any/all function
+
+Tue, 30 Nov 2021
+
+version 3.3.7
+
+    fix sum() for integer/Boolean types
+
+Sat, 20 Nov 2021
+
+version 3.3.6
+
+    fix .shape for arrays of zero length (#454)
+
+Sun, 07 Nov 2021
+
+version 3.3.5
+
+    fix cast in numpy/compare.c:compare_function()
+
+Sat, 07 Aug 2021
+
+version 3.3.4
+
+    change default keyword value in linalg.qr
+
+Fri, 23 Jul 2021
+
+version 3.3.3
+
+    fix compilation for one dimension
+
+Thu, 22 Jul 2021
+
+version 3.3.2
+
+    fix compilation error on SAMD devices
+
+Thu, 22 Jul 2021
+
+version 3.3.1
+
+    fix sum for 4D arrays
+
+Thu, 22 Jul 2021
+
+version 3.3.0
+
+    add QR decomposition
+
+Tue, 13 Jul 2021
+
+version 3.2.0
+
+    add flatiter/flat to ndarray methods
+
+Tue, 22 Jun 2021
+
+version 3.1.1
+
+    fix float comparison in scipy/linalg.c
+
+Sat, 19 Jun 2021
+
+version 3.1.0
+
+    ndarray.shape can now be assigned to
+
+Thu, 17 Jun 2021
+
+version 3.0.1
+
+    add the .T ndarray property
+
+Wed, 9 Jun 2021
+
+version 3.0.0
+
+    implement property getter/setter for micropython
+
+Thu, 3 Jun 2021
+
+version 2.9.0
+
+    add empty as alias for zeros
+
+Thu, 3 Jun 2021
+
+version 2.8.8
+
+    allow functions in approx to take iterables as argument
+
+Thu, 3 Jun 2021
+
+version 2.8.7
+
+    simplify vectorised function code
+
+Wed, 2 Jun 2021
+
+version 2.8.6
+
+    factor out array creation from iterables, so that generic iterables can be passed to numerical functions
+
+Tue, 1 Jun 2021
+
+version 2.8.5
+
+    fix upcasting rules for ndarray + scalar
+
+Mon, 31 May 2021
+
+version 2.8.4
+
+    initialise arange values via macro
+
+Mon, 24 May 2021
+
+version 2.8.3
+
+    fix nan return value
+
+Sat, 22 May 2021
+
+version 2.8.2
+
+    fix all/any/median for empty arrays
+
+Tue, 18 May 2021
+
+version 2.8.1
+
+    fix array initialisation/print with empty iterables
+
+Sun, 16 May 2021
+
+version 2.8.0
+
+    added cho_solve function in scipy.linalg module
+
+Thu, 13 May 2021
+
+version 2.7.1
+
+    fix garbage collection problem
+
+Wed, 5 May 2021
+
+version 2.7.0
+
+    added linalg module in scipy with solve_triangular function
+
+Mon, 26 Apr 2021
+
+version 2.6.2
+
+    fix optimize zero condition
+
+Sat, 23 Apr 2021
+
+version 2.6.1
+
+    fix implementation of math constants
+
+
+Mon, 22 Mar 2021
+
+version 2.6.0
+
+    add where function
+
+Mon, 8 Mar 2021
+
+version 2.5.1
+
+    fix linspace/logspace/arange for Boolean dtypes
+
+Wed, 03 Mar 2021
+
+version 2.5.0
+
+    added utils sub-module with from_intbuffer function
+
+Tue, 23 Feb 2021
+
+version 2.4.5
+
+    fix dot function
+
+Sun, 21 Feb 2021
+
+version 2.4.3
+
+    re-introduce ndarray_get_buffer, and buffer protocol
+
+Sun, 21 Feb 2021
+
+version 2.4.2
+
+    fix ndarray_is_dense, eye, ones, full, and zeros for Boolean type
+
+Sat, 13 Feb 2021
+
+version 2.4.1
+
+    fixed dot error
+
+Fri, 12 Feb 2021
+
+version 2.4.0
+
+    added byteswap method
+
+Sun, 14 Feb 2021
+
+version 2.3.7
+
+    fixed frombuffer implementation glitch
+
+Sat, 13 Feb 2021
+
+version 2.3.6
+
+    moved trace and dot to the top level
+
+Wed, 10 Feb 2021
+
+version 2.3.5
+
+    fixed invisible error in tools_reduce_axes, simplified the implementation of all/any
+
+Tue, 9 Feb 2021
+
+version 2.3.4
+
+    removed redundant exception from linalg.norm, fixed exception message in tools_reduce_axes
+
+Tue, 9 Feb 2021
+
+version 2.3.3
+
+    linalg.norm should now work with the axis keyword argument
+
+Mon, 8 Feb 2021
+
+version 2.3.2
+
+    improved the accuracy of linalg.norm, and extended it to generic iterables
+
+Mon, 8 Feb 2021
+
+version 2.3.1
+
+    partially fix https://github.com/v923z/micropython-ulab/issues/304, and len unary operator
+
+Mon, 8 Feb 2021
+
+version 2.3.0
+
+    added any and all functions
+
+Fri, 29 Jan 2021
+
+version 2.2.0
+
+    added isinf/infinite functions
+
+Fri, 29 Jan 2021
+
+version 2.1.5
+
+    fixed error, when calculating standard deviation of iterables
+
+wed, 27 Jan 2021
+
+version 2.1.4
+
+    arrays can now be initialised from nested iterables
+
 Thu, 21 Jan 2021
 
 version 2.1.3

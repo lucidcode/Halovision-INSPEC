@@ -14,7 +14,7 @@ IMU sensor under the camera sensor.
 Functions
 ---------
 
-.. function:: imu.acceleration_mg()
+.. function:: acceleration_mg()
 
    Returns the acceleration for (x, y, z) in a float tuple in milli-g's.
 
@@ -24,7 +24,7 @@ Functions
    Y points down below the camera sensor (towards the bottom on the board)
    Z points in the reverse direction of the camera sensor (into the table)
 
-.. function:: imu.angular_rate_mdps()
+.. function:: angular_rate_mdps()
 
    Returns the angular rate for (x, y, z) in a float tuple in milli-degrees-per-second.
 
@@ -34,11 +34,11 @@ Functions
    Y points down below the camera sensor (towards the bottom on the board)
    Z points in the reverse direction of the camera sensor (into the table)
 
-.. function:: imu.temperature_c()
+.. function:: temperature_c()
 
    Returns the temperature in celsius (float).
 
-.. function:: imu.roll()
+.. function:: roll()
 
    Returns the rotation angle in degrees (float) of the camera module.
 
@@ -47,7 +47,7 @@ Functions
       * 180 -> Camera is upside down.
       * 270 -> Camera is rotated right.
 
-.. function:: imu.pitch()
+.. function:: pitch()
 
    Returns the rotation angle in degrees (float) of the camera module.
 

@@ -1,3 +1,14 @@
+/*
+ * This file is part of the OpenMV project.
+ *
+ * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ *
+ * This work is licensed under the MIT license, see the file LICENSE for details.
+ *
+ * Camera bus port for rp2.
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 #include "py/mphal.h"
@@ -18,13 +29,13 @@ int cambus_init(cambus_t *bus, uint32_t bus_id, uint32_t speed)
 
     switch (speed) {
         case CAMBUS_SPEED_STANDARD:
-            bus->speed = 100 * 1000; ///< 100 kbps
+            bus->speed = 100 * 1000;    ///< 100 kbps
             break;
         case CAMBUS_SPEED_FULL:
-            bus->speed = 250 * 1000; ///< 250 kbps
+            bus->speed = 250 * 1000;    ///< 250 kbps
             break;
         case CAMBUS_SPEED_FAST:
-            bus->speed = 400 * 1000;  ///< 400 kbps
+            bus->speed = 1000 * 1000;   ///< 1000 kbps
             break;
         default:
             return -1;
@@ -64,19 +75,33 @@ int cambus_deinit(cambus_t *bus)
     return 0;
 }
 
-int cambus_scan(cambus_t *bus)
+int cambus_scan(cambus_t *bus, uint8_t *list, uint8_t size)
 {
-    for (uint8_t addr=0x20, rxdata; addr<=0x48; addr++) {
+    int idx = 0;
+    for (uint8_t addr=0x20, rxdata; addr<=0x77; addr++) {
         if (i2c_read_timeout_us(bus->i2c, addr, &rxdata, 1, false, I2C_SCAN_TIMEOUT) >= 0) {
-            return (addr << 1);
+            if (list == NULL || size == 0) {
+                return (addr << 1);
+            } else if (idx < size) {
+                list[idx++] = (addr << 1);
+            } else {
+                break;
+            }
         }
     }
-    return 0;
+    return idx;
 }
 
 int cambus_enable(cambus_t *bus, bool enable)
 {
     return 0;
+}
+
+int cambus_gencall(cambus_t *bus, uint8_t cmd)
+{
+    int bytes = 0;
+    bytes += i2c_write_timeout_us(bus->i2c, 0x00, &cmd, 1, false, I2C_TIMEOUT);
+    return (bytes == 1) ? 0 : -1;
 }
 
 int cambus_readb(cambus_t *bus, uint8_t slv_addr, uint8_t reg_addr,  uint8_t *reg_data)

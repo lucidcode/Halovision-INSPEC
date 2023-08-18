@@ -101,8 +101,8 @@ typedef struct
 
 	// Word 2: qTQ Token
 	volatile uint32_t ping_err             : 1  ; ///< For Highspeed: 0 Out, 1 Ping. Full/Slow used as error indicator
-	volatile uint32_t non_hs_split_state   : 1  ; ///< Used by HC to track the state of slipt transaction
-	volatile uint32_t non_hs_missed_uframe : 1  ; ///< HC misses a complete slip transaction
+	volatile uint32_t non_hs_split_state   : 1  ; ///< Used by HC to track the state of split transaction
+	volatile uint32_t non_hs_missed_uframe : 1  ; ///< HC misses a complete split transaction
 	volatile uint32_t xact_err             : 1  ; ///< Error (Timeout, CRC, Bad PID ... )
 	volatile uint32_t babble_err           : 1  ; ///< Babble detected, also set Halted bit to 1
 	volatile uint32_t buffer_err           : 1  ; ///< Data overrun/underrun error
@@ -114,7 +114,7 @@ typedef struct
 	volatile uint32_t current_page         : 3  ; ///< Index into the qTD buffer pointer list
 	uint32_t int_on_complete               : 1  ; ///< Interrupt on complete
 	volatile uint32_t total_bytes          : 15 ; ///< Transfer bytes, decreased during transaction
-	volatile uint32_t data_toggle          : 1  ; ///< Data Toogle bit
+	volatile uint32_t data_toggle          : 1  ; ///< Data Toggle bit
 
 
 	/// Buffer Page Pointer List, Each element in the list is a 4K page aligned, physical memory address. The lower 12 bits in each pointer are reserved (except for the first one) as each memory pointer must reference the start of a 4K page
@@ -160,7 +160,7 @@ typedef struct TU_ATTR_ALIGNED(32)
 	uint8_t used;
 	uint8_t removing; // removed from asyn list, waiting for async advance
 	uint8_t pid;
-	uint8_t interval_ms; // polling interval in frames (or milisecond)
+	uint8_t interval_ms; // polling interval in frames (or millisecond)
 
 	uint16_t total_xferred_bytes; // number of bytes xferred until a qtd with ioc bit set
 	uint8_t reserved2[2];
@@ -225,7 +225,7 @@ typedef struct TU_ATTR_ALIGNED(32)
 	uint16_t reserved ; ///< reserved
 
 	// Word 3: siTD Transfer Status and Control
-	// Status [7:0] TODO indentical to qTD Token'status --> refractor later
+	// Status [7:0] TODO identical to qTD Token'status --> refactor later
 	volatile uint32_t                 : 1  ; // reserved
 	volatile uint32_t split_state     : 1  ;
 	volatile uint32_t missed_uframe   : 1  ;
@@ -350,8 +350,8 @@ typedef volatile struct
       uint32_t periodic_status       : 1  ; ///< Periodic schedule status
       uint32_t async_status          : 1  ; ///< Async schedule status
       uint32_t                       : 2  ;
-      uint32_t nxp_int_async         : 1  ; ///< NXP customized: This bit is set by the Host Controller when the cause of an interrupt is a completion of a USB transaction where the Transfer Descriptor (TD) has an interrupt on complete (IOC) bit set andthe TD was from the asynchronous schedule. This bit is also set by the Host when a short packet is detected andthe packet is on the asynchronous schedule.
-      uint32_t nxp_int_period        : 1  ; ///< NXP customized: This bit is set by the Host Controller when the cause of an interrupt is a completion of a USB transaction where the Transfer Descriptor (TD) has an interrupt on complete (IOC) bit set andthe TD was from the periodic schedule.
+      uint32_t nxp_int_async         : 1  ; ///< NXP customized: This bit is set by the Host Controller when the cause of an interrupt is a completion of a USB transaction where the Transfer Descriptor (TD) has an interrupt on complete (IOC) bit set and the TD was from the asynchronous schedule. This bit is also set by the Host when a short packet is detected and the packet is on the asynchronous schedule.
+      uint32_t nxp_int_period        : 1  ; ///< NXP customized: This bit is set by the Host Controller when the cause of an interrupt is a completion of a USB transaction where the Transfer Descriptor (TD) has an interrupt on complete (IOC) bit set and the TD was from the periodic schedule.
       uint32_t                       : 12 ;
     }status_bm;
   };

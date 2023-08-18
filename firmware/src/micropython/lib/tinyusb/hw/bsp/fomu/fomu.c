@@ -61,7 +61,7 @@ void isr(void)
 
   irqs = irq_pending() & irq_getmask();
 
-#if CFG_TUSB_RHPORT0_MODE == OPT_MODE_DEVICE
+#if CFG_TUD_ENABLED
   if (irqs & (1 << USB_INTERRUPT)) {
     tud_int_handler(0);
   }
@@ -101,9 +101,14 @@ int board_uart_read(uint8_t* buf, int len)
 int board_uart_write(void const * buf, int len)
 {
   int32_t offset = 0;
+  uint8_t const* buf8 = (uint8_t const*) buf;
   for (offset = 0; offset < len; offset++)
-    if (! (messible_status_read() & CSR_MESSIBLE_STATUS_FULL_OFFSET))
-      messible_in_write(((uint8_t *)buf)[offset]);
+  {
+    if (!(messible_status_read() & CSR_MESSIBLE_STATUS_FULL_OFFSET))
+    {
+      messible_in_write(buf8[offset]);
+    }
+  }
   return len;
 }
 

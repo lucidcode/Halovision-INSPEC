@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 NXP
+ * Copyright 2018-2021 NXP
  * All rights reserved.
  *
  *
@@ -388,15 +388,6 @@ static void TimerManagerTask(void *param)
             }
             s_timermanager.timerHardwareIsRunning = (uint8_t) true;
         }
-        else
-        {
-            if (0U != s_timermanager.timerHardwareIsRunning)
-            {
-                HAL_TimerDisable((hal_timer_handle_t)s_timermanager.halTimerHandle);
-                s_timermanager.timerHardwareIsRunning = (uint8_t) false;
-                s_timermanager.mUsInTimerInterval     = 0;
-            }
-        }
         EnableGlobalIRQ(regPrimask);
 #if defined(OSA_USED)
 #if (defined(TM_COMMON_TASK_ENABLE) && (TM_COMMON_TASK_ENABLE > 0U))
@@ -489,13 +480,11 @@ timer_status_t TM_Init(timer_config_t *timerConfig)
     /* Check if TMR is already initialized */
     if (0U == s_timermanager.initialized)
     {
-        halTimerConfig.timeout     = 1000;
-        halTimerConfig.srcClock_Hz = timerConfig->srcClock_Hz;
-        halTimerConfig.instance    = timerConfig->instance;
-#if (defined(TM_ENABLE_TIMER_CLOCK_SELECT) && (TM_ENABLE_TIMER_CLOCK_SELECT > 0U))
+        halTimerConfig.timeout        = 1000;
+        halTimerConfig.srcClock_Hz    = timerConfig->srcClock_Hz;
+        halTimerConfig.instance       = timerConfig->instance;
         halTimerConfig.clockSrcSelect = timerConfig->clockSrcSelect;
-#endif
-        status = HAL_TimerInit(halTimerHandle, &halTimerConfig);
+        status                        = HAL_TimerInit(halTimerHandle, &halTimerConfig);
         assert(kStatus_HAL_TimerSuccess == status);
         (void)status;
 
@@ -516,11 +505,9 @@ timer_status_t TM_Init(timer_config_t *timerConfig)
 #endif
 #endif
 #if (defined(TM_ENABLE_TIME_STAMP) && (TM_ENABLE_TIME_STAMP > 0U))
-        halTimeStampConfig.srcClock_Hz = timerConfig->timeStampSrcClock_Hz;
-        halTimeStampConfig.instance    = timerConfig->timeStampInstance;
-#if (defined(TM_ENABLE_TIME_STAMP_CLOCK_SELECT) && (TM_ENABLE_TIME_STAMP_CLOCK_SELECT > 0U))
+        halTimeStampConfig.srcClock_Hz    = timerConfig->timeStampSrcClock_Hz;
+        halTimeStampConfig.instance       = timerConfig->timeStampInstance;
         halTimeStampConfig.clockSrcSelect = timerConfig->clockSrcSelect;
-#endif
         HAL_TimeStampInit(halTimeStampHandle, &halTimeStampConfig);
 #endif
         s_timermanager.initialized = 1U;

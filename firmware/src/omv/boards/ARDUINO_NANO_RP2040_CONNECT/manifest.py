@@ -1,5 +1,24 @@
+include("$(MPY_DIR)/extmod/uasyncio")
 freeze ("$(PORT_DIR)/modules")
-include("$(MPY_DIR)/extmod/uasyncio/manifest.py")
-freeze ("$(MPY_LIB_DIR)/", "lsm6dsox.py")
-freeze ("$(MPY_LIB_DIR)/", "ble_advertising.py")
-freeze ("$(MPY_DIR)/drivers/dht", "dht.py")
+
+# Drivers
+require("lsm6dsox")
+require("espflash")
+require("onewire")
+require("ds18x20")
+require("dht")
+require("neopixel")
+
+# Networking
+require("ntptime")
+require("webrepl")
+freeze ("$(OMV_LIB_DIR)/", "urequests.py")
+
+# Utils
+require("time")
+require("senml")
+require("logging")
+
+# Bluetooth
+require("aioble")
+freeze ("$(OMV_LIB_DIR)/", "ble_advertising.py")

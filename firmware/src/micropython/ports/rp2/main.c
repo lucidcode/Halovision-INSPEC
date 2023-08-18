@@ -32,6 +32,8 @@
 #include "py/mperrno.h"
 #include "py/mphal.h"
 #include "py/stackctrl.h"
+#include "extmod/modbluetooth.h"
+#include "extmod/modnetwork.h"
 #include "shared/readline/readline.h"
 #include "shared/runtime/gchelper.h"
 #include "shared/runtime/pyexec.h"
@@ -39,15 +41,26 @@
 #include "uart.h"
 #include "modmachine.h"
 #include "modrp2.h"
+#include "mpbthciport.h"
+#include "mpnetworkport.h"
 #include "genhdr/mpversion.h"
+#include "mp_usbd.h"
 
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
+#include "pico/unique_id.h"
 #include "hardware/rtc.h"
 #include "hardware/structs/rosc.h"
+#if MICROPY_PY_LWIP
+#include "lwip/init.h"
+#include "lwip/apps/mdns.h"
+#endif
+#if MICROPY_PY_NETWORK_CYW43
+#include "lib/cyw43-driver/src/cyw43.h"
+#endif
 
 extern uint8_t __StackTop, __StackBottom;
-static char gc_heap[192 * 1024];
+extern uint8_t __GcHeapStart, __GcHeapEnd;
 
 // Embed version info in the binary in machine readable form
 bi_decl(bi_program_version_string(MICROPY_GIT_TAG));
@@ -63,10 +76,16 @@ int main(int argc, char **argv) {
     bi_decl(bi_program_feature("UART REPL"))
     setup_default_uart();
     mp_uart_init();
+    #else
+    #ifndef NDEBUG
+    stdio_init_all();
+    #endif
     #endif
 
     #if MICROPY_HW_ENABLE_USBDEV
+    #if MICROPY_HW_USB_CDC
     bi_decl(bi_program_feature("USB REPL"))
+    #endif
     tusb_init();
     #endif
 
@@ -91,24 +110,68 @@ int main(int argc, char **argv) {
     // Initialise stack extents and GC heap.
     mp_stack_set_top(&__StackTop);
     mp_stack_set_limit(&__StackTop - &__StackBottom - 256);
-    gc_init(&gc_heap[0], &gc_heap[MP_ARRAY_SIZE(gc_heap)]);
+    gc_init(&__GcHeapStart, &__GcHeapEnd);
+
+    #if MICROPY_PY_LWIP
+    // lwIP doesn't allow to reinitialise itself by subsequent calls to this function
+    // because the system timeout list (next_timeout) is only ever reset by BSS clearing.
+    // So for now we only init the lwIP stack once on power-up.
+    lwip_init();
+    #if LWIP_MDNS_RESPONDER
+    mdns_resp_init();
+    #endif
+    #endif
+
+    #if MICROPY_PY_NETWORK_CYW43
+    {
+        cyw43_init(&cyw43_state);
+        cyw43_irq_init();
+        cyw43_post_poll_hook(); // enable the irq
+        uint8_t buf[8];
+        memcpy(&buf[0], "PICO", 4);
+
+        // MAC isn't loaded from OTP yet, so use unique id to generate the default AP ssid.
+        const char hexchr[16] = "0123456789ABCDEF";
+        pico_unique_board_id_t pid;
+        pico_get_unique_board_id(&pid);
+        buf[4] = hexchr[pid.id[7] >> 4];
+        buf[5] = hexchr[pid.id[6] & 0xf];
+        buf[6] = hexchr[pid.id[5] >> 4];
+        buf[7] = hexchr[pid.id[4] & 0xf];
+        cyw43_wifi_ap_set_ssid(&cyw43_state, 8, buf);
+        cyw43_wifi_ap_set_auth(&cyw43_state, CYW43_AUTH_WPA2_AES_PSK);
+        cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *)"picoW123");
+    }
+    #endif
 
     for (;;) {
 
         // Initialise MicroPython runtime.
         mp_init();
-        mp_obj_list_init(MP_OBJ_TO_PTR(mp_sys_path), 0);
-        mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR_));
         mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR__slash_lib));
-        mp_obj_list_init(MP_OBJ_TO_PTR(mp_sys_argv), 0);
 
         // Initialise sub-systems.
         readline_init0();
         machine_pin_init();
         rp2_pio_init();
+        machine_i2s_init0();
+
+        #if MICROPY_PY_BLUETOOTH
+        mp_bluetooth_hci_init();
+        #endif
+        #if MICROPY_PY_NETWORK
+        mod_network_init();
+        #endif
+        #if MICROPY_PY_LWIP
+        mod_network_lwip_init();
+        #endif
 
         // Execute _boot.py to set up the filesystem.
-        pyexec_frozen_module("_boot.py");
+        #if MICROPY_VFS_FAT && MICROPY_HW_USB_MSC
+        pyexec_frozen_module("_boot_fat.py", false);
+        #else
+        pyexec_frozen_module("_boot.py", false);
+        #endif
 
         // Execute user scripts.
         int ret = pyexec_file_if_exists("boot.py");
@@ -136,7 +199,13 @@ int main(int argc, char **argv) {
 
     soft_reset_exit:
         mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
+        #if MICROPY_PY_NETWORK
+        mod_network_deinit();
+        #endif
         rp2_pio_deinit();
+        #if MICROPY_PY_BLUETOOTH
+        mp_bluetooth_deinit();
+        #endif
         machine_pin_deinit();
         #if MICROPY_PY_THREAD
         mp_thread_deinit();
@@ -158,7 +227,7 @@ void gc_collect(void) {
 }
 
 void nlr_jump_fail(void *val) {
-    printf("FATAL: uncaught exception %p\n", val);
+    mp_printf(&mp_plat_print, "FATAL: uncaught exception %p\n", val);
     mp_obj_print_exception(&mp_plat_print, MP_OBJ_FROM_PTR(val));
     for (;;) {
         __breakpoint();

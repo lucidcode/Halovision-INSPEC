@@ -34,7 +34,7 @@
  * - LPC54114
  * - LPC55s69
  */
-#if TUSB_OPT_DEVICE_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_LPC11UXX || \
+#if CFG_TUD_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_LPC11UXX || \
                                  CFG_TUSB_MCU == OPT_MCU_LPC13XX  || \
                                  CFG_TUSB_MCU == OPT_MCU_LPC15XX  || \
                                  CFG_TUSB_MCU == OPT_MCU_LPC51UXX || \
@@ -275,6 +275,14 @@ void dcd_disconnect(uint8_t rhport)
 {
   dcd_registers_t* dcd_reg = _dcd_controller[rhport].regs;
   dcd_reg->DEVCMDSTAT &= ~CMDSTAT_DEVICE_CONNECT_MASK;
+}
+
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
 }
 
 //--------------------------------------------------------------------+

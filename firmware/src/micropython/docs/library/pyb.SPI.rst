@@ -28,7 +28,7 @@ Additional methods for SPI::
 Constructors
 ------------
 
-.. class:: pyb.SPI(bus, ...)
+.. class:: SPI(bus, ...)
 
    Construct an SPI object on the given bus.  ``bus`` can be 2.
    With no additional parameters, the SPI object is created but
@@ -50,7 +50,7 @@ Methods
 
    Turn off the SPI bus.
 
-.. method:: SPI.init(mode, baudrate=328125, *, prescaler, polarity=1, phase=0, bits=8, firstbit=SPI.MSB, ti=False, crc=None)
+.. method:: SPI.init(mode, baudrate=328125, *, prescaler=-1, polarity=1, phase=0, bits=8, firstbit=SPI.MSB, ti=False, crc=None)
 
    Initialise the SPI bus with the given parameters:
 

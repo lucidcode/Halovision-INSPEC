@@ -48,12 +48,14 @@
 #endif
 
 #if MICROPY_PY_NETWORK
-#include "modnetwork.h"
+#include "extmod/modnetwork.h"
 #endif
 
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "hardware/rtc.h"
+#include "hardware/irq.h"
+#include "hardware/regs/intctrl.h"
 #include "hardware/structs/rosc.h"
 #include "pico/unique_id.h"
 #include "pico/bootrom.h"
@@ -63,6 +65,7 @@
 #include "cambus.h"
 #include "sensor.h"
 #include "usbdbg.h"
+#include "tinyusb_debug.h"
 #include "py_fir.h"
 #if MICROPY_PY_AUDIO
 #include "py_audio.h"
@@ -102,7 +105,7 @@ void __fatal_error()
     }
 }
 
-void pico_reset_to_bootloader(void)
+void pico_reset_to_bootloader(size_t n_args, const void *args_in)
 {
     reset_usb_boot(0, 0);
 }
@@ -145,6 +148,7 @@ int main(int argc, char **argv) {
 
     #if MICROPY_HW_ENABLE_USBDEV
     bi_decl(bi_program_feature("USB REPL"))
+    tusb_init();
     #endif
 
     #if MICROPY_PY_THREAD
@@ -157,7 +161,7 @@ int main(int argc, char **argv) {
         .year = 2021,
         .month = 1,
         .day = 1,
-        .dotw = 5, // 0 is Sunday, so 5 is Friday
+        .dotw = 4, // 0 is Monday, so 4 is Friday
         .hour = 0,
         .min = 0,
         .sec = 0,
@@ -169,6 +173,12 @@ int main(int argc, char **argv) {
     OMV_UNIQUE_ID_ADDR = pico_unique_id.id;
     pico_get_unique_board_id(&pico_unique_id);
 
+    // Install Tinyusb CDC debugger IRQ handler.
+    irq_set_enabled(USBCTRL_IRQ, false);
+    irq_remove_handler(USBCTRL_IRQ, irq_get_vtable_handler(USBCTRL_IRQ));
+    irq_set_exclusive_handler(USBCTRL_IRQ, OMV_USB1_IRQ_HANDLER);
+    irq_set_enabled(USBCTRL_IRQ, true);
+
 soft_reset:
     // Initialise stack extents and GC heap.
     mp_stack_set_top(&__StackTop);
@@ -177,13 +187,9 @@ soft_reset:
 
     // Initialise MicroPython runtime.
     mp_init();
-    mp_obj_list_init(MP_OBJ_TO_PTR(mp_sys_path), 0);
-    mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR_));
     mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR__slash_lib));
-    mp_obj_list_init(MP_OBJ_TO_PTR(mp_sys_argv), 0);
 
     // Initialise sub-systems.
-    mp_hal_init();
     readline_init0();
     machine_pin_init();
     rp2_pio_init();
@@ -212,10 +218,10 @@ soft_reset:
     #if MICROPY_VFS_FAT && MICROPY_HW_USB_MSC
     // Mount or create a fresh filesystem.
     mp_obj_t mount_point = MP_OBJ_NEW_QSTR(MP_QSTR__slash_);
-    mp_obj_t bdev = rp2_flash_type.make_new(&rp2_flash_type, 0, 0, NULL);
+    mp_obj_t bdev = MP_OBJ_TYPE_GET_SLOT(&rp2_flash_type, make_new)(&rp2_flash_type, 0, 0, NULL);
     if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == -MP_ENODEV) {
         // Create a fresh filesystem.
-        fs_user_mount_t *vfs  = mp_fat_vfs_type.make_new(&mp_fat_vfs_type, 1, 0, &bdev);
+        fs_user_mount_t *vfs  = MP_OBJ_TYPE_GET_SLOT(&mp_fat_vfs_type, make_new)(&mp_fat_vfs_type, 1, 0, &bdev);
         if (factoryreset_create_filesystem(vfs) == 0) {
             mp_vfs_mount_and_chdir_protected(bdev, mount_point);
         }
@@ -261,15 +267,23 @@ soft_reset:
             usbdbg_set_irq_enabled(true);
             // Execute the script.
             pyexec_str(usbdbg_get_script(), true);
+            // Disable IDE interrupts
+            usbdbg_set_irq_enabled(false);
             nlr_pop();
         } else {
             mp_obj_print_exception(&mp_plat_print, (mp_obj_t)nlr.ret_val);
         }
+
+        if (usbdbg_is_busy() && nlr_push(&nlr) == 0) {
+            // Enable IDE interrupt
+            usbdbg_set_irq_enabled(true);
+            // Wait for the current command to finish.
+            usbdbg_wait_for_command(1000);
+            // Disable IDE interrupts
+            usbdbg_set_irq_enabled(false);
+            nlr_pop();
+        }
     }
-
-    usbdbg_wait_for_command(1000);
-
-    usbdbg_set_irq_enabled(false);
 
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
     #if MICROPY_PY_AUDIO
@@ -369,4 +383,3 @@ const char rp2_help_text[] =
     "For further help on a specific object, type help(obj)\n"
     "For a list of available modules, type help('modules')\n"
 ;
-

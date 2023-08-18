@@ -27,6 +27,9 @@
 #include "py/runtime.h"
 #include "modmachine.h"
 #include "mphalport.h"
+#include "modesp32.h"
+
+#include "esp_task.h"
 #include "driver/rmt.h"
 
 // This exposes the ESP32's RMT module to MicroPython. RMT is provided by the Espressif ESP-IDF:
@@ -44,6 +47,13 @@
 // This current MicroPython implementation lacks some major features, notably receive pulses
 // and carrier output.
 
+// Last available RMT channel that can transmit.
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 4, 0)
+#define RMT_LAST_TX_CHANNEL (RMT_CHANNEL_MAX - 1)
+#else
+#define RMT_LAST_TX_CHANNEL (SOC_RMT_TX_CANDIDATES_PER_GROUP - 1)
+#endif
+
 // Forward declaration
 extern const mp_obj_type_t esp32_rmt_type;
 
@@ -56,6 +66,50 @@ typedef struct _esp32_rmt_obj_t {
     rmt_item32_t *items;
     bool loop_en;
 } esp32_rmt_obj_t;
+
+// Current channel used for machine.bitstream, in the machine_bitstream_high_low_rmt
+// implementation.  A value of -1 means do not use RMT.
+int8_t esp32_rmt_bitstream_channel_id = RMT_LAST_TX_CHANNEL;
+
+#if MP_TASK_COREID == 0
+
+typedef struct _rmt_install_state_t {
+    SemaphoreHandle_t handle;
+    uint8_t channel_id;
+    esp_err_t ret;
+} rmt_install_state_t;
+
+STATIC void rmt_install_task(void *pvParameter) {
+    rmt_install_state_t *state = pvParameter;
+    state->ret = rmt_driver_install(state->channel_id, 0, 0);
+    xSemaphoreGive(state->handle);
+    vTaskDelete(NULL);
+    for (;;) {
+    }
+}
+
+// Call rmt_driver_install on core 1.  This ensures that the RMT interrupt handler is
+// serviced on core 1, so that WiFi (if active) does not interrupt it and cause glitches.
+esp_err_t rmt_driver_install_core1(uint8_t channel_id) {
+    TaskHandle_t th;
+    rmt_install_state_t state;
+    state.handle = xSemaphoreCreateBinary();
+    state.channel_id = channel_id;
+    xTaskCreatePinnedToCore(rmt_install_task, "rmt_install_task", 2048 / sizeof(StackType_t), &state, ESP_TASK_PRIO_MIN + 1, &th, 1);
+    xSemaphoreTake(state.handle, portMAX_DELAY);
+    vSemaphoreDelete(state.handle);
+    return state.ret;
+}
+
+#else
+
+// MicroPython runs on core 1, so we can call the RMT installer directly and its
+// interrupt handler will also run on core 1.
+esp_err_t rmt_driver_install_core1(uint8_t channel_id) {
+    return rmt_driver_install(channel_id, 0, 0);
+}
+
+#endif
 
 STATIC mp_obj_t esp32_rmt_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
     static const mp_arg_t allowed_args[] = {
@@ -72,6 +126,10 @@ STATIC mp_obj_t esp32_rmt_make_new(const mp_obj_type_t *type, size_t n_args, siz
     mp_uint_t clock_div = args[2].u_int;
     mp_uint_t idle_level = args[3].u_bool;
     mp_obj_t tx_carrier_obj = args[4].u_obj;
+
+    if (esp32_rmt_bitstream_channel_id >= 0 && channel_id == esp32_rmt_bitstream_channel_id) {
+        mp_raise_ValueError(MP_ERROR_TEXT("channel used by bitstream"));
+    }
 
     if (clock_div < 1 || clock_div > 255) {
         mp_raise_ValueError(MP_ERROR_TEXT("clock_div must be between 1 and 255"));
@@ -119,7 +177,7 @@ STATIC mp_obj_t esp32_rmt_make_new(const mp_obj_type_t *type, size_t n_args, siz
     config.clk_div = self->clock_div;
 
     check_esp_err(rmt_config(&config));
-    check_esp_err(rmt_driver_install(config.channel, 0, 0));
+    check_esp_err(rmt_driver_install_core1(config.channel));
 
     return MP_OBJ_FROM_PTR(self);
 }
@@ -268,16 +326,37 @@ STATIC mp_obj_t esp32_rmt_write_pulses(size_t n_args, const mp_obj_t *args) {
         check_esp_err(rmt_wait_tx_done(self->channel_id, portMAX_DELAY));
     }
 
-    check_esp_err(rmt_write_items(self->channel_id, self->items, num_items, false));
-
     if (self->loop_en) {
         check_esp_err(rmt_set_tx_intr_en(self->channel_id, false));
         check_esp_err(rmt_set_tx_loop_mode(self->channel_id, true));
     }
 
+    check_esp_err(rmt_write_items(self->channel_id, self->items, num_items, false));
+
     return mp_const_none;
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(esp32_rmt_write_pulses_obj, 2, 3, esp32_rmt_write_pulses);
+
+STATIC mp_obj_t esp32_rmt_bitstream_channel(size_t n_args, const mp_obj_t *args) {
+    if (n_args > 0) {
+        if (args[0] == mp_const_none) {
+            esp32_rmt_bitstream_channel_id = -1;
+        } else {
+            mp_int_t channel_id = mp_obj_get_int(args[0]);
+            if (channel_id < 0 || channel_id > RMT_LAST_TX_CHANNEL) {
+                mp_raise_ValueError(MP_ERROR_TEXT("invalid channel"));
+            }
+            esp32_rmt_bitstream_channel_id = channel_id;
+        }
+    }
+    if (esp32_rmt_bitstream_channel_id < 0) {
+        return mp_const_none;
+    } else {
+        return MP_OBJ_NEW_SMALL_INT(esp32_rmt_bitstream_channel_id);
+    }
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(esp32_rmt_bitstream_channel_fun_obj, 0, 1, esp32_rmt_bitstream_channel);
+STATIC MP_DEFINE_CONST_STATICMETHOD_OBJ(esp32_rmt_bitstream_channel_obj, MP_ROM_PTR(&esp32_rmt_bitstream_channel_fun_obj));
 
 STATIC const mp_rom_map_elem_t esp32_rmt_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR___del__), MP_ROM_PTR(&esp32_rmt_deinit_obj) },
@@ -287,13 +366,17 @@ STATIC const mp_rom_map_elem_t esp32_rmt_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_wait_done), MP_ROM_PTR(&esp32_rmt_wait_done_obj) },
     { MP_ROM_QSTR(MP_QSTR_loop), MP_ROM_PTR(&esp32_rmt_loop_obj) },
     { MP_ROM_QSTR(MP_QSTR_write_pulses), MP_ROM_PTR(&esp32_rmt_write_pulses_obj) },
+
+    // Static methods
+    { MP_ROM_QSTR(MP_QSTR_bitstream_channel), MP_ROM_PTR(&esp32_rmt_bitstream_channel_obj) },
 };
 STATIC MP_DEFINE_CONST_DICT(esp32_rmt_locals_dict, esp32_rmt_locals_dict_table);
 
-const mp_obj_type_t esp32_rmt_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_RMT,
-    .print = esp32_rmt_print,
-    .make_new = esp32_rmt_make_new,
-    .locals_dict = (mp_obj_dict_t *)&esp32_rmt_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    esp32_rmt_type,
+    MP_QSTR_RMT,
+    MP_TYPE_FLAG_NONE,
+    make_new, esp32_rmt_make_new,
+    print, esp32_rmt_print,
+    locals_dict, &esp32_rmt_locals_dict
+    );

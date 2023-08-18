@@ -81,8 +81,6 @@
 //   32 byte address boundary.  Not all STM32 devices have a D-Cache.  Buffer alignment
 //   will still happen on these devices to keep this code simple.
 
-#define MAX_I2S_STM32 (2)
-
 // DMA ping-pong buffer size was empirically determined.  It is a tradeoff between:
 // 1. memory use (smaller buffer size desirable to reduce memory footprint)
 // 2. interrupt frequency (larger buffer size desirable to reduce interrupt frequency)
@@ -160,15 +158,13 @@ STATIC mp_obj_t machine_i2s_deinit(mp_obj_t self_in);
 STATIC const int8_t i2s_frame_map[NUM_I2S_USER_FORMATS][I2S_RX_FRAME_SIZE_IN_BYTES] = {
     { 0,  1, -1, -1, -1, -1, -1, -1 },  // Mono, 16-bits
     { 2,  3,  0,  1, -1, -1, -1, -1 },  // Mono, 32-bits
-    { 0,  1,  4,  5, -1, -1, -1, -1 },  // Stereo, 16-bits
+    { 0,  1, -1, -1,  2,  3, -1, -1 },  // Stereo, 16-bits
     { 2,  3,  0,  1,  6,  7,  4,  5 },  // Stereo, 32-bits
 };
 
-STATIC machine_i2s_obj_t *machine_i2s_obj[MAX_I2S_STM32];
-
 void machine_i2s_init0() {
-    for (uint8_t i = 0; i < MAX_I2S_STM32; i++) {
-        machine_i2s_obj[i] = NULL;
+    for (uint8_t i = 0; i < MICROPY_HW_MAX_I2S; i++) {
+        MP_STATE_PORT(machine_i2s_obj)[i] = NULL;
     }
 }
 
@@ -509,6 +505,9 @@ STATIC void feed_dma(machine_i2s_obj_t *self, ping_pong_t dma_ping_pong) {
         if (self->bits == 32) {
             reformat_32_bit_samples((int32_t *)dma_buffer_p, SIZEOF_HALF_DMA_BUFFER_IN_BYTES / (sizeof(uint32_t)));
         }
+    } else {
+        // underflow.  clear buffer to transmit "silence" on the I2S bus
+        memset(dma_buffer_p, 0, SIZEOF_HALF_DMA_BUFFER_IN_BYTES);
     }
 
     // flush cache to RAM so DMA can read the sample data
@@ -598,9 +597,9 @@ void HAL_I2S_ErrorCallback(I2S_HandleTypeDef *hi2s) {
 void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s) {
     machine_i2s_obj_t *self;
     if (hi2s->Instance == I2S1) {
-        self = machine_i2s_obj[0];
+        self = MP_STATE_PORT(machine_i2s_obj)[0];
     } else {
-        self = machine_i2s_obj[1];
+        self = MP_STATE_PORT(machine_i2s_obj)[1];
     }
 
     // bottom half of buffer now filled,
@@ -617,9 +616,9 @@ void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s) {
 void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
     machine_i2s_obj_t *self;
     if (hi2s->Instance == I2S1) {
-        self = machine_i2s_obj[0];
+        self = MP_STATE_PORT(machine_i2s_obj)[0];
     } else {
-        self = machine_i2s_obj[1];
+        self = MP_STATE_PORT(machine_i2s_obj)[1];
     }
 
     // top half of buffer now filled,
@@ -637,9 +636,9 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
     machine_i2s_obj_t *self;
 
     if (hi2s->Instance == I2S1) {
-        self = machine_i2s_obj[0];
+        self = MP_STATE_PORT(machine_i2s_obj)[0];
     } else {
-        self = machine_i2s_obj[1];
+        self = MP_STATE_PORT(machine_i2s_obj)[1];
     }
 
     // for non-blocking operation, this IRQ-based callback handles
@@ -656,9 +655,9 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
     machine_i2s_obj_t *self;
     if (hi2s->Instance == I2S1) {
-        self = machine_i2s_obj[0];
+        self = MP_STATE_PORT(machine_i2s_obj)[0];
     } else {
-        self = machine_i2s_obj[1];
+        self = MP_STATE_PORT(machine_i2s_obj)[1];
     }
 
     // for non-blocking operation, this IRQ-based callback handles
@@ -792,6 +791,9 @@ STATIC void machine_i2s_init_helper(machine_i2s_obj_t *self, size_t n_pos_args, 
     init->AudioFreq = args[ARG_rate].u_int;
     init->CPOL = I2S_CPOL_LOW;
     init->ClockSource = I2S_CLOCK_PLL;
+    #if defined(STM32F4)
+    init->FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
+    #endif
 
     // init the I2S bus
     if (!i2s_init(self)) {
@@ -856,13 +858,12 @@ STATIC mp_obj_t machine_i2s_make_new(const mp_obj_type_t *type, size_t n_pos_arg
     }
 
     machine_i2s_obj_t *self;
-    if (machine_i2s_obj[i2s_id_zero_base] == NULL) {
-        self = m_new_obj(machine_i2s_obj_t);
-        machine_i2s_obj[i2s_id_zero_base] = self;
-        self->base.type = &machine_i2s_type;
+    if (MP_STATE_PORT(machine_i2s_obj)[i2s_id_zero_base] == NULL) {
+        self = mp_obj_malloc(machine_i2s_obj_t, &machine_i2s_type);
+        MP_STATE_PORT(machine_i2s_obj)[i2s_id_zero_base] = self;
         self->i2s_id = i2s_id;
     } else {
-        self = machine_i2s_obj[i2s_id_zero_base];
+        self = MP_STATE_PORT(machine_i2s_obj)[i2s_id_zero_base];
         machine_i2s_deinit(MP_OBJ_FROM_PTR(self));
     }
 
@@ -885,24 +886,26 @@ STATIC mp_obj_t machine_i2s_init(size_t n_pos_args, const mp_obj_t *pos_args, mp
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(machine_i2s_init_obj, 1, machine_i2s_init);
 
 STATIC mp_obj_t machine_i2s_deinit(mp_obj_t self_in) {
-
     machine_i2s_obj_t *self = MP_OBJ_TO_PTR(self_in);
 
-    dma_deinit(self->dma_descr_tx);
-    dma_deinit(self->dma_descr_rx);
-    HAL_I2S_DeInit(&self->hi2s);
+    if (self->ring_buffer_storage != NULL) {
+        dma_deinit(self->dma_descr_tx);
+        dma_deinit(self->dma_descr_rx);
+        HAL_I2S_DeInit(&self->hi2s);
 
-    if (self->hi2s.Instance == I2S1) {
-        __SPI1_FORCE_RESET();
-        __SPI1_RELEASE_RESET();
-        __SPI1_CLK_DISABLE();
-    } else if (self->hi2s.Instance == I2S2) {
-        __SPI2_FORCE_RESET();
-        __SPI2_RELEASE_RESET();
-        __SPI2_CLK_DISABLE();
+        if (self->hi2s.Instance == I2S1) {
+            __SPI1_FORCE_RESET();
+            __SPI1_RELEASE_RESET();
+            __SPI1_CLK_DISABLE();
+        } else if (self->hi2s.Instance == I2S2) {
+            __SPI2_FORCE_RESET();
+            __SPI2_RELEASE_RESET();
+            __SPI2_CLK_DISABLE();
+        }
+
+        m_free(self->ring_buffer_storage);
+        self->ring_buffer_storage = NULL;
     }
-
-    m_free(self->ring_buffer_storage);
 
     return mp_const_none;
 }
@@ -1111,15 +1114,16 @@ STATIC const mp_stream_p_t i2s_stream_p = {
     .is_text = false,
 };
 
-const mp_obj_type_t machine_i2s_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_I2S,
-    .print = machine_i2s_print,
-    .getiter = mp_identity_getiter,
-    .iternext = mp_stream_unbuffered_iter,
-    .protocol = &i2s_stream_p,
-    .make_new = machine_i2s_make_new,
-    .locals_dict = (mp_obj_dict_t *)&machine_i2s_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    machine_i2s_type,
+    MP_QSTR_I2S,
+    MP_TYPE_FLAG_ITER_IS_STREAM,
+    make_new, machine_i2s_make_new,
+    print, machine_i2s_print,
+    protocol, &i2s_stream_p,
+    locals_dict, &machine_i2s_locals_dict
+    );
+
+MP_REGISTER_ROOT_POINTER(struct _machine_i2s_obj_t *machine_i2s_obj[MICROPY_HW_MAX_I2S]);
 
 #endif // MICROPY_HW_ENABLE_I2S

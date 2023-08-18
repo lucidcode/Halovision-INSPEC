@@ -1,6 +1,13 @@
 #define MICROPY_HW_BOARD_NAME       "OPENMV2"
 #define MICROPY_HW_MCU_NAME         "STM32F427"
 #define MICROPY_PY_SYS_PLATFORM     "OpenMV2"
+#define MICROPY_STREAMS_POSIX_API   (1)
+
+#define MICROPY_OBJ_REPR            (MICROPY_OBJ_REPR_C)
+#define UINT_FMT                    "%u"
+#define INT_FMT                     "%d"
+typedef int mp_int_t;               // must be pointer size
+typedef unsigned int mp_uint_t;     // must be pointer size
 
 #define MICROPY_FATFS_EXFAT         (1)
 #define MICROPY_HW_HAS_SWITCH       (0)
@@ -20,6 +27,9 @@
 // Reserved DMA streams
 #define MICROPY_HW_DMA2S1_IS_RESERVED
 #define MICROPY_HW_TIM_IS_RESERVED(id) (id == 1 || id == 6)
+
+#define MICROPY_HW_ENTER_BOOTLOADER_VIA_RESET   (0)
+#define MICROPY_BOARD_ENTER_BOOTLOADER(nargs, args) NVIC_SystemReset()
 
 #define MICROPY_HW_CLK_PLLM (6)
 #define MICROPY_HW_CLK_PLLN (360)
@@ -68,8 +78,9 @@
 
 // CAN busses
 #define MICROPY_HW_CAN2_NAME "CAN2" // CAN2 on RX,TX = P3,P2 = PB12,PB13
-#define MICROPY_HW_CAN2_TX          (pin_B13)
-#define MICROPY_HW_CAN2_RX          (pin_B12)
+#define MICROPY_HW_CAN2_TX   (pin_B13)
+#define MICROPY_HW_CAN2_RX   (pin_B12)
+#define MICROPY_HW_CAN_IS_RESERVED(id) (id != PYB_CAN_2)
 
 // SD card detect switch
 #define MICROPY_HW_SDCARD_DETECT_PIN        (pin_A15)
@@ -100,3 +111,13 @@
 
 // Servos
 #define PYB_SERVO_NUM (2)
+
+#if MICROPY_PY_WINC1500
+extern const struct _mp_obj_type_t mod_network_nic_type_winc;
+#define MICROPY_PY_USOCKET_EXTENDED_STATE   (1)
+#define MICROPY_BOARD_NETWORK_INTERFACES \
+    { MP_ROM_QSTR(MP_QSTR_WINC), MP_ROM_PTR(&mod_network_nic_type_winc) },\
+    { MP_ROM_QSTR(MP_QSTR_WLAN), MP_ROM_PTR(&mod_network_nic_type_winc) },
+#else
+#define MICROPY_BOARD_NETWORK_INTERFACES
+#endif

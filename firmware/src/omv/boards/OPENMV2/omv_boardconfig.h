@@ -14,15 +14,12 @@
 // Architecture info
 #define OMV_ARCH_STR            "OMV2 F4 256 JPEG" // 33 chars max
 #define OMV_BOARD_TYPE          "M4"
-#define OMV_UNIQUE_ID_ADDR      0x1FFF7A10
-#define OMV_UNIQUE_ID_SIZE      3 // 3 words
+#define OMV_UNIQUE_ID_ADDR      0x1FFF7A10  // Unique ID address.
+#define OMV_UNIQUE_ID_SIZE      3           // Unique ID size in words.
+#define OMV_UNIQUE_ID_OFFSET    4           // Bytes offset for multi-word UIDs.
 
 // Needed by the SWD JTAG testrig - located at the bottom of the frame buffer stack.
 #define OMV_SELF_TEST_SWD_ADDR  MAIN_FB()->pixfmt
-
-// Flash sectors for the bootloader.
-// Flash FS sector, main FW sector, max sector.
-#define OMV_FLASH_LAYOUT        {1, 4, 11}
 
 #define OMV_XCLK_MCO            (0U)
 #define OMV_XCLK_TIM            (1U)
@@ -38,13 +35,6 @@
 
 // Sensor Banding Filter Value
 #define OMV_OV7725_BANDING      (0x3F)
-
-// Bootloader LED GPIO port/pin
-#define OMV_BOOTLDR_LED_PIN     (GPIO_PIN_2)
-#define OMV_BOOTLDR_LED_PORT    (GPIOC)
-
-// RAW buffer size
-#define OMV_RAW_BUF_SIZE        (153600)
 
 // Enable sensor drivers
 #define OMV_ENABLE_OV2640       (1)
@@ -106,10 +96,10 @@
 #define OMV_STACK_MEMORY    DTCM    // stack memory
 #define OMV_DMA_MEMORY      SRAM2   // Misc DMA buffers
 
-#define OMV_FB_SIZE         (150K)  // FB memory: header + QVGA/GS image
-#define OMV_FB_ALLOC_SIZE   (12K)   // minimum fb alloc size
-#define OMV_STACK_SIZE      (4K)
-#define OMV_HEAP_SIZE       (51K)
+#define OMV_FB_SIZE         (152K)  // FB memory: header + QVGA/GS image
+#define OMV_FB_ALLOC_SIZE   (10K)   // minimum fb alloc size
+#define OMV_STACK_SIZE      (8K)
+#define OMV_HEAP_SIZE       (47K)
 
 #define OMV_LINE_BUF_SIZE   (2 * 1024)  // Image line buffer round(320 * 2BPP * 2 buffers).
 #define OMV_MSC_BUF_SIZE    (2K)    // USB MSC bot data
@@ -118,16 +108,21 @@
 #define OMV_FFS_BUF_SIZE    (16K)   // Flash filesystem cache
 #define OMV_JPEG_BUF_SIZE   (8 * 1024)  // IDE JPEG buffer size (header + data).
 
-#define OMV_BOOT_ORIGIN     0x08000000
-#define OMV_BOOT_LENGTH     16K
-#define OMV_TEXT_ORIGIN     0x08010000
-#define OMV_TEXT_LENGTH     960K
+// Memory map.
+#define OMV_FLASH_ORIGIN    0x08000000
+#define OMV_FLASH_LENGTH    1024K
 #define OMV_DTCM_ORIGIN     0x10000000
 #define OMV_DTCM_LENGTH     64K
 #define OMV_SRAM1_ORIGIN    0x20000000
 #define OMV_SRAM1_LENGTH    162K
 #define OMV_SRAM2_ORIGIN    0x20028800
 #define OMV_SRAM2_LENGTH    30K
+
+// Flash configuration.
+#define OMV_FLASH_FFS_ORIGIN    0x08004000
+#define OMV_FLASH_FFS_LENGTH    48K
+#define OMV_FLASH_TXT_ORIGIN    0x08010000
+#define OMV_FLASH_TXT_LENGTH    960K
 
 // Image sensor I2C
 #define ISC_I2C                 (I2C1)
@@ -205,8 +200,10 @@
 #define DCMI_PWDN_LOW()         HAL_GPIO_WritePin(DCMI_PWDN_PORT, DCMI_PWDN_PIN, GPIO_PIN_RESET)
 #define DCMI_PWDN_HIGH()        HAL_GPIO_WritePin(DCMI_PWDN_PORT, DCMI_PWDN_PIN, GPIO_PIN_SET)
 
-#define DCMI_VSYNC_IRQN         EXTI9_5_IRQn
-#define DCMI_VSYNC_IRQ_LINE     (7)
+#define DCMI_VSYNC_EXTI_IRQN    (EXTI9_5_IRQn)
+#define DCMI_VSYNC_EXTI_LINE    (7)
+#define DCMI_VSYNC_EXTI_GPIO    (EXTI_GPIOB)
+#define DCMI_VSYNC_EXTI_SHARED  (0)
 
 #define WINC_SPI                (SPI2)
 #define WINC_SPI_AF             (GPIO_AF5_SPI2)

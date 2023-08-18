@@ -109,15 +109,20 @@
 #define STM32F1_FSDEV
 #endif
 
-#if (TUSB_OPT_DEVICE_ENABLED) && ( \
-      (CFG_TUSB_MCU == OPT_MCU_STM32F0                          ) || \
-      (CFG_TUSB_MCU == OPT_MCU_STM32F1 && defined(STM32F1_FSDEV)) || \
-      (CFG_TUSB_MCU == OPT_MCU_STM32F3                          ) || \
-	  (CFG_TUSB_MCU == OPT_MCU_STM32L0                          ) || \
-      (CFG_TUSB_MCU == OPT_MCU_STM32L1                          ) \
-    )
+#if defined(STM32L412xx) || defined(STM32L422xx) || \
+    defined(STM32L432xx) || defined(STM32L433xx) || \
+    defined(STM32L442xx) || defined(STM32L443xx) || \
+    defined(STM32L452xx) || defined(STM32L462xx)
+#define STM32L4_FSDEV
+#endif
 
-// In order to reduce the dependance on HAL, we undefine this.
+#if CFG_TUD_ENABLED && \
+      ( TU_CHECK_MCU(OPT_MCU_STM32F0, OPT_MCU_STM32F3, OPT_MCU_STM32L0, OPT_MCU_STM32L1, OPT_MCU_STM32G4, OPT_MCU_STM32WB) || \
+        (TU_CHECK_MCU(OPT_MCU_STM32F1) && defined(STM32F1_FSDEV)) || \
+        (TU_CHECK_MCU(OPT_MCU_STM32L4) && defined(STM32L4_FSDEV)) \
+      )
+
+// In order to reduce the dependence on HAL, we undefine this.
 // Some definitions are copied to our private include file.
 #undef USE_HAL_DRIVER
 
@@ -290,6 +295,14 @@ void dcd_connect(uint8_t rhport)
 }
 #endif
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
+
 // Enable device interrupt
 void dcd_int_enable (uint8_t rhport)
 {
@@ -297,10 +310,13 @@ void dcd_int_enable (uint8_t rhport)
   // Member here forces write to RAM before allowing ISR to execute
   __DSB();
   __ISB();
-#if CFG_TUSB_MCU == OPT_MCU_STM32F0 || CFG_TUSB_MCU == OPT_MCU_STM32L0
+#if CFG_TUSB_MCU == OPT_MCU_STM32F0 || CFG_TUSB_MCU == OPT_MCU_STM32L0 || \
+    CFG_TUSB_MCU == OPT_MCU_STM32L4
   NVIC_EnableIRQ(USB_IRQn);
+
 #elif CFG_TUSB_MCU == OPT_MCU_STM32L1
   NVIC_EnableIRQ(USB_LP_IRQn);
+
 #elif CFG_TUSB_MCU == OPT_MCU_STM32F3
   // Some STM32F302/F303 devices allow to remap the USB interrupt vectors from
   // shared USB/CAN IRQs to separate CAN and USB IRQs.
@@ -323,6 +339,16 @@ void dcd_int_enable (uint8_t rhport)
   NVIC_EnableIRQ(USB_HP_CAN1_TX_IRQn);
   NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
   NVIC_EnableIRQ(USBWakeUp_IRQn);
+
+#elif CFG_TUSB_MCU == OPT_MCU_STM32G4
+  NVIC_EnableIRQ(USB_HP_IRQn);
+  NVIC_EnableIRQ(USB_LP_IRQn);
+  NVIC_EnableIRQ(USBWakeUp_IRQn);
+
+#elif CFG_TUSB_MCU == OPT_MCU_STM32WB
+  NVIC_EnableIRQ(USB_HP_IRQn);
+  NVIC_EnableIRQ(USB_LP_IRQn);
+
 #else
   #error Unknown arch in USB driver
 #endif
@@ -333,7 +359,8 @@ void dcd_int_disable(uint8_t rhport)
 {
   (void)rhport;
 
-#if CFG_TUSB_MCU == OPT_MCU_STM32F0 || CFG_TUSB_MCU == OPT_MCU_STM32L0
+#if CFG_TUSB_MCU == OPT_MCU_STM32F0 || CFG_TUSB_MCU == OPT_MCU_STM32L0 || \
+    CFG_TUSB_MCU == OPT_MCU_STM32L4
   NVIC_DisableIRQ(USB_IRQn);
 #elif CFG_TUSB_MCU == OPT_MCU_STM32L1
   NVIC_DisableIRQ(USB_LP_IRQn);
@@ -359,6 +386,16 @@ void dcd_int_disable(uint8_t rhport)
   NVIC_DisableIRQ(USB_HP_CAN1_TX_IRQn);
   NVIC_DisableIRQ(USB_LP_CAN1_RX0_IRQn);
   NVIC_DisableIRQ(USBWakeUp_IRQn);
+
+#elif CFG_TUSB_MCU == OPT_MCU_STM32G4
+  NVIC_DisableIRQ(USB_HP_IRQn);
+  NVIC_DisableIRQ(USB_LP_IRQn);
+  NVIC_DisableIRQ(USBWakeUp_IRQn);
+
+#elif CFG_TUSB_MCU == OPT_MCU_STM32WB
+  NVIC_DisableIRQ(USB_HP_IRQn);
+  NVIC_DisableIRQ(USB_LP_IRQn);
+
 #else
   #error Unknown arch in USB driver
 #endif
@@ -394,7 +431,7 @@ static const tusb_desc_endpoint_t ep0OUT_desc =
 
   .bEndpointAddress = 0x00,
   .bmAttributes     = { .xfer = TUSB_XFER_CONTROL },
-  .wMaxPacketSize   = { .size = CFG_TUD_ENDPOINT0_SIZE },
+  .wMaxPacketSize   = CFG_TUD_ENDPOINT0_SIZE,
   .bInterval        = 0
 };
 
@@ -405,7 +442,7 @@ static const tusb_desc_endpoint_t ep0IN_desc =
 
   .bEndpointAddress = 0x80,
   .bmAttributes     = { .xfer = TUSB_XFER_CONTROL },
-  .wMaxPacketSize   = { .size = CFG_TUD_ENDPOINT0_SIZE },
+  .wMaxPacketSize   = CFG_TUD_ENDPOINT0_SIZE,
   .bInterval        = 0
 };
 
@@ -741,7 +778,7 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * p_endpoint_desc
   (void)rhport;
   uint8_t const epnum = tu_edpt_number(p_endpoint_desc->bEndpointAddress);
   uint8_t const dir   = tu_edpt_dir(p_endpoint_desc->bEndpointAddress);
-  const uint16_t epMaxPktSize = p_endpoint_desc->wMaxPacketSize.size;
+  const uint16_t epMaxPktSize = tu_edpt_packet_size(p_endpoint_desc);
   uint16_t pma_addr;
   uint32_t wType;
   
@@ -778,19 +815,19 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * p_endpoint_desc
   // or being double-buffered (bulk endpoints)
   pcd_clear_ep_kind(USB,0);
 
-  pma_addr = dcd_pma_alloc(p_endpoint_desc->bEndpointAddress, p_endpoint_desc->wMaxPacketSize.size);
+  pma_addr = dcd_pma_alloc(p_endpoint_desc->bEndpointAddress, epMaxPktSize);
 
   if(dir == TUSB_DIR_IN)
   {
     *pcd_ep_tx_address_ptr(USB, epnum) = pma_addr;
-    pcd_set_ep_tx_cnt(USB, epnum, p_endpoint_desc->wMaxPacketSize.size);
+    pcd_set_ep_tx_cnt(USB, epnum, epMaxPktSize);
     pcd_clear_tx_dtog(USB, epnum);
     pcd_set_ep_tx_status(USB,epnum,USB_EP_TX_NAK);
   }
   else
   {
     *pcd_ep_rx_address_ptr(USB, epnum) = pma_addr;
-    pcd_set_ep_rx_cnt(USB, epnum, p_endpoint_desc->wMaxPacketSize.size);
+    pcd_set_ep_rx_cnt(USB, epnum, epMaxPktSize);
     pcd_clear_rx_dtog(USB, epnum);
     pcd_set_ep_rx_status(USB, epnum, USB_EP_RX_NAK);
   }

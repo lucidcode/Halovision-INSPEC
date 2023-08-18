@@ -23,9 +23,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-//  Show extra XTBOARD memory map details.
-INCLUDE_XTBOARD_MEMORIES = try
-
 
 // A memory map is a sequence of memory descriptions and
 // optional parameter assignments.
@@ -54,10 +51,15 @@ INCLUDE_XTBOARD_MEMORIES = try
 //
 // Please refer to the Xtensa LSP Reference Manual for more details.
 //
-BEGIN sram
-0x4: sysram : sram : 0x23fffffc : executable, writable ;
- sram0 : C : 0x4 - 0x23ffffff :  STACK :  HEAP : .sram.rodata .clib.rodata .rtos.rodata .rodata .sram.literal .literal .rtos.literal .clib.literal .sram.text .text .clib.text .rtos.text .clib.data .clib.percpu.data .rtos.percpu.data .rtos.data .sram.data .data __llvm_prf_names .clib.bss .clib.percpu.bss .rtos.percpu.bss .rtos.bss .sram.bss .bss;
-END sram
+BEGIN dsp_core
+0x00200000: sysram : dsp_core : 0x280000 : executable, writable ;
+ dsp_core : C : 0x00200000 - 0x0047ffff :  STACK :  HEAP : .rodata .literal .text .data __llvm_prf_names .bss;
+END dsp_core
+
+BEGIN dsp_uncached
+0x20000000: sysram : dsp_uncached : 0x480000 : uncached, executable, writable ;
+ dsp_uncached : C : 0x20060000 - 0x2006ffff : NonCacheable.init NonCacheable ;
+END dsp_uncached
 
 BEGIN dram0
 0x24000000: dataRam : dram0 : 0x10000 : writable ;
@@ -76,16 +78,4 @@ BEGIN iram0
  iram0_7 : F : 0x2402061c - 0x2402063b : .UserExceptionVector.text;
  iram0_8 : F : 0x2402063c - 0x2402ffff : .DoubleExceptionVector.text .iram0.text;
 END iram0
-
-BEGIN iocached
-0x70000000: io : iocached : 0xda00000 : executable, writable ;
-END iocached
-
-BEGIN rambypass
-0x80000000: sysram : rambypass : 0x10000000 : device, executable, writable ;
-END rambypass
-
-BEGIN iobypass
-0x90000000: io : iobypass : 0xda00000 : device, executable, writable ;
-END iobypass
 

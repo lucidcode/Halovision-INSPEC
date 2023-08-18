@@ -138,9 +138,9 @@ STATIC int ble_gattc_attr_write_cb(uint16_t conn_handle, const struct ble_gatt_e
 
 #if MICROPY_PY_BLUETOOTH_ENABLE_PAIRING_BONDING
 // Bonding store.
-STATIC int ble_store_ram_read(int obj_type, const union ble_store_key *key, union ble_store_value *value);
-STATIC int ble_store_ram_write(int obj_type, const union ble_store_value *val);
-STATIC int ble_store_ram_delete(int obj_type, const union ble_store_key *key);
+STATIC int ble_secret_store_read(int obj_type, const union ble_store_key *key, union ble_store_value *value);
+STATIC int ble_secret_store_write(int obj_type, const union ble_store_value *val);
+STATIC int ble_secret_store_delete(int obj_type, const union ble_store_key *key);
 #endif
 
 STATIC int ble_hs_err_to_errno(int err) {
@@ -604,6 +604,12 @@ int mp_bluetooth_init(void) {
     ble_hs_cfg.gatts_register_cb = gatts_register_cb;
     ble_hs_cfg.store_status_cb = ble_store_util_status_rr;
 
+    #if MICROPY_PY_BLUETOOTH_ENABLE_PAIRING_BONDING
+    ble_hs_cfg.store_read_cb = ble_secret_store_read;
+    ble_hs_cfg.store_write_cb = ble_secret_store_write;
+    ble_hs_cfg.store_delete_cb = ble_secret_store_delete;
+    #endif // MICROPY_PY_BLUETOOTH_ENABLE_PAIRING_BONDING
+
     MP_STATE_PORT(bluetooth_nimble_root_pointers) = m_new0(mp_bluetooth_nimble_root_pointers_t, 1);
     mp_bluetooth_gatts_db_create(&MP_STATE_PORT(bluetooth_nimble_root_pointers)->gatts_db);
 
@@ -845,6 +851,7 @@ static int characteristic_access_cb(uint16_t conn_handle, uint16_t value_handle,
     switch (ctxt->op) {
         case BLE_GATT_ACCESS_OP_READ_CHR:
         case BLE_GATT_ACCESS_OP_READ_DSC: {
+            DEBUG_printf("write for %d %d (op=%d)\n", conn_handle, value_handle, ctxt->op);
             // Allow Python code to override (by using gatts_write), or deny (by returning false) the read.
             // Note this will be a no-op if the ringbuffer implementation is being used (i.e. the stack isn't
             // run in the scheduler). The ringbuffer is not used on STM32 and Unix-H4 only.
@@ -866,6 +873,7 @@ static int characteristic_access_cb(uint16_t conn_handle, uint16_t value_handle,
         }
         case BLE_GATT_ACCESS_OP_WRITE_CHR:
         case BLE_GATT_ACCESS_OP_WRITE_DSC:
+            DEBUG_printf("write for %d %d (op=%d)\n", conn_handle, value_handle, ctxt->op);
             entry = mp_bluetooth_gatts_db_lookup(MP_STATE_PORT(bluetooth_nimble_root_pointers)->gatts_db, value_handle);
             if (!entry) {
                 return BLE_ATT_ERR_ATTR_NOT_FOUND;
@@ -957,7 +965,14 @@ int mp_bluetooth_gatts_register_service(mp_obj_bluetooth_uuid_t *service_uuid, m
                 descriptors[j].uuid = create_nimble_uuid(descriptor_uuids[descriptor_index], NULL);
                 descriptors[j].access_cb = characteristic_access_cb;
                 // NimBLE doesn't support security/privacy options on descriptors.
-                descriptors[j].att_flags = (uint8_t)descriptor_flags[descriptor_index];
+                uint8_t desc_att_flags = 0;
+                if (descriptor_flags[descriptor_index] & MP_BLUETOOTH_CHARACTERISTIC_FLAG_READ) {
+                    desc_att_flags |= BLE_ATT_F_READ;
+                }
+                if (descriptor_flags[descriptor_index] & (MP_BLUETOOTH_CHARACTERISTIC_FLAG_WRITE | MP_BLUETOOTH_CHARACTERISTIC_FLAG_WRITE_NO_RESPONSE)) {
+                    desc_att_flags |= BLE_ATT_F_WRITE;
+                }
+                descriptors[j].att_flags = desc_att_flags;
                 descriptors[j].min_key_size = 0;
                 // Unlike characteristic, Nimble doesn't provide an automatic way to remember the handle, so use the arg.
                 descriptors[j].arg = &handles[handle_index];
@@ -1002,7 +1017,7 @@ int mp_bluetooth_gap_disconnect(uint16_t conn_handle) {
     return ble_hs_err_to_errno(ble_gap_terminate(conn_handle, BLE_ERR_REM_USER_CONN_TERM));
 }
 
-int mp_bluetooth_gatts_read(uint16_t value_handle, uint8_t **value, size_t *value_len) {
+int mp_bluetooth_gatts_read(uint16_t value_handle, const uint8_t **value, size_t *value_len) {
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
     }
@@ -1020,35 +1035,40 @@ int mp_bluetooth_gatts_write(uint16_t value_handle, const uint8_t *value, size_t
     return err;
 }
 
-// TODO: Could use ble_gatts_chr_updated to send to all subscribed centrals.
-
-int mp_bluetooth_gatts_notify(uint16_t conn_handle, uint16_t value_handle) {
+int mp_bluetooth_gatts_notify_indicate(uint16_t conn_handle, uint16_t value_handle, int gatts_op, const uint8_t *value, size_t value_len) {
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
     }
-    // Confusingly, notify/notify_custom/indicate are "gattc" function (even though they're used by peripherals (i.e. gatt servers)).
+
+    int err = BLE_HS_EINVAL;
+
+    // NULL om in the _custom methods means "use DB value" (NimBLE will call
+    // back into mp_bluetooth_gatts_read for us).
+    struct os_mbuf *om = NULL;
+
+    if (value) {
+        om = ble_hs_mbuf_from_flat(value, value_len);
+        if (om == NULL) {
+            return MP_ENOMEM;
+        }
+    }
+
+    // Note: Confusingly, Nimble's notify/notify_custom and indicate/indicate_custom
+    // are "gattc" functions (even though they're used by peripherals, i.e. gatt servers).
     // See https://www.mail-archive.com/dev@mynewt.apache.org/msg01293.html
-    return ble_hs_err_to_errno(ble_gattc_notify(conn_handle, value_handle));
-}
 
-int mp_bluetooth_gatts_notify_send(uint16_t conn_handle, uint16_t value_handle, const uint8_t *value, size_t value_len) {
-    if (!mp_bluetooth_is_active()) {
-        return ERRNO_BLUETOOTH_NOT_ACTIVE;
+    switch (gatts_op) {
+        case MP_BLUETOOTH_GATTS_OP_NOTIFY:
+            err = ble_gattc_notify_custom(conn_handle, value_handle, om);
+            break;
+        case MP_BLUETOOTH_GATTS_OP_INDICATE:
+            // This will raise BLE_GAP_EVENT_NOTIFY_TX with a status when it is
+            // acknowledged (or timeout/error).
+            err = ble_gattc_indicate_custom(conn_handle, value_handle, om);
+            break;
     }
-    struct os_mbuf *om = ble_hs_mbuf_from_flat(value, value_len);
-    if (om == NULL) {
-        return MP_ENOMEM;
-    }
-    return ble_hs_err_to_errno(ble_gattc_notify_custom(conn_handle, value_handle, om));
-}
 
-int mp_bluetooth_gatts_indicate(uint16_t conn_handle, uint16_t value_handle) {
-    if (!mp_bluetooth_is_active()) {
-        return ERRNO_BLUETOOTH_NOT_ACTIVE;
-    }
-    // This will raise BLE_GAP_EVENT_NOTIFY_TX with a status when it is
-    // acknowledged (or timeout/error).
-    return ble_hs_err_to_errno(ble_gattc_indicate(conn_handle, value_handle));
+    return ble_hs_err_to_errno(err);
 }
 
 int mp_bluetooth_gatts_set_buffer(uint16_t value_handle, size_t len, bool append) {
@@ -1202,7 +1222,7 @@ STATIC int peripheral_gap_event_cb(struct ble_gap_event *event, void *arg) {
     return commmon_gap_event_cb(event, arg);
 }
 
-int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, int32_t duration_ms) {
+int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, int32_t duration_ms, int32_t min_conn_interval_us, int32_t max_conn_interval_us) {
     DEBUG_printf("mp_bluetooth_gap_peripheral_connect\n");
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
@@ -1211,12 +1231,14 @@ int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, 
         mp_bluetooth_gap_scan_stop();
     }
 
-    // TODO: This is the same as ble_gap_conn_params_dflt (i.e. passing NULL).
-    STATIC const struct ble_gap_conn_params params = {
+    uint16_t conn_interval_min = min_conn_interval_us ? min_conn_interval_us / BLE_HCI_CONN_ITVL : BLE_GAP_INITIAL_CONN_ITVL_MIN;
+    uint16_t conn_interval_max = max_conn_interval_us ? max_conn_interval_us / BLE_HCI_CONN_ITVL : BLE_GAP_INITIAL_CONN_ITVL_MAX;
+
+    const struct ble_gap_conn_params params = {
         .scan_itvl = 0x0010,
         .scan_window = 0x0010,
-        .itvl_min = BLE_GAP_INITIAL_CONN_ITVL_MIN,
-        .itvl_max = BLE_GAP_INITIAL_CONN_ITVL_MAX,
+        .itvl_min = conn_interval_min,
+        .itvl_max = conn_interval_max,
         .latency = BLE_GAP_INITIAL_CONN_LATENCY,
         .supervision_timeout = BLE_GAP_INITIAL_SUPERVISION_TIMEOUT,
         .min_ce_len = BLE_GAP_INITIAL_CONN_MIN_CE_LEN,
@@ -1225,6 +1247,15 @@ int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, 
 
     ble_addr_t addr_nimble = create_nimble_addr(addr_type, addr);
     int err = ble_gap_connect(nimble_address_mode, &addr_nimble, duration_ms, &params, &peripheral_gap_event_cb, NULL);
+    return ble_hs_err_to_errno(err);
+}
+
+int mp_bluetooth_gap_peripheral_connect_cancel(void) {
+    DEBUG_printf("mp_bluetooth_gap_peripheral_connect_cancel\n");
+    if (!mp_bluetooth_is_active()) {
+        return ERRNO_BLUETOOTH_NOT_ACTIVE;
+    }
+    int err = ble_gap_conn_cancel();
     return ble_hs_err_to_errno(err);
 }
 
@@ -1293,15 +1324,51 @@ int mp_bluetooth_gattc_discover_primary_services(uint16_t conn_handle, const mp_
     return ble_hs_err_to_errno(err);
 }
 
+STATIC bool match_char_uuid(const mp_obj_bluetooth_uuid_t *filter_uuid, const ble_uuid_any_t *result_uuid) {
+    if (!filter_uuid) {
+        return true;
+    }
+    ble_uuid_any_t filter_uuid_nimble;
+    create_nimble_uuid(filter_uuid, &filter_uuid_nimble);
+    return ble_uuid_cmp(&result_uuid->u, &filter_uuid_nimble.u) == 0;
+}
+
 STATIC int ble_gattc_characteristic_cb(uint16_t conn_handle, const struct ble_gatt_error *error, const struct ble_gatt_chr *characteristic, void *arg) {
     DEBUG_printf("ble_gattc_characteristic_cb: conn_handle=%d status=%d def_handle=%d val_handle=%d\n", conn_handle, error->status, characteristic ? characteristic->def_handle : -1, characteristic ? characteristic->val_handle : -1);
     if (!mp_bluetooth_is_active()) {
         return 0;
     }
+
+    mp_bluetooth_nimble_pending_characteristic_t *pending = &MP_STATE_PORT(bluetooth_nimble_root_pointers)->pending_char_result;
+    if (pending->ready) {
+        // If there's a pending characteristic, we now know what it's end handle is, report it up to modbluetooth.
+        pending->ready = 0;
+
+        // The end handle will either be the end of the query range (there are
+        // no more results), or one before the current result's definition
+        // handle.
+        uint16_t end_handle = MP_STATE_PORT(bluetooth_nimble_root_pointers)->char_disc_end_handle;
+        if (error->status == 0) {
+            end_handle = characteristic->def_handle - 1;
+        }
+
+        // Assume same conn_handle because we're limiting to a single active discovery.
+        mp_bluetooth_gattc_on_characteristic_result(conn_handle, pending->value_handle, end_handle, pending->properties, &pending->uuid);
+    }
+
     if (error->status == 0) {
-        mp_obj_bluetooth_uuid_t characteristic_uuid = create_mp_uuid(&characteristic->uuid);
-        mp_bluetooth_gattc_on_characteristic_result(conn_handle, characteristic->def_handle, characteristic->val_handle, characteristic->properties, &characteristic_uuid);
+        // If there's no filter, or the filter matches, then save this result.
+        if (match_char_uuid(MP_STATE_PORT(bluetooth_nimble_root_pointers)->char_filter_uuid, &characteristic->uuid)) {
+            pending->value_handle = characteristic->val_handle;
+            pending->properties = characteristic->properties;
+            pending->uuid = create_mp_uuid(&characteristic->uuid);
+            pending->ready = 1;
+        }
     } else {
+        // Finished (or failed). Allow another characteristic discovery to start.
+        MP_STATE_PORT(bluetooth_nimble_root_pointers)->char_disc_end_handle = 0;
+
+        // Report completion.
         mp_bluetooth_gattc_on_discover_complete(MP_BLUETOOTH_IRQ_GATTC_CHARACTERISTIC_DONE, conn_handle, error->status == BLE_HS_EDONE ? 0 : error->status);
     }
     return 0;
@@ -1311,13 +1378,29 @@ int mp_bluetooth_gattc_discover_characteristics(uint16_t conn_handle, uint16_t s
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
     }
-    int err;
-    if (uuid) {
-        ble_uuid_any_t nimble_uuid;
-        create_nimble_uuid(uuid, &nimble_uuid);
-        err = ble_gattc_disc_chrs_by_uuid(conn_handle, start_handle, end_handle, &nimble_uuid.u, &ble_gattc_characteristic_cb, NULL);
-    } else {
-        err = ble_gattc_disc_all_chrs(conn_handle, start_handle, end_handle, &ble_gattc_characteristic_cb, NULL);
+
+    // The implementation of characteristic discovery queries for all
+    // characteristics, and then UUID filtering is applied by NimBLE on each
+    // characteristic. Unfortunately, each characteristic result does not
+    // include its end handle, so you need to know the next characteristic
+    // before you can raise the previous one to modbluetooth. But if we let
+    // NimBLE do the filtering, then we don't necessarily see the next one.
+    // So we make NimBLE return all results and do the filtering here instead.
+
+    if (MP_STATE_PORT(bluetooth_nimble_root_pointers)->char_disc_end_handle) {
+        // Only allow a single discovery (otherwise we'd need to track a
+        // pending characteristic per conn handle).
+        return MP_EBUSY;
+    }
+
+    // Set the uuid filter (if any). This needs to be a root pointer,
+    // otherwise we'd use ble_gattc_disc_all_chrs's arg param.
+    MP_STATE_PORT(bluetooth_nimble_root_pointers)->char_filter_uuid = uuid;
+
+    int err = ble_gattc_disc_all_chrs(conn_handle, start_handle, end_handle, &ble_gattc_characteristic_cb, NULL);
+    if (!err) {
+        // Lock out concurrent characteristic discovery.
+        MP_STATE_PORT(bluetooth_nimble_root_pointers)->char_disc_end_handle = end_handle;
     }
     return ble_hs_err_to_errno(err);
 }
@@ -1377,15 +1460,15 @@ STATIC int ble_gattc_attr_write_cb(uint16_t conn_handle, const struct ble_gatt_e
 }
 
 // Write the value to the remote peripheral.
-int mp_bluetooth_gattc_write(uint16_t conn_handle, uint16_t value_handle, const uint8_t *value, size_t *value_len, unsigned int mode) {
+int mp_bluetooth_gattc_write(uint16_t conn_handle, uint16_t value_handle, const uint8_t *value, size_t value_len, unsigned int mode) {
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
     }
     int err;
     if (mode == MP_BLUETOOTH_WRITE_MODE_NO_RESPONSE) {
-        err = ble_gattc_write_no_rsp_flat(conn_handle, value_handle, value, *value_len);
+        err = ble_gattc_write_no_rsp_flat(conn_handle, value_handle, value, value_len);
     } else if (mode == MP_BLUETOOTH_WRITE_MODE_WITH_RESPONSE) {
-        err = ble_gattc_write_flat(conn_handle, value_handle, value, *value_len, &ble_gattc_attr_write_cb, NULL);
+        err = ble_gattc_write_flat(conn_handle, value_handle, value, value_len, &ble_gattc_attr_write_cb, NULL);
     } else {
         err = BLE_HS_EINVAL;
     }
@@ -1739,12 +1822,6 @@ int mp_bluetooth_l2cap_send(uint16_t conn_handle, uint16_t cid, const uint8_t *b
         *stalled = true;
     }
 
-    // Sometimes we see what looks like BLE_HS_EAGAIN (but it's actually
-    // OS_ENOMEM in disguise). Fixed in NimBLE v1.4.
-    if (err == OS_ENOMEM) {
-        err = BLE_HS_ENOMEM;
-    }
-
     // Other error codes such as BLE_HS_EBUSY (we're stalled) or BLE_HS_EBADDATA (bigger than MTU).
     return ble_hs_err_to_errno(err);
 }
@@ -1824,8 +1901,8 @@ int mp_bluetooth_hci_cmd(uint16_t ogf, uint16_t ocf, const uint8_t *req, size_t 
 
 #if MICROPY_PY_BLUETOOTH_ENABLE_PAIRING_BONDING
 
-STATIC int ble_store_ram_read(int obj_type, const union ble_store_key *key, union ble_store_value *value) {
-    DEBUG_printf("ble_store_ram_read: %d\n", obj_type);
+STATIC int ble_secret_store_read(int obj_type, const union ble_store_key *key, union ble_store_value *value) {
+    DEBUG_printf("ble_secret_store_read: %d\n", obj_type);
     const uint8_t *key_data;
     size_t key_data_len;
 
@@ -1859,7 +1936,7 @@ STATIC int ble_store_ram_read(int obj_type, const union ble_store_key *key, unio
         }
         case BLE_STORE_OBJ_TYPE_CCCD: {
             // TODO: Implement CCCD persistence.
-            DEBUG_printf("ble_store_ram_read: CCCD not supported.\n");
+            DEBUG_printf("ble_secret_store_read: CCCD not supported.\n");
             return -1;
         }
         default:
@@ -1869,18 +1946,18 @@ STATIC int ble_store_ram_read(int obj_type, const union ble_store_key *key, unio
     const uint8_t *value_data;
     size_t value_data_len;
     if (!mp_bluetooth_gap_on_get_secret(obj_type, key->sec.idx, key_data, key_data_len, &value_data, &value_data_len)) {
-        DEBUG_printf("ble_store_ram_read: Key not found: type=%d, index=%u, key=0x%p, len=" UINT_FMT "\n", obj_type, key->sec.idx, key_data, key_data_len);
+        DEBUG_printf("ble_secret_store_read: Key not found: type=%d, index=%u, key=0x%p, len=" UINT_FMT "\n", obj_type, key->sec.idx, key_data, key_data_len);
         return BLE_HS_ENOENT;
     }
 
     if (value_data_len != sizeof(struct ble_store_value_sec)) {
-        DEBUG_printf("ble_store_ram_read: Invalid key data: actual=" UINT_FMT " expected=" UINT_FMT "\n", value_data_len, sizeof(struct ble_store_value_sec));
+        DEBUG_printf("ble_secret_store_read: Invalid key data: actual=" UINT_FMT " expected=" UINT_FMT "\n", value_data_len, sizeof(struct ble_store_value_sec));
         return BLE_HS_ENOENT;
     }
 
     memcpy((uint8_t *)&value->sec, value_data, sizeof(struct ble_store_value_sec));
 
-    DEBUG_printf("ble_store_ram_read: found secret\n");
+    DEBUG_printf("ble_secret_store_read: found secret\n");
 
     if (obj_type == BLE_STORE_OBJ_TYPE_OUR_SEC) {
         // TODO: Verify ediv_rand matches.
@@ -1889,8 +1966,8 @@ STATIC int ble_store_ram_read(int obj_type, const union ble_store_key *key, unio
     return 0;
 }
 
-STATIC int ble_store_ram_write(int obj_type, const union ble_store_value *val) {
-    DEBUG_printf("ble_store_ram_write: %d\n", obj_type);
+STATIC int ble_secret_store_write(int obj_type, const union ble_store_value *val) {
+    DEBUG_printf("ble_secret_store_write: %d\n", obj_type);
     switch (obj_type) {
         case BLE_STORE_OBJ_TYPE_PEER_SEC:
         case BLE_STORE_OBJ_TYPE_OUR_SEC: {
@@ -1908,13 +1985,13 @@ STATIC int ble_store_ram_write(int obj_type, const union ble_store_value *val) {
                 return BLE_HS_ESTORE_CAP;
             }
 
-            DEBUG_printf("ble_store_ram_write: wrote secret\n");
+            DEBUG_printf("ble_secret_store_write: wrote secret\n");
 
             return 0;
         }
         case BLE_STORE_OBJ_TYPE_CCCD: {
             // TODO: Implement CCCD persistence.
-            DEBUG_printf("ble_store_ram_write: CCCD not supported.\n");
+            DEBUG_printf("ble_secret_store_write: CCCD not supported.\n");
             // Just pretend we wrote it.
             return 0;
         }
@@ -1923,8 +2000,8 @@ STATIC int ble_store_ram_write(int obj_type, const union ble_store_value *val) {
     }
 }
 
-STATIC int ble_store_ram_delete(int obj_type, const union ble_store_key *key) {
-    DEBUG_printf("ble_store_ram_delete: %d\n", obj_type);
+STATIC int ble_secret_store_delete(int obj_type, const union ble_store_key *key) {
+    DEBUG_printf("ble_secret_store_delete: %d\n", obj_type);
     switch (obj_type) {
         case BLE_STORE_OBJ_TYPE_PEER_SEC:
         case BLE_STORE_OBJ_TYPE_OUR_SEC: {
@@ -1938,13 +2015,13 @@ STATIC int ble_store_ram_delete(int obj_type, const union ble_store_key *key) {
                 return BLE_HS_ENOENT;
             }
 
-            DEBUG_printf("ble_store_ram_delete: deleted secret\n");
+            DEBUG_printf("ble_secret_store_delete: deleted secret\n");
 
             return 0;
         }
         case BLE_STORE_OBJ_TYPE_CCCD: {
             // TODO: Implement CCCD persistence.
-            DEBUG_printf("ble_store_ram_delete: CCCD not supported.\n");
+            DEBUG_printf("ble_secret_store_delete: CCCD not supported.\n");
             // Just pretend it wasn't there.
             return BLE_HS_ENOENT;
         }
@@ -1953,15 +2030,11 @@ STATIC int ble_store_ram_delete(int obj_type, const union ble_store_key *key) {
     }
 }
 
-// nimble_port_init always calls ble_store_ram_init. We provide this alternative
-// implementation rather than the one in nimble/store/ram/src/ble_store_ram.c.
-// TODO: Consider re-implementing nimble_port_init instead.
-void ble_store_ram_init(void) {
-    ble_hs_cfg.store_read_cb = ble_store_ram_read;
-    ble_hs_cfg.store_write_cb = ble_store_ram_write;
-    ble_hs_cfg.store_delete_cb = ble_store_ram_delete;
-}
-
 #endif // MICROPY_PY_BLUETOOTH_ENABLE_PAIRING_BONDING
+
+#if !MICROPY_BLUETOOTH_NIMBLE_BINDINGS_ONLY
+MP_REGISTER_ROOT_POINTER(struct _mp_bluetooth_nimble_malloc_t *bluetooth_nimble_memory);
+#endif
+MP_REGISTER_ROOT_POINTER(struct _mp_bluetooth_nimble_root_pointers_t *bluetooth_nimble_root_pointers);
 
 #endif // MICROPY_PY_BLUETOOTH && MICROPY_BLUETOOTH_NIMBLE

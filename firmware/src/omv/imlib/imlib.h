@@ -42,8 +42,21 @@
 #define IM_LOG2_32(x)   (((x) &         0xFFFF0000ULL) ? (16 + IM_LOG2_16((x) >> 16)) : IM_LOG2_16(x)) // NO ({ ... }) !
 #define IM_LOG2(x)      (((x) & 0xFFFFFFFF00000000ULL) ? (32 + IM_LOG2_32((x) >> 32)) : IM_LOG2_32(x)) // NO ({ ... }) !
 
-#define IM_MAX(a,b)     ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a > _b ? _a : _b; })
-#define IM_MIN(a,b)     ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
+#define IM_IS_SIGNED(a)         (__builtin_types_compatible_p(__typeof__(a), signed) ||     \
+                                 __builtin_types_compatible_p(__typeof__(a), signed long))
+#define IM_IS_UNSIGNED(a)       (__builtin_types_compatible_p(__typeof__(a), unsigned) ||   \
+                                 __builtin_types_compatible_p(__typeof__(a), unsigned long))
+#define IM_SIGN_COMPARE(a, b)   ((IM_IS_SIGNED(a) && IM_IS_UNSIGNED(b)) || \
+                                 (IM_IS_SIGNED(b) && IM_IS_UNSIGNED(a)))
+
+#define IM_MAX(a, b)\
+    ({__typeof__ (a) _a = (a); __typeof__ (b) _b = (b);\
+    __builtin_choose_expr(IM_SIGN_COMPARE(_a, _b), (void) 0, (_a > _b ? _a : _b)); })
+
+#define IM_MIN(a, b)\
+    ({__typeof__ (a) _a = (a); __typeof__ (b) _b = (b);\
+    __builtin_choose_expr(IM_SIGN_COMPARE(_a, _b), (void) 0, (_a < _b ? _a : _b)); })
+
 #define IM_DIV(a,b)     ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _b ? (_a / _b) : 0; })
 #define IM_MOD(a,b)     ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _b ? (_a % _b) : 0; })
 
@@ -486,8 +499,8 @@ struct {                            \
 #endif
 
 typedef struct image {
-    uint32_t w;
-    uint32_t h;
+    int32_t w;
+    int32_t h;
     PIXFORMAT_STRUCT;
     union {
         uint8_t *pixels;
@@ -1010,7 +1023,7 @@ typedef struct find_apriltags_list_lnk_data {
     rectangle_t rect;
     uint16_t id;
     uint8_t family, hamming;
-    point_t centroid;
+    float centroid_x, centroid_y;
     float goodness, decision_margin;
     float x_translation, y_translation, z_translation;
     float x_rotation, y_rotation, z_rotation;
@@ -1125,9 +1138,7 @@ void imlib_jpeg_compress_init();
 void imlib_jpeg_compress_deinit();
 void jpeg_mdma_irq_handler();
 #endif
-void jpeg_decompress_image_to_binary(image_t *dst, image_t *src);
-void jpeg_decompress_image_to_grayscale(image_t *dst, image_t *src);
-void jpeg_decompress_image_to_rgb565(image_t *dst, image_t *src);
+void jpeg_decompress(image_t *dst, image_t *src);
 bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc);
 int jpeg_clean_trailing_bytes(int bpp, uint8_t *data);
 void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settings_t *rs);
@@ -1152,7 +1163,10 @@ void gif_close(FIL *fp);
 
 /* MJPEG functions */
 void mjpeg_open(FIL *fp, int width, int height);
-void mjpeg_add_frame(FIL *fp, uint32_t *frames, uint32_t *bytes, image_t *img, int quality);
+void mjpeg_write(FIL *fp, int width, int height, uint32_t *frames, uint32_t *bytes,
+                 image_t *img, int quality, rectangle_t *roi, int rgb_channel, int alpha,
+                 const uint16_t *color_palette, const uint8_t *alpha_palette, image_hint_t hint);
+void mjpeg_sync(FIL *fp, uint32_t *frames, uint32_t *bytes, float fps);
 void mjpeg_close(FIL *fp, uint32_t *frames, uint32_t *bytes, float fps);
 
 /* Point functions */
@@ -1273,6 +1287,10 @@ void imlib_draw_image(image_t *dst_img, image_t *src_img, int dst_x_start, int d
 void imlib_flood_fill(image_t *img, int x, int y,
                       float seed_threshold, float floating_threshold,
                       int c, bool invert, bool clear_background, image_t *mask);
+// ISP Functions            
+void imlib_awb(image_t *img, bool max);
+void imlib_ccm(image_t *img, float *ccm, bool offset);
+void imlib_gamma(image_t *img, float gamma, float scale, float offset);
 // Binary Functions
 void imlib_binary(image_t *out, image_t *img, list_t *thresholds, bool invert, bool zero, image_t *mask);
 void imlib_invert(image_t *img);
@@ -1289,7 +1307,6 @@ void imlib_close(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_top_hat(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_black_hat(image_t *img, int ksize, int threshold, image_t *mask);
 // Math Functions
-void imlib_gamma_corr(image_t *img, float gamma, float scale, float offset);
 void imlib_negate(image_t *img);
 void imlib_replace(image_t *img, const char *path, image_t *other, int scalar, bool hmirror, bool vflip, bool transpose, image_t *mask);
 void imlib_add(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
@@ -1356,6 +1373,8 @@ void imlib_find_barcodes(list_t *out, image_t *ptr, rectangle_t *roi);
 // Template Matching
 void imlib_phasecorrelate(image_t *img0, image_t *img1, rectangle_t *roi0, rectangle_t *roi1, bool logpolar, bool fix_rotation_scale,
                           float *x_translation, float *y_translation, float *rotation, float *scale, float *response);
+// Stereo Imaging
+void imlib_stereo_disparity(image_t *img, bool reversed, int max_disparity, int threshold);
 
 array_t *imlib_selective_search(image_t *src, float t, int min_size, float a1, float a2, float a3);
 #endif //__IMLIB_H__

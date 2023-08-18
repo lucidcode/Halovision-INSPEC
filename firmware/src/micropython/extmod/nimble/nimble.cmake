@@ -20,6 +20,8 @@ target_include_directories(micropy_extmod_nimble INTERFACE
 )
 
 target_sources(micropy_extmod_nimble INTERFACE
+    ${NIMBLE_EXTMOD_DIR}/hal/hal_uart.c
+    ${NIMBLE_EXTMOD_DIR}/nimble/nimble_npl_os.c
     ${NIMBLE_LIB_DIR}/ext/tinycrypt/src/aes_encrypt.c
     ${NIMBLE_LIB_DIR}/ext/tinycrypt/src/cmac_mode.c
     ${NIMBLE_LIB_DIR}/ext/tinycrypt/src/ecc.c
@@ -35,9 +37,9 @@ target_sources(micropy_extmod_nimble INTERFACE
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_gap.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_gattc.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_gatts.c
+    ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs_adv.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs_atomic.c
-    ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs_cfg.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs_conn.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_hs_flow.c
@@ -59,8 +61,8 @@ target_sources(micropy_extmod_nimble INTERFACE
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_l2cap_sig.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_l2cap_sig_cmd.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_monitor.c
-    ${NIMBLE_LIB_DIR}/nimble/host/src/ble_sm_alg.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_sm.c
+    ${NIMBLE_LIB_DIR}/nimble/host/src/ble_sm_alg.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_sm_cmd.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_sm_lgcy.c
     ${NIMBLE_LIB_DIR}/nimble/host/src/ble_sm_sc.c
@@ -75,7 +77,4 @@ target_sources(micropy_extmod_nimble INTERFACE
     ${NIMBLE_LIB_DIR}/porting/nimble/src/os_mbuf.c
     ${NIMBLE_LIB_DIR}/porting/nimble/src/os_mempool.c
     ${NIMBLE_LIB_DIR}/porting/nimble/src/os_msys_init.c
-    ${NIMBLE_EXTMOD_DIR}/nimble/nimble_npl_os.c
-    ${NIMBLE_EXTMOD_DIR}/hal/hal_uart.c
-
 )

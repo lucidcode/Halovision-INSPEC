@@ -36,11 +36,12 @@
 
 // List of supported sample rates
 #if defined(__RX__)
-const uint32_t sample_rates[]       = {44100, 48000};
+  const uint32_t sample_rates[] = {44100, 48000};
 #else
-const uint32_t sample_rates[]       = {44100, 48000, 88200, 96000};
+  const uint32_t sample_rates[] = {44100, 48000, 88200, 96000};
 #endif
-uint32_t       current_sample_rate  = 44100;
+
+uint32_t current_sample_rate  = 44100;
 
 #define N_SAMPLE_RATES  TU_ARRAY_SIZE(sample_rates)
 
@@ -101,7 +102,8 @@ int main(void)
 {
   board_init();
 
-  tusb_init();
+  // init device stack on configured roothub port
+  tud_init(BOARD_TUD_RHPORT);
 
   TU_LOG1("Headset running\r\n");
 
@@ -155,9 +157,9 @@ static bool tud_audio_clock_get_request(uint8_t rhport, audio_control_request_t 
   {
     if (request->bRequest == AUDIO_CS_REQ_CUR)
     {
-      TU_LOG1("Clock get current freq %u\r\n", current_sample_rate);
+      TU_LOG1("Clock get current freq %lu\r\n", current_sample_rate);
 
-      audio_control_cur_4_t curf = { tu_htole32(current_sample_rate) };
+      audio_control_cur_4_t curf = { (int32_t) tu_htole32(current_sample_rate) };
       return tud_audio_buffer_and_schedule_control_xfer(rhport, (tusb_control_request_t const *)request, &curf, sizeof(curf));
     }
     else if (request->bRequest == AUDIO_CS_REQ_RANGE)
@@ -169,8 +171,8 @@ static bool tud_audio_clock_get_request(uint8_t rhport, audio_control_request_t 
       TU_LOG1("Clock get %d freq ranges\r\n", N_SAMPLE_RATES);
       for(uint8_t i = 0; i < N_SAMPLE_RATES; i++)
       {
-        rangef.subrange[i].bMin = sample_rates[i];
-        rangef.subrange[i].bMax = sample_rates[i];
+        rangef.subrange[i].bMin = (int32_t) sample_rates[i];
+        rangef.subrange[i].bMax = (int32_t) sample_rates[i];
         rangef.subrange[i].bRes = 0;
         TU_LOG1("Range %d (%d, %d, %d)\r\n", i, (int)rangef.subrange[i].bMin, (int)rangef.subrange[i].bMax, (int)rangef.subrange[i].bRes);
       }
@@ -202,9 +204,9 @@ static bool tud_audio_clock_set_request(uint8_t rhport, audio_control_request_t 
   {
     TU_VERIFY(request->wLength == sizeof(audio_control_cur_4_t));
 
-    current_sample_rate = ((audio_control_cur_4_t *)buf)->bCur;
+    current_sample_rate = (uint32_t) ((audio_control_cur_4_t const *)buf)->bCur;
 
-    TU_LOG1("Clock set current freq: %d\r\n", current_sample_rate);
+    TU_LOG1("Clock set current freq: %ld\r\n", current_sample_rate);
 
     return true;
   }
@@ -264,7 +266,7 @@ static bool tud_audio_feature_unit_set_request(uint8_t rhport, audio_control_req
   {
     TU_VERIFY(request->wLength == sizeof(audio_control_cur_1_t));
 
-    mute[request->bChannelNumber] = ((audio_control_cur_1_t *)buf)->bCur;
+    mute[request->bChannelNumber] = ((audio_control_cur_1_t const *)buf)->bCur;
 
     TU_LOG1("Set channel %d Mute: %d\r\n", request->bChannelNumber, mute[request->bChannelNumber]);
 
@@ -295,7 +297,7 @@ static bool tud_audio_feature_unit_set_request(uint8_t rhport, audio_control_req
 // Invoked when audio class specific get request received for an entity
 bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const *p_request)
 {
-  audio_control_request_t *request = (audio_control_request_t *)p_request;
+  audio_control_request_t const *request = (audio_control_request_t const *)p_request;
 
   if (request->bEntityID == UAC2_ENTITY_CLOCK)
     return tud_audio_clock_get_request(rhport, request);
@@ -401,9 +403,9 @@ void audio_task(void)
         // Combine two channels into one
         int32_t left = *src++;
         int32_t right = *src++;
-        *dst++ = (left >> 1) + (right >> 1);
+        *dst++ = (int16_t) ((left >> 1) + (right >> 1));
       }
-      tud_audio_write((uint8_t *)mic_buf, spk_data_size / 2);
+      tud_audio_write((uint8_t *)mic_buf, (uint16_t) (spk_data_size / 2));
       spk_data_size = 0;
     }
     else if (current_resolution == 24)
@@ -416,9 +418,9 @@ void audio_task(void)
         // Combine two channels into one
         int32_t left = *src++;
         int32_t right = *src++;
-        *dst++ = ((left >> 1) + (right >> 1)) & 0xffffff00;
+        *dst++ = (int32_t) ((uint32_t) ((left >> 1) + (right >> 1)) & 0xffffff00ul);
       }
-      tud_audio_write((uint8_t *)mic_buf, spk_data_size / 2);
+      tud_audio_write((uint8_t *)mic_buf, (uint16_t) (spk_data_size / 2));
       spk_data_size = 0;
     }
   }

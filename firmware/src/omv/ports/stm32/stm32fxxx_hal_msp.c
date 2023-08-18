@@ -37,7 +37,11 @@ static const gpio_t dcmi_pins[] = {
 
 #define NUM_DCMI_PINS   (sizeof(dcmi_pins)/sizeof(dcmi_pins[0]))
 
-void SystemClock_Config(void);
+extern void SystemClock_Config(void);
+
+uint32_t hal_get_exti_gpio(uint32_t line) {
+    return (SYSCFG->EXTICR[line >> 2] >> (4 * (line & 3))) & 0x0F;
+}
 
 void HAL_MspInit(void)
 {
@@ -257,15 +261,15 @@ void HAL_MspInit(void)
 
 void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
 {
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.Pull     = GPIO_NOPULL;
+    GPIO_InitStructure.Mode     = GPIO_MODE_AF_OD;
+
     if (hi2c->Instance == ISC_I2C) {
         /* Enable I2C clock */
         ISC_I2C_CLK_ENABLE();
 
-        /* Configure ISC GPIOs */
-        GPIO_InitTypeDef GPIO_InitStructure;
-        GPIO_InitStructure.Pull      = GPIO_NOPULL;
         GPIO_InitStructure.Speed     = GPIO_SPEED_LOW;
-        GPIO_InitStructure.Mode      = GPIO_MODE_AF_OD;
         GPIO_InitStructure.Alternate = ISC_I2C_AF;
 
         GPIO_InitStructure.Pin = ISC_I2C_SCL_PIN;
@@ -273,16 +277,54 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
 
         GPIO_InitStructure.Pin = ISC_I2C_SDA_PIN;
         HAL_GPIO_Init(ISC_I2C_SDA_PORT, &GPIO_InitStructure);
+    #if defined(FIR_I2C)
+    } else if (hi2c->Instance == FIR_I2C) {
+        /* Enable I2C clock */
+        FIR_I2C_CLK_ENABLE();
+
+        GPIO_InitStructure.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStructure.Alternate = FIR_I2C_AF;
+
+        GPIO_InitStructure.Pin = FIR_I2C_SCL_PIN;
+        HAL_GPIO_Init(FIR_I2C_SCL_PORT, &GPIO_InitStructure);
+
+        GPIO_InitStructure.Pin = FIR_I2C_SDA_PIN;
+        HAL_GPIO_Init(FIR_I2C_SDA_PORT, &GPIO_InitStructure);
+    #endif
+    #if defined(TOF_I2C)
+    } else if (hi2c->Instance == TOF_I2C) {
+        /* Enable I2C clock */
+        TOF_I2C_CLK_ENABLE();
+
+        GPIO_InitStructure.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStructure.Alternate = TOF_I2C_AF;
+
+        GPIO_InitStructure.Pin = TOF_I2C_SCL_PIN;
+        HAL_GPIO_Init(TOF_I2C_SCL_PORT, &GPIO_InitStructure);
+
+        GPIO_InitStructure.Pin = TOF_I2C_SDA_PIN;
+        HAL_GPIO_Init(TOF_I2C_SDA_PORT, &GPIO_InitStructure);
+    #endif
+    #if defined(IMU_I2C)
+    } else if (hi2c->Instance == IMU_I2C) {
+        /* Enable I2C clock */
+        IMU_I2C_CLK_ENABLE();
+
+        GPIO_InitStructure.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStructure.Alternate = IMU_I2C_AF;
+
+        GPIO_InitStructure.Pin = IMU_I2C_SCL_PIN;
+        HAL_GPIO_Init(IMU_I2C_SCL_PORT, &GPIO_InitStructure);
+
+        GPIO_InitStructure.Pin = IMU_I2C_SDA_PIN;
+        HAL_GPIO_Init(IMU_I2C_SDA_PORT, &GPIO_InitStructure);
+    #endif
     #if defined(ISC_I2C_ALT)
     } else if (hi2c->Instance == ISC_I2C_ALT) {
         /* Enable I2C clock */
         ISC_I2C_ALT_CLK_ENABLE();
 
-        /* Configure ISC GPIOs */
-        GPIO_InitTypeDef GPIO_InitStructure;
-        GPIO_InitStructure.Pull      = GPIO_NOPULL;
         GPIO_InitStructure.Speed     = GPIO_SPEED_LOW;
-        GPIO_InitStructure.Mode      = GPIO_MODE_AF_OD;
         GPIO_InitStructure.Alternate = ISC_I2C_ALT_AF;
 
         GPIO_InitStructure.Pin = ISC_I2C_ALT_SCL_PIN;
@@ -291,24 +333,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
         GPIO_InitStructure.Pin = ISC_I2C_ALT_SDA_PIN;
         HAL_GPIO_Init(ISC_I2C_ALT_SDA_PORT, &GPIO_InitStructure);
     #endif
-    } else if (hi2c->Instance == FIR_I2C) {
-        /* Enable I2C clock */
-        FIR_I2C_CLK_ENABLE();
-
-        /* Configure FIR I2C GPIOs */
-        GPIO_InitTypeDef GPIO_InitStructure;
-        GPIO_InitStructure.Pull      = GPIO_NOPULL;
-        GPIO_InitStructure.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
-        GPIO_InitStructure.Mode      = GPIO_MODE_AF_OD;
-        GPIO_InitStructure.Alternate = FIR_I2C_AF;
-
-        GPIO_InitStructure.Pin = FIR_I2C_SCL_PIN;
-        HAL_GPIO_Init(FIR_I2C_SCL_PORT, &GPIO_InitStructure);
-
-        GPIO_InitStructure.Pin = FIR_I2C_SDA_PIN;
-        HAL_GPIO_Init(FIR_I2C_SDA_PORT, &GPIO_InitStructure);
     }
-
 }
 
 void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
@@ -317,16 +342,30 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
         ISC_I2C_FORCE_RESET();
         ISC_I2C_RELEASE_RESET();
         ISC_I2C_CLK_DISABLE();
+    #if defined(FIR_I2C)
+    } else if (hi2c->Instance == FIR_I2C) {
+        FIR_I2C_FORCE_RESET();
+        FIR_I2C_RELEASE_RESET();
+        FIR_I2C_CLK_DISABLE();
+    #endif
+    #if defined(TOF_I2C)
+    } else if (hi2c->Instance == TOF_I2C) {
+        TOF_I2C_FORCE_RESET();
+        TOF_I2C_RELEASE_RESET();
+        TOF_I2C_CLK_DISABLE();
+    #endif
+    #if defined(IMU_I2C)
+    } else if (hi2c->Instance == IMU_I2C) {
+        IMU_I2C_FORCE_RESET();
+        IMU_I2C_RELEASE_RESET();
+        IMU_I2C_CLK_DISABLE();
+    #endif
     #if defined(ISC_I2C_ALT)
     } else if (hi2c->Instance == ISC_I2C_ALT) {
         ISC_I2C_ALT_FORCE_RESET();
         ISC_I2C_ALT_RELEASE_RESET();
         ISC_I2C_ALT_CLK_DISABLE();
     #endif
-    } else if (hi2c->Instance == FIR_I2C) {
-        FIR_I2C_FORCE_RESET();
-        FIR_I2C_RELEASE_RESET();
-        FIR_I2C_CLK_DISABLE();
     }
 }
 
@@ -397,10 +436,16 @@ void HAL_DCMI_MspInit(DCMI_HandleTypeDef* hdcmi)
     GPIO_InitStructure.Speed     = GPIO_SPEED_HIGH;
     GPIO_InitStructure.Alternate = GPIO_AF13_DCMI;
 
+    #if (DCMI_VSYNC_EXTI_SHARED == 1)
+    uint32_t exti_gpio = hal_get_exti_gpio(DCMI_VSYNC_EXTI_LINE);
+    if (exti_gpio == 0 || exti_gpio == DCMI_VSYNC_EXTI_GPIO)
+    #endif
+    {
     /* Enable VSYNC EXTI */
     GPIO_InitStructure.Mode = GPIO_MODE_IT_RISING_FALLING;
     GPIO_InitStructure.Pin  = DCMI_VSYNC_PIN;
     HAL_GPIO_Init(DCMI_VSYNC_PORT, &GPIO_InitStructure);
+    }
 
     /* Configure DCMI pins */
     GPIO_InitStructure.Mode      = GPIO_MODE_AF_PP;
@@ -412,7 +457,7 @@ void HAL_DCMI_MspInit(DCMI_HandleTypeDef* hdcmi)
 
 void HAL_DCMI_MspDeInit(DCMI_HandleTypeDef* hdcmi)
 {
-    /* DCMI clock enable */
+    /* DCMI clock disable */
     __DCMI_CLK_DISABLE();
     for (int i=0; i<NUM_DCMI_PINS; i++) {
         HAL_GPIO_DeInit(dcmi_pins[i].port, dcmi_pins[i].pin);
@@ -476,7 +521,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
     #endif
 }
 
-void HAL_SPI_MspDeinit(SPI_HandleTypeDef *hspi)
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef *hspi)
 {
 
 }
@@ -699,7 +744,7 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
     #endif
 }
 
-void HAL_DAC_MspDeinit(DAC_HandleTypeDef *hdac)
+void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac)
 {
     #if defined(OMV_SPI_LCD_BL_DAC)
     if (hdac->Instance == OMV_SPI_LCD_BL_DAC) {
