@@ -244,12 +244,12 @@ void mimxrt_sdram_init(void) {
         .address = ((uint32_t)&__sdram_start),
         .memsize_kbytes = (MICROPY_HW_SDRAM_SIZE >> 10),  // Right shift by 10 == division by 1024
         .portSize = kSEMC_PortSize16Bit,
-        .burstLen = kSEMC_Sdram_BurstLen1,
+        .burstLen = kSEMC_Sdram_BurstLen8,
         .columnAddrBitNum = kSEMC_SdramColunm_9bit,
         .casLatency = kSEMC_LatencyThree,
         .tPrecharge2Act_Ns = 18,  // Trp 18ns
         .tAct2ReadWrite_Ns = 18,  // Trcd 18ns
-        .tRefreshRecovery_Ns = (60 + 67),
+        .tRefreshRecovery_Ns = 67,
         .tWriteRecovery_Ns = 12,  // 12ns
         .tCkeOff_Ns = 42,  // The minimum cycle of SDRAM CLK off state. CKE is off in self refresh at a minimum period tRAS.
         .tAct2Prechage_Ns = 42,  // Tras 42ns

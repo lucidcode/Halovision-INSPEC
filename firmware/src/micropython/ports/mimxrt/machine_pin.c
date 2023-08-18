@@ -34,6 +34,9 @@
 #include "shared/runtime/mpirq.h"
 #include "extmod/virtpin.h"
 #include "pin.h"
+#if MICROPY_PY_NETWORK_CYW43
+#include "pendsv.h"
+#endif
 
 // Local functions
 STATIC mp_obj_t machine_pin_obj_init_helper(const machine_pin_obj_t *self, size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args);
@@ -90,6 +93,8 @@ int GPIO_get_instance(GPIO_Type *gpio) {
     return 0;
 }
 
+extern void omv_gpio_irq_handler(GPIO_Type *gpio, uint32_t gpio_nr, uint32_t pin_nr);
+
 void call_handler(GPIO_Type *gpio, int gpio_nr, int pin) {
     uint32_t mask = 1 << pin;
     uint32_t isr = gpio->ISR & gpio->IMR;
@@ -98,6 +103,17 @@ void call_handler(GPIO_Type *gpio, int gpio_nr, int pin) {
         if (isr & mask) {
             gpio->ISR = mask; // clear the ISR flag
             int index = GET_PIN_IRQ_INDEX(gpio_nr, pin);
+            #if MICROPY_PY_NETWORK_CYW43
+            extern void (*cyw43_poll)(void);
+            const machine_pin_obj_t *wl_pin = MICROPY_HW_WL_HOST_WAKE;
+            if (wl_pin->gpio == gpio && wl_pin->pin == (index % 32)) {
+                if (cyw43_poll) {
+                    pendsv_schedule_dispatch(PENDSV_DISPATCH_CYW43, cyw43_poll);
+                }
+                return;
+            }
+            #endif
+            omv_gpio_irq_handler(gpio, gpio_nr, pin);
             machine_pin_irq_obj_t *irq = MP_STATE_PORT(machine_pin_irq_objects[index]);
             if (irq != NULL) {
                 irq->flags = irq->trigger;
@@ -149,6 +165,10 @@ void GPIO5_Combined_16_31_IRQHandler(void) {
     call_handler(gpiobases[5], 5, 16);
 }
 
+void GPIO10_Combined_0_31_IRQHandler(void) {
+    omv_gpio_irq_handler(gpiobases[10], 10, 0);
+}
+
 #if defined(MIMXRT117x_SERIES)
 void GPIO6_Combined_0_15_IRQHandler(void) {
     call_handler(gpiobases[6], 6, 0);
@@ -174,14 +194,65 @@ void machine_pin_irq_deinit(void) {
 // Simplified mode setting used by the extmod modules
 void machine_pin_set_mode(const machine_pin_obj_t *self, uint8_t mode) {
     gpio_pin_config_t pin_config = {kGPIO_DigitalInput, 1, kGPIO_NoIntmode};
+    uint32_t pad_config;
 
     pin_config.direction = (mode == PIN_MODE_IN ? kGPIO_DigitalInput : kGPIO_DigitalOutput);
-    GPIO_PinInit(self->gpio, self->pin, &pin_config);
     if (mode == PIN_MODE_OPEN_DRAIN) {
-        uint32_t pad_config = *(uint32_t *)self->configRegister;
-        pad_config |= IOMUXC_SW_PAD_CTL_PAD_ODE(0b1) | IOMUXC_SW_PAD_CTL_PAD_DSE(0b110);
-        IOMUXC_SetPinMux(self->muxRegister, PIN_AF_MODE_ALT5, 0, 0, self->configRegister, 1U);  // Software Input On Field: Input Path is determined by functionality
-        IOMUXC_SetPinConfig(self->muxRegister, PIN_AF_MODE_ALT5, 0, 0, self->configRegister, pad_config);
+        pad_config = pin_generate_config(PIN_PULL_UP_22K, mode, PIN_DRIVE_3, self->configRegister);
+    } else {
+        pad_config = pin_generate_config(PIN_PULL_DISABLED, mode, PIN_DRIVE_3, self->configRegister);
+    }
+    IOMUXC_SetPinConfig(self->muxRegister, PIN_AF_MODE_ALT5, 0, 0, self->configRegister, pad_config);
+    IOMUXC_SetPinMux(self->muxRegister, PIN_AF_MODE_ALT5, 0, 0, self->configRegister, 1U);
+    GPIO_PinInit(self->gpio, self->pin, &pin_config);
+}
+
+void machine_pin_config(const machine_pin_obj_t *self, uint8_t mode,
+    uint8_t pull, uint8_t drive, uint8_t speed, uint8_t alt) {
+    (void)speed;
+    gpio_pin_config_t pin_config = {0};
+
+    if (IS_GPIO_IT_MODE(mode)) {
+        if (mode == PIN_MODE_IT_FALLING) {
+            pin_config.interruptMode = kGPIO_IntFallingEdge;
+        } else if (mode == PIN_MODE_IT_RISING) {
+            pin_config.interruptMode = kGPIO_IntRisingEdge;
+        } else if (mode == PIN_MODE_IT_BOTH) {
+            pin_config.interruptMode = kGPIO_IntRisingOrFallingEdge;
+        }
+        // Set pad config mode to input.
+        mode = PIN_MODE_IN;
+    }
+
+    if (mode == PIN_MODE_IN) {
+        pin_config.direction = kGPIO_DigitalInput;
+    } else {
+        pin_config.direction = kGPIO_DigitalOutput;
+    }
+
+    const machine_pin_af_obj_t *af = pin_find_af(self, alt);
+    if (af == NULL) {
+        return;
+    }
+
+    // Configure the pad.
+    uint32_t pad_config = pin_generate_config(pull, mode, drive, self->configRegister);
+    IOMUXC_SetPinMux(self->muxRegister, alt, af->input_register, af->input_daisy, self->configRegister, 0U);
+    IOMUXC_SetPinConfig(self->muxRegister, alt, af->input_register, af->input_daisy, self->configRegister, pad_config);
+
+    // Initialize the pin.
+    GPIO_PinInit(self->gpio, self->pin, &pin_config);
+
+    // Configure interrupt (if enabled).
+    if (pin_config.interruptMode != kGPIO_NoIntmode) {
+        uint32_t gpio_nr = GPIO_get_instance(self->gpio);
+        uint32_t irq_num = self->pin < 16 ? GPIO_combined_low_irqs[gpio_nr] : GPIO_combined_high_irqs[gpio_nr];
+
+        GPIO_PortEnableInterrupts(self->gpio, 1U << self->pin);
+        GPIO_PortClearInterruptFlags(self->gpio, ~0);
+
+        NVIC_SetPriority(irq_num, IRQ_PRI_EXTINT);
+        EnableIRQ(irq_num);
     }
 }
 

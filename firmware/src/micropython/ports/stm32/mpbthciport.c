@@ -210,6 +210,11 @@ int mp_bluetooth_hci_uart_set_baudrate(uint32_t baudrate) {
     return 0;
 }
 
+int mp_bluetooth_hci_uart_any(void) {
+    // DEBUG_printf("mp_bluetooth_hci_uart_any (stm32)\n");
+    return uart_rx_any(&mp_bluetooth_hci_uart_obj);
+}
+
 int mp_bluetooth_hci_uart_write(const uint8_t *buf, size_t len) {
     // DEBUG_printf("mp_bluetooth_hci_uart_write (stm32)\n");
 

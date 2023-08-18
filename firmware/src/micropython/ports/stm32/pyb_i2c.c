@@ -371,18 +371,6 @@ int pyb_i2c_init(I2C_HandleTypeDef *i2c) {
 }
 
 void i2c_deinit(I2C_HandleTypeDef *i2c) {
-    // Find and disabled the correct dma channels for the i2c bus.
-    for (int i = 0; i < (sizeof(pyb_i2c_obj) / sizeof(pyb_i2c_obj_t)); i++) {
-        if (pyb_i2c_obj[i].i2c == i2c) {
-            if (pyb_i2c_obj[i].rx_dma_descr != NULL) {
-                dma_deinit(pyb_i2c_obj[i].rx_dma_descr);
-            }
-            if (pyb_i2c_obj[i].tx_dma_descr != NULL) {
-                dma_deinit(pyb_i2c_obj[i].tx_dma_descr);
-            }
-            break;
-        }
-    }
     HAL_I2C_DeInit(i2c);
     if (0) {
     #if defined(MICROPY_HW_I2C1_SCL)

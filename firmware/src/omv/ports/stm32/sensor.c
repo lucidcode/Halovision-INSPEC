@@ -13,22 +13,24 @@
 #include <stdbool.h>
 #include "py/mphal.h"
 #include "irq.h"
-#include "cambus.h"
 #include "sensor.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
 #include "unaligned_memcpy.h"
+#include "omv_gpio.h"
+#include "omv_i2c.h"
+#include "dma_utils.h"
 
-#define MDMA_BUFFER_SIZE        (64)
-#define DMA_MAX_XFER_SIZE       (0xFFFF*4)
-#define DMA_MAX_XFER_SIZE_DBL   ((DMA_MAX_XFER_SIZE)*2)
-#define DMA_LENGTH_ALIGNMENT    (16)
-#define SENSOR_TIMEOUT_MS       (3000)
-#define ARRAY_SIZE(a)           (sizeof(a) / sizeof((a)[0]))
+#define MDMA_BUFFER_SIZE         (64)
+#define DMA_MAX_XFER_SIZE        (0xFFFF * 4)
+#define DMA_MAX_XFER_SIZE_DBL    ((DMA_MAX_XFER_SIZE) * 2)
+#define DMA_LENGTH_ALIGNMENT     (16)
+#define SENSOR_TIMEOUT_MS        (3000)
+#define ARRAY_SIZE(a)            (sizeof(a) / sizeof((a)[0]))
 
 sensor_t sensor = {};
-static TIM_HandleTypeDef  TIMHandle  = {.Instance = DCMI_TIM};
-static DMA_HandleTypeDef  DMAHandle  = {.Instance = DMA2_Stream1};
+static TIM_HandleTypeDef TIMHandle = {.Instance = DCMI_TIM};
+static DMA_HandleTypeDef DMAHandle = {.Instance = DMA2_Stream1};
 static DCMI_HandleTypeDef DCMIHandle = {.Instance = DCMI};
 #if (OMV_ENABLE_SENSOR_MDMA == 1)
 static MDMA_HandleTypeDef DCMI_MDMA_Handle0 = {.Instance = MDMA_Channel0};
@@ -49,41 +51,30 @@ void DCMI_IRQHandler(void) {
     HAL_DCMI_IRQHandler(&DCMIHandle);
 }
 
-void DMA2_Stream1_IRQHandler(void) {
-    HAL_DMA_IRQHandler(DCMIHandle.DMA_Handle);
-}
-
 #ifdef ISC_SPI
-void ISC_SPI_IRQHandler(void)
-{
+void ISC_SPI_IRQHandler(void) {
     HAL_SPI_IRQHandler(&ISC_SPIHandle);
-}
-
-void ISC_SPI_DMA_IRQHandler(void)
-{
-    HAL_DMA_IRQHandler(ISC_SPIHandle.hdmarx);
 }
 #endif // ISC_SPI
 
-static int sensor_dma_config()
-{
+static int sensor_dma_config() {
     // DMA Stream configuration
     #if defined(MCU_SERIES_H7)
-    DMAHandle.Init.Request              = DMA_REQUEST_DCMI;         /* DMA Channel                      */
+    DMAHandle.Init.Request = DMA_REQUEST_DCMI;                      /* DMA Channel                      */
     #else
-    DMAHandle.Init.Channel              = DMA_CHANNEL_1;            /* DMA Channel                      */
+    DMAHandle.Init.Channel = DMA_CHANNEL_1;                         /* DMA Channel                      */
     #endif
-    DMAHandle.Init.Direction            = DMA_PERIPH_TO_MEMORY;     /* Peripheral to memory transfer    */
-    DMAHandle.Init.MemInc               = DMA_MINC_ENABLE;          /* Memory increment mode Enable     */
-    DMAHandle.Init.PeriphInc            = DMA_PINC_DISABLE;         /* Peripheral increment mode Enable */
-    DMAHandle.Init.PeriphDataAlignment  = DMA_PDATAALIGN_WORD;      /* Peripheral data alignment : Word */
-    DMAHandle.Init.MemDataAlignment     = DMA_MDATAALIGN_WORD;      /* Memory data alignment : Word     */
-    DMAHandle.Init.Mode                 = DMA_NORMAL;               /* Normal DMA mode                  */
-    DMAHandle.Init.Priority             = DMA_PRIORITY_HIGH;        /* Priority level : high            */
-    DMAHandle.Init.FIFOMode             = DMA_FIFOMODE_ENABLE;      /* FIFO mode enabled                */
-    DMAHandle.Init.FIFOThreshold        = DMA_FIFO_THRESHOLD_FULL;  /* FIFO threshold full              */
-    DMAHandle.Init.MemBurst             = DMA_MBURST_INC4;          /* Memory burst                     */
-    DMAHandle.Init.PeriphBurst          = DMA_PBURST_SINGLE;        /* Peripheral burst                 */
+    DMAHandle.Init.Direction = DMA_PERIPH_TO_MEMORY;                /* Peripheral to memory transfer    */
+    DMAHandle.Init.MemInc = DMA_MINC_ENABLE;                        /* Memory increment mode Enable     */
+    DMAHandle.Init.PeriphInc = DMA_PINC_DISABLE;                    /* Peripheral increment mode Enable */
+    DMAHandle.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;       /* Peripheral data alignment : Word */
+    DMAHandle.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;          /* Memory data alignment : Word     */
+    DMAHandle.Init.Mode = DMA_NORMAL;                               /* Normal DMA mode                  */
+    DMAHandle.Init.Priority = DMA_PRIORITY_HIGH;                    /* Priority level : high            */
+    DMAHandle.Init.FIFOMode = DMA_FIFOMODE_ENABLE;                  /* FIFO mode enabled                */
+    DMAHandle.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;         /* FIFO threshold full              */
+    DMAHandle.Init.MemBurst = DMA_MBURST_INC4;                      /* Memory burst                     */
+    DMAHandle.Init.PeriphBurst = DMA_PBURST_SINGLE;                 /* Peripheral burst                 */
 
     // Initialize the DMA stream
     HAL_DMA_DeInit(&DMAHandle);
@@ -92,21 +83,23 @@ static int sensor_dma_config()
         return -1;
     }
 
+    // Set DMA IRQ handle
+    dma_utils_set_irq_descr(DMA2_Stream1, &DMAHandle);
+
     // Configure and enable DMA IRQ Channel
     NVIC_SetPriority(DMA2_Stream1_IRQn, IRQ_PRI_DMA21);
     HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
     return 0;
 }
 
-void sensor_init0()
-{
+void sensor_init0() {
     sensor_abort();
 
-    // Re-init cambus to reset the bus state after soft reset, which
+    // Re-init i2c bus to reset the bus state after soft reset, which
     // could have interrupted the bus in the middle of a transfer.
-    if (sensor.bus.initialized) {
+    if (sensor.i2c_bus.initialized) {
         // Reinitialize the bus using the last used id and speed.
-        cambus_init(&sensor.bus, sensor.bus.id, sensor.bus.speed);
+        omv_i2c_init(&sensor.i2c_bus, sensor.i2c_bus.id, sensor.i2c_bus.speed);
     }
 
     // Disable VSYNC IRQ and callback
@@ -116,11 +109,10 @@ void sensor_init0()
     sensor_set_frame_callback(NULL);
 }
 
-int sensor_init()
-{
+int sensor_init() {
     int init_ret = 0;
 
-    // List of cambus I2C buses to scan.
+    // List of I2C buses to scan.
     uint32_t buses[][2] = {
         {ISC_I2C_ID, ISC_I2C_SPEED},
         #if defined(ISC_I2C_ALT)
@@ -142,15 +134,15 @@ int sensor_init()
     }
 
     // Detect and initialize the image sensor.
-    for (uint32_t i=0, n_buses = ARRAY_SIZE(buses); i < n_buses; i++) {
+    for (uint32_t i = 0, n_buses = ARRAY_SIZE(buses); i < n_buses; i++) {
         uint32_t id = buses[i][0], speed = buses[i][1];
         if ((init_ret = sensor_probe_init(id, speed)) == 0) {
             // Sensor was detected on the current bus.
             break;
         }
-        cambus_deinit(&sensor.bus);
+        omv_i2c_deinit(&sensor.i2c_bus);
         // Scan the next bus or fail if this is the last one.
-        if ((i+1) == n_buses) {
+        if ((i + 1) == n_buses) {
             // Sensor probe/init failed.
             return init_ret;
         }
@@ -163,7 +155,7 @@ int sensor_init()
     }
 
     // Configure the DCMI interface.
-    if (sensor_dcmi_config(PIXFORMAT_INVALID) != 0){
+    if (sensor_dcmi_config(PIXFORMAT_INVALID) != 0) {
         // DCMI config failed
         return SENSOR_ERROR_DCMI_INIT_FAILED;
     }
@@ -181,12 +173,11 @@ int sensor_init()
     return 0;
 }
 
-int sensor_dcmi_config(uint32_t pixformat)
-{
+int sensor_dcmi_config(uint32_t pixformat) {
     // VSYNC clock polarity
-    DCMIHandle.Init.VSPolarity  = sensor.hw_flags.vsync ? DCMI_VSPOLARITY_HIGH : DCMI_VSPOLARITY_LOW;
+    DCMIHandle.Init.VSPolarity = sensor.hw_flags.vsync ? DCMI_VSPOLARITY_HIGH : DCMI_VSPOLARITY_LOW;
     // HSYNC clock polarity
-    DCMIHandle.Init.HSPolarity  = sensor.hw_flags.hsync ? DCMI_HSPOLARITY_HIGH : DCMI_HSPOLARITY_LOW;
+    DCMIHandle.Init.HSPolarity = sensor.hw_flags.hsync ? DCMI_HSPOLARITY_HIGH : DCMI_HSPOLARITY_LOW;
     // PXCLK clock polarity
     DCMIHandle.Init.PCKPolarity = sensor.hw_flags.pixck ? DCMI_PCKPOLARITY_RISING : DCMI_PCKPOLARITY_FALLING;
 
@@ -196,11 +187,11 @@ int sensor_dcmi_config(uint32_t pixformat)
     DCMIHandle.Init.ExtendedDataMode = DCMI_EXTEND_DATA_8B; // Capture 8 bits on every pixel clock
     // Set JPEG Mode
     DCMIHandle.Init.JPEGMode = (pixformat == PIXFORMAT_JPEG) ?
-                                    DCMI_JPEG_ENABLE : DCMI_JPEG_DISABLE;
+                               DCMI_JPEG_ENABLE : DCMI_JPEG_DISABLE;
     #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
-    DCMIHandle.Init.ByteSelectMode  = DCMI_BSM_ALL;         // Capture all received bytes
+    DCMIHandle.Init.ByteSelectMode = DCMI_BSM_ALL;          // Capture all received bytes
     DCMIHandle.Init.ByteSelectStart = DCMI_OEBS_ODD;        // Ignored
-    DCMIHandle.Init.LineSelectMode  = DCMI_LSM_ALL;         // Capture all received lines
+    DCMIHandle.Init.LineSelectMode = DCMI_LSM_ALL;          // Capture all received lines
     DCMIHandle.Init.LineSelectStart = DCMI_OELS_ODD;        // Ignored
     #endif
 
@@ -220,8 +211,7 @@ int sensor_dcmi_config(uint32_t pixformat)
     return 0;
 }
 
-int sensor_abort()
-{
+int sensor_abort() {
     // This stops the DCMI hardware from generating DMA requests immediately and then stops the DMA
     // hardware. Note that HAL_DMA_Abort is a blocking operation. Do not use this in an interrupt.
     if (DCMI->CR & DCMI_CR_ENABLE) {
@@ -247,13 +237,11 @@ int sensor_abort()
     return 0;
 }
 
-uint32_t sensor_get_xclk_frequency()
-{
+uint32_t sensor_get_xclk_frequency() {
     return (DCMI_TIM_PCLK_FREQ() * 2) / (TIMHandle.Init.Period + 1);
 }
 
-int sensor_set_xclk_frequency(uint32_t frequency)
-{
+int sensor_set_xclk_frequency(uint32_t frequency) {
     #if (OMV_XCLK_SOURCE == OMV_XCLK_TIM)
     if (frequency == 0 && TIMHandle.Init.Period) {
         HAL_TIM_PWM_Stop(&TIMHandle, DCMI_TIM_CHANNEL);
@@ -278,26 +266,26 @@ int sensor_set_xclk_frequency(uint32_t frequency)
     }
 
     /* Timer base configuration */
-    TIMHandle.Init.Period            = period;
-    TIMHandle.Init.Prescaler         = 0;
-    TIMHandle.Init.CounterMode       = TIM_COUNTERMODE_UP;
-    TIMHandle.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
+    TIMHandle.Init.Period = period;
+    TIMHandle.Init.Prescaler = 0;
+    TIMHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+    TIMHandle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     TIMHandle.Init.RepetitionCounter = 0;
     TIMHandle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 
     /* Timer channel configuration */
     TIM_OC_InitTypeDef TIMOCHandle;
-    TIMOCHandle.Pulse           = pulse;
-    TIMOCHandle.OCMode          = TIM_OCMODE_PWM1;
-    TIMOCHandle.OCPolarity      = TIM_OCPOLARITY_HIGH;
-    TIMOCHandle.OCNPolarity     = TIM_OCNPOLARITY_HIGH;
-    TIMOCHandle.OCFastMode      = TIM_OCFAST_DISABLE;
-    TIMOCHandle.OCIdleState     = TIM_OCIDLESTATE_RESET;
-    TIMOCHandle.OCNIdleState    = TIM_OCNIDLESTATE_RESET;
+    TIMOCHandle.Pulse = pulse;
+    TIMOCHandle.OCMode = TIM_OCMODE_PWM1;
+    TIMOCHandle.OCPolarity = TIM_OCPOLARITY_HIGH;
+    TIMOCHandle.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+    TIMOCHandle.OCFastMode = TIM_OCFAST_DISABLE;
+    TIMOCHandle.OCIdleState = TIM_OCIDLESTATE_RESET;
+    TIMOCHandle.OCNIdleState = TIM_OCNIDLESTATE_RESET;
 
     if ((HAL_TIM_PWM_Init(&TIMHandle) != HAL_OK)
-    || (HAL_TIM_PWM_ConfigChannel(&TIMHandle, &TIMOCHandle, DCMI_TIM_CHANNEL) != HAL_OK)
-    || (HAL_TIM_PWM_Start(&TIMHandle, DCMI_TIM_CHANNEL) != HAL_OK)) {
+        || (HAL_TIM_PWM_ConfigChannel(&TIMHandle, &TIMOCHandle, DCMI_TIM_CHANNEL) != HAL_OK)
+        || (HAL_TIM_PWM_Start(&TIMHandle, DCMI_TIM_CHANNEL) != HAL_OK)) {
         return -1;
     }
     #elif (OMV_XCLK_SOURCE == OMV_XCLK_MCO)
@@ -313,25 +301,28 @@ int sensor_set_xclk_frequency(uint32_t frequency)
     return 0;
 }
 
-int sensor_shutdown(int enable)
-{
+int sensor_shutdown(int enable) {
     int ret = 0;
     sensor_abort();
 
     if (enable) {
+        #if defined(DCMI_POWER_PIN)
         if (sensor.pwdn_pol == ACTIVE_HIGH) {
-            DCMI_PWDN_HIGH();
+            omv_gpio_write(DCMI_POWER_PIN, 1);
         } else {
-            DCMI_PWDN_LOW();
+            omv_gpio_write(DCMI_POWER_PIN, 0);
         }
+        #endif
         HAL_NVIC_DisableIRQ(DCMI_IRQn);
         HAL_DCMI_DeInit(&DCMIHandle);
     } else {
+        #if defined(DCMI_POWER_PIN)
         if (sensor.pwdn_pol == ACTIVE_HIGH) {
-            DCMI_PWDN_LOW();
+            omv_gpio_write(DCMI_POWER_PIN, 0);
         } else {
-            DCMI_PWDN_HIGH();
+            omv_gpio_write(DCMI_POWER_PIN, 1);
         }
+        #endif
         ret = sensor_dcmi_config(sensor.pixformat);
     }
 
@@ -339,39 +330,31 @@ int sensor_shutdown(int enable)
     return ret;
 }
 
-int sensor_set_vsync_callback(vsync_cb_t vsync_cb)
-{
+static void sensor_vsync_callback(void *data) {
+    if (sensor.vsync_callback != NULL) {
+        sensor.vsync_callback(omv_gpio_read(DCMI_VSYNC_PIN));
+    }
+}
+
+int sensor_set_vsync_callback(vsync_cb_t vsync_cb) {
     sensor.vsync_callback = vsync_cb;
     if (sensor.vsync_callback == NULL) {
         #if (DCMI_VSYNC_EXTI_SHARED == 0)
         // Disable VSYNC EXTI IRQ
-        HAL_NVIC_DisableIRQ(DCMI_VSYNC_EXTI_IRQN);
+        omv_gpio_irq_enable(DCMI_VSYNC_PIN, false);
         #endif
     } else {
         // Enable VSYNC EXTI IRQ
-        NVIC_SetPriority(DCMI_VSYNC_EXTI_IRQN, IRQ_PRI_EXTINT);
-        HAL_NVIC_EnableIRQ(DCMI_VSYNC_EXTI_IRQN);
+        omv_gpio_irq_register(DCMI_VSYNC_PIN, sensor_vsync_callback, NULL);
+        omv_gpio_irq_enable(DCMI_VSYNC_PIN, true);
     }
     return 0;
-}
-
-void DCMI_VsyncExtiCallback()
-{
-    if (__HAL_GPIO_EXTI_GET_FLAG(1 << DCMI_VSYNC_EXTI_LINE)) {
-        if (hal_get_exti_gpio(DCMI_VSYNC_EXTI_LINE) == DCMI_VSYNC_EXTI_GPIO) {
-            __HAL_GPIO_EXTI_CLEAR_FLAG(1 << DCMI_VSYNC_EXTI_LINE);
-            if (sensor.vsync_callback != NULL) {
-                sensor.vsync_callback(HAL_GPIO_ReadPin(DCMI_VSYNC_PORT, DCMI_VSYNC_PIN));
-            }
-        }
-    }
 }
 
 // If we are cropping the image by more than 1 word in width we can align the line start to
 // a word address to improve copy performance. Do not crop by more than 1 word as this will
 // result in less time between DMA transfers complete interrupts on 16-byte boundaries.
-static uint32_t get_dcmi_hw_crop(uint32_t bytes_per_pixel)
-{
+static uint32_t get_dcmi_hw_crop(uint32_t bytes_per_pixel) {
     uint32_t byte_x_offset = (MAIN_FB()->x * bytes_per_pixel) % sizeof(uint32_t);
     uint32_t width_remainder = (resolution[sensor.framesize][0] - (MAIN_FB()->x + MAIN_FB()->u)) * bytes_per_pixel;
     uint32_t x_crop = 0;
@@ -387,8 +370,7 @@ static uint32_t get_dcmi_hw_crop(uint32_t bytes_per_pixel)
 // received. Note that DCMI_DMAConvCpltUser() is called before DCMI_IT_FRAME is enabled by
 // DCMI_DMAXferCplt() so this means that the last line of data is *always* transferred before
 // moving the tail to the next buffer.
-void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
-{
+void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi) {
     // This can be executed at any time since this interrupt has a higher priority than DMA2_Stream1_IRQn.
     #if (OMV_ENABLE_SENSOR_MDMA == 1)
     // Clear out any stale flags.
@@ -412,8 +394,7 @@ void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 }
 
 #if (OMV_ENABLE_SENSOR_MDMA == 1)
-static void mdma_memcpy(vbuffer_t *buffer, void *dst, void *src, int bpp, bool transposed)
-{
+static void mdma_memcpy(vbuffer_t *buffer, void *dst, void *src, int bpp, bool transposed) {
     // We're using two handles to give each channel the maximum amount of time possible to do the line
     // transfer. In most situations only one channel will be running at a time. However, if SDRAM is
     // backedup we don't have to disable the channel if it is flushing trailing data to SDRAM.
@@ -434,8 +415,7 @@ static void mdma_memcpy(vbuffer_t *buffer, void *dst, void *src, int bpp, bool t
 // This function is called back after each line transfer is complete,
 // with a pointer to the line buffer that was used. At this point the
 // DMA transfers the next line to the other half of the line buffer.
-void DCMI_DMAConvCpltUser(uint32_t addr)
-{
+void DCMI_DMAConvCpltUser(uint32_t addr) {
     if (!first_line) {
         first_line = true;
         uint32_t tick = HAL_GetTick();
@@ -519,7 +499,7 @@ void DCMI_DMAConvCpltUser(uint32_t addr)
             }
             unaligned_memcpy(buffer->data + buffer->offset, ((uint16_t *) addr) + 1, size);
             buffer->offset += size;
-       } else if (sensor.hw_flags.jpeg_mode == 3) {
+        } else if (sensor.hw_flags.jpeg_mode == 3) {
             // JPEG MODE 3:
             //
             // Compression data is transmitted with programmable width. The last line width maybe
@@ -638,7 +618,7 @@ void DCMI_DMAConvCpltUser(uint32_t addr)
             mdma_memcpy(buffer, dst16, src16, sizeof(uint16_t), sensor.transpose);
             #else
             if ((sensor.pixformat == PIXFORMAT_RGB565 && sensor.hw_flags.rgb_swap)
-            ||  (sensor.pixformat == PIXFORMAT_YUV422 && sensor.hw_flags.yuv_swap)) {
+                || (sensor.pixformat == PIXFORMAT_YUV422 && sensor.hw_flags.yuv_swap)) {
                 if (!sensor.transpose) {
                     unaligned_memcpy_rev16(dst16, src16, MAIN_FB()->u);
                 } else {
@@ -666,21 +646,20 @@ void DCMI_DMAConvCpltUser(uint32_t addr)
 
 #if (OMV_ENABLE_SENSOR_MDMA == 1)
 // Configures an MDMA channel to completely offload the CPU in copying one line of pixels.
-static void mdma_config(MDMA_InitTypeDef *init, sensor_t *sensor, uint32_t bytes_per_pixel)
-{
-    init->Request                   = MDMA_REQUEST_SW;
-    init->TransferTriggerMode       = MDMA_REPEAT_BLOCK_TRANSFER;
-    init->Priority                  = MDMA_PRIORITY_VERY_HIGH;
-    init->DataAlignment             = MDMA_DATAALIGN_PACKENABLE;
-    init->BufferTransferLength      = MDMA_BUFFER_SIZE;
+static void mdma_config(MDMA_InitTypeDef *init, sensor_t *sensor, uint32_t bytes_per_pixel) {
+    init->Request = MDMA_REQUEST_SW;
+    init->TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
+    init->Priority = MDMA_PRIORITY_VERY_HIGH;
+    init->DataAlignment = MDMA_DATAALIGN_PACKENABLE;
+    init->BufferTransferLength = MDMA_BUFFER_SIZE;
     // The source address is 1KB aligned. So, a burst size of 16 beats (AHB Max) should not break.
     // Destination lines may not be aligned however so the burst size must be computed.
-    init->SourceBurst               = MDMA_SOURCE_BURST_16BEATS;
-    init->SourceBlockAddressOffset  = 0;
-    init->DestBlockAddressOffset    = 0;
+    init->SourceBurst = MDMA_SOURCE_BURST_16BEATS;
+    init->SourceBlockAddressOffset = 0;
+    init->DestBlockAddressOffset = 0;
 
     if ((sensor->pixformat == PIXFORMAT_RGB565 && sensor->hw_flags.rgb_swap)
-    ||  (sensor->pixformat == PIXFORMAT_YUV422 && sensor->hw_flags.yuv_swap)) {
+        || (sensor->pixformat == PIXFORMAT_YUV422 && sensor->hw_flags.yuv_swap)) {
         init->Endianness = MDMA_LITTLE_BYTE_ENDIANNESS_EXCHANGE;
     } else {
         init->Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
@@ -733,16 +712,15 @@ static void mdma_config(MDMA_InitTypeDef *init, sensor_t *sensor, uint32_t bytes
 
     // YUV422 Source -> Y Destination
     if ((sensor->pixformat == PIXFORMAT_GRAYSCALE) && (sensor->hw_flags.gs_bpp == 2)) {
-        init->SourceInc         = MDMA_SRC_INC_HALFWORD;
-        init->SourceDataSize    = MDMA_SRC_DATASIZE_BYTE;
+        init->SourceInc = MDMA_SRC_INC_HALFWORD;
+        init->SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
     }
 }
 #endif
 
 // This is the default snapshot function, which can be replaced in sensor_init functions. This function
 // uses the DCMI and DMA to capture frames and each line is processed in the DCMI_DMAConvCpltUser function.
-int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
-{
+int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
     uint32_t length = 0;
 
     // Compress the framebuffer for the IDE preview, only if it's not the first frame,
@@ -799,10 +777,10 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
 
         // Error out if the transfer size is not compatible with DMA transfer restrictions.
         if ((!dma_line_width_bytes)
-        || (dma_line_width_bytes % sizeof(uint32_t))
-        || (dma_line_width_bytes > (OMV_LINE_BUF_SIZE / 2))
-        || (!length)
-        || (length % DMA_LENGTH_ALIGNMENT)) {
+            || (dma_line_width_bytes % sizeof(uint32_t))
+            || (dma_line_width_bytes > (OMV_LINE_BUF_SIZE / 2))
+            || (!length)
+            || (length % DMA_LENGTH_ALIGNMENT)) {
             return SENSOR_ERROR_INVALID_FRAMESIZE;
         }
 
@@ -879,7 +857,7 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
                 length /= 2;
             }
         #if (OMV_ENABLE_SENSOR_MDMA == 1)
-        // Special transfer mode with MDMA that completely offloads the line capture load.
+            // Special transfer mode with MDMA that completely offloads the line capture load.
         } else if ((sensor->pixformat != PIXFORMAT_JPEG) && (!sensor->transpose)) {
             // DMA to circular mode writing the same line over and over again.
             ((DMA_Stream_TypeDef *) DMAHandle.Instance)->CR |= DMA_SxCR_CIRC;
@@ -900,7 +878,7 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
     // Let the camera know we want to trigger it now.
     #if defined(DCMI_FSYNC_PIN)
     if (sensor->hw_flags.fsync) {
-        DCMI_FSYNC_HIGH();
+        omv_gpio_write(DCMI_FSYNC_PIN, 1);
     }
     #endif
 
@@ -926,7 +904,7 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
 
             #if defined(DCMI_FSYNC_PIN)
             if (sensor->hw_flags.fsync) {
-                DCMI_FSYNC_LOW();
+                omv_gpio_write(DCMI_FSYNC_PIN, 0);
             }
             #endif
 
@@ -944,7 +922,7 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
     // We're done receiving data.
     #if defined(DCMI_FSYNC_PIN)
     if (sensor->hw_flags.fsync) {
-        DCMI_FSYNC_LOW();
+        omv_gpio_write(DCMI_FSYNC_PIN, 0);
     }
     #endif
 
@@ -972,7 +950,7 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
             MAIN_FB()->pixfmt = PIXFORMAT_RGB565;
             break;
         case PIXFORMAT_BAYER:
-            MAIN_FB()->pixfmt    = PIXFORMAT_BAYER;
+            MAIN_FB()->pixfmt = PIXFORMAT_BAYER;
             MAIN_FB()->subfmt_id = sensor->hw_flags.bayer;
             break;
         case PIXFORMAT_YUV422: {
@@ -993,7 +971,8 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
                 // within a transfer we have to look at the DMA counter and see how much data was moved.
                 size = buffer->offset * length;
 
-                if (__HAL_DMA_GET_COUNTER(&DMAHandle)) { // Add in the uncompleted transfer length.
+                if (__HAL_DMA_GET_COUNTER(&DMAHandle)) {
+                    // Add in the uncompleted transfer length.
                     size += ((length / sizeof(uint32_t)) - __HAL_DMA_GET_COUNTER(&DMAHandle)) * sizeof(uint32_t);
                 }
             }

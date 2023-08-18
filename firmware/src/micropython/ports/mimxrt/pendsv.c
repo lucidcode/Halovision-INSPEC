@@ -27,15 +27,9 @@
 #include <stdlib.h>
 #include "py/runtime.h"
 #include "pendsv.h"
+#include "irq.h"
 
-// This variable is used to save the exception object between a ctrl-C and the
-// PENDSV call that actually raises the exception.  It must be non-static
-// otherwise gcc-5 optimises it away.  It can point to the heap but is not
-// traced by GC.  This is okay because we only ever set it to
-// mp_kbd_exception which is in the root-pointer set.
 void *pendsv_object;
-#define NVIC_PRIORITYGROUP_4    ((uint32_t)0x00000003)
-#define IRQ_PRI_PENDSV          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 15, 0)
 
 #if defined(PENDSV_DISPATCH_NUM_SLOTS)
 uint32_t pendsv_dispatch_active;
@@ -43,6 +37,7 @@ pendsv_dispatch_t pendsv_dispatch_table[PENDSV_DISPATCH_NUM_SLOTS];
 #endif
 
 void pendsv_init(void) {
+    pendsv_object = NULL;
     #if defined(PENDSV_DISPATCH_NUM_SLOTS)
     pendsv_dispatch_active = false;
     #endif
@@ -63,6 +58,16 @@ void pendsv_schedule_dispatch(size_t slot, pendsv_dispatch_t f) {
     pendsv_dispatch_table[slot] = f;
     pendsv_dispatch_active = true;
     SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
+}
+
+void pendsv_dispatch_handler(void) {
+    for (size_t i = 0; i < PENDSV_DISPATCH_NUM_SLOTS; ++i) {
+        if (pendsv_dispatch_table[i] != NULL) {
+            pendsv_dispatch_t f = pendsv_dispatch_table[i];
+            pendsv_dispatch_table[i] = NULL;
+            f();
+        }
+    }
 }
 #endif
 

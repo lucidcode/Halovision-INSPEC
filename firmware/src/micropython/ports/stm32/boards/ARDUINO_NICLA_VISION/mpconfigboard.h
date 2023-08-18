@@ -28,10 +28,6 @@ typedef unsigned int mp_uint_t;     // must be pointer size
 #define MICROPY_HW_ENABLE_TIMER     (1)
 #define MICROPY_HW_ENABLE_SDCARD    (0)
 #define MICROPY_HW_ENABLE_MMCARD    (0)
-
-// Reserved DMA streams
-#define MICROPY_HW_DMA1S1_IS_RESERVED
-#define MICROPY_HW_DMA2S1_IS_RESERVED
 #define MICROPY_HW_TIM_IS_RESERVED(id) (id == 3 || id == 6)
 
 // Flash storage config

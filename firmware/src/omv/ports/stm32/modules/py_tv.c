@@ -9,6 +9,11 @@
  *
  * TV Python module.
  */
+#include "omv_boardconfig.h"
+
+#if MICROPY_PY_TV
+#include STM32_HAL_H
+
 #include "py/obj.h"
 #include "py/nlr.h"
 #include "py/runtime.h"
@@ -16,14 +21,11 @@
 
 #include "py_helper.h"
 #include "py_image.h"
-#include "omv_boardconfig.h"
-#include STM32_HAL_H
+#include "omv_gpio.h"
 
-#if MICROPY_PY_TV
-
-#define TV_WIDTH    352
-#define TV_HEIGHT   240
-#define TV_REFRESH  60
+#define TV_WIDTH      352
+#define TV_HEIGHT     240
+#define TV_REFRESH    60
 
 #if ((TV_WIDTH) % 2)
 #error "TV_WIDTH not even"
@@ -39,206 +41,202 @@
 /////////////////////////////////////////////////////////////
 
 // Crystal frequency in MHZ (float, observe accuracy)
-#define XTAL_MHZ 3.579545
+#define XTAL_MHZ                     3.579545
 
 // Line length in microseconds (float, observe accuracy)
-#define LINE_LENGTH_US 63.556
+#define LINE_LENGTH_US               63.556
 
-#define FIXED_VCLK_CYCLES 10
-#define FIXED_CSCLK_CYCLES ((FIXED_VCLK_CYCLES) / 8.0)
+#define FIXED_VCLK_CYCLES            10
+#define FIXED_CSCLK_CYCLES           ((FIXED_VCLK_CYCLES) / 8.0)
 
 // Normal visible picture line sync length is 4.7 us
-#define SYNC_US 4.7
-#define SYNC ((uint16_t) (((SYNC_US) * (XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) + 0.5))
+#define SYNC_US                      4.7
+#define SYNC                         ((uint16_t) (((SYNC_US) *(XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) +0.5))
 
 // Color burst starts at 5.3 us
-#define BURST_US 5.3
-#define BURST ((uint16_t) (((BURST_US) * (XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) + 0.5))
+#define BURST_US                     5.3
+#define BURST                        ((uint16_t) (((BURST_US) *(XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) +0.5))
 
 // Color burst duration is 2.5 us
-#define BURST_DUR_US 2.5
-#define BURST_DUR ((uint16_t) (((BURST_DUR_US) * (XTAL_MHZ)) + 0.5))
+#define BURST_DUR_US                 2.5
+#define BURST_DUR                    ((uint16_t) (((BURST_DUR_US) *(XTAL_MHZ)) + 0.5))
 
 // Black video starts at 9.4 us
-#define BLACK_US 9.4
-#define BLACK ((uint16_t) (((BLACK_US) * (XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) + 0.5))
+#define BLACK_US                     9.4
+#define BLACK                        ((uint16_t) (((BLACK_US) *(XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) +0.5))
 
 // Black video duration is 52.656 us
-#define BLACK_DUR_US 52.656
-#define BLACK_DUR ((uint16_t) (((BLACK_DUR_US) * (XTAL_MHZ)) + 0.5))
+#define BLACK_DUR_US                 52.656
+#define BLACK_DUR                    ((uint16_t) (((BLACK_DUR_US) *(XTAL_MHZ)) + 0.5))
 
 // Define NTSC video timing constants
 // NTSC short sync duration is 2.3 us
-#define SHORT_SYNC_US 2.3
+#define SHORT_SYNC_US                2.3
 
 // For the start of the line, the first 10 extra PLLCLK sync (0) cycles are subtracted.
-#define SHORTSYNC ((uint16_t) (((SHORT_SYNC_US) * (XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) + 0.5 ))
+#define SHORTSYNC                    ((uint16_t) (((SHORT_SYNC_US) *(XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) +0.5))
 
 // For the middle of the line the whole duration of sync pulse is used.
-#define SHORTSYNCM ((uint16_t) (((SHORT_SYNC_US) * (XTAL_MHZ)) + 0.5))
+#define SHORTSYNCM                   ((uint16_t) (((SHORT_SYNC_US) *(XTAL_MHZ)) + 0.5))
 
 // NTSC long sync duration is 27.078 us
-#define LONG_SYNC_US 27.078
-#define LONGSYNC ((uint16_t) (((LONG_SYNC_US) * (XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) + 0.5))
-#define LONGSYNCM ((uint16_t) (((LONG_SYNC_US) * (XTAL_MHZ)) + 0.5))
+#define LONG_SYNC_US                 27.078
+#define LONGSYNC                     ((uint16_t) (((LONG_SYNC_US) *(XTAL_MHZ)) - (FIXED_CSCLK_CYCLES) +0.5))
+#define LONGSYNCM                    ((uint16_t) (((LONG_SYNC_US) *(XTAL_MHZ)) + 0.5))
 
 // Number of lines used after the VSYNC but before visible area.
-#define VSYNC_LINES 9
-#define FRONT_PORCH_LINES 13
+#define VSYNC_LINES                  9
+#define FRONT_PORCH_LINES            13
 
 // Definitions for picture lines
 // On which line the picture area begins, the Y direction.
-#define STARTLINE ((VSYNC_LINES) + (FRONT_PORCH_LINES))
+#define STARTLINE                    ((VSYNC_LINES) + (FRONT_PORCH_LINES))
 
 // Frame length in lines (visible lines + nonvisible lines)
 // Amount has to be odd for NTSC and RGB colors
-#define TOTAL_LINES ((STARTLINE) + (TV_HEIGHT) + 1)
+#define TOTAL_LINES                  ((STARTLINE) + (TV_HEIGHT) +1)
 #if ((TOTAL_LINES) != 263)
 #error "Progressive NTSC must have 263 lines!"
 #endif
 
 // Width, in PLL clocks, of each pixel.
-#define PLLCLKS_PER_PIXEL 4
+#define PLLCLKS_PER_PIXEL            4
 
 // The first pixel of the picture area, the X direction.
-#define STARTPIX ((BLACK) + 7)
+#define STARTPIX                     ((BLACK) +7)
 
 // The last pixel of the picture area.
-#define ENDPIX ((uint16_t) ((STARTPIX) + (((PLLCLKS_PER_PIXEL) * (TV_WIDTH)) / 8)))
+#define ENDPIX                       ((uint16_t) ((STARTPIX) + (((PLLCLKS_PER_PIXEL) *(TV_WIDTH)) / 8)))
 
 // Reserve memory for this number of different prototype lines
 // (prototype lines are used for sync timing, porch and border area)
-#define PROTOLINES 3
+#define PROTOLINES                   3
 
 // PLL frequency
-#define PLL_MHZ ((XTAL_MHZ) * 8)
+#define PLL_MHZ                      ((XTAL_MHZ) * 8)
 
 // 10 first pllclks, which are not in the counters are decremented here
-#define PLLCLKS_PER_LINE ((uint16_t) (((LINE_LENGTH_US) * (PLL_MHZ)) - (FIXED_VCLK_CYCLES)))
+#define PLLCLKS_PER_LINE             ((uint16_t) (((LINE_LENGTH_US) *(PLL_MHZ)) - (FIXED_VCLK_CYCLES)))
 
 // 10 first pllclks, which are not in the counters are decremented here
-#define COLORCLKS_PER_LINE ((uint16_t) ((((((LINE_LENGTH_US) * (PLL_MHZ)) / 1) + 7) / 8) - (FIXED_CSCLK_CYCLES)))
-#define COLORCLKS_LINE_HALF ((uint16_t) ((((((LINE_LENGTH_US) * (PLL_MHZ)) / 2) + 7) / 8) - (FIXED_CSCLK_CYCLES)))
+#define COLORCLKS_PER_LINE           ((uint16_t) ((((((LINE_LENGTH_US) *(PLL_MHZ)) / 1) + 7) / 8) - (FIXED_CSCLK_CYCLES)))
+#define COLORCLKS_LINE_HALF          ((uint16_t) ((((((LINE_LENGTH_US) *(PLL_MHZ)) / 2) + 7) / 8) - (FIXED_CSCLK_CYCLES)))
 
-#define PROTO_AREA_WORDS ((COLORCLKS_PER_LINE) * (PROTOLINES))
-#define INDEX_START_LONGWORDS (((PROTO_AREA_WORDS) + 1) / 2)
-#define INDEX_START_BYTES ((INDEX_START_LONGWORDS) * 4)
+#define PROTO_AREA_WORDS             ((COLORCLKS_PER_LINE) *(PROTOLINES))
+#define INDEX_START_LONGWORDS        (((PROTO_AREA_WORDS) +1) / 2)
+#define INDEX_START_BYTES            ((INDEX_START_LONGWORDS) * 4)
 
 // Protoline 0 starts always at address 0
-#define PROTOLINE_BYTE_ADDRESS(n) ((COLORCLKS_PER_LINE) * 2 * (n))
-#define PROTOLINE_WORD_ADDRESS(n) ((COLORCLKS_PER_LINE) * 1 * (n))
+#define PROTOLINE_BYTE_ADDRESS(n)    ((COLORCLKS_PER_LINE) * 2 * (n))
+#define PROTOLINE_WORD_ADDRESS(n)    ((COLORCLKS_PER_LINE) * 1 * (n))
 
 // Calculate picture lengths in pixels and bytes, coordinate areas for picture area
-#define PICBITS 12
-#define PICLINE_LENGTH_BYTES (((TV_WIDTH) * (PICBITS)) / 8)
+#define PICBITS                      12
+#define PICLINE_LENGTH_BYTES         (((TV_WIDTH) *(PICBITS)) / 8)
 
-#define LINE_INDEX_BYTE_SIZE 3
+#define LINE_INDEX_BYTE_SIZE         3
 
 // Picture area memory start point
-#define PICLINE_START ((INDEX_START_BYTES) + ((TOTAL_LINES) * (LINE_INDEX_BYTE_SIZE)))
+#define PICLINE_START                ((INDEX_START_BYTES) + ((TOTAL_LINES) *(LINE_INDEX_BYTE_SIZE)))
 
 // Picture area line start addresses
-#define PICLINE_BYTE_ADDRESS(n) ((PICLINE_START) + ((PICLINE_LENGTH_BYTES) * (n)))
+#define PICLINE_BYTE_ADDRESS(n)      ((PICLINE_START) + ((PICLINE_LENGTH_BYTES) *(n)))
 
 // Pattern generator microcode
 // ---------------------------
 // Bits 7:6  a=00|b=01|y=10|-=11
 // Bits 5:3  n pick bits 1..8
 // bits 2:0  shift 0..6
-#define PICK_A (0 << 6)
-#define PICK_B (1 << 6)
-#define PICK_Y (2 << 6)
-#define PICK_NOTHING (3 << 6)
-#define PICK_BITS(a) (((a) - 1) << 3)
-#define SHIFT_BITS(a) (a)
+#define PICK_A                       (0 << 6)
+#define PICK_B                       (1 << 6)
+#define PICK_Y                       (2 << 6)
+#define PICK_NOTHING                 (3 << 6)
+#define PICK_BITS(a)                 (((a) - 1) << 3)
+#define SHIFT_BITS(a)                (a)
 
 // 16 bits per pixel, U4 V4 Y8
 // PICK_B is U
-#define OP1 (PICK_B + PICK_BITS(4) + SHIFT_BITS(4))
+#define OP1                          (PICK_B + PICK_BITS(4) + SHIFT_BITS(4))
 // PICK_A is V
-#define OP2 (PICK_A + PICK_BITS(4) + SHIFT_BITS(4))
-#define OP3 (PICK_Y + PICK_BITS(8) + SHIFT_BITS(6))
-#define OP4 (PICK_NOTHING + SHIFT_BITS(2))
+#define OP2                          (PICK_A + PICK_BITS(4) + SHIFT_BITS(4))
+#define OP3                          (PICK_Y + PICK_BITS(8) + SHIFT_BITS(6))
+#define OP4                          (PICK_NOTHING + SHIFT_BITS(2))
 
 // General VS23 commands
-#define WRITE_STATUS 0x01
-#define WRITE_SRAM 0x02
-#define WRITE_GPIO 0x82
-#define READ_GPIO 0x84
-#define WRITE_MULTIIC 0xb8
-#define WRITE_BLOCKMVC1 0x34
+#define WRITE_STATUS                 0x01
+#define WRITE_SRAM                   0x02
+#define WRITE_GPIO                   0x82
+#define READ_GPIO                    0x84
+#define WRITE_MULTIIC                0xb8
+#define WRITE_BLOCKMVC1              0x34
 
 // Bit definitions
-#define VDCTRL1 0x2B
-#define VDCTRL1_UVSKIP (1 << 0)
-#define VDCTRL1_PLL_ENABLE (1 << 12)
-#define VDCTRL2 0x2D
-#define VDCTRL2_LINECOUNT (1 << 0)
-#define VDCTRL2_PIXEL_WIDTH (1 << 10)
-#define VDCTRL2_ENABLE_VIDEO (1 << 15)
-#define BLOCKMVC1_PYF (1 << 4)
+#define VDCTRL1                      0x2B
+#define VDCTRL1_UVSKIP               (1 << 0)
+#define VDCTRL1_PLL_ENABLE           (1 << 12)
+#define VDCTRL2                      0x2D
+#define VDCTRL2_LINECOUNT            (1 << 0)
+#define VDCTRL2_PIXEL_WIDTH          (1 << 10)
+#define VDCTRL2_ENABLE_VIDEO         (1 << 15)
+#define BLOCKMVC1_PYF                (1 << 4)
 
 // VS23 video commands
-#define PROGRAM 0x30
-#define PICSTART 0x28
-#define PICEND 0x29
-#define LINELEN 0x2a
-#define INDEXSTART 0x2c
+#define PROGRAM                      0x30
+#define PICSTART                     0x28
+#define PICEND                       0x29
+#define LINELEN                      0x2a
+#define INDEXSTART                   0x2c
 
 // Sync, blank, burst and white level definitions, here are several options
 // These are for proto lines and so format is VVVVUUUUYYYYYYYY
 
 // Sync is always 0
-#define SYNC_LEVEL  0x0000
+#define SYNC_LEVEL                   0x0000
 
 // 285 mV to 75 ohm load
-#define BLANK_LEVEL 0x0066
+#define BLANK_LEVEL                  0x0066
 
 // 285 mV burst
-#define BURST_LEVEL 0x0d66
+#define BURST_LEVEL                  0x0d66
 
-#define SPI_RAM_SIZE (128 * 1024)
+#define SPI_RAM_SIZE                 (128 * 1024)
 
 // COLORCLKS_PER_LINE can't be used in pre-processor logic.
-#if ((((((227 * (PROTOLINES)) + 1) / 2) * 4) + ((TOTAL_LINES) * (LINE_INDEX_BYTE_SIZE)) + \
-    ((PICLINE_LENGTH_BYTES) * (TV_HEIGHT))) > (SPI_RAM_SIZE))
+#if ((((((227 * (PROTOLINES)) + 1) / 2) * 4) + ((TOTAL_LINES) *(LINE_INDEX_BYTE_SIZE)) + \
+    ((PICLINE_LENGTH_BYTES) *(TV_HEIGHT))) > (SPI_RAM_SIZE))
 #error "TV_WIDTH * TV_HEIGHT is too big!"
 #endif
 
-static void SpiRamWriteByteRegister(int opcode, int data)
-{
+static void SpiRamWriteByteRegister(int opcode, int data) {
     uint8_t packet[2] = {opcode, data};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static int SpiRamReadByteRegister(int opcode)
-{
+static int SpiRamReadByteRegister(int opcode) {
     uint8_t packet[2] = {opcode, 0};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_TransmitReceive(OMV_SPI_LCD_CONTROLLER->spi, packet, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 
     return packet[1];
 }
 
-static void SpiRamWriteWordRegister(int opcode, int data)
-{
+static void SpiRamWriteWordRegister(int opcode, int data) {
     uint8_t packet[3] = {opcode, data >> 8, data};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static void SpiClearRam()
-{
+static void SpiClearRam() {
     uint8_t packet[4] = {WRITE_SRAM, 0, 0, 0};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
 
     packet[0] = 0;
@@ -247,39 +245,35 @@ static void SpiClearRam()
         HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
     }
 
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static void SpiRamWriteProgram(int data0, int data1, int data2, int data3)
-{
+static void SpiRamWriteProgram(int data0, int data1, int data2, int data3) {
     uint8_t packet[5] = {PROGRAM, data3, data2, data1, data0};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static void SpiRamWriteLowPassFilter(int data)
-{
+static void SpiRamWriteLowPassFilter(int data) {
     uint8_t packet[6] = {WRITE_BLOCKMVC1, 0, 0, 0, 0, data};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static void SpiRamWriteWord(int w_address, int data)
-{
+static void SpiRamWriteWord(int w_address, int data) {
     int address = w_address * sizeof(uint16_t);
     uint8_t packet[6] = {WRITE_SRAM, address >> 16, address >> 8, address, data >> 8, data};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static void SpiRamWriteVSyncProtoLine(int line, int length_1, int length_2)
-{
+static void SpiRamWriteVSyncProtoLine(int line, int length_1, int length_2) {
     int w0 = PROTOLINE_WORD_ADDRESS(line);
     for (int i = 0; i < COLORCLKS_PER_LINE; i++) {
         SpiRamWriteWord(w0++, BLANK_LEVEL);
@@ -296,19 +290,17 @@ static void SpiRamWriteVSyncProtoLine(int line, int length_1, int length_2)
     }
 }
 
-static void SpiRamWriteLine(int line, int index)
-{
+static void SpiRamWriteLine(int line, int index) {
     int address = INDEX_START_BYTES + (line * LINE_INDEX_BYTE_SIZE);
     int data = index << 7;
     uint8_t packet[7] = {WRITE_SRAM, address >> 16, address >> 8, address, data, data >> 8, data >> 16};
 
-    OMV_SPI_LCD_CS_LOW();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, packet, sizeof(packet), HAL_MAX_DELAY);
-    OMV_SPI_LCD_CS_HIGH();
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 }
 
-static void SpiRamVideoInit()
-{
+static void SpiRamVideoInit() {
     // Select the first VS23 for following commands in case there
     // are several VS23 ICs connected to same SPI bus.
     SpiRamWriteByteRegister(WRITE_MULTIIC, 0xe);
@@ -382,26 +374,22 @@ static void SpiRamVideoInit()
 
     // Set number of lines, length of pixel and enable video generation
     SpiRamWriteWordRegister(VDCTRL2, (VDCTRL2_LINECOUNT * (TOTAL_LINES - 1))
-    | (VDCTRL2_PIXEL_WIDTH * (PLLCLKS_PER_PIXEL - 1))
-    | (VDCTRL2_ENABLE_VIDEO));
+                            | (VDCTRL2_PIXEL_WIDTH * (PLLCLKS_PER_PIXEL - 1))
+                            | (VDCTRL2_ENABLE_VIDEO));
 
     // Enable the low-pass Y filter.
     SpiRamWriteLowPassFilter(BLOCKMVC1_PYF);
 }
-
-/////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////
 #endif
 
 // TV lines are converted from 16-bit RGB565 to 12-bit YUV.
-#define TV_WIDTH_RGB565 ((TV_WIDTH) * 2) // bytes
+#define TV_WIDTH_RGB565      ((TV_WIDTH) * 2) // bytes
 
 #if ((PICLINE_LENGTH_BYTES) > (TV_WIDTH_RGB565))
 #error "PICLINE_LENGTH_BYTES > TV_WIDTH_RGB565"
 #endif
 
-#define FRAMEBUFFER_COUNT 3
+#define FRAMEBUFFER_COUNT    3
 static int framebuffer_head = 0;
 static volatile int framebuffer_tail = 0;
 static uint16_t *framebuffers[FRAMEBUFFER_COUNT] = {};
@@ -409,7 +397,8 @@ static uint16_t *framebuffers[FRAMEBUFFER_COUNT] = {};
 static enum {
     TV_NONE,
     TV_SHIELD,
-} tv_type = TV_NONE;
+}
+tv_type = TV_NONE;
 
 static bool tv_triple_buffer = false;
 
@@ -420,10 +409,10 @@ static volatile enum {
     SPI_TX_CB_IDLE,
     SPI_TX_CB_MEMORY_WRITE_CMD,
     SPI_TX_CB_MEMORY_WRITE
-} spi_tx_cb_state = SPI_TX_CB_IDLE;
+}
+spi_tx_cb_state = SPI_TX_CB_IDLE;
 
-static void spi_config_deinit()
-{
+static void spi_config_deinit() {
     if (tv_triple_buffer) {
         HAL_SPI_Abort(OMV_SPI_LCD_CONTROLLER->spi);
         spi_tx_cb_state = SPI_TX_CB_IDLE;
@@ -433,20 +422,15 @@ static void spi_config_deinit()
     spi_deinit(OMV_SPI_LCD_CONTROLLER);
 
     // Do not put in HAL_SPI_MspDeinit as other modules share the SPI2 bus.
-
-    HAL_GPIO_DeInit(OMV_SPI_LCD_MOSI_PORT, OMV_SPI_LCD_MOSI_PIN);
-    HAL_GPIO_DeInit(OMV_SPI_LCD_MISO_PORT, OMV_SPI_LCD_MISO_PIN);
-    HAL_GPIO_DeInit(OMV_SPI_LCD_SCLK_PORT, OMV_SPI_LCD_SCLK_PIN);
-
-    HAL_GPIO_DeInit(OMV_SPI_LCD_CS_PORT, OMV_SPI_LCD_CS_PIN);
-
-    ///////////////////////////////////////////////////////////////////////
+    omv_gpio_deinit(OMV_SPI_LCD_MOSI_PIN);
+    omv_gpio_deinit(OMV_SPI_LCD_MISO_PIN);
+    omv_gpio_deinit(OMV_SPI_LCD_SCLK_PIN);
+    omv_gpio_deinit(OMV_SPI_LCD_SSEL_PIN);
 }
 
 static void spi_tv_callback(SPI_HandleTypeDef *hspi);
 
-static void spi_config_init(bool triple_buffer)
-{
+static void spi_config_init(bool triple_buffer) {
     OMV_SPI_LCD_CONTROLLER->spi->Init.Mode = SPI_MODE_MASTER;
     OMV_SPI_LCD_CONTROLLER->spi->Init.Direction = SPI_DIRECTION_2LINES;
     OMV_SPI_LCD_CONTROLLER->spi->Init.NSS = SPI_NSS_SOFT;
@@ -459,32 +443,11 @@ static void spi_config_init(bool triple_buffer)
     HAL_SPI_RegisterCallback(OMV_SPI_LCD_CONTROLLER->spi, HAL_SPI_TX_COMPLETE_CB_ID, spi_tv_callback);
 
     // Do not put in HAL_SPI_MspInit as other modules share the SPI2 bus.
-
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.Pull      = GPIO_NOPULL;
-    GPIO_InitStructure.Mode      = GPIO_MODE_AF_PP;
-    GPIO_InitStructure.Speed     = GPIO_SPEED_FREQ_MEDIUM;
-
-    GPIO_InitStructure.Alternate = OMV_SPI_LCD_MOSI_ALT;
-    GPIO_InitStructure.Pin       = OMV_SPI_LCD_MOSI_PIN;
-    HAL_GPIO_Init(OMV_SPI_LCD_MOSI_PORT, &GPIO_InitStructure);
-
-    GPIO_InitStructure.Alternate = OMV_SPI_LCD_MISO_ALT;
-    GPIO_InitStructure.Pin       = OMV_SPI_LCD_MISO_PIN;
-    HAL_GPIO_Init(OMV_SPI_LCD_MISO_PORT, &GPIO_InitStructure);
-
-    GPIO_InitStructure.Alternate = OMV_SPI_LCD_SCLK_ALT;
-    GPIO_InitStructure.Pin       = OMV_SPI_LCD_SCLK_PIN;
-    HAL_GPIO_Init(OMV_SPI_LCD_SCLK_PORT, &GPIO_InitStructure);
-
-    GPIO_InitStructure.Mode      = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStructure.Speed     = GPIO_SPEED_FREQ_LOW;
-
-    GPIO_InitStructure.Pin       = OMV_SPI_LCD_CS_PIN;
-    HAL_GPIO_Init(OMV_SPI_LCD_CS_PORT, &GPIO_InitStructure);
-    OMV_SPI_LCD_CS_HIGH();
-
-    /////////////////////////////////////////////////////////////////////
+    omv_gpio_config(OMV_SPI_LCD_MOSI_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_SPI_LCD_MISO_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_SPI_LCD_SCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_SPI_LCD_SSEL_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_LOW, -1);
+    omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
 
     SpiRamVideoInit();
 
@@ -504,71 +467,64 @@ static void spi_config_init(bool triple_buffer)
         dma_init(&spi_tx_dma, OMV_SPI_LCD_CONTROLLER->tx_dma_descr, DMA_MEMORY_TO_PERIPH, OMV_SPI_LCD_CONTROLLER->spi);
         OMV_SPI_LCD_CONTROLLER->spi->hdmatx = &spi_tx_dma;
         OMV_SPI_LCD_CONTROLLER->spi->hdmarx = NULL;
-#if defined(MCU_SERIES_H7)
+        #if defined(MCU_SERIES_H7)
         spi_tx_dma.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-#else
+        #else
         spi_tx_dma.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-#endif
+        #endif
         spi_tx_dma.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
         spi_tx_dma.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
         spi_tx_dma.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
         spi_tx_dma.Init.MemBurst = DMA_MBURST_INC4;
-#if defined(MCU_SERIES_H7)
+        #if defined(MCU_SERIES_H7)
         spi_tx_dma.Init.PeriphBurst = DMA_PBURST_INC4;
-#else
+        #else
         spi_tx_dma.Init.PeriphBurst = DMA_PBURST_SINGLE;
-#endif
-#if defined(MCU_SERIES_H7)
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR & ~DMA_SxCR_PSIZE_Msk) | DMA_PDATAALIGN_WORD;
-#else
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR & ~DMA_SxCR_PSIZE_Msk) | DMA_PDATAALIGN_BYTE;
-#endif
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR & ~DMA_SxCR_MSIZE_Msk) | DMA_MDATAALIGN_WORD;
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->FCR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->FCR & ~DMA_SxFCR_DMDIS_Msk) | DMA_FIFOMODE_ENABLE;
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->FCR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->FCR & ~DMA_SxFCR_FTH_Msk) | DMA_FIFO_THRESHOLD_FULL;
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR & ~DMA_SxCR_MBURST_Msk) | DMA_MBURST_INC4;
-#if defined(MCU_SERIES_H7)
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR & ~DMA_SxCR_PBURST_Msk) | DMA_PBURST_INC4;
-#else
-        ((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR =
-            (((DMA_Stream_TypeDef *) spi_tx_dma.Instance)->CR & ~DMA_SxCR_PBURST_Msk) | DMA_PBURST_SINGLE;
-#endif
+        #endif
+        DMA_Stream_TypeDef *dma_chan = spi_tx_dma.Instance;
+        #if defined(MCU_SERIES_H7)
+        dma_chan->CR = (dma_chan->CR & ~DMA_SxCR_PSIZE_Msk) | DMA_PDATAALIGN_WORD;
+        #else
+        dma_chan->CR = (dma_chan->CR & ~DMA_SxCR_PSIZE_Msk) | DMA_PDATAALIGN_BYTE;
+        #endif
+        dma_chan->CR = (dma_chan->CR & ~DMA_SxCR_MSIZE_Msk) | DMA_MDATAALIGN_WORD;
+        dma_chan->FCR = (dma_chan->FCR & ~DMA_SxFCR_DMDIS_Msk) | DMA_FIFOMODE_ENABLE;
+        dma_chan->FCR = (dma_chan->FCR & ~DMA_SxFCR_FTH_Msk) | DMA_FIFO_THRESHOLD_FULL;
+        dma_chan->CR = (dma_chan->CR & ~DMA_SxCR_MBURST_Msk) | DMA_MBURST_INC4;
+        #if defined(MCU_SERIES_H7)
+        dma_chan->CR = (dma_chan->CR & ~DMA_SxCR_PBURST_Msk) | DMA_PBURST_INC4;
+        #else
+        dma_chan->CR = (dma_chan->CR & ~DMA_SxCR_PBURST_Msk) | DMA_PBURST_SINGLE;
+        #endif
         fb_alloc_mark_permanent();
     }
 }
 
-static const uint8_t write_sram[] = { // Cannot be allocated on the stack for HAL_SPI_Transmit_IT().
+static const uint8_t write_sram[] = {
+    // Cannot be allocated on the stack for HAL_SPI_Transmit_IT().
     WRITE_SRAM,
     (uint8_t) (PICLINE_BYTE_ADDRESS(0) >> 16),
     (uint8_t) (PICLINE_BYTE_ADDRESS(0) >> 8),
     (uint8_t) (PICLINE_BYTE_ADDRESS(0) >> 0)
 };
 
-static void spi_tv_callback(SPI_HandleTypeDef *hspi)
-{
+static void spi_tv_callback(SPI_HandleTypeDef *hspi) {
     if (tv_type == TV_SHIELD) {
         static uint8_t *spi_tx_cb_state_memory_write_addr = NULL;
         static size_t spi_tx_cb_state_memory_write_count = 0;
 
         switch (spi_tx_cb_state) {
             case SPI_TX_CB_MEMORY_WRITE_CMD: {
-                OMV_SPI_LCD_CS_HIGH();
+                omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
                 spi_tx_cb_state = SPI_TX_CB_MEMORY_WRITE;
                 spi_tx_cb_state_memory_write_addr = (uint8_t *) framebuffers[framebuffer_head];
                 spi_tx_cb_state_memory_write_count = PICLINE_LENGTH_BYTES * TV_HEIGHT;
                 framebuffer_tail = framebuffer_head;
-#if defined(MCU_SERIES_H7)
+                #if defined(MCU_SERIES_H7)
                 OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 =
                     (OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 & ~SPI_CFG1_FTHLV_Msk) | SPI_FIFO_THRESHOLD_01DATA;
-#endif
-                OMV_SPI_LCD_CS_LOW();
+                #endif
+                omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
                 // When starting the interrupt chain the first HAL_SPI_Transmit_IT is not executed
                 // in interrupt context. So, disable interrupts for the first HAL_SPI_Transmit_IT so
                 // that it completes first and unlocks the SPI bus before allowing the interrupt
@@ -580,16 +536,16 @@ static void spi_tv_callback(SPI_HandleTypeDef *hspi)
             }
             case SPI_TX_CB_MEMORY_WRITE: {
                 uint8_t *addr = spi_tx_cb_state_memory_write_addr;
-                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, (65536-16u));
-                spi_tx_cb_state = (spi_tx_cb_state_memory_write_count > (65536-16))
+                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, (65536 - 16u));
+                spi_tx_cb_state = (spi_tx_cb_state_memory_write_count > (65536 - 16))
                         ? SPI_TX_CB_MEMORY_WRITE
                         : SPI_TX_CB_MEMORY_WRITE_CMD;
                 spi_tx_cb_state_memory_write_addr += count;
                 spi_tx_cb_state_memory_write_count -= count;
-#if defined(MCU_SERIES_H7)
+                #if defined(MCU_SERIES_H7)
                 OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 =
                     (OMV_SPI_LCD_CONTROLLER->spi->Instance->CFG1 & ~SPI_CFG1_FTHLV_Msk) | SPI_FIFO_THRESHOLD_16DATA;
-#endif
+                #endif
                 HAL_SPI_Transmit_DMA(OMV_SPI_LCD_CONTROLLER->spi, addr, count);
                 break;
             }
@@ -601,8 +557,7 @@ static void spi_tv_callback(SPI_HandleTypeDef *hspi)
 }
 
 // Convert a 8-bit Grayscale line of pixels to 12-bit YUV422 with padding (line is 16-bit per pixel).
-static void spi_tv_draw_image_cb_convert_grayscale(uint8_t *row_pointer_i, uint8_t *row_pointer_o)
-{
+static void spi_tv_draw_image_cb_convert_grayscale(uint8_t *row_pointer_i, uint8_t *row_pointer_o) {
     for (int i = TV_WIDTH - 2, j = ((TV_WIDTH * 3) / 2) - 3; i >= 0; i -= 2, j -= 3) {
         int y0 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_pointer_i, i);
         int y1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_pointer_i, i + 1);
@@ -613,8 +568,7 @@ static void spi_tv_draw_image_cb_convert_grayscale(uint8_t *row_pointer_i, uint8
 }
 
 // Convert a 16-bit RGB565 line of pixels to 12-bit YUV422 with padding (line is 16-bit per pixel).
-static void spi_tv_draw_image_cb_convert_rgb565(uint16_t *row_pointer_i, uint8_t *row_pointer_o)
-{
+static void spi_tv_draw_image_cb_convert_rgb565(uint16_t *row_pointer_i, uint8_t *row_pointer_o) {
     for (int i = 0, j = 0; i < TV_WIDTH; i += 2, j += 3) {
         #if defined(ARM_MATH_DSP)
 
@@ -663,14 +617,12 @@ static void spi_tv_draw_image_cb_convert_rgb565(uint16_t *row_pointer_i, uint8_t
     }
 }
 
-static void spi_tv_draw_image_cb_grayscale(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data)
-{
+static void spi_tv_draw_image_cb_grayscale(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data) {
     spi_tv_draw_image_cb_convert_grayscale((uint8_t *) data->dst_row_override, (uint8_t *) data->dst_row_override);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, data->dst_row_override, PICLINE_LENGTH_BYTES, HAL_MAX_DELAY);
 }
 
-static void spi_tv_draw_image_cb_rgb565(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data)
-{
+static void spi_tv_draw_image_cb_rgb565(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data) {
     spi_tv_draw_image_cb_convert_rgb565((uint16_t *) data->dst_row_override, (uint8_t *) data->dst_row_override);
     HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, data->dst_row_override, PICLINE_LENGTH_BYTES, HAL_MAX_DELAY);
 }
@@ -678,8 +630,7 @@ static void spi_tv_draw_image_cb_rgb565(int x_start, int x_end, int y_row, imlib
 static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, float x_scale, float y_scale,
                            rectangle_t *roi, int rgb_channel, int alpha,
                            const uint16_t *color_palette, const uint8_t *alpha_palette,
-                           image_hint_t hint)
-{
+                           image_hint_t hint) {
     bool rgb565 = ((rgb_channel == -1) && src_img->is_color) || color_palette;
     imlib_draw_row_callback_t cb = rgb565 ? spi_tv_draw_image_cb_rgb565 : spi_tv_draw_image_cb_grayscale;
 
@@ -694,11 +645,12 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
 
     if (!tv_triple_buffer) {
         dst_img.data = fb_alloc0(TV_WIDTH_RGB565, FB_ALLOC_NO_HINT);
-        OMV_SPI_LCD_CS_LOW();
+        omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 0);
 
         HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, (uint8_t *) write_sram, sizeof(write_sram), HAL_MAX_DELAY);
 
-        if (black) { // zero the whole image
+        if (black) {
+            // zero the whole image
             for (int i = 0; i < TV_HEIGHT; i++) {
                 HAL_SPI_Transmit(OMV_SPI_LCD_CONTROLLER->spi, dst_img.data, PICLINE_LENGTH_BYTES, HAL_MAX_DELAY);
             }
@@ -723,7 +675,7 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
             }
         }
 
-        OMV_SPI_LCD_CS_HIGH();
+        omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
         fb_free();
     } else {
         // For triple buffering we are never drawing where head or tail (which may instantly update to
@@ -736,7 +688,8 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
         dst_img.data = (uint8_t *) framebuffers[new_framebuffer_head];
 
         if (rgb565) {
-            if (black) { // zero the whole image
+            if (black) {
+                // zero the whole image
                 memset(dst_img.data, 0, TV_WIDTH * TV_HEIGHT * sizeof(uint16_t));
             } else {
                 // Zero the top rows
@@ -745,35 +698,39 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
                 }
 
                 if (x0) {
-                    for (int i = y0; i < y1; i++) { // Zero left
+                    for (int i = y0; i < y1; i++) {
+                        // Zero left
                         memset(IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(&dst_img, i), 0, x0 * sizeof(uint16_t));
                     }
                 }
 
                 imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
-                                rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
-                                NULL, NULL);
+                                 rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
+                                 NULL, NULL);
 
                 if (TV_WIDTH - x1) {
-                    for (int i = y0; i < y1; i++) { // Zero right
+                    for (int i = y0; i < y1; i++) {
+                        // Zero right
                         memset(IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(&dst_img, i) + x1, 0,
-                            (TV_WIDTH - x1) * sizeof(uint16_t));
+                               (TV_WIDTH - x1) * sizeof(uint16_t));
                     }
                 }
 
                 // Zero the bottom rows
                 if (TV_HEIGHT - y1) {
                     memset(IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(&dst_img, y1), 0,
-                        TV_WIDTH * (TV_HEIGHT - y1) * sizeof(uint16_t));
+                           TV_WIDTH * (TV_HEIGHT - y1) * sizeof(uint16_t));
                 }
             }
 
-            for (int i = 0; i < TV_HEIGHT; i++) { // Convert the image.
+            for (int i = 0; i < TV_HEIGHT; i++) {
+                // Convert the image.
                 spi_tv_draw_image_cb_convert_rgb565(IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(&dst_img, i),
                                                     dst_img.data + (PICLINE_LENGTH_BYTES * i));
             }
         } else {
-            if (black) { // zero the whole image
+            if (black) {
+                // zero the whole image
                 memset(dst_img.data, 0, TV_WIDTH * TV_HEIGHT * sizeof(uint8_t));
             } else {
                 // Zero the top rows
@@ -782,30 +739,33 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
                 }
 
                 if (x0) {
-                    for (int i = y0; i < y1; i++) { // Zero left
+                    for (int i = y0; i < y1; i++) {
+                        // Zero left
                         memset(IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(&dst_img, i), 0, x0 * sizeof(uint8_t));
                     }
                 }
 
                 imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
-                                rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
-                                NULL, NULL);
+                                 rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
+                                 NULL, NULL);
 
                 if (TV_WIDTH - x1) {
-                    for (int i = y0; i < y1; i++) { // Zero right
+                    for (int i = y0; i < y1; i++) {
+                        // Zero right
                         memset(IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(&dst_img, i) + x1, 0,
-                            (TV_WIDTH - x1) * sizeof(uint8_t));
+                               (TV_WIDTH - x1) * sizeof(uint8_t));
                     }
                 }
 
                 // Zero the bottom rows
                 if (TV_HEIGHT - y1) {
                     memset(IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(&dst_img, y1), 0,
-                        TV_WIDTH * (TV_HEIGHT - y1) * sizeof(uint8_t));
+                           TV_WIDTH * (TV_HEIGHT - y1) * sizeof(uint8_t));
                 }
             }
 
-            for (int i = TV_HEIGHT - 1; i >= 0; i--) { // Convert the image.
+            for (int i = TV_HEIGHT - 1; i >= 0; i--) {
+                // Convert the image.
                 spi_tv_draw_image_cb_convert_grayscale(IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(&dst_img, i),
                                                        dst_img.data + (PICLINE_LENGTH_BYTES * i));
             }
@@ -828,8 +788,7 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
 }
 #endif
 
-STATIC mp_obj_t py_tv_deinit()
-{
+STATIC mp_obj_t py_tv_deinit() {
     switch (tv_type) {
         #ifdef OMV_SPI_LCD_CONTROLLER
         case TV_SHIELD: {
@@ -848,8 +807,7 @@ STATIC mp_obj_t py_tv_deinit()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_deinit_obj, py_tv_deinit);
 
-STATIC mp_obj_t py_tv_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
-{
+STATIC mp_obj_t py_tv_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     py_tv_deinit();
 
     int type = py_helper_keyword_int(n_args, args, 0, kw_args,
@@ -875,8 +833,7 @@ STATIC mp_obj_t py_tv_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_tv_init_obj, 0, py_tv_init);
 
-STATIC mp_obj_t py_tv_width()
-{
+STATIC mp_obj_t py_tv_width() {
     if (tv_type == TV_NONE) {
         return mp_const_none;
     }
@@ -885,8 +842,7 @@ STATIC mp_obj_t py_tv_width()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_width_obj, py_tv_width);
 
-STATIC mp_obj_t py_tv_height()
-{
+STATIC mp_obj_t py_tv_height() {
     if (tv_type == TV_NONE) {
         return mp_const_none;
     }
@@ -895,8 +851,7 @@ STATIC mp_obj_t py_tv_height()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_height_obj, py_tv_height);
 
-STATIC mp_obj_t py_tv_type()
-{
+STATIC mp_obj_t py_tv_type() {
     if (tv_type == TV_NONE) {
         return mp_const_none;
     }
@@ -905,8 +860,7 @@ STATIC mp_obj_t py_tv_type()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_type_obj, py_tv_type);
 
-STATIC mp_obj_t py_tv_triple_buffer()
-{
+STATIC mp_obj_t py_tv_triple_buffer() {
     if (tv_type == TV_NONE) {
         return mp_const_none;
     }
@@ -915,8 +869,7 @@ STATIC mp_obj_t py_tv_triple_buffer()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_triple_buffer_obj, py_tv_triple_buffer);
 
-STATIC mp_obj_t py_tv_refresh()
-{
+STATIC mp_obj_t py_tv_refresh() {
     if (tv_type == TV_NONE) {
         return mp_const_none;
     }
@@ -925,8 +878,7 @@ STATIC mp_obj_t py_tv_refresh()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_refresh_obj, py_tv_refresh);
 
-STATIC mp_obj_t py_tv_channel(uint n_args, const mp_obj_t *args)
-{
+STATIC mp_obj_t py_tv_channel(uint n_args, const mp_obj_t *args) {
     if (tv_type == TV_NONE) {
         return mp_const_none;
     }
@@ -935,7 +887,7 @@ STATIC mp_obj_t py_tv_channel(uint n_args, const mp_obj_t *args)
     if (tv_triple_buffer) {
         HAL_SPI_Abort(OMV_SPI_LCD_CONTROLLER->spi);
         spi_tx_cb_state = SPI_TX_CB_IDLE;
-        OMV_SPI_LCD_CS_HIGH();
+        omv_gpio_write(OMV_SPI_LCD_SSEL_PIN, 1);
     }
 
     if (n_args) {
@@ -956,8 +908,7 @@ STATIC mp_obj_t py_tv_channel(uint n_args, const mp_obj_t *args)
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_tv_channel_obj, 0, 1, py_tv_channel);
 
-STATIC mp_obj_t py_tv_display(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
-{
+STATIC mp_obj_t py_tv_display(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     image_t *arg_img = py_image_cobj(args[0]);
 
     int arg_x_off = 0;
@@ -1060,14 +1011,13 @@ STATIC mp_obj_t py_tv_display(uint n_args, const mp_obj_t *args, mp_map_t *kw_ar
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_tv_display_obj, 1, py_tv_display);
 
-STATIC mp_obj_t py_tv_clear()
-{
+STATIC mp_obj_t py_tv_clear() {
     switch (tv_type) {
         #ifdef OMV_SPI_LCD_CONTROLLER
         case TV_SHIELD: {
             fb_alloc_mark();
             spi_tv_display(NULL, 0, 0, 1.f, 1.f, NULL,
-                            0, 0, NULL, NULL, 0);
+                           0, 0, NULL, NULL, 0);
             fb_alloc_free_till_mark();
             break;
         }
@@ -1082,19 +1032,19 @@ STATIC mp_obj_t py_tv_clear()
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_tv_clear_obj, py_tv_clear);
 
 STATIC const mp_rom_map_elem_t globals_dict_table[] = {
-    { MP_ROM_QSTR(MP_QSTR___name__),                MP_OBJ_NEW_QSTR(MP_QSTR_tv)                     },
-    { MP_ROM_QSTR(MP_QSTR_TV_NONE),                 MP_ROM_INT(TV_NONE)                             },
-    { MP_ROM_QSTR(MP_QSTR_TV_SHIELD),               MP_ROM_INT(TV_SHIELD)                           },
-    { MP_ROM_QSTR(MP_QSTR_init),                    MP_ROM_PTR(&py_tv_init_obj)                     },
-    { MP_ROM_QSTR(MP_QSTR_deinit),                  MP_ROM_PTR(&py_tv_deinit_obj)                   },
-    { MP_ROM_QSTR(MP_QSTR_width),                   MP_ROM_PTR(&py_tv_width_obj)                    },
-    { MP_ROM_QSTR(MP_QSTR_height),                  MP_ROM_PTR(&py_tv_height_obj)                   },
-    { MP_ROM_QSTR(MP_QSTR_type),                    MP_ROM_PTR(&py_tv_type_obj)                     },
-    { MP_ROM_QSTR(MP_QSTR_triple_buffer),           MP_ROM_PTR(&py_tv_triple_buffer_obj)            },
-    { MP_ROM_QSTR(MP_QSTR_refresh),                 MP_ROM_PTR(&py_tv_refresh_obj)                  },
-    { MP_ROM_QSTR(MP_QSTR_channel),                 MP_ROM_PTR(&py_tv_channel_obj)                  },
-    { MP_ROM_QSTR(MP_QSTR_display),                 MP_ROM_PTR(&py_tv_display_obj)                  },
-    { MP_ROM_QSTR(MP_QSTR_clear),                   MP_ROM_PTR(&py_tv_clear_obj)                    },
+    { MP_ROM_QSTR(MP_QSTR___name__),        MP_OBJ_NEW_QSTR(MP_QSTR_tv)          },
+    { MP_ROM_QSTR(MP_QSTR_TV_NONE),         MP_ROM_INT(TV_NONE)                  },
+    { MP_ROM_QSTR(MP_QSTR_TV_SHIELD),       MP_ROM_INT(TV_SHIELD)                },
+    { MP_ROM_QSTR(MP_QSTR_init),            MP_ROM_PTR(&py_tv_init_obj)          },
+    { MP_ROM_QSTR(MP_QSTR_deinit),          MP_ROM_PTR(&py_tv_deinit_obj)        },
+    { MP_ROM_QSTR(MP_QSTR_width),           MP_ROM_PTR(&py_tv_width_obj)         },
+    { MP_ROM_QSTR(MP_QSTR_height),          MP_ROM_PTR(&py_tv_height_obj)        },
+    { MP_ROM_QSTR(MP_QSTR_type),            MP_ROM_PTR(&py_tv_type_obj)          },
+    { MP_ROM_QSTR(MP_QSTR_triple_buffer),   MP_ROM_PTR(&py_tv_triple_buffer_obj) },
+    { MP_ROM_QSTR(MP_QSTR_refresh),         MP_ROM_PTR(&py_tv_refresh_obj)       },
+    { MP_ROM_QSTR(MP_QSTR_channel),         MP_ROM_PTR(&py_tv_channel_obj)       },
+    { MP_ROM_QSTR(MP_QSTR_display),         MP_ROM_PTR(&py_tv_display_obj)       },
+    { MP_ROM_QSTR(MP_QSTR_clear),           MP_ROM_PTR(&py_tv_clear_obj)         },
 };
 
 STATIC MP_DEFINE_CONST_DICT(globals_dict, globals_dict_table);
@@ -1104,8 +1054,7 @@ const mp_obj_module_t tv_module = {
     .globals = (mp_obj_t) &globals_dict,
 };
 
-void py_tv_init0()
-{
+void py_tv_init0() {
     py_tv_deinit();
 }
 

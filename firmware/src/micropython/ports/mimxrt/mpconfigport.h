@@ -26,10 +26,12 @@
 
 // Options controlling how MicroPython is built, overriding defaults in py/mpconfig.h
 
+#ifndef MICROPY_INCLUDED_MPCONFIGPORT_H
+#define MICROPY_INCLUDED_MPCONFIGPORT_H
 // Board specific definitions
 #include "mpconfigboard.h"
 #include "fsl_common.h"
-#include "lib/nxp_driver/sdk/CMSIS/Include/core_cm7.h"
+#include "core_cm7.h"
 
 uint32_t trng_random_u32(void);
 
@@ -59,6 +61,7 @@ uint32_t trng_random_u32(void);
 #define MICROPY_ENABLE_EMERGENCY_EXCEPTION_BUF  (1)
 #define MICROPY_LONGINT_IMPL                (MICROPY_LONGINT_IMPL_MPZ)
 #define MICROPY_SCHEDULER_DEPTH             (8)
+#define MICROPY_SCHEDULER_STATIC_NODES      (1)
 #define MICROPY_VFS                         (1)
 #define MICROPY_MODULE_FROZEN_MPY           (1)
 #define MICROPY_QSTR_EXTRA_POOL             mp_qstr_frozen_const_pool
@@ -97,10 +100,17 @@ uint32_t trng_random_u32(void);
 #define MICROPY_PY_UPLATFORM                (1)
 
 // fatfs configuration used in ffconf.h
-#define MICROPY_FATFS_ENABLE_LFN            (1)
-#define MICROPY_FATFS_RPATH                 (2)
-#define MICROPY_FATFS_MAX_SS                (4096)
+#define MICROPY_FATFS_ENABLE_LFN            (2)
 #define MICROPY_FATFS_LFN_CODE_PAGE         437 /* 1=SFN/ANSI 437=LFN/U.S.(OEM) */
+#define MICROPY_FATFS_RPATH                 (2)
+#define MICROPY_FATFS_EXFAT                 (1)
+#if MICROPY_HW_USB_MSC
+#define MICROPY_FATFS_USE_LABEL             (1)
+#define MICROPY_FATFS_MULTI_PARTITION       (1)
+// Set FatFS block size to flash sector size to avoid caching
+// the flash sector in memory to support smaller block sizes.
+#define MICROPY_FATFS_MAX_SS                (4096)
+#endif
 
 #ifndef MICROPY_PY_NETWORK
 #define MICROPY_PY_NETWORK                  (1)
@@ -121,15 +131,20 @@ uint32_t trng_random_u32(void);
 #define MICROPY_PY_LWIP_REENTER MICROPY_PY_PENDSV_REENTER
 #define MICROPY_PY_LWIP_EXIT    MICROPY_PY_PENDSV_EXIT
 
+#ifndef MICROPY_PY_BLUETOOTH_ENABLE_CENTRAL_MODE
+#define MICROPY_PY_BLUETOOTH_ENABLE_CENTRAL_MODE (1)
+#endif
+
+#ifndef MICROPY_PY_BLUETOOTH_ENABLE_L2CAP_CHANNELS
+#define MICROPY_PY_BLUETOOTH_ENABLE_L2CAP_CHANNELS (MICROPY_BLUETOOTH_NIMBLE)
+#endif
+
 #ifndef MICROPY_PY_NETWORK_HOSTNAME_DEFAULT
 #define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "mpy-mimxrt"
 #endif
 
 // For regular code that wants to prevent "background tasks" from running.
 // These background tasks (LWIP, Bluetooth) run in PENDSV context.
-// TODO: Check for the settings of the STM32 port in irq.h
-#define NVIC_PRIORITYGROUP_4    ((uint32_t)0x00000003)
-#define IRQ_PRI_PENDSV          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 15, 0)
 #define MICROPY_PY_PENDSV_ENTER   uint32_t atomic_state = raise_irq_pri(IRQ_PRI_PENDSV);
 #define MICROPY_PY_PENDSV_REENTER atomic_state = raise_irq_pri(IRQ_PRI_PENDSV);
 #define MICROPY_PY_PENDSV_EXIT    restore_irq_pri(atomic_state);
@@ -146,23 +161,6 @@ __attribute__((always_inline)) static inline uint32_t disable_irq(void) {
     return state;
 }
 
-static inline uint32_t raise_irq_pri(uint32_t pri) {
-    uint32_t basepri = __get_BASEPRI();
-    // If non-zero, the processor does not process any exception with a
-    // priority value greater than or equal to BASEPRI.
-    // When writing to BASEPRI_MAX the write goes to BASEPRI only if either:
-    //   - Rn is non-zero and the current BASEPRI value is 0
-    //   - Rn is non-zero and less than the current BASEPRI value
-    pri <<= (8 - __NVIC_PRIO_BITS);
-    __ASM volatile ("msr basepri_max, %0" : : "r" (pri) : "memory");
-    return basepri;
-}
-
-// "basepri" should be the value returned from raise_irq_pri
-static inline void restore_irq_pri(uint32_t basepri) {
-    __set_BASEPRI(basepri);
-}
-
 #define MICROPY_BEGIN_ATOMIC_SECTION()     disable_irq()
 #define MICROPY_END_ATOMIC_SECTION(state)  enable_irq(state)
 
@@ -173,12 +171,20 @@ extern const struct _mp_obj_type_t network_lan_type;
 #define MICROPY_HW_NIC_ETH
 #endif
 
+#if MICROPY_PY_NETWORK_CYW43
+extern const struct _mp_obj_type_t mp_network_cyw43_type;
+#define MICROPY_HW_NIC_CYW43                { MP_ROM_QSTR(MP_QSTR_WLAN), MP_ROM_PTR(&mp_network_cyw43_type) },
+#else
+#define MICROPY_HW_NIC_CYW43
+#endif
+
 #ifndef MICROPY_BOARD_NETWORK_INTERFACES
 #define MICROPY_BOARD_NETWORK_INTERFACES
 #endif
 
 #define MICROPY_PORT_NETWORK_INTERFACES \
     MICROPY_HW_NIC_ETH  \
+    MICROPY_HW_NIC_CYW43 \
     MICROPY_BOARD_NETWORK_INTERFACES \
 
 // Additional entries for use with pendsv_schedule_dispatch.
@@ -205,6 +211,8 @@ extern const struct _mp_obj_type_t network_lan_type;
     do { \
         extern void mp_handle_pending(bool); \
         mp_handle_pending(true); \
+        extern void tud_task_ext(uint32_t timeout_ms, bool in_isr); \
+        tud_task_ext(0, false); \
         __WFE(); \
     } while (0);
 #endif
@@ -229,3 +237,5 @@ typedef long mp_off_t;
 
 // Need to provide a declaration/definition of alloca()
 #include <alloca.h>
+
+#endif //  MICROPY_INCLUDED_MPCONFIGPORT_H

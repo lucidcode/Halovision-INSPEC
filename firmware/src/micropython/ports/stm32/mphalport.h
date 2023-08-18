@@ -86,6 +86,8 @@ static inline mp_uint_t mp_hal_ticks_cpu(void) {
 #define MP_HAL_PIN_SPEED_HIGH           (GPIO_SPEED_FREQ_HIGH)
 #define MP_HAL_PIN_SPEED_VERY_HIGH      (GPIO_SPEED_FREQ_VERY_HIGH)
 
+#define MP_HAL_PIN_AF_GPIO              (0)
+
 #define mp_hal_pin_obj_t const pin_obj_t *
 #define mp_hal_get_pin_obj(o)   pin_find(o)
 #define mp_hal_pin_name(p)      ((p)->name)

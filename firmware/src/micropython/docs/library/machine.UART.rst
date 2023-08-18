@@ -151,29 +151,6 @@ Methods
    duration depends on the tx buffer size and the baud rate. Unless flow control is enabled, a timeout
    should not occur.
 
-.. method:: UART.txdone()
-
-   .. note::
-
-      The handler will be called whenever any of the following two conditions are met:
-
-          - 8 new characters have been received.
-          - At least 1 new character is waiting in the Rx buffer and the Rx line has been
-            silent for the duration of 1 complete frame.
-
-      This means that when the handler function is called there will be between 1 to 8
-      characters waiting.
-
-   Returns an irq object.
-
-   Availability: WiPy.
-
-.. method:: UART.flush()
-
-   Waits until all data has been sent. In case of a timeout, an exception is raised. The timeout
-   duration depends on the tx buffer size and the baud rate. Unless flow control is enabled, a timeout
-   should not occur.
-
    .. note::
 
        For the rp2, esp8266 and nrf ports the call returns while the last byte is sent.

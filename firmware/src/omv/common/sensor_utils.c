@@ -14,7 +14,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "py/mphal.h"
-#include "cambus.h"
 #include "sensor.h"
 #include "ov2640.h"
 #include "ov5640.h"
@@ -32,13 +31,15 @@
 #include "gc2145.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
+#include "omv_gpio.h"
+#include "omv_i2c.h"
 
 #if (OMV_ENABLE_PAJ6100 == 1)
 #define OMV_ENABLE_NONI2CIS
 #endif
 
 #ifndef __weak
-#define __weak   __attribute__((weak))
+#define __weak    __attribute__((weak))
 #endif
 
 // Sensor frame size/resolution table.
@@ -89,78 +90,76 @@ const int resolution[][2] = {
     {2592, 1944},    /* WQXGA2    */
 };
 
-__weak void sensor_init0()
-{
+__weak void sensor_init0() {
     // Reset the sesnor state
     memset(&sensor, 0, sizeof(sensor_t));
 }
 
-__weak int sensor_init()
-{
+__weak int sensor_init() {
     // Reset the sesnor state
     memset(&sensor, 0, sizeof(sensor_t));
     return SENSOR_ERROR_CTL_UNSUPPORTED;
 }
 
-__weak int sensor_abort()
-{
+__weak int sensor_abort() {
     return SENSOR_ERROR_CTL_UNSUPPORTED;
 }
 
-__weak int sensor_reset()
-{
+__weak int sensor_reset() {
     // Disable any ongoing frame capture.
     sensor_abort();
 
     // Reset the sensor state
-    sensor.sde                  = 0;
-    sensor.pixformat            = 0;
-    sensor.framesize            = 0;
-    sensor.framerate            = 0;
-    sensor.last_frame_ms        = 0;
-    sensor.last_frame_ms_valid  = false;
-    sensor.gainceiling          = 0;
-    sensor.hmirror              = false;
-    sensor.vflip                = false;
-    sensor.transpose            = false;
+    sensor.sde = 0;
+    sensor.pixformat = 0;
+    sensor.framesize = 0;
+    sensor.framerate = 0;
+    sensor.last_frame_ms = 0;
+    sensor.last_frame_ms_valid = false;
+    sensor.gainceiling = 0;
+    sensor.hmirror = false;
+    sensor.vflip = false;
+    sensor.transpose = false;
     #if MICROPY_PY_IMU
-    sensor.auto_rotation        = (sensor.chip_id == OV7690_ID);
+    sensor.auto_rotation = (sensor.chip_id == OV7690_ID);
     #else
-    sensor.auto_rotation        = false;
+    sensor.auto_rotation = false;
     #endif // MICROPY_PY_IMU
-    sensor.vsync_callback       = NULL;
-    sensor.frame_callback       = NULL;
+    sensor.vsync_callback = NULL;
+    sensor.frame_callback = NULL;
 
     // Reset default color palette.
-    sensor.color_palette        = rainbow_table;
+    sensor.color_palette = rainbow_table;
 
-    sensor.disable_full_flush   = false;
+    sensor.disable_full_flush = false;
 
     // Restore shutdown state on reset.
     sensor_shutdown(false);
 
     // Disable the bus before reset.
-    cambus_enable(&sensor.bus, false);
+    omv_i2c_enable(&sensor.i2c_bus, false);
 
+    #if defined(DCMI_RESET_PIN)
     // Hard-reset the sensor
     if (sensor.reset_pol == ACTIVE_HIGH) {
-        DCMI_RESET_HIGH();
+        omv_gpio_write(DCMI_RESET_PIN, 1);
         mp_hal_delay_ms(10);
-        DCMI_RESET_LOW();
+        omv_gpio_write(DCMI_RESET_PIN, 0);
     } else {
-        DCMI_RESET_LOW();
+        omv_gpio_write(DCMI_RESET_PIN, 0);
         mp_hal_delay_ms(10);
-        DCMI_RESET_HIGH();
+        omv_gpio_write(DCMI_RESET_PIN, 1);
     }
+    #endif
 
     mp_hal_delay_ms(20);
 
     // Re-enable the bus.
-    cambus_enable(&sensor.bus, true);
+    omv_i2c_enable(&sensor.i2c_bus, true);
 
     // Call sensor-specific reset function
     if (sensor.reset != NULL
-            && sensor.reset(&sensor) != 0) {
+        && sensor.reset(&sensor) != 0) {
         return SENSOR_ERROR_CTL_FAILED;
     }
 
@@ -170,64 +169,73 @@ __weak int sensor_reset()
     return 0;
 }
 
-int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed)
-{
+int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed) {
     int init_ret = 0;
     int freq;
     (void) freq;
 
+    #if defined(DCMI_POWER_PIN)
     // Do a power cycle
-    DCMI_PWDN_HIGH();
+    omv_gpio_write(DCMI_POWER_PIN, 1);
     mp_hal_delay_ms(10);
 
-    DCMI_PWDN_LOW();
+    omv_gpio_write(DCMI_POWER_PIN, 0);
     mp_hal_delay_ms(10);
+    #endif
 
     /* Some sensors have different reset polarities, and we can't know which sensor
-       is connected before initializing cambus and probing the sensor, which in turn
+       is connected before initializing i2c and probing the sensor, which in turn
        requires pulling the sensor out of the reset state. So we try to probe the
        sensor with both polarities to determine line state. */
     sensor.pwdn_pol = ACTIVE_HIGH;
     sensor.reset_pol = ACTIVE_HIGH;
 
+    #if defined(DCMI_RESET_PIN)
     // Reset the sensor
-    DCMI_RESET_HIGH();
+    omv_gpio_write(DCMI_RESET_PIN, 1);
     mp_hal_delay_ms(10);
 
-    DCMI_RESET_LOW();
+    omv_gpio_write(DCMI_RESET_PIN, 0);
     mp_hal_delay_ms(10);
+    #endif
 
     // Initialize the camera bus.
-    cambus_init(&sensor.bus, bus_id, bus_speed);
+    omv_i2c_init(&sensor.i2c_bus, bus_id, bus_speed);
     mp_hal_delay_ms(10);
 
     // Probe the sensor
-    sensor.slv_addr = cambus_scan(&sensor.bus, NULL, 0);
+    sensor.slv_addr = omv_i2c_scan(&sensor.i2c_bus, NULL, 0);
     if (sensor.slv_addr == 0) {
         /* Sensor has been held in reset,
            so the reset line is active low */
         sensor.reset_pol = ACTIVE_LOW;
 
+        #if defined(DCMI_RESET_PIN)
         // Pull the sensor out of the reset state.
-        DCMI_RESET_HIGH();
+        omv_gpio_write(DCMI_RESET_PIN, 1);
         mp_hal_delay_ms(10);
+        #endif
 
         // Probe again to set the slave addr.
-        sensor.slv_addr = cambus_scan(&sensor.bus, NULL, 0);
+        sensor.slv_addr = omv_i2c_scan(&sensor.i2c_bus, NULL, 0);
         if (sensor.slv_addr == 0) {
             sensor.pwdn_pol = ACTIVE_LOW;
 
-            DCMI_PWDN_HIGH();
+            #if defined(DCMI_POWER_PIN)
+            omv_gpio_write(DCMI_POWER_PIN, 1);
             mp_hal_delay_ms(10);
+            #endif
 
-            sensor.slv_addr = cambus_scan(&sensor.bus, NULL, 0);
+            sensor.slv_addr = omv_i2c_scan(&sensor.i2c_bus, NULL, 0);
             if (sensor.slv_addr == 0) {
                 sensor.reset_pol = ACTIVE_HIGH;
 
-                DCMI_RESET_LOW();
+                #if defined(DCMI_RESET_PIN)
+                omv_gpio_write(DCMI_RESET_PIN, 0);
                 mp_hal_delay_ms(10);
+                #endif
 
-                sensor.slv_addr = cambus_scan(&sensor.bus, NULL, 0);
+                sensor.slv_addr = omv_i2c_scan(&sensor.i2c_bus, NULL, 0);
                 #ifndef OMV_ENABLE_NONI2CIS
                 if (sensor.slv_addr == 0) {
                     return SENSOR_ERROR_ISC_UNDETECTED;
@@ -240,31 +248,31 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed)
     switch (sensor.slv_addr) {
         #if (OMV_ENABLE_OV2640 == 1)
         case OV2640_SLV_ADDR: // Or OV9650.
-            cambus_readb(&sensor.bus, sensor.slv_addr, OV_CHIP_ID, &sensor.chip_id);
+            omv_i2c_readb(&sensor.i2c_bus, sensor.slv_addr, OV_CHIP_ID, &sensor.chip_id);
             break;
         #endif // (OMV_ENABLE_OV2640 == 1)
 
         #if (OMV_ENABLE_OV5640 == 1)
         case OV5640_SLV_ADDR:
-            cambus_readb2(&sensor.bus, sensor.slv_addr, OV5640_CHIP_ID, &sensor.chip_id);
+            omv_i2c_readb2(&sensor.i2c_bus, sensor.slv_addr, OV5640_CHIP_ID, &sensor.chip_id);
             break;
         #endif // (OMV_ENABLE_OV5640 == 1)
 
         #if (OMV_ENABLE_OV7725 == 1) || (OMV_ENABLE_OV7670 == 1) || (OMV_ENABLE_OV7690 == 1)
         case OV7725_SLV_ADDR: // Or OV7690 or OV7670.
-            cambus_readb(&sensor.bus, sensor.slv_addr, OV_CHIP_ID, &sensor.chip_id);
+            omv_i2c_readb(&sensor.i2c_bus, sensor.slv_addr, OV_CHIP_ID, &sensor.chip_id);
             break;
         #endif //(OMV_ENABLE_OV7725 == 1) || (OMV_ENABLE_OV7670 == 1) || (OMV_ENABLE_OV7690 == 1)
 
         #if (OMV_ENABLE_MT9V0XX == 1)
         case MT9V0XX_SLV_ADDR:
-            cambus_readw(&sensor.bus, sensor.slv_addr, ON_CHIP_ID, &sensor.chip_id_w);
+            omv_i2c_readw(&sensor.i2c_bus, sensor.slv_addr, ON_CHIP_ID, &sensor.chip_id_w);
             break;
         #endif //(OMV_ENABLE_MT9V0XX == 1)
 
         #if (OMV_ENABLE_MT9M114 == 1)
         case MT9M114_SLV_ADDR:
-            cambus_readw2(&sensor.bus, sensor.slv_addr, ON_CHIP_ID, &sensor.chip_id_w);
+            omv_i2c_readw2(&sensor.i2c_bus, sensor.slv_addr, ON_CHIP_ID, &sensor.chip_id_w);
             break;
         #endif // (OMV_ENABLE_MT9M114 == 1)
 
@@ -276,13 +284,13 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed)
 
         #if (OMV_ENABLE_HM01B0 == 1) || (OMV_ENABLE_HM0360 == 1)
         case HM0XX0_SLV_ADDR:
-            cambus_readb2(&sensor.bus, sensor.slv_addr, HIMAX_CHIP_ID, &sensor.chip_id);
+            omv_i2c_readb2(&sensor.i2c_bus, sensor.slv_addr, HIMAX_CHIP_ID, &sensor.chip_id);
             break;
         #endif // (OMV_ENABLE_HM01B0 == 1) || (OMV_ENABLE_HM0360 == 1)
 
         #if (OMV_ENABLE_GC2145 == 1)
         case GC2145_SLV_ADDR:
-            cambus_readb(&sensor.bus, sensor.slv_addr, GC_CHIP_ID, &sensor.chip_id);
+            omv_i2c_readb(&sensor.i2c_bus, sensor.slv_addr, GC_CHIP_ID, &sensor.chip_id);
             break;
         #endif //(OMV_ENABLE_GC2145 == 1)
 
@@ -325,7 +333,8 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed)
         case OV5640_ID:
             freq = OMV_OV5640_XCLK_FREQ;
             #if (OMV_OV5640_REV_Y_CHECK == 1)
-            if (HAL_GetREVID() < 0x2003) { // Is this REV Y?
+            if (HAL_GetREVID() < 0x2003) {
+                // Is this REV Y?
                 freq = OMV_OV5640_REV_Y_FREQ;
             }
             #endif
@@ -448,7 +457,7 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed)
             break;
     }
 
-    if (init_ret != 0 ) {
+    if (init_ret != 0) {
         // Sensor init failed.
         return SENSOR_ERROR_ISC_INIT_FAILED;
     }
@@ -456,28 +465,23 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed)
     return 0;
 }
 
-__weak int sensor_get_id()
-{
+__weak int sensor_get_id() {
     return sensor.chip_id_w;
 }
 
-__weak uint32_t sensor_get_xclk_frequency()
-{
+__weak uint32_t sensor_get_xclk_frequency() {
     return SENSOR_ERROR_CTL_UNSUPPORTED;
 }
 
-__weak int sensor_set_xclk_frequency(uint32_t frequency)
-{
+__weak int sensor_set_xclk_frequency(uint32_t frequency) {
     return SENSOR_ERROR_CTL_UNSUPPORTED;
 }
 
-__weak bool sensor_is_detected()
-{
+__weak bool sensor_is_detected() {
     return sensor.detected;
 }
 
-__weak int sensor_sleep(int enable)
-{
+__weak int sensor_sleep(int enable) {
     // Disable any ongoing frame capture.
     sensor_abort();
 
@@ -494,34 +498,34 @@ __weak int sensor_sleep(int enable)
     return 0;
 }
 
-__weak int sensor_shutdown(int enable)
-{
+__weak int sensor_shutdown(int enable) {
     int ret = 0;
 
     // Disable any ongoing frame capture.
     sensor_abort();
 
+    #if defined(DCMI_POWER_PIN)
     if (enable) {
         if (sensor.pwdn_pol == ACTIVE_HIGH) {
-            DCMI_PWDN_HIGH();
+            omv_gpio_write(DCMI_POWER_PIN, 1);
         } else {
-            DCMI_PWDN_LOW();
+            omv_gpio_write(DCMI_POWER_PIN, 0);
         }
     } else {
         if (sensor.pwdn_pol == ACTIVE_HIGH) {
-            DCMI_PWDN_LOW();
+            omv_gpio_write(DCMI_POWER_PIN, 0);
         } else {
-            DCMI_PWDN_HIGH();
+            omv_gpio_write(DCMI_POWER_PIN, 1);
         }
     }
+    #endif
 
     mp_hal_delay_ms(10);
 
     return ret;
 }
 
-__weak int sensor_read_reg(uint16_t reg_addr)
-{
+__weak int sensor_read_reg(uint16_t reg_addr) {
     int ret;
 
     // Check if the control is supported.
@@ -537,8 +541,7 @@ __weak int sensor_read_reg(uint16_t reg_addr)
     return ret;
 }
 
-__weak int sensor_write_reg(uint16_t reg_addr, uint16_t reg_data)
-{
+__weak int sensor_write_reg(uint16_t reg_addr, uint16_t reg_data) {
     // Check if the control is supported.
     if (sensor.write_reg == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -552,8 +555,7 @@ __weak int sensor_write_reg(uint16_t reg_addr, uint16_t reg_data)
     return 0;
 }
 
-__weak int sensor_set_pixformat(pixformat_t pixformat)
-{
+__weak int sensor_set_pixformat(pixformat_t pixformat) {
     // Check if the value has changed.
     if (sensor.pixformat == pixformat) {
         return 0;
@@ -564,15 +566,15 @@ __weak int sensor_set_pixformat(pixformat_t pixformat)
     // fit in RAM it will just be switched back again to BAYER, so we keep the current format unchanged.
     uint32_t size = framebuffer_get_buffer_size();
     if ((sensor.pixformat == PIXFORMAT_BAYER)
-            && ((pixformat == PIXFORMAT_RGB565) || (pixformat == PIXFORMAT_YUV422))
-            && (MAIN_FB()->u * MAIN_FB()->v * 2 > size)
-            && (MAIN_FB()->u * MAIN_FB()->v * 1 <= size)) {
+        && ((pixformat == PIXFORMAT_RGB565) || (pixformat == PIXFORMAT_YUV422))
+        && (MAIN_FB()->u * MAIN_FB()->v * 2 > size)
+        && (MAIN_FB()->u * MAIN_FB()->v * 1 <= size)) {
         return 0;
     }
 
     // Cropping and transposing (and thus auto rotation) don't work in JPEG mode.
     if ((pixformat == PIXFORMAT_JPEG)
-            && (sensor_get_cropped() || sensor.transpose || sensor.auto_rotation)) {
+        && (sensor_get_cropped() || sensor.transpose || sensor.auto_rotation)) {
         return SENSOR_ERROR_PIXFORMAT_UNSUPPORTED;
     }
 
@@ -607,8 +609,7 @@ __weak int sensor_set_pixformat(pixformat_t pixformat)
     return sensor_dcmi_config(pixformat);
 }
 
-__weak int sensor_set_framesize(framesize_t framesize)
-{
+__weak int sensor_set_framesize(framesize_t framesize) {
     if (sensor.framesize == framesize) {
         // No change
         return 0;
@@ -649,8 +650,7 @@ __weak int sensor_set_framesize(framesize_t framesize)
     return 0;
 }
 
-__weak int sensor_set_framerate(int framerate)
-{
+__weak int sensor_set_framerate(int framerate) {
     if (sensor.framerate == framerate) {
         // No change
         return 0;
@@ -662,7 +662,7 @@ __weak int sensor_set_framerate(int framerate)
 
     // If the sensor implements framerate control use it.
     if (sensor.set_framerate != NULL
-            && sensor.set_framerate(&sensor, framerate) != 0) {
+        && sensor.set_framerate(&sensor, framerate) != 0) {
         return SENSOR_ERROR_CTL_FAILED;
     } else {
         // Otherwise use software framerate control.
@@ -671,20 +671,18 @@ __weak int sensor_set_framerate(int framerate)
     return 0;
 }
 
-__weak bool sensor_get_cropped()
-{
+__weak bool sensor_get_cropped() {
     if (sensor.framesize != FRAMESIZE_INVALID) {
         return (MAIN_FB()->x != 0)                                  // should be zero if not cropped.
-            || (MAIN_FB()->y != 0)                                  // should be zero if not cropped.
-            || (MAIN_FB()->u != resolution[sensor.framesize][0])    // should be equal to the resolution if not cropped.
-            || (MAIN_FB()->v != resolution[sensor.framesize][1]);   // should be equal to the resolution if not cropped.
+               || (MAIN_FB()->y != 0)                               // should be zero if not cropped.
+               || (MAIN_FB()->u != resolution[sensor.framesize][0]) // should be equal to the resolution if not cropped.
+               || (MAIN_FB()->v != resolution[sensor.framesize][1]); // should be equal to the resolution if not cropped.
     }
     return false;
 }
 
 
-__weak uint32_t sensor_get_src_bpp()
-{
+__weak uint32_t sensor_get_src_bpp() {
     switch (sensor.pixformat) {
         case PIXFORMAT_GRAYSCALE:
             return sensor.hw_flags.gs_bpp;
@@ -699,8 +697,7 @@ __weak uint32_t sensor_get_src_bpp()
     }
 }
 
-__weak uint32_t sensor_get_dst_bpp()
-{
+__weak uint32_t sensor_get_dst_bpp() {
     switch (sensor.pixformat) {
         case PIXFORMAT_GRAYSCALE:
         case PIXFORMAT_BAYER:
@@ -713,11 +710,10 @@ __weak uint32_t sensor_get_dst_bpp()
     }
 }
 
-__weak int sensor_set_windowing(int x, int y, int w, int h)
-{
+__weak int sensor_set_windowing(int x, int y, int w, int h) {
     // Check if the value has changed.
     if ((MAIN_FB()->x == x) && (MAIN_FB()->y == y) &&
-            (MAIN_FB()->u == w) && (MAIN_FB()->v == h)) {
+        (MAIN_FB()->u == w) && (MAIN_FB()->v == h)) {
         return 0;
     }
 
@@ -745,8 +741,7 @@ __weak int sensor_set_windowing(int x, int y, int w, int h)
     return 0;
 }
 
-__weak int sensor_set_contrast(int level)
-{
+__weak int sensor_set_contrast(int level) {
     // Check if the control is supported.
     if (sensor.set_contrast == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -760,8 +755,7 @@ __weak int sensor_set_contrast(int level)
     return 0;
 }
 
-__weak int sensor_set_brightness(int level)
-{
+__weak int sensor_set_brightness(int level) {
     // Check if the control is supported.
     if (sensor.set_brightness == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -775,8 +769,7 @@ __weak int sensor_set_brightness(int level)
     return 0;
 }
 
-__weak int sensor_set_saturation(int level)
-{
+__weak int sensor_set_saturation(int level) {
     // Check if the control is supported.
     if (sensor.set_saturation == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -790,8 +783,7 @@ __weak int sensor_set_saturation(int level)
     return 0;
 }
 
-__weak int sensor_set_gainceiling(gainceiling_t gainceiling)
-{
+__weak int sensor_set_gainceiling(gainceiling_t gainceiling) {
     // Check if the value has changed.
     if (sensor.gainceiling == gainceiling) {
         return 0;
@@ -813,8 +805,7 @@ __weak int sensor_set_gainceiling(gainceiling_t gainceiling)
     return 0;
 }
 
-__weak int sensor_set_quality(int qs)
-{
+__weak int sensor_set_quality(int qs) {
     // Check if the control is supported.
     if (sensor.set_quality == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -828,8 +819,7 @@ __weak int sensor_set_quality(int qs)
     return 0;
 }
 
-__weak int sensor_set_colorbar(int enable)
-{
+__weak int sensor_set_colorbar(int enable) {
     // Check if the control is supported.
     if (sensor.set_colorbar == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -843,8 +833,7 @@ __weak int sensor_set_colorbar(int enable)
     return 0;
 }
 
-__weak int sensor_set_auto_gain(int enable, float gain_db, float gain_db_ceiling)
-{
+__weak int sensor_set_auto_gain(int enable, float gain_db, float gain_db_ceiling) {
     // Check if the control is supported.
     if (sensor.set_auto_gain == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -858,8 +847,7 @@ __weak int sensor_set_auto_gain(int enable, float gain_db, float gain_db_ceiling
     return 0;
 }
 
-__weak int sensor_get_gain_db(float *gain_db)
-{
+__weak int sensor_get_gain_db(float *gain_db) {
     // Check if the control is supported.
     if (sensor.get_gain_db == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -873,8 +861,7 @@ __weak int sensor_get_gain_db(float *gain_db)
     return 0;
 }
 
-__weak int sensor_set_auto_exposure(int enable, int exposure_us)
-{
+__weak int sensor_set_auto_exposure(int enable, int exposure_us) {
     // Check if the control is supported.
     if (sensor.set_auto_exposure == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -888,8 +875,7 @@ __weak int sensor_set_auto_exposure(int enable, int exposure_us)
     return 0;
 }
 
-__weak int sensor_get_exposure_us(int *exposure_us)
-{
+__weak int sensor_get_exposure_us(int *exposure_us) {
     // Check if the control is supported.
     if (sensor.get_exposure_us == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -903,8 +889,7 @@ __weak int sensor_get_exposure_us(int *exposure_us)
     return 0;
 }
 
-__weak int sensor_set_auto_whitebal(int enable, float r_gain_db, float g_gain_db, float b_gain_db)
-{
+__weak int sensor_set_auto_whitebal(int enable, float r_gain_db, float g_gain_db, float b_gain_db) {
     // Check if the control is supported.
     if (sensor.set_auto_whitebal == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -918,8 +903,7 @@ __weak int sensor_set_auto_whitebal(int enable, float r_gain_db, float g_gain_db
     return 0;
 }
 
-__weak int sensor_get_rgb_gain_db(float *r_gain_db, float *g_gain_db, float *b_gain_db)
-{
+__weak int sensor_get_rgb_gain_db(float *r_gain_db, float *g_gain_db, float *b_gain_db) {
     // Check if the control is supported.
     if (sensor.get_rgb_gain_db == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -933,8 +917,7 @@ __weak int sensor_get_rgb_gain_db(float *r_gain_db, float *g_gain_db, float *b_g
     return 0;
 }
 
-__weak int sensor_set_hmirror(int enable)
-{
+__weak int sensor_set_hmirror(int enable) {
     // Check if the value has changed.
     if (sensor.hmirror == ((bool) enable)) {
         return 0;
@@ -962,13 +945,11 @@ __weak int sensor_set_hmirror(int enable)
     return 0;
 }
 
-__weak bool sensor_get_hmirror()
-{
+__weak bool sensor_get_hmirror() {
     return sensor.hmirror;
 }
 
-__weak int sensor_set_vflip(int enable)
-{
+__weak int sensor_set_vflip(int enable) {
     // Check if the value has changed.
     if (sensor.vflip == ((bool) enable)) {
         return 0;
@@ -996,13 +977,11 @@ __weak int sensor_set_vflip(int enable)
     return 0;
 }
 
-__weak bool sensor_get_vflip()
-{
+__weak bool sensor_get_vflip() {
     return sensor.vflip;
 }
 
-__weak int sensor_set_transpose(bool enable)
-{
+__weak int sensor_set_transpose(bool enable) {
     // Check if the value has changed.
     if (sensor.transpose == enable) {
         return 0;
@@ -1021,13 +1000,11 @@ __weak int sensor_set_transpose(bool enable)
     return 0;
 }
 
-__weak bool sensor_get_transpose()
-{
+__weak bool sensor_get_transpose() {
     return sensor.transpose;
 }
 
-__weak int sensor_set_auto_rotation(bool enable)
-{
+__weak int sensor_set_auto_rotation(bool enable) {
     // Check if the value has changed.
     if (sensor.auto_rotation == enable) {
         return 0;
@@ -1046,13 +1023,11 @@ __weak int sensor_set_auto_rotation(bool enable)
     return 0;
 }
 
-__weak bool sensor_get_auto_rotation()
-{
+__weak bool sensor_get_auto_rotation() {
     return sensor.auto_rotation;
 }
 
-__weak int sensor_set_framebuffers(int count)
-{
+__weak int sensor_set_framebuffers(int count) {
     // Disable any ongoing frame capture.
     sensor_abort();
 
@@ -1062,8 +1037,7 @@ __weak int sensor_set_framebuffers(int count)
     return framebuffer_set_buffers(count);
 }
 
-__weak int sensor_set_special_effect(sde_t sde)
-{
+__weak int sensor_set_special_effect(sde_t sde) {
     // Check if the value has changed.
     if (sensor.sde == sde) {
         return 0;
@@ -1085,8 +1059,7 @@ __weak int sensor_set_special_effect(sde_t sde)
     return 0;
 }
 
-__weak int sensor_set_lens_correction(int enable, int radi, int coef)
-{
+__weak int sensor_set_lens_correction(int enable, int radi, int coef) {
     // Check if the control is supported.
     if (sensor.set_lens_correction == NULL) {
         return SENSOR_ERROR_CTL_UNSUPPORTED;
@@ -1100,8 +1073,7 @@ __weak int sensor_set_lens_correction(int enable, int radi, int coef)
     return 0;
 }
 
-__weak int sensor_ioctl(int request, ... /* arg */)
-{
+__weak int sensor_ioctl(int request, ... /* arg */) {
     // Disable any ongoing frame capture.
     sensor_abort();
 
@@ -1119,38 +1091,32 @@ __weak int sensor_ioctl(int request, ... /* arg */)
     return ((ret != 0) ? SENSOR_ERROR_CTL_FAILED : 0);
 }
 
-__weak int sensor_set_vsync_callback(vsync_cb_t vsync_cb)
-{
+__weak int sensor_set_vsync_callback(vsync_cb_t vsync_cb) {
     sensor.vsync_callback = vsync_cb;
     return 0;
 }
 
-__weak int sensor_set_frame_callback(frame_cb_t vsync_cb)
-{
+__weak int sensor_set_frame_callback(frame_cb_t vsync_cb) {
     sensor.frame_callback = vsync_cb;
     return 0;
 }
 
-__weak int sensor_set_color_palette(const uint16_t *color_palette)
-{
+__weak int sensor_set_color_palette(const uint16_t *color_palette) {
     sensor.color_palette = color_palette;
     return 0;
 }
 
-__weak const uint16_t *sensor_get_color_palette()
-{
+__weak const uint16_t *sensor_get_color_palette() {
     return sensor.color_palette;
 }
 
-__weak int sensor_check_framebuffer_size()
-{
+__weak int sensor_check_framebuffer_size() {
     uint32_t bpp = sensor_get_dst_bpp();
     uint32_t size = framebuffer_get_buffer_size();
     return (((MAIN_FB()->u * MAIN_FB()->v * bpp) <= size) ? 0 : -1);
 }
 
-__weak int sensor_auto_crop_framebuffer()
-{
+__weak int sensor_auto_crop_framebuffer() {
     uint32_t bpp = sensor_get_dst_bpp();
     uint32_t size = framebuffer_get_buffer_size();
 
@@ -1217,7 +1183,7 @@ __weak int sensor_auto_crop_framebuffer()
     }
 
     // Crop the frame buffer while keeping the aspect ratio and keeping the width/height even.
-    while (((MAIN_FB()->u * MAIN_FB()->v * bpp) > size) || (MAIN_FB()->u % 2)  || (MAIN_FB()->v % 2)) {
+    while (((MAIN_FB()->u * MAIN_FB()->v * bpp) > size) || (MAIN_FB()->u % 2) || (MAIN_FB()->v % 2)) {
         MAIN_FB()->u -= u_sub;
         MAIN_FB()->v -= v_sub;
     }
@@ -1238,8 +1204,7 @@ __weak int sensor_auto_crop_framebuffer()
     return 0;
 }
 
-const char *sensor_strerror(int error)
-{
+const char *sensor_strerror(int error) {
     static const char *sensor_errors[] = {
         "No error.",
         "Sensor control failed.",
@@ -1274,8 +1239,7 @@ const char *sensor_strerror(int error)
     }
 }
 
-__weak int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags)
-{
+__weak int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
     return -1;
 }
 #endif //MICROPY_PY_SENSOR

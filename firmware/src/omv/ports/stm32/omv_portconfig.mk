@@ -150,6 +150,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	usbdbg.o                    \
 	sensor_utils.o              \
 	factoryreset.o              \
+	vospi.o                     \
    )
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/,   \
@@ -472,6 +473,9 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	extmod/network_cyw43.o      \
 	extmod/network_lwip.o       \
 	)
+FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/drivers/,\
+	cyw43/cywbt.o               \
+	)
 endif
 
 ifeq ($(MICROPY_BLUETOOTH_NIMBLE),1)
@@ -532,6 +536,7 @@ UVC_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	trace.o                                 \
 	mutex.o                                 \
 	sensor_utils.o                          \
+	vospi.o                                 \
 	)
 
 UVC_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/, \
@@ -565,8 +570,11 @@ UVC_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/ports/stm32/,\
 	sensor.o                                \
 	stm32fxxx_hal_msp.o                     \
 	soft_i2c.o                              \
-	cambus.o                                \
 	ulpi.o                                  \
+	dma_utils.o                             \
+	omv_gpio.o                              \
+	omv_i2c.o                               \
+	omv_spi.o                               \
 	)
 
 UVC_OBJ += $(wildcard $(BUILD)/$(LEPTON_DIR)/src/*.o)
