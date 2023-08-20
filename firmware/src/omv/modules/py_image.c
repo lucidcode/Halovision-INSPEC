@@ -6474,7 +6474,7 @@ static const mp_rom_map_elem_t locals_dict_table[] = {
     {MP_ROM_QSTR(MP_QSTR_min),                 MP_ROM_PTR(&py_func_unavailable_obj)},
     {MP_ROM_QSTR(MP_QSTR_max),                 MP_ROM_PTR(&py_func_unavailable_obj)},
     {MP_ROM_QSTR(MP_QSTR_difference),          MP_ROM_PTR(&py_func_unavailable_obj)},
-    {MP_ROM_QSTR(MP_QSTR_variance),            MP_ROM_PTR(&py_func_unavailable_obj)},
+    {MP_ROM_QSTR(MP_QSTR_variance),          MP_ROM_PTR(&py_func_unavailable_obj)},
     {MP_ROM_QSTR(MP_QSTR_blend),               MP_ROM_PTR(&py_func_unavailable_obj)},
     #endif
     #if defined(IMLIB_ENABLE_MATH_OPS) && defined(IMLIB_ENABLE_BINARY_OPS)
