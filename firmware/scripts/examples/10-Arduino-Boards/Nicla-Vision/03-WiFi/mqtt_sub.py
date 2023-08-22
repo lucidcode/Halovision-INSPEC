@@ -7,19 +7,21 @@
 #    mosquitto_pub -t "openmv/test" -m "Hello World!" -h test.mosquitto.org -p 1883
 #
 # NOTE: If the mosquitto broker is unreachable, try another broker (For example: broker.hivemq.com)
-import time, network
+import time
+import network
 from mqtt import MQTTClient
 
-SSID='' # Network SSID
-KEY=''  # Network key
+SSID = ""  # Network SSID
+KEY = ""  # Network key
 
 # Init wlan module and connect to network
-print("Trying to connect. Note this may take a while...")
-
 wlan = network.WLAN(network.STA_IF)
-wlan.deinit()
 wlan.active(True)
-wlan.connect(SSID, KEY, timeout=30000)
+wlan.connect(SSID, KEY)
+
+while not wlan.isconnected():
+    print('Trying to connect to "{:s}"...'.format(SSID))
+    time.sleep_ms(1000)
 
 # We should have a valid IP now via DHCP
 print("WiFi Connected ", wlan.ifconfig())
@@ -27,13 +29,15 @@ print("WiFi Connected ", wlan.ifconfig())
 client = MQTTClient("openmv", "test.mosquitto.org", port=1883)
 client.connect()
 
+
 def callback(topic, msg):
     print(topic, msg)
+
 
 # must set callback first
 client.set_callback(callback)
 client.subscribe("openmv/test")
 
-while (True):
-    client.check_msg() # poll for messages.
+while True:
+    client.check_msg()  # poll for messages.
     time.sleep_ms(1000)

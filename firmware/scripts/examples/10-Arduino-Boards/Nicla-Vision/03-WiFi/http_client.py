@@ -1,21 +1,23 @@
 # Simple HTTP client example.
 
-import network, socket
+import network
+import socket
 
 # AP info
-SSID='' # Network SSID
-KEY=''  # Network key
+SSID = ""  # Network SSID
+KEY = ""  # Network key
 
 PORT = 80
 HOST = "www.google.com"
 
 # Init wlan module and connect to network
-print("Trying to connect. Note this may take a while...")
-
 wlan = network.WLAN(network.STA_IF)
-wlan.deinit()
 wlan.active(True)
-wlan.connect(SSID, KEY, timeout=30000)
+wlan.connect(SSID, KEY)
+
+while not wlan.isconnected():
+    print('Trying to connect to "{:s}"...'.format(SSID))
+    time.sleep_ms(1000)
 
 # We should have a valid IP now via DHCP
 print("WiFi Connected ", wlan.ifconfig())
@@ -32,7 +34,7 @@ client.connect(addr)
 client.settimeout(3.0)
 
 # Send HTTP request and recv response
-client.send("GET / HTTP/1.1\r\nHost: %s\r\n\r\n"%(HOST))
+client.send("GET / HTTP/1.1\r\nHost: %s\r\n\r\n" % (HOST))
 print(client.recv(1024))
 
 # Close socket

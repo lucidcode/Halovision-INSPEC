@@ -1,20 +1,23 @@
 # Simple HTTPS client example.
-import network, socket, ussl
+import network
+import socket
+import ussl
 
 # AP info
-SSID='' # Network SSID
-KEY=''  # Network key
+SSID = ""  # Network SSID
+KEY = ""  # Network key
 
 PORT = 443
 HOST = "www.google.com"
 
 # Init wlan module and connect to network
-print("Trying to connect. Note this may take a while...")
-
 wlan = network.WLAN(network.STA_IF)
-wlan.deinit()
 wlan.active(True)
-wlan.connect(SSID, KEY, timeout=30000)
+wlan.connect(SSID, KEY)
+
+while not wlan.isconnected():
+    print('Trying to connect to "{:s}"...'.format(SSID))
+    time.sleep_ms(1000)
 
 # We should have a valid IP now via DHCP
 print("WiFi Connected ", wlan.ifconfig())
@@ -39,7 +42,7 @@ request += "HOST: %s\r\n"
 request += "User-Agent: Mozilla/5.0\r\n"
 request += "Connection: keep-alive\r\n\r\n"
 # Add more headers if needed.
-client.write(request%(HOST)+"\r\n")
+client.write(request % (HOST) + "\r\n")
 
 response = client.read(1024)
 for l in response.split(b"\r\n"):
