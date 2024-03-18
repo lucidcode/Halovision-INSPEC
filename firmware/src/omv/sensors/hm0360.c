@@ -9,7 +9,7 @@
  * HM0360 driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_HM0360 == 1)
+#if (OMV_HM0360_ENABLE == 1)
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -346,7 +346,7 @@ static int reset(sensor_t *sensor) {
         mp_hal_delay_ms(10);
     }
 
-    // Write default regsiters
+    // Write default registers
     int ret = 0;
     for (int i = 0; default_regs[i][0] && ret == 0; i++) {
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, default_regs[i][0], default_regs[i][1]);
@@ -536,13 +536,13 @@ static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain
     uint8_t ae_ctrl = 0;
     int ret = omv_i2c_readb2(&sensor->i2c_bus, sensor->slv_addr, AE_CTRL, &ae_ctrl);
     if (!enable && (!isnanf(gain_db)) && (!isinff(gain_db))) {
-        gain_db = IM_MAX(IM_MIN(gain_db, 24.0f), 0.0f);
-        uint8_t gain = fast_ceilf(fast_log2(fast_expf((gain_db / 20.0f) * fast_log(10.0f))));
+        gain_db = IM_CLAMP(gain_db, 0.0f, 24.0f);
+        uint8_t gain = fast_ceilf(logf(expf((gain_db / 20.0f) * M_LN10)) / M_LN2);
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, AE_CTRL, (ae_ctrl & 0xFE));
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, ANALOG_GAIN, ((gain & 0x7) << 4));
     } else if (enable && (!isnanf(gain_db_ceiling)) && (!isinff(gain_db_ceiling))) {
-        gain_db_ceiling = IM_MAX(IM_MIN(gain_db_ceiling, 24.0f), 0.0f);
-        uint8_t gain = fast_ceilf(fast_log2(fast_expf((gain_db_ceiling / 20.0f) * fast_log(10.0f))));
+        gain_db_ceiling = IM_CLAMP(gain_db_ceiling, 0.0f, 24.0f);
+        uint8_t gain = fast_ceilf(logf(expf((gain_db_ceiling / 20.0f) * M_LN10)) / M_LN2);
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, MAX_AGAIN, (gain & 0x07));
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, AE_CTRL, (ae_ctrl | 0x01));
     }
@@ -555,7 +555,7 @@ static int get_gain_db(sensor_t *sensor, float *gain_db) {
     if (omv_i2c_readb2(&sensor->i2c_bus, sensor->slv_addr, ANALOG_GAIN, &gain) != 0) {
         return -1;
     }
-    *gain_db = fast_floorf(fast_log(1 << (gain >> 4)) / fast_log(10.0f) * 20.0f);
+    *gain_db = fast_floorf(log10f(1 << (gain >> 4)) * 20.0f);
     return 0;
 }
 
@@ -571,7 +571,7 @@ static int get_vt_pix_clk(sensor_t *sensor, uint32_t *vt_pix_clk) {
     uint32_t vt_sys_div = (1 << (reg & 0x03));
 
     // vt_pix_clk = MCLK / vt_sys_div
-    *vt_pix_clk = OMV_XCLK_FREQUENCY / vt_sys_div;
+    *vt_pix_clk = OMV_CSI_XCLK_FREQUENCY / vt_sys_div;
     return 0;
 }
 
@@ -771,4 +771,4 @@ int hm0360_init(sensor_t *sensor) {
 
     return 0;
 }
-#endif //(OMV_ENABLE_HM0360 == 1)
+#endif //(OMV_HM0360_ENABLE == 1)

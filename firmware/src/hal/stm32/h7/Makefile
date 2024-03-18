@@ -11,6 +11,7 @@ stm32h7xx_hal_adc.c\
 stm32h7xx_hal_adc_ex.c\
 stm32h7xx_hal_dac.c\
 stm32h7xx_hal_dac_ex.c\
+stm32h7xx_hal_dsi.c\
 stm32h7xx_hal.c\
 stm32h7xx_hal_cortex.c\
 stm32h7xx_hal_crc.c\
@@ -52,6 +53,7 @@ stm32h7xx_hal_uart.c\
 stm32h7xx_hal_usart.c\
 stm32h7xx_hal_jpeg.c\
 stm32h7xx_hal_qspi.c\
+stm32h7xx_ll_rcc.c\
 stm32h7xx_ll_usb.c\
 stm32h7xx_ll_sdmmc.c\
 stm32h7xx_ll_fmc.c\

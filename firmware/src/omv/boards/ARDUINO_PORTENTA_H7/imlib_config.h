@@ -65,9 +65,6 @@
 // Enable bilateral()
 //#define IMLIB_ENABLE_BILATERAL
 
-// Enable cartoon()
-// #define IMLIB_ENABLE_CARTOON
-
 // Enable linpolar()
 #define IMLIB_ENABLE_LINPOLAR
 
@@ -118,6 +115,11 @@
 // Enable find_barcodes() (42 KB)
 #define IMLIB_ENABLE_BARCODES
 
+// Enable find_features() and built-in Haar cascades. (75KBs)
+#define IMLIB_ENABLE_FEATURES
+#define IMLIB_ENABLE_FEATURES_BUILTIN_FACE_CASCADE
+#define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
+
 // Enable CMSIS NN
 // #if !defined(CUBEAI)
 // #define IMLIB_ENABLE_CNN
@@ -125,7 +127,7 @@
 
 // Enable Tensor Flow
 #if !defined(CUBEAI)
-#define IMLIB_ENABLE_TF
+#define IMLIB_ENABLE_TF (IMLIB_TF_DEFAULT)
 #endif
 
 // Enable FAST (20+ KBs).
@@ -153,8 +155,8 @@
 #define IMLIB_ENABLE_DMA2D
 
 // Enable PNG encoder/decoder
-#define IMLIB_ENABLE_PNG_ENCODER
-#define IMLIB_ENABLE_PNG_DECODER
+// #define IMLIB_ENABLE_PNG_ENCODER
+// #define IMLIB_ENABLE_PNG_DECODER
 
 // Stereo Imaging
 // #define IMLIB_ENABLE_STEREO_DISPARITY

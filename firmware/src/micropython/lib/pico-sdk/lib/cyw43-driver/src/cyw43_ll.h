@@ -35,6 +35,7 @@
 #define CYW43_INCLUDED_CYW43_LL_H
 
 #include <stdbool.h>
+#include <stdint.h>
 #include "cyw43_config.h"
 
 // External interface
@@ -45,6 +46,7 @@
 //!\{
 
 /**
+ *  \internal
  *  \file cyw43_ll.h
  *  \brief Low Level CYW43 driver interface
  */
@@ -175,7 +177,7 @@
 //!\}
 
 /*!
- * \brief Power save mode paramter passed to cyw43_ll_wifi_pm
+ * \brief Power save mode parameter passed to cyw43_ll_wifi_pm
  */
 #define CYW43_NO_POWERSAVE_MODE           (0) ///< No Powersave mode
 #define CYW43_PM1_POWERSAVE_MODE          (1) ///< Powersave mode on specified interface without regard for throughput reduction
@@ -184,8 +186,12 @@
 // The maximum block size for transfers on the bus.
 #if CYW43_USE_SPI
 #define CYW43_BUS_MAX_BLOCK_SIZE 64
+#define CYW43_BACKPLANE_READ_PAD_LEN_BYTES 16
+#define CYW43_LL_STATE_SIZE_WORDS 526 + 5 + ((CYW43_BACKPLANE_READ_PAD_LEN_BYTES / 4) + 1)
 #else // SDIO
 #define CYW43_BUS_MAX_BLOCK_SIZE 16384
+#define CYW43_BACKPLANE_READ_PAD_LEN_BYTES 0
+#define CYW43_LL_STATE_SIZE_WORDS 526 + 5
 #endif
 
 /*!
@@ -259,7 +265,7 @@ typedef struct _cyw43_wifi_scan_options_t {
 //!\}
 
 typedef struct _cyw43_ll_t {
-    uint32_t opaque[526 + 7]; // note: array of words
+    uint32_t opaque[CYW43_LL_STATE_SIZE_WORDS]; // note: array of words
 } cyw43_ll_t;
 
 void cyw43_ll_init(cyw43_ll_t *self, void *cb_data);

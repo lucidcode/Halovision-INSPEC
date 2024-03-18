@@ -66,9 +66,6 @@
 // Enable bilateral()
 //#define IMLIB_ENABLE_BILATERAL
 
-// Enable cartoon()
-// #define IMLIB_ENABLE_CARTOON
-
 // Enable linpolar()
 //#define IMLIB_ENABLE_LINPOLAR
 
@@ -118,6 +115,11 @@
 
 // Enable find_barcodes() (42 KB)
 //#define IMLIB_ENABLE_BARCODES
+
+// Enable find_features() and built-in Haar cascades. (75KBs)
+//#define IMLIB_ENABLE_FEATURES
+//#define IMLIB_ENABLE_FEATURES_BUILTIN_FACE_CASCADE
+//#define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
 
 // Enable CMSIS NN
 // #if !defined(CUBEAI)

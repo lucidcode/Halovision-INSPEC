@@ -93,8 +93,6 @@ int GPIO_get_instance(GPIO_Type *gpio) {
     return 0;
 }
 
-extern void omv_gpio_irq_handler(GPIO_Type *gpio, uint32_t gpio_nr, uint32_t pin_nr);
-
 void call_handler(GPIO_Type *gpio, int gpio_nr, int pin) {
     uint32_t mask = 1 << pin;
     uint32_t isr = gpio->ISR & gpio->IMR;
@@ -105,15 +103,14 @@ void call_handler(GPIO_Type *gpio, int gpio_nr, int pin) {
             int index = GET_PIN_IRQ_INDEX(gpio_nr, pin);
             #if MICROPY_PY_NETWORK_CYW43
             extern void (*cyw43_poll)(void);
-            const machine_pin_obj_t *wl_pin = MICROPY_HW_WL_HOST_WAKE;
-            if (wl_pin->gpio == gpio && wl_pin->pin == (index % 32)) {
+            const machine_pin_obj_t *pin = MICROPY_HW_WL_HOST_WAKE;
+            if (pin->gpio == gpio && pin->pin == (index % 32)) {
                 if (cyw43_poll) {
                     pendsv_schedule_dispatch(PENDSV_DISPATCH_CYW43, cyw43_poll);
                 }
                 return;
             }
             #endif
-            omv_gpio_irq_handler(gpio, gpio_nr, pin);
             machine_pin_irq_obj_t *irq = MP_STATE_PORT(machine_pin_irq_objects[index]);
             if (irq != NULL) {
                 irq->flags = irq->trigger;
@@ -163,10 +160,6 @@ void GPIO5_Combined_0_15_IRQHandler(void) {
 
 void GPIO5_Combined_16_31_IRQHandler(void) {
     call_handler(gpiobases[5], 5, 16);
-}
-
-void GPIO10_Combined_0_31_IRQHandler(void) {
-    omv_gpio_irq_handler(gpiobases[10], 10, 0);
 }
 
 #if defined(MIMXRT117x_SERIES)
@@ -228,6 +221,11 @@ void machine_pin_config(const machine_pin_obj_t *self, uint8_t mode,
         pin_config.direction = kGPIO_DigitalInput;
     } else {
         pin_config.direction = kGPIO_DigitalOutput;
+    }
+
+    if (mode != PIN_MODE_ALT) {
+        // GPIO is always ALT5
+        alt = PIN_AF_MODE_ALT5;
     }
 
     const machine_pin_af_obj_t *af = pin_find_af(self, alt);
@@ -406,6 +404,13 @@ STATIC mp_obj_t machine_pin_irq(size_t n_args, const mp_obj_t *pos_args, mp_map_
     }
     machine_pin_irq_obj_t *irq = MP_STATE_PORT(machine_pin_irq_objects[index]);
 
+    if (args[ARG_handler].u_obj == mp_const_none) {
+        // remove the IRQ from the table, leave it to gc to free it.
+        GPIO_PortDisableInterrupts(self->gpio, 1U << self->pin);
+        MP_STATE_PORT(machine_pin_irq_objects[index]) = NULL;
+        return mp_const_none;
+    }
+
     // Allocate the IRQ object if it doesn't already exist.
     if (irq == NULL) {
         irq = m_new_obj(machine_pin_irq_obj_t);
@@ -440,9 +445,9 @@ STATIC mp_obj_t machine_pin_irq(size_t n_args, const mp_obj_t *pos_args, mp_map_
             GPIO_PinSetInterruptConfig(self->gpio, self->pin, irq->trigger);
             // Enable the specific Pin interrupt
             GPIO_PortEnableInterrupts(self->gpio, 1U << self->pin);
+            // Enable LEVEL1 interrupt again
+            EnableIRQ(irq_num);
         }
-        // Enable LEVEL1 interrupt again
-        EnableIRQ(irq_num);
     }
 
     return MP_OBJ_FROM_PTR(irq);

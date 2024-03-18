@@ -43,8 +43,8 @@
 #include "nrf_soc.h"
 #include "ble_drv.h"
 #endif
-#include "tinyusb_debug.h"
 
+#include "tinyusb_debug.h"
 extern void tusb_hal_nrf_power_event(uint32_t event);
 
 static void cdc_task(bool tx);
@@ -155,10 +155,16 @@ static void cdc_task(bool tx)
 }
 
 static void usb_cdc_loop(void) {
-    if (!tinyusb_debug_enabled()) {
-        tud_task();
-        cdc_task(true);
+    if (tinyusb_debug_enabled()) {
+        return ;
     }
+
+    tud_task();
+    cdc_task(true);
+}
+
+void tud_cdc_rx_cb(uint8_t itf) {
+    cdc_task(false);
 }
 
 int usb_cdc_init(void)
@@ -230,15 +236,16 @@ int mp_hal_stdin_rx_chr(void) {
     return 0;
 }
 
-void mp_hal_stdout_tx_strn(const char *str, mp_uint_t len) {
-    if (tinyusb_debug_enabled()){
-        tinyusb_debug_tx_strn(str, len);
-        return;
-    }
-
+mp_uint_t mp_hal_stdout_tx_strn(const char *str, mp_uint_t len) {
     for (const char *top = str + len; str < top; str++) {
         ringbuf_put((ringbuf_t*)&tx_ringbuf, *str);
         usb_cdc_loop();
     }
+    return len;
 }
+
+MP_WEAK void USBD_IRQHandler(void) {
+    tud_int_handler(0);
+}
+
 #endif // MICROPY_HW_USB_CDC

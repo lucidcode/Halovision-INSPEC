@@ -32,32 +32,26 @@
 #include "py/mperrno.h"
 #include "py/mphal.h"
 #include "py/stackctrl.h"
+#include "extmod/modbluetooth.h"
+#include "extmod/modnetwork.h"
 #include "shared/readline/readline.h"
 #include "shared/runtime/gchelper.h"
 #include "shared/runtime/pyexec.h"
+#include "shared/runtime/softtimer.h"
 #include "tusb.h"
 #include "uart.h"
 #include "modmachine.h"
 #include "modrp2.h"
-#include "genhdr/mpversion.h"
-#include "pendsv.h"
-
-#if MICROPY_PY_BLUETOOTH
-#include "extmod/modbluetooth.h"
 #include "mpbthciport.h"
-#endif
-
-#if MICROPY_PY_NETWORK
-#include "extmod/modnetwork.h"
-#endif
-
+#include "mpnetworkport.h"
+#include "genhdr/mpversion.h"
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
+#include "pico/unique_id.h"
 #include "hardware/rtc.h"
 #include "hardware/irq.h"
 #include "hardware/regs/intctrl.h"
 #include "hardware/structs/rosc.h"
-#include "pico/unique_id.h"
 #include "pico/bootrom.h"
 
 #include "omv_boardconfig.h"
@@ -70,17 +64,19 @@
 #if MICROPY_PY_AUDIO
 #include "py_audio.h"
 #endif
+#include "pendsv.h"
 
 #if MICROPY_VFS_FAT && MICROPY_HW_USB_MSC
 #include "extmod/vfs.h"
 #include "extmod/vfs_fat.h"
-#include "common/factoryreset.h"
 #endif
+#include "boot_utils.h"
 
+extern void pendsv_init(void);
 extern uint8_t __StackTop, __StackBottom;
 static char OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(gc_heap[OMV_HEAP_SIZE], 4), ".heap");
 
-uint8_t *OMV_UNIQUE_ID_ADDR;
+uint8_t *OMV_BOARD_UID_ADDR;
 static pico_unique_board_id_t OMV_ATTR_ALIGNED(pico_unique_id, 4);
 
 // Embed version info in the binary in machine readable form
@@ -93,45 +89,19 @@ bi_decl(bi_program_feature_group_with_flags(BINARY_INFO_TAG_MICROPYTHON,
                                             BI_NAMED_GROUP_SEPARATE_COMMAS | BI_NAMED_GROUP_SORT_ALPHA));
 
 void __fatal_error() {
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
+    gpio_init(OMV_LED_PIN);
+    gpio_set_dir(OMV_LED_PIN, GPIO_OUT);
 
     while (true) {
-        gpio_put(LED_PIN, 1);
+        gpio_put(OMV_LED_PIN, 1);
         sleep_ms(100);
-        gpio_put(LED_PIN, 0);
+        gpio_put(OMV_LED_PIN, 0);
         sleep_ms(100);
     }
 }
 
 void pico_reset_to_bootloader(size_t n_args, const void *args_in) {
     reset_usb_boot(0, 0);
-}
-
-void exec_boot_script(const char *path, bool interruptible) {
-    nlr_buf_t nlr;
-    bool interrupted = false;
-    if (nlr_push(&nlr) == 0) {
-        // Enable IDE interrupts if allowed.
-        if (interruptible) {
-            usbdbg_set_irq_enabled(true);
-            usbdbg_set_script_running(true);
-        }
-
-        // Parse, compile and execute the script.
-        pyexec_file_if_exists(path, true);
-        nlr_pop();
-    } else {
-        interrupted = true;
-    }
-
-    // Disable IDE interrupts
-    usbdbg_set_irq_enabled(false);
-    usbdbg_set_script_running(false);
-
-    if (interrupted) {
-        mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
-    }
 }
 
 int main(int argc, char **argv) {
@@ -141,11 +111,14 @@ int main(int argc, char **argv) {
     bi_decl(bi_program_feature("UART REPL"))
     setup_default_uart();
     mp_uart_init();
+    #else
+    #ifndef NDEBUG
+    stdio_init_all();
+    #endif
     #endif
 
     #if MICROPY_HW_ENABLE_USBDEV
     bi_decl(bi_program_feature("USB REPL"))
-    tusb_init();
     #endif
 
     #if MICROPY_PY_THREAD
@@ -165,16 +138,11 @@ int main(int argc, char **argv) {
     };
     rtc_init();
     rtc_set_datetime(&t);
+    mp_hal_time_ns_set_from_rtc();
 
     // Set board unique ID from flash for USB debugging.
-    OMV_UNIQUE_ID_ADDR = pico_unique_id.id;
+    OMV_BOARD_UID_ADDR = pico_unique_id.id;
     pico_get_unique_board_id(&pico_unique_id);
-
-    // Install Tinyusb CDC debugger IRQ handler.
-    irq_set_enabled(USBCTRL_IRQ, false);
-    irq_remove_handler(USBCTRL_IRQ, irq_get_vtable_handler(USBCTRL_IRQ));
-    irq_set_exclusive_handler(USBCTRL_IRQ, OMV_USB1_IRQ_HANDLER);
-    irq_set_enabled(USBCTRL_IRQ, true);
 
 soft_reset:
     // Initialise stack extents and GC heap.
@@ -190,6 +158,8 @@ soft_reset:
     readline_init0();
     machine_pin_init();
     rp2_pio_init();
+    rp2_dma_init();
+    machine_i2s_init0();
 
     #if MICROPY_PY_BLUETOOTH
     mp_bluetooth_hci_init();
@@ -219,7 +189,7 @@ soft_reset:
     if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == -MP_ENODEV) {
         // Create a fresh filesystem.
         fs_user_mount_t *vfs = MP_OBJ_TYPE_GET_SLOT(&mp_fat_vfs_type, make_new) (&mp_fat_vfs_type, 1, 0, &bdev);
-        if (factoryreset_create_filesystem(vfs) == 0) {
+        if (bootutils_init_filesystem(vfs) == 0) {
             mp_vfs_mount_and_chdir_protected(bdev, mount_point);
         }
     }
@@ -227,11 +197,26 @@ soft_reset:
     pyexec_frozen_module("_boot.py", false);
     #endif
 
-    // Execute user scripts.
-    exec_boot_script("boot.py", false);
+    // Mark the filesystem as an OpenMV storage.
+    file_ll_touch(".openmv_disk");
 
-    if (first_soft_reset) {
-        exec_boot_script("main.py", true);
+    // Initialize TinyUSB after the filesystem has been mounted.
+    if (!tusb_inited()) {
+        tusb_init();
+
+        // Install Tinyusb CDC debugger IRQ handler.
+        irq_set_enabled(USBCTRL_IRQ, false);
+        irq_remove_handler(USBCTRL_IRQ, irq_get_vtable_handler(USBCTRL_IRQ));
+        irq_set_exclusive_handler(USBCTRL_IRQ, OMV_USB1_IRQ_HANDLER);
+    }
+
+    // Run boot.py script.
+    bool interrupted = bootutils_exec_bootscript("boot.py", true, false);
+
+    // Run main.py script on first soft-reset.
+    if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
+        bootutils_exec_bootscript("main.py", true, false);
+        goto soft_reset_exit;
     }
 
     // If there's no script ready, just re-exec REPL
@@ -282,6 +267,7 @@ soft_reset:
         }
     }
 
+soft_reset_exit:
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
     #if MICROPY_PY_AUDIO
     py_audio_deinit();
@@ -293,6 +279,8 @@ soft_reset:
     mod_network_deinit();
     #endif
     rp2_pio_deinit();
+    rp2_dma_deinit();
+    machine_pwm_deinit_all();
     machine_pin_deinit();
     gc_sweep_all();
     mp_deinit();
@@ -343,40 +331,3 @@ uint32_t rosc_random_u32(void) {
     }
     return value;
 }
-
-const char rp2_help_text[] =
-    "Welcome to MicroPython!\n"
-    "\n"
-    "For online help please visit https://micropython.org/help/.\n"
-    "\n"
-    "For access to the hardware use the 'machine' module.  RP2 specific commands\n"
-    "are in the 'rp2' module.\n"
-    "\n"
-    "Quick overview of some objects:\n"
-    "  machine.Pin(pin) -- get a pin, eg machine.Pin(0)\n"
-    "  machine.Pin(pin, m, [p]) -- get a pin and configure it for IO mode m, pull mode p\n"
-    "    methods: init(..), value([v]), high(), low(), irq(handler)\n"
-    "  machine.ADC(pin) -- make an analog object from a pin\n"
-    "    methods: read_u16()\n"
-    "  machine.PWM(pin) -- make a PWM object from a pin\n"
-    "    methods: deinit(), freq([f]), duty_u16([d]), duty_ns([d])\n"
-    "  machine.I2C(id) -- create an I2C object (id=0,1)\n"
-    "    methods: readfrom(addr, buf, stop=True), writeto(addr, buf, stop=True)\n"
-    "             readfrom_mem(addr, memaddr, arg), writeto_mem(addr, memaddr, arg)\n"
-    "  machine.SPI(id, baudrate=1000000) -- create an SPI object (id=0,1)\n"
-    "    methods: read(nbytes, write=0x00), write(buf), write_readinto(wr_buf, rd_buf)\n"
-    "  machine.Timer(freq, callback) -- create a software timer object\n"
-    "    eg: machine.Timer(freq=1, callback=lambda t:print(t))\n"
-    "\n"
-    "Pins are numbered 0-29, and 26-29 have ADC capabilities\n"
-    "Pin IO modes are: Pin.IN, Pin.OUT, Pin.ALT\n"
-    "Pin pull modes are: Pin.PULL_UP, Pin.PULL_DOWN\n"
-    "\n"
-    "Useful control commands:\n"
-    "  CTRL-C -- interrupt a running program\n"
-    "  CTRL-D -- on a blank line, do a soft reset of the board\n"
-    "  CTRL-E -- on a blank line, enter paste mode\n"
-    "\n"
-    "For further help on a specific object, type help(obj)\n"
-    "For a list of available modules, type help('modules')\n"
-;

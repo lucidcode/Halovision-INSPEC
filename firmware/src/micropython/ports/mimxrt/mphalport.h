@@ -36,6 +36,15 @@
 
 #define MICROPY_HAL_VERSION             "2.8.0"
 
+#define MICROPY_BEGIN_ATOMIC_SECTION()     disable_irq()
+#define MICROPY_END_ATOMIC_SECTION(state)  enable_irq(state)
+
+// For regular code that wants to prevent "background tasks" from running.
+// These background tasks (LWIP, Bluetooth) run in PENDSV context.
+#define MICROPY_PY_PENDSV_ENTER   uint32_t atomic_state = raise_irq_pri(IRQ_PRI_PENDSV);
+#define MICROPY_PY_PENDSV_REENTER atomic_state = raise_irq_pri(IRQ_PRI_PENDSV);
+#define MICROPY_PY_PENDSV_EXIT    restore_irq_pri(atomic_state);
+
 #define MICROPY_HW_USB_CDC_TX_TIMEOUT   (500)
 
 #define MP_HAL_PIN_FMT                  "%q"
@@ -60,7 +69,7 @@
 
 extern ringbuf_t stdin_ringbuf;
 
-// Define an alias fo systick_ms, because the shared softtimer.c uses
+// Define an alias for systick_ms, because the shared softtimer.c uses
 // the symbol uwTick for the systick ms counter.
 #define uwTick systick_ms
 
@@ -81,6 +90,16 @@ extern ringbuf_t stdin_ringbuf;
 
 #define mp_hal_quiet_timing_enter() raise_irq_pri(1)
 #define mp_hal_quiet_timing_exit(irq_state) restore_irq_pri(irq_state)
+
+__attribute__((always_inline)) static inline void enable_irq(uint32_t state) {
+    __set_PRIMASK(state);
+}
+
+__attribute__((always_inline)) static inline uint32_t disable_irq(void) {
+    uint32_t state = __get_PRIMASK();
+    __disable_irq();
+    return state;
+}
 
 void mp_hal_set_interrupt_char(int c);
 

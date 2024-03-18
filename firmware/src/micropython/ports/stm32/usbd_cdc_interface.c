@@ -44,17 +44,17 @@
 
 #include "py/runtime.h"
 #include "py/mphal.h"
+#include "extmod/modmachine.h"
 #include "shared/runtime/interrupt_char.h"
 #include "irq.h"
-#include "modmachine.h"
 
 #if MICROPY_HW_ENABLE_USB
 
 #if !MICROPY_HW_USB_IS_MULTI_OTG
 #define USE_USB_CNTR_SOFM (1)
-#elif defined(STM32G0)
-#define USE_USB_CNTR_SOFM (1)
+#if defined(STM32G0) || defined(STM32H5)
 #define USB USB_DRD_FS
+#endif
 #else
 #define USE_USB_CNTR_SOFM (0)
 #endif
@@ -443,7 +443,7 @@ int usbd_cdc_tx_flow(usbd_cdc_itf_t *cdc, const uint8_t *buf, uint32_t len) {
     }
 }
 
-// timout in milliseconds.
+// timeout in milliseconds.
 // Returns number of bytes written to the device.
 int usbd_cdc_tx(usbd_cdc_itf_t *cdc, const uint8_t *buf, uint32_t len, uint32_t timeout) {
     for (uint32_t i = 0; i < len; i++) {
@@ -520,7 +520,7 @@ int usbd_cdc_rx_num(usbd_cdc_itf_t *cdc) {
     return rx_waiting;
 }
 
-// timout in milliseconds.
+// timeout in milliseconds.
 // Returns number of bytes read from the device.
 int usbd_cdc_rx(usbd_cdc_itf_t *cdc, uint8_t *buf, uint32_t len, uint32_t timeout) {
     if (cdc->dbg_mode_enabled == 1) {

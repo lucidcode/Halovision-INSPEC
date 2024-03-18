@@ -31,7 +31,7 @@
  * Note: "when pending" workers with work pending are executed before "at time" workers.
  *
  * The async_context provides locking mechanisms, see \ref async_context_acquire_lock_blocking,
- * \ref async_context_release_lock and \ref async_context_check_lock which can be used by
+ * \ref async_context_release_lock and \ref async_context_lock_check which can be used by
  * external code to ensure execution of external code does not happen concurrently with worker code.
  * Locked code runs on the calling core, however \ref async_context_execute_sync is provided to
  * synchronously run a function from the core of the async_context.
@@ -82,7 +82,7 @@ typedef struct async_context async_context_t;
  *  \ingroup pico_async_context
  *
  *  A "timeout" represents some future action that must be taken at a specific time.
- *  It's methods are called from the async_context under lock at the given time
+ *  Its methods are called from the async_context under lock at the given time
  *
  * \see async_context_add_worker_at
  * \see async_context_add_worker_in_ms
@@ -117,7 +117,7 @@ typedef struct async_work_on_timeout {
  *
  *  A "worker" represents some external entity that must do work in response
  *  to some external stimulus (usually an IRQ).
- *  It's methods are called from the async_context under lock at the given time
+ *  Its methods are called from the async_context under lock at the given time
  *
  * \see async_context_add_worker_at
  * \see async_context_add_worker_in_ms
@@ -138,6 +138,10 @@ typedef struct async_when_pending_worker {
      * True if the worker need do_work called
      */
     bool work_pending;
+    /*!
+     * User data associated with the worker instance
+     */
+    void *user_data;
 } async_when_pending_worker_t;
 
 #define ASYNC_CONTEXT_FLAG_CALLBACK_FROM_NON_IRQ 0x1
@@ -245,7 +249,7 @@ static inline void async_context_lock_check(async_context_t *context) {
  *
  * \param context the async_context
  * \param func the function to call
- * \param parm the paramter to pass to the function
+ * \param param the paramter to pass to the function
  * \return the return value from func
  */
 static inline uint32_t async_context_execute_sync(async_context_t *context, uint32_t (*func)(void *param), void *param) {
@@ -455,7 +459,6 @@ static inline uint async_context_core_num(const async_context_t *context) {
  * callback is being called once this method returns.
  *
  * \param context the async_context
- * \return the physical core number
  */
 static inline void async_context_deinit(async_context_t *context) {
     context->type->deinit(context);

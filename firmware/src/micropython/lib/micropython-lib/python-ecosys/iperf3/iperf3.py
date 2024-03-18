@@ -147,16 +147,19 @@ class Stats:
 
     def report_receiver(self, stats):
         st = stats["streams"][0]
-        dt = st["end_time"] - st["start_time"]
+
+        # iperf servers pre 3.2 do not transmit start or end time,
+        # so use local as fallback if not available.
+        dt = ticks_diff(self.t3, self.t0)
+
         self.print_line(
-            st["start_time"],
-            st["end_time"],
+            st.get("start_time", 0.0),
+            st.get("end_time", dt * 1e-6),
             st["bytes"],
             st["packets"],
             st["errors"],
             "  receiver",
         )
-        return
 
 
 def recvn(s, n):
@@ -377,9 +380,11 @@ def client(host, udp=False, reverse=False, bandwidth=10 * 1024 * 1024):
     ticks_us_end = param["time"] * 1000000
     poll = select.poll()
     poll.register(s_ctrl, select.POLLIN)
+    buf = None
     s_data = None
     start = None
     udp_packet_id = 0
+    udp_last_send = None
     while True:
         for pollable in poll.poll(stats.max_dt_ms()):
             if pollable_is_sock(pollable, s_data):

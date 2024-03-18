@@ -27,17 +27,10 @@
 #include "py/runtime.h"
 #include "py/mphal.h"
 #include "py/mperrno.h"
-#include "extmod/machine_i2c.h"
-#include "modmachine.h"
+#include "extmod/modmachine.h"
 
 #include "driver/i2c.h"
-
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 4, 0)
 #include "hal/i2c_ll.h"
-#else
-#include "soc/i2c_reg.h"
-#define I2C_LL_MAX_TIMEOUT I2C_TIME_OUT_REG_V
-#endif
 
 #ifndef MICROPY_HW_I2C0_SCL
 #define MICROPY_HW_I2C0_SCL (GPIO_NUM_18)
@@ -57,7 +50,7 @@
 #if CONFIG_IDF_TARGET_ESP32C3 || CONFIG_IDF_TARGET_ESP32S3
 #define I2C_SCLK_FREQ XTAL_CLK_FREQ
 #elif CONFIG_IDF_TARGET_ESP32 || CONFIG_IDF_TARGET_ESP32S2
-#define I2C_SCLK_FREQ I2C_APB_CLK_FREQ
+#define I2C_SCLK_FREQ APB_CLK_FREQ
 #else
 #error "unsupported I2C for ESP32 SoC variant"
 #endif
@@ -125,7 +118,7 @@ int machine_hw_i2c_transfer(mp_obj_base_t *self_in, uint16_t addr, size_t n, mp_
     }
 
     // TODO proper timeout
-    esp_err_t err = i2c_master_cmd_begin(self->port, cmd, 100 * (1 + data_len) / portTICK_RATE_MS);
+    esp_err_t err = i2c_master_cmd_begin(self->port, cmd, 100 * (1 + data_len) / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     if (err == ESP_FAIL) {
@@ -191,10 +184,10 @@ mp_obj_t machine_hw_i2c_make_new(const mp_obj_type_t *type, size_t n_args, size_
 
     // Set SCL/SDA pins if given
     if (args[ARG_scl].u_obj != MP_OBJ_NULL) {
-        self->scl = mp_hal_get_pin_obj(args[ARG_scl].u_obj);
+        self->scl = machine_pin_get_id(args[ARG_scl].u_obj);
     }
     if (args[ARG_sda].u_obj != MP_OBJ_NULL) {
-        self->sda = mp_hal_get_pin_obj(args[ARG_sda].u_obj);
+        self->sda = machine_pin_get_id(args[ARG_sda].u_obj);
     }
 
     // Initialise the I2C peripheral

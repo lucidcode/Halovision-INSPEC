@@ -22,7 +22,7 @@ typedef struct alarm_pool_entry {
     void *user_data;
 } alarm_pool_entry_t;
 
-typedef struct alarm_pool {
+struct alarm_pool {
     pheap_t *heap;
     spin_lock_t *lock;
     alarm_pool_entry_t *entries;
@@ -32,7 +32,7 @@ typedef struct alarm_pool {
     alarm_id_t alarm_in_progress; // this is set during a callback from the IRQ handler... it can be cleared by alarm_cancel to prevent repeats
     uint8_t hardware_alarm_num;
     uint8_t core_num;
-} alarm_pool_t;
+};
 
 #if !PICO_TIME_DEFAULT_ALARM_POOL_DISABLED
 // To avoid bringing in calloc, we statically allocate the arrays and the heap
@@ -291,6 +291,7 @@ alarm_id_t alarm_pool_add_alarm_at_force_in_context(alarm_pool_t *pool, absolute
 }
 
 bool alarm_pool_cancel_alarm(alarm_pool_t *pool, alarm_id_t alarm_id) {
+    if (!alarm_id) return false;
     bool rc = false;
     uint32_t save = spin_lock_blocking(pool->lock);
     pheap_node_id_t id = (pheap_node_id_t) alarm_id;

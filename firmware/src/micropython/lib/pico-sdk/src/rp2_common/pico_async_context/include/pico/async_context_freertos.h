@@ -83,14 +83,14 @@ bool async_context_freertos_init(async_context_freertos_t *self, async_context_f
  * \brief Return a copy of the default configuration object used by \ref async_context_freertos_init_with_defaults() 
  * \ingroup async_context_freertos
  *
- * The caller can then modify just the settings it cares about, and call \ref async_context_threasafe_background_init()
+ * The caller can then modify just the settings it cares about, and call \ref async_context_freertos_init()
  * \return the default configuration object
  */
  static inline async_context_freertos_config_t async_context_freertos_default_config(void) {
     async_context_freertos_config_t config = {
             .task_priority = ASYNC_CONTEXT_DEFAULT_FREERTOS_TASK_PRIORITY,
             .task_stack_size = ASYNC_CONTEXT_DEFAULT_FREERTOS_TASK_STACK_SIZE,
-#if configUSE_CORE_AFFINITY
+#if configUSE_CORE_AFFINITY && configNUM_CORES > 1
             .task_core_id = (UBaseType_t)-1, // none
 #endif
     };

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2020 Reinhard Panhuber
@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "bsp/board.h"
+#include "bsp/board_api.h"
 #include "tusb.h"
 
 //--------------------------------------------------------------------+
@@ -84,6 +84,10 @@ int main(void)
   // init device stack on configured roothub port
   tud_init(BOARD_TUD_RHPORT);
 
+  if (board_init_after_tusb) {
+    board_init_after_tusb();
+  }
+
   // Init values
   sampFreq = AUDIO_SAMPLE_RATE;
   clkValid = 1;
@@ -99,9 +103,6 @@ int main(void)
     led_blinking_task();
     audio_task();
   }
-
-
-  return 0;
 }
 
 //--------------------------------------------------------------------+
@@ -132,7 +133,7 @@ void tud_suspend_cb(bool remote_wakeup_en)
 // Invoked when usb bus is resumed
 void tud_resume_cb(void)
 {
-  blink_interval_ms = BLINK_MOUNTED;
+  blink_interval_ms = tud_mounted() ? BLINK_MOUNTED : BLINK_NOT_MOUNTED;
 }
 
 //--------------------------------------------------------------------+
@@ -290,7 +291,7 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
 
         // Those are dummy values for now
         ret.bNrChannels = 1;
-        ret.bmChannelConfig = 0;
+        ret.bmChannelConfig = (audio_channel_config_t) 0;
         ret.iChannelNames = 0;
 
         TU_LOG2("    Get terminal connector\r\n");

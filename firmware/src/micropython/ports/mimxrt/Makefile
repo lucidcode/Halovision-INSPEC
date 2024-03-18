@@ -61,8 +61,6 @@ AF_FILE = boards/$(MCU_SERIES)_af.csv
 BOARD_PINS = $(BOARD_DIR)/pins.csv
 PREFIX_FILE = boards/mimxrt_prefix.c
 GEN_FLEXRAM_CONFIG_SRC = $(BUILD)/flexram_config.s
-GEN_PINS_AF_CONST = $(HEADER_BUILD)/pins_af_const.h
-GEN_PINS_AF_PY = $(BUILD)/pins_af.py
 GEN_PINS_HDR = $(HEADER_BUILD)/pins.h
 GEN_PINS_SRC = $(BUILD)/pins_gen.c
 
@@ -128,6 +126,7 @@ SRC_HAL_IMX_C += \
 	$(MCU_DIR)/drivers/fsl_edma.c \
 	$(MCU_DIR)/drivers/fsl_flexram.c \
 	$(MCU_DIR)/drivers/fsl_flexspi.c \
+	$(MCU_DIR)/drivers/fsl_gpc.c \
 	$(MCU_DIR)/drivers/fsl_gpio.c \
 	$(MCU_DIR)/drivers/fsl_gpt.c \
 	$(MCU_DIR)/drivers/fsl_lpi2c.c \
@@ -137,17 +136,28 @@ SRC_HAL_IMX_C += \
 	$(MCU_DIR)/drivers/fsl_pit.c \
 	$(MCU_DIR)/drivers/fsl_pwm.c \
 	$(MCU_DIR)/drivers/fsl_sai.c \
+	$(MCU_DIR)/drivers/fsl_snvs_hp.c \
 	$(MCU_DIR)/drivers/fsl_snvs_lp.c \
 	$(MCU_DIR)/drivers/fsl_wdog.c \
 	$(MCU_DIR)/system_$(MCU_SERIES)$(MCU_CORE).c \
-	$(MCU_DIR)/xip/fsl_flexspi_nor_boot.c \
+
+# Use a specific boot header for 1062 so the Teensy loader doesn't erase the filesystem.
+ifeq ($(MCU_SERIES), MIMXRT1062)
+SRC_HAL_IMX_C += hal/fsl_flexspi_nor_boot.c
+else
+SRC_HAL_IMX_C += $(MCU_DIR)/xip/fsl_flexspi_nor_boot.c
+endif
 
 ifeq ($(MICROPY_HW_SDRAM_AVAIL),1)
 SRC_HAL_IMX_C += $(MCU_DIR)/drivers/fsl_semc.c
 endif
 
-ifeq ($(MICROPY_PY_MACHINE_SDCARD),1)
+ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES), MIMXRT1021 MIMXRT1052 MIMXRT1062 MIMXRT1064 MIMXRT1176))
 SRC_HAL_IMX_C += $(MCU_DIR)/drivers/fsl_usdhc.c
+endif
+
+ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES), MIMXRT1021 MIMXRT1052 MIMXRT1062 MIMXRT1064 MIMXRT1176))
+SRC_HAL_IMX_C += $(MCU_DIR)/drivers/fsl_flexcan.c
 endif
 
 ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES), MIMXRT1015 MIMXRT1021 MIMXRT1052 MIMXRT1062 MIMXRT1064 MIMXRT1176))
@@ -185,24 +195,20 @@ SRC_C += \
 	fatfs_port.c \
 	flash.c \
 	hal/pwm_backport.c \
+	help.c \
 	led.c \
-	machine_adc.c \
 	machine_bitstream.c \
+	machine_can.c \
 	machine_i2c.c \
-	machine_i2s.c \
 	machine_led.c \
 	machine_pin.c \
 	machine_rtc.c \
 	machine_sdcard.c \
 	machine_spi.c \
-	machine_uart.c \
-	machine_wdt.c \
 	mbedtls/mbedtls_port.c \
 	mimxrt_flash.c \
 	mimxrt_sdram.c \
-	modmachine.c \
 	modmimxrt.c \
-	modutime.c \
 	mphalport.c \
 	mpnetworkport.c \
 	msc_disk.c \
@@ -268,26 +274,19 @@ endif
 
 # Math library source files
 ifeq ($(MICROPY_FLOAT_IMPL),double)
-    LIBM_SRC_C += $(addprefix lib/libm_dbl/,\
-        __cos.c __expo2.c __fpclassify.c __rem_pio2.c __rem_pio2_large.c __signbit.c __sin.c __tan.c acos.c acosh.c \
-        asin.c asinh.c atan.c atan2.c atanh.c ceil.c copysign.c cos.c cosh.c erf.c exp.c expm1.c floor.c fmod.c \
-        frexp.c ldexp.c lgamma.c log.c log10.c log1p.c modf.c nearbyint.c pow.c rint.c round.c scalbn.c sin.c \
-        sinh.c tan.c tanh.c tgamma.c trunc.c)
+    LIBM_SRC_C += $(SRC_LIB_LIBM_DBL_C)
     #
     ifeq ($(SUPPORTS_HARDWARE_FP_DOUBLE),1)
-        LIBM_SRC_C += lib/libm_dbl/thumb_vfp_sqrt.c
+        LIBM_SRC_C += $(SRC_LIB_LIBM_DBL_SQRT_HW_C)
     else
-        LIBM_SRC_C += lib/libm_dbl/sqrt.c
+        LIBM_SRC_C += $(SRC_LIB_LIBM_DBL_SQRT_SW_C)
     endif
 else
-    LIBM_SRC_C += $(addprefix lib/libm/,\
-        acoshf.c asinfacosf.c asinhf.c atan2f.c atanf.c atanhf.c ef_rem_pio2.c erf_lgamma.c fmodf.c kf_cos.c \
-        kf_rem_pio2.c kf_sin.c kf_tan.c log1pf.c math.c nearbyintf.c roundf.c sf_cos.c sf_erf.c sf_frexp.c sf_ldexp.c \
-        sf_modf.c sf_sin.c sf_tan.c wf_lgamma.c wf_tgamma.c)
+    LIBM_SRC_C += $(SRC_LIB_LIBM_C)
     ifeq ($(SUPPORTS_HARDWARE_FP_SINGLE),1)
-        LIBM_SRC_C += lib/libm/thumb_vfp_sqrtf.c
+        LIBM_SRC_C += $(SRC_LIB_LIBM_SQRT_HW_C)
     else
-        LIBM_SRC_C += lib/libm/ef_sqrt.c
+        LIBM_SRC_C += $(SRC_LIB_LIBM_SQRT_SW_C)
     endif
 endif
 
@@ -325,7 +324,6 @@ endif
 # Set default values for optional variables
 MICROPY_HW_SDRAM_AVAIL ?= 0
 MICROPY_HW_SDRAM_SIZE ?= 0
-MICROPY_PY_MACHINE_SDCARD ?= 0
 
 # Configure default compiler flags
 CFLAGS += \
@@ -335,7 +333,7 @@ CFLAGS += \
 	-D__STARTUP_INITIALIZE_RAMFUNCTION \
 	-DBOARD_$(BOARD) \
 	-DBOARD_FLASH_SIZE=$(MICROPY_HW_FLASH_SIZE) \
-	-DCFG_TUSB_MCU=OPT_MCU_MIMXRT \
+	-DCFG_TUSB_MCU=OPT_MCU_MIMXRT1XXX \
 	-DCLOCK_CONFIG_H='<boards/$(MCU_SERIES)_clock_config.h>' \
 	-DCPU_$(MCU_SERIES)$(MCU_CORE) \
 	-DCPU_$(MCU_VARIANT) \
@@ -345,7 +343,6 @@ CFLAGS += \
 	-DMICROPY_HW_FLASH_SIZE=$(MICROPY_HW_FLASH_SIZE) \
 	-DMICROPY_HW_SDRAM_AVAIL=$(MICROPY_HW_SDRAM_AVAIL) \
 	-DMICROPY_HW_SDRAM_SIZE=$(MICROPY_HW_SDRAM_SIZE) \
-	-DMICROPY_PY_MACHINE_SDCARD=$(MICROPY_PY_MACHINE_SDCARD) \
 	-DSPI_RETRY_TIMES=1000000 \
 	-DUART_RETRY_TIMES=1000000 \
 	-DXIP_BOOT_HEADER_ENABLE=1 \
@@ -395,8 +392,19 @@ endif
 
 # All settings for Ethernet support are controller by the value of MICROPY_PY_LWIP
 ifeq ($(MICROPY_PY_LWIP),1)
-CFLAGS += \
-	-DFSL_FEATURE_PHYKSZ8081_USE_RMII50M_MODE=1
+	ifeq ($(MICROPY_PY_NETWORK_PHYKSZ8081RND),0)
+		CFLAGS += \
+			-DFSL_FEATURE_PHYKSZ8081_USE_RMII50M_MODE=1
+	endif
+endif
+
+ifdef MICROPY_HW_FLASH_CLK
+	CFLAGS += \
+			-DMICROPY_HW_FLASH_CLK=$(MICROPY_HW_FLASH_CLK)
+endif
+
+ifdef MICROPY_HW_FLASH_CLK
+	CFLAGS += -DMICROPY_HW_FLASH_CLK=$(MICROPY_HW_FLASH_CLK)
 endif
 
 CFLAGS += $(CFLAGS_EXTRA)
@@ -435,15 +443,9 @@ endif
 # =============================================================================
 
 LIBS = $(shell $(CC) $(CFLAGS) -print-libgcc-file-name)
-LIBM_O = $(addprefix $(BUILD)/, $(LIBM_SRC_C:.c=.o))
-
-# Too many warnings in libm_dbl, disable for now.
-ifeq ($(MICROPY_FLOAT_IMPL),double)
-$(LIBM_O): CFLAGS := $(filter-out -Wdouble-promotion -Wfloat-conversion, $(CFLAGS))
-endif
 
 OBJ += $(PY_O)
-OBJ += $(LIBM_O)
+OBJ += $(addprefix $(BUILD)/, $(LIBM_SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(SHARED_SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(DRIVERS_SRC_C:.c=.o))
@@ -499,11 +501,8 @@ $(GEN_FLEXRAM_CONFIG_SRC):
 # both pins_gen.c and pins.h
 $(BUILD)/%_gen.c $(HEADER_BUILD)/%.h: $(BOARD_PINS) $(MAKE_PINS) $(AF_FILE) $(PREFIX_FILE) | $(HEADER_BUILD)
 	$(ECHO) "Create $@"
-	$(Q)$(PYTHON) $(MAKE_PINS) --board $(BOARD_PINS) --af $(AF_FILE)\
-		--iomux $(abspath $(MCU_DIR)/drivers/fsl_iomuxc.h) \
-		--prefix $(PREFIX_FILE) --hdr $(GEN_PINS_HDR) > $(GEN_PINS_SRC)
-
-$(GEN_PINS_SRC:.c=.o): $(GEN_PINS_SRC)
-	$(call compile_c)
+	$(Q)$(PYTHON) $(MAKE_PINS) --board-csv $(BOARD_PINS) --af-csv $(AF_FILE) \
+	    --prefix $(PREFIX_FILE) --iomux $(abspath $(MCU_DIR)/drivers/fsl_iomuxc.h) \
+	    --output-source $(GEN_PINS_SRC) --output-header $(GEN_PINS_HDR)
 
 include $(TOP)/py/mkrules.mk

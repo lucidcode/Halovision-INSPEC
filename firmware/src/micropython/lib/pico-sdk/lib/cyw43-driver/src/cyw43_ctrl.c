@@ -31,7 +31,7 @@
  * options please email contact@georgerobotics.com.au.
  */
 
-#include <stdio.h>
+#include <assert.h>
 #include <string.h>
 
 #include "cyw43.h"
@@ -73,9 +73,9 @@ uint32_t cyw43_sleep;
 #define CYW43_POST_POLL_HOOK
 #endif
 
-STATIC void cyw43_poll_func(void);
-STATIC void cyw43_wifi_ap_init(cyw43_t *self);
-STATIC void cyw43_wifi_ap_set_up(cyw43_t *self, bool up);
+static void cyw43_poll_func(void);
+static void cyw43_wifi_ap_init(cyw43_t *self);
+static void cyw43_wifi_ap_set_up(cyw43_t *self, bool up);
 
 static inline uint32_t cyw43_get_be16(const uint8_t *buf) {
     return buf[0] << 8 | buf[1];
@@ -149,12 +149,12 @@ void cyw43_deinit(cyw43_t *self) {
     CYW43_THREAD_EXIT;
 }
 
-STATIC int cyw43_ensure_up(cyw43_t *self) {
+static int cyw43_ensure_up(cyw43_t *self) {
     CYW43_THREAD_LOCK_CHECK;
 
-#ifndef NDEBUG
+    #ifndef NDEBUG
     assert(cyw43_is_initialized(self)); // cyw43_init has not been called
-#endif
+    #endif
     if (cyw43_poll != NULL) {
         cyw43_ll_bus_sleep(&self->cyw43_ll, false);
         return 0;
@@ -205,8 +205,8 @@ STATIC int cyw43_ensure_up(cyw43_t *self) {
     #if USE_SDIOIT
     cyw43_sdio_set_irq(true);
     #elif !CYW43_USE_SPI
-    extern void extint_set(const pin_obj_t *pin, uint32_t mode);
-    extint_set(CYW43_PIN_WL_HOST_WAKE, GPIO_MODE_IT_FALLING);
+    // If CYW43_PIN_WL_HOST_WAKE has a falling edge, cyw43_poll (if it's not NULL) should be called.
+    cyw43_hal_pin_config_irq_falling(CYW43_PIN_WL_HOST_WAKE, true);
     #endif
 
     // Kick things off
@@ -216,7 +216,7 @@ STATIC int cyw43_ensure_up(cyw43_t *self) {
 }
 
 // This function must always be executed at the level where CYW43_THREAD_ENTER is effectively active
-STATIC void cyw43_poll_func(void) {
+static void cyw43_poll_func(void) {
     CYW43_THREAD_LOCK_CHECK;
 
     if (cyw43_poll == NULL) {
@@ -291,7 +291,7 @@ void cyw43_cb_ensure_awake(void *cb_data) {
     #endif
 }
 
-STATIC const char *const cyw43_async_event_name_table[89] = {
+static const char *const cyw43_async_event_name_table[89] = {
     //[0 ... 88] = NULL,
     [CYW43_EV_SET_SSID] = "SET_SSID",
     [CYW43_EV_JOIN] = "JOIN",
@@ -308,7 +308,7 @@ STATIC const char *const cyw43_async_event_name_table[89] = {
     [CYW43_EV_ASSOC_RESP_IE] = "ASSOC_RESP_IE",
 };
 
-STATIC void cyw43_dump_async_event(const cyw43_async_event_t *ev) {
+static void cyw43_dump_async_event(const cyw43_async_event_t *ev) {
     CYW43_PRINTF("[% 8d] ASYNC(%04x,",
         (int)cyw43_hal_ticks_ms(),
         (unsigned int)ev->flags
@@ -350,15 +350,15 @@ void cyw43_cb_process_async_event(void *cb_data, const cyw43_async_event_t *ev) 
         cyw43_cb_tcpip_set_link_down(self, CYW43_ITF_STA);
         self->wifi_join_state = 0x0000;
 
-    /*
+    #if 0
     } else if (ev->event_type == CYW43_EV_DISASSOC_IND) {
         if (ev->interface == CYW43_ITF_AP) {
             // Station disassociated with our AP, let DHCP server know so it can free the IP address
             dhcp_server_disassoc(&self->dhcp_server, buf + 24);
         }
-    */
+    #endif
 
-    // WiFi join events
+        // WiFi join events
     } else if (ev->event_type == CYW43_EV_PRUNE) {
         if (ev->status == 0 && ev->reason == 8) {
             // RSN mismatch, retry join with WPA auth
@@ -464,7 +464,7 @@ int cyw43_send_ethernet(cyw43_t *self, int itf, size_t len, const void *buf, boo
 /*******************************************************************************/
 // WiFi control
 
-STATIC int cyw43_wifi_on(cyw43_t *self, uint32_t country) {
+static int cyw43_wifi_on(cyw43_t *self, uint32_t country) {
     CYW43_THREAD_ENTER;
     int ret = cyw43_ensure_up(self);
     if (ret) {
@@ -658,7 +658,7 @@ int cyw43_wifi_get_rssi(cyw43_t *self, int32_t *rssi) {
     if (!rssi || !CYW43_STA_IS_ACTIVE(self)) {
         return -CYW43_EPERM;
     }
-    return cyw43_ioctl(self, CYW43_IOCTL_GET_RSSI, sizeof(*rssi), (uint8_t*)rssi, CYW43_ITF_STA);
+    return cyw43_ioctl(self, CYW43_IOCTL_GET_RSSI, sizeof(*rssi), (uint8_t *)rssi, CYW43_ITF_STA);
 }
 
 int cyw43_wifi_get_bssid(cyw43_t *self, uint8_t bssid[6]) {
@@ -671,7 +671,7 @@ int cyw43_wifi_get_bssid(cyw43_t *self, uint8_t bssid[6]) {
 /*******************************************************************************/
 // WiFi AP
 
-STATIC void cyw43_wifi_ap_init(cyw43_t *self) {
+static void cyw43_wifi_ap_init(cyw43_t *self) {
     CYW43_THREAD_ENTER;
     int ret = cyw43_ensure_up(self);
     if (ret) {
@@ -683,7 +683,7 @@ STATIC void cyw43_wifi_ap_init(cyw43_t *self) {
     CYW43_THREAD_EXIT;
 }
 
-STATIC void cyw43_wifi_ap_set_up(cyw43_t *self, bool up) {
+static void cyw43_wifi_ap_set_up(cyw43_t *self, bool up) {
     CYW43_THREAD_ENTER;
     int ret = cyw43_ensure_up(self);
     if (ret) {
@@ -743,7 +743,7 @@ int cyw43_gpio_get(cyw43_t *self, int gpio, bool *val) {
 #endif
 
 #if CYW43_ENABLE_BLUETOOTH
-STATIC int cyw43_ensure_bt_up(cyw43_t *self) {
+static int cyw43_ensure_bt_up(cyw43_t *self) {
     CYW43_THREAD_ENTER;
     int ret = cyw43_ensure_up(self);
     if (ret == 0 && !self->bt_loaded) {

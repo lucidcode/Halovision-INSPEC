@@ -9,7 +9,7 @@
  * OV9650 driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_OV9650 == 1)
+#if (OMV_OV9650_ENABLE == 1)
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -73,7 +73,7 @@ static const uint8_t default_regs[][2] = {
     {REG_COM23,  0x00}, /* Disable Color bar/Analog Color Gain */
     {REG_PSHFT,  0x00}, /* Pixel delay after HREF  */
     {REG_COM10,  0x00}, /* Slave mode, HREF vs HSYNC, signals negate */
-    {REG_EDGE,   0xa6}, /* Edge enhancement treshhold and factor */
+    {REG_EDGE,   0xa6}, /* Edge enhancement threshold and factor */
     {REG_COM6,   0x43}, /* HREF & ADBLC options */
     {REG_COM22,  0x20}, /* Edge enhancement/Denoising */
 
@@ -212,7 +212,7 @@ static int reset(sensor_t *sensor) {
     /* delay n ms */
     mp_hal_delay_ms(10);
 
-    /* Write initial regsiters */
+    /* Write initial registers */
     while (regs[i][0]) {
         omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, regs[i][0], regs[i][1]);
         i++;
@@ -331,22 +331,22 @@ static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain
                        (reg & (~REG_COM8_AGC)) | ((enable != 0) ? REG_COM8_AGC : 0));
 
     if ((enable == 0) && (!isnanf(gain_db)) && (!isinf(gain_db))) {
-        float gain = IM_MAX(IM_MIN(fast_expf((gain_db / 20.0) * fast_log(10.0)), 128.0), 1.0);
+        float gain = IM_CLAMP(expf((gain_db / 20.0f) * M_LN10), 1.0f, 128.0f);
 
-        int gain_temp = fast_roundf(fast_log2(IM_MAX(gain / 2.0, 1.0)));
+        int gain_temp = fast_ceilf(logf(IM_MAX(gain / 2.0f, 1.0f)) / M_LN2);
         int gain_hi = 0x3F >> (6 - gain_temp);
-        int gain_lo = IM_MIN(fast_roundf(((gain / (1 << gain_temp)) - 1.0) * 16.0), 15);
+        int gain_lo = IM_MIN(fast_roundf(((gain / (1 << gain_temp)) - 1.0f) * 16.0f), 15);
 
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, REG_GAIN, ((gain_hi & 0x0F) << 4) | (gain_lo << 0));
         ret |= omv_i2c_readb(&sensor->i2c_bus, sensor->slv_addr, REG_VREF, &reg);
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, REG_VREF, ((gain_hi & 0x30) << 2) | (reg & 0x3F));
     } else if ((enable != 0) && (!isnanf(gain_db_ceiling)) && (!isinf(gain_db_ceiling))) {
-        float gain_ceiling = IM_MAX(IM_MIN(fast_expf((gain_db_ceiling / 20.0) * fast_log(10.0)), 128.0), 2.0);
+        float gain_ceiling = IM_CLAMP(expf((gain_db_ceiling / 20.0f) * M_LN10), 2.0f, 128.0f);
 
         ret |= omv_i2c_readb(&sensor->i2c_bus, sensor->slv_addr, REG_COM9, &reg);
         ret |=
             omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, REG_COM9,
-                           (reg & 0x8F) | ((fast_ceilf(fast_log2(gain_ceiling)) - 1) << 4));
+                           (reg & 0x8F) | ((fast_ceilf(logf(gain_ceiling) / M_LN2) - 1) << 4));
     }
 
     return ret;
@@ -376,8 +376,8 @@ static int get_gain_db(sensor_t *sensor, float *gain_db) {
                   (((gain >>
                      9) & 1) +
                    ((gain >> 8) & 1) + ((gain >> 7) & 1) + ((gain >> 6) & 1) + ((gain >> 5) & 1) + ((gain >> 4) & 1));
-    float lo_gain = 1.0 + (((gain >> 0) & 0xF) / 16.0);
-    *gain_db = 20.0 * (fast_log(hi_gain * lo_gain) / fast_log(10.0));
+    float lo_gain = 1.0f + (((gain >> 0) & 0xF) / 16.0f);
+    *gain_db = 20.0f * log10f(hi_gain * lo_gain);
 
     return ret;
 }
@@ -413,8 +413,7 @@ static int set_auto_exposure(sensor_t *sensor, int enable, int exposure_us) {
         int clk_rc = ((reg & REG_CLKRC_DIVIDER_MASK) + 1) * 2;
 
         int exposure =
-            IM_MAX(IM_MIN(((exposure_us * (((OMV_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000)) / t_pclk) / t_line, 0xFFFF),
-                   0x0000);
+            __USAT(((exposure_us * (((OMV_CSI_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000)) / t_pclk) / t_line, 16);
 
         ret |= omv_i2c_readb(&sensor->i2c_bus, sensor->slv_addr, REG_COM1, &reg);
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, REG_COM1, (reg & 0xFC) | ((exposure >> 0) & 0x3));
@@ -470,7 +469,7 @@ static int get_exposure_us(sensor_t *sensor, int *exposure_us) {
     int clk_rc = ((reg & REG_CLKRC_DIVIDER_MASK) + 1) * 2;
 
     uint16_t exposure = ((aec_1510 & 0x3F) << 10) + ((aec_92 & 0xFF) << 2) + ((aec_10 & 0x3) << 0);
-    *exposure_us = (exposure * t_line * t_pclk) / (((OMV_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000);
+    *exposure_us = (exposure * t_line * t_pclk) / (((OMV_CSI_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000);
 
     return ret;
 }
@@ -486,8 +485,8 @@ static int set_auto_whitebal(sensor_t *sensor, int enable, float r_gain_db, floa
 
     if ((enable == 0) && (!isnanf(r_gain_db)) && (!isnanf(g_gain_db)) && (!isnanf(b_gain_db))
         && (!isinff(r_gain_db)) && (!isinff(g_gain_db)) && (!isinff(b_gain_db))) {
-        int r_gain = IM_MAX(IM_MIN(fast_roundf(fast_expf((r_gain_db / 20.0) * fast_log(10.0)) * 128.0), 255), 0);
-        int b_gain = IM_MAX(IM_MIN(fast_roundf(fast_expf((b_gain_db / 20.0) * fast_log(10.0)) * 128.0), 255), 0);
+        int r_gain = __USAT(fast_roundf(expf((r_gain_db / 20.0f) * M_LN10) * 128.0f), 8);
+        int b_gain = __USAT(fast_roundf(expf((b_gain_db / 20.0f) * M_LN10) * 128.0f), 8);
 
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, REG_BLUE, b_gain);
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, REG_RED, r_gain);
@@ -515,8 +514,8 @@ static int get_rgb_gain_db(sensor_t *sensor, float *r_gain_db, float *g_gain_db,
     // }
     // DISABLED
 
-    *r_gain_db = 20.0 * (fast_log(red / 128.0) / fast_log(10.0));
-    *b_gain_db = 20.0 * (fast_log(blue / 128.0) / fast_log(10.0));
+    *r_gain_db = 20.0f * log10f(red / 128.0f);
+    *b_gain_db = 20.0f * log10f(blue / 128.0f);
 
     return ret;
 }
@@ -569,4 +568,4 @@ int ov9650_init(sensor_t *sensor) {
 
     return 0;
 }
-#endif // (OMV_ENABLE_OV9650 == 1)
+#endif // (OMV_OV9650_ENABLE == 1)

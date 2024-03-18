@@ -21,6 +21,7 @@
 #include "fsl_device_registers.h"
 #include CLOCK_CONFIG_H
 #include "irq.h"
+#include CMSIS_MCU_H
 
 #include "omv_boardconfig.h"
 // Define pin objects in this file.
@@ -87,7 +88,7 @@ void mimxrt_hal_init() {
                          );
     #endif
 
-    // Confgure and enable EDMA
+    // Configure and enable EDMA
     edma_config_t edma_config = {0};
     EDMA_GetDefaultConfig(&edma_config);
     EDMA_Init(DMA0, &edma_config);
@@ -105,29 +106,29 @@ int mimxrt_hal_csi_init(CSI_Type *inst) {
     CLOCK_EnableClock(kCLOCK_Csi);
 
     // Configure DCMI pins.
-    omv_gpio_config(DCMI_D0_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D1_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D2_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D3_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D4_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D5_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D6_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_D7_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D0_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D1_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D2_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D3_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D4_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D5_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D6_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_D7_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
 
-    omv_gpio_config(DCMI_MCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_HSYNC_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_VSYNC_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(DCMI_PXCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_MXCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_HSYNC_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_VSYNC_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    omv_gpio_config(OMV_CSI_PXCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
 
     // Configure DCMI GPIOs
-    #if defined(DCMI_RESET_PIN)
-    omv_gpio_config(DCMI_RESET_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_DOWN, OMV_GPIO_SPEED_LOW, -1);
+    #if defined(OMV_CSI_RESET_PIN)
+    omv_gpio_config(OMV_CSI_RESET_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_DOWN, OMV_GPIO_SPEED_LOW, -1);
     #endif
-    #if defined(DCMI_FSYNC_PIN)
-    omv_gpio_config(DCMI_FSYNC_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_DOWN, OMV_GPIO_SPEED_LOW, -1);
+    #if defined(OMV_CSI_FSYNC_PIN)
+    omv_gpio_config(OMV_CSI_FSYNC_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_DOWN, OMV_GPIO_SPEED_LOW, -1);
     #endif
-    #if defined(DCMI_POWER_PIN)
-    omv_gpio_config(DCMI_POWER_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_LOW, -1);
+    #if defined(OMV_CSI_POWER_PIN)
+    omv_gpio_config(OMV_CSI_POWER_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_LOW, -1);
     #endif
 
     // Configure IRQ priority.
@@ -141,31 +142,31 @@ int mimxrt_hal_i2c_init(uint32_t bus_id) {
     omv_gpio_t sda_pin = NULL;
 
     switch (bus_id) {
-        #if defined(LPI2C1_ID)
-        case LPI2C1_ID: {
-            scl_pin = LPI2C1_SCL_PIN;
-            sda_pin = LPI2C1_SDA_PIN;
+        #if defined(OMV_I2C1_ID)
+        case OMV_I2C1_ID: {
+            scl_pin = OMV_I2C1_SCL_PIN;
+            sda_pin = OMV_I2C1_SDA_PIN;
             break;
         }
         #endif
-        #if defined(LPI2C2_ID)
-        case LPI2C2_ID: {
-            scl_pin = LPI2C2_SCL_PIN;
-            sda_pin = LPI2C2_SDA_PIN;
+        #if defined(OMV_I2C2_ID)
+        case OMV_I2C2_ID: {
+            scl_pin = OMV_I2C2_SCL_PIN;
+            sda_pin = OMV_I2C2_SDA_PIN;
             break;
         }
         #endif
-        #if defined(LPI2C3_ID)
-        case LPI2C3_ID: {
-            scl_pin = LPI2C3_SCL_PIN;
-            sda_pin = LPI2C3_SDA_PIN;
+        #if defined(OMV_I2C3_ID)
+        case OMV_I2C3_ID: {
+            scl_pin = OMV_I2C3_SCL_PIN;
+            sda_pin = OMV_I2C3_SDA_PIN;
             break;
         }
         #endif
-        #if defined(LPI2C4_ID)
-        case LPI2C4_ID: {
-            scl_pin = LPI2C4_SCL_PIN;
-            sda_pin = LPI2C4_SDA_PIN;
+        #if defined(OMV_I2C4_ID)
+        case OMV_I2C4_ID: {
+            scl_pin = OMV_I2C4_SCL_PIN;
+            sda_pin = OMV_I2C4_SDA_PIN;
             break;
         }
         #endif
@@ -190,18 +191,34 @@ int mimxrt_hal_spi_init(uint32_t bus_id, bool nss_enable, uint32_t nss_pol) {
     spi_pins_t spi_pins = { NULL, NULL, NULL, NULL };
 
     switch (bus_id) {
-        #if defined(LPSPI1_ID)
-        case LPSPI1_ID: {
+        #if defined(OMV_SPI1_ID)
+        case OMV_SPI1_ID: {
             spi_pins = (spi_pins_t) {
-                LPSPI1_SCLK_PIN, LPSPI1_MISO_PIN, LPSPI1_MOSI_PIN, LPSPI1_SSEL_PIN
+                OMV_SPI1_SCLK_PIN, OMV_SPI1_MISO_PIN, OMV_SPI1_MOSI_PIN, OMV_SPI1_SSEL_PIN
             };
             break;
         }
         #endif
-        #if defined(LPSPI4_ID)
-        case LPSPI4_ID: {
+        #if defined(OMV_SPI2_ID)
+        case OMV_SPI2_ID: {
             spi_pins = (spi_pins_t) {
-                LPSPI4_SCLK_PIN, LPSPI4_MISO_PIN, LPSPI4_MOSI_PIN, LPSPI4_SSEL_PIN
+                OMV_SPI2_SCLK_PIN, OMV_SPI2_MISO_PIN, OMV_SPI2_MOSI_PIN, OMV_SPI2_SSEL_PIN
+            };
+            break;
+        }
+        #endif
+        #if defined(OMV_SPI3_ID)
+        case OMV_SPI3_ID: {
+            spi_pins = (spi_pins_t) {
+                OMV_SPI3_SCLK_PIN, OMV_SPI3_MISO_PIN, OMV_SPI3_MOSI_PIN, OMV_SPI3_SSEL_PIN
+            };
+            break;
+        }
+        #endif
+        #if defined(OMV_SPI4_ID)
+        case OMV_SPI4_ID: {
+            spi_pins = (spi_pins_t) {
+                OMV_SPI4_SCLK_PIN, OMV_SPI4_MISO_PIN, OMV_SPI4_MOSI_PIN, OMV_SPI4_SSEL_PIN
             };
             break;
         }
@@ -216,13 +233,67 @@ int mimxrt_hal_spi_init(uint32_t bus_id, bool nss_enable, uint32_t nss_pol) {
     if (nss_enable) {
         omv_gpio_config(spi_pins.ssel_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_MED, -1);
     } else {
-        omv_gpio_config(spi_pins.ssel_pin, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_MED, -1);
+        omv_gpio_config(spi_pins.ssel_pin, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_MED, 5);
         if (nss_pol == OMV_SPI_NSS_LOW) {
             omv_gpio_write(spi_pins.ssel_pin, 1);
         } else {
             omv_gpio_write(spi_pins.ssel_pin, 0);
         }
     }
+    return 0;
+}
+
+int mimxrt_hal_spi_deinit(uint32_t bus_id) {
+    typedef struct {
+        omv_gpio_t sclk_pin;
+        omv_gpio_t miso_pin;
+        omv_gpio_t mosi_pin;
+        omv_gpio_t ssel_pin;
+    } spi_pins_t;
+
+    spi_pins_t spi_pins = { NULL, NULL, NULL, NULL };
+
+    switch (bus_id) {
+        #if defined(OMV_SPI1_ID)
+        case OMV_SPI1_ID: {
+            spi_pins = (spi_pins_t) {
+                OMV_SPI1_SCLK_PIN, OMV_SPI1_MISO_PIN, OMV_SPI1_MOSI_PIN, OMV_SPI1_SSEL_PIN
+            };
+            break;
+        }
+        #endif
+        #if defined(OMV_SPI2_ID)
+        case OMV_SPI2_ID: {
+            spi_pins = (spi_pins_t) {
+                OMV_SPI2_SCLK_PIN, OMV_SPI2_MISO_PIN, OMV_SPI2_MOSI_PIN, OMV_SPI2_SSEL_PIN
+            };
+            break;
+        }
+        #endif
+        #if defined(OMV_SPI3_ID)
+        case OMV_SPI3_ID: {
+            spi_pins = (spi_pins_t) {
+                OMV_SPI3_SCLK_PIN, OMV_SPI3_MISO_PIN, OMV_SPI3_MOSI_PIN, OMV_SPI3_SSEL_PIN
+            };
+            break;
+        }
+        #endif
+        #if defined(OMV_SPI4_ID)
+        case OMV_SPI4_ID: {
+            spi_pins = (spi_pins_t) {
+                OMV_SPI4_SCLK_PIN, OMV_SPI4_MISO_PIN, OMV_SPI4_MOSI_PIN, OMV_SPI4_SSEL_PIN
+            };
+            break;
+        }
+        #endif
+        default:
+            return -1;
+    }
+
+    omv_gpio_deinit(spi_pins.sclk_pin);
+    omv_gpio_deinit(spi_pins.miso_pin);
+    omv_gpio_deinit(spi_pins.mosi_pin);
+    omv_gpio_deinit(spi_pins.ssel_pin);
     return 0;
 }
 

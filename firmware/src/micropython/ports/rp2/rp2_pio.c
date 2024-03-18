@@ -684,16 +684,19 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_1(rp2_state_machine_restart_obj, rp2_state_machin
 // StateMachine.exec(instr)
 STATIC mp_obj_t rp2_state_machine_exec(mp_obj_t self_in, mp_obj_t instr_in) {
     rp2_state_machine_obj_t *self = MP_OBJ_TO_PTR(self_in);
-    mp_obj_t rp2_module = mp_import_name(MP_QSTR_rp2, mp_const_none, MP_OBJ_NEW_SMALL_INT(0));
-    mp_obj_t asm_pio_encode = mp_load_attr(rp2_module, MP_QSTR_asm_pio_encode);
-    uint32_t sideset_count = self->pio->sm[self->sm].pinctrl >> PIO_SM0_PINCTRL_SIDESET_COUNT_LSB;
-    uint8_t sideset_opt = !!(self->pio->sm[self->sm].execctrl & (1 << PIO_SM0_EXECCTRL_SIDE_EN_LSB));
-    mp_obj_t args[3];
-    args[0] = instr_in;
-    args[1] = MP_OBJ_NEW_SMALL_INT(sideset_count);
-    args[2] = MP_OBJ_NEW_SMALL_INT(sideset_opt);
-    mp_obj_t encoded_obj = mp_call_function_n_kw(asm_pio_encode, 3, 0, args);
-    mp_int_t encoded = mp_obj_get_int(encoded_obj);
+    mp_int_t encoded = 0;
+    if (!mp_obj_get_int_maybe(instr_in, &encoded)) {
+        mp_obj_t rp2_module = mp_import_name(MP_QSTR_rp2, mp_const_none, MP_OBJ_NEW_SMALL_INT(0));
+        mp_obj_t asm_pio_encode = mp_load_attr(rp2_module, MP_QSTR_asm_pio_encode);
+        uint32_t sideset_count = self->pio->sm[self->sm].pinctrl >> PIO_SM0_PINCTRL_SIDESET_COUNT_LSB;
+        uint8_t sideset_opt = !!(self->pio->sm[self->sm].execctrl & (1 << PIO_SM0_EXECCTRL_SIDE_EN_LSB));
+        mp_obj_t args[3];
+        args[0] = instr_in;
+        args[1] = MP_OBJ_NEW_SMALL_INT(sideset_count);
+        args[2] = MP_OBJ_NEW_SMALL_INT(sideset_opt);
+        mp_obj_t encoded_obj = mp_call_function_n_kw(asm_pio_encode, 3, 0, args);
+        encoded = mp_obj_get_int(encoded_obj);
+    }
     pio_sm_exec(self->pio, self->sm, encoded);
     return mp_const_none;
 }
@@ -726,7 +729,7 @@ STATIC mp_obj_t rp2_state_machine_get(size_t n_args, const mp_obj_t *args) {
     for (;;) {
         while (pio_sm_is_rx_fifo_empty(self->pio, self->sm)) {
             // This delay must be fast.
-            MICROPY_EVENT_POLL_HOOK_FAST;
+            mp_event_handle_nowait();
         }
         uint32_t value = pio_sm_get(self->pio, self->sm) >> shift;
         if (dest == NULL) {
@@ -784,7 +787,7 @@ STATIC mp_obj_t rp2_state_machine_put(size_t n_args, const mp_obj_t *args) {
         }
         while (pio_sm_is_tx_fifo_full(self->pio, self->sm)) {
             // This delay must be fast.
-            MICROPY_EVENT_POLL_HOOK_FAST;
+            mp_event_handle_nowait();
         }
         pio_sm_put(self->pio, self->sm, value << shift);
     }

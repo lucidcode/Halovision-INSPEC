@@ -17,6 +17,8 @@ extern void mimxrt_hal_bootloader(void);
 
 #define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "openmvrt1060"
 
+#define MICROPY_PY_MACHINE_CAN      (1)
+
 #define MICROPY_HW_USB_MSC          (1)
 #define MICROPY_HW_USB_VID          0x1209
 #define MICROPY_HW_USB_PID          0xabd1
@@ -34,54 +36,101 @@ extern void mimxrt_hal_bootloader(void);
 
 // WiFi SDMMC
 #define MICROPY_HW_SDIO_SDMMC       (2)
-#define MICROPY_HW_SDIO_CLK         (&pin_GPIO_AD_B1_09)
-#define MICROPY_HW_SDIO_CMD         (&pin_GPIO_AD_B1_08)
-#define MICROPY_HW_SDIO_D0          (&pin_GPIO_AD_B1_04)
-#define MICROPY_HW_SDIO_D1          (&pin_GPIO_AD_B1_05)
-#define MICROPY_HW_SDIO_D2          (&pin_GPIO_AD_B1_06)
-#define MICROPY_HW_SDIO_D3          (&pin_GPIO_AD_B1_07)
+#define MICROPY_HW_SDIO_CLK         (pin_GPIO_AD_B1_09)
+#define MICROPY_HW_SDIO_CMD         (pin_GPIO_AD_B1_08)
+#define MICROPY_HW_SDIO_D0          (pin_GPIO_SD_B1_03)
+#define MICROPY_HW_SDIO_D1          (pin_GPIO_SD_B1_02)
+#define MICROPY_HW_SDIO_D2          (pin_GPIO_AD_B1_06)
+#define MICROPY_HW_SDIO_D3          (pin_GPIO_AD_B1_07)
 
-#define MICROPY_HW_WL_REG_ON        (&pin_GPIO_B0_14)
-#define MICROPY_HW_WL_HOST_WAKE     (&pin_GPIO_B0_15)
+#define MICROPY_HW_WL_REG_ON        (pin_GPIO_B0_14)
+#define MICROPY_HW_WL_HOST_WAKE     (pin_GPIO_B0_15)
 
-#define MICROPY_HW_BT_REG_ON        (&pin_GPIO_AD_B0_08)
-#define MICROPY_HW_BT_HOST_WAKE     (&pin_GPIO_AD_B0_14)
+#define MICROPY_HW_BT_REG_ON        (pin_GPIO_AD_B0_08)
+#define MICROPY_HW_BT_HOST_WAKE     (pin_GPIO_AD_B0_14)
+#define MICROPY_HW_BT_DEV_WAKE      (pin_GPIO_SD_B1_00)
+//#define MICROPY_HW_BT_CTS           (pin_GPIO_AD_B1_04)
+
+#define MICROPY_HW_SDIO_CLK_ALT     (6)
+#define MICROPY_HW_SDIO_CMD_ALT     (6)
+#define MICROPY_HW_SDIO_D0_ALT      (0)
+#define MICROPY_HW_SDIO_D1_ALT      (0)
+#define MICROPY_HW_SDIO_D2_ALT      (6)
+#define MICROPY_HW_SDIO_D3_ALT      (6)
 
 // Bluetooth config.
-#define MICROPY_HW_BLE_UART_ID          (1)
+#define MICROPY_HW_BLE_UART_ID          (0)
 #define MICROPY_HW_BLE_UART_BASE        (LPUART3)
 #define MICROPY_HW_BLE_UART_BAUDRATE    (115200)
-#define MICROPY_HW_BLE_UART_BAUDRATE_SECONDARY (115200)
-//#define MICROPY_HW_BLE_UART_BAUDRATE_DOWNLOAD_FIRMWARE (3000000)
+#define MICROPY_HW_BLE_UART_BAUDRATE_SECONDARY (2500000)
+#define MICROPY_HW_BLE_UART_BAUDRATE_DOWNLOAD_FIRMWARE (2500000)
 
 // CYW43 config
 #define CYW43_WIFI_NVRAM_INCLUDE_FILE "wifi_nvram_1dx.h"
 
-// Define mapping logical UART # to hardware UART #
-// LPUART1 on USB_DBG  -> 0
-// LPUART3 on D0/D1    -> 1
-// LPUART2 on D7/D6    -> 2
-// LPUART6 on D8/D9    -> 3
-// LPUART8 on A1/A0    -> 4
+// SDRAM config
+#define MICROPY_HW_SDRAM_TIMING_TRC         (60)
+#define MICROPY_HW_SDRAM_TIMING_TRP         (18)
+#define MICROPY_HW_SDRAM_TIMING_TRCD        (18)
+#define MICROPY_HW_SDRAM_TIMING_TWR         (12)
+#define MICROPY_HW_SDRAM_TIMING_TRRD        (60)
+#define MICROPY_HW_SDRAM_TIMING_TXSR        (67)
+#define MICROPY_HW_SDRAM_TIMING_TRAS        (42)
+#define MICROPY_HW_SDRAM_TIMING_TREF        (64 * 1000000 / 8192) // 64ms/8192
+
+#define MICROPY_HW_SDRAM_CAS_LATENCY        (kSEMC_LatencyThree)
+#define MICROPY_HW_SDRAM_MEM_BUS_WIDTH      (kSEMC_PortSize16Bit)
+#define MICROPY_HW_SDRAM_COLUMN_BITS_NUM    (kSEMC_SdramColunm_9bit)
+#define MICROPY_HW_SDRAM_BURST_LENGTH       (kSEMC_Sdram_BurstLen8)
+#define MICROPY_HW_SDRAM_RBURST_LENGTH      (1)
+
+// Define the mapping hardware UART # to logical UART #
+// Bus      HW-UART      Logical UART
+// BLE      LPUART3 ->   0
+// External LPUART1 ->   1
 
 #define MICROPY_HW_UART_NUM     (sizeof(uart_index_table) / sizeof(uart_index_table)[0])
-#define MICROPY_HW_UART_INDEX   { 1, 3, 2, 6, 8 }
+#define MICROPY_HW_UART_INDEX   { 3, 1 }
 
 #define IOMUX_TABLE_UART \
     { IOMUXC_GPIO_AD_B0_12_LPUART1_TX }, { IOMUXC_GPIO_AD_B0_13_LPUART1_RX }, \
-    { IOMUXC_GPIO_AD_B1_02_LPUART2_TX }, { IOMUXC_GPIO_AD_B1_03_LPUART2_RX }, \
+    { 0 }, { 0 }, \
     { IOMUXC_GPIO_B0_08_LPUART3_TX }, { IOMUXC_GPIO_B0_09_LPUART3_RX }, \
     { 0 }, { 0 }, \
     { 0 }, { 0 }, \
-    { IOMUXC_GPIO_AD_B0_02_LPUART6_TX }, { IOMUXC_GPIO_AD_B0_03_LPUART6_RX }, \
     { 0 }, { 0 }, \
-    { IOMUXC_GPIO_AD_B1_10_LPUART8_TX }, { IOMUXC_GPIO_AD_B1_11_LPUART8_RX },
+    { 0 }, { 0 }, \
+    { 0 }, { 0 },
 
-#define MICROPY_HW_SPI_INDEX { 1 }
+#define IOMUX_TABLE_UART_CTS_RTS \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 }, \
+    { IOMUXC_GPIO_AD_B1_04_LPUART3_CTS_B }, { IOMUXC_GPIO_AD_B1_05_LPUART3_RTS_B }, \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 },
+
+// Define the mapping hardware SPI # to logical SPI #
+// Bus      HW-SPI       Logical SPI
+// Camera   LPSPI4 ->    0
+// External LPSPI3 ->    1
+
+#define MICROPY_HW_SPI_INDEX { 4, 3 }
 
 #define IOMUX_TABLE_SPI \
-    { IOMUXC_GPIO_SD_B0_00_LPSPI1_SCK }, { IOMUXC_GPIO_SD_B0_01_LPSPI1_PCS0 }, \
-    { IOMUXC_GPIO_SD_B0_02_LPSPI1_SDO }, { IOMUXC_GPIO_SD_B0_03_LPSPI1_SDI }, \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 }, \
+    { 0 }, \
+    { 0 }, { 0 }, \
+    { 0 }, { 0 }, \
+    { 0 }, \
+    { IOMUXC_GPIO_AD_B0_00_LPSPI3_SCK }, { IOMUXC_GPIO_AD_B0_03_LPSPI3_PCS0 }, \
+    { IOMUXC_GPIO_AD_B0_01_LPSPI3_SDO }, { IOMUXC_GPIO_AD_B0_02_LPSPI3_SDI }, \
+    { 0 }, \
+    { IOMUXC_GPIO_B0_03_LPSPI4_SCK }, { IOMUXC_GPIO_B0_00_LPSPI4_PCS0 }, \
+    { IOMUXC_GPIO_B0_02_LPSPI4_SDO }, { IOMUXC_GPIO_B0_01_LPSPI4_SDI }, \
     { 0 },
 
 #define DMA_REQ_SRC_RX { 0, kDmaRequestMuxLPSPI1Rx, kDmaRequestMuxLPSPI2Rx, \
@@ -91,47 +140,29 @@ extern void mimxrt_hal_bootloader(void);
                          kDmaRequestMuxLPSPI3Tx, kDmaRequestMuxLPSPI4Tx }
 
 // Define the mapping hardware I2C # to logical I2C #
-// SDA/SCL  HW-I2C    Logical I2C
-// D14/D15  LPI2C1 ->    0
-// D1/D0    LPI2C3 ->    1
+// Bus      HW-I2C       Logical I2C
+// Camera   LPI2C1 ->    0
+// External LPI2C4 ->    1
+// Internal LPI2C2 ->    2
 
-#define MICROPY_HW_I2C_INDEX   { 1, 3 }
+#define MICROPY_HW_I2C_INDEX   { 1, 4, 2 }
 
 #define IOMUX_TABLE_I2C \
     { IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL }, { IOMUXC_GPIO_AD_B1_01_LPI2C1_SDA }, \
+    { IOMUXC_GPIO_B0_04_LPI2C2_SCL }, { IOMUXC_GPIO_B0_05_LPI2C2_SDA }, \
     { 0 }, { 0 }, \
-    { IOMUXC_GPIO_AD_B1_07_LPI2C3_SCL }, { IOMUXC_GPIO_AD_B1_06_LPI2C3_SDA },
+    { IOMUXC_GPIO_AD_B0_12_LPI2C4_SCL }, { IOMUXC_GPIO_AD_B0_13_LPI2C4_SDA },
 
-#define MICROPY_PY_MACHINE_I2S (1)
-#define MICROPY_HW_I2S_NUM (1)
-#define I2S_CLOCK_MUX { 0, kCLOCK_Sai1Mux, kCLOCK_Sai2Mux }
-#define I2S_CLOCK_PRE_DIV { 0, kCLOCK_Sai1PreDiv, kCLOCK_Sai2PreDiv }
-#define I2S_CLOCK_DIV { 0, kCLOCK_Sai1Div, kCLOCK_Sai2Div }
-#define I2S_IOMUXC_GPR_MODE { 0, kIOMUXC_GPR_SAI1MClkOutputDir, kIOMUXC_GPR_SAI2MClkOutputDir }
-#define I2S_DMA_REQ_SRC_RX { 0, kDmaRequestMuxSai1Rx, kDmaRequestMuxSai2Rx }
-#define I2S_DMA_REQ_SRC_TX { 0, kDmaRequestMuxSai1Tx, kDmaRequestMuxSai2Tx }
-#define I2S_WM8960_RX_MODE  (1)
-#define I2S_AUDIO_PLL_CLOCK (2U)
+// Define the mapping hardware CAN # to logical CAN #
+// Bus      HW-CAN       Logical CAN
+// External FLEXCAN2 ->  0
 
-#define I2S_GPIO(_hwid, _fn, _mode, _pin, _iomux) \
-    { \
-        .hw_id = _hwid, \
-        .fn = _fn, \
-        .mode = _mode, \
-        .name = MP_QSTR_##_pin, \
-        .iomux = {_iomux}, \
-    }
+#define MICROPY_HW_CAN_INDEX { 2 }
+#define MICROPY_HW_NUM_CAN_IRQS (1)
 
-#define I2S_GPIO_MAP \
-    { \
-        I2S_GPIO(1, MCK, TX, GPIO_AD_B1_09, IOMUXC_GPIO_AD_B1_09_SAI1_MCLK), \
-        I2S_GPIO(1, SCK, RX, GPIO_AD_B1_11, IOMUXC_GPIO_AD_B1_11_SAI1_RX_BCLK), \
-        I2S_GPIO(1, WS, RX, GPIO_AD_B1_10, IOMUXC_GPIO_AD_B1_10_SAI1_RX_SYNC), \
-        I2S_GPIO(1, SD, RX, GPIO_AD_B1_12, IOMUXC_GPIO_AD_B1_12_SAI1_RX_DATA00),  \
-        I2S_GPIO(1, SCK, TX, GPIO_AD_B1_14, IOMUXC_GPIO_AD_B1_14_SAI1_TX_BCLK), \
-        I2S_GPIO(1, WS, TX, GPIO_AD_B1_15, IOMUXC_GPIO_AD_B1_15_SAI1_TX_SYNC),  \
-        I2S_GPIO(1, SD, TX, GPIO_AD_B1_13, IOMUXC_GPIO_AD_B1_13_SAI1_TX_DATA00), \
-    }
+#define IOMUX_TABLE_CAN \
+    { 0 }, { 0 }, \
+    { IOMUXC_GPIO_AD_B0_02_FLEXCAN2_TX }, { IOMUXC_GPIO_AD_B0_03_FLEXCAN2_RX },
 
 #define USDHC_DUMMY_PIN NULL, 0
 #define MICROPY_USDHC1 \
@@ -192,12 +223,12 @@ extern void mimxrt_hal_bootloader(void);
 
 // Network definitions
 // Transceiver Phy Address
-#define ENET_PHY_ADDRESS    (2)
+#define ENET_PHY_ADDRESS    (0)
 #define ENET_PHY_OPS        phyksz8081_ops
 
 // Etherner PIN definitions
-#define ENET_RESET_PIN      &pin_GPIO_AD_B0_09
-#define ENET_INT_PIN        &pin_GPIO_AD_B0_10
+#define ENET_RESET_PIN      &pin_GPIO_B0_13
+#define ENET_INT_PIN        &pin_GPIO_B0_12
 
 #define IOMUX_TABLE_ENET \
     { IOMUXC_GPIO_B1_04_ENET_RX_DATA00, 0, 0xB0E9u }, \

@@ -544,8 +544,6 @@ STATIC void set_random_address(void) {
 
         DEBUG_printf("set_random_address: Generating static address using mp_hal_get_mac\n");
         mp_hal_get_mac(MP_HAL_MAC_BDADDR, static_addr);
-        // Mark it as STATIC (not RPA or NRPA).
-        static_addr[0] |= 0xc0;
 
         #else
 
@@ -554,10 +552,12 @@ STATIC void set_random_address(void) {
         volatile bool ready = false;
         btstack_crypto_random_generate(&sm_crypto_random_request, static_addr, 6, &btstack_static_address_ready, (void *)&ready);
         while (!ready) {
-            MICROPY_EVENT_POLL_HOOK
+            mp_event_wait_indefinite();
         }
 
         #endif // MICROPY_BLUETOOTH_USE_MP_HAL_GET_MAC_STATIC_ADDRESS
+        // Mark it as STATIC (not RPA or NRPA).
+        static_addr[0] |= 0xc0;
 
         DEBUG_printf("set_random_address: Address generated.\n");
         gap_random_address_set(static_addr);
@@ -574,7 +574,7 @@ STATIC void set_random_address(void) {
             break;
         }
 
-        MICROPY_EVENT_POLL_HOOK
+        mp_event_wait_indefinite();
     }
     DEBUG_printf("set_random_address: Address loaded by controller\n");
 }
@@ -654,7 +654,7 @@ int mp_bluetooth_init(void) {
     // Either the HCI event will set state to ACTIVE, or the timeout will set it to TIMEOUT.
     mp_bluetooth_btstack_port_start();
     while (mp_bluetooth_btstack_state == MP_BLUETOOTH_BTSTACK_STATE_STARTING) {
-        MICROPY_EVENT_POLL_HOOK
+        mp_event_wait_indefinite();
     }
     btstack_run_loop_remove_timer(&btstack_init_deinit_timeout);
 
@@ -727,7 +727,7 @@ void mp_bluetooth_deinit(void) {
     // either timeout or clean shutdown.
     mp_bluetooth_btstack_port_deinit();
     while (mp_bluetooth_btstack_state == MP_BLUETOOTH_BTSTACK_STATE_ACTIVE) {
-        MICROPY_EVENT_POLL_HOOK
+        mp_event_wait_indefinite();
     }
     btstack_run_loop_remove_timer(&btstack_init_deinit_timeout);
 
@@ -883,7 +883,7 @@ int mp_bluetooth_gatts_register_service_begin(bool append) {
 
     if (!append) {
         // This will reset the DB.
-        // Becase the DB is statically allocated, there's no problem with just re-initing it.
+        // Because the DB is statically allocated, there's no problem with just re-initing it.
         // Note this would be a memory leak if we enabled HAVE_MALLOC (there's no API to free the existing db).
         att_db_util_init();
 

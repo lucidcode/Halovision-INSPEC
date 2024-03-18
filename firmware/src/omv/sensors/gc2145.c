@@ -9,7 +9,7 @@
  * GC2145 driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_GC2145 == 1)
+#if (OMV_GC2145_ENABLE == 1)
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -41,6 +41,8 @@ static int16_t readout_y = 0;
 
 static uint16_t readout_w = ACTIVE_SENSOR_WIDTH;
 static uint16_t readout_h = ACTIVE_SENSOR_HEIGHT;
+
+static bool fov_wide = false;
 
 // SLAVE ADDR 0x78
 static const uint8_t default_regs[][2] = {
@@ -726,7 +728,9 @@ static int reset(sensor_t *sensor) {
     readout_w = ACTIVE_SENSOR_WIDTH;
     readout_h = ACTIVE_SENSOR_HEIGHT;
 
-    // Write default regsiters
+    fov_wide = false;
+
+    // Write default registers
     for (int i = 0; default_regs[i][0]; i++) {
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, default_regs[i][0], default_regs[i][1]);
     }
@@ -839,15 +843,15 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize) {
 
     int readout_x_max = (ACTIVE_SENSOR_WIDTH - readout_w) / 2;
     int readout_y_max = (ACTIVE_SENSOR_HEIGHT - readout_h) / 2;
-    readout_x = IM_MAX(IM_MIN(readout_x, readout_x_max), -readout_x_max);
-    readout_y = IM_MAX(IM_MIN(readout_y, readout_y_max), -readout_y_max);
+    readout_x = IM_CLAMP(readout_x, -readout_x_max, readout_x_max);
+    readout_y = IM_CLAMP(readout_y, -readout_y_max, readout_y_max);
 
     // Step 1: Determine sub-readout window.
 
     uint16_t ratio = fast_floorf(IM_MIN(readout_w / ((float) w), readout_h / ((float) h)));
 
     // Limit the maximum amount of scaling allowed to keep the frame rate up.
-    ratio = IM_MIN(ratio, 3);
+    ratio = IM_MIN(ratio, (fov_wide ? 5 : 3));
 
     if (!(ratio % 2)) {
         // camera outputs messed up bayer images at even ratios for some reason...
@@ -862,11 +866,11 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize) {
     uint16_t sensor_w = sub_readout_w + DUMMY_WIDTH_BUFFER; // camera hardware needs dummy pixels to sync
     uint16_t sensor_h = sub_readout_h + DUMMY_HEIGHT_BUFFER; // camera hardware needs dummy lines to sync
 
-    uint16_t sensor_x = IM_MAX(IM_MIN((((ACTIVE_SENSOR_WIDTH - sensor_w) / 4) - (readout_x / 2)) * 2,
-                                      ACTIVE_SENSOR_WIDTH - sensor_w), -(DUMMY_WIDTH_BUFFER / 2)) + DUMMY_COLUMNS; // must be multiple of 2
+    uint16_t sensor_x = IM_CLAMP((((ACTIVE_SENSOR_WIDTH - sensor_w) / 4) - (readout_x / 2)) * 2,
+                                 -(DUMMY_WIDTH_BUFFER / 2), ACTIVE_SENSOR_WIDTH - sensor_w) + DUMMY_COLUMNS; // must be multiple of 2
 
-    uint16_t sensor_y = IM_MAX(IM_MIN((((ACTIVE_SENSOR_HEIGHT - sensor_h) / 4) - (readout_y / 2)) * 2,
-                                      ACTIVE_SENSOR_HEIGHT - sensor_h), -(DUMMY_HEIGHT_BUFFER / 2)) + DUMMY_LINES; // must be multiple of 2
+    uint16_t sensor_y = IM_CLAMP((((ACTIVE_SENSOR_HEIGHT - sensor_h) / 4) - (readout_y / 2)) * 2,
+                                 -(DUMMY_HEIGHT_BUFFER / 2), ACTIVE_SENSOR_HEIGHT - sensor_h) + DUMMY_LINES; // must be multiple of 2
 
     // Step 3: Write regs.
 
@@ -889,6 +893,9 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize) {
 static int set_hmirror(sensor_t *sensor, int enable) {
     int ret = 0;
     uint8_t reg;
+    #if (OMV_GC2145_ROTATE == 1)
+    enable = !enable;
+    #endif
 
     // P0 regs
     ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, 0xFE, 0x00);
@@ -900,6 +907,9 @@ static int set_hmirror(sensor_t *sensor, int enable) {
 static int set_vflip(sensor_t *sensor, int enable) {
     int ret = 0;
     uint8_t reg;
+    #if (OMV_GC2145_ROTATE == 1)
+    enable = !enable;
+    #endif
 
     // P0 regs
     ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, 0xFE, 0x00);
@@ -933,14 +943,12 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
         case IOCTL_SET_READOUT_WINDOW: {
             int tmp_readout_x = va_arg(ap, int);
             int tmp_readout_y = va_arg(ap, int);
-            int tmp_readout_w = IM_MAX(IM_MIN(va_arg(ap, int), ACTIVE_SENSOR_WIDTH),
-                                       resolution[sensor->framesize][0]);
-            int tmp_readout_h = IM_MAX(IM_MIN(va_arg(ap, int), ACTIVE_SENSOR_HEIGHT),
-                                       resolution[sensor->framesize][1]);
+            int tmp_readout_w = IM_CLAMP(va_arg(ap, int), resolution[sensor->framesize][0], ACTIVE_SENSOR_WIDTH);
+            int tmp_readout_h = IM_CLAMP(va_arg(ap, int), resolution[sensor->framesize][1], ACTIVE_SENSOR_HEIGHT);
             int readout_x_max = (ACTIVE_SENSOR_WIDTH - tmp_readout_w) / 2;
             int readout_y_max = (ACTIVE_SENSOR_HEIGHT - tmp_readout_h) / 2;
-            tmp_readout_x = IM_MAX(IM_MIN(tmp_readout_x, readout_x_max), -readout_x_max);
-            tmp_readout_y = IM_MAX(IM_MIN(tmp_readout_y, readout_y_max), -readout_y_max);
+            tmp_readout_x = IM_CLAMP(tmp_readout_x, -readout_x_max, readout_x_max);
+            tmp_readout_y = IM_CLAMP(tmp_readout_y, -readout_y_max, readout_y_max);
             bool changed = (tmp_readout_x != readout_x) || (tmp_readout_y != readout_y) ||
                            (tmp_readout_w != readout_w) || (tmp_readout_h != readout_h);
             readout_x = tmp_readout_x;
@@ -957,6 +965,14 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
             *va_arg(ap, int *) = readout_y;
             *va_arg(ap, int *) = readout_w;
             *va_arg(ap, int *) = readout_h;
+            break;
+        }
+        case IOCTL_SET_FOV_WIDE: {
+            fov_wide = va_arg(ap, int);
+            break;
+        }
+        case IOCTL_GET_FOV_WIDE: {
+            *va_arg(ap, int *) = fov_wide;
             break;
         }
         default: {
@@ -994,4 +1010,4 @@ int gc2145_init(sensor_t *sensor) {
 
     return 0;
 }
-#endif // (OMV_ENABLE_GC2145 == 1)
+#endif // (OMV_GC2145_ENABLE == 1)

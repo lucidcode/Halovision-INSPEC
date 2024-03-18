@@ -39,7 +39,7 @@ extern "C" {
  *
  * \note All entropy sources are hashed before application to the PRNG state machine.
  *
- * \note The \em first time a random number is requested, the 128-bit PRNG state
+ * The \em first time a random number is requested, the 128-bit PRNG state
  * must be seeded. Multiple entropy sources are also available for the seeding operation:
  *
  *  - The Ring Oscillator (ROSC) (\ref PICO_RAND_SEED_ENTROPY_SRC_ROSC == 1):
@@ -138,7 +138,7 @@ extern "C" {
 #ifndef PICO_RAND_RAM_HASH_END
 #define PICO_RAND_RAM_HASH_END     SRAM_END
 #endif
-// PICO_CONFIG: PICO_RAND_RAM_HASH_START, start of address in RAM (inclusive) to hash during pico_rand seed initialization, default=PICO_RAND_RAM_HASH_END-1024, group=pico_rand
+// PICO_CONFIG: PICO_RAND_RAM_HASH_START, start of address in RAM (inclusive) to hash during pico_rand seed initialization, default=PICO_RAND_RAM_HASH_END - 1024, group=pico_rand
 #ifndef PICO_RAND_RAM_HASH_START
 #define PICO_RAND_RAM_HASH_START   (PICO_RAND_RAM_HASH_END - 1024u)
 #endif

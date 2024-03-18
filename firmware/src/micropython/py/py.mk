@@ -185,7 +185,7 @@ PY_CORE_O_BASENAME = $(addprefix py/,\
 	modmicropython.o \
 	modstruct.o \
 	modsys.o \
-	moduerrno.o \
+	moderrno.o \
 	modthread.o \
 	vm.o \
 	bc.o \
@@ -193,7 +193,6 @@ PY_CORE_O_BASENAME = $(addprefix py/,\
 	repl.o \
 	smallint.o \
 	frozenmod.o \
-	omvdummy.o \
 	)
 
 # prepend the build destination prefix to the py object files

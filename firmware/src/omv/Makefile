@@ -17,16 +17,17 @@ SRCS += $(addprefix alloc/,     \
 
 SRCS += $(addprefix common/,    \
 	array.c                     \
-	ff_wrapper.c                \
 	ini.c                       \
 	ringbuf.c                   \
 	trace.c                     \
 	mutex.c                     \
+	vospi.c                     \
+	pendsv.c                    \
 	usbdbg.c                    \
 	tinyusb_debug.c             \
+	file_utils.c                \
+	boot_utils.c                \
 	sensor_utils.c              \
-	factoryreset.c              \
-	vospi.c                     \
    )
 
 SRCS += $(addprefix sensors/,   \
@@ -75,7 +76,7 @@ SRCS += $(addprefix imlib/,     \
 	integral_mw.c               \
 	isp.c                       \
 	jpegd.c                     \
-	jpeg.c                      \
+	jpege.c                     \
 	lodepng.c                   \
 	png.c                       \
 	kmeans.c                    \
@@ -120,5 +121,7 @@ $(BUILD)/%.o : %.c
 $(BUILD)/%.o : %.s
 	$(ECHO) "AS $<"
 	$(AS) $(AFLAGS) $< -o $@
+
+$(BUILD)/imlib/fmath.o: override CFLAGS += -fno-strict-aliasing
 
 -include $(OBJS:%.o=%.d)

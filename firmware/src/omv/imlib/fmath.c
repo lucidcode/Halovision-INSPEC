@@ -9,11 +9,6 @@
  * Fast approximate math functions.
  */
 #include "fmath.h"
-#include "omv_common.h"
-
-#define M_PI      3.14159265f
-#define M_PI_2    1.57079632f
-#define M_PI_4    0.78539816f
 
 const float __atanf_lut[4] = {
     -0.0443265554792128f,    //p7
@@ -22,75 +17,6 @@ const float __atanf_lut[4] = {
     +0.9997878412794807f     //p1
 };
 
-#if (__ARM_ARCH < 7)
-#include <math.h>
-float OMV_ATTR_ALWAYS_INLINE fast_sqrtf(float x) {
-    return sqrtf(x);
-}
-
-int OMV_ATTR_ALWAYS_INLINE fast_floorf(float x) {
-    return floorf(x);
-}
-
-int OMV_ATTR_ALWAYS_INLINE fast_ceilf(float x) {
-    return ceilf(x);
-}
-
-int OMV_ATTR_ALWAYS_INLINE fast_roundf(float x) {
-    return roundf(x);
-}
-
-float OMV_ATTR_ALWAYS_INLINE fast_fabsf(float x) {
-    return fabsf(x);
-}
-#else
-float OMV_ATTR_ALWAYS_INLINE fast_sqrtf(float x) {
-    asm volatile (
-        "vsqrt.f32  %[r], %[x]\n"
-        : [r] "=t" (x)
-        : [x] "t"  (x));
-    return x;
-}
-
-int OMV_ATTR_ALWAYS_INLINE fast_floorf(float x) {
-    int i;
-    asm volatile (
-        "vcvtm.S32.f32  %[r], %[x]\n"
-        : [r] "=t" (i)
-        : [x] "t"  (x));
-    return i;
-}
-
-int OMV_ATTR_ALWAYS_INLINE fast_ceilf(float x) {
-    int i;
-    asm volatile (
-        "vcvtp.S32.f32  %[r], %[x]\n"
-        : [r] "=t" (i)
-        : [x] "t"  (x));
-    return i;
-}
-
-int OMV_ATTR_ALWAYS_INLINE fast_roundf(float x) {
-    int i;
-    asm volatile (
-        "vcvtr.S32.F32  %[r], %[x]\n"
-        : [r] "=t" (i)
-        : [x] "t"  (x));
-    return i;
-}
-
-float OMV_ATTR_ALWAYS_INLINE fast_fabsf(float x) {
-    asm volatile (
-        "vabs.f32  %[r], %[x]\n"
-        : [r] "=t" (x)
-        : [x] "t"  (x));
-    return x;
-}
-
-#endif
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 typedef union {
     uint32_t l;
     struct {
@@ -109,7 +35,6 @@ float fast_expf(float x) {
     uint32_t packed = (e.s << 31) | (e.e << 23) | e.m << 3;
     return *((float *) &packed);
 }
-#pragma GCC diagnostic pop
 
 /*
  * From Hackers Delight:

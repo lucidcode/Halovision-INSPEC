@@ -58,6 +58,25 @@
  */
 
 /*!
+ * \name CYW43 driver version as components
+ * \brief Current version of the CYW43 driver as major/minor/micro components
+ * \anchor CYW43_VERSION_
+ */
+//!\{
+#define CYW43_VERSION_MAJOR 0
+#define CYW43_VERSION_MINOR 9
+#define CYW43_VERSION_MICRO 0
+//!\}
+
+/*!
+ * \name CYW43 driver version
+ * \brief Combined CYW43 driver version as a 32-bit number
+ */
+//!\{
+#define CYW43_VERSION (CYW43_VERSION_MAJOR << 16 | CYW43_VERSION_MINOR << 8 | CYW43_VERSION_MICRO)
+//!\}
+
+/*!
  * \name Trace flags
  * \anchor CYW43_TRACE_
  */
@@ -115,7 +134,7 @@ typedef struct _cyw43_t {
     #if CYW43_LWIP
     // lwIP data
     struct netif netif[2];
-    #if LWIP_IPV4
+    #if LWIP_IPV4 && LWIP_DHCP
     struct dhcp dhcp_client;
     #endif
     #endif
@@ -161,7 +180,7 @@ void cyw43_deinit(cyw43_t *self);
  *
  * \param self the driver state object. This should always be \c &cyw43_state
  * \param cmd the command to send
- * \param len the amount of data to send with the commannd
+ * \param len the amount of data to send with the command
  * \param buf a buffer containing the data to send
  * \param iface the interface to use, either CYW43_ITF_STA or CYW43_ITF_AP
  * \return 0 on success
@@ -212,6 +231,7 @@ int cyw43_wifi_pm(cyw43_t *self, uint32_t pm);
  * \see cyw43_pm_value for an explanation of these values
  * This should be called after cyw43_wifi_set_up
  *
+ * \param self the driver state object. This should always be \c &cyw43_state
  * \param pm Power management value
  * \return 0 on success
  */
@@ -315,7 +335,7 @@ static inline bool cyw43_wifi_scan_active(cyw43_t *self) {
  * After success is returned, periodically call \ref cyw43_wifi_link_status or \ref cyw43_tcpip_link_status,
  * to query the status of the link. It can take a many seconds to connect to fully join a network.
  *
- * \note Call \ref cyw43_wifi_leave to dissassociate from a wifi network.
+ * \note Call \ref cyw43_wifi_leave to disassociate from a wifi network.
  *
  * \param self the driver state object. This should always be \c &cyw43_state
  * \param ssid_len the length of the wifi network name
@@ -330,9 +350,9 @@ static inline bool cyw43_wifi_scan_active(cyw43_t *self) {
 int cyw43_wifi_join(cyw43_t *self, size_t ssid_len, const uint8_t *ssid, size_t key_len, const uint8_t *key, uint32_t auth_type, const uint8_t *bssid, uint32_t channel);
 
 /*!
- * \brief Dissassociate from a wifi network
+ * \brief Disassociate from a wifi network
  *
- * This method dissassociates from a wifi network.
+ * This method disassociates from a wifi network.
  *
  * \param self the driver state object. This should always be \c &cyw43_state
  * \param itf The interface to disconnect, either CYW43_ITF_STA or CYW43_ITF_AP
@@ -396,7 +416,7 @@ static inline uint32_t cyw43_wifi_ap_get_auth(cyw43_t *self) {
  * \param channel Wifi channel to use for the wifi access point
  */
 static inline void cyw43_wifi_ap_set_channel(cyw43_t *self, uint32_t channel) {
-    self->ap_channel = (uint8_t) channel;
+    self->ap_channel = (uint8_t)channel;
 }
 
 /*!
@@ -409,7 +429,7 @@ static inline void cyw43_wifi_ap_set_channel(cyw43_t *self, uint32_t channel) {
  * \param buf A buffer containing the AP SSID name
  */
 static inline void cyw43_wifi_ap_set_ssid(cyw43_t *self, size_t len, const uint8_t *buf) {
-    self->ap_ssid_len = (uint8_t) MIN(len, sizeof(self->ap_ssid));
+    self->ap_ssid_len = (uint8_t)MIN(len, sizeof(self->ap_ssid));
     memcpy(self->ap_ssid, buf, self->ap_ssid_len);
 }
 
@@ -423,7 +443,7 @@ static inline void cyw43_wifi_ap_set_ssid(cyw43_t *self, size_t len, const uint8
  * \param buf A buffer containing the AP password
  */
 static inline void cyw43_wifi_ap_set_password(cyw43_t *self, size_t len, const uint8_t *buf) {
-    self->ap_key_len = (uint8_t) MIN(len, sizeof(self->ap_key));
+    self->ap_key_len = (uint8_t)MIN(len, sizeof(self->ap_key));
     memcpy(self->ap_key, buf, self->ap_key_len);
 }
 
@@ -601,11 +621,11 @@ int cyw43_gpio_get(cyw43_t *self, int gpio, bool *val);
  * \param li_assoc Wake interval sent to the access point
  */
 static inline uint32_t cyw43_pm_value(uint8_t pm_mode, uint16_t pm2_sleep_ret_ms, uint8_t li_beacon_period, uint8_t li_dtim_period, uint8_t li_assoc) {
-    return li_assoc << 20 | // listen interval sent to ap
-        li_dtim_period << 16 |
-        li_beacon_period << 12 |
-        (pm2_sleep_ret_ms / 10) << 4 | // cyw43_ll_wifi_pm multiplies this by 10
-        pm_mode; // CYW43_PM2_POWERSAVE_MODE etc
+    return li_assoc << 20 // listen interval sent to ap
+           | li_dtim_period << 16
+           | li_beacon_period << 12
+           | (pm2_sleep_ret_ms / 10) << 4 // cyw43_ll_wifi_pm multiplies this by 10
+           | pm_mode; // CYW43_PM2_POWERSAVE_MODE etc
 }
 
 /*!
@@ -614,7 +634,7 @@ static inline uint32_t cyw43_pm_value(uint8_t pm_mode, uint16_t pm2_sleep_ret_ms
 #define CYW43_DEFAULT_PM cyw43_pm_value(CYW43_PM2_POWERSAVE_MODE, 200, 1, 1, 10)
 
 /*!
- * \brief Aggressive power management mode for optimial power usage at the cost of performance
+ * \brief Aggressive power management mode for optimal power usage at the cost of performance
  */
 #define CYW43_AGGRESSIVE_PM cyw43_pm_value(CYW43_PM2_POWERSAVE_MODE, 2000, 1, 1, 10)
 

@@ -3,7 +3,8 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2018-2021 Damien P. George
+ * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,16 +31,18 @@
 #include "extmod/modbluetooth.h"
 #include "extmod/mpbthci.h"
 #include "shared/runtime/softtimer.h"
+#include "extmod/modmachine.h"
 #include "modmachine.h"
 #include "mpbthciport.h"
 
-#include "fsl_lpuart.h"
-#include CLOCK_CONFIG_H
-
 #if MICROPY_PY_BLUETOOTH
 
-#define debug_printf(...) // mp_printf(&mp_plat_print, "mpbthciport.c: " __VA_ARGS__)
-#define error_printf(...) mp_printf(&mp_plat_print, "mpbthciport.c: " __VA_ARGS__)
+#ifndef MICROPY_HW_BLE_UART_FLOW_CONTROL
+#define MICROPY_HW_BLE_UART_FLOW_CONTROL (3)
+#endif
+
+#define DEBUG_printf(...) // mp_printf(&mp_plat_print, "mpbthciport.c: " __VA_ARGS__)
+#define ERROR_printf(...) mp_printf(&mp_plat_print, "mpbthciport.c: " __VA_ARGS__)
 
 uint8_t mp_bluetooth_hci_cmd_buf[4 + 256];
 
@@ -82,18 +85,19 @@ void mp_bluetooth_hci_poll_now(void) {
 mp_obj_t mp_bthci_uart;
 
 int mp_bluetooth_hci_uart_init(uint32_t port, uint32_t baudrate) {
-    debug_printf("mp_bluetooth_hci_uart_init\n");
+    DEBUG_printf("mp_bluetooth_hci_uart_init\n");
 
     mp_obj_t args[] = {
         MP_OBJ_NEW_SMALL_INT(port),
         MP_OBJ_NEW_QSTR(MP_QSTR_baudrate), MP_OBJ_NEW_SMALL_INT(baudrate),
+        MP_OBJ_NEW_QSTR(MP_QSTR_flow), MP_OBJ_NEW_SMALL_INT(MICROPY_HW_BLE_UART_FLOW_CONTROL),
         MP_OBJ_NEW_QSTR(MP_QSTR_timeout), MP_OBJ_NEW_SMALL_INT(200),
         MP_OBJ_NEW_QSTR(MP_QSTR_timeout_char), MP_OBJ_NEW_SMALL_INT(200),
         MP_OBJ_NEW_QSTR(MP_QSTR_txbuf), MP_OBJ_NEW_SMALL_INT(768),
         MP_OBJ_NEW_QSTR(MP_QSTR_rxbuf), MP_OBJ_NEW_SMALL_INT(768),
     };
 
-    mp_bthci_uart = MP_OBJ_TYPE_GET_SLOT(&machine_uart_type, make_new)((mp_obj_t)&machine_uart_type, 1, 5, args);
+    mp_bthci_uart = MP_OBJ_TYPE_GET_SLOT(&machine_uart_type, make_new)((mp_obj_t)&machine_uart_type, 1, 6, args);
     MP_STATE_PORT(mp_bthci_uart) = mp_bthci_uart;
 
     // Start the HCI polling to process any initial events/packets.
@@ -102,17 +106,15 @@ int mp_bluetooth_hci_uart_init(uint32_t port, uint32_t baudrate) {
 }
 
 int mp_bluetooth_hci_uart_deinit(void) {
-    debug_printf("mp_bluetooth_hci_uart_deinit\n");
+    DEBUG_printf("mp_bluetooth_hci_uart_deinit\n");
     mp_bthci_uart = MP_OBJ_NULL;
     return 0;
 }
 
 int mp_bluetooth_hci_uart_set_baudrate(uint32_t baudrate) {
-    debug_printf("mp_bluetooth_hci_uart_set_baudrate(%lu)\n", baudrate);
+    DEBUG_printf("mp_bluetooth_hci_uart_set_baudrate(%lu)\n", baudrate);
     if (mp_bthci_uart != MP_OBJ_NULL) {
-        // This struct is not public, so we use the base defined in board config files.
-        // machine_uart_obj_t uart = (machine_uart_obj_t *) MP_PTR_FROM_OBJ(mp_bthci_uart);
-        LPUART_SetBaudRate(MICROPY_HW_BLE_UART_BASE, baudrate, BOARD_BOOTCLOCKRUN_UART_CLK_ROOT);
+        machine_uart_set_baudrate(mp_bthci_uart, baudrate);
     }
     return 0;
 }
@@ -123,14 +125,14 @@ int mp_bluetooth_hci_uart_any(void) {
 
     mp_uint_t ret = proto->ioctl(mp_bthci_uart, MP_STREAM_POLL, MP_STREAM_POLL_RD, &errcode);
     if (errcode != 0) {
-        error_printf("Uart ioctl failed to poll UART %d\n", errcode);
+        ERROR_printf("Uart ioctl failed to poll UART %d\n", errcode);
         return -1;
     }
     return ret & MP_STREAM_POLL_RD;
 }
 
 int mp_bluetooth_hci_uart_write(const uint8_t *buf, size_t len) {
-    debug_printf("mp_bluetooth_hci_uart_write\n");
+    DEBUG_printf("mp_bluetooth_hci_uart_write\n");
 
     int errcode = 0;
     const mp_stream_p_t *proto = (mp_stream_p_t *)MP_OBJ_TYPE_GET_SLOT(&machine_uart_type, protocol);
@@ -138,7 +140,7 @@ int mp_bluetooth_hci_uart_write(const uint8_t *buf, size_t len) {
     mp_bluetooth_hci_controller_wakeup();
 
     if (proto->write(mp_bthci_uart, (void *)buf, len, &errcode) < 0) {
-        error_printf("mp_bluetooth_hci_uart_write: failed to write to UART %d\n", errcode);
+        ERROR_printf("mp_bluetooth_hci_uart_write: failed to write to UART %d\n", errcode);
     }
     return 0;
 }
@@ -146,18 +148,18 @@ int mp_bluetooth_hci_uart_write(const uint8_t *buf, size_t len) {
 // This function expects the controller to be in the wake state via a previous call
 // to mp_bluetooth_hci_controller_woken.
 int mp_bluetooth_hci_uart_readchar(void) {
-    debug_printf("mp_bluetooth_hci_uart_readchar\n");
+    DEBUG_printf("mp_bluetooth_hci_uart_readchar\n");
     if (mp_bluetooth_hci_uart_any()) {
         int errcode = 0;
         uint8_t buf = 0;
         const mp_stream_p_t *proto = (mp_stream_p_t *)MP_OBJ_TYPE_GET_SLOT(&machine_uart_type, protocol);
         if (proto->read(mp_bthci_uart, (void *)&buf, 1, &errcode) < 0) {
-            error_printf("mp_bluetooth_hci_uart_readchar: failed to read UART %d\n", errcode);
+            ERROR_printf("mp_bluetooth_hci_uart_readchar: failed to read UART %d\n", errcode);
             return -1;
         }
         return buf;
     } else {
-        debug_printf("mp_bluetooth_hci_uart_readchar: not ready\n");
+        DEBUG_printf("mp_bluetooth_hci_uart_readchar: not ready\n");
         return -1;
     }
 }
@@ -166,27 +168,27 @@ int mp_bluetooth_hci_uart_readchar(void) {
 // A driver (e.g. cywbt43.c) can override these for controller-specific
 // functionality (i.e. power management).
 MP_WEAK int mp_bluetooth_hci_controller_init(void) {
-    debug_printf("mp_bluetooth_hci_controller_init (default)\n");
+    DEBUG_printf("mp_bluetooth_hci_controller_init (default)\n");
     return 0;
 }
 
 MP_WEAK int mp_bluetooth_hci_controller_deinit(void) {
-    debug_printf("mp_bluetooth_hci_controller_deinit (default)\n");
+    DEBUG_printf("mp_bluetooth_hci_controller_deinit (default)\n");
     return 0;
 }
 
 MP_WEAK int mp_bluetooth_hci_controller_sleep_maybe(void) {
-    debug_printf("mp_bluetooth_hci_controller_sleep_maybe (default)\n");
+    DEBUG_printf("mp_bluetooth_hci_controller_sleep_maybe (default)\n");
     return 0;
 }
 
 MP_WEAK bool mp_bluetooth_hci_controller_woken(void) {
-    debug_printf("mp_bluetooth_hci_controller_woken (default)\n");
+    DEBUG_printf("mp_bluetooth_hci_controller_woken (default)\n");
     return true;
 }
 
 MP_WEAK int mp_bluetooth_hci_controller_wakeup(void) {
-    debug_printf("mp_bluetooth_hci_controller_wakeup (default)\n");
+    DEBUG_printf("mp_bluetooth_hci_controller_wakeup (default)\n");
     return 0;
 }
 

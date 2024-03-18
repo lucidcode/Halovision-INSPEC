@@ -270,7 +270,8 @@ enum {
     BONDING_SEND_ENCRYPTION_REQUEST           =  0x2000,
     BONDING_SEND_READ_ENCRYPTION_KEY_SIZE     =  0x4000,
     BONDING_DEDICATED                         =  0x8000,
-    BONDING_EMIT_COMPLETE_ON_DISCONNECT       = 0x10000,
+    BONDING_DEDICATED_DEFER_DISCONNECT        = 0x10000,
+    BONDING_EMIT_COMPLETE_ON_DISCONNECT       = 0x20000,
 };
 
 typedef enum {
@@ -409,6 +410,7 @@ typedef enum {
 
     // Classic
     SM_BR_EDR_W4_ENCRYPTION_COMPLETE,
+    SM_BR_EDR_INITIATOR_W4_FIXED_CHANNEL_MASK,
     SM_BR_EDR_INITIATOR_SEND_PAIRING_REQUEST,
     SM_BR_EDR_INITIATOR_W4_PAIRING_RESPONSE,
     SM_BR_EDR_RESPONDER_W4_PAIRING_REQUEST,
@@ -533,7 +535,7 @@ typedef struct {
     bd_addr_type_t address_type;
 
     // role: 0 - master, 1 - slave
-    uint8_t role;
+    hci_role_t role;
 
     // connection state
     CONNECTION_STATE state;
@@ -548,16 +550,20 @@ typedef struct {
     // requested security level
     gap_security_level_t requested_security_level;
     
-    // link key and its type
+    // link key and its type for Classic connections
+    // LTK and LTK valid flag for LE connections
     link_key_t      link_key;
     link_key_type_t link_key_type;
+
+#ifdef ENABLE_CLASSIC
+    // remote supported SCO packets based on remote supported features mask
+    uint16_t remote_supported_sco_packets;
 
     // remote supported features
     /* bit 0 - eSCO */
     /* bit 1 - extended features */
     uint8_t remote_supported_features[1];
 
-#ifdef ENABLE_CLASSIC
     // IO Capabilities Response
     uint8_t io_cap_response_auth_req;
     uint8_t io_cap_response_io;
@@ -687,6 +693,7 @@ typedef enum {
 
 typedef enum{
     HCI_ISO_STREAM_STATE_IDLE,
+    HCI_ISO_STREAM_W4_USER,
     HCI_ISO_STREAM_W2_ACCEPT,
     HCI_ISO_STREAM_W2_REJECT,
     HCI_ISO_STREAM_STATE_REQUESTED,
@@ -702,17 +709,21 @@ typedef struct {
     // linked list - assert: first field
     btstack_linked_item_t    item;
 
-    // iso type: bis or cis
-    hci_iso_type_t iso_type;
-
-    // group_id: big_handle or cis_id
-    uint8_t group_id;
-
     // state
     hci_iso_stream_state_t state;
 
-    // peer info
-    hci_con_handle_t con_handle;
+    // iso type: bis or cis
+    hci_iso_type_t iso_type;
+
+    // group_id: big_handle or cig_id
+    uint8_t group_id;
+
+    // stream_id: bis_index or cis_id
+    uint8_t stream_id;
+
+    // only valid for HCI_ISO_TYPE_CIS
+    hci_con_handle_t cis_handle;
+    hci_con_handle_t acl_handle;
 
     // connection info
     uint16_t max_sdu_c_to_p;
@@ -738,7 +749,7 @@ typedef struct {
 #endif
 
 /**
- * HCI Inititizlization State Machine
+ * HCI Initialization State Machine
  */
 typedef enum hci_init_state{
     HCI_INIT_SEND_RESET = 0,
@@ -753,10 +764,16 @@ typedef enum hci_init_state{
     HCI_INIT_W4_SEND_BAUD_CHANGE,
     HCI_INIT_CUSTOM_INIT,
     HCI_INIT_W4_CUSTOM_INIT,
+
     HCI_INIT_SEND_RESET_CSR_WARM_BOOT,
     HCI_INIT_W4_CUSTOM_INIT_CSR_WARM_BOOT,
     HCI_INIT_W4_CUSTOM_INIT_CSR_WARM_BOOT_LINK_RESET,
+
     HCI_INIT_W4_CUSTOM_INIT_BCM_DELAY,
+
+    // Support for Pre-Init before HCI Reset
+    HCI_INIT_CUSTOM_PRE_INIT,
+    HCI_INIT_W4_CUSTOM_PRE_INIT,
 #endif
 
     HCI_INIT_READ_LOCAL_SUPPORTED_COMMANDS,
@@ -885,10 +902,11 @@ enum {
     LE_ADVERTISEMENT_TASKS_SET_ADV_DATA         = 1 << 0,
     LE_ADVERTISEMENT_TASKS_SET_SCAN_DATA        = 1 << 1,
     LE_ADVERTISEMENT_TASKS_SET_PARAMS           = 1 << 2,
-    LE_ADVERTISEMENT_TASKS_SET_ADDRESS          = 1 << 3,
-    LE_ADVERTISEMENT_TASKS_SET_PERIODIC_PARAMS  = 1 << 4,
-    LE_ADVERTISEMENT_TASKS_SET_PERIODIC_DATA    = 1 << 5,
-    LE_ADVERTISEMENT_TASKS_REMOVE_SET           = 1 << 6,
+    LE_ADVERTISEMENT_TASKS_SET_PERIODIC_PARAMS  = 1 << 3,
+    LE_ADVERTISEMENT_TASKS_SET_PERIODIC_DATA    = 1 << 4,
+    LE_ADVERTISEMENT_TASKS_REMOVE_SET           = 1 << 5,
+    LE_ADVERTISEMENT_TASKS_SET_ADDRESS          = 1 << 6,
+    LE_ADVERTISEMENT_TASKS_SET_ADDRESS_SET_0    = 1 << 7,
 };
 
 enum {
@@ -946,6 +964,9 @@ typedef struct {
     
     // chipset driver
     const btstack_chipset_t * chipset;
+
+    // chipset driver requires pre-init
+    bool chipset_pre_init;
 
     // hardware power controller
     const btstack_control_t * control;
@@ -1081,10 +1102,12 @@ typedef struct {
     uint16_t manufacturer;
     // uint16_t lmp_subversion;
 
-    // usable packet types given acl_data_packet_length and HCI_ACL_BUFFER_SIZE
-    uint16_t packet_types;
-    
-    
+    // usable ACL packet types given HCI_ACL_BUFFER_SIZE and local supported features
+    uint16_t usable_packet_types_acl;
+
+    // usable SCO packet types given local supported features
+    uint16_t usable_packet_types_sco;
+
     /* hci state machine */
     HCI_STATE      state;
     hci_substate_t substate;
@@ -1140,6 +1163,16 @@ typedef struct {
     // LE Whitelist Management
     uint8_t               le_whitelist_capacity;
     btstack_linked_list_t le_whitelist;
+
+    // Connection parameters
+    uint16_t le_connection_scan_interval;
+    uint16_t le_connection_scan_window;
+    uint16_t le_connection_interval_min;
+    uint16_t le_connection_interval_max;
+    uint16_t le_connection_latency;
+    uint16_t le_supervision_timeout;
+    uint16_t le_minimum_ce_length;
+    uint16_t le_maximum_ce_length;
 #endif
 
 #ifdef ENABLE_LE_CENTRAL
@@ -1153,19 +1186,12 @@ typedef struct {
     uint8_t  le_scan_filter_duplicates;
     uint8_t  le_scan_type;
     uint8_t  le_scan_filter_policy;
+    uint8_t  le_scan_phys;
     uint16_t le_scan_interval;
     uint16_t le_scan_window;
 
-    // Connection parameters
-    uint16_t le_connection_interval_min;
-    uint16_t le_connection_interval_max;
-    uint16_t le_connection_latency;
-    uint16_t le_supervision_timeout;
-    uint16_t le_minimum_ce_length;
-    uint16_t le_maximum_ce_length;
-    uint16_t le_connection_scan_interval;
-    uint16_t le_connection_scan_window;
     uint8_t  le_connection_own_addr_type;
+    uint8_t  le_connection_phys;
     bd_addr_t le_connection_own_address;
 
 #ifdef ENABLE_LE_EXTENDED_ADVERTISING
@@ -1281,6 +1307,11 @@ void hci_init(const hci_transport_t *transport, const void *config);
  * @brief Configure Bluetooth chipset driver. Has to be called before power on, or right after receiving the local version information.
  */
 void hci_set_chipset(const btstack_chipset_t *chipset_driver);
+
+/**
+ * @brief Enable custom init for chipset driver to send HCI commands before HCI Reset
+ */
+void hci_enable_custom_pre_init(void);
 
 /**
  * @brief Configure Bluetooth hardware control. Has to be called before power on.
@@ -1540,9 +1571,14 @@ bool hci_authentication_active_for_handle(hci_con_handle_t handle);
 uint16_t hci_max_acl_data_packet_length(void);
 
 /**
- * Get supported packet types. Called by L2CAP
+ * Get supported ACL packet types. Already flipped for create connection. Called by L2CAP
  */
 uint16_t hci_usable_acl_packet_types(void);
+
+/**
+ * Get supported SCO packet types. Not flipped. Called by HFP
+  */
+uint16_t hci_usable_sco_packet_types(void);
 
 /**
  * Check if ACL packets marked as non flushable can be sent. Called by L2CAP
@@ -1581,8 +1617,15 @@ void hci_disconnect_security_block(hci_con_handle_t con_handle);
 
 /**
  * Query if remote side supports eSCO
+ * @param con_handle
  */
 bool hci_remote_esco_supported(hci_con_handle_t con_handle);
+
+/**
+ * Query remote supported SCO packets based on remote supported features
+ * @param con_handle
+ */
+uint16_t hci_remote_sco_packet_types(hci_con_handle_t con_handle);
 
 /**
  * Emit current HCI state. Called by daemon
@@ -1698,17 +1741,10 @@ uint8_t gap_periodic_advertising_create_sync_cancel(void);
 uint8_t gap_periodic_advertising_terminate_sync(uint16_t sync_handle);
 
 /**
- * @brief Get Manufactured
- * @return manufacturer id
+ * @brief Get Controller Manufacturer
+ * @returns company_id - see bluetooth_company_id.h
  */
 uint16_t hci_get_manufacturer(void);
-
-// Only for PTS testing
-
-/** 
- * Disable automatic L2CAP disconnect if no L2CAP connection is established
- */
-void hci_disable_l2cap_timeout_check(void);
 
 /**
  *  Get Classic Allow Role Switch param
@@ -1724,6 +1760,14 @@ HCI_STATE hci_get_state(void);
  * @brief De-Init HCI
  */
 void hci_deinit(void);
+
+// defer disconnect on dedicated bonding complete, used internally for CTKD
+uint8_t hci_dedicated_bonding_defer_disconnect(hci_con_handle_t con_handle, bool defer);
+
+// Only for PTS testing
+
+// Disable automatic L2CAP disconnect if no L2CAP connection is established
+void hci_disable_l2cap_timeout_check(void);
 
 // setup test connections, used for fuzzing
 void hci_setup_test_connections_fuzz(void);

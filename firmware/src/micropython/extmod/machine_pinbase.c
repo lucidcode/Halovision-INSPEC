@@ -24,13 +24,12 @@
  * THE SOFTWARE.
  */
 
-#include "py/mpconfig.h"
-#if MICROPY_PY_MACHINE
-
-#include "py/obj.h"
 #include "py/runtime.h"
+
+#if MICROPY_PY_MACHINE_PIN_BASE
+
+#include "extmod/modmachine.h"
 #include "extmod/virtpin.h"
-#include "extmod/machine_pinbase.h"
 
 // PinBase class
 
@@ -85,4 +84,4 @@ MP_DEFINE_CONST_OBJ_TYPE(
     protocol, &pinbase_pin_p
     );
 
-#endif // MICROPY_PY_MACHINE
+#endif // MICROPY_PY_MACHINE_PIN_BASE

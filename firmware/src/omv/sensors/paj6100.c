@@ -33,7 +33,7 @@
  * ----------	---	----------------------------------------------------------
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_PAJ6100 == 1)
+#if (OMV_PAJ6100_ENABLE == 1)
 #include <stdio.h>
 #include <stdbool.h>
 #include "py/mphal.h"
@@ -56,7 +56,7 @@ static int8_t init_res;
 
 static int16_t bank_cache = -1;
 
-// Exposure time related paramaters +
+// Exposure time related parameters +
 #define QVGA_MAX_EXPO_PA         85161
 #define QQVGA_MAX_EXPO_PA        25497
 
@@ -83,7 +83,7 @@ static uint8_t skip_frame = 0;
 
 static bool is_ae_enabled = true;
 static int exp_us_cache = -1;
-// Exposure time related paramaters -
+// Exposure time related parameters -
 
 static int set_auto_gain(sensor_t *sensor, int enable,
                          float gain_db, float gain_db_ceiling);
@@ -139,7 +139,7 @@ static int init_sensor(sensor_t *sensor) {
 //-----------------------------------------------------------------
 static int set_exposure(sensor_t *sensor, int exp_us, bool protected) {
     // 3642T
-    static const uint32_t EXPOSURE_BASE = 3642 / (PAJ6100_XCLK_FREQ / 1000000.0f) + 0.5f;
+    static const uint32_t EXPOSURE_BASE = 3642 / (OMV_PAJ6100_XCLK_FREQ / 1000000.0f) + 0.5f;
     int ret;
     uint32_t cmd_expo /* 24-bit available */;
     uint16_t exp_offset;
@@ -162,18 +162,18 @@ static int set_exposure(sensor_t *sensor, int exp_us, bool protected) {
         }
 
         int max_cmd_expo = R_FrameTime - param;
-        cmd_expo = (exp_us - EXPOSURE_BASE) * ((float) PAJ6100_XCLK_FREQ / 1000000) + 0.5f;
+        cmd_expo = (exp_us - EXPOSURE_BASE) * ((float) OMV_PAJ6100_XCLK_FREQ / 1000000) + 0.5f;
         if (protected) {
             if (cmd_expo > max_cmd_expo) {
                 cmd_expo = max_cmd_expo;
-                exp_us = (cmd_expo + 3642) / ((float) PAJ6100_XCLK_FREQ / 1000000) + 0.5f;
+                exp_us = (cmd_expo + 3642) / ((float) OMV_PAJ6100_XCLK_FREQ / 1000000) + 0.5f;
                 printf("Exposure time overflow, reset to %dus.\n", exp_us);
             }
         }
         exp_offset = 0;
     } else {
         cmd_expo = 0;
-        exp_offset = (EXPOSURE_BASE - exp_us) * ((float) PAJ6100_XCLK_FREQ / 1000000) + 0.5;
+        exp_offset = (EXPOSURE_BASE - exp_us) * ((float) OMV_PAJ6100_XCLK_FREQ / 1000000) + 0.5;
     }
     #ifdef DEBUG_AE
     printf("target - cmd_exp: %ld, exp_offset: %d\n", cmd_expo, exp_offset);
@@ -228,9 +228,9 @@ static int get_exposure(sensor_t *sensor) {
     #endif
 
     if (exp_offset == 0) {
-        exp_us_cache = (cmd_expo + 3642) / (PAJ6100_XCLK_FREQ / 1000000);
+        exp_us_cache = (cmd_expo + 3642) / (OMV_PAJ6100_XCLK_FREQ / 1000000);
     } else {
-        exp_us_cache = (3642 - exp_offset) / (PAJ6100_XCLK_FREQ / 1000000);
+        exp_us_cache = (3642 - exp_offset) / (OMV_PAJ6100_XCLK_FREQ / 1000000);
     }
 
     return exp_us_cache;
@@ -294,7 +294,7 @@ static void auto_exposure(sensor_t *sensor) {
         uint32_t GEP = gain * expo;
         float l_ratio = ((float) l_target_total) / l_total;
         float GEP_target = GEP * l_ratio;
-        uint32_t expo_target = IM_MIN(IM_MAX(fast_roundf(GEP_target / R_AE_MinGain), R_AE_MinExpoTime), R_AE_MaxExpoTime);
+        uint32_t expo_target = IM_CLAMP(fast_roundf(GEP_target / R_AE_MinGain), R_AE_MinExpoTime, R_AE_MaxExpoTime);
 
         #ifdef DEBUG_AE
         printf("GEP: %ld ", GEP);
@@ -313,9 +313,9 @@ static void auto_exposure(sensor_t *sensor) {
         } else {
             gain_target = 8;
         }
-        //gain_target = IM_MIN(IM_MAX(fast_ceilf(GEP_target/expo_target), R_AE_MinGain), R_AE_MaxGain);
-        gain_db = 20 * (fast_log((float) gain_target) / fast_log(10.0));
-        expo_target = IM_MIN(IM_MAX(fast_roundf(GEP_target / gain_target), R_AE_MinExpoTime), R_AE_MaxExpoTime);
+        //gain_target = IM_CLAMP(fast_ceilf(GEP_target/expo_target), R_AE_MinGain, R_AE_MaxGain);
+        gain_db = 20 * log10f((float) gain_target);
+        expo_target = IM_CLAMP(fast_roundf(GEP_target / gain_target), R_AE_MinExpoTime, R_AE_MaxExpoTime);
         #ifdef DEBUG_AE
         printf("Gain Target: %ld (%d DB (x1000))\n", gain_target, (int) (gain_db * 1000));
         printf("Final Expo Target: %ld (max: %ld) \n", expo_target, R_AE_MaxExpoTime);
@@ -725,7 +725,7 @@ bool paj6100_detect(sensor_t *sensor) {
     int ret = 0;
     uint8_t part_id_l, part_id_h;
 
-    omv_gpio_write(DCMI_RESET_PIN, 1);
+    omv_gpio_write(OMV_CSI_RESET_PIN, 1);
     mp_hal_delay_ms(10);
 
     if (!pixspi_init()) {
@@ -745,4 +745,4 @@ bool paj6100_detect(sensor_t *sensor) {
     pixspi_release();
     return false;
 }
-#endif //(OMV_ENABLE_PAJ6100 == 1)
+#endif //(OMV_PAJ6100_ENABLE == 1)

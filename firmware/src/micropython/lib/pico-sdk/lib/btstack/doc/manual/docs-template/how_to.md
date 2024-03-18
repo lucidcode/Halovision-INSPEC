@@ -89,7 +89,7 @@ BTstack properties:
 | ENABLE_HFP_WIDE_BAND_SPEECH                               | Enable support for mSBC codec used in HFP profile for Wide-Band Speech                                                      |
 | ENABLE_HFP_AT_MESSAGES                                    | Enable `HFP_SUBEVENT_AT_MESSAGE_SENT` and `HFP_SUBEVENT_AT_MESSAGE_RECEIVED` events                                         |
 | ENABLE_LE_PERIPHERAL                                      | Enable support for LE Peripheral Role in HCI and Security Manager                                                           |
-| ENBALE_LE_CENTRAL                                         | Enable support for LE Central Role in HCI and Security Manager                                                              |
+| ENABLE_LE_CENTRAL                                         | Enable support for LE Central Role in HCI and Security Manager                                                              |
 | ENABLE_LE_SECURE_CONNECTIONS                              | Enable LE Secure Connections                                                                                                |
 | ENABLE_LE_PROACTIVE_AUTHENTICATION                        | Enable automatic encryption for bonded devices on re-connect                                                                |
 | ENABLE_GATT_CLIENT_PAIRING                                | Enable GATT Client to start pairing and retry operation on security error                                                   |
@@ -120,10 +120,12 @@ BTstack properties:
 | ENABLE_EXPLICIT_IO_CAPABILITIES_REPLY                     | Let application trigger sending IO Capabilities (Negative) Reply                                                            |
 | ENABLE_EXPLICIT_LINK_KEY_REPLY                            | Let application trigger sending Link Key (Negative) Response, allows for asynchronous link key lookup                       |
 | ENABLE_EXPLICIT_BR_EDR_SECURITY_MANAGER                   | Report BR/EDR Security Manager support in L2CAP Information Response                                                        |
+| ENABLE_EXPLICIT_DEDICATED_BONDING_DISCONNECT              | Keep connection after dedicated bonding is complete                                                                         |
 | ENABLE_CLASSIC_OOB_PAIRING                                | Enable support for classic Out-of-Band (OOB) pairing                                                                        |
 | ENABLE_A2DP_EXPLICIT_CONFIG                               | Let application configure stream endpoint (skip auto-config of SBC endpoint)                                                |
 | ENABLE_AVDTP_ACCEPTOR_EXPLICIT_START_STREAM_CONFIRMATION  | allow accept or reject of stream start on A2DP_SUBEVENT_START_STREAM_REQUESTED                                              |
-| ENABLE_LE_WHITELIST_TOUCH_AFTER_RESOLVING_LIST_UPDATE     | Enable Workaround for Controller bug.                                                                                       |
+| ENABLE_LE_WHITELIST_TOUCH_AFTER_RESOLVING_LIST_UPDATE     | Enable Workaround for Controller bug                                                                                        |
+| ENABLE_LE_SET_ADV_PARAMS_ON_RANDOM_ADDRESS_CHANGE         | Send HCI LE Set Advertising Params after HCI LE Set Random Address - workaround for Controller Bug                          |
 | ENABLE_CONTROLLER_DUMP_PACKETS                            | Dump number of packets in Controller per type for debugging                                                                 |
 
 Notes:

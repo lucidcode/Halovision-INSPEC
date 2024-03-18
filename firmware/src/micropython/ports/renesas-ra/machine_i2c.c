@@ -31,12 +31,11 @@
 #include "py/runtime.h"
 #include "py/mphal.h"
 #include "py/mperrno.h"
-#include "extmod/machine_i2c.h"
-#include "modmachine.h"
+#include "extmod/modmachine.h"
 
 #include "ra_i2c.h"
 
-#if MICROPY_HW_ENABLE_HW_I2C
+#if MICROPY_PY_MACHINE_I2C
 
 #define DEFAULT_I2C_FREQ (400000)
 #define DEFAULT_I2C_TIMEOUT (1000)
@@ -166,4 +165,4 @@ MP_DEFINE_CONST_OBJ_TYPE(
     protocol, &machine_i2c_p
     );
 
-#endif // MICROPY_HW_ENABLE_HW_I2C
+#endif // MICROPY_PY_MACHINE_I2C

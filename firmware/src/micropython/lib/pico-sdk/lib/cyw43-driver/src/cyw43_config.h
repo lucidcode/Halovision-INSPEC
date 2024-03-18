@@ -31,6 +31,11 @@
  * options please email contact@georgerobotics.com.au.
  */
 
+/**
+ * \internal
+ * \file
+*/
+
 // Import port-specific configuration file.
 #ifdef CYW43_CONFIG_FILE
 #include CYW43_CONFIG_FILE
@@ -70,6 +75,12 @@
 // This include should define a wifi_nvram_4343[] variable.
 #ifndef CYW43_WIFI_NVRAM_INCLUDE_FILE
 #define CYW43_WIFI_NVRAM_INCLUDE_FILE "firmware/wifi_nvram_43439.h"
+#endif
+
+// This should be defined by the port if needed, to override the default
+// alignment, or add more attributes, for the firmware and NVRAM resources.
+#ifndef CYW43_RESOURCE_ATTRIBUTE
+#define CYW43_RESOURCE_ATTRIBUTE __attribute__((aligned(4)))
 #endif
 
 // Timing and timeout configuration.
@@ -135,4 +146,28 @@
 // run during long blocking operations such as WiFi initialisation.
 #ifndef CYW43_EVENT_POLL_HOOK
 #define CYW43_EVENT_POLL_HOOK
+#endif
+
+#ifndef CYW43_DEFAULT_IP_STA_ADDRESS
+#define CYW43_DEFAULT_IP_STA_ADDRESS LWIP_MAKEU32(0, 0, 0, 0)
+#endif
+
+#ifndef CYW43_DEFAULT_IP_AP_ADDRESS
+#define CYW43_DEFAULT_IP_AP_ADDRESS LWIP_MAKEU32(192, 168, 4, 1)
+#endif
+
+#ifndef CYW43_DEFAULT_IP_MASK
+#define CYW43_DEFAULT_IP_MASK LWIP_MAKEU32(255, 255, 255, 0)
+#endif
+
+#ifndef CYW43_DEFAULT_IP_STA_GATEWAY
+#define CYW43_DEFAULT_IP_STA_GATEWAY LWIP_MAKEU32(192, 168, 0, 1)
+#endif
+
+#ifndef CYW43_DEFAULT_IP_AP_GATEWAY
+#define CYW43_DEFAULT_IP_AP_GATEWAY LWIP_MAKEU32(192, 168, 4, 1)
+#endif
+
+#ifndef CYW43_DEFAULT_IP_DNS
+#define CYW43_DEFAULT_IP_DNS LWIP_MAKEU32(8, 8, 8, 8)
 #endif

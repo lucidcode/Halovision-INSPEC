@@ -8,7 +8,6 @@ set(OMV_DIR                 omv)
 set(UVC_DIR                 uvc)
 set(CM4_DIR                 cm4)
 set(BOOTLDR_DIR             bootloader)
-set(CUBEAI_DIR              stm32cubeai)
 set(CMSIS_DIR               hal/cmsis)
 set(LEPTON_DIR              drivers/lepton)
 set(LSM6DS3_DIR             drivers/lsm6ds3)
@@ -19,16 +18,22 @@ set(MLX90641_DIR            drivers/mlx90641)
 set(OPENPDM_DIR             ${TOP_DIR}/lib/openpdm)
 set(TENSORFLOW_DIR          ${TOP_DIR}/lib/libtf)
 set(OMV_BOARD_CONFIG_DIR    ${TOP_DIR}/${OMV_DIR}/boards/${TARGET}/)
-set(OMV_LIB_DIR             ${TOP_DIR}/../scripts/libraries)
 set(OMV_COMMON_DIR          ${TOP_DIR}/${OMV_DIR}/common)
 set(PORT_DIR                ${TOP_DIR}/${OMV_DIR}/ports/${PORT})
+set(MICROPY_MANIFEST_OMV_LIB_DIR    ${TOP_DIR}/../scripts/libraries)
 
 # Include board cmake fragment
 include(${OMV_BOARD_CONFIG_DIR}/omv_boardconfig.cmake)
 
+target_link_options(${MICROPY_TARGET} PRIVATE
+    -Wl,--wrap=tud_cdc_rx_cb
+    -Wl,--wrap=mp_hal_stdout_tx_strn
+)
+
 target_compile_definitions(${MICROPY_TARGET} PRIVATE
     ARM_MATH_CM0PLUS
     ${OMV_BOARD_MODULES_DEFINITIONS}
+    CMSIS_MCU_H="${CMSIS_MCU_H}"
 )
 
 target_link_libraries(${MICROPY_TARGET}
@@ -93,15 +98,16 @@ target_sources(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${OMV_DIR}/alloc/unaligned_memcpy.c
 
     ${TOP_DIR}/${OMV_DIR}/common/array.c
-    ${TOP_DIR}/${OMV_DIR}/common/ff_wrapper.c
     ${TOP_DIR}/${OMV_DIR}/common/ini.c
     ${TOP_DIR}/${OMV_DIR}/common/ringbuf.c
     ${TOP_DIR}/${OMV_DIR}/common/trace.c
     ${TOP_DIR}/${OMV_DIR}/common/mutex.c
+    ${TOP_DIR}/${OMV_DIR}/common/pendsv.c
     ${TOP_DIR}/${OMV_DIR}/common/usbdbg.c
     ${TOP_DIR}/${OMV_DIR}/common/tinyusb_debug.c
+    ${TOP_DIR}/${OMV_DIR}/common/file_utils.c
+    ${TOP_DIR}/${OMV_DIR}/common/boot_utils.c
     ${TOP_DIR}/${OMV_DIR}/common/sensor_utils.c
-    ${TOP_DIR}/${OMV_DIR}/common/factoryreset.c
 
     ${TOP_DIR}/${OMV_DIR}/sensors/ov2640.c
     ${TOP_DIR}/${OMV_DIR}/sensors/ov5640.c
@@ -143,7 +149,7 @@ target_sources(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${OMV_DIR}/imlib/integral_mw.c
     ${TOP_DIR}/${OMV_DIR}/imlib/isp.c
     ${TOP_DIR}/${OMV_DIR}/imlib/jpegd.c
-    ${TOP_DIR}/${OMV_DIR}/imlib/jpeg.c
+    ${TOP_DIR}/${OMV_DIR}/imlib/jpege.c
     ${TOP_DIR}/${OMV_DIR}/imlib/lodepng.c
     ${TOP_DIR}/${OMV_DIR}/imlib/png.c
     ${TOP_DIR}/${OMV_DIR}/imlib/kmeans.c
@@ -177,6 +183,11 @@ target_sources(${MICROPY_TARGET} PRIVATE
     ${TOP_DIR}/${OMV_DIR}/ports/${PORT}/omv_i2c.c
 
     ${OMV_USER_MODULES}
+)
+set_source_files_properties(
+    ${TOP_DIR}/${OMV_DIR}/imlib/fmath.c
+    PROPERTIES
+    COMPILE_OPTIONS "-fno-strict-aliasing"
 )
 
 if(MICROPY_PY_SENSOR)
@@ -264,6 +275,7 @@ endif()
 
 target_compile_definitions(${MICROPY_TARGET} PRIVATE
     MICROPY_BOARD_PENDSV_ENTRIES=${MPY_PENDSV_ENTRIES}
+    MP_CONFIGFILE="${TOP_DIR}/${OMV_DIR}/ports/${PORT}/omv_mpconfigport.h"
 )
 
 add_custom_command(TARGET ${MICROPY_TARGET}

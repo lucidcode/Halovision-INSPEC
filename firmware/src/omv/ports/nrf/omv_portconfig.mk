@@ -7,7 +7,8 @@ SD_DIR     = $(TOP_DIR)/drivers/nrf
 # Compiler Flags
 CFLAGS += -std=gnu99 -Wall -Werror -Warray-bounds -mthumb -nostartfiles -fdata-sections -ffunction-sections
 CFLAGS += -D$(MCU) -D$(CFLAGS_MCU) -D$(ARM_MATH) -DARM_NN_TRUNCATE -D__FPU_PRESENT=1 -D__VFP_FP__ -D$(TARGET)\
-          -fsingle-precision-constant -Wdouble-promotion -mcpu=$(CPU) -mtune=$(CPU) -mfpu=$(FPU) -mfloat-abi=hard
+          -fsingle-precision-constant -Wdouble-promotion -mcpu=$(CPU) -mtune=$(CPU) -mfpu=$(FPU) -mfloat-abi=hard\
+          -DCMSIS_MCU_H=$(CMSIS_MCU_H)
 CFLAGS += $(OMV_BOARD_EXTRA_CFLAGS)
 
 # Disable LTO and set the SD
@@ -63,7 +64,8 @@ CFLAGS += $(HAL_CFLAGS) $(MPY_CFLAGS) $(OMV_CFLAGS)
 
 # Linker Flags
 LDFLAGS = -mcpu=$(CPU) -mabi=aapcs-linux -mthumb -mfpu=$(FPU) -mfloat-abi=hard\
-          -nostdlib -Wl,--gc-sections -Wl,-T$(BUILD)/$(LDSCRIPT).lds
+          -nostdlib -Wl,--gc-sections -Wl,-T$(BUILD)/$(LDSCRIPT).lds \
+          -Wl,--wrap=tud_cdc_rx_cb -Wl,--wrap=mp_hal_stdout_tx_strn
 
 #------------- Libraries ----------------#
 LIBS += $(TOP_DIR)/$(TENSORFLOW_DIR)/$(CPU)/libtf*.a
@@ -100,13 +102,15 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/alloc/, \
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	array.o                     \
-	ff_wrapper.o                \
 	ini.o                       \
 	ringbuf.o                   \
 	trace.o                     \
 	mutex.o                     \
+	pendsv.o                    \
 	usbdbg.o                    \
 	tinyusb_debug.o             \
+	file_utils.o                \
+	boot_utils.o                \
 	sensor_utils.o              \
    )
 
@@ -152,7 +156,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/imlib/, \
 	integral_mw.o               \
 	isp.o                       \
 	jpegd.o                     \
-	jpeg.o                      \
+	jpege.o                     \
 	lodepng.o                   \
 	png.o                       \
 	kmeans.o                    \
@@ -192,7 +196,6 @@ FIRM_OBJ += $(wildcard $(BUILD)/$(MICROPY_DIR)/boards/$(TARGET)/*.o)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	mphalport.o                     \
-	pendsv.o                        \
 	help.o                          \
 	gccollect.o                     \
 	pins_gen.o                      \
@@ -210,21 +213,30 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/extmod/,\
-	modujson.o          \
-	moduselect.o        \
-	modure.o            \
-	modframebuf.o       \
-	moduasyncio.o       \
-	moductypes.o        \
-	moduzlib.o          \
-	moduhashlib.o       \
-	moduheapq.o         \
-	modubinascii.o      \
-	modurandom.o        \
-	modutimeq.o         \
+	machine_adc.o       \
+	machine_adc_block.o \
 	machine_i2c.o       \
+	machine_spi.o       \
 	machine_pwm.o       \
-	utime_mphal.o       \
+	machine_mem.o       \
+	machine_uart.o      \
+	machine_signal.o    \
+	modjson.o           \
+	modselect.o         \
+	modre.o             \
+	modframebuf.o       \
+	modasyncio.o        \
+	moductypes.o        \
+	modhashlib.o        \
+	moddeflate.o        \
+	modheapq.o          \
+	modbinascii.o       \
+	modrandom.o         \
+	modtime.o           \
+	os_dupterm.o        \
+	modmachine.o        \
+	modos.o             \
+	modplatform.o       \
 	vfs.o               \
 	vfs_fat.o           \
 	vfs_lfs.o           \
@@ -232,7 +244,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/extmod/,\
 	vfs_fat_diskio.o    \
 	vfs_reader.o        \
 	vfs_blockdev.o      \
-	machine_mem.o       \
+	virtpin.o           \
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/lib/,\
@@ -287,18 +299,13 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/lib/libm/,\
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/modules/,\
-	machine/modmachine.o                \
-	machine/uart.o                      \
 	machine/spi.o                       \
 	machine/i2c.o                       \
-	machine/adc.o                       \
 	machine/pin.o                       \
 	machine/timer.o                     \
 	machine/rtcounter.o                 \
 	machine/temp.o                      \
-	uos/moduos.o                        \
-	uos/microbitfs.o                    \
-	utime/modutime.o                    \
+	os/microbitfs.o                     \
 	board/modboard.o                    \
 	board/led.o                         \
 	ubluepy/modubluepy.o                \

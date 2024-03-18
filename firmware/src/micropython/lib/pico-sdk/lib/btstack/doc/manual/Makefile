@@ -44,7 +44,7 @@ docs: docs-markdown
 	cp -r ${MARKDOWN_FOLDER} ${MKDOCS_FOLDER}
 
 	# docs-markdown -> docs
-	./markdown_update_references.py  -i ${MARKDOWN_FOLDER} -o ${MKDOCS_FOLDER} 
+	./markdown_update_references.py  -i ${MARKDOWN_FOLDER} -o ${MKDOCS_FOLDER} -g ${GITHUB_URL}
 	
 
 html: docs
@@ -66,7 +66,7 @@ pdf: docs
 	# create latex/btstack_generated.md -> latex/btstack_final.tex
 	./markdown2tex.py  -i ${MKDOCS_FOLDER} -o ${LATEX_FOLDER}
 	
-	cp ${MKDOCS_FOLDER}/ports/*.jpg ${LATEX_FOLDER}
+	cp ${MKDOCS_FOLDER}/ports/*.jpg ${MKDOCS_FOLDER}/ports/*.png ${LATEX_FOLDER}
 	cd ${LATEX_FOLDER} && pdflatex btstack_gettingstarted.tex && pdflatex btstack_gettingstarted.tex
 	mv ${LATEX_FOLDER}/btstack_gettingstarted.pdf btstack.pdf
 

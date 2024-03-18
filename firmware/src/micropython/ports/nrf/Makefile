@@ -4,8 +4,8 @@ ifdef BOARD_DIR
 # the path as the board name.
 BOARD ?= $(notdir $(BOARD_DIR:/=))
 else
-# If not given on the command line, then default to pca10040.
-BOARD ?= pca10040
+# If not given on the command line, then default to PCA10040.
+BOARD ?= PCA10040
 BOARD_DIR ?= boards/$(BOARD)
 endif
 
@@ -51,7 +51,7 @@ endif
 -include boards/$(BOARD)/modules/boardmodules.mk
 
 # qstr definitions (must come before including py.mk)
-QSTR_DEFS = qstrdefsport.h $(GEN_PINS_QSTR)
+QSTR_DEFS = qstrdefsport.h
 
 # MicroPython feature configurations
 ifeq ($(DEBUG), 0)
@@ -118,9 +118,7 @@ AF_FILE = $(MCU_VARIANT)_af.csv
 PREFIX_FILE = boards/$(MCU_VARIANT)_prefix.c
 GEN_PINS_SRC = $(BUILD)/pins_gen.c
 GEN_PINS_HDR = $(HEADER_BUILD)/pins.h
-GEN_PINS_QSTR = $(BUILD)/pins_qstr.h
 GEN_PINS_AF_CONST = $(HEADER_BUILD)/pins_af_const.h
-GEN_PINS_AF_PY = $(BUILD)/pins_af.py
 
 CFLAGS_CORTEX_M = -mthumb -mabi=aapcs -fsingle-precision-constant -Wdouble-promotion
 
@@ -169,77 +167,15 @@ LIBS = \
 
 ifeq ($(MCU_VARIANT), nrf52)
 
-SRC_LIB_C += $(addprefix lib/,\
-        libm/math.c \
-        libm/fmodf.c \
-        libm/nearbyintf.c \
-        libm/ef_sqrt.c \
-        libm/erf_lgamma.c \
-        libm/kf_rem_pio2.c \
-        libm/kf_sin.c \
-        libm/kf_cos.c \
-        libm/kf_tan.c \
-        libm/ef_rem_pio2.c \
-        libm/sf_sin.c \
-        libm/sf_cos.c \
-        libm/sf_tan.c \
-        libm/sf_frexp.c \
-        libm/sf_modf.c \
-        libm/sf_ldexp.c \
-        libm/sf_erf.c\
-        libm/asinfacosf.c \
-        libm/acoshf.c \
-        libm/asinhf.c \
-        libm/atanf.c \
-        libm/atan2f.c \
-        libm/atanhf.c \
-        libm/log1pf.c \
-        libm/sf_erf.c \
-        libm/erf_lgamma.c \
-        libm/wf_lgamma.c \
-        libm/wf_tgamma.c \
-        libm/roundf.c \
-        libm/log1pf.c\
-        libm/acoshf.c\
-        libm/asinhf.c\
-        libm/atanhf.c\
-        libm/wf_lgamma.c\
-        libm/wf_tgamma.c\
-	)
+SRC_LIB_C += $(SRC_LIB_LIBM_C)
+SRC_LIB_C += $(SRC_LIB_LIBM_SQRT_SW_C)
 
 endif
 
 ifeq ($(MCU_VARIANT), nrf91)
 
-SRC_LIB_C += $(addprefix lib/,\
-        libm/math.c \
-        libm/fmodf.c \
-        libm/nearbyintf.c \
-        libm/ef_sqrt.c \
-        libm/kf_rem_pio2.c \
-        libm/kf_sin.c \
-        libm/kf_cos.c \
-        libm/kf_tan.c \
-        libm/ef_rem_pio2.c \
-        libm/sf_sin.c \
-        libm/sf_cos.c \
-        libm/sf_tan.c \
-        libm/sf_frexp.c \
-        libm/sf_modf.c \
-        libm/sf_ldexp.c \
-        libm/asinfacosf.c \
-        libm/acoshf.c \
-        libm/asinhf.c \
-        libm/atanf.c \
-        libm/atan2f.c \
-        libm/atanhf.c \
-        libm/log1pf.c \
-        libm/sf_erf.c \
-        libm/erf_lgamma.c \
-        libm/wf_lgamma.c \
-        libm/wf_tgamma.c \
-        libm/roundf.c \
-        )
+SRC_LIB_C += $(SRC_LIB_LIBM_C)
+SRC_LIB_C += $(SRC_LIB_LIBM_SQRT_SW_C)
 
 include drivers/secureboot/secureboot.mk
 
@@ -286,7 +222,6 @@ SRC_NRFX += $(addprefix lib/nrfx/drivers/src/,\
 	)
 
 SRC_C += \
-	pendsv.c \
 	mphalport.c \
 	help.c \
 	gccollect.c \
@@ -329,18 +264,13 @@ SRC_C += $(addprefix lib/tinyusb/src/,\
 endif
 
 DRIVERS_SRC_C += $(addprefix modules/,\
-	machine/modmachine.c \
-	machine/uart.c \
 	machine/spi.c \
 	machine/i2c.c \
-	machine/adc.c \
 	machine/pin.c \
 	machine/timer.c \
 	machine/rtcounter.c \
 	machine/temp.c \
-	uos/moduos.c \
-	uos/microbitfs.c \
-	utime/modutime.c \
+	os/microbitfs.c \
 	board/modboard.c \
 	board/led.c \
 	ubluepy/modubluepy.c \
@@ -540,13 +470,9 @@ $(BUILD)/$(OUTPUT_FILENAME).elf: $(OBJ)
 	$(Q)$(SIZE) $@
 
 # List of sources for qstr extraction
-SRC_QSTR += $(SRC_C) $(SRC_SHARED_C) $(DRIVERS_SRC_C) $(SRC_BOARD_MODULES)
+SRC_QSTR += $(SRC_C) $(SRC_SHARED_C) $(DRIVERS_SRC_C) $(SRC_BOARD_MODULES) $(GEN_PINS_SRC)
 
-# Append any auto-generated sources that are needed by sources listed in
-# SRC_QSTR
-SRC_QSTR_AUTO_DEPS +=
-
-# Making OBJ use an order-only depenedency on the generated pins.h file
+# Making OBJ use an order-only dependency on the generated pins.h file
 # has the side effect of making the pins.h file before we actually compile
 # any of the objects. The normal dependency generation will deal with the
 # case when pins.h is modified. But when it doesn't exist, we don't know
@@ -555,18 +481,10 @@ $(OBJ): | $(HEADER_BUILD)/pins.h
 
 # Use a pattern rule here so that make will only call make-pins.py once to make
 # both pins_gen.c and pins.h
-$(BUILD)/%_gen.c $(HEADER_BUILD)/%.h $(HEADER_BUILD)/%_af_const.h $(BUILD)/%_qstr.h: boards/$(BOARD)/%.csv $(MAKE_PINS) $(AF_FILE) $(PREFIX_FILE) | $(HEADER_BUILD)
+$(BUILD)/%_gen.c $(HEADER_BUILD)/%.h $(HEADER_BUILD)/%_af_const.h: boards/$(BOARD)/%.csv $(MAKE_PINS) $(AF_FILE) $(PREFIX_FILE) | $(HEADER_BUILD)
 	$(ECHO) "Create $@"
-	$(Q)$(PYTHON) $(MAKE_PINS) --board $(BOARD_PINS) --af $(AF_FILE) --prefix $(PREFIX_FILE) --hdr $(GEN_PINS_HDR) --qstr $(GEN_PINS_QSTR) --af-const $(GEN_PINS_AF_CONST) --af-py $(GEN_PINS_AF_PY) > $(GEN_PINS_SRC)
-
-$(GEN_PINS_SRC:.c=.o): $(GEN_PINS_SRC)
-	$(call compile_c)
-
-ifneq ($(FROZEN_MANIFEST),)
-CFLAGS += -DMICROPY_QSTR_EXTRA_POOL=mp_qstr_frozen_const_pool
-CFLAGS += -DMICROPY_MODULE_FROZEN_MPY
-CFLAGS += -DMICROPY_MODULE_FROZEN_STR
-endif
+	$(Q)$(PYTHON) $(MAKE_PINS) --board-csv $(BOARD_PINS) --af-csv $(AF_FILE) --prefix $(PREFIX_FILE) \
+	    --output-source $(GEN_PINS_SRC) --output-header $(GEN_PINS_HDR) --output-af-const $(GEN_PINS_AF_CONST)
 
 $(PY_BUILD)/nlr%.o: CFLAGS += -Os -fno-lto
 

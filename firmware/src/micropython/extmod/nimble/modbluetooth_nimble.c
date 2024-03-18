@@ -53,10 +53,6 @@
 #include "nimble/host/src/ble_hs_hci_priv.h"
 #endif
 
-#ifndef MICROPY_PY_BLUETOOTH_DEFAULT_GAP_NAME
-#define MICROPY_PY_BLUETOOTH_DEFAULT_GAP_NAME "MPY NIMBLE"
-#endif
-
 #define DEBUG_printf(...) // printf("nimble: " __VA_ARGS__)
 
 #define ERRNO_BLUETOOTH_NOT_ACTIVE MP_ENODEV
@@ -350,9 +346,6 @@ STATIC void sync_cb(void) {
         assert(rc == 0);
     }
 
-    DEBUG_printf("sync_cb: Setting device name\n");
-    ble_svc_gap_device_name_set(MICROPY_PY_BLUETOOTH_DEFAULT_GAP_NAME);
-
     mp_bluetooth_nimble_ble_state = MP_BLUETOOTH_NIMBLE_BLE_STATE_ACTIVE;
 }
 
@@ -570,7 +563,7 @@ void mp_bluetooth_nimble_port_shutdown(void) {
     ble_hs_stop(&ble_hs_shutdown_stop_listener, ble_hs_shutdown_stop_cb, NULL);
 
     while (mp_bluetooth_nimble_ble_state != MP_BLUETOOTH_NIMBLE_BLE_STATE_OFF) {
-        MICROPY_EVENT_POLL_HOOK
+        mp_event_wait_indefinite();
     }
 }
 
@@ -636,10 +629,11 @@ int mp_bluetooth_init(void) {
     // On non-ringbuffer builds (NimBLE on STM32/Unix) this will also poll the UART and run the event queue.
     mp_uint_t timeout_start_ticks_ms = mp_hal_ticks_ms();
     while (mp_bluetooth_nimble_ble_state != MP_BLUETOOTH_NIMBLE_BLE_STATE_ACTIVE) {
-        if (mp_hal_ticks_ms() - timeout_start_ticks_ms > NIMBLE_STARTUP_TIMEOUT) {
+        uint32_t elapsed = mp_hal_ticks_ms() - timeout_start_ticks_ms;
+        if (elapsed > NIMBLE_STARTUP_TIMEOUT) {
             break;
         }
-        MICROPY_EVENT_POLL_HOOK
+        mp_event_wait_ms(NIMBLE_STARTUP_TIMEOUT - elapsed);
     }
 
     if (mp_bluetooth_nimble_ble_state != MP_BLUETOOTH_NIMBLE_BLE_STATE_ACTIVE) {
@@ -652,7 +646,7 @@ int mp_bluetooth_init(void) {
     // By default, just register the default gap/gatt service.
     ble_svc_gap_init();
     ble_svc_gatt_init();
-    // The preceeding two calls allocate service definitions on the heap,
+    // The preceding two calls allocate service definitions on the heap,
     // then we must now call gatts_start to register those services
     // and free the heap memory.
     // Otherwise it will be realloc'ed on the next stack startup.
@@ -1537,7 +1531,7 @@ STATIC void destroy_l2cap_channel() {
 
 STATIC void unstall_l2cap_channel(void) {
     // Whenever we send an HCI packet and the sys mempool is now less than 1/4 full,
-    // we can unstall the L2CAP channel if it was marked as "mem_stalled" by
+    // we can un-stall the L2CAP channel if it was marked as "mem_stalled" by
     // mp_bluetooth_l2cap_send. (This happens if the pool is half-empty).
     mp_bluetooth_nimble_l2cap_channel_t *chan = MP_STATE_PORT(bluetooth_nimble_root_pointers)->l2cap_chan;
     if (!chan || !chan->mem_stalled) {
@@ -1644,7 +1638,7 @@ STATIC int l2cap_channel_event(struct ble_l2cap_event *event, void *arg) {
         case BLE_L2CAP_EVENT_COC_TX_UNSTALLED: {
             DEBUG_printf("l2cap_channel_event: tx_unstalled: conn_handle=%d status=%d\n", event->tx_unstalled.conn_handle, event->tx_unstalled.status);
             assert(event->tx_unstalled.conn_handle == chan->chan->conn_handle);
-            // Don't unstall if we're still waiting for room in the sys pool.
+            // Don't un-stall if we're still waiting for room in the sys pool.
             if (!chan->mem_stalled) {
                 ble_l2cap_get_chan_info(event->receive.chan, &info);
                 // Map status to {0,1} (i.e. "sent everything", or "partial send").
@@ -1701,7 +1695,7 @@ STATIC int create_l2cap_channel(uint16_t mtu, mp_bluetooth_nimble_l2cap_channel_
     // multiply that by the "MTUs per channel" (set to 3 above).
     const size_t buf_blocks = MP_CEIL_DIVIDE(mtu, L2CAP_BUF_BLOCK_SIZE) * L2CAP_BUF_SIZE_MTUS_PER_CHANNEL;
 
-    mp_bluetooth_nimble_l2cap_channel_t *chan = m_new_obj_var(mp_bluetooth_nimble_l2cap_channel_t, uint8_t, OS_MEMPOOL_SIZE(buf_blocks, L2CAP_BUF_BLOCK_SIZE) * sizeof(os_membuf_t));
+    mp_bluetooth_nimble_l2cap_channel_t *chan = m_new_obj_var(mp_bluetooth_nimble_l2cap_channel_t, sdu_mem, uint8_t, OS_MEMPOOL_SIZE(buf_blocks, L2CAP_BUF_BLOCK_SIZE) * sizeof(os_membuf_t));
     MP_STATE_PORT(bluetooth_nimble_root_pointers)->l2cap_chan = chan;
 
     // Will be set in BLE_L2CAP_EVENT_COC_CONNECTED or BLE_L2CAP_EVENT_COC_ACCEPT.
@@ -1802,7 +1796,7 @@ int mp_bluetooth_l2cap_send(uint16_t conn_handle, uint16_t cid, const uint8_t *b
     err = ble_l2cap_send(chan->chan, sdu_tx);
     if (err == BLE_HS_ESTALLED) {
         // Stalled means that this one will still send but any future ones
-        // will fail until we receive an unstalled event.
+        // will fail until we receive an un-stalled event.
         DEBUG_printf("mp_bluetooth_l2cap_send: credit stall\n");
         *stalled = true;
         err = 0;
@@ -1856,7 +1850,7 @@ int mp_bluetooth_l2cap_recvinto(uint16_t conn_handle, uint16_t cid, uint8_t *buf
                 // re-enable receiving yet (as we need to complete the rest of IRQ handler first).
                 if (!chan->irq_in_progress) {
                     // We've already given the channel a new mbuf in l2cap_channel_event above, so
-                    // re-use that mbuf in the call to ble_l2cap_recv_ready. This will just
+                    // reuse that mbuf in the call to ble_l2cap_recv_ready. This will just
                     // give the channel more credits.
                     struct os_mbuf *sdu_rx = chan->chan->coc_rx.sdu;
                     assert(sdu_rx);

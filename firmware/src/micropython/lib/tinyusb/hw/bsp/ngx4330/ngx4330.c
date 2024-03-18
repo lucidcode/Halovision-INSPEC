@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -25,7 +25,7 @@
  */
 
 #include "chip.h"
-#include "../board.h"
+#include "../board_api.h"
 
 #define LED_PORT              1
 #define LED_PIN               12

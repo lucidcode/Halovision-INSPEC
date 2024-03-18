@@ -31,7 +31,7 @@
 #include "genhdr/pllfreqtable.h"
 #include "extmod/modbluetooth.h"
 
-#if defined(STM32H7)
+#if defined(STM32H5) || defined(STM32H7)
 #define RCC_SR          RSR
 #if defined(STM32H747xx)
 #define RCC_SR_SFTRSTF  RCC_RSR_SFT2RSTF
@@ -47,6 +47,8 @@
 // TODO
 #define POWERCTRL_GET_VOLTAGE_SCALING() PWR_REGULATOR_VOLTAGE_SCALE0
 #elif defined(STM32H723xx)
+#define POWERCTRL_GET_VOLTAGE_SCALING() LL_PWR_GetRegulVoltageScaling()
+#elif defined(STM32H5)
 #define POWERCTRL_GET_VOLTAGE_SCALING() LL_PWR_GetRegulVoltageScaling()
 #else
 #define POWERCTRL_GET_VOLTAGE_SCALING()     \
@@ -379,10 +381,10 @@ STATIC uint32_t calc_apb2_div(uint32_t wanted_div) {
     #endif
 }
 
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32G0) || defined(STM32G4) || defined(STM32H7)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32G0) || defined(STM32G4) || defined(STM32H5) || defined(STM32H7)
 
 int powerctrl_set_sysclk(uint32_t sysclk, uint32_t ahb, uint32_t apb1, uint32_t apb2) {
-    // Return straightaway if the clocks are already at the desired frequency
+    // Return straight away if the clocks are already at the desired frequency
     if (sysclk == HAL_RCC_GetSysClockFreq()
         && ahb == HAL_RCC_GetHCLKFreq()
         && apb1 == HAL_RCC_GetPCLK1Freq()
@@ -453,12 +455,19 @@ set_clk:
     // Determine the bus clock dividers
     // Note: AHB freq required to be >= 14.2MHz for USB operation
     RCC_ClkInitStruct.AHBCLKDivider = calc_ahb_div(sysclk / ahb);
-    #if !defined(STM32H7)
+    #if defined(STM32H5)
+    ahb = sysclk >> AHBPrescTable[RCC_ClkInitStruct.AHBCLKDivider >> RCC_CFGR2_HPRE_Pos];
+    #elif defined(STM32H7)
+    // Do nothing.
+    #else
     ahb = sysclk >> AHBPrescTable[RCC_ClkInitStruct.AHBCLKDivider >> RCC_CFGR_HPRE_Pos];
     #endif
     RCC_ClkInitStruct.APB1CLKDivider = calc_apb1_div(ahb / apb1);
     #if !defined(STM32G0)
     RCC_ClkInitStruct.APB2CLKDivider = calc_apb2_div(ahb / apb2);
+    #endif
+    #if defined(STM32H5)
+    RCC_ClkInitStruct.APB3CLKDivider = RCC_HCLK_DIV1;
     #endif
     #if defined(STM32H7)
     RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
@@ -491,6 +500,9 @@ set_clk:
     RCC_OscInitStruct.OscillatorType = MICROPY_HW_RCC_OSCILLATOR_TYPE;
     RCC_OscInitStruct.HSEState = MICROPY_HW_RCC_HSE_STATE;
     RCC_OscInitStruct.HSIState = MICROPY_HW_RCC_HSI_STATE;
+    #if defined(STM32G0) || defined(STM32H5)
+    RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
+    #endif
     RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = MICROPY_HW_RCC_PLL_SRC;
@@ -499,7 +511,24 @@ set_clk:
     RCC_OscInitStruct.PLL.PLLP = p;
     RCC_OscInitStruct.PLL.PLLQ = q;
 
-    #if defined(STM32H7)
+    #if defined(STM32H5)
+    RCC_OscInitStruct.PLL.PLLR = 0;
+    if (MICROPY_HW_CLK_VALUE / 1000000 <= 2 * m) {
+        RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1_VCIRANGE_0; // 1-2MHz
+    } else if (MICROPY_HW_CLK_VALUE / 1000000 <= 4 * m) {
+        RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1_VCIRANGE_1; // 2-4MHz
+    } else if (MICROPY_HW_CLK_VALUE / 1000000 <= 8 * m) {
+        RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1_VCIRANGE_2; // 4-8MHz
+    } else {
+        RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1_VCIRANGE_3; // 8-16MHz
+    }
+    if (MICROPY_HW_CLK_VALUE / 1000000 * n <= 420 * m) {
+        RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1_VCORANGE_MEDIUM; // 150-420MHz
+    } else {
+        RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1_VCORANGE_WIDE; // 192-836MHz
+    }
+    RCC_OscInitStruct.PLL.PLLFRACN = 0;
+    #elif defined(STM32H7)
     RCC_OscInitStruct.PLL.PLLR = 0;
     if (MICROPY_HW_CLK_VALUE / 1000000 <= 2 * m) {
         RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_0; // 1-2MHz
@@ -659,7 +688,7 @@ int powerctrl_set_sysclk(uint32_t sysclk, uint32_t ahb, uint32_t apb1, uint32_t 
         powerctrl_config_systick();
     }
 
-    // Return straightaway if the clocks are already at the desired frequency.
+    // Return straight away if the clocks are already at the desired frequency.
     if (ahb == HAL_RCC_GetHCLKFreq()
         && apb1 == HAL_RCC_GetPCLK1Freq()
         && apb2 == HAL_RCC_GetPCLK2Freq()) {
@@ -770,6 +799,14 @@ void powerctrl_enter_stop_mode(void) {
     HAL_PWREx_EnableFlashPowerDown();
     #endif
 
+    #if defined(STM32H5)
+    // Save RCC CR to re-enable OSCs and PLLs after wake up from low power mode.
+    uint32_t rcc_cr = RCC->CR;
+
+    // Save the current voltage scaling level to restore after exiting low power mode.
+    uint32_t vscaling = POWERCTRL_GET_VOLTAGE_SCALING();
+    #endif
+
     #if defined(STM32H7)
     // Save RCC CR to re-enable OSCs and PLLs after wake up from low power mode.
     uint32_t rcc_cr = RCC->CR;
@@ -823,9 +860,9 @@ void powerctrl_enter_stop_mode(void) {
     while (__HAL_RCC_GET_SYSCLK_SOURCE() != RCC_CFGR_SWS_HSI48) {
     }
 
-    #else
+    #else // defined(STM32F0)
 
-    #if defined(STM32H7)
+    #if defined(STM32H5) || defined(STM32H7)
     // When exiting from Stop or Standby modes, the Run mode voltage scaling is reset to
     // the default VOS3 value. Restore the voltage scaling to the previous voltage scale.
     if (vscaling != POWERCTRL_GET_VOLTAGE_SCALING()) {
@@ -855,6 +892,18 @@ void powerctrl_enter_stop_mode(void) {
     HAL_PWREx_EnableOverDrive();
     #endif
 
+    #if defined(STM32H5)
+
+    // Enable PLL1, and switch the system clock source to PLL1P.
+    LL_RCC_PLL1_Enable();
+    while (!LL_RCC_PLL1_IsReady()) {
+    }
+    LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL1);
+    while (LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL1) {
+    }
+
+    #else // defined(STM32H5)
+
     // enable PLL
     __HAL_RCC_PLL_ENABLE();
     while (!__HAL_RCC_GET_FLAG(RCC_FLAG_PLLRDY)) {
@@ -873,6 +922,8 @@ void powerctrl_enter_stop_mode(void) {
     }
     #endif
 
+    #endif // defined(STM32H5)
+
     powerctrl_disable_hsi_if_unused();
 
     #if HAVE_PLL48
@@ -880,6 +931,15 @@ void powerctrl_enter_stop_mode(void) {
         // Enable PLLSAI if it is selected as 48MHz source
         RCC->CR |= RCC_CR_PLL48_ON;
         while (!(RCC->CR & RCC_CR_PLL48_RDY)) {
+        }
+    }
+    #endif
+
+    #if defined(STM32H5)
+    if (rcc_cr & RCC_CR_HSI48ON) {
+        // Enable HSI48.
+        LL_RCC_HSI48_Enable();
+        while (!LL_RCC_HSI48_IsReady()) {
         }
     }
     #endif
@@ -946,7 +1006,7 @@ void powerctrl_enter_stop_mode(void) {
     enable_irq(irq_state);
 }
 
-void powerctrl_enter_standby_mode(void) {
+NORETURN void powerctrl_enter_standby_mode(void) {
     rtc_init_finalise();
 
     #if defined(MICROPY_BOARD_ENTER_STANDBY)
@@ -980,7 +1040,7 @@ void powerctrl_enter_standby_mode(void) {
     #if defined(STM32F0) || defined(STM32L0)
     #define CR_BITS (RTC_CR_ALRAIE | RTC_CR_WUTIE | RTC_CR_TSIE)
     #define ISR_BITS (RTC_ISR_ALRAF | RTC_ISR_WUTF | RTC_ISR_TSF)
-    #elif defined(STM32G0) || defined(STM32G4) || defined(STM32WL)
+    #elif defined(STM32G0) || defined(STM32G4) || defined(STM32H5) || defined(STM32WL)
     #define CR_BITS (RTC_CR_ALRAIE | RTC_CR_ALRBIE | RTC_CR_WUTIE | RTC_CR_TSIE)
     #define ISR_BITS (RTC_MISR_ALRAMF | RTC_MISR_ALRBMF | RTC_MISR_WUTMF | RTC_MISR_TSMF)
     #elif defined(STM32H7A3xx) || defined(STM32H7A3xxQ) || defined(STM32H7B3xx) || defined(STM32H7B3xxQ)
@@ -1004,7 +1064,7 @@ void powerctrl_enter_standby_mode(void) {
     // clear RTC wake-up flags
     #if defined(SR_BITS)
     RTC->SR &= ~SR_BITS;
-    #elif defined(STM32G0) || defined(STM32G4) || defined(STM32WL)
+    #elif defined(STM32G0) || defined(STM32G4) || defined(STM32H5) || defined(STM32WL)
     RTC->MISR &= ~ISR_BITS;
     #else
     RTC->ISR &= ~ISR_BITS;
@@ -1019,6 +1079,8 @@ void powerctrl_enter_standby_mode(void) {
     PWR->CR2 |= PWR_CR2_CWUPF6 | PWR_CR2_CWUPF5 | PWR_CR2_CWUPF4 | PWR_CR2_CWUPF3 | PWR_CR2_CWUPF2 | PWR_CR2_CWUPF1;
     // Restore EWUP state
     PWR->CSR2 |= csr2_ewup;
+    #elif defined(STM32H5)
+    LL_PWR_ClearFlag_WU();
     #elif defined(STM32H7)
     // Clear and mask D1 EXTIs.
     EXTI_D1->PR1 = 0x3fffffu;
@@ -1068,7 +1130,6 @@ void powerctrl_enter_standby_mode(void) {
 
     // enter standby mode
     HAL_PWR_EnterSTANDBYMode();
-    // we never return; MCU is reset on exit from standby
-    // But just in case...
-    NVIC_SystemReset();
+    // MCU is reset on exit from standby, but just in case it's not, do an explicit reset.
+    powerctrl_mcu_reset();
 }

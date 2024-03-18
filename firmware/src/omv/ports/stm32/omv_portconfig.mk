@@ -8,7 +8,8 @@ CFLAGS += -std=gnu99 -Wall -Werror -Warray-bounds -mthumb -nostartfiles -fdata-s
 CFLAGS += -fno-inline-small-functions -D$(MCU) -D$(CFLAGS_MCU) -D$(ARM_MATH) -DARM_NN_TRUNCATE\
           -fsingle-precision-constant -Wdouble-promotion -mcpu=$(CPU) -mtune=$(CPU) -mfpu=$(FPU) -mfloat-abi=hard
 CFLAGS += -D__FPU_PRESENT=1 -D__VFP_FP__ -DUSE_DEVICE_MODE -DHSE_VALUE=$(OMV_HSE_VALUE)\
-          -D$(TARGET) -DVECT_TAB_OFFSET=$(VECT_TAB_OFFSET) -DMAIN_APP_ADDR=$(MAIN_APP_ADDR) -DSTM32_HAL_H=$(HAL_INC)
+          -D$(TARGET) -DVECT_TAB_OFFSET=$(VECT_TAB_OFFSET) -DMAIN_APP_ADDR=$(MAIN_APP_ADDR) -DSTM32_HAL_H=$(HAL_INC)\
+          -DCMSIS_MCU_H=$(CMSIS_MCU_H) -DUSE_FULL_LL_DRIVER
 CFLAGS += $(OMV_BOARD_EXTRA_CFLAGS)
 
 HAL_CFLAGS += -I$(TOP_DIR)/$(CMSIS_DIR)/include/
@@ -22,13 +23,15 @@ MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/py/
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/oofatfs
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/lwip/src/include/
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/mbedtls/include
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/stm32/
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/stm32/usbdev/core/inc/
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/stm32/usbdev/class/inc/
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/stm32/lwip_inc/
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/runtime/
-MPY_CFLAGS += -DMICROPY_PY_USSL=1 -DMICROPY_SSL_MBEDTLS=1
-MICROPY_ARGS += MICROPY_PY_USSL=1 MICROPY_SSL_MBEDTLS=1 MICROPY_PY_BTREE=1\
+MPY_CFLAGS += -DMICROPY_PY_SSL=1 -DMICROPY_SSL_MBEDTLS=1 -DMICROPY_STREAMS_POSIX_API=1 -DMICROPY_VFS_FAT=1
+
+MICROPY_ARGS += MICROPY_PY_SSL=1 MICROPY_SSL_MBEDTLS=1 MICROPY_PY_BTREE=1\
                 STM32LIB_CMSIS_DIR=$(TOP_DIR)/$(CMSIS_DIR) STM32LIB_HAL_DIR=$(TOP_DIR)/$(HAL_DIR)
 
 OMV_CFLAGS += -I$(OMV_BOARD_CONFIG_DIR)
@@ -51,6 +54,7 @@ OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90621_DIR)/include/
 OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90640_DIR)/include/
 OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90641_DIR)/include/
 OMV_CFLAGS += -I$(TOP_DIR)/$(PIXART_DIR)/include/
+OMV_CFLAGS += -I$(TOP_DIR)/$(DISPLAY_DIR)/include/
 OMV_CFLAGS += -I$(TOP_DIR)/$(TENSORFLOW_DIR)/
 OMV_CFLAGS += -I$(BUILD)/$(TENSORFLOW_DIR)/
 OMV_CFLAGS += -I$(TOP_DIR)/$(LIBPDM_DIR)/
@@ -108,8 +112,7 @@ LIBS += $(TOP_DIR)/$(LIBPDM_DIR)/libPDMFilter_CM7_GCC_wc32.a
 endif
 
 #------------- Firmware Objects ----------------#
-FIRM_OBJ += $(wildcard $(BUILD)/$(CMSIS_DIR)/src/dsp/CommonTables/*.o)
-FIRM_OBJ += $(wildcard $(BUILD)/$(CMSIS_DIR)/src/dsp/FastMathFunctions/*.o)
+FIRM_OBJ += $(wildcard $(BUILD)/$(CMSIS_DIR)/src/dsp/*/*.o)
 
 FIRM_OBJ += $(wildcard $(BUILD)/$(HAL_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(LEPTON_DIR)/src/*.o)
@@ -125,6 +128,7 @@ FIRM_OBJ += $(wildcard $(BUILD)/$(MLX90640_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(MLX90641_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(VL53L5CX_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(PIXART_DIR)/src/*.o)
+FIRM_OBJ += $(wildcard $(BUILD)/$(DISPLAY_DIR)/src/*.o)
 
 #------------- OpenMV Objects ----------------#
 FIRM_OBJ += $(addprefix $(BUILD)/$(CMSIS_DIR)/src/, \
@@ -142,15 +146,16 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/alloc/, \
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	array.o                     \
-	ff_wrapper.o                \
 	ini.o                       \
 	ringbuf.o                   \
 	trace.o                     \
 	mutex.o                     \
-	usbdbg.o                    \
-	sensor_utils.o              \
-	factoryreset.o              \
 	vospi.o                     \
+	pendsv.o                    \
+	usbdbg.o                    \
+	file_utils.o                \
+	boot_utils.o                \
+	sensor_utils.o              \
    )
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/,   \
@@ -199,7 +204,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/imlib/, \
 	integral_mw.o               \
 	isp.o                       \
 	jpegd.o                     \
-	jpeg.o                      \
+	jpege.o                     \
 	lodepng.o                   \
 	png.o                       \
 	kmeans.o                    \
@@ -244,9 +249,9 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	usbd_cdc_interface.o    \
 	usbd_hid_interface.o    \
 	usbd_msc_interface.o    \
-	pendsv.o                \
 	bufhelper.o             \
 	usb.o                   \
+	usrsw.o                 \
 	eth.o                   \
 	gccollect.o             \
 	help.o                  \
@@ -278,7 +283,6 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	servo.o                 \
 	rng.o                   \
 	led.o                   \
-	wdt.o                   \
 	mphalport.o             \
 	sdcard.o                \
 	sdram.o                 \
@@ -286,13 +290,9 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	extint.o                \
 	modpyb.o                \
 	modstm.o                \
-	modutime.o              \
 	network_lan.o           \
-	modmachine.o            \
 	machine_i2c.o           \
 	machine_spi.o           \
-	machine_uart.o          \
-	machine_adc.o           \
 	machine_bitstream.o     \
 	pybthread.o             \
 	mpthreadport.o          \
@@ -368,43 +368,56 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/usbdev/, \
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/extmod/,\
-	modujson.o          \
-	modure.o            \
-	moduzlib.o          \
-	moduhashlib.o       \
-	modubinascii.o      \
-	modurandom.o        \
-	moduselect.o        \
-	modutimeq.o         \
-	moduheapq.o         \
-	moductypes.o        \
-	moduos.o            \
-	vfs.o               \
-	vfs_fat.o           \
-	vfs_fat_file.o      \
-	vfs_reader.o        \
-	vfs_fat_diskio.o    \
-	vfs_blockdev.o      \
-	virtpin.o           \
-	machine_mem.o       \
-	machine_i2c.o       \
-	machine_spi.o       \
-	machine_pulse.o     \
-	machine_signal.o    \
-	machine_pinbase.o   \
+	machine_adc.o \
+	machine_adc_block.o \
 	machine_bitstream.o \
-	machine_timer.o     \
-	utime_mphal.o       \
-	modonewire.o        \
-	uos_dupterm.o       \
-	modframebuf.o       \
-	modbtree.o          \
-	moducryptolib.o     \
-	modussl_mbedtls.o   \
-	moduasyncio.o       \
-	modusocket.o        \
-	modnetwork.o        \
-	moduplatform.o      \
+	machine_i2c.o \
+	machine_i2s.o \
+	machine_mem.o \
+	machine_pinbase.o \
+	machine_pulse.o \
+	machine_pwm.o \
+	machine_signal.o \
+	machine_spi.o \
+	machine_timer.o \
+	machine_uart.o \
+	machine_wdt.o \
+	modasyncio.o \
+	modbinascii.o \
+	modbtree.o \
+	modcryptolib.o \
+	moddeflate.o \
+	modframebuf.o \
+	modhashlib.o \
+	modheapq.o \
+	modjson.o \
+	modmachine.o \
+	modnetwork.o \
+	modonewire.o \
+	modos.o \
+	modplatform.o\
+	modrandom.o \
+	modre.o \
+	modselect.o \
+	modsocket.o \
+	modssl_axtls.o \
+	modssl_mbedtls.o \
+	modtime.o \
+	moductypes.o \
+	network_esp_hosted.o \
+	network_ninaw10.o \
+	network_wiznet5k.o \
+	os_dupterm.o \
+	vfs.o \
+	vfs_blockdev.o \
+	vfs_fat.o \
+	vfs_fat_diskio.o \
+	vfs_fat_file.o \
+	vfs_lfs.o \
+	vfs_posix.o \
+	vfs_posix_file.o \
+	vfs_reader.o \
+	virtpin.o \
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/lib/oofatfs/,\
@@ -461,7 +474,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	lib/lwip/src/netif/*.o     \
 	lib/lwip/src/apps/*/*.o    \
 	extmod/modlwip.o           \
-	extmod/moduwebsocket.o     \
+	extmod/modwebsocket.o      \
 	extmod/modwebrepl.o        \
 	mpnetworkport.o            \
 	)
@@ -518,6 +531,7 @@ endif
 ifeq ($(OMV_ENABLE_UVC), 1)
 UVC = uvc
 # UVC object files
+UVC_OBJ += $(BUILD)/$(MICROPY_DIR)/lib/libm/math.o
 UVC_OBJ += $(wildcard $(BUILD)/$(UVC_DIR)/src/*.o)
 UVC_OBJ += $(wildcard $(BUILD)/$(HAL_DIR)/src/*.o)
 UVC_OBJ += $(addprefix $(BUILD)/$(CMSIS_DIR)/src/,\
@@ -557,16 +571,19 @@ UVC_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/, \
 	)
 
 UVC_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/imlib/,\
+	bayer.o                                 \
 	lab_tab.o                               \
 	xyz_tab.o                               \
 	rainbow_tab.o                           \
-	jpeg.o                                  \
+	jpege.o                                 \
 	fmath.o                                 \
 	imlib.o                                 \
 	framebuffer.o                           \
+	yuv.o                                   \
 	)
 
 UVC_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/ports/stm32/,\
+	jpeg.o                                  \
 	sensor.o                                \
 	stm32fxxx_hal_msp.o                     \
 	soft_i2c.o                              \
@@ -653,6 +670,7 @@ endif
 	$(MAKE)  -C $(MLX90641_DIR)              BUILD=$(BUILD)/$(MLX90641_DIR)     CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(VL53L5CX_DIR)              BUILD=$(BUILD)/$(VL53L5CX_DIR)     CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(PIXART_DIR)                BUILD=$(BUILD)/$(PIXART_DIR)       CFLAGS="$(CFLAGS) -MMD"
+	$(MAKE)  -C $(DISPLAY_DIR)               BUILD=$(BUILD)/$(DISPLAY_DIR)      CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(OMV_DIR)                   BUILD=$(BUILD)/$(OMV_DIR)          CFLAGS="$(CFLAGS) -MMD"
 ifeq ($(CUBEAI), 1)
 	$(MAKE)  -C $(CUBEAI_DIR)                BUILD=$(BUILD)/$(CUBEAI_DIR)       CFLAGS="$(CFLAGS) -fno-strict-aliasing -MMD"

@@ -89,37 +89,57 @@
 // Fine control over Python builtins, classes, modules, etc
 #define MICROPY_PY_BUILTINS_HELP_TEXT           rp2_help_text
 #define MICROPY_PY_SYS_PLATFORM                 "rp2"
-#define MICROPY_PY_THREAD                       (0)
+#define MICROPY_PY_THREAD                       (1)
 #define MICROPY_PY_THREAD_GIL                   (0)
 #define MICROPY_THREAD_YIELD()                  mp_handle_pending(true)
 
 // Extended modules
 #define MICROPY_EPOCH_IS_1970                   (1)
-#define MICROPY_PY_UOS_INCLUDEFILE              "ports/rp2/moduos.c"
+#define MICROPY_PY_OS_INCLUDEFILE               "ports/rp2/modos.c"
 #ifndef MICROPY_PY_OS_DUPTERM
 #define MICROPY_PY_OS_DUPTERM                   (1)
+#define MICROPY_PY_OS_DUPTERM_NOTIFY            (1)
 #endif
-#define MICROPY_PY_UOS_UNAME                    (1)
-#define MICROPY_PY_UOS_URANDOM                  (1)
-#define MICROPY_PY_URE_MATCH_GROUPS             (1)
-#define MICROPY_PY_URE_MATCH_SPAN_START_END     (1)
-#define MICROPY_PY_UHASHLIB_SHA1                (1)
-#define MICROPY_PY_UCRYPTOLIB                   (1)
-#define MICROPY_PY_UTIME_MP_HAL                 (1)
-#define MICROPY_PY_URANDOM_SEED_INIT_FUNC       (rosc_random_u32())
+#define MICROPY_PY_OS_SYNC                      (1)
+#define MICROPY_PY_OS_UNAME                     (1)
+#define MICROPY_PY_OS_URANDOM                   (1)
+#define MICROPY_PY_RE_MATCH_GROUPS              (1)
+#define MICROPY_PY_RE_MATCH_SPAN_START_END      (1)
+#define MICROPY_PY_HASHLIB_SHA1                 (1)
+#define MICROPY_PY_CRYPTOLIB                    (1)
+#define MICROPY_PY_TIME_GMTIME_LOCALTIME_MKTIME (1)
+#define MICROPY_PY_TIME_TIME_TIME_NS            (1)
+#define MICROPY_PY_TIME_INCLUDEFILE             "ports/rp2/modtime.c"
+#define MICROPY_PY_RANDOM_SEED_INIT_FUNC        (rosc_random_u32())
 #define MICROPY_PY_MACHINE                      (1)
+#define MICROPY_PY_MACHINE_INCLUDEFILE          "ports/rp2/modmachine.c"
+#define MICROPY_PY_MACHINE_BARE_METAL_FUNCS     (1)
+#define MICROPY_PY_MACHINE_BOOTLOADER           (1)
+#define MICROPY_PY_MACHINE_DISABLE_IRQ_ENABLE_IRQ (1)
+#define MICROPY_PY_MACHINE_ADC                  (1)
+#define MICROPY_PY_MACHINE_ADC_INCLUDEFILE      "ports/rp2/machine_adc.c"
 #define MICROPY_PY_MACHINE_PIN_MAKE_NEW         mp_pin_make_new
 #define MICROPY_PY_MACHINE_BITSTREAM            (1)
+#define MICROPY_PY_MACHINE_DHT_READINTO         (1)
 #define MICROPY_PY_MACHINE_PULSE                (1)
 #define MICROPY_PY_MACHINE_PWM                  (1)
-#define MICROPY_PY_MACHINE_PWM_DUTY_U16_NS      (1)
 #define MICROPY_PY_MACHINE_PWM_INCLUDEFILE      "ports/rp2/machine_pwm.c"
 #define MICROPY_PY_MACHINE_I2C                  (1)
 #define MICROPY_PY_MACHINE_SOFTI2C              (1)
+#define MICROPY_PY_MACHINE_I2S                  (1)
+#define MICROPY_PY_MACHINE_I2S_INCLUDEFILE      "ports/rp2/machine_i2s.c"
+#define MICROPY_PY_MACHINE_I2S_CONSTANT_RX      (RX)
+#define MICROPY_PY_MACHINE_I2S_CONSTANT_TX      (TX)
+#define MICROPY_PY_MACHINE_I2S_RING_BUF         (1)
 #define MICROPY_PY_MACHINE_SPI                  (1)
 #define MICROPY_PY_MACHINE_SPI_MSB              (SPI_MSB_FIRST)
 #define MICROPY_PY_MACHINE_SPI_LSB              (SPI_LSB_FIRST)
 #define MICROPY_PY_MACHINE_SOFTSPI              (1)
+#define MICROPY_PY_MACHINE_UART                 (1)
+#define MICROPY_PY_MACHINE_UART_INCLUDEFILE     "ports/rp2/machine_uart.c"
+#define MICROPY_PY_MACHINE_UART_SENDBREAK       (1)
+#define MICROPY_PY_MACHINE_WDT                  (1)
+#define MICROPY_PY_MACHINE_WDT_INCLUDEFILE      "ports/rp2/machine_wdt.c"
 #define MICROPY_PY_ONEWIRE                      (1)
 #define MICROPY_VFS                             (1)
 #define MICROPY_VFS_LFS2                        (0)
@@ -149,14 +169,14 @@
 #define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "mpy-rp2"
 #endif
 
-#ifndef MICROPY_PY_USOCKET
-#define MICROPY_PY_USOCKET              (1)
+#ifndef MICROPY_PY_SOCKET
+#define MICROPY_PY_SOCKET               (1)
 #endif
-#ifndef MICROPY_PY_USSL
-#define MICROPY_PY_USSL                 (1)
+#ifndef MICROPY_PY_SSL
+#define MICROPY_PY_SSL                  (1)
 #endif
-#ifndef MICROPY_PY_UWEBSOCKET
-#define MICROPY_PY_UWEBSOCKET           (1)
+#ifndef MICROPY_PY_WEBSOCKET
+#define MICROPY_PY_WEBSOCKET            (1)
 #endif
 #ifndef MICROPY_PY_WEBREPL
 #define MICROPY_PY_WEBREPL              (1)
@@ -179,8 +199,8 @@ extern const struct _mp_obj_type_t mp_network_cyw43_type;
 
 #if MICROPY_PY_NETWORK_NINAW10
 // This Network interface requires the extended socket state.
-#ifndef MICROPY_PY_USOCKET_EXTENDED_STATE
-#define MICROPY_PY_USOCKET_EXTENDED_STATE   (1)
+#ifndef MICROPY_PY_SOCKET_EXTENDED_STATE
+#define MICROPY_PY_SOCKET_EXTENDED_STATE    (1)
 #endif
 extern const struct _mp_obj_type_t mod_network_nic_type_nina;
 #define MICROPY_HW_NIC_NINAW10              { MP_ROM_QSTR(MP_QSTR_WLAN), MP_ROM_PTR(&mod_network_nic_type_nina) },
@@ -225,48 +245,23 @@ extern const struct _mp_obj_type_t mod_network_nic_type_wiznet5k;
 #define MICROPY_HW_BOOTSEL_DELAY_US 8
 #endif
 
-// Entering a critical section.
-extern uint32_t mp_thread_begin_atomic_section(void);
-extern void mp_thread_end_atomic_section(uint32_t);
-#if MICROPY_PY_THREAD
-#define MICROPY_BEGIN_ATOMIC_SECTION()     mp_thread_begin_atomic_section()
-#define MICROPY_END_ATOMIC_SECTION(state)  mp_thread_end_atomic_section(state)
-#else
-#define MICROPY_BEGIN_ATOMIC_SECTION()     0
-#define MICROPY_END_ATOMIC_SECTION(state)  (void) state
-#endif
-
 // Prevent the "lwIP task" from running when unsafe to do so.
 #define MICROPY_PY_LWIP_ENTER   lwip_lock_acquire();
 #define MICROPY_PY_LWIP_REENTER lwip_lock_acquire();
 #define MICROPY_PY_LWIP_EXIT    lwip_lock_release();
 
-#if MICROPY_HW_ENABLE_USBDEV
-#define MICROPY_HW_USBDEV_TASK_HOOK extern void usbd_task(void); usbd_task();
-#define MICROPY_VM_HOOK_COUNT (10)
-#define MICROPY_VM_HOOK_INIT static uint vm_hook_divisor = MICROPY_VM_HOOK_COUNT;
-#define MICROPY_VM_HOOK_POLL if (get_core_num() == 0 && --vm_hook_divisor == 0) { \
-        vm_hook_divisor = MICROPY_VM_HOOK_COUNT; \
-        MICROPY_HW_USBDEV_TASK_HOOK \
-}
-#define MICROPY_VM_HOOK_LOOP MICROPY_VM_HOOK_POLL
-#define MICROPY_VM_HOOK_RETURN MICROPY_VM_HOOK_POLL
-#else
-#define MICROPY_HW_USBDEV_TASK_HOOK
-#endif
-
-#define MICROPY_EVENT_POLL_HOOK_FAST \
-    do { \
-        if (get_core_num() == 0) { MICROPY_HW_USBDEV_TASK_HOOK } \
-        extern void mp_handle_pending(bool); \
-        mp_handle_pending(true); \
+// Port level Wait-for-Event macro
+//
+// Do not use this macro directly, include py/runtime.h and
+// call mp_event_wait_indefinite() or mp_event_wait_ms(timeout)
+#define MICROPY_INTERNAL_WFE(TIMEOUT_MS) \
+    do {                                 \
+        if ((TIMEOUT_MS) < 0) { \
+            __wfe(); \
+        } else { \
+            best_effort_wfe_or_timeout(make_timeout_time_ms(TIMEOUT_MS)); \
+        } \
     } while (0)
-
-#define MICROPY_EVENT_POLL_HOOK \
-    do { \
-        MICROPY_EVENT_POLL_HOOK_FAST; \
-        best_effort_wfe_or_timeout(make_timeout_time_ms(1)); \
-    } while (0);
 
 #define MICROPY_MAKE_POINTER_CALLABLE(p) ((void *)((mp_uint_t)(p) | 1))
 
@@ -285,3 +280,9 @@ typedef intptr_t mp_off_t;
 extern uint32_t rosc_random_u32(void);
 extern void lwip_lock_acquire(void);
 extern void lwip_lock_release(void);
+
+#if MICROPY_PY_BLUETOOTH || MICROPY_PY_BLUETOOTH_CYW43
+// Bluetooth code only runs in the scheduler, no locking/mutex required.
+#define MICROPY_PY_BLUETOOTH_ENTER uint32_t atomic_state = 0;
+#define MICROPY_PY_BLUETOOTH_EXIT (void)atomic_state;
+#endif

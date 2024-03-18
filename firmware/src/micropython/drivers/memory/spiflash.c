@@ -182,6 +182,12 @@ void mp_spiflash_init(mp_spiflash_t *self) {
     // Ensure SPI flash is out of sleep mode
     mp_spiflash_deepsleep_internal(self, 0);
 
+    // Software reset.
+    mp_spiflash_write_cmd(self, CMD_RSTEN);
+    mp_spiflash_write_cmd(self, CMD_RESET);
+    mp_spiflash_wait_wip0(self);
+    mp_hal_delay_ms(1);
+
     #if defined(CHECK_DEVID)
     // Validate device id
     uint32_t devid;
@@ -207,10 +213,6 @@ void mp_spiflash_init(mp_spiflash_t *self) {
             mp_spiflash_wait_wip0(self);
         }
     }
-
-    mp_spiflash_write_cmd(self, CMD_RSTEN);
-    mp_spiflash_write_cmd(self, CMD_RESET);
-    mp_spiflash_wait_wip0(self);
 
     mp_spiflash_release_bus(self);
 }

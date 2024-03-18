@@ -1574,7 +1574,7 @@ or to memory. This class provides fast read/write random access for loading/stor
 
       Returns the ImageIO object.
 
-   .. method:: read([copy_to_fb=False, [loop=True, [pause=True]]])
+   .. method:: read([copy_to_fb=True, [loop=True, [pause=True]]])
 
       Returns an image object from the ImageIO object. If ``copy_to_fb`` is False then
       the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
@@ -1586,15 +1586,6 @@ or to memory. This class provides fast read/write random access for loading/stor
 
       ``pause`` if True causes this method to pause for a previously recorded number of milliseconds
       by write in-order to match the original frame rate that captured the image data.
-
-      ``copy_to_fb`` may also be another image object if you want to replace that image object's memory
-      buffer, type, width, and height with new image data.
-
-      .. note::
-
-         Any use of ``copy_to_fb`` invalidates the previous image object it overwrites. Do not use
-         any references to previous image objects anymore it overwrites. Either for an image object
-         referencing the frame buffer, frame buffer stack, or an image on the MicroPython heap.
 
    .. method:: seek(offset)
 
@@ -1624,33 +1615,28 @@ class Image -- Image object
 
 The image object is the basic object for machine vision operations.
 
-.. class:: Image(path, [copy_to_fb=False])
+.. class:: Image(path, [buffer=None, [copy_to_fb=False]])
 
    Creates a new image object from a file at ``path``. Alternatively, you may
-   pass a width, height, and either `sensor.BINARY`, `sensor.GRAYSCALE`, or
-   `sensor.RGB565` to create new blank image object (initialized to 0 - black).
+   pass a `width`, `height`, and either they any image format value like ``image.GRAYSCALE``
+   to create new blank image object (initialized to 0 - black).
 
-   Supports bmp/pgm/ppm/jpg/jpeg image files.
+   Supports bmp/pgm/ppm/jpg/jpeg/png image files.
 
    ``copy_to_fb`` if True the image is loaded directly into the frame buffer
    allowing you to load up large images. If False, the image is loaded into
    MicroPython's heap which is much smaller than the frame buffer.
 
-   You may also set ``copy_to_fb`` equal to another image object and that
-   buffer will then be overwritten with the copied image changing the passed
-   image object's pixel format and resolution.
-
-   .. note::
-
-      If ``copy_to_fb`` is set to True or another image object do not continue
-      using the old image object passed to this method or the frame buffer
-      image object. Use the new returned image object reference from this
-      method as the old references are now stale.
+   ``buffer`` can be set to the any buffer object to use that as the data source
+   for the image. For example, if you'd like to create a JPEG image from a JPEG
+   ``bytes()`` or ``bytearray()`` object you can pass the ``width``, ``height``,
+   ``image.JPEG`` for the JPEG along with setting ``buffer`` to the JPEG byte stream
+   to create a JPEG image. Finally, note that images are buffer objects themselves.
 
    Images support "[]" notation. Do ``image[index] = 8/16-bit value`` to assign
    an image pixel or ``image[index]`` to get an image pixel which will be
-   either an 8-bit value for grayscale images of a 16-bit RGB565 value for RGB
-   images.
+   either an 8-bit value for grayscale/bayer images of a 16-bit value for RGB565/YUV
+   images. Binary images return a 1-bit value.
 
    For JPEG images the "[]" allows you to access the compressed JPEG image blob
    as a byte-array. Reading and writing to the data array is opaque however as
@@ -1671,8 +1657,8 @@ The image object is the basic object for machine vision operations.
 
    .. method:: format()
 
-      Returns `sensor.GRAYSCALE` for grayscale images, `sensor.RGB565` for RGB565
-      images, `sensor.BAYER` for bayer pattern images, and `sensor.JPEG` for JPEG
+      Returns `image.GRAYSCALE` for grayscale images, `image.RGB565` for RGB565
+      images, `image.BAYER` for bayer pattern images, and `image.JPEG` for JPEG
       images.
 
    .. method:: size()
@@ -1780,7 +1766,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: to_bitmap([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_bitmap([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to a bitmap image (1 bit per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1791,11 +1777,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1809,7 +1797,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1824,20 +1812,18 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       .. note::
 
@@ -1854,7 +1840,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_grayscale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_grayscale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to a grayscale image (8-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1865,11 +1851,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1883,7 +1871,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1898,24 +1886,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_rgb565([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_rgb565([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to an RGB565 image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1926,11 +1912,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1944,7 +1932,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1959,24 +1947,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_rainbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=sensor.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_rainbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=image.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to an RGB565 rainbow image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1987,11 +1973,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2005,7 +1993,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2020,24 +2008,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_ironbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=sensor.PALETTE_IRONBOW, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_ironbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=image.PALETTE_IRONBOW, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to an RGB565 ironbow image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2048,11 +2034,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2066,7 +2054,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2081,24 +2069,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_jpeg([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_jpeg([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to a JPEG image. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2109,11 +2095,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2127,7 +2115,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2142,24 +2130,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_png([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_png([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to a PNG image. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2170,11 +2156,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2188,7 +2176,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2203,20 +2191,18 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
@@ -2314,18 +2300,20 @@ The image object is the basic object for machine vision operations.
 
       Only works on JPEG images.
 
-   .. method:: copy([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy_to_fb=False]]]]]]]]]]])
+   .. method:: copy([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy_to_fb=False]]]]]]]]])
 
       Creates a deep copy of the image object. If ``copy_to_fb`` is False then
       the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
       and may not have space to store the new image if exhausted. Instead, set ``copy_to_fb`` to
       True to set the frame buffer to the new image making this function work just like `sensor.snapshot()`.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2339,7 +2327,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2354,35 +2342,24 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
-
-      ``copy_to_fb`` may also be another image object if you want to replace that image object's memory
-      buffer, type, width, and height with new image data.
-
-      .. note::
-
-         Any use of ``copy_to_fb`` invalidates the previous image object it overwrites. Do not use
-         any references to previous image objects anymore it overwrites. Either for an image object
-         referencing the frame buffer, frame buffer stack, or an image on the MicroPython heap.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the new image object.
 
       Not supported on compressed images.
 
-   .. method:: crop([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: crop([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Modifies an image in-place without changing the underlying image type. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2393,11 +2370,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2411,7 +2390,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2426,26 +2405,24 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
       Not supported on compressed images.
 
-   .. method:: scale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: scale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Modifies an image in-place without changing the underlying image type. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2456,11 +2433,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2474,7 +2453,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2489,20 +2468,18 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
@@ -2701,17 +2678,22 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None]]]]]]]]]])
+   .. method:: draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]]])
 
       Draws an ``image`` whose top-left corner starts at location x, y. You may either pass x, y
       separately or as a tuple (x, y). This method automatically handles rendering the image passed
       into the correct pixel format for the destination image while also handling clipping seamlessly.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      You may also pass a path instead of an image object for this method to automatically load the image
+      from disk and draw it in one step. E.g. ``draw_image("test.jpg")``.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2725,7 +2707,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2740,20 +2722,19 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
+         * `image.BLACK_BACKGROUND`: Assume the background image being drawn on is black speeding up blending.
 
       Returns the image object so you can call another method using ``.`` notation.
 
@@ -3130,31 +3111,28 @@ The image object is the basic object for machine vision operations.
 
    .. method:: ccm(matrix)
 
-      Multiples the passed (3x3) or (4x3) floating-point color-correction-matrix with the image.
+      Multiples the passed floating-point color-correction-matrix with the image. Matrices may be in the form of::
 
-      For example, if you pass a 3x3 matrix the method will do this to every pixel the image::
+          [[rr, rg, rb], [gr, gg, gb], [br, bg, bb]]
+          [[rr, rg, rb], [gr, gg, gb], [br, bg, bb], [xx, xx, xx]]
+          [[rr, rg, rb, ro], [gr, gg, gb, go], [br, bg, bb, bo]]
+          [[rr, rg, rb, ro], [gr, gg, gb, go], [br, bg, bb, bo], [xx, xx, xx, xx]]
 
-             1x3         1x4         4x3 
-          [R, G, B] = [r, g, b][1, 0, 0,
-                                0, 1, 0,
-                                0, 0, 1]
+          [rr, rg, rb, ro, gr, gg, gb, go, br, bg, bb, bo]
+          [rr, rg, rb, ro, gr, gg, gb, go, br, bg, bb, bo, xx, xx, xx, xx]
 
-      Note that the sum of each column in the 3x3 matrix should generally be 1. Weights may either
-      be positive or negative but, again, should generally sum to 1 per column.
+      The CCM Method does::
 
-      If you pass a 4x3 matrix the method will do this to every pixel the image::
+          |R'|                |R|      |R'|                |R|
+          |G'| = 3x3 Matrix * |G|  or  |G'| = 3x4 Matrix * |G|
+          |B'|                |B|      |B'|                |B|
+                                                           |1|
 
-             1x3         1x4         4x3 
-          [R, G, B] = [r, g, b, 1][1, 0, 0,
-                                   0, 1, 0,
-                                   0, 0, 1,
-                                   0, 0, 0]
+      Note that the sum of each row in the 3x3 matrix should generally be -1, +1, or 0.
+      Weights may either be positive or negative.
 
-      Where the last row of the 4x3 matrix is an offset per color channel. If you add an offset
-      you may wish to make the weights sum to less than 1 to account for the offset.
-
-      You want to use this method to eliminate systemic cross talk between color channels.
-      However, this should generally be never.
+      You may want to use this method to eliminate systemic cross talk between color channels.
+      Or alternatively, to do color correction on the whole image.
 
       Returns the image object so you can call another method using ``.`` notation.
 
@@ -3162,9 +3140,7 @@ The image object is the basic object for machine vision operations.
 
    .. method:: gamma([gamma=1.0, [contrast=1.0, [brightness=0.0])
 
-      Quickly changes the image gamma, contrast, and brightness. Please use this
-      method instead of `Image.mul` or `Image.div` which are meant for blending to
-      adjust pixels values.
+      Quickly changes the image gamma, contrast, and brightness.
 
       ``gamma`` with values greater than 1.0 makes the image darker in a non-linear
       manner while less than 1.0 makes the image brighter. The gamma value is applied
@@ -3284,61 +3260,6 @@ The image object is the basic object for machine vision operations.
       Returns the image object so you can call another method using ``.`` notation.
 
       Not supported on compressed images or bayer images.
-
-   .. method:: mul(image, [invert=False, [mask=None]])
-
-      Multiplies two images pixel-wise with each other.
-
-      ``image`` can either be an image object, a path to an uncompressed image
-      file (bmp/pgm/ppm), or a scalar value. If a scalar value the value can
-      either be an RGB888 tuple or the underlying pixel value (e.g. an 8-bit grayscale
-      for grayscale images or a RGB565 value for RGB images).
-
-      Set ``invert`` to True to change the multiplication operation from ``a*b``
-      to ``1/((1/a)*(1/b))``. In particular, this lightens the image instead of
-      darkening it (e.g. multiply versus burn operations).
-
-      ``mask`` is another image to use as a pixel level mask for the operation.
-      The mask should be an image with just black or white pixels and should be the
-      same size as the image being operated on. Only pixels set in the mask are
-      modified.
-
-      Returns the image object so you can call another method using ``.`` notation.
-
-      Not supported on compressed images or bayer images.
-
-      .. note::
-
-         This method is meant for image blending and cannot multiply the pixels in
-         the image by a scalar like ``2``. Use `Image.gamma_corr` for that.
-
-   .. method:: div(image, [invert=False, [mod=False, [mask=None]]])
-
-      Divides this image by another one.
-
-      ``image`` can either be an image object, a path to an uncompressed image
-      file (bmp/pgm/ppm), or a scalar value. If a scalar value the value can
-      either be an RGB888 tuple or the underlying pixel value (e.g. an 8-bit grayscale
-      for grayscale images or a RGB565 value for RGB images).
-
-      Set ``invert`` to True to change the division direction from ``a/b`` to
-      ``b/a``.
-
-      Set ``mod`` to True to change the division operation to the modulus operation.
-
-      ``mask`` is another image to use as a pixel level mask for the operation.
-      The mask should be an image with just black or white pixels and should be the
-      same size as the image being operated on. Only pixels set in the mask are
-      modified.
-
-      Returns the image object so you can call another method using ``.`` notation.
-
-      Not supported on compressed images or bayer images.
-
-      .. note::
-
-         This method is meant for image blending and cannot divide the pixels in
-         the image by a scalar like ``2``. Use `Image.gamma_corr` for that.
 
    .. method:: min(image, [mask=None])
 
@@ -4561,6 +4482,14 @@ Constants
 
    A PNG image.
 
+.. data:: PALETTE_RAINBOW
+
+   Default OpenMV Cam color palette for thermal images using a smooth color wheel.
+
+.. data:: PALETTE_IRONBOW
+
+   Makes images look like the FLIR Lepton thermal images using a very non-linear color palette.
+
 .. data:: AREA
 
    Use area scaling when downscaling an image (Nearest Neighbor is used for upscaling).
@@ -4583,9 +4512,22 @@ Constants
    When downscaling an image this method will subsample the input image to produce the downscaled
    image. Use `image.AREA` for the higest quality downscaling if speed is not an issue.
 
+.. data:: VFLIP
+
+   Vertically flip the image being drawn by `draw_image`.
+
+.. data:: HMIRROR
+
+   Horizontally mirror the image being drawn by `draw_image`.
+
+.. data:: TRANSPOSE
+
+   Transpose (swap x/y) the image being draw by `draw_image`.
+
 .. data:: CENTER
 
-   Anchor the image being drawn with `draw_image` in the center versus the top left hand corner.
+   Center the image being drawn to the center of the image/canvas it's being drawn on. Any x/y
+   offsets passed will move the image being drawn from the center by that amount.
 
 .. data:: EXTRACT_RGB_CHANNEL_FIRST
 
@@ -4596,6 +4538,37 @@ Constants
 
    When applying a color lookup table to an image using `draw_image` apply the color look table
    first before scaling versus afterwards to prevent any artifacts.
+
+.. data:: SCALE_ASPECT_KEEP
+
+   Scale the image being drawn to fit inside of the image/canvas being drawn on while maintaining
+   the aspect ratio. Unless the image aspect ratios match the image being drawn will not completley
+   cover the image/canvas being drawn on. Any x_scale/y_scale values passed will additionally scale
+   the scaled image.
+
+.. data:: SCALE_ASPECT_EXPAND
+
+   Scale the image being drawn to fill image/canvas being drawn on while maintaining
+   the aspect ratio. Unless the image aspect ratios match the image being drawn will be cropped.
+   Any x_scale/y_scale values passed will additionally scale the scaled image.
+
+.. data:: SCALE_ASPECT_IGNORE
+
+   Scale the image being drawn to fill the image/canvas being drawn on. This does not maintain
+   the aspect ratio of the image being drawn. Any x_scale/y_scale values passed will additionally
+   scale the scaled image.
+
+.. data:: ROTATE_90
+
+   Rotate the image by 90 degrees (this is just `image.VFLIP` ORed with `image.TRANSPOSE`).
+
+.. data:: ROTATE_180
+
+   Rotate the image by 180 degrees (this is just `image.HMIRROR` ORed with `image.VFLIP`).
+
+.. data:: ROTATE_270
+
+   Rotate the image by 270 degrees (this is just `image.HMIRROR` ORed with `image.TRANSPOSE`).
 
 .. data:: BLACK_BACKGROUND
 

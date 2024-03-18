@@ -24,7 +24,6 @@
 #include "sensor.h"
 #endif
 #include "framebuffer.h"
-#include "ff.h"
 #include "usbdbg.h"
 #include "omv_boardconfig.h"
 #include "py_image.h"
@@ -44,6 +43,7 @@ static const mp_rom_obj_tuple_t ide_exception_args_obj = {
     {&mp_type_tuple}, 1, {MP_ROM_PTR(&ide_exception_msg)}
 };
 
+extern void pendsv_nlr_jump(void *val);
 
 // These functions must be implemented in MicroPython CDC driver.
 extern uint32_t usb_cdc_buf_len();
@@ -114,8 +114,10 @@ static void usbdbg_interrupt_vm(bool ready) {
     // Clear interrupt traceback
     mp_obj_exception_clear_traceback(&ide_exception);
 
+    #if (__ARM_ARCH >= 7)
     // Remove the BASEPRI masking (if any)
     __set_BASEPRI(0);
+    #endif
 
     // Interrupt running REPL
     // Note: setting pendsv explicitly here because the VM is probably
@@ -198,16 +200,16 @@ void usbdbg_data_in(void *buffer, int length) {
 
         case USBDBG_ARCH_STR: {
             unsigned int uid[3] = {
-                #if (OMV_UNIQUE_ID_SIZE == 2)
+                #if (OMV_BOARD_UID_SIZE == 2)
                 0U,
                 #else
-                *((unsigned int *) (OMV_UNIQUE_ID_ADDR + OMV_UNIQUE_ID_OFFSET * 2)),
+                *((unsigned int *) (OMV_BOARD_UID_ADDR + OMV_BOARD_UID_OFFSET * 2)),
                 #endif
-                *((unsigned int *) (OMV_UNIQUE_ID_ADDR + OMV_UNIQUE_ID_OFFSET * 1)),
-                *((unsigned int *) (OMV_UNIQUE_ID_ADDR + OMV_UNIQUE_ID_OFFSET * 0)),
+                *((unsigned int *) (OMV_BOARD_UID_ADDR + OMV_BOARD_UID_OFFSET * 1)),
+                *((unsigned int *) (OMV_BOARD_UID_ADDR + OMV_BOARD_UID_OFFSET * 0)),
             };
             snprintf((char *) buffer, 64, "%s [%s:%08X%08X%08X]",
-                     OMV_ARCH_STR, OMV_BOARD_TYPE, uid[0], uid[1], uid[2]);
+                     OMV_BOARD_ARCH, OMV_BOARD_TYPE, uid[0], uid[1], uid[2]);
             cmd = USBDBG_NONE;
             break;
         }
@@ -415,7 +417,11 @@ void usbdbg_control(void *buffer, uint8_t request, uint32_t length) {
             break;
 
         case USBDBG_SYS_RESET:
+            #if defined(OMV_BOARD_RESET)
+            OMV_BOARD_RESET();
+            #else
             NVIC_SystemReset();
+            #endif
             break;
 
         case USBDBG_SYS_RESET_TO_BL: {

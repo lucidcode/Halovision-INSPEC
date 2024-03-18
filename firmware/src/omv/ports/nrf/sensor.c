@@ -6,7 +6,7 @@
  *
  * This work is licensed under the MIT license, see the file LICENSE for details.
  *
- * Sensor abstraction layer for nRF port.
+ * Sensor driver for nRF port.
  */
 #include <string.h>
 #include <stdint.h>
@@ -43,22 +43,27 @@ static const volatile uint32_t *_pclkPort;
 #define portInputRegister(P)      ((P == 0) ? &NRF_P0->IN : &NRF_P1->IN)
 #endif
 
+#ifndef I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV2
+// Note this define is out of spec and has been removed from hal.
+#define I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV2    (0x80000000UL)  /*!< 32 MHz / 2 = 16.0 MHz */
+#endif
+
 extern void __fatal_error(const char *msg);
 
 int sensor_init() {
     int init_ret = 0;
 
-    #if defined(DCMI_POWER_PIN)
-    nrf_gpio_cfg_output(DCMI_POWER_PIN);
-    nrf_gpio_pin_write(DCMI_POWER_PIN, 1);
+    #if defined(OMV_CSI_POWER_PIN)
+    nrf_gpio_cfg_output(OMV_CSI_POWER_PIN);
+    nrf_gpio_pin_write(OMV_CSI_POWER_PIN, 1);
     #endif
 
-    #if defined(DCMI_RESET_PIN)
-    nrf_gpio_cfg_output(DCMI_RESET_PIN);
-    nrf_gpio_pin_write(DCMI_RESET_PIN, 1);
+    #if defined(OMV_CSI_RESET_PIN)
+    nrf_gpio_cfg_output(OMV_CSI_RESET_PIN);
+    nrf_gpio_pin_write(OMV_CSI_RESET_PIN, 1);
     #endif
 
-    // Reset the sesnor state
+    // Reset the sensor state
     memset(&sensor, 0, sizeof(sensor_t));
 
     // Set default snapshot function.
@@ -66,22 +71,21 @@ int sensor_init() {
     sensor.snapshot = sensor_snapshot;
 
     // Configure the sensor external clock (XCLK).
-    if (sensor_set_xclk_frequency(OMV_XCLK_FREQUENCY) != 0) {
+    if (sensor_set_xclk_frequency(OMV_CSI_XCLK_FREQUENCY) != 0) {
         // Failed to initialize the sensor clock.
         return SENSOR_ERROR_TIM_INIT_FAILED;
     }
 
     // Detect and initialize the image sensor.
-    if ((init_ret = sensor_probe_init(ISC_I2C_ID, ISC_I2C_SPEED)) != 0) {
+    if ((init_ret = sensor_probe_init(OMV_CSI_I2C_ID, OMV_CSI_I2C_SPEED)) != 0) {
         // Sensor probe/init failed.
         return init_ret;
     }
 
-
-    // Configure the DCMI interface.
-    if (sensor_dcmi_config(PIXFORMAT_INVALID) != 0) {
-        // DCMI config failed
-        return SENSOR_ERROR_DCMI_INIT_FAILED;
+    // Configure the CSI interface.
+    if (sensor_config(SENSOR_CONFIG_INIT) != 0) {
+        // CSI config failed
+        return SENSOR_ERROR_CSI_INIT_FAILED;
     }
 
     // Clear fb_enabled flag
@@ -100,55 +104,52 @@ int sensor_init() {
     return 0;
 }
 
-int sensor_dcmi_config(uint32_t pixformat) {
-    uint32_t dcmi_pins[] = {
-        DCMI_D0_PIN,
-        DCMI_D1_PIN,
-        DCMI_D2_PIN,
-        DCMI_D3_PIN,
-        DCMI_D4_PIN,
-        DCMI_D5_PIN,
-        DCMI_D6_PIN,
-        DCMI_D7_PIN,
-        DCMI_VSYNC_PIN,
-        DCMI_HSYNC_PIN,
-        DCMI_PXCLK_PIN,
-    };
+int sensor_config(sensor_config_t config) {
+    if (config == SENSOR_CONFIG_INIT) {
+        uint32_t csi_pins[] = {
+            OMV_CSI_D0_PIN,
+            OMV_CSI_D1_PIN,
+            OMV_CSI_D2_PIN,
+            OMV_CSI_D3_PIN,
+            OMV_CSI_D4_PIN,
+            OMV_CSI_D5_PIN,
+            OMV_CSI_D6_PIN,
+            OMV_CSI_D7_PIN,
+            OMV_CSI_VSYNC_PIN,
+            OMV_CSI_HSYNC_PIN,
+            OMV_CSI_PXCLK_PIN,
+        };
 
-    // Configure DCMI input pins
-    for (int i = 0; i < sizeof(dcmi_pins) / sizeof(dcmi_pins[0]); i++) {
-        nrf_gpio_cfg_input(dcmi_pins[i], NRF_GPIO_PIN_PULLUP);
+        // Configure CSI input pins
+        for (int i = 0; i < sizeof(csi_pins) / sizeof(csi_pins[0]); i++) {
+            nrf_gpio_cfg_input(csi_pins[i], NRF_GPIO_PIN_PULLUP);
+        }
+
+        _vsyncMask = digitalPinToBitMask(OMV_CSI_VSYNC_PIN);
+        _hrefMask = digitalPinToBitMask(OMV_CSI_HSYNC_PIN);
+        _pclkMask = digitalPinToBitMask(OMV_CSI_PXCLK_PIN);
+
+        _vsyncPort = portInputRegister(digitalPinToPort(OMV_CSI_VSYNC_PIN));
+        _hrefPort = portInputRegister(digitalPinToPort(OMV_CSI_HSYNC_PIN));
+        _pclkPort = portInputRegister(digitalPinToPort(OMV_CSI_PXCLK_PIN));
     }
-
-    _vsyncMask = digitalPinToBitMask(DCMI_VSYNC_PIN);
-    _hrefMask = digitalPinToBitMask(DCMI_HSYNC_PIN);
-    _pclkMask = digitalPinToBitMask(DCMI_PXCLK_PIN);
-
-    _vsyncPort = portInputRegister(digitalPinToPort(DCMI_VSYNC_PIN));
-    _hrefPort = portInputRegister(digitalPinToPort(DCMI_HSYNC_PIN));
-    _pclkPort = portInputRegister(digitalPinToPort(DCMI_PXCLK_PIN));
 
     return 0;
 }
 
 uint32_t sensor_get_xclk_frequency() {
-    return OMV_XCLK_FREQUENCY;
+    return OMV_CSI_XCLK_FREQUENCY;
 }
 
 int sensor_set_xclk_frequency(uint32_t frequency) {
-    #ifndef I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV2
-    // Note this define is out of spec and has been removed from hal.
-#define I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV2    (0x80000000UL)  /*!< 32 MHz / 2 = 16.0 MHz */
-    #endif
-
-    nrf_gpio_cfg_output(DCMI_XCLK_PIN);
+    nrf_gpio_cfg_output(OMV_CSI_MXCLK_PIN);
 
     // Generates 16 MHz signal using I2S peripheral
     NRF_I2S->CONFIG.MCKEN = (I2S_CONFIG_MCKEN_MCKEN_ENABLE << I2S_CONFIG_MCKEN_MCKEN_Pos);
     NRF_I2S->CONFIG.MCKFREQ = I2S_CONFIG_MCKFREQ_MCKFREQ_32MDIV2 << I2S_CONFIG_MCKFREQ_MCKFREQ_Pos;
     NRF_I2S->CONFIG.MODE = I2S_CONFIG_MODE_MODE_MASTER << I2S_CONFIG_MODE_MODE_Pos;
 
-    NRF_I2S->PSEL.MCK = (DCMI_XCLK_PIN << I2S_PSEL_MCK_PIN_Pos);
+    NRF_I2S->PSEL.MCK = (OMV_CSI_MXCLK_PIN << I2S_PSEL_MCK_PIN_Pos);
 
     NRF_I2S->ENABLE = 1;
     NRF_I2S->TASKS_START = 1;
@@ -197,21 +198,19 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
 
     // Falling edge indicates start of frame
     while ((*_vsyncPort & _vsyncMask) == 0) {
-        ;                                    // wait for HIGH
+        // Wait for high
     }
     while ((*_vsyncPort & _vsyncMask) != 0) {
-        ;                                    // wait for LOW
-
+        // Wait for low
     }
     for (int i = 0; i < _height; i++) {
         // rising edge indicates start of line
         while ((*_hrefPort & _hrefMask) == 0) {
-            ;                                  // wait for HIGH
-
+            // Wait for high
         }
         for (int j = 0; j < bytesPerRow; j++) {
             while ((*_pclkPort & _pclkMask) != 0) {
-                ;                                  // wait for LOW
+                // Wait for low
             }
             uint32_t in = port->IN; // read all bits in parallel
             if (!_grayscale || !(j & 1)) {
@@ -219,11 +218,11 @@ int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
                 *b++ = ((in >> 8) | ((in >> 3) & 1) | ((in >> 1) & 2));
             }
             while ((*_pclkPort & _pclkMask) == 0) {
-                ;                                  // wait for HIGH
+                // Wait for high
             }
         }
         while ((*_hrefPort & _hrefMask) != 0) {
-            ;                                  // wait for LOW
+            // Wait for low
         }
     }
 

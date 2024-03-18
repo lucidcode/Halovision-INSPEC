@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -25,7 +25,7 @@
  */
 
 #include "chip.h"
-#include "bsp/board.h"
+#include "bsp/board_api.h"
 #include "board.h"
 
 #ifdef BOARD_TUD_RHPORT
@@ -69,7 +69,6 @@ void USB1_IRQHandler(void)
 // MACRO TYPEDEF CONSTANT ENUM DECLARATION
 //--------------------------------------------------------------------+
 
-
 /* System configuration variables used by chip driver */
 const uint32_t OscRateIn = 12000000;
 const uint32_t ExtRateIn = 0;
@@ -84,7 +83,15 @@ void SystemInit(void)
 #endif
 
   board_lpc18_pinmux();
-  Chip_SetupXtalClocking();
+
+  #ifdef TRACE_ETM
+  // Trace clock is limited to 60MHz, limit CPU clock to 120MHz
+  Chip_SetupCoreClock(CLKIN_CRYSTAL, 120000000UL, true);
+  #else
+  // CPU clock max to 180 Mhz
+  Chip_SetupCoreClock(CLKIN_CRYSTAL, MAX_CLOCK_FREQ, true);
+  #endif
+
 }
 
 void board_init(void)
@@ -141,9 +148,7 @@ uint32_t board_button_read(void)
 
 int board_uart_read(uint8_t* buf, int len)
 {
-  //return UART_ReceiveByte(BOARD_UART_PORT);
-  (void) buf; (void) len;
-  return 0;
+  return Chip_UART_Read(UART_DEV, buf, len);
 }
 
 int board_uart_write(void const * buf, int len)

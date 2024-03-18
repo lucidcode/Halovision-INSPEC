@@ -1785,7 +1785,7 @@ static rect_iter *ri_ini(struct rect *r) {
 
     return i;
 }
-// We don't need to spend time allocating and freeing the interator structure
+// We don't need to spend time allocating and freeing the iterator structure
 // since we only use 1 at a time and it's small enough to safely use as a stack var
 void ri_ini_fast(rect_iter *i, struct rect *r) {
     float vx[4], vy[4];
@@ -2699,7 +2699,7 @@ void imlib_lsd_find_line_segments(list_t *out,
     img.h = roi->h;
     img.pixfmt = PIXFORMAT_GRAYSCALE;
     img.data = grayscale_image;
-    imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 256, NULL, NULL, 0, NULL, NULL);
+    imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 256, NULL, NULL, 0, NULL, NULL, NULL);
 
     umm_init_x(fb_avail());
 

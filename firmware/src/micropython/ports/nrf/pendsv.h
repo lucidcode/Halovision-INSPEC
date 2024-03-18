@@ -23,8 +23,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef MICROPY_INCLUDED_STM32_PENDSV_H
-#define MICROPY_INCLUDED_STM32_PENDSV_H
+#ifndef MICROPY_INCLUDED_NRF_PENDSV_H
+#define MICROPY_INCLUDED_NRF_PENDSV_H
 
 enum {
     MICROPY_BOARD_PENDSV_ENTRIES
@@ -36,7 +36,6 @@ enum {
 typedef void (*pendsv_dispatch_t)(void);
 
 void pendsv_init(void);
-void pendsv_nlr_jump(void *val);
 void pendsv_schedule_dispatch(size_t slot, pendsv_dispatch_t f);
 
-#endif // MICROPY_INCLUDED_STM32_PENDSV_H
+#endif // MICROPY_INCLUDED_NRF_PENDSV_H

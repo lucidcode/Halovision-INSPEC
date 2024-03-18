@@ -147,3 +147,48 @@ the test runs, and the absolute difference value is unreliable. High error
 percentages are particularly common on PC builds, where the host OS may
 influence test run times. Increasing the `N` value may help average this out by
 running each test longer.
+
+## internal_bench
+
+The `internal_bench` directory contains a set of tests for benchmarking
+different internal Python features. By default, tests are run on the (unix or
+Windows) host, but the `--pyboard` option allows them to be run on an attached
+board instead.
+
+Tests are grouped by the first part of the file name, and the test runner compares
+output between each group of tests.
+
+The benchmarks measure the elapsed (wall time) for each test, according
+to MicroPython's own time module.
+
+If run without any arguments, all test groups are run. Otherwise, it's possible
+to manually specify which test cases to run.
+
+Example:
+
+```
+$ ./run-internalbench.py internal_bench/bytebuf-*.py
+internal_bench/bytebuf:
+    0.094s (+00.00%) internal_bench/bytebuf-1-inplace.py
+    0.471s (+399.24%) internal_bench/bytebuf-2-join_map_bytes.py
+    0.177s (+87.78%) internal_bench/bytebuf-3-bytarray_map.py
+1 tests performed (3 individual testcases)
+```
+
+## Test key/certificates
+
+SSL/TLS tests in `multi_net` and `net_inet` use a 
+self-signed key/cert pair that is randomly generated and to be used for
+testing/demonstration only. You should always generate your own key/cert.
+
+To generate a new self-signed key/cert pair with openssl do:
+```
+$ openssl req -x509 -newkey rsa:4096 -keyout rsa_key.pem -out rsa_cert.pem -days 365 -nodes
+```
+In this case CN is: micropython.local
+
+Convert them to DER format:
+```
+$ openssl rsa -in rsa_key.pem -out rsa_key.der -outform DER
+$ openssl x509 -in rsa_cert.pem -out rsa_cert.der -outform DER
+```

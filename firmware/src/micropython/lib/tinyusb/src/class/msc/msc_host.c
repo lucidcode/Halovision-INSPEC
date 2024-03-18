@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -29,9 +29,16 @@
 #if CFG_TUH_ENABLED && CFG_TUH_MSC
 
 #include "host/usbh.h"
-#include "host/usbh_classdriver.h"
+#include "host/usbh_pvt.h"
 
 #include "msc_host.h"
+
+// Level where CFG_TUSB_DEBUG must be at least for this driver is logged
+#ifndef CFG_TUH_MSC_LOG_LEVEL
+  #define CFG_TUH_MSC_LOG_LEVEL   CFG_TUH_LOG_LEVEL
+#endif
+
+#define TU_LOG_DRV(...)   TU_LOG(CFG_TUH_MSC_LOG_LEVEL, __VA_ARGS__)
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF
@@ -64,18 +71,20 @@ typedef struct
   uint8_t stage;
   void*   buffer;
   tuh_msc_complete_cb_t complete_cb;
+  uintptr_t complete_arg;
 
-  msc_cbw_t cbw;
-  msc_csw_t csw;
+  CFG_TUH_MEM_ALIGN msc_cbw_t cbw;
+  CFG_TUH_MEM_ALIGN msc_csw_t csw;
 }msch_interface_t;
 
-CFG_TUSB_MEM_SECTION static msch_interface_t _msch_itf[CFG_TUH_DEVICE_MAX];
+CFG_TUH_MEM_SECTION static msch_interface_t _msch_itf[CFG_TUH_DEVICE_MAX];
 
 // buffer used to read scsi information when mounted
 // largest response data currently is inquiry TODO Inquiry is not part of enum anymore
-CFG_TUSB_MEM_SECTION TU_ATTR_ALIGNED(4)
+CFG_TUH_MEM_SECTION CFG_TUH_MEM_ALIGN
 static uint8_t _msch_buffer[sizeof(scsi_inquiry_resp_t)];
 
+// FIXME potential nul reference
 TU_ATTR_ALWAYS_INLINE
 static inline msch_interface_t* get_itf(uint8_t dev_addr)
 {
@@ -112,7 +121,7 @@ bool tuh_msc_mounted(uint8_t dev_addr)
 bool tuh_msc_ready(uint8_t dev_addr)
 {
   msch_interface_t* p_msc = get_itf(dev_addr);
-  return p_msc->mounted && !usbh_edpt_busy(dev_addr, p_msc->ep_in);
+  return p_msc->mounted && !usbh_edpt_busy(dev_addr, p_msc->ep_in) && !usbh_edpt_busy(dev_addr, p_msc->ep_out);
 }
 
 //--------------------------------------------------------------------+
@@ -126,7 +135,7 @@ static inline void cbw_init(msc_cbw_t *cbw, uint8_t lun)
   cbw->lun       = lun;
 }
 
-bool tuh_msc_scsi_command(uint8_t dev_addr, msc_cbw_t const* cbw, void* data, tuh_msc_complete_cb_t complete_cb)
+bool tuh_msc_scsi_command(uint8_t dev_addr, msc_cbw_t const* cbw, void* data, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
   msch_interface_t* p_msc = get_itf(dev_addr);
   TU_VERIFY(p_msc->configured);
@@ -137,13 +146,14 @@ bool tuh_msc_scsi_command(uint8_t dev_addr, msc_cbw_t const* cbw, void* data, tu
   p_msc->stage = MSC_STAGE_CMD;
   p_msc->buffer = data;
   p_msc->complete_cb = complete_cb;
+  p_msc->complete_arg = arg;
 
   TU_ASSERT(usbh_edpt_xfer(dev_addr, p_msc->ep_out, (uint8_t*) &p_msc->cbw, sizeof(msc_cbw_t)));
 
   return true;
 }
 
-bool tuh_msc_read_capacity(uint8_t dev_addr, uint8_t lun, scsi_read_capacity10_resp_t* response, tuh_msc_complete_cb_t complete_cb)
+bool tuh_msc_read_capacity(uint8_t dev_addr, uint8_t lun, scsi_read_capacity10_resp_t* response, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
    msch_interface_t* p_msc = get_itf(dev_addr);
    TU_VERIFY(p_msc->configured);
@@ -156,10 +166,10 @@ bool tuh_msc_read_capacity(uint8_t dev_addr, uint8_t lun, scsi_read_capacity10_r
   cbw.cmd_len    = sizeof(scsi_read_capacity10_t);
   cbw.command[0] = SCSI_CMD_READ_CAPACITY_10;
 
-  return tuh_msc_scsi_command(dev_addr, &cbw, response, complete_cb);
+  return tuh_msc_scsi_command(dev_addr, &cbw, response, complete_cb, arg);
 }
 
-bool tuh_msc_inquiry(uint8_t dev_addr, uint8_t lun, scsi_inquiry_resp_t* response, tuh_msc_complete_cb_t complete_cb)
+bool tuh_msc_inquiry(uint8_t dev_addr, uint8_t lun, scsi_inquiry_resp_t* response, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
   msch_interface_t* p_msc = get_itf(dev_addr);
   TU_VERIFY(p_msc->mounted);
@@ -178,10 +188,10 @@ bool tuh_msc_inquiry(uint8_t dev_addr, uint8_t lun, scsi_inquiry_resp_t* respons
   };
   memcpy(cbw.command, &cmd_inquiry, cbw.cmd_len);
 
-  return tuh_msc_scsi_command(dev_addr, &cbw, response, complete_cb);
+  return tuh_msc_scsi_command(dev_addr, &cbw, response, complete_cb, arg);
 }
 
-bool tuh_msc_test_unit_ready(uint8_t dev_addr, uint8_t lun, tuh_msc_complete_cb_t complete_cb)
+bool tuh_msc_test_unit_ready(uint8_t dev_addr, uint8_t lun, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
   msch_interface_t* p_msc = get_itf(dev_addr);
   TU_VERIFY(p_msc->configured);
@@ -195,10 +205,10 @@ bool tuh_msc_test_unit_ready(uint8_t dev_addr, uint8_t lun, tuh_msc_complete_cb_
   cbw.command[0]  = SCSI_CMD_TEST_UNIT_READY;
   cbw.command[1]  = lun; // according to wiki TODO need verification
 
-  return tuh_msc_scsi_command(dev_addr, &cbw, NULL, complete_cb);
+  return tuh_msc_scsi_command(dev_addr, &cbw, NULL, complete_cb, arg);
 }
 
-bool tuh_msc_request_sense(uint8_t dev_addr, uint8_t lun, void *resposne, tuh_msc_complete_cb_t complete_cb)
+bool tuh_msc_request_sense(uint8_t dev_addr, uint8_t lun, void *response, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
   msc_cbw_t cbw;
   cbw_init(&cbw, lun);
@@ -215,34 +225,34 @@ bool tuh_msc_request_sense(uint8_t dev_addr, uint8_t lun, void *resposne, tuh_ms
 
   memcpy(cbw.command, &cmd_request_sense, cbw.cmd_len);
 
-  return tuh_msc_scsi_command(dev_addr, &cbw, resposne, complete_cb);
+  return tuh_msc_scsi_command(dev_addr, &cbw, response, complete_cb, arg);
 }
 
-bool tuh_msc_read10(uint8_t dev_addr, uint8_t lun, void * buffer, uint32_t lba, uint16_t block_count, tuh_msc_complete_cb_t complete_cb)
+bool tuh_msc_read10(uint8_t dev_addr, uint8_t lun, void * buffer, uint32_t lba, uint16_t block_count, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
   msch_interface_t* p_msc = get_itf(dev_addr);
   TU_VERIFY(p_msc->mounted);
 
   msc_cbw_t cbw;
   cbw_init(&cbw, lun);
- 
+
   cbw.total_bytes = block_count*p_msc->capacity[lun].block_size;
   cbw.dir         = TUSB_DIR_IN_MASK;
   cbw.cmd_len     = sizeof(scsi_read10_t);
- 
+
   scsi_read10_t const cmd_read10 =
   {
     .cmd_code    = SCSI_CMD_READ_10,
     .lba         = tu_htonl(lba),
     .block_count = tu_htons(block_count)
   };
- 
+
   memcpy(cbw.command, &cmd_read10, cbw.cmd_len);
- 
-  return tuh_msc_scsi_command(dev_addr, &cbw, buffer, complete_cb);
+
+  return tuh_msc_scsi_command(dev_addr, &cbw, buffer, complete_cb, arg);
 }
- 
-bool tuh_msc_write10(uint8_t dev_addr, uint8_t lun, void const * buffer, uint32_t lba, uint16_t block_count, tuh_msc_complete_cb_t complete_cb)
+
+bool tuh_msc_write10(uint8_t dev_addr, uint8_t lun, void const * buffer, uint32_t lba, uint16_t block_count, tuh_msc_complete_cb_t complete_cb, uintptr_t arg)
 {
   msch_interface_t* p_msc = get_itf(dev_addr);
   TU_VERIFY(p_msc->mounted);
@@ -263,7 +273,7 @@ bool tuh_msc_write10(uint8_t dev_addr, uint8_t lun, void const * buffer, uint32_
 
   memcpy(cbw.command, &cmd_write10, cbw.cmd_len);
 
-  return tuh_msc_scsi_command(dev_addr, &cbw, (void*)(uintptr_t) buffer, complete_cb);
+  return tuh_msc_scsi_command(dev_addr, &cbw, (void*)(uintptr_t) buffer, complete_cb, arg);
 }
 
 #if 0
@@ -298,11 +308,15 @@ void msch_init(void)
 void msch_close(uint8_t dev_addr)
 {
   TU_VERIFY(dev_addr <= CFG_TUH_DEVICE_MAX, );
-
   msch_interface_t* p_msc = get_itf(dev_addr);
+  TU_VERIFY(p_msc->configured, );
+
+  TU_LOG_DRV("  MSCh close addr = %d\r\n", dev_addr);
 
   // invoke Application Callback
-  if (p_msc->mounted && tuh_msc_umount_cb) tuh_msc_umount_cb(dev_addr);
+  if (p_msc->mounted) {
+    if(tuh_msc_umount_cb) tuh_msc_umount_cb(dev_addr);
+  }
 
   tu_memclr(p_msc, sizeof(msch_interface_t));
 }
@@ -344,7 +358,17 @@ bool msch_xfer_cb(uint8_t dev_addr, uint8_t ep_addr, xfer_result_t event, uint32
       // SCSI op is complete
       p_msc->stage = MSC_STAGE_IDLE;
 
-      if (p_msc->complete_cb) p_msc->complete_cb(dev_addr, cbw, csw);
+      if (p_msc->complete_cb)
+      {
+        tuh_msc_complete_data_t const cb_data =
+        {
+          .cbw = cbw,
+          .csw = csw,
+          .scsi_data = p_msc->buffer,
+          .user_arg = p_msc->complete_arg
+        };
+        p_msc->complete_cb(dev_addr, &cb_data);
+      }
     break;
 
     // unknown state
@@ -359,9 +383,9 @@ bool msch_xfer_cb(uint8_t dev_addr, uint8_t ep_addr, xfer_result_t event, uint32
 //--------------------------------------------------------------------+
 
 static void config_get_maxlun_complete (tuh_xfer_t* xfer);
-static bool config_test_unit_ready_complete(uint8_t dev_addr, msc_cbw_t const* cbw, msc_csw_t const* csw);
-static bool config_request_sense_complete(uint8_t dev_addr, msc_cbw_t const* cbw, msc_csw_t const* csw);
-static bool config_read_capacity_complete(uint8_t dev_addr, msc_cbw_t const* cbw, msc_csw_t const* csw);
+static bool config_test_unit_ready_complete(uint8_t dev_addr, tuh_msc_complete_data_t const * cb_data);
+static bool config_request_sense_complete(uint8_t dev_addr, tuh_msc_complete_data_t const* cb_data);
+static bool config_read_capacity_complete(uint8_t dev_addr, tuh_msc_complete_data_t const* cb_data);
 
 bool msch_open(uint8_t rhport, uint8_t dev_addr, tusb_desc_interface_t const *desc_itf, uint16_t max_len)
 {
@@ -397,19 +421,16 @@ bool msch_open(uint8_t rhport, uint8_t dev_addr, tusb_desc_interface_t const *de
   return true;
 }
 
-bool msch_set_config(uint8_t dev_addr, uint8_t itf_num)
-{
+bool msch_set_config(uint8_t dev_addr, uint8_t itf_num) {
   msch_interface_t* p_msc = get_itf(dev_addr);
   TU_ASSERT(p_msc->itf_num == itf_num);
 
   p_msc->configured = true;
 
   //------------- Get Max Lun -------------//
-  TU_LOG2("MSC Get Max Lun\r\n");
-  tusb_control_request_t const request =
-  {
-    .bmRequestType_bit =
-    {
+  TU_LOG_DRV("MSC Get Max Lun\r\n");
+  tusb_control_request_t const request = {
+    .bmRequestType_bit = {
       .recipient = TUSB_REQ_RCPT_INTERFACE,
       .type      = TUSB_REQ_TYPE_CLASS,
       .direction = TUSB_DIR_IN
@@ -420,12 +441,11 @@ bool msch_set_config(uint8_t dev_addr, uint8_t itf_num)
     .wLength  = 1
   };
 
-  tuh_xfer_t xfer =
-  {
+  tuh_xfer_t xfer = {
     .daddr       = dev_addr,
     .ep_addr     = 0,
     .setup       = &request,
-    .buffer      = &p_msc->max_lun,
+    .buffer      = _msch_buffer,
     .complete_cb = config_get_maxlun_complete,
     .user_data    = 0
   };
@@ -443,40 +463,51 @@ static void config_get_maxlun_complete (tuh_xfer_t* xfer)
   p_msc->max_lun = (XFER_RESULT_SUCCESS == xfer->result) ? _msch_buffer[0] : 0;
   p_msc->max_lun++; // MAX LUN is minus 1 by specs
 
+  TU_LOG_DRV("  Max LUN = %u\r\n", p_msc->max_lun);
+
   // TODO multiple LUN support
-  TU_LOG2("SCSI Test Unit Ready\r\n");
+  TU_LOG_DRV("SCSI Test Unit Ready\r\n");
   uint8_t const lun = 0;
-  tuh_msc_test_unit_ready(daddr, lun, config_test_unit_ready_complete);
+  tuh_msc_test_unit_ready(daddr, lun, config_test_unit_ready_complete, 0);
 }
 
-static bool config_test_unit_ready_complete(uint8_t dev_addr, msc_cbw_t const* cbw, msc_csw_t const* csw)
+static bool config_test_unit_ready_complete(uint8_t dev_addr, tuh_msc_complete_data_t const * cb_data)
 {
+  msc_cbw_t const* cbw = cb_data->cbw;
+  msc_csw_t const* csw = cb_data->csw;
+
   if (csw->status == 0)
   {
     // Unit is ready, read its capacity
-    TU_LOG2("SCSI Read Capacity\r\n");
-    tuh_msc_read_capacity(dev_addr, cbw->lun, (scsi_read_capacity10_resp_t*) ((void*) _msch_buffer), config_read_capacity_complete);
+    TU_LOG_DRV("SCSI Read Capacity\r\n");
+    tuh_msc_read_capacity(dev_addr, cbw->lun, (scsi_read_capacity10_resp_t*) ((void*) _msch_buffer), config_read_capacity_complete, 0);
   }else
   {
     // Note: During enumeration, some device fails Test Unit Ready and require a few retries
     // with Request Sense to start working !!
     // TODO limit number of retries
-    TU_LOG2("SCSI Request Sense\r\n");
-    TU_ASSERT(tuh_msc_request_sense(dev_addr, cbw->lun, _msch_buffer, config_request_sense_complete));
+    TU_LOG_DRV("SCSI Request Sense\r\n");
+    TU_ASSERT(tuh_msc_request_sense(dev_addr, cbw->lun, _msch_buffer, config_request_sense_complete, 0));
   }
 
   return true;
 }
 
-static bool config_request_sense_complete(uint8_t dev_addr, msc_cbw_t const* cbw, msc_csw_t const* csw)
+static bool config_request_sense_complete(uint8_t dev_addr, tuh_msc_complete_data_t const * cb_data)
 {
+  msc_cbw_t const* cbw = cb_data->cbw;
+  msc_csw_t const* csw = cb_data->csw;
+
   TU_ASSERT(csw->status == 0);
-  TU_ASSERT(tuh_msc_test_unit_ready(dev_addr, cbw->lun, config_test_unit_ready_complete));
+  TU_ASSERT(tuh_msc_test_unit_ready(dev_addr, cbw->lun, config_test_unit_ready_complete, 0));
   return true;
 }
 
-static bool config_read_capacity_complete(uint8_t dev_addr, msc_cbw_t const* cbw, msc_csw_t const* csw)
+static bool config_read_capacity_complete(uint8_t dev_addr, tuh_msc_complete_data_t const * cb_data)
 {
+  msc_cbw_t const* cbw = cb_data->cbw;
+  msc_csw_t const* csw = cb_data->csw;
+
   TU_ASSERT(csw->status == 0);
 
   msch_interface_t* p_msc = get_itf(dev_addr);

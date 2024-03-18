@@ -81,4 +81,15 @@
 #define PICO_RP2040_B0_SUPPORTED 1
 #endif
 
+// The GPIO Pin used to read VBUS to determine if the device is battery powered.
+#ifndef PICO_VBUS_PIN
+#define PICO_VBUS_PIN 24
+#endif
+
+// The GPIO Pin used to monitor VSYS. Typically you would use this with ADC.
+// There is an example in adc/read_vsys in pico-examples.
+#ifndef PICO_VSYS_PIN
+#define PICO_VSYS_PIN 29
+#endif
+
 #endif

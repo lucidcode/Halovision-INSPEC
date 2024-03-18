@@ -78,7 +78,6 @@ LIBS = $(shell $(CC) $(CFLAGS) -print-libgcc-file-name)
 SRC_COMMON_C = \
 	startup.c \
 	uart.c \
-	modmachine.c \
 	shared/libc/string0.c \
 	shared/runtime/sys_stdio_mphal.c \
 
@@ -89,27 +88,8 @@ SRC_TEST_C = \
 	test_main.c \
 	lib/tinytest/tinytest.c \
 
-LIB_SRC_C += $(addprefix lib/,\
-	libm/math.c \
-	libm/fmodf.c \
-	libm/nearbyintf.c \
-	libm/ef_sqrt.c \
-	libm/kf_rem_pio2.c \
-	libm/kf_sin.c \
-	libm/kf_cos.c \
-	libm/kf_tan.c \
-	libm/ef_rem_pio2.c \
-	libm/sf_sin.c \
-	libm/sf_cos.c \
-	libm/sf_tan.c \
-	libm/sf_frexp.c \
-	libm/sf_modf.c \
-	libm/sf_ldexp.c \
-	libm/asinfacosf.c \
-	libm/atanf.c \
-	libm/atan2f.c \
-	libm/roundf.c \
-	)
+LIB_SRC_C += $(SRC_LIB_LIBM_C)
+LIB_SRC_C += $(SRC_LIB_LIBM_SQRT_SW_C)
 
 OBJ_COMMON =
 OBJ_COMMON += $(PY_O)
@@ -132,12 +112,6 @@ OBJ = $(OBJ_COMMON) $(OBJ_RUN) $(OBJ_TEST)
 
 # List of sources for qstr extraction
 SRC_QSTR += $(SRC_COMMON_C) $(SRC_RUN_C) $(LIB_SRC_C)
-
-ifneq ($(FROZEN_MANIFEST),)
-CFLAGS += -DMICROPY_MODULE_FROZEN_STR
-CFLAGS += -DMICROPY_MODULE_FROZEN_MPY
-CFLAGS += -DMICROPY_QSTR_EXTRA_POOL=mp_qstr_frozen_const_pool
-endif
 
 all: run
 

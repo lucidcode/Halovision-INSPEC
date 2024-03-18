@@ -129,7 +129,8 @@ Functions
 .. function:: regression(path, array)
 
    Executes the TensorFlow Lite regression model on the passed array of floats and returns
-   a new array of floats as the result.
+   a new array of floats as the result. This method accepts 1D/2D/3D arrays which must match
+   the input shape of the network. Arrays should be organized in [height][width][channel] order.
 
    ``path`` a path to a ``.tflite`` model to execute on your OpenMV Cam's
    disk. The model is loaded into memory, executed, and released all in
@@ -361,4 +362,5 @@ Constructors
    .. method:: regression(array)
 
       Executes the TensorFlow Lite regression model on the passed array of floats and returns
-      a new array of floats as the result.
+      a new array of floats as the result. This method accepts 1D/2D/3D arrays which must match
+      the input shape of the network. Arrays should be organized in [height][width][channel] order.

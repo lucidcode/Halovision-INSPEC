@@ -9,7 +9,7 @@
  * MT9V0XX driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_MT9V0XX == 1)
+#if (OMV_MT9V0XX_ENABLE == 1)
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -109,6 +109,9 @@ static int reset(sensor_t *sensor) {
         ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_ADC_COMPANDING_MODE,
                               MT9V0XX_ADC_COMPANDING_MODE_LINEAR | MT9V0X4_ADC_COMPANDING_MODE_LINEAR_B);
 
+        ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_ROW_NOISE_CORR_CONTROL,
+                              MT9V0X4_ROW_NOISE_CORR_ENABLE | MT9V0X4_ROW_NOISE_CORR_ENABLE_B);
+
         ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_AEC_AGC_ENABLE,
                               MT9V0XX_AEC_ENABLE | MT9V0X4_AEC_ENABLE_B | MT9V0XX_AGC_ENABLE | MT9V0X4_AGC_ENABLE_B);
     }
@@ -198,8 +201,8 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize) {
 
     int readout_x_max = (ACTIVE_SENSOR_WIDTH - (w * read_mode_mul)) / 2;
     int readout_y_max = (ACTIVE_SENSOR_HEIGHT - (h * read_mode_mul)) / 2;
-    readout_x = IM_MAX(IM_MIN(readout_x, readout_x_max), -readout_x_max);
-    readout_y = IM_MAX(IM_MIN(readout_y, readout_y_max), -readout_y_max);
+    readout_x = IM_CLAMP(readout_x, -readout_x_max, readout_x_max);
+    readout_y = IM_CLAMP(readout_y, -readout_y_max, readout_y_max);
 
     ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, col_start_addr,
                           readout_x_max - readout_x + MT9V0XX_COL_START_MIN); // sensor is mirrored by default
@@ -247,7 +250,9 @@ static int set_colorbar(sensor_t *sensor, int enable) {
     ret = omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_ROW_NOISE_CORR_CONTROL, &reg);
     ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_ROW_NOISE_CORR_CONTROL,
                           (reg & (~mask)) | ((enable == 0) ? mask : 0));
-    ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    if (!sensor->disable_delays) {
+        ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    }
     return ret;
 }
 
@@ -259,10 +264,12 @@ static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain
     int ret = omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_AEC_AGC_ENABLE, &reg);
     ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_AEC_AGC_ENABLE,
                           (reg & (~agc_mask)) | ((enable != 0) ? agc_mask : 0));
-    ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    if (!sensor->disable_delays) {
+        ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    }
 
     if ((enable == 0) && (!isnanf(gain_db)) && (!isinff(gain_db))) {
-        int gain = IM_MAX(IM_MIN(fast_roundf(fast_expf((gain_db / 20.0f) * fast_log(10.0f)) * 16.0f), 64), 16);
+        int gain = IM_CLAMP(fast_roundf(expf((gain_db / 20.0f) * M_LN10) * 16.0f), 16, 64);
 
         ret |= omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_ANALOG_GAIN, &reg);
         ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_ANALOG_GAIN, (reg & 0xFF80) | gain);
@@ -272,7 +279,7 @@ static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain
             ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0X4_ANALOG_GAIN_B, (reg & 0xFF80) | gain);
         }
     } else if ((enable != 0) && (!isnanf(gain_db_ceiling)) && (!isinff(gain_db_ceiling))) {
-        int gain_ceiling = IM_MAX(IM_MIN(fast_roundf(fast_expf((gain_db_ceiling / 20.0f) * fast_log(10.0f)) * 16.0f), 64), 16);
+        int gain_ceiling = IM_CLAMP(fast_roundf(expf((gain_db_ceiling / 20.0f) * M_LN10) * 16.0f), 16, 64);
         int max_gain = (is_mt9v0x4(sensor)) ? MT9V0X4_MAX_GAIN : MT9V0X2_MAX_GAIN;
 
         ret |= omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, max_gain, &reg);
@@ -295,7 +302,7 @@ static int get_gain_db(sensor_t *sensor, float *gain_db) {
         ret |= omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, analog_gain, &gain);
     }
 
-    *gain_db = 20.0 * (fast_log((gain & 0x7F) / 16.0f) / fast_log(10.0f));
+    *gain_db = 20.0f * log10f((gain & 0x7F) / 16.0f);
     return ret;
 }
 
@@ -309,8 +316,9 @@ static int set_auto_exposure(sensor_t *sensor, int enable, int exposure_us) {
     ret |= omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_AEC_AGC_ENABLE, &reg);
     ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_AEC_AGC_ENABLE,
                           (reg & (~aec_mask)) | ((enable != 0) ? aec_mask : 0));
-    ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
-
+    if (!sensor->disable_delays) {
+        ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    }
     int read_mode = context ? MT9V0X4_READ_MODE_B : MT9V0XX_READ_MODE;
     int window_width = context ? MT9V0X4_WINDOW_WIDTH_B : MT9V0XX_WINDOW_WIDTH;
     int horizontal_blanking = context ? MT9V0X4_HORIZONTAL_BLANKING_B : MT9V0XX_HORIZONTAL_BLANKING;
@@ -319,12 +327,6 @@ static int set_auto_exposure(sensor_t *sensor, int enable, int exposure_us) {
     ret |= omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, horizontal_blanking, &row_time_1);
 
     int clock = sensor_get_xclk_frequency();
-    if (read_mode_reg & MT9V0XX_READ_MODE_COL_BIN_2) {
-        clock /= 2;
-    }
-    if (read_mode_reg & MT9V0XX_READ_MODE_COL_BIN_4) {
-        clock /= 4;
-    }
 
     int exposure = IM_MIN(exposure_us, MICROSECOND_CLKS / 2) * (clock / MICROSECOND_CLKS);
     int row_time = row_time_0 + row_time_1;
@@ -371,12 +373,6 @@ static int get_exposure_us(sensor_t *sensor, int *exposure_us) {
     }
 
     int clock = sensor_get_xclk_frequency();
-    if (read_mode_reg & MT9V0XX_READ_MODE_COL_BIN_2) {
-        clock /= 2;
-    }
-    if (read_mode_reg & MT9V0XX_READ_MODE_COL_BIN_4) {
-        clock /= 4;
-    }
 
     if (reg & (context ? MT9V0X4_AEC_ENABLE_B : MT9V0XX_AEC_ENABLE)) {
         ret |= omv_i2c_readw(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_AEC_EXPOSURE_OUTPUT, &int_rows);
@@ -401,7 +397,9 @@ static int set_hmirror(sensor_t *sensor, int enable) {
                               (read_mode & (~MT9V0XX_READ_MODE_COL_FLIP)) | ((enable == 0) ? MT9V0XX_READ_MODE_COL_FLIP : 0));
     }
 
-    ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    if (!sensor->disable_delays) {
+        ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    }
     return ret;
 }
 
@@ -417,7 +415,9 @@ static int set_vflip(sensor_t *sensor, int enable) {
                               (read_mode & (~MT9V0XX_READ_MODE_ROW_FLIP)) | ((enable == 0) ? MT9V0XX_READ_MODE_ROW_FLIP : 0));
     }
 
-    ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    if (!sensor->disable_delays) {
+        ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+    }
     return ret;
 }
 
@@ -450,8 +450,8 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
             int tmp_readout_y = va_arg(ap, int);
             int readout_x_max = (ACTIVE_SENSOR_WIDTH - tmp_readout_w) / 2;
             int readout_y_max = (ACTIVE_SENSOR_HEIGHT - tmp_readout_h) / 2;
-            tmp_readout_x = IM_MAX(IM_MIN(tmp_readout_x, readout_x_max), -readout_x_max);
-            tmp_readout_y = IM_MAX(IM_MIN(tmp_readout_y, readout_y_max), -readout_y_max);
+            tmp_readout_x = IM_CLAMP(tmp_readout_x, -readout_x_max, readout_x_max);
+            tmp_readout_y = IM_CLAMP(tmp_readout_y, -readout_y_max, readout_y_max);
             bool changed = (tmp_readout_x != readout_x) ||
                            (tmp_readout_y != readout_y);
             readout_x = tmp_readout_x;
@@ -474,7 +474,9 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
             ret |= omv_i2c_writew(&sensor->i2c_bus, sensor->slv_addr, MT9V0XX_CHIP_CONTROL,
                                   (chip_control & (~MT9V0XX_CHIP_CONTROL_MODE_MASK))
                                   | ((enable != 0) ? MT9V0XX_CHIP_CONTROL_SNAP_MODE : MT9V0XX_CHIP_CONTROL_MASTER_MODE));
-            ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+            if (!sensor->disable_delays) {
+                ret |= sensor->snapshot(sensor, NULL, 0); // Force shadow mode register to update...
+            }
             break;
         }
         case IOCTL_GET_TRIGGERED_MODE: {
@@ -548,4 +550,4 @@ int mt9v0xx_init(sensor_t *sensor) {
     return ret;
 }
 
-#endif // (OMV_ENABLE_MT9V0XX == 1)
+#endif // (OMV_MT9V0XX_ENABLE == 1)

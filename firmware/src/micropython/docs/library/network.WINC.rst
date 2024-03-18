@@ -63,10 +63,10 @@ Constructors
       argument is passed. Otherwise, query current state if no argument is
       provided. Most other methods require active interface.
 
-   .. method:: connect(ssid, [key=None, [security=WPA_PSK]])
+   .. method:: connect(ssid, [key=None, [security=WPA_PSK, [channel=1]]])
 
       Connect to a wifi network with ssid ``ssid`` using key ``key`` with
-      security ``security``.
+      security ``security`` and channel ``channel``.
 
       After connecting to the network use the :mod:`usocket` module to open TCP/UDP
       ports to send and receive data.
@@ -141,11 +141,12 @@ Constructors
 
       Returns a list containing:
 
-         * [0]: Channel Number (int)
-         * [1]: RSSI - received signal strength indicator (int)
-         * [2]: Authorization Type (see constants)
-         * [3]: MAC Address String (XX:XX:XX:XX:XX:XX) (BSSID)
-         * [4]: Set Service Identifier String (SSID)
+         * [0]: Set Service Identifier String (SSID)
+         * [1]: MAC Address String (XX:XX:XX:XX:XX:XX) (BSSID)
+         * [2]: Channel Number (int)
+         * [3]: RSSI - received signal strength indicator (int)
+         * [4]: Authorization Type (see constants)
+         * [5]: 1 (int)
 
       You don't need to be connected to call this.
 
@@ -183,13 +184,13 @@ Constructors
 
       For connecting to an open wifi network.
 
-   .. data:: WEP
-
-      For connecting to a WEP based password protected network.
-
    .. data:: WPA_PSK
 
       For connecting to a WPA/PSK based password protected network.
+
+   .. data:: 802_1X
+
+      Network is secured with WPA/WPA2 Enterprise.
 
    .. data:: MODE_STA
 
@@ -198,6 +199,14 @@ Constructors
    .. data:: MODE_AP
 
       Start in access point mode (i.e. become the network).
+
+   .. data:: MODE_P2P
+
+      Start in wifi-direct mode.
+
+   .. data:: MODE_BSP
+
+      Init BSP.
 
    .. data:: MODE_FIRMWARE
 

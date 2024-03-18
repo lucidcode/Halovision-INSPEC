@@ -2,11 +2,36 @@
 # Common make definition for all examples
 # ---------------------------------------
 
-# Build directory
-BUILD := _build/$(BOARD)
+# Supported toolchain: gcc, iar
+TOOLCHAIN ?= gcc
 
-PROJECT := $(notdir $(CURDIR))
-BIN := $(TOP)/_bin/$(BOARD)/$(notdir $(CURDIR))
+#-------------- TOP and CURRENT_PATH ------------
+
+# Set TOP to be the path to get from the current directory (where make was
+# invoked) to the top of the tree. $(lastword $(MAKEFILE_LIST)) returns
+# the name of this makefile relative to where make was invoked.
+THIS_MAKEFILE := $(lastword $(MAKEFILE_LIST))
+
+# strip off /tools/top.mk to get for example ../../..
+# and Set TOP to an absolute path
+TOP = $(abspath $(subst make.mk,..,$(THIS_MAKEFILE)))
+
+# Set CURRENT_PATH to the relative path from TOP to the current directory, ie examples/device/cdc_msc_freertos
+CURRENT_PATH = $(subst $(TOP)/,,$(abspath .))
+
+# Detect whether shell style is windows or not
+# https://stackoverflow.com/questions/714100/os-detecting-makefile/52062069#52062069
+ifeq '$(findstring ;,$(PATH))' ';'
+# PATH contains semicolon - so we're definitely on Windows.
+CMDEXE := 1
+
+# makefile shell commands should use syntax for DOS CMD, not unix sh
+# Unfortunately, SHELL may point to sh or bash, which can't accept DOS syntax.
+# We can't just use sh, because while sh and/or bash shell may be available,
+# many Windows environments won't have utilities like realpath used below, so...
+# Force DOS command shell on Windows.
+SHELL := cmd.exe
+endif
 
 # Handy check parameter function
 check_defined = \
@@ -15,6 +40,13 @@ check_defined = \
 __check_defined = \
     $(if $(value $1),, \
     $(error Undefined make flag: $1$(if $2, ($2))))
+
+
+# Build directory
+BUILD := _build/$(BOARD)
+
+PROJECT := $(notdir $(CURDIR))
+BIN := $(TOP)/_bin/$(BOARD)/$(notdir $(CURDIR))
 
 #-------------- Select the board to build for. ------------
 
@@ -45,78 +77,47 @@ else
   SRC_C += $(subst $(TOP)/,,$(wildcard $(TOP)/$(FAMILY_PATH)/*.c))
 endif
 
-
 #-------------- Cross Compiler  ------------
+
 # Can be set by board, default to ARM GCC
 CROSS_COMPILE ?= arm-none-eabi-
-# Allow for -Os to be changed by board makefiles in case -Os is not allowed
-CFLAGS_OPTIMIZED ?= -Os
 
-CC = $(CROSS_COMPILE)gcc
-CXX = $(CROSS_COMPILE)g++
-GDB = $(CROSS_COMPILE)gdb
-OBJCOPY = $(CROSS_COMPILE)objcopy
-SIZE = $(CROSS_COMPILE)size
-MKDIR = mkdir
+ifeq ($(TOOLCHAIN),iar)
+CC := iccarm
+endif
+
+ifeq ($(CC),iccarm)
+USE_IAR = 1
+endif
 
 ifeq ($(CMDEXE),1)
   CP = copy
   RM = del
+  MKDIR = mkdir
   PYTHON = python
 else
-  SED = sed
   CP = cp
   RM = rm
+  MKDIR = mkdir
   PYTHON = python3
 endif
 
 #-------------- Source files and compiler flags --------------
+# tinyusb makefile
+include $(TOP)/src/tinyusb.mk
 
 # Include all source C in family & board folder
 SRC_C += hw/bsp/board.c
 SRC_C += $(subst $(TOP)/,,$(wildcard $(TOP)/$(BOARD_PATH)/*.c))
 
-INC   += $(TOP)/$(FAMILY_PATH)
+SRC_C += $(TINYUSB_SRC_C)
 
-# Compiler Flags
-CFLAGS += \
-  -ggdb \
-  -fdata-sections \
-  -ffunction-sections \
-  -fsingle-precision-constant \
-  -fno-strict-aliasing \
-  -Wall \
-  -Wextra \
-  -Werror \
-  -Wfatal-errors \
-  -Wdouble-promotion \
-  -Wstrict-prototypes \
-  -Wstrict-overflow \
-  -Werror-implicit-function-declaration \
-  -Wfloat-equal \
-  -Wundef \
-  -Wshadow \
-  -Wwrite-strings \
-  -Wsign-compare \
-  -Wmissing-format-attribute \
-  -Wunreachable-code \
-  -Wcast-align \
-  -Wcast-function-type \
-  -Wcast-qual \
-  -Wnull-dereference \
-  -Wuninitialized \
-  -Wunused \
-  -Wredundant-decls
+INC += \
+  $(TOP)/$(FAMILY_PATH) \
+  $(TOP)/src \
 
-# conversion is too strict for most mcu driver, may be disable sign/int/arith-conversion
-#  -Wconversion
-  
-# Debugging/Optimization
-ifeq ($(DEBUG), 1)
-  CFLAGS += -Og
-else
-  CFLAGS += $(CFLAGS_OPTIMIZED)
-endif
+BOARD_UPPER = $(subst a,A,$(subst b,B,$(subst c,C,$(subst d,D,$(subst e,E,$(subst f,F,$(subst g,G,$(subst h,H,$(subst i,I,$(subst j,J,$(subst k,K,$(subst l,L,$(subst m,M,$(subst n,N,$(subst o,O,$(subst p,P,$(subst q,Q,$(subst r,R,$(subst s,S,$(subst t,T,$(subst u,U,$(subst v,V,$(subst w,W,$(subst x,X,$(subst y,Y,$(subst z,Z,$(subst -,_,$(BOARD))))))))))))))))))))))))))))
+CFLAGS += -DBOARD_$(BOARD_UPPER)
 
 # Log level is mapped to TUSB DEBUG option
 ifneq ($(LOG),)
@@ -137,3 +138,11 @@ ifeq ($(LOGGER),rtt)
 else ifeq ($(LOGGER),swo)
   CFLAGS += -DLOGGER_SWO
 endif
+
+# CPU specific flags
+ifdef CPU_CORE
+include $(TOP)/tools/make/cpu/$(CPU_CORE).mk
+endif
+
+# toolchain specific
+include $(TOP)/tools/make/toolchain/arm_$(TOOLCHAIN).mk

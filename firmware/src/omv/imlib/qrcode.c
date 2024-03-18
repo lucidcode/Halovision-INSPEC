@@ -840,26 +840,16 @@ typedef struct xylf
 }
 xylf_t;
 
-static void lifo_enqueue_fast(lifo_t *ptr, void *data)
+static void lifo_enqueue_fast(lifo_t *ptr, xylf_t *data)
 {
-// we know the structure size is 8 bytes, so don't waste time calling memcpy
-    uint32_t *d = (uint32_t *)(ptr->data + (ptr->len * ptr->data_len));
-    uint32_t *s = (uint32_t *)data;
-//    memcpy(ptr->data + (ptr->len * ptr->data_len), data, ptr->data_len);
-    d[0] = s[0]; d[1] = s[1]; // copy 8 bytes
+    *((xylf_t *)(ptr->data + (ptr->len * ptr->data_len))) = *data;
     ptr->len += 1;
 }
 
-static void lifo_dequeue_fast(lifo_t *ptr, void *data)
+static void lifo_dequeue_fast(lifo_t *ptr, xylf_t *data)
 {
-    // we know the structure size is 8 bytes, so don't waste time calling memcpy
-    uint32_t *s = (uint32_t *)(ptr->data + ((ptr->len-1) * ptr->data_len));
-    uint32_t *d = (uint32_t *)data;
-//    if (data) {
-//        memcpy(data, ptr->data + ((ptr->len - 1) * ptr->data_len), ptr->data_len);
-//    }
-    d[0] = s[0]; d[1] = s[1]; // copy 8 bytes
     ptr->len -= 1;
+    *data = *((xylf_t *)(ptr->data + (ptr->len * ptr->data_len)));
 }
 
 static void flood_fill_seed(struct quirc *q, int x, int y, int from, int to,
@@ -980,7 +970,7 @@ static void threshold(struct quirc *q)
     if (threshold_s < THRESHOLD_S_MIN)
         threshold_s = THRESHOLD_S_MIN;
 
-    fracmul = (32768 * (threshold_s - 1)) / threshold_s; // to use multipy instead of divide (not too many bits or we'll overflow)
+    fracmul = (32768 * (threshold_s - 1)) / threshold_s; // to use multiply instead of divide (not too many bits or we'll overflow)
     // to get the effect used below (a fraction of threshold_s-1/threshold_s
     // The second constant is to reduce the averaged values to compare with the current pixel
     fracmul2 = (0x100000 * (100 - THRESHOLD_T)) / (200 * threshold_s); // use as many bits as possible without overflowing
@@ -2978,7 +2968,7 @@ void imlib_find_qrcodes(list_t *out, image_t *ptr, rectangle_t *roi)
     img.h = roi->h;
     img.pixfmt = PIXFORMAT_GRAYSCALE;
     img.data = grayscale_image;
-    imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 256, NULL, NULL, 0, NULL, NULL);
+    imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 256, NULL, NULL, 0, NULL, NULL, NULL);
 
     quirc_end(controller);
     list_init(out, sizeof(find_qrcodes_list_lnk_data_t));

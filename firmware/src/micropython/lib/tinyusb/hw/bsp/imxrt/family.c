@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2018, hathach (tinyusb.org)
@@ -24,13 +24,24 @@
  * This file is part of the TinyUSB stack.
  */
 
-#include "bsp/board.h"
+#include "bsp/board_api.h"
 #include "board.h"
+
+// Suppress warning caused by mcu driver
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 #include "fsl_device_registers.h"
 #include "fsl_gpio.h"
 #include "fsl_iomuxc.h"
 #include "fsl_clock.h"
 #include "fsl_lpuart.h"
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 #include "clock_config.h"
 
@@ -47,17 +58,48 @@
 #endif
 
 // needed by fsl_flexspi_nor_boot
+TU_ATTR_USED
 const uint8_t dcd_data[] = { 0x00 };
 
 //--------------------------------------------------------------------+
 //
 //--------------------------------------------------------------------+
 
+static void init_usb_phy(USBPHY_Type* usb_phy) {
+  // Enable PHY support for Low speed device + LS via FS Hub
+  usb_phy->CTRL |= USBPHY_CTRL_SET_ENUTMILEVEL2_MASK | USBPHY_CTRL_SET_ENUTMILEVEL3_MASK;
+
+  // Enable all power for normal operation
+  // TODO may not be needed since it is called within CLOCK_EnableUsbhs0PhyPllClock()
+  usb_phy->PWD = 0;
+
+  // TX Timing
+  uint32_t phytx = usb_phy->TX;
+  phytx &= ~(USBPHY_TX_D_CAL_MASK | USBPHY_TX_TXCAL45DM_MASK | USBPHY_TX_TXCAL45DP_MASK);
+  phytx |= USBPHY_TX_D_CAL(0x0C) | USBPHY_TX_TXCAL45DP(0x06) | USBPHY_TX_TXCAL45DM(0x06);
+  usb_phy->TX = phytx;
+}
+
 void board_init(void)
 {
+  // make sure the dcache is on.
+#if defined(__DCACHE_PRESENT) && __DCACHE_PRESENT
+  if (SCB_CCR_DC_Msk != (SCB_CCR_DC_Msk & SCB->CCR)) SCB_EnableDCache();
+#endif
+
   // Init clock
   BOARD_BootClockRUN();
   SystemCoreClockUpdate();
+
+#ifdef TRACE_ETM
+  // RT1011 ETM pins
+//  IOMUXC_SetPinMux(IOMUXC_GPIO_11_ARM_TRACE3, 0U);
+//  IOMUXC_SetPinMux(IOMUXC_GPIO_12_ARM_TRACE2, 0U);
+//  IOMUXC_SetPinMux(IOMUXC_GPIO_13_ARM_TRACE1, 0U);
+//  IOMUXC_SetPinMux(IOMUXC_GPIO_AD_00_ARM_TRACE0, 0U);
+//  IOMUXC_SetPinMux(IOMUXC_GPIO_AD_02_ARM_TRACE_CLK, 0U);
+//  CLOCK_EnableClock(kCLOCK_Trace);
+#endif
 
   // Enable IOCON clock
   CLOCK_EnableClock(kCLOCK_Iomuxc);
@@ -65,6 +107,7 @@ void board_init(void)
 #if CFG_TUSB_OS == OPT_OS_NONE
   // 1ms tick timer
   SysTick_Config(SystemCoreClock / 1000);
+
 #elif CFG_TUSB_OS == OPT_OS_FREERTOS
   // If freeRTOS is used, IRQ priority is limit by max syscall ( smaller is higher )
   NVIC_SetPriority(USB_OTG1_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
@@ -109,54 +152,29 @@ void board_init(void)
     freq = CLOCK_GetOscFreq() / (CLOCK_GetDiv(kCLOCK_UartDiv) + 1U);
   }
 
-  LPUART_Init(UART_PORT, &uart_config, freq);
+  if ( kStatus_Success != LPUART_Init(UART_PORT, &uart_config, freq) ) {
+    // failed to init uart, probably baudrate is not supported
+    // TU_BREAKPOINT();
+  }
 
-  //------------- USB0 -------------//
+  //------------- USB -------------//
+  // Note: RT105x RT106x and later have dual USB controllers.
 
   // Clock
   CLOCK_EnableUsbhs0PhyPllClock(kCLOCK_Usbphy480M, 480000000U);
   CLOCK_EnableUsbhs0Clock(kCLOCK_Usb480M, 480000000U);
 
-  USBPHY_Type* usb_phy;
-
-  // RT105x RT106x have dual USB controller.
 #ifdef USBPHY1
-  usb_phy = USBPHY1;
+  init_usb_phy(USBPHY1);
 #else
-  usb_phy = USBPHY;
+  init_usb_phy(USBPHY);
 #endif
 
-  // Enable PHY support for Low speed device + LS via FS Hub
-  usb_phy->CTRL |= USBPHY_CTRL_SET_ENUTMILEVEL2_MASK | USBPHY_CTRL_SET_ENUTMILEVEL3_MASK;
-
-  // Enable all power for normal operation
-  usb_phy->PWD = 0;
-
-  // TX Timing
-  uint32_t phytx = usb_phy->TX;
-  phytx &= ~(USBPHY_TX_D_CAL_MASK | USBPHY_TX_TXCAL45DM_MASK | USBPHY_TX_TXCAL45DP_MASK);
-  phytx |= USBPHY_TX_D_CAL(0x0C) | USBPHY_TX_TXCAL45DP(0x06) | USBPHY_TX_TXCAL45DM(0x06);
-  usb_phy->TX = phytx;
-
-  // RT105x RT106x have dual USB controller.
 #ifdef USBPHY2
   // USB1
   CLOCK_EnableUsbhs1PhyPllClock(kCLOCK_Usbphy480M, 480000000U);
   CLOCK_EnableUsbhs1Clock(kCLOCK_Usb480M, 480000000U);
-
-  usb_phy = USBPHY2;
-
-  // Enable PHY support for Low speed device + LS via FS Hub
-  usb_phy->CTRL |= USBPHY_CTRL_SET_ENUTMILEVEL2_MASK | USBPHY_CTRL_SET_ENUTMILEVEL3_MASK;
-
-  // Enable all power for normal operation
-  usb_phy->PWD = 0;
-
-  // TX Timing
-  phytx = usb_phy->TX;
-  phytx &= ~(USBPHY_TX_D_CAL_MASK | USBPHY_TX_TXCAL45DM_MASK | USBPHY_TX_TXCAL45DP_MASK);
-  phytx |= USBPHY_TX_D_CAL(0x0C) | USBPHY_TX_TXCAL45DP(0x06) | USBPHY_TX_TXCAL45DM(0x06);
-  usb_phy->TX = phytx;
+  init_usb_phy(USBPHY2);
 #endif
 }
 
@@ -202,25 +220,42 @@ uint32_t board_button_read(void)
 
 int board_uart_read(uint8_t* buf, int len)
 {
-  LPUART_ReadBlocking(UART_PORT, buf, len);
-  return len;
+  int count = 0;
+
+  while( count < len )
+  {
+    uint8_t const rx_count = LPUART_GetRxFifoCount(UART_PORT);
+    if (!rx_count)
+    {
+      // clear all error flag if any
+      uint32_t status_flags = LPUART_GetStatusFlags(UART_PORT);
+      status_flags  &= (kLPUART_RxOverrunFlag | kLPUART_ParityErrorFlag | kLPUART_FramingErrorFlag | kLPUART_NoiseErrorFlag);
+      LPUART_ClearStatusFlags(UART_PORT, status_flags);
+      break;
+    }
+
+    for(int i=0; i<rx_count; i++)
+    {
+      buf[count] = LPUART_ReadByte(UART_PORT);
+      count++;
+    }
+  }
+
+  return count;
 }
 
-int board_uart_write(void const * buf, int len)
-{
+int board_uart_write(void const * buf, int len) {
   LPUART_WriteBlocking(UART_PORT, (uint8_t const*)buf, len);
   return len;
 }
 
 #if CFG_TUSB_OS == OPT_OS_NONE
 volatile uint32_t system_ticks = 0;
-void SysTick_Handler(void)
-{
+void SysTick_Handler(void) {
   system_ticks++;
 }
 
-uint32_t board_millis(void)
-{
+uint32_t board_millis(void) {
   return system_ticks;
 }
 #endif

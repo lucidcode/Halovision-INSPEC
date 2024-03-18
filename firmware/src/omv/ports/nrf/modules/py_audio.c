@@ -64,15 +64,25 @@ static void nrfx_pdm_event_handler(nrfx_pdm_evt_t const *evt) {
     }
 }
 
-static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
-    // Read Args.
-    g_channels = py_helper_keyword_int(n_args, args, 0, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_channels), 2);
-    uint32_t frequency = py_helper_keyword_int(n_args, args, 1, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_frequency), 16000);
-    int gain_db = py_helper_keyword_int(n_args, args, 2, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_gain_db), PDM_DEFAULT_GAIN);
+static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+    enum { ARG_channels, ARG_frequency, ARG_gain_db };
+    static const mp_arg_t allowed_args[] = {
+        { MP_QSTR_channels, MP_ARG_INT | MP_ARG_KW_ONLY, {.u_int = 2 } },
+        { MP_QSTR_frequency, MP_ARG_INT | MP_ARG_KW_ONLY, {.u_int = 16000 } },
+        { MP_QSTR_gain_db, MP_ARG_INT | MP_ARG_KW_ONLY, {.u_int = PDM_DEFAULT_GAIN } },
+    };
+
+    // Parse args.
+    mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
+    mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
+
+    g_channels = args[ARG_channels].u_int;
+    uint32_t frequency = args[ARG_frequency].u_int;
+    int gain_db = args[ARG_gain_db].u_int;
 
     nrfx_pdm_config_t nrfx_pdm_config = {
-        .pin_clk = PDM_CLK_PIN,
-        .pin_din = PDM_DIN_PIN,
+        .pin_clk = OMV_PDM_CLK_PIN,
+        .pin_din = OMV_PDM_DIN_PIN,
         .gain_l = gain_db,
         .gain_r = gain_db,
         .interrupt_priority = PDM_IRQ_PRIORITY,
@@ -114,8 +124,8 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_ar
     }
 
     // Power the mic on.
-    nrf_gpio_cfg_output(PDM_PWR_PIN);
-    nrf_gpio_pin_set(PDM_PWR_PIN);
+    nrf_gpio_cfg_output(OMV_PDM_PWR_PIN);
+    nrf_gpio_pin_set(OMV_PDM_PWR_PIN);
 
     // Allocate global PCM buffer.
     g_pcmbuf = mp_obj_new_bytearray_by_ref(PDM_BUFFER_SIZE * sizeof(int16_t), m_new(int16_t, PDM_BUFFER_SIZE));
@@ -123,15 +133,16 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *args, mp_map_t *kw_ar
     nrfx_pdm_init(&nrfx_pdm_config, nrfx_pdm_event_handler);
     return mp_const_none;
 }
+STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_audio_init_obj, 0, py_audio_init);
 
 void py_audio_deinit() {
     // Disable PDM and IRQ
     nrfx_pdm_uninit();
 
     // Power the mic off
-    nrf_gpio_cfg_output(PDM_PWR_PIN);
-    nrf_gpio_pin_clear(PDM_PWR_PIN);
-    nrf_gpio_cfg_input(PDM_PWR_PIN, NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_output(OMV_PDM_PWR_PIN);
+    nrf_gpio_pin_clear(OMV_PDM_PWR_PIN);
+    nrf_gpio_cfg_input(OMV_PDM_PWR_PIN, NRF_GPIO_PIN_PULLDOWN);
 
     g_channels = 0;
     g_pcmbuf = NULL;
@@ -161,6 +172,7 @@ static mp_obj_t py_audio_start_streaming(mp_obj_t callback_obj) {
 
     return mp_const_none;
 }
+STATIC MP_DEFINE_CONST_FUN_OBJ_1(py_audio_start_streaming_obj, py_audio_start_streaming);
 
 static mp_obj_t py_audio_stop_streaming() {
     // Stop PDM.
@@ -168,9 +180,6 @@ static mp_obj_t py_audio_stop_streaming() {
     g_audio_callback = mp_const_none;
     return mp_const_none;
 }
-
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_audio_init_obj, 0, py_audio_init);
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(py_audio_start_streaming_obj, py_audio_start_streaming);
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_audio_stop_streaming_obj, py_audio_stop_streaming);
 
 static const mp_rom_map_elem_t globals_dict_table[] = {

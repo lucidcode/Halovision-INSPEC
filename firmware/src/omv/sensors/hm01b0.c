@@ -9,7 +9,7 @@
  * HM01B0 driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_HM01B0 == 1)
+#if (OMV_HM01B0_ENABLE == 1)
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -34,7 +34,7 @@ static const uint16_t default_regs[][2] = {
     {BLC_TGT,              0x08},          //  BLC target :8  at 8 bit mode
     {BLC2_TGT,             0x08},          //  BLI target :8  at 8 bit mode
     {0x3044,               0x0A},          //  Increase CDS time for settling
-    {0x3045,               0x00},          //  Make symetric for cds_tg and rst_tg
+    {0x3045,               0x00},          //  Make symmetric for cds_tg and rst_tg
     {0x3047,               0x0A},          //  Increase CDS time for settling
     {0x3050,               0xC0},          //  Make negative offset up to 4x
     {0x3051,               0x42},
@@ -145,7 +145,7 @@ static int reset(sensor_t *sensor) {
         mp_hal_delay_ms(10);
     }
 
-    // Write default regsiters
+    // Write default registers
     int ret = 0;
     for (int i = 0; default_regs[i][0] && ret == 0; i++) {
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, default_regs[i][0], default_regs[i][1]);
@@ -341,14 +341,14 @@ static int set_colorbar(sensor_t *sensor, int enable) {
 static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain_db_ceiling) {
     int ret = 0;
     if ((enable == 0) && (!isnanf(gain_db)) && (!isinff(gain_db))) {
-        gain_db = IM_MAX(IM_MIN(gain_db, 24.0f), 0.0f);
-        int gain = fast_ceilf(fast_log2(fast_expf((gain_db / 20.0f) * fast_log(10.0f))));
+        gain_db = IM_CLAMP(gain_db, 0.0f, 24.0f);
+        int gain = fast_ceilf(logf(expf((gain_db / 20.0f) * M_LN10)) / M_LN2);
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, AE_CTRL, 0); // Must disable AE
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, ANALOG_GAIN, ((gain & 0x7) << 4));
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, GRP_PARAM_HOLD, 0x01);
     } else if ((enable != 0) && (!isnanf(gain_db_ceiling)) && (!isinff(gain_db_ceiling))) {
-        gain_db_ceiling = IM_MAX(IM_MIN(gain_db_ceiling, 24.0f), 0.0f);
-        int gain = fast_ceilf(fast_log2(fast_expf((gain_db_ceiling / 20.0f) * fast_log(10.0f))));
+        gain_db_ceiling = IM_CLAMP(gain_db_ceiling, 0.0f, 24.0f);
+        int gain = fast_ceilf(logf(expf((gain_db_ceiling / 20.0f) * M_LN10) / M_LN2));
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, MAX_AGAIN_FULL, (gain & 0x7));
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, MAX_AGAIN_BIN2, (gain & 0x7));
         ret |= omv_i2c_writeb2(&sensor->i2c_bus, sensor->slv_addr, AE_CTRL, 1);
@@ -361,7 +361,7 @@ static int get_gain_db(sensor_t *sensor, float *gain_db) {
     if (omv_i2c_readb2(&sensor->i2c_bus, sensor->slv_addr, ANALOG_GAIN, &gain) != 0) {
         return -1;
     }
-    *gain_db = fast_floorf(fast_log(1 << (gain >> 4)) / fast_log(10.0f) * 20.0f);
+    *gain_db = fast_floorf(log10f(1 << (gain >> 4)) * 20.0f);
     return 0;
 }
 
@@ -377,7 +377,7 @@ static int get_vt_pix_clk(sensor_t *sensor, uint32_t *vt_pix_clk) {
     uint32_t vt_sys_div = 8 / (1 << (reg & 0x03));
 
     // vt_pix_clk = MCLK / vt_sys_div
-    *vt_pix_clk = OMV_XCLK_FREQUENCY / vt_sys_div;
+    *vt_pix_clk = OMV_CSI_XCLK_FREQUENCY / vt_sys_div;
     return 0;
 }
 
@@ -542,4 +542,4 @@ int hm01b0_init(sensor_t *sensor) {
 
     return 0;
 }
-#endif //(OMV_ENABLE_HM01B0 == 1)
+#endif //(OMV_HM01B0_ENABLE == 1)

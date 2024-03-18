@@ -49,10 +49,10 @@ extern uint8_t mp_bluetooth_hci_cmd_buf[4 + 256];
 #include "uart.h"
 
 // Provided by the port.
-extern pyb_uart_obj_t mp_bluetooth_hci_uart_obj;
+extern machine_uart_obj_t mp_bluetooth_hci_uart_obj;
 
 STATIC void cywbt_wait_cts_low(void) {
-    mp_hal_pin_config(CYW43_PIN_BT_CTS, MP_HAL_PIN_MODE_INPUT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_AF_GPIO);
+    mp_hal_pin_config(CYW43_PIN_BT_CTS, MP_HAL_PIN_MODE_INPUT, MP_HAL_PIN_PULL_UP, 0);
     for (int i = 0; i < 200; ++i) {
         if (mp_hal_pin_read(CYW43_PIN_BT_CTS) == 0) {
             break;
@@ -66,14 +66,14 @@ STATIC void cywbt_wait_cts_low(void) {
 
 STATIC int cywbt_hci_cmd_raw(size_t len, uint8_t *buf) {
     mp_bluetooth_hci_uart_write((void *)buf, len);
-    for (int i = 0; i < 6; ++i) {
-        while (!mp_bluetooth_hci_uart_any()) {
-            MICROPY_EVENT_POLL_HOOK
+    for (int c, i = 0; i < 6; ++i) {
+        while ((c = mp_bluetooth_hci_uart_readchar()) == -1) {
+            mp_event_wait_indefinite();
         }
-        buf[i] = mp_bluetooth_hci_uart_readchar();
+        buf[i] = c;
     }
 
-    // expect a comand complete event (event 0x0e)
+    // expect a command complete event (event 0x0e)
     if (buf[0] != 0x04 || buf[1] != 0x0e) {
         printf("unknown response: %02x %02x %02x %02x\n", buf[0], buf[1], buf[2], buf[3]);
         return -1;
@@ -86,11 +86,11 @@ STATIC int cywbt_hci_cmd_raw(size_t len, uint8_t *buf) {
         */
 
     int sz = buf[2] - 3;
-    for (int i = 0; i < sz; ++i) {
-        while (!mp_bluetooth_hci_uart_any()) {
-            MICROPY_EVENT_POLL_HOOK
+    for (int c, i = 0; i < sz; ++i) {
+        while ((c = mp_bluetooth_hci_uart_readchar()) == -1) {
+            mp_event_wait_indefinite();
         }
-        buf[i] = mp_bluetooth_hci_uart_readchar();
+        buf[i] = c;
     }
 
     return 0;
@@ -156,16 +156,15 @@ STATIC int cywbt_download_firmware(const uint8_t *firmware) {
 
     // RF switch must select high path during BT patch boot
     #if MICROPY_HW_ENABLE_RF_SWITCH
-    mp_hal_pin_config(CYW43_PIN_WL_GPIO_1, MP_HAL_PIN_MODE_INPUT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_AF_GPIO);
+    mp_hal_pin_config(CYW43_PIN_WL_GPIO_1, MP_HAL_PIN_MODE_INPUT, MP_HAL_PIN_PULL_UP, 0);
     #endif
+    mp_hal_delay_ms(10); // give some time for CTS to go high
     #ifdef CYW43_PIN_BT_CTS
     cywbt_wait_cts_low();
-    #else
-    mp_hal_delay_ms(500); // give some time for CTS to go high
     #endif
     #if MICROPY_HW_ENABLE_RF_SWITCH
     // Select chip antenna (could also select external)
-    mp_hal_pin_config(CYW43_PIN_WL_GPIO_1, MP_HAL_PIN_MODE_INPUT, MP_HAL_PIN_PULL_DOWN, MP_HAL_PIN_AF_GPIO);
+    mp_hal_pin_config(CYW43_PIN_WL_GPIO_1, MP_HAL_PIN_MODE_INPUT, MP_HAL_PIN_PULL_DOWN, 0);
     #endif
 
     mp_bluetooth_hci_uart_set_baudrate(115200);
@@ -190,7 +189,7 @@ int mp_bluetooth_hci_controller_init(void) {
 
     #if MICROPY_HW_ENABLE_RF_SWITCH
     // TODO don't select antenna if wifi is enabled
-    mp_hal_pin_config(CYW43_PIN_WL_GPIO_4, MP_HAL_PIN_MODE_OUTPUT, MP_HAL_PIN_PULL_NONE, MP_HAL_PIN_AF_GPIO); // RF-switch power
+    mp_hal_pin_config(CYW43_PIN_WL_GPIO_4, MP_HAL_PIN_MODE_OUTPUT, MP_HAL_PIN_PULL_NONE, 0); // RF-switch power
     mp_hal_pin_high(CYW43_PIN_WL_GPIO_4); // Turn the RF-switch on
     #endif
 
@@ -203,7 +202,7 @@ int mp_bluetooth_hci_controller_init(void) {
     #ifdef CYW43_PIN_BT_CTS
     cywbt_wait_cts_low();
     #else
-    mp_hal_delay_ms(500);
+    mp_hal_delay_ms(100);
     #endif
 
     // Reset
@@ -245,6 +244,7 @@ int mp_bluetooth_hci_controller_init(void) {
     #ifdef CYW43_PIN_BT_DEV_WAKE
     mp_hal_pin_high(CYW43_PIN_BT_DEV_WAKE); // let sleep
     #endif
+
     return 0;
 }
 

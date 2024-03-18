@@ -85,7 +85,7 @@ void framebuffer_init0() {
     MAIN_FB()->streaming_enabled = true; // controlled by the OpenMV Cam.
 
     // Set default quality
-    JPEG_FB()->quality = ((JPEG_QUALITY_HIGH - JPEG_QUALITY_LOW) / 2) + JPEG_QUALITY_LOW;
+    JPEG_FB()->quality = ((OMV_JPEG_QUALITY_HIGH - OMV_JPEG_QUALITY_LOW) / 2) + OMV_JPEG_QUALITY_LOW;
 
     // Set fb_enabled
     JPEG_FB()->enabled = fb_enabled; // controlled by the IDE.
@@ -184,8 +184,8 @@ void framebuffer_update_jpeg_buffer() {
                     }
 
                     // Dynamically adjust our quality if the image is huge.
-                    bool big_frame_buffer = image_size(src) > JPEG_QUALITY_THRESH;
-                    int jpeg_quality_max = big_frame_buffer ? JPEG_QUALITY_LOW : JPEG_QUALITY_HIGH;
+                    bool big_frame_buffer = image_size(src) > OMV_JPEG_QUALITY_THRESHOLD;
+                    int jpeg_quality_max = big_frame_buffer ? OMV_JPEG_QUALITY_LOW : OMV_JPEG_QUALITY_HIGH;
 
                     // No buffer overflow, increase quality up to max quality based on frame size...
                     if ((!overflow_count) && (jpeg_framebuffer->quality < jpeg_quality_max)) {
@@ -252,7 +252,7 @@ uint32_t framebuffer_get_buffer_size() {
     // Remove the size of the state header plus alignment padding.
     size -= sizeof(vbuffer_t);
 
-    // Do we have an estimate on the frame size with mutliple buffers? If so, we can reduce the
+    // Do we have an estimate on the frame size with multiple buffers? If so, we can reduce the
     // RAM each buffer takes up giving some space back to fb_alloc().
     if ((framebuffer->n_buffers != 1) && framebuffer->u && framebuffer->v) {
         // Typically a framebuffer will not need more than u*v*2 bytes.
@@ -274,20 +274,18 @@ vbuffer_t *framebuffer_get_buffer(int32_t index) {
     return (vbuffer_t *) (framebuffer->data + offset);
 }
 
-void framebuffer_flush_buffers() {
+void framebuffer_flush_buffers(bool fifo_flush) {
+    if (fifo_flush) {
+        // Drop all frame buffers.
+        for (int32_t i = 0; i < framebuffer->n_buffers; i++) {
+            memset(framebuffer_get_buffer(i), 0, sizeof(vbuffer_t));
+        }
+    }
     // Move the tail pointer to the head which empties the virtual fifo while keeping the same
     // position of the current frame for the rest of the code.
     framebuffer->tail = framebuffer->head;
     framebuffer->check_head = true;
     framebuffer->sampled_head = 0;
-}
-
-void framebuffer_reset_buffers() {
-    for (int32_t i = 0; i < framebuffer->n_buffers; i++) {
-        memset(framebuffer_get_buffer(i), 0, sizeof(vbuffer_t));
-    }
-
-    framebuffer_flush_buffers();
 }
 
 int framebuffer_set_buffers(int32_t n_buffers) {
@@ -307,7 +305,7 @@ int framebuffer_set_buffers(int32_t n_buffers) {
     framebuffer->n_buffers = n_buffers;
     framebuffer->head = 0;
 
-    framebuffer_reset_buffers();
+    framebuffer_flush_buffers(true);
 
     return 0;
 }

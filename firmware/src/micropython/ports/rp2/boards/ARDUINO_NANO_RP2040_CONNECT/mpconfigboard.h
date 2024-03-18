@@ -3,22 +3,27 @@
 
 // Board and hardware specific configuration
 #define MICROPY_HW_BOARD_NAME           "Arduino Nano RP2040 Connect"
-#define MICROPY_HW_FLASH_STORAGE_BYTES  (8 * 1024 * 1024)
+#define MICROPY_HW_FLASH_STORAGE_BYTES  (14 * 1024 * 1024)
 
+// Bootloader config.
 extern void pico_reset_to_bootloader(size_t n_args, const void *args_in);
 #define MICROPY_BOARD_ENTER_BOOTLOADER pico_reset_to_bootloader
+
+// Network config
+#define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "mpy-nano-rp2040-connect"
 
 // Enable networking.
 #define MICROPY_PY_NETWORK              (1)
 
 // Enable MD5 hash.
-#define MICROPY_PY_UHASHLIB_MD5         (1)
+#define MICROPY_PY_HASHLIB_MD5          (1)
 
 // Disable internal error numbers.
 #define MICROPY_USE_INTERNAL_ERRNO      (0)
 
 // Enable externally controlled pins.
 #define MICROPY_HW_PIN_EXT_COUNT        (7)
+#define MICROPY_HW_ADC_EXT_COUNT        (4)
 
 // Enable USB Mass Storage with FatFS filesystem.
 #define MICROPY_HW_USB_MSC              (1)
@@ -43,7 +48,7 @@ extern void pico_reset_to_bootloader(size_t n_args, const void *args_in);
 
 // Bluetooth config.
 #define MICROPY_HW_BLE_UART_ID          (1)
-#define MICROPY_HW_BLE_UART_BAUDRATE    (119600)
+#define MICROPY_HW_BLE_UART_BAUDRATE    (115200)
 
 // WiFi/NINA-W10 config.
 #define MICROPY_HW_WIFI_SPI_ID          (1)

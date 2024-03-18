@@ -148,12 +148,8 @@ SECTIONS
     . = . + OMV_MSC_BUF_SIZE;
 
     . = ALIGN(16);
-    _vfs_buf  = .;      // VFS sturct + FATFS file buffer  (around 624 bytes)
+    _vfs_buf  = .;      // VFS struct + FATFS file buffer  (around 624 bytes)
     . = . + OMV_VFS_BUF_SIZE;
-
-    . = ALIGN(16);
-    _fir_lepton_buf = .; // FIR Lepton Packet Double Buffer (328 bytes)
-    . = . + OMV_FIR_LEPTON_BUF_SIZE;
 
     #if defined(OMV_FFS_BUF_SIZE)
     . = ALIGN(16);
@@ -219,7 +215,7 @@ SECTIONS
   .bss (NOLOAD) :
   {
     . = ALIGN(4);
-    _sbss = .;          // Used by the startup to initialize the .bss secion
+    _sbss = .;          // Used by the startup to initialize the .bss section
     . = ALIGN(4);
     *(.bss*)
     . = ALIGN(4);

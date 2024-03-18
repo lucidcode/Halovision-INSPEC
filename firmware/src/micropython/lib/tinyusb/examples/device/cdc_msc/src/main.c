@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "bsp/board.h"
+#include "bsp/board_api.h"
 #include "tusb.h"
 
 //--------------------------------------------------------------------+
@@ -58,6 +58,10 @@ int main(void)
   // init device stack on configured roothub port
   tud_init(BOARD_TUD_RHPORT);
 
+  if (board_init_after_tusb) {
+    board_init_after_tusb();
+  }
+
   while (1)
   {
     tud_task(); // tinyusb device task
@@ -65,8 +69,6 @@ int main(void)
 
     cdc_task();
   }
-
-  return 0;
 }
 
 //--------------------------------------------------------------------+
@@ -97,7 +99,7 @@ void tud_suspend_cb(bool remote_wakeup_en)
 // Invoked when usb bus is resumed
 void tud_resume_cb(void)
 {
-  blink_interval_ms = BLINK_MOUNTED;
+  blink_interval_ms = tud_mounted() ? BLINK_MOUNTED : BLINK_NOT_MOUNTED;
 }
 
 
@@ -113,7 +115,7 @@ void cdc_task(void)
     // connected and there are data available
     if ( tud_cdc_available() )
     {
-      // read datas
+      // read data
       char buf[64];
       uint32_t count = tud_cdc_read(buf, sizeof(buf));
       (void) count;

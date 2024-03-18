@@ -133,14 +133,24 @@ typedef enum {
 } polarity_t;
 
 typedef enum {
+    XCLK_SOURCE_MCO = 0U,
+    XCLK_SOURCE_TIM = 1U,
+    XCLK_SOURCE_OSC = 2U,
+} xclk_source_t;
+
+typedef enum {
     IOCTL_SET_READOUT_WINDOW,
     IOCTL_GET_READOUT_WINDOW,
     IOCTL_SET_TRIGGERED_MODE,
     IOCTL_GET_TRIGGERED_MODE,
+    IOCTL_SET_FOV_WIDE,
+    IOCTL_GET_FOV_WIDE,
     IOCTL_TRIGGER_AUTO_FOCUS,
     IOCTL_PAUSE_AUTO_FOCUS,
     IOCTL_RESET_AUTO_FOCUS,
     IOCTL_WAIT_ON_AUTO_FOCUS,
+    IOCTL_SET_NIGHT_MODE,
+    IOCTL_GET_NIGHT_MODE,
     IOCTL_LEPTON_GET_WIDTH,
     IOCTL_LEPTON_GET_HEIGHT,
     IOCTL_LEPTON_GET_RADIOMETRY,
@@ -171,7 +181,7 @@ typedef enum {
     SENSOR_ERROR_ISC_INIT_FAILED       = -5,
     SENSOR_ERROR_TIM_INIT_FAILED       = -6,
     SENSOR_ERROR_DMA_INIT_FAILED       = -7,
-    SENSOR_ERROR_DCMI_INIT_FAILED      = -8,
+    SENSOR_ERROR_CSI_INIT_FAILED       = -8,
     SENSOR_ERROR_IO_ERROR              = -9,
     SENSOR_ERROR_CAPTURE_FAILED        = -10,
     SENSOR_ERROR_CAPTURE_TIMEOUT       = -11,
@@ -186,12 +196,40 @@ typedef enum {
     SENSOR_ERROR_JPEG_OVERFLOW         = -20,
 } sensor_error_t;
 
+typedef enum {
+    SENSOR_CONFIG_INIT      = (1 << 0),
+    SENSOR_CONFIG_FRAMESIZE = (1 << 1),
+    SENSOR_CONFIG_PIXFORMAT = (1 << 2),
+    SENSOR_CONFIG_WINDOWING = (1 << 3),
+} sensor_config_t;
+
 // Bayer patterns.
 // NOTE: These must match the Bayer subformats in imlib.h
+//
+// BGGR matches the bayer pattern of BGBG...
+//                                   GRGR...
+//
+// GBRG matches the bayer pattern of GBGB...
+//                                   RGRG...
+//
+// GRBG matches the bayer pattern of GRGR...
+//                                   BGBG...
+//
+// RGGB matches the bayer pattern of RGRG...
+//                                   GBGB...
+//
 #define SENSOR_HW_FLAGS_BAYER_BGGR    (SUBFORMAT_ID_BGGR)
 #define SENSOR_HW_FLAGS_BAYER_GBRG    (SUBFORMAT_ID_GBRG)
 #define SENSOR_HW_FLAGS_BAYER_GRBG    (SUBFORMAT_ID_GRBG)
 #define SENSOR_HW_FLAGS_BAYER_RGGB    (SUBFORMAT_ID_RGGB)
+
+// YUV patterns.
+// NOTE: These must match the YUV subformats in imlib.h
+//
+// YUV422 matches the YUV pattern of YUYV... etc. coming out of the sensor.
+//
+// YVU422 matches the YUV pattern of YVYU... etc. coming out of the sensor.
+//
 #define SENSOR_HW_FLAGS_YUV422        (SUBFORMAT_ID_YUV422)
 #define SENSOR_HW_FLAGS_YVU422        (SUBFORMAT_ID_YVU422)
 
@@ -219,9 +257,11 @@ typedef struct _sensor {
         uint32_t yuv_swap : 1;    // Byte-swap 2BPP YUV formats after capture.
         uint32_t bayer : 3;       // Bayer/CFA pattern.
         uint32_t yuv_order : 1;   // YUV/YVU order.
+        uint32_t blc_size : 4;    // Number of black level calibration registers.
     } hw_flags;
 
     const uint16_t *color_palette;    // Color palette used for color lookup.
+    bool disable_delays;        // Set to true to disable all sensor settling time delays.
     bool disable_full_flush;    // Turn off default frame buffer flush policy when full.
 
     vsync_cb_t vsync_callback;  // VSYNC callback.
@@ -234,6 +274,8 @@ typedef struct _sensor {
     pixformat_t pixformat;      // Pixel format
     framesize_t framesize;      // Frame size
     int framerate;              // Frame rate
+    bool first_line;            // Set to true when the first line of the frame is being read.
+    bool drop_frame;            // Set to true to drop the current frame.
     uint32_t last_frame_ms;     // Last sampled frame timestamp in milliseconds.
     bool last_frame_ms_valid;   // Last sampled frame timestamp in milliseconds valid.
     gainceiling_t gainceiling;  // AGC gainceiling
@@ -265,6 +307,8 @@ typedef struct _sensor {
     int (*get_exposure_us) (sensor_t *sensor, int *exposure_us);
     int (*set_auto_whitebal) (sensor_t *sensor, int enable, float r_gain_db, float g_gain_db, float b_gain_db);
     int (*get_rgb_gain_db) (sensor_t *sensor, float *r_gain_db, float *g_gain_db, float *b_gain_db);
+    int (*set_auto_blc) (sensor_t *sensor, int enable, int *regs);
+    int (*get_blc_regs) (sensor_t *sensor, int *regs);
     int (*set_hmirror) (sensor_t *sensor, int enable);
     int (*set_vflip) (sensor_t *sensor, int enable);
     int (*set_special_effect) (sensor_t *sensor, sde_t sde);
@@ -287,11 +331,12 @@ int sensor_init();
 // Detect and initialize the image sensor.
 int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed);
 
-// Configure DCMI hardware interface.
-int sensor_dcmi_config(uint32_t pixformat);
+// This function is called after a setting that may require reconfiguring
+// the hardware changes, such as window size, frame size, or pixel format.
+int sensor_config(sensor_config_t config);
 
 // Abort frame capture and disable IRQs, DMA etc..
-int sensor_abort();
+int sensor_abort(bool fifo_flush, bool in_irq);
 
 // Reset the sensor to its default state.
 int sensor_reset();
@@ -378,6 +423,12 @@ int sensor_set_auto_whitebal(int enable, float r_gain_db, float g_gain_db, float
 // Get the rgb gain values.
 int sensor_get_rgb_gain_db(float *r_gain_db, float *g_gain_db, float *b_gain_db);
 
+// Enable auto blc (black level calibration) or set from previous calibration.
+int sensor_set_auto_blc(int enable, int *regs);
+
+// Get black level valibration register values.
+int sensor_get_blc_regs(int *regs);
+
 // Enable/disable the hmirror mode.
 int sensor_set_hmirror(int enable);
 
@@ -405,6 +456,9 @@ bool sensor_get_auto_rotation();
 // Set the number of virtual frame buffers.
 int sensor_set_framebuffers(int count);
 
+// Drop the next frame to match the current frame rate.
+void sensor_throttle_framerate();
+
 // Set special digital effects (SDE).
 int sensor_set_special_effect(sde_t sde);
 
@@ -431,6 +485,10 @@ int sensor_check_framebuffer_size();
 
 // Auto-crop frame buffer until it fits in RAM (may switch pixel format to BAYER).
 int sensor_auto_crop_framebuffer();
+
+// Copy a single line buffer to its destination. The copying process is
+// DMA-accelerated, if available, and falls back to slow software if not.
+int sensor_copy_line(void *dma, uint8_t *src, uint8_t *dst);
 
 // Default snapshot function.
 int sensor_snapshot(sensor_t *sensor, image_t *image, uint32_t flags);

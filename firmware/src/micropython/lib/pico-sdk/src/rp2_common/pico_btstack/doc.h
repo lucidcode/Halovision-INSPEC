@@ -3,6 +3,8 @@
  * \brief Integration/wrapper libraries for <a href="https://github.com/bluekitchen/btstack">BTstack</a>
  * the documentation for which is <a href="https://bluekitchen-gmbh.com/btstack/">here</a>.
  *
+ * A supplemental license for BTstack (in addition to the stock BTstack licensing terms) is provided <a href="https://github.com/raspberrypi/pico-sdk/blob/master/src/rp2_common/pico_btstack/LICENSE.RP">here</a>.
+ *
  * The \c \b pico_btstack_ble library adds the support needed for Bluetooth Low Energy (BLE). The \c \b pico_btstack_classic library adds the support needed for Bluetooth Classic.
  * You can link to either library individually, or to both libraries thus enabling dual-mode support provided by BTstack.
  *
@@ -11,7 +13,7 @@
  *
  * For more details, see <a href="https://bluekitchen-gmbh.com/btstack/develop/#how_to/">How to configure BTstack</a> and the relevant <a href="https://github.com/raspberrypi/pico-examples#pico-w-bluetooth">pico-examples</a>.
  *
- * The follow ibraries provided for you to link.
+ * The follow libraries are provided for you to link.
  * * \c \b pico_btstack_ble - Adds Bluetooth Low Energy (LE) support.
  * * \c \b pico_btstack_classic - Adds Bluetooth Classic support.
  * * \c \b pico_btstack_sbc_encoder - Adds Bluetooth Sub Band Coding (SBC) encoder support.

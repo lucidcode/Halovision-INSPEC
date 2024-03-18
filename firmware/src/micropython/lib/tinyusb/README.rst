@@ -1,7 +1,7 @@
 .. figure:: docs/assets/logo.svg
    :alt: TinyUSB
 
-|Build Status| |Documentation Status| |License|
+|Build Status| |Documentation Status| |Fuzzing Status| |License|
 
 TinyUSB is an open-source cross-platform USB Host/Device stack for
 embedded system, designed to be memory-safe with no dynamic allocation
@@ -20,8 +20,8 @@ Please take a look at the online `documentation <https://docs.tinyusb.org/>`__.
 	├── docs            # Documentation
 	├── examples        # Sample with Makefile build support
 	├── hw
-	│   ├── bsp         # Supported boards source files
-	│   └── mcu         # Low level mcu core & peripheral drivers
+	│   ├── bsp         # Supported boards source files
+	│   └── mcu         # Low level mcu core & peripheral drivers
 	├── lib             # Sources from 3rd party such as freeRTOS, fatfs ...
 	├── src             # All sources files for TinyUSB stack itself.
 	├── test            # Unit tests for the stack
@@ -43,17 +43,22 @@ The stack supports the following MCUs:
 - **Nuvoton:** NUC120, NUC121/NUC125, NUC126, NUC505
 - **NXP:**
 
-  - iMX RT Series: RT1011, RT1015, RT1021, RT1052, RT1062, RT1064
+  - iMX RT Series: RT10xx, RT11xx
   - Kinetis: KL25, K32L2
   - LPC Series: 11u, 13, 15, 17, 18, 40, 43, 51u, 54, 55
 
 - **Raspberry Pi:** RP2040
-- **Renesas:** RX63N, RX65N, RX72N
+- **Renesas:**
+
+  - RX Series: 63N, 65N, 72N
+  - RA Series: RA4M1, RA4M3
+
 - **Silabs:** EFM32GG
 - **Sony:** CXD56
-- **ST:** STM32 series: F0, F1, F2, F3, F4, F7, H7, G4, L0, L1, L4, L4+
+- **ST:** STM32 series: F0, F1, F2, F3, F4, F7, H7, G0, G4, L0, L1, L4, L4+, WB
 - **TI:** MSP430, MSP432E4, TM4C123
 - **ValentyUSB:** eptri
+- **WCH:** CH32V307
 
 Here is the list of `Supported Devices`_ that can be used with provided examples.
 
@@ -84,6 +89,15 @@ Host Stack
 - Mass Storage Class (MSC)
 - Hub with multiple-level support
 
+Similar to the Device Stack, if you have a special requirement, `usbh_app_driver_get_cb()` can be used to write your own class driver without modifying the stack.
+
+TypeC PD Stack
+==============
+
+- Power Delivery 3.0 (PD3.0) with USB Type-C support (WIP)
+- Super early stage, only for testing purpose
+- Only support STM32 G4
+
 OS Abstraction layer
 ====================
 
@@ -94,8 +108,8 @@ TinyUSB is completely thread-safe by pushing all Interrupt Service Request (ISR)
 - `RT-Thread <https://github.com/RT-Thread/rt-thread>`_: `repo <https://github.com/RT-Thread-packages/tinyusb>`_
 - **Mynewt** Due to the newt package build system, Mynewt examples are better to be on its `own repo <https://github.com/hathach/mynewt-tinyusb-example>`_
 
-Local Docs
-==========
+Docs
+====
 
 - Info
 
@@ -107,6 +121,7 @@ Local Docs
 
   - `Supported Devices`_
   - `Getting Started`_
+  - `Dependencies`_
   - `Concurrency`_
 
 - `Contributing`_
@@ -125,10 +140,12 @@ Please make sure you understand all the license term for files you use
 in your project.
 
 
-.. |Build Status| image:: https://github.com/hathach/tinyusb/workflows/Build/badge.svg
+.. |Build Status| image:: https://github.com/hathach/tinyusb/actions/workflows/cmake_arm.yml/badge.svg
    :target: https://github.com/hathach/tinyusb/actions
 .. |Documentation Status| image:: https://readthedocs.org/projects/tinyusb/badge/?version=latest
    :target: https://docs.tinyusb.org/en/latest/?badge=latest
+.. |Fuzzing Status| image:: https://oss-fuzz-build-logs.storage.googleapis.com/badges/tinyusb.svg
+   :target: https://oss-fuzz-build-logs.storage.googleapis.com/index.html#tinyusb
 .. |License| image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
    :target: https://opensource.org/licenses/MIT
 
@@ -139,6 +156,7 @@ in your project.
 .. _Reference: docs/reference/index.rst
 .. _Supported Devices: docs/reference/supported.rst
 .. _Getting Started: docs/reference/getting_started.rst
+.. _Dependencies: docs/reference/dependencies.rst
 .. _Concurrency: docs/reference/concurrency.rst
 .. _Contributing: docs/contributing/index.rst
 .. _Code of Conduct: CODE_OF_CONDUCT.rst

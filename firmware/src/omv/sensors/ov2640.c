@@ -9,7 +9,7 @@
  * OV2640 driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_OV2640 == 1)
+#if (OMV_OV2640_ENABLE == 1)
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -353,13 +353,15 @@ static int reset(sensor_t *sensor) {
     // Delay 5 ms
     mp_hal_delay_ms(5);
 
-    // Write default regsiters
+    // Write default registers
     for (int i = 0; default_regs[i][0]; i++) {
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, default_regs[i][0], default_regs[i][1]);
     }
 
     // Delay 300 ms
-    mp_hal_delay_ms(300);
+    if (!sensor->disable_delays) {
+        mp_hal_delay_ms(300);
+    }
 
     return ret;
 }
@@ -412,7 +414,7 @@ static int set_pixformat(sensor_t *sensor, pixformat_t pixformat) {
             return -1;
     }
 
-    // Write regsiters
+    // Write registers
     for (int i = 0; regs[i][0]; i++) {
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, regs[i][0], regs[i][1]);
     }
@@ -429,7 +431,7 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize) {
     uint16_t h = resolution[framesize][1];
 
     if ((w % 4) || (h % 4) || (w > UXGA_WIDTH) || (h > UXGA_HEIGHT)) {
-        // w/h must be divisble by 4
+        // w/h must be divisible by 4
         return -1;
     }
 
@@ -448,7 +450,7 @@ static int set_framesize(sensor_t *sensor, framesize_t framesize) {
         sensor_h = UXGA_HEIGHT;
     }
 
-    // Write setup regsiters
+    // Write setup registers
     for (int i = 0; regs[i][0]; i++) {
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, regs[i][0], regs[i][1]);
     }
@@ -584,20 +586,20 @@ static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain
     ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, COM8, (reg & (~COM8_AGC_EN)) | ((enable != 0) ? COM8_AGC_EN : 0));
 
     if ((enable == 0) && (!isnanf(gain_db)) && (!isinff(gain_db))) {
-        float gain = IM_MAX(IM_MIN(fast_expf((gain_db / 20.0) * fast_log(10.0)), 32.0), 1.0);
+        float gain = IM_CLAMP(expf((gain_db / 20.0f) * M_LN10), 1.0f, 32.0f);
 
-        int gain_temp = fast_roundf(fast_log2(IM_MAX(gain / 2.0, 1.0)));
+        int gain_temp = fast_ceilf(logf(IM_MAX(gain / 2.0f, 1.0f)) / M_LN2);
         int gain_hi = 0xF >> (4 - gain_temp);
-        int gain_lo = IM_MIN(fast_roundf(((gain / (1 << gain_temp)) - 1.0) * 16.0), 15);
+        int gain_lo = IM_MIN(fast_roundf(((gain / (1 << gain_temp)) - 1.0f) * 16.0f), 15);
 
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, GAIN, (gain_hi << 4) | (gain_lo << 0));
     } else if ((enable != 0) && (!isnanf(gain_db_ceiling)) && (!isinff(gain_db_ceiling))) {
-        float gain_ceiling = IM_MAX(IM_MIN(fast_expf((gain_db_ceiling / 20.0) * fast_log(10.0)), 128.0), 2.0);
+        float gain_ceiling = IM_CLAMP(expf((gain_db_ceiling / 20.0f) * M_LN10), 2.0f, 128.0f);
 
         ret |= omv_i2c_readb(&sensor->i2c_bus, sensor->slv_addr, COM9, &reg);
         ret |=
             omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, COM9,
-                           (reg & 0x1F) | ((fast_ceilf(fast_log2(gain_ceiling)) - 1) << 5));
+                           (reg & 0x1F) | ((fast_ceilf(logf(gain_ceiling) / M_LN2) - 1) << 5));
     }
 
     return ret;
@@ -623,8 +625,8 @@ static int get_gain_db(sensor_t *sensor, float *gain_db) {
     // DISABLED
 
     int hi_gain = 1 << (((gain >> 7) & 1) + ((gain >> 6) & 1) + ((gain >> 5) & 1) + ((gain >> 4) & 1));
-    float lo_gain = 1.0 + (((gain >> 0) & 0xF) / 16.0);
-    *gain_db = 20.0 * (fast_log(hi_gain * lo_gain) / fast_log(10.0));
+    float lo_gain = 1.0f + (((gain >> 0) & 0xF) / 16.0f);
+    *gain_db = 20.0f * log10f(hi_gain * lo_gain);
 
     return ret;
 }
@@ -668,8 +670,7 @@ static int set_auto_exposure(sensor_t *sensor, int enable, int exposure_us) {
         }
 
         int exposure =
-            IM_MAX(IM_MIN(((exposure_us * (((OMV_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000)) / t_pclk) / t_line, 0xFFFF),
-                   0x0000);
+            __USAT(((exposure_us * (((OMV_CSI_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000)) / t_pclk) / t_line, 16);
 
         ret |= omv_i2c_writeb(&sensor->i2c_bus, sensor->slv_addr, BANK_SEL, BANK_SEL_SENSOR);
 
@@ -739,7 +740,7 @@ static int get_exposure_us(sensor_t *sensor, int *exposure_us) {
     }
 
     uint16_t exposure = ((aec_1510 & 0x3F) << 10) + ((aec_92 & 0xFF) << 2) + ((aec_10 & 0x3) << 0);
-    *exposure_us = (exposure * t_line * t_pclk) / (((OMV_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000);
+    *exposure_us = (exposure * t_line * t_pclk) / (((OMV_CSI_XCLK_FREQUENCY / clk_rc) * pll_mult) / 1000000);
 
     return ret;
 }
@@ -875,4 +876,4 @@ int ov2640_init(sensor_t *sensor) {
 
     return 0;
 }
-#endif // (OMV_ENABLE_OV2640 == 1)
+#endif // (OMV_OV2640_ENABLE == 1)

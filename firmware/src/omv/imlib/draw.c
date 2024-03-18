@@ -15,6 +15,7 @@
 #ifdef IMLIB_ENABLE_DMA2D
 #include STM32_HAL_H
 #include "dma.h"
+#include "omv_common.h"
 #endif
 
 void *imlib_compute_row_ptr(const image_t *img, int y) {
@@ -87,27 +88,157 @@ static void point_fill(image_t *img, int cx, int cy, int r0, int r1, int c) {
     }
 }
 
-// https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C
-void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int thickness) {
-    if (thickness > 0) {
-        int thickness0 = (thickness - 0) / 2;
-        int thickness1 = (thickness - 1) / 2;
-        int dx = abs(x1 - x0), sx = (x0 < x1) ? 1 : -1;
-        int dy = abs(y1 - y0), sy = (y0 < y1) ? 1 : -1;
-        int err = ((dx > dy) ? dx : -dy) / 2;
+static void imlib_set_pixel_aa(image_t *img, int x, int y, int err, int c) {
+    // float alpha = 1 - err / 256.0;
+    void *row_ptr = imlib_compute_row_ptr(img, y);
+    int old_c = imlib_get_pixel_fast(img, row_ptr, x);
+    int new_c;
 
-        for (;;) {
-            point_fill(img, x0, y0, -thickness0, thickness1, c);
-            if ((x0 == x1) && (y0 == y1)) {
+    switch (img->pixfmt) {
+        case PIXFORMAT_BINARY: {
+            new_c = c;
+            break;
+        }
+        case PIXFORMAT_GRAYSCALE: {
+            new_c = (((old_c - c) * err) >> 8) + c;
+            break;
+        }
+        case PIXFORMAT_RGB565: {
+            int old_r8 = COLOR_RGB565_TO_R8(old_c);
+            int old_g8 = COLOR_RGB565_TO_G8(old_c);
+            int old_b8 = COLOR_RGB565_TO_B8(old_c);
+
+            int r8 = COLOR_RGB565_TO_R8(c);
+            int g8 = COLOR_RGB565_TO_G8(c);
+            int b8 = COLOR_RGB565_TO_B8(c);
+
+            int new_r8 = (((old_r8 - r8) * err) >> 8) + r8;
+            int new_g8 = (((old_g8 - g8) * err) >> 8) + g8;
+            int new_b8 = (((old_b8 - b8) * err) >> 8) + b8;
+
+            new_c = COLOR_R8_G8_B8_TO_RGB565(new_r8, new_g8, new_b8);
+            break;
+        }
+        default: {
+            // This shouldn't happen, at least we return a valid memory block
+            return;
+        }
+    }
+    imlib_set_pixel(img, x, y, new_c);
+}
+
+// https://gist.github.com/randvoorhies/807ce6e20840ab5314eb7c547899de68#file-bresenham-js-L381
+static void imlib_draw_thin_line(image_t *img, int x0, int y0, int x1, int y1, int c) {
+    const int dx = abs(x1 - x0);
+    const int sx = x0 < x1 ? 1 : -1;
+    const int dy = abs(y1 - y0);
+    const int sy = y0 < y1 ? 1 : -1;
+    int err = dx - dy;
+    int e2, x2; // error value e_xy
+    int ed = dx + dy == 0 ? 1 : fast_sqrtf(dx * dx + dy * dy);
+
+    for (;;) {
+        // pixel loop
+        imlib_set_pixel_aa(img, x0, y0, 256 * abs(err - dx + dy) / ed, c);
+        e2 = err;
+        x2 = x0;
+        if (2 * e2 >= -dx) {
+            // x step
+            if (x0 == x1) {
                 break;
             }
-            int e2 = err;
-            if (e2 > -dx) {
-                err -= dy; x0 += sx;
+            if (e2 + dy < ed) {
+                imlib_set_pixel_aa(img, x0, y0 + sy, 256 * (e2 + dy) / ed, c);
             }
-            if (e2 < dy) {
-                err += dx; y0 += sy;
+            err -= dy;
+            x0 += sx;
+        }
+        if (2 * e2 <= dy) {
+            // y step
+            if (y0 == y1) {
+                break;
             }
+            if (dx - e2 < ed) {
+                imlib_set_pixel_aa(img, x2 + sx, y0, 256 * (dx - e2) / ed, c);
+            }
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
+// https://gist.github.com/randvoorhies/807ce6e20840ab5314eb7c547899de68#file-bresenham-js-L813
+void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th) {
+
+    line_t line = {x0, y0, x1, y1};
+    if (!lb_clip_line(&line, 0, 0, img->w, img->h)) {
+        return;
+    }
+
+    x0 = line.x1;
+    y0 = line.y1;
+    x1 = line.x2;
+    y1 = line.y2;
+
+    int r = th / 2;
+    point_fill(img, x0, y0, -r, r, c); // add round at start
+    point_fill(img, x1, y1, -r, r, c); // add round at end
+
+    // plot an anti-aliased line of width th pixel
+    const int ex = abs(x1 - x0);
+    const int sx = x0 < x1 ? 1 : -1;
+    const int ey = abs(y1 - y0);
+    const int sy = y0 < y1 ? 1 : -1;
+    int e2 = fast_sqrtf(ex * ex + ey * ey); // length
+
+    if (th <= 1 || e2 == 0) {
+        return imlib_draw_thin_line(img, x0, y0, x1, y1, c); // assert
+    }
+    int dx = ex * 256 / e2;
+    int dy = ey * 256 / e2;
+    th = 256 * (th - 1); // scale values
+
+    if (dx < dy) {
+        // steep line
+        x1 = (e2 + th / 2) / dy; // start offset
+        int err = x1 * dy - th / 2;   // shift error value to offset width
+        for (x0 -= x1 * sx;; y0 += sy) {
+            x1 = x0;
+            imlib_set_pixel_aa(img, x1, y0, err, c); // aliasing pre-pixel
+            for (e2 = dy - err - th; e2 + dy < 256; e2 += dy) {
+                x1 += sx;
+                imlib_set_pixel(img, x1, y0, c); // pixel on the line
+            }
+            imlib_set_pixel_aa(img, x1 + sx, y0, e2, c); // aliasing post-pixel
+            if (y0 == y1) {
+                break;
+            }
+            err += dx; // y-step
+            if (err > 256) {
+                err -= dy;
+                x0 += sx;
+            } // x-step
+        }
+    } else {
+        // flat line
+        y1 = (e2 + th / 2) / dx; // start offset
+        int err = y1 * dx - th / 2;   // shift error value to offset width
+        for (y0 -= y1 * sy;; x0 += sx) {
+            y1 = y0;
+            imlib_set_pixel_aa(img, x0, y1, err, c); // aliasing pre-pixel
+            for (e2 = dx - err - th; e2 + dx < 256; e2 += dx) {
+                y1 += sy;
+                imlib_set_pixel(img, x0, y1, c); // pixel on the line
+            }
+            imlib_set_pixel_aa(img, x0, y1 + sy, e2, c); // aliasing post-pixel
+            if (x0 == x1) {
+                break;
+            }
+            err += dy; // x-step
+            if (err > 256) {
+                err -= dx;
+                y0 += sy;
+            } // y-step
         }
     }
 }
@@ -519,7 +650,7 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
     data->toggle = 0;
     data->row_buffer[0] = fb_alloc(image_row_size, FB_ALLOC_CACHE_ALIGN);
 
-#ifdef IMLIB_ENABLE_DMA2D
+    #ifdef IMLIB_ENABLE_DMA2D
     data->dma2d_enabled = false;
     data->dma2d_initialized = false;
 
@@ -568,7 +699,7 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
             case PIXFORMAT_GRAYSCALE: {
                 data->dma2d.LayerCfg[1].InputColorMode = DMA2D_INPUT_L8;
                 data->dma2d.LayerCfg[1].AlphaMode = DMA2D_COMBINE_ALPHA;
-                uint32_t *clut = fb_alloc(256 * sizeof(uint32_t), FB_ALLOC_NO_HINT);
+                uint32_t *clut = fb_alloc(256 * sizeof(uint32_t), FB_ALLOC_CACHE_ALIGN);
 
                 if (!data->alpha_palette) {
                     if (!data->color_palette) {
@@ -636,9 +767,9 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
     } else {
         data->row_buffer[1] = data->row_buffer[0];
     }
-#else
+    #else
     data->row_buffer[1] = data->row_buffer[0];
-#endif
+    #endif
 
     int alpha = data->alpha, max = 256;
 
@@ -667,7 +798,7 @@ void imlib_draw_row_teardown(imlib_draw_row_data_t *data) {
     if (data->smuad_alpha_palette) {
         fb_free();
     }
-#ifdef IMLIB_ENABLE_DMA2D
+    #ifdef IMLIB_ENABLE_DMA2D
     if (data->dma2d_initialized) {
         if (!data->callback) {
             HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
@@ -678,7 +809,7 @@ void imlib_draw_row_teardown(imlib_draw_row_data_t *data) {
         }
         fb_free(); // data->row_buffer[1]
     }
-#endif
+    #endif
     fb_free(); // data->row_buffer[0]
 }
 
@@ -699,11 +830,11 @@ void *imlib_draw_row_get_row_buffer(imlib_draw_row_data_t *data) {
 void imlib_draw_row_put_row_buffer(imlib_draw_row_data_t *data, void *row_buffer) {
     data->row_buffer[data->toggle] = row_buffer;
     data->toggle = !data->toggle;
-#ifdef IMLIB_ENABLE_DMA2D
+    #ifdef IMLIB_ENABLE_DMA2D
     if (data->dma2d_enabled && (!DMA_BUFFER(row_buffer))) {
         data->dma2d_enabled = false;
     }
-#endif
+    #endif
 }
 
 // Draws (x_end - x_start) pixels.
@@ -2174,14 +2305,25 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                 }
                 case PIXFORMAT_GRAYSCALE: {
                     uint8_t *src8 = ((uint8_t *) data->row_buffer[!data->toggle]) + x_start;
-#ifdef IMLIB_ENABLE_DMA2D
+                    #ifdef IMLIB_ENABLE_DMA2D
+                    // Confirm destination row starts and end on a complete cache line.
+                    if (data->dma2d_enabled
+                        && ((((uint32_t) (dst16 + x_start)) % OMV_ALLOC_ALIGNMENT)
+                            || (((uint32_t) (dst16 + x_end)) % OMV_ALLOC_ALIGNMENT))) {
+                        data->dma2d_enabled = false;
+                    }
                     if (data->dma2d_enabled) {
                         if (!data->callback) {
                             HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
                         }
                         #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
+                        // Memory referenced by src8 between (x_end - x_start) may or may not be
+                        // cache algined. However, after being flushed it shouldn't change again
+                        // so DMA2D can safety read the line of pixels.
                         SCB_CleanDCache_by_Addr((uint32_t *) src8, (x_end - x_start) * sizeof(uint8_t));
-                        SCB_CleanInvalidateDCache_by_Addr((uint32_t *) dst16, (x_end - x_start) * sizeof(uint16_t));
+                        // DMA2D will overwrite this area. dst16 (x_end - x_start) must be cache
+                        // aligned or the line of pixels will be corrutped.
+                        SCB_InvalidateDCache_by_Addr((uint32_t *) dst16, (x_end - x_start) * sizeof(uint16_t));
                         #endif
                         HAL_DMA2D_BlendingStart(&data->dma2d,
                                                 (uint32_t) src8,
@@ -2193,9 +2335,9 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                             HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
                         }
                     } else if (data->smuad_alpha_palette) {
-#else
+                    #else
                     if (data->smuad_alpha_palette) {
-#endif
+                    #endif
                         const uint32_t *smuad_alpha_palette = data->smuad_alpha_palette;
                         if (!data->color_palette) {
                             if (!data->black_background) {
@@ -2334,14 +2476,25 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                         } else {
                             long smuad_alpha = data->smuad_alpha;
                             if (!data->color_palette) {
-#ifdef IMLIB_ENABLE_DMA2D
+                                #ifdef IMLIB_ENABLE_DMA2D
+                                // Confirm destination row starts and end on a complete cache line.
+                                if (data->dma2d_enabled
+                                    && ((((uint32_t) (dst16 + x_start)) % OMV_ALLOC_ALIGNMENT)
+                                        || (((uint32_t) (dst16 + x_end)) % OMV_ALLOC_ALIGNMENT))) {
+                                    data->dma2d_enabled = false;
+                                }
                                 if (data->dma2d_enabled) {
                                     if (!data->callback) {
                                         HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
                                     }
                                     #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
+                                    // Memory referenced by src16 between (x_end - x_start) may or may not be
+                                    // cache algined. However, after being flushed it shouldn't change again
+                                    // so DMA2D can safety read the line of pixels.
                                     SCB_CleanDCache_by_Addr((uint32_t *) src16, (x_end - x_start) * sizeof(uint16_t));
-                                    SCB_CleanInvalidateDCache_by_Addr((uint32_t *) dst16, (x_end - x_start) * sizeof(uint16_t));
+                                    // DMA2D will overwrite this area. dst16 (x_end - x_start) must be cache
+                                    // aligned or the line of pixels will be corrutped.
+                                    SCB_InvalidateDCache_by_Addr((uint32_t *) dst16, (x_end - x_start) * sizeof(uint16_t));
                                     #endif
                                     HAL_DMA2D_BlendingStart(&data->dma2d,
                                                             (uint32_t) src16,
@@ -2353,9 +2506,9 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                         HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
                                     }
                                 } else if (!data->black_background) {
-#else
+                                #else
                                 if (!data->black_background) {
-#endif
+                                #endif
                                     for (int x = x_start; x < x_end; x++) {
                                         int src_pixel = *src16++;
                                         int dst_pixel = *dst16;
@@ -2709,23 +2862,70 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
     #undef BLEND_RGB566
 }
 
+static void imlib_draw_image_scale_and_center_helper(image_t *dst_img,
+                                                     int src_img_w,
+                                                     int src_img_h,
+                                                     int *src_width_scaled,
+                                                     int *src_height_scaled,
+                                                     int *dst_x_start,
+                                                     int *dst_y_start,
+                                                     float *x_scale,
+                                                     float *y_scale,
+                                                     image_hint_t *hint) {
+    if (*hint & (IMAGE_HINT_SCALE_ASPECT_KEEP | IMAGE_HINT_SCALE_ASPECT_EXPAND | IMAGE_HINT_SCALE_ASPECT_IGNORE)) {
+        float xs = ((*hint & IMAGE_HINT_TRANSPOSE) ? dst_img->h : dst_img->w) / ((float) src_img_w);
+        float ys = ((*hint & IMAGE_HINT_TRANSPOSE) ? dst_img->w : dst_img->h) / ((float) src_img_h);
+        if (*hint & IMAGE_HINT_SCALE_ASPECT_IGNORE) {
+            *x_scale *= xs;
+            *y_scale *= ys;
+        } else {
+            float scale = (*hint & IMAGE_HINT_SCALE_ASPECT_KEEP) ? IM_MIN(xs, ys) : IM_MAX(xs, ys);
+            *x_scale *= scale;
+            *y_scale *= scale;
+        }
+        *hint &= ~(IMAGE_HINT_SCALE_ASPECT_KEEP | IMAGE_HINT_SCALE_ASPECT_EXPAND | IMAGE_HINT_SCALE_ASPECT_IGNORE);
+    }
+
+    *src_width_scaled = fast_floorf(fast_fabsf(*x_scale) * src_img_w);
+    *src_height_scaled = fast_floorf(fast_fabsf(*y_scale) * src_img_h);
+
+    if (*hint & IMAGE_HINT_TRANSPOSE) {
+        int temp = *src_width_scaled;
+        *src_width_scaled = *src_height_scaled;
+        *src_height_scaled = temp;
+    }
+
+    if (*hint & IMAGE_HINT_CENTER) {
+        *dst_x_start += fast_floorf((dst_img->w - *src_width_scaled) / 2.f);
+        *dst_y_start += fast_floorf((dst_img->h - *src_height_scaled) / 2.f);
+        *hint &= ~IMAGE_HINT_CENTER;
+    }
+}
+
 // False == Image is black, True == rect valid
-bool imlib_draw_image_rectangle(image_t *dst_img,
-                                image_t *src_img,
-                                int dst_x_start,
-                                int dst_y_start,
-                                float x_scale,
-                                float y_scale,
-                                rectangle_t *roi,
-                                int alpha,
-                                const uint8_t *alpha_palette,
-                                image_hint_t hint,
-                                int *x0,
-                                int *x1,
-                                int *y0,
-                                int *y1) {
+void imlib_draw_image_get_bounds(image_t *dst_img,
+                                 image_t *src_img,
+                                 int dst_x_start,
+                                 int dst_y_start,
+                                 float x_scale,
+                                 float y_scale,
+                                 rectangle_t *roi,
+                                 int alpha,
+                                 const uint8_t *alpha_palette,
+                                 image_hint_t hint,
+                                 point_t *p0,
+                                 point_t *p1) {
+    p0->x = -1;
+
+    int src_img_w = roi ? roi->w : src_img->w;
+    int src_img_h = roi ? roi->h : src_img->h;
+
+    int src_width_scaled, src_height_scaled;
+    imlib_draw_image_scale_and_center_helper(dst_img, src_img_w, src_img_h, &src_width_scaled, &src_height_scaled,
+                                             &dst_x_start, &dst_y_start, &x_scale, &y_scale, &hint);
+
     if (!alpha) {
-        return false;
+        return;
     }
 
     if (alpha_palette) {
@@ -2735,17 +2935,8 @@ bool imlib_draw_image_rectangle(image_t *dst_img,
         }
         if (i == 256) {
             // zero alpha palette
-            return false;
+            return;
         }
-    }
-
-    int src_width_scaled = fast_floorf(fast_fabsf(x_scale) * (roi ? roi->w : src_img->w));
-    int src_height_scaled = fast_floorf(fast_fabsf(y_scale) * (roi ? roi->h : src_img->h));
-
-    // Center src if hint is set.
-    if (hint & IMAGE_HINT_CENTER) {
-        dst_x_start -= src_width_scaled / 2;
-        dst_y_start -= src_height_scaled / 2;
     }
 
     // Clamp start x to image bounds.
@@ -2756,13 +2947,13 @@ bool imlib_draw_image_rectangle(image_t *dst_img,
     }
 
     if (dst_x_start >= dst_img->w) {
-        return false;
+        return;
     }
 
     int src_x_dst_width = src_width_scaled - src_x_start;
 
     if (src_x_dst_width <= 0) {
-        return false;
+        return;
     }
 
     // Clamp start y to image bounds.
@@ -2773,13 +2964,13 @@ bool imlib_draw_image_rectangle(image_t *dst_img,
     }
 
     if (dst_y_start >= dst_img->h) {
-        return false;
+        return;
     }
 
     int src_y_dst_height = src_height_scaled - src_y_start;
 
     if (src_y_dst_height <= 0) {
-        return false;
+        return;
     }
 
     // Clamp end x to image bounds.
@@ -2794,12 +2985,12 @@ bool imlib_draw_image_rectangle(image_t *dst_img,
         dst_y_end = dst_img->h;
     }
 
-    *x0 = dst_x_start;
-    *x1 = dst_x_end;
-    *y0 = dst_y_start;
-    *y1 = dst_y_end;
+    p0->x = dst_x_start;
+    p1->x = dst_x_end;
+    p0->y = dst_y_start;
+    p1->y = dst_y_end;
 
-    return true;
+    return;
 }
 
 void imlib_draw_image(image_t *dst_img,
@@ -2815,6 +3006,7 @@ void imlib_draw_image(image_t *dst_img,
                       const uint8_t *alpha_palette,
                       image_hint_t hint,
                       imlib_draw_row_callback_t callback,
+                      void *callback_arg,
                       void *dst_row_override) {
     int dst_delta_x = 1; // positive direction
     if (x_scale < 0.f) {
@@ -2822,12 +3014,18 @@ void imlib_draw_image(image_t *dst_img,
         dst_delta_x = -1;
         x_scale = -x_scale;
     }
+    if (hint & IMAGE_HINT_HMIRROR) {
+        dst_delta_x = -dst_delta_x;
+    }
 
     int dst_delta_y = 1; // positive direction
     if (y_scale < 0.f) {
         // flip Y
         dst_delta_y = -1;
         y_scale = -y_scale;
+    }
+    if (hint & IMAGE_HINT_VFLIP) {
+        dst_delta_y = -dst_delta_y;
     }
 
     int src_img_w = roi ? roi->w : src_img->w;
@@ -2840,8 +3038,9 @@ void imlib_draw_image(image_t *dst_img,
     int h_limit = h_start + src_img_h - 1;
     int h_limit_m_1 = h_limit - 1;
 
-    int src_width_scaled = fast_floorf(x_scale * src_img_w);
-    int src_height_scaled = fast_floorf(y_scale * src_img_h);
+    int src_width_scaled, src_height_scaled;
+    imlib_draw_image_scale_and_center_helper(dst_img, src_img_w, src_img_h, &src_width_scaled, &src_height_scaled,
+                                             &dst_x_start, &dst_y_start, &x_scale, &y_scale, &hint);
 
     // Nothing to draw
     if ((src_width_scaled < 1) || (src_height_scaled < 1)) {
@@ -2863,16 +3062,13 @@ void imlib_draw_image(image_t *dst_img,
         }
     }
 
-    // Center src if hint is set.
-    if (hint & IMAGE_HINT_CENTER) {
-        dst_x_start -= src_width_scaled / 2;
-        dst_y_start -= src_height_scaled / 2;
-    }
+    int dst_x_start_backup = dst_x_start;
+    int dst_y_start_backup = dst_y_start;
 
     // Clamp start x to image bounds.
     int src_x_start = 0;
     if (dst_x_start < 0) {
-        src_x_start -= dst_x_start; // this is an add becasue dst_x_start is negative
+        src_x_start -= dst_x_start; // this is an add because dst_x_start is negative
         dst_x_start = 0;
     }
 
@@ -2887,7 +3083,7 @@ void imlib_draw_image(image_t *dst_img,
     // Clamp start y to image bounds.
     int src_y_start = 0;
     if (dst_y_start < 0) {
-        src_y_start -= dst_y_start; // this is an add becasue dst_y_start is negative
+        src_y_start -= dst_y_start; // this is an add because dst_y_start is negative
         dst_y_start = 0;
     }
 
@@ -2991,8 +3187,9 @@ void imlib_draw_image(image_t *dst_img,
         new_src_img.w = src_img_w; // same width as source image
         new_src_img.h = src_img_h; // same height as source image
         new_src_img.pixfmt = color_palette ? PIXFORMAT_RGB565 : PIXFORMAT_GRAYSCALE;
-        new_src_img.data = fb_alloc(image_size(&new_src_img), FB_ALLOC_NO_HINT);
-        imlib_draw_image(&new_src_img, src_img, 0, 0, 1.f, 1.f, NULL, rgb_channel, 256, color_palette, NULL, 0, NULL, NULL);
+        new_src_img.data = fb_alloc(image_size(&new_src_img), FB_ALLOC_CACHE_ALIGN);
+        imlib_draw_image(&new_src_img, src_img, 0, 0, 1.f, 1.f, NULL,
+                         rgb_channel, 256, color_palette, NULL, 0, NULL, NULL, NULL);
         src_img = &new_src_img;
         rgb_channel = -1;
         color_palette = NULL;
@@ -3041,30 +3238,8 @@ void imlib_draw_image(image_t *dst_img,
             new_src_img.data = fb_alloc(size, FB_ALLOC_CACHE_ALIGN);
 
             switch (new_src_img.pixfmt) {
-                case PIXFORMAT_BINARY: {
-                    if (src_img->is_bayer) {
-                        imlib_debayer_image(&new_src_img, src_img);
-                    } else if (src_img->is_yuv) {
-                        imlib_deyuv_image(&new_src_img, src_img);
-                    } else if (is_jpeg) {
-                        jpeg_decompress(&new_src_img, src_img);
-                    } else if (is_png) {
-                        png_decompress(&new_src_img, src_img);
-                    }
-                    break;
-                }
-                case PIXFORMAT_GRAYSCALE: {
-                    if (src_img->is_bayer) {
-                        imlib_debayer_image(&new_src_img, src_img);
-                    } else if (src_img->is_yuv) {
-                        imlib_deyuv_image(&new_src_img, src_img);
-                    } else if (is_jpeg) {
-                        jpeg_decompress(&new_src_img, src_img);
-                    } else if (is_png) {
-                        png_decompress(&new_src_img, src_img);
-                    }
-                    break;
-                }
+                case PIXFORMAT_BINARY:
+                case PIXFORMAT_GRAYSCALE:
                 case PIXFORMAT_RGB565: {
                     if (src_img->is_bayer) {
                         imlib_debayer_image(&new_src_img, src_img);
@@ -3092,11 +3267,135 @@ void imlib_draw_image(image_t *dst_img,
         } else {
             new_src_img.pixfmt = src_img->pixfmt;
             size_t size = image_size(&new_src_img);
-            new_src_img.data = fb_alloc(size, FB_ALLOC_NO_HINT);
+            new_src_img.data = fb_alloc(size, FB_ALLOC_CACHE_ALIGN);
             memcpy(new_src_img.data, src_img->data, size);
         }
 
         src_img = &new_src_img;
+    }
+
+    // To improve transpose performance we will split the operation up into chunks that fit in
+    // onchip RAM. These chunks will then be copied to the target buffer in an efficent manner.
+    // However, this doesn't work when the image is being scaled. So, we have to scale the image
+    // first if that is requested.
+    if (hint & IMAGE_HINT_TRANSPOSE) {
+        rectangle_t t_roi = {};
+        image_t t_src_img;
+        t_src_img.pixfmt = src_img->pixfmt;
+
+        // Are we scaling?
+        if ((src_x_frac != 65536) || (src_y_frac != 65536)) {
+            t_src_img.w = t_roi.w = src_height_scaled; // was transposed
+            t_src_img.h = t_roi.h = src_width_scaled; // was transposed
+            t_src_img.data = fb_alloc(image_size(&t_src_img), FB_ALLOC_CACHE_ALIGN);
+            imlib_draw_image(&t_src_img, src_img, 0, 0, x_scale, y_scale, roi,
+                             -1, 256, NULL, NULL,
+                             hint & (IMAGE_HINT_AREA | IMAGE_HINT_BILINEAR | IMAGE_HINT_BICUBIC),
+                             NULL, NULL, NULL);
+        } else {
+            memcpy(&t_roi, roi, sizeof(rectangle_t));
+            t_src_img.w = src_img->w;
+            t_src_img.h = src_img->h;
+            t_src_img.data = src_img->data;
+        }
+
+        uint32_t size;
+        void *data = fb_alloc_all(&size, FB_ALLOC_PREFER_SPEED | FB_ALLOC_CACHE_ALIGN);
+
+        // line_num stores how many lines we can do at a time with on-chip RAM.
+        image_t temp = {.w = t_roi.w, .h = t_roi.h, .pixfmt = t_src_img.pixfmt};
+        int line_num = size / image_line_size(&temp);
+
+        // Work top to bottom transposing as many lines at a time in a chunk of the image.
+        for (int i = t_roi.y; i < t_roi.h; i += line_num) {
+            line_num = IM_MIN(line_num, (t_roi.h - i));
+
+            // Make an image that is a slice of the input image.
+            image_t in = {.w = t_src_img.w, .h = line_num, .pixfmt = t_src_img.pixfmt};
+            in.data = t_src_img.data + (image_line_size(&t_src_img) *
+                                        ((dst_delta_y < 0) ? (t_roi.h - i - 1) : i));
+
+            // Make an image that will hold the transposed output.
+            image_t out = in;
+            out.w = line_num;
+            out.h = t_roi.w;
+            out.data = data;
+
+            switch (t_src_img.pixfmt) {
+                case PIXFORMAT_BINARY: {
+                    for (int y = 0; y < in.h; y++) {
+                        int y_2 = (dst_delta_y < 0) ? -y : y;
+                        uint32_t *row_ptr = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR((&in), y_2);
+                        if (dst_delta_x < 0) {
+                            for (int x = 0; x < t_roi.w; x++) {
+                                int pixel = IMAGE_GET_BINARY_PIXEL_FAST(row_ptr, (t_roi.x + (t_roi.w - x - 1)));
+                                IMAGE_PUT_BINARY_PIXEL((&out), y, x, pixel);
+                            }
+                        } else {
+                            for (int x = 0; x < t_roi.w; x++) {
+                                int pixel = IMAGE_GET_BINARY_PIXEL_FAST(row_ptr, (t_roi.x + x));
+                                IMAGE_PUT_BINARY_PIXEL((&out), y, x, pixel);
+                            }
+                        }
+                    }
+                    break;
+                }
+                case PIXFORMAT_GRAYSCALE: {
+                    for (int y = 0; y < in.h; y++) {
+                        int y_2 = (dst_delta_y < 0) ? -y : y;
+                        uint8_t *i_row_ptr = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR((&in), y_2) + t_roi.x;
+                        uint8_t *o_row_ptr = ((uint8_t *) out.data) + y;
+                        if (dst_delta_x < 0) {
+                            for (int x = t_roi.w - 1; x >= 0; x--, o_row_ptr += line_num) {
+                                *o_row_ptr = i_row_ptr[x];
+                            }
+                        } else {
+                            for (int x = 0; x < t_roi.w; x++, o_row_ptr += line_num) {
+                                *o_row_ptr = i_row_ptr[x];
+                            }
+                        }
+                    }
+                    break;
+                }
+                case PIXFORMAT_RGB565: {
+                    for (int y = 0; y < in.h; y++) {
+                        int y_2 = (dst_delta_y < 0) ? -y : y;
+                        uint16_t *i_row_ptr = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR((&in), y_2) + t_roi.x;
+                        uint16_t *o_row_ptr = ((uint16_t *) out.data) + y;
+                        if (dst_delta_x < 0) {
+                            for (int x = t_roi.w - 1; x >= 0; x--, o_row_ptr += line_num) {
+                                *o_row_ptr = i_row_ptr[x];
+                            }
+                        } else {
+                            for (int x = 0; x < t_roi.w; x++, o_row_ptr += line_num) {
+                                *o_row_ptr = i_row_ptr[x];
+                            }
+                        }
+                    }
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+
+            imlib_draw_image(dst_img, &out, dst_x_start_backup + i, dst_y_start_backup, 1.f, 1.f, NULL,
+                             rgb_channel, alpha, color_palette, alpha_palette,
+                             hint & IMAGE_HINT_BLACK_BACKGROUND,
+                             callback, callback_arg, dst_row_override);
+        }
+
+        fb_free(); // fb_alloc_all
+
+        if (t_src_img.data != src_img->data) {
+            fb_free();
+        }
+
+        if (&new_src_img == src_img) {
+            fb_free();
+        }
+
+        return;
     }
 
     imlib_draw_row_data_t imlib_draw_row_data;
@@ -3108,6 +3407,7 @@ void imlib_draw_image(image_t *dst_img,
     imlib_draw_row_data.alpha_palette = alpha_palette;
     imlib_draw_row_data.black_background = hint & IMAGE_HINT_BLACK_BACKGROUND;
     imlib_draw_row_data.callback = callback;
+    imlib_draw_row_data.callback_arg = callback_arg;
     imlib_draw_row_data.dst_row_override = dst_row_override;
     #ifdef IMLIB_ENABLE_DMA2D
     imlib_draw_row_data.dma2d_request = (alpha != 256) || alpha_palette ||
@@ -4238,19 +4538,19 @@ void imlib_draw_image(image_t *dst_img,
                             pixel_row_2 = __UHADD8(pixel_row_2, 0);
                             pixel_row_3 = __UHADD8(pixel_row_3, 0);
 
-                            // Need 1/3 gaurd bits.
+                            // Need 1/3 guard bits.
                             pixel_row_0 = __UHADD8(pixel_row_0, 0);
                             pixel_row_1 = __UHADD8(pixel_row_1, 0);
                             pixel_row_2 = __UHADD8(pixel_row_2, 0);
                             pixel_row_3 = __UHADD8(pixel_row_3, 0);
 
-                            // Need 2/3 gaurd bits.
+                            // Need 2/3 guard bits.
                             pixel_row_0 = __UHADD8(pixel_row_0, 0);
                             pixel_row_1 = __UHADD8(pixel_row_1, 0);
                             pixel_row_2 = __UHADD8(pixel_row_2, 0);
                             pixel_row_3 = __UHADD8(pixel_row_3, 0);
 
-                            // Need 3/3 gaurd bits.
+                            // Need 3/3 guard bits.
                             pixel_row_0 = __UHADD8(pixel_row_0, 0);
                             pixel_row_1 = __UHADD8(pixel_row_1, 0);
                             pixel_row_2 = __UHADD8(pixel_row_2, 0);

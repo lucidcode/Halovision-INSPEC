@@ -27,13 +27,26 @@
 #include "py/runtime.h"
 #include "py/mphal.h"
 #include "py/mperrno.h"
-#include "extmod/machine_i2c.h"
-#include "modmachine.h"
+#include "extmod/modmachine.h"
 
 #include "hardware/i2c.h"
 
 #define DEFAULT_I2C_FREQ (400000)
 #define DEFAULT_I2C_TIMEOUT (50000)
+
+#ifdef MICROPY_HW_I2C_NO_DEFAULT_PINS
+
+// With no default I2C, need to require the pin args.
+#define MICROPY_HW_I2C0_SCL (0)
+#define MICROPY_HW_I2C0_SDA (0)
+#define MICROPY_HW_I2C1_SCL (0)
+#define MICROPY_HW_I2C1_SDA (0)
+#define MICROPY_I2C_PINS_ARG_OPTS MP_ARG_REQUIRED
+
+#else
+
+// Most boards do not require pin args.
+#define MICROPY_I2C_PINS_ARG_OPTS 0
 
 #ifndef MICROPY_HW_I2C0_SCL
 #if PICO_DEFAULT_I2C == 0
@@ -52,6 +65,7 @@
 #else
 #define MICROPY_HW_I2C1_SCL (7)
 #define MICROPY_HW_I2C1_SDA (6)
+#endif
 #endif
 #endif
 
@@ -85,8 +99,8 @@ mp_obj_t machine_i2c_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_id, MP_ARG_REQUIRED | MP_ARG_OBJ },
         { MP_QSTR_freq, MP_ARG_INT, {.u_int = DEFAULT_I2C_FREQ} },
-        { MP_QSTR_scl, MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
-        { MP_QSTR_sda, MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
+        { MP_QSTR_scl, MICROPY_I2C_PINS_ARG_OPTS | MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
+        { MP_QSTR_sda, MICROPY_I2C_PINS_ARG_OPTS | MP_ARG_KW_ONLY | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_timeout, MP_ARG_KW_ONLY | MP_ARG_INT, {.u_int = DEFAULT_I2C_TIMEOUT} },
     };
 

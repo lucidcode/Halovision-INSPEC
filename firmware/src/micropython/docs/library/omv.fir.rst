@@ -233,17 +233,19 @@ Functions
 
       ``ir`` is a (width * height) list of floats (4-bytes each).
 
-.. function:: draw_ir(image, ir, [x, [y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=128, [color_palette=fir.PALETTE_RAINBOW, [alpha_palette=-1, [hint=0, [x_size=None, [y_size=None, [scale=(ir_min, ir_max)]]]]]]]]]]]]])
+.. function:: draw_ir(image, ir, [x, [y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=128, [color_palette=image.PALETTE_RAINBOW, [alpha_palette=-1, [hint=0, [scale=(ir_min, ir_max)]]]]]]]]]]])
 
-   Draws an ``ir`` array on ``image`` whose top-left corner starts at location x, y. You may either pass x, y
-   separately, as a tuple (x, y), or not at all. This method automatically handles rendering the image passed
-   into the correct pixel format for the destination image while also handling clipping seamlessly.
+   Draws an ``ir`` array on ``image`` whose top-left corner starts at location x, y. This method
+   automatically handles rendering the image passed into the correct pixel format for the destination
+   image while also handling clipping seamlessly.
 
-   ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-   value is negative the image will be flipped horizontally.
+   ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+   value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+   then it will match ``x_scale`` to maintain the aspect ratio.
 
-   ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-   value is negative the image will be flipped vertically.
+   ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+   value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+   then it will match ``x_scale`` to maintain the aspect ratio.
 
    ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
    allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -257,7 +259,7 @@ Functions
    256 draws an opaque source image while a value lower than 256 produces a blend between the source
    and destination image. 0 results in no modification to the destination image.
 
-   ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+   ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
    a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
    whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -272,20 +274,18 @@ Functions
       * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
       * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
       * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-      * `image.CENTER`: Center the image image being draw on (x, y).
+      * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+      * `image.HMIRROR`: Horizontally mirror the image.
+      * `image.VFLIP`: Vertically flip the image.
+      * `image.TRANSPOSE`: Transpose the image (swap x/y).
       * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
       * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-      * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-   ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-   and ``x_scale`` will automatically be determined passed on the input image size. If neither
-   ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-   ``x_size`` to maintain the aspect-ratio.
-
-   ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-   and ``y_scale`` will automatically be determined passed on the input image size. If neither
-   ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-   ``y_size`` to maintain the aspect-ratio.
+      * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+      * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+      * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+      * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+      * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+      * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
    ``scale`` is a two value tuple which controls the min and max temperature (in celsius) to scale
    the ``ir`` image. By default it's equal to the image ``ir`` min and ``ir`` max.
@@ -300,10 +300,10 @@ Functions
       (w, h, ir) as the ``ir`` array instead to use `draw_ir` to draw any floating point array with
       width ``w`` and height ``h``.
 
-.. function:: snapshot([hmirror=False, [vflip=False, [transpose=False, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=128, [color_palette=fir.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [scale=(ir_min, ir_max), [pixformat=fir.PIXFORMAT_RGB565, [copy_to_fb=False, [timeout=-1]]]]]]]]]]]]]]]])
+.. function:: snapshot([hmirror=False, [vflip=False, [transpose=False, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=128, [color_palette=fir.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [scale=(ir_min, ir_max), [pixformat=image.RGB565, [copy_to_fb=False, [timeout=-1]]]]]]]]]]]]]])
 
    Works like `sensor.snapshot()` and returns an `image` object that is either
-   `fir.PIXFORMAT_GRAYSCALE` (grayscale) or `fir.PIXFORMAT_RGB565` (color). If ``copy_to_fb`` is False then
+   `image.GRAYSCALE` (grayscale) or `image.RGB565` (color). If ``copy_to_fb`` is False then
    the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
    and may not have space to store the new image if exhausted. Instead, set ``copy_to_fb`` to
    True to set the frame buffer to the new image making this function work just like `sensor.snapshot()`.
@@ -321,11 +321,13 @@ Functions
       * vflip=True,  hmirror=True,  transpose=False -> 180 degree rotation
       * vflip=False, hmirror=True,  transpose=True  -> 270 degree rotation
 
-   ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-   value is negative the image will be flipped horizontally.
+   ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+   value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+   then it will match ``x_scale`` to maintain the aspect ratio.
 
-   ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-   value is negative the image will be flipped vertically.
+   ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+   value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+   then it will match ``x_scale`` to maintain the aspect ratio.
 
    ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
    allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -339,7 +341,7 @@ Functions
    256 draws an opaque source image while a value lower than 256 produces a blend between the source
    and destination image. 0 results in no modification to the destination image.
 
-   ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+   ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
    a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
    whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -354,36 +356,25 @@ Functions
       * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
       * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
       * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-      * `image.CENTER`: Center the image image being draw on (x, y).
+      * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+      * `image.HMIRROR`: Horizontally mirror the image.
+      * `image.VFLIP`: Vertically flip the image.
+      * `image.TRANSPOSE`: Transpose the image (swap x/y).
       * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
       * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-      * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-   ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-   and ``x_scale`` will automatically be determined passed on the input image size. If neither
-   ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-   ``x_size`` to maintain the aspect-ratio.
-
-   ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-   and ``y_scale`` will automatically be determined passed on the input image size. If neither
-   ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-   ``y_size`` to maintain the aspect-ratio.
+      * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+      * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+      * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+      * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+      * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+      * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
    ``scale`` is a two value tuple which controls the min and max temperature (in celsius) to scale
    the ``ir`` image. By default it's equal to the image ``ir`` min and ``ir`` max.
 
    ``pixformat`` if specified controls the final image pixel format.
 
-   ``copy_to_fb`` may also be another image object if you want to replace that image object's memory
-   buffer, type, width, and height with new image data.
-
    ``timeout`` if not -1 then how many milliseconds to wait for the new frame.
-
-   .. note::
-
-      Any use of ``copy_to_fb`` invalidates the previous image object it overwrites. Do not use
-      any references to previous image objects anymore it overwrites. Either for an image object
-      referencing the frame buffer, frame buffer stack, or an image on the MicroPython heap.
 
    Returns an image object.
 
@@ -417,19 +408,3 @@ Constants
 .. data:: FIR_LEPTON
 
    FIR_LEPTON FIR sensor.
-
-.. data:: PALETTE_RAINBOW
-
-   Rainbow color palette for `fir.draw_ir()` and `fir.snapshot()`.
-
-.. data:: PALETTE_IRONBOW
-
-   Ironbow color palette for `fir.draw_ir()` and `fir.snapshot()`.
-
-.. data:: PIXFORMAT_GRAYSCALE
-
-   GRAYSCALE pixformat for `fir.snapshot()`.
-
-.. data:: PIXFORMAT_RGB565
-
-   RGB565 pixformat for `fir.snapshot()`.

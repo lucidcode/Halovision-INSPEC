@@ -10,7 +10,7 @@
  * Pixart SPI driver.
  */
 #include "omv_boardconfig.h"
-#ifdef ISC_SPI_ID
+#ifdef OMV_CSI_SPI_ID
 
 #include <stdio.h>
 #include <string.h>
@@ -80,7 +80,7 @@ static int spi_send_recv(uint8_t *txbuf, uint8_t *rxbuf, uint16_t len) {
 bool pixspi_init() {
     // Init SPI
     omv_spi_config_t spi_config;
-    omv_spi_default_config(&spi_config, ISC_SPI_ID);
+    omv_spi_default_config(&spi_config, OMV_CSI_SPI_ID);
 
     spi_config.baudrate = 5000000;
     spi_config.nss_enable = false;  // Soft NSS
@@ -112,7 +112,7 @@ int pixspi_regs_read(uint8_t addr, uint8_t *data, uint16_t length) {
 }
 
 int pixspi_regs_write(uint8_t addr, const uint8_t *data, uint16_t length) {
-    uint8_t buff[64] = {};
+    uint8_t buff[256] = {};
     if (addr & 0x80) {
         debug_printf("pixspi_regs_read() address (0x%x) overflow.\n", addr);
         return -1;

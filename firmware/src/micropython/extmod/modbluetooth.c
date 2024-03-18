@@ -504,7 +504,7 @@ STATIC int bluetooth_gatts_register_service(mp_obj_t uuid_in, mp_obj_t character
     // How many descriptors in the flattened list per characteristic.
     uint8_t *num_descriptors = m_new(uint8_t, len);
 
-    // Inititally allocate enough room for the number of characteristics.
+    // Initially allocate enough room for the number of characteristics.
     // Will be grown to accommodate descriptors as necessary.
     *num_handles = len;
     *handles = m_new(uint16_t, *num_handles);
@@ -985,7 +985,7 @@ STATIC MP_DEFINE_CONST_OBJ_TYPE(
     );
 
 STATIC const mp_rom_map_elem_t mp_module_bluetooth_globals_table[] = {
-    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_ubluetooth) },
+    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_bluetooth) },
     { MP_ROM_QSTR(MP_QSTR_BLE), MP_ROM_PTR(&mp_type_bluetooth_ble) },
     { MP_ROM_QSTR(MP_QSTR_UUID), MP_ROM_PTR(&mp_type_bluetooth_uuid) },
 
@@ -999,12 +999,16 @@ STATIC const mp_rom_map_elem_t mp_module_bluetooth_globals_table[] = {
 
 STATIC MP_DEFINE_CONST_DICT(mp_module_bluetooth_globals, mp_module_bluetooth_globals_table);
 
-const mp_obj_module_t mp_module_ubluetooth = {
+const mp_obj_module_t mp_module_bluetooth = {
     .base = { &mp_type_module },
     .globals = (mp_obj_dict_t *)&mp_module_bluetooth_globals,
 };
 
-MP_REGISTER_MODULE(MP_QSTR_ubluetooth, mp_module_ubluetooth);
+// This module should not be extensible (as it is not a CPython standard
+// library nor is it necessary to override from the filesystem), however it
+// has previously been known as `ubluetooth`, so by making it extensible the
+// `ubluetooth` alias will continue to work.
+MP_REGISTER_EXTENSIBLE_MODULE(MP_QSTR_bluetooth, mp_module_bluetooth);
 
 // Helpers
 
@@ -1272,6 +1276,7 @@ STATIC mp_obj_t invoke_irq_handler(uint16_t event,
         mp_stack_set_top(&ts + 1); // need to include ts in root-pointer scan
         mp_stack_set_limit(MICROPY_PY_BLUETOOTH_SYNC_EVENT_STACK_SIZE - 1024);
         ts.gc_lock_depth = 0;
+        ts.nlr_jump_callback_top = NULL;
         ts.mp_pending_exception = MP_OBJ_NULL;
         mp_locals_set(mp_state_ctx.thread.dict_locals); // set from the outer context
         mp_globals_set(mp_state_ctx.thread.dict_globals); // set from the outer context

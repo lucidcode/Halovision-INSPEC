@@ -47,7 +47,7 @@ set(MICROPY_SOURCE_PY
     ${MICROPY_PY_DIR}/modstruct.c
     ${MICROPY_PY_DIR}/modsys.c
     ${MICROPY_PY_DIR}/modthread.c
-    ${MICROPY_PY_DIR}/moduerrno.c
+    ${MICROPY_PY_DIR}/moderrno.c
     ${MICROPY_PY_DIR}/mpprint.c
     ${MICROPY_PY_DIR}/mpstate.c
     ${MICROPY_PY_DIR}/mpz.c
@@ -124,7 +124,6 @@ set(MICROPY_SOURCE_PY
     ${MICROPY_PY_DIR}/vm.c
     ${MICROPY_PY_DIR}/vstr.c
     ${MICROPY_PY_DIR}/warning.c
-    ${MICROPY_PY_DIR}/omvdummy.c
 )
 
 # Helper macro to collect include directories and compile definitions for qstr processing.

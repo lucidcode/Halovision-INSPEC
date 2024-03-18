@@ -1,8 +1,8 @@
 /*
  * This file is part of the OpenMV project.
  *
- * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (c) 2013-2024 Ibrahim Abdelkader <iabdalkader@openmv.io>
+ * Copyright (c) 2013-2024 Kwabena W. Agyeman <kwagyeman@openmv.io>
  *
  * This work is licensed under the MIT license, see the file LICENSE for details.
  *
@@ -19,8 +19,9 @@
 #include <float.h>
 #include <math.h>
 #include <arm_math.h>
-#include <ff.h>
+#include <cmsis_extension.h>
 #include "fb_alloc.h"
+#include "file_utils.h"
 #include "umm_malloc.h"
 #include "xalloc.h"
 #include "array.h"
@@ -28,6 +29,11 @@
 #include "collections.h"
 #include "imlib_config.h"
 #include "omv_boardconfig.h"
+
+// Enables 38 TensorFlow Lite operators.
+#define IMLIB_TF_DEFAULT        (1)
+// Enables 78 TensofFlow Lite operators.
+#define IMLIB_TF_FULLOPS        (2)
 
 #ifndef M_PI
 #define M_PI                     3.14159265f
@@ -56,6 +62,8 @@
 #define IM_MIN(a, b)                                    \
     ({__typeof__ (a) _a = (a); __typeof__ (b) _b = (b); \
       __builtin_choose_expr(IM_SIGN_COMPARE(_a, _b), (void) 0, (_a < _b ? _a : _b)); })
+
+#define IM_CLAMP(x, min, max)    IM_MAX(IM_MIN((x), (max)), (min))
 
 #define IM_DIV(a, b)             ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _b ? (_a / _b) : 0; })
 #define IM_MOD(a, b)             ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _b ? (_a % _b) : 0; })
@@ -94,6 +102,8 @@
 
 #define IM_DEG2RAD(x)            (((x) * M_PI) / 180)
 #define IM_RAD2DEG(x)            (((x) * 180) / M_PI)
+
+int imlib_ksize_to_n(int ksize);
 
 /////////////////
 // Point Stuff //
@@ -514,6 +524,7 @@ typedef struct image {
 
 void image_init(image_t *ptr, int w, int h, pixformat_t pixfmt, uint32_t size, void *pixels);
 void image_copy(image_t *dst, image_t *src);
+size_t image_line_size(image_t *ptr);
 size_t image_size(image_t *ptr);
 bool image_get_mask_pixel(image_t *ptr, int x, int y);
 
@@ -731,6 +742,17 @@ bool image_get_mask_pixel(image_t *ptr, int x, int y);
         ((uint16_t *) _image->data) + (_image->w * _y); \
     })
 
+////////////////
+// JPEG Stuff //
+////////////////
+
+#define JPEG_MCU_W                 (8)
+#define JPEG_MCU_H                 (8)
+#define JPEG_444_GS_MCU_SIZE       ((JPEG_MCU_W) *(JPEG_MCU_H))
+#define JPEG_444_YCBCR_MCU_SIZE    ((JPEG_444_GS_MCU_SIZE) * 3)
+#define JPEG_422_YCBCR_MCU_SIZE    ((JPEG_444_GS_MCU_SIZE) * 4)
+#define JPEG_420_YCBCR_MCU_SIZE    ((JPEG_444_GS_MCU_SIZE) * 6)
+
 // Old Image Macros - Will be refactor and removed. But, only after making sure through testing new macros work.
 
 // Image kernels
@@ -923,6 +945,7 @@ typedef struct img_read_settings {
     save_image_format_t format;
 } img_read_settings_t;
 
+typedef void (*binary_morph_op_t) (image_t *, int, int, image_t *);
 typedef void (*line_op_t) (image_t *, int, void *, void *, bool);
 typedef void (*flood_fill_call_back_t) (image_t *, int, int, int, void *);
 
@@ -1076,13 +1099,19 @@ typedef struct find_barcodes_list_lnk_data {
 } find_barcodes_list_lnk_data_t;
 
 typedef enum image_hint {
-    IMAGE_HINT_AREA     = 1 << 0,
-    IMAGE_HINT_BILINEAR = 1 << 1,
-    IMAGE_HINT_BICUBIC  = 1 << 2,
-    IMAGE_HINT_CENTER   = 1 << 7,
-    IMAGE_HINT_EXTRACT_RGB_CHANNEL_FIRST = 1 << 8,
-    IMAGE_HINT_APPLY_COLOR_PALETTE_FIRST = 1 << 9,
-    IMAGE_HINT_BLACK_BACKGROUND = 1 << 31
+    IMAGE_HINT_AREA      = (1 << 0),
+    IMAGE_HINT_BILINEAR  = (1 << 1),
+    IMAGE_HINT_BICUBIC   = (1 << 2),
+    IMAGE_HINT_HMIRROR   = (1 << 4),
+    IMAGE_HINT_VFLIP     = (1 << 5),
+    IMAGE_HINT_TRANSPOSE = (1 << 6),
+    IMAGE_HINT_CENTER    = (1 << 7),
+    IMAGE_HINT_EXTRACT_RGB_CHANNEL_FIRST = (1 << 8),
+    IMAGE_HINT_APPLY_COLOR_PALETTE_FIRST = (1 << 9),
+    IMAGE_HINT_SCALE_ASPECT_KEEP         = (1 << 10),
+    IMAGE_HINT_SCALE_ASPECT_EXPAND       = (1 << 11),
+    IMAGE_HINT_SCALE_ASPECT_IGNORE       = (1 << 12),
+    IMAGE_HINT_BLACK_BACKGROUND = (1 << 31)
 } image_hint_t;
 
 typedef struct imlib_draw_row_data {
@@ -1094,6 +1123,7 @@ typedef struct imlib_draw_row_data {
     const uint8_t *alpha_palette; // user
     bool black_background; // user
     void *callback; // user
+    void *callback_arg; // user
     void *dst_row_override; // user
     int toggle; // private
     void *row_buffer[2]; // private
@@ -1118,10 +1148,12 @@ void imlib_fill_image_from_float(image_t *img, int w, int h, float *data, float 
                                  bool mirror, bool flip, bool dst_transpose, bool src_transpose);
 
 // Bayer Image Processing
+pixformat_t imlib_bayer_shift(pixformat_t pixfmt, int x, int y, bool transpose);
 void imlib_debayer_line(int x_start, int x_end, int y_row, void *dst_row_ptr, pixformat_t pixfmt, image_t *src);
 void imlib_debayer_image(image_t *dst, image_t *src);
 
 // YUV Image Processing
+pixformat_t imlib_yuv_shift(pixformat_t pixfmt, int x);
 void imlib_deyuv_line(int x_start, int x_end, int y_row, void *dst_row_ptr, pixformat_t pixfmt, image_t *src);
 void imlib_deyuv_image(image_t *dst, image_t *src);
 
@@ -1141,13 +1173,15 @@ bool bmp_read_geometry(FIL *fp, image_t *img, const char *path, bmp_read_setting
 void bmp_read_pixels(FIL *fp, image_t *img, int n_lines, bmp_read_settings_t *rs);
 void bmp_read(image_t *img, const char *path);
 void bmp_write_subimg(image_t *img, const char *path, rectangle_t *r);
-#if (OMV_HARDWARE_JPEG == 1)
-void imlib_jpeg_compress_init();
-void imlib_jpeg_compress_deinit();
-void jpeg_mdma_irq_handler();
+#if (OMV_JPEG_CODEC_ENABLE == 1)
+void imlib_hardware_jpeg_init();
+void imlib_hardware_jpeg_deinit();
 #endif
+void jpeg_get_mcu(image_t *src, int x_offset, int y_offset, int dx, int dy,
+                  int8_t *Y0, int8_t *CB, int8_t *CR);
 void jpeg_decompress(image_t *dst, image_t *src);
 bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc);
+bool jpeg_is_valid(image_t *img);
 int jpeg_clean_trailing_bytes(int bpp, uint8_t *data);
 void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settings_t *rs);
 void jpeg_read_pixels(FIL *fp, image_t *img);
@@ -1174,8 +1208,8 @@ void mjpeg_open(FIL *fp, int width, int height);
 void mjpeg_write(FIL *fp, int width, int height, uint32_t *frames, uint32_t *bytes,
                  image_t *img, int quality, rectangle_t *roi, int rgb_channel, int alpha,
                  const uint16_t *color_palette, const uint8_t *alpha_palette, image_hint_t hint);
-void mjpeg_sync(FIL *fp, uint32_t *frames, uint32_t *bytes, float fps);
-void mjpeg_close(FIL *fp, uint32_t *frames, uint32_t *bytes, float fps);
+void mjpeg_sync(FIL *fp, uint32_t frames, uint32_t bytes, uint32_t us_avg);
+void mjpeg_close(FIL *fp, uint32_t frames, uint32_t bytes, uint32_t us_avg);
 
 /* Point functions */
 point_t *point_alloc(int16_t x, int16_t y);
@@ -1273,20 +1307,18 @@ void imlib_draw_row_deinit_all();
 void *imlib_draw_row_get_row_buffer(imlib_draw_row_data_t *data);
 void imlib_draw_row_put_row_buffer(imlib_draw_row_data_t *data, void *row_buffer);
 void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data);
-bool imlib_draw_image_rectangle(image_t *dst_img,
-                                image_t *src_img,
-                                int dst_x_start,
-                                int dst_y_start,
-                                float x_scale,
-                                float y_scale,
-                                rectangle_t *roi,
-                                int alpha,
-                                const uint8_t *alpha_palette,
-                                image_hint_t hint,
-                                int *x0,
-                                int *x1,
-                                int *y0,
-                                int *y1);
+void imlib_draw_image_get_bounds(image_t *dst_img,
+                                 image_t *src_img,
+                                 int dst_x_start,
+                                 int dst_y_start,
+                                 float x_scale,
+                                 float y_scale,
+                                 rectangle_t *roi,
+                                 int alpha,
+                                 const uint8_t *alpha_palette,
+                                 image_hint_t hint,
+                                 point_t *p0,
+                                 point_t *p1);
 void imlib_flood_fill_int(image_t *out, image_t *img, int x, int y,
                           int seed_threshold, int floating_threshold,
                           flood_fill_call_back_t cb, void *data);
@@ -1326,21 +1358,27 @@ void imlib_draw_image(image_t *dst_img,
                       const uint8_t *alpha_palette,
                       image_hint_t hint,
                       imlib_draw_row_callback_t callback,
+                      void *callback_arg,
                       void *dst_row_override);
 void imlib_flood_fill(image_t *img, int x, int y,
                       float seed_threshold, float floating_threshold,
                       int c, bool invert, bool clear_background, image_t *mask);
 // ISP Functions
-void imlib_awb(image_t *img, bool max);
+void imlib_awb_rgb_avg(image_t *img, uint32_t *r_out, uint32_t *g_out, uint32_t *b_out);
+void imlib_awb_rgb_max(image_t *img, uint32_t *r_out, uint32_t *g_out, uint32_t *b_out);
+void imlib_awb(image_t *img, uint32_t r_out, uint32_t g_out, uint32_t b_out);
 void imlib_ccm(image_t *img, float *ccm, bool offset);
 void imlib_gamma(image_t *img, float gamma, float scale, float offset);
 // Binary Functions
 void imlib_binary(image_t *out, image_t *img, list_t *thresholds, bool invert, bool zero, image_t *mask);
 void imlib_invert(image_t *img);
+void imlib_b_and_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
 void imlib_b_and(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_b_nand(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
+void imlib_b_or_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
 void imlib_b_or(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_b_nor(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
+void imlib_b_xor_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
 void imlib_b_xor(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_b_xnor(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_erode(image_t *img, int ksize, int threshold, image_t *mask);
@@ -1350,7 +1388,6 @@ void imlib_close(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_top_hat(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_black_hat(image_t *img, int ksize, int threshold, image_t *mask);
 // Math Functions
-void imlib_negate(image_t *img);
 void imlib_replace(image_t *img,
                    const char *path,
                    image_t *other,
@@ -1361,8 +1398,6 @@ void imlib_replace(image_t *img,
                    image_t *mask);
 void imlib_add(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_sub(image_t *img, const char *path, image_t *other, int scalar, bool reverse, image_t *mask);
-void imlib_mul(image_t *img, const char *path, image_t *other, int scalar, bool invert, image_t *mask);
-void imlib_div(image_t *img, const char *path, image_t *other, int scalar, bool invert, bool mod, image_t *mask);
 void imlib_min(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_max(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
 void imlib_difference(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
@@ -1379,7 +1414,7 @@ void imlib_morph(image_t *img,
                  const int ksize,
                  const int *krn,
                  const float m,
-                 const int b,
+                 const float b,
                  bool threshold,
                  int offset,
                  bool invert,
@@ -1392,7 +1427,6 @@ void imlib_bilateral_filter(image_t *img,
                             int offset,
                             bool invert,
                             image_t *mask);
-void imlib_cartoon_filter(image_t *img, float seed_threshold, float floating_threshold, image_t *mask);
 // Image Correction
 void imlib_logpolar_int(image_t *dst, image_t *src, rectangle_t *roi, bool linear, bool reverse); // helper/internal
 void imlib_logpolar(image_t *img, bool linear, bool reverse);

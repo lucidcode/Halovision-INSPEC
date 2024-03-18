@@ -8,7 +8,6 @@
 #define MICROPY_HW_BOARD_NAME       "OPENMV4-PRO"
 #define MICROPY_HW_MCU_NAME         "STM32H743"
 #define MICROPY_PY_SYS_PLATFORM     "OpenMV4 Pro"
-#define MICROPY_STREAMS_POSIX_API   (1)
 
 #define MICROPY_OBJ_REPR            (MICROPY_OBJ_REPR_C)
 #define UINT_FMT                    "%u"

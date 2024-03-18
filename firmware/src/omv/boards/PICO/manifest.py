@@ -1,4 +1,4 @@
-include("$(MPY_DIR)/extmod/uasyncio")
+include("$(MPY_DIR)/extmod/asyncio")
 
 # Networking
 require("ntptime")
@@ -9,6 +9,7 @@ require("onewire")
 require("ds18x20")
 require("dht")
 require("neopixel")
+freeze ("$(OMV_LIB_DIR)/", "machine.py")
 
 # Utils
 require("time")

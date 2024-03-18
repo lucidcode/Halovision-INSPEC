@@ -9,7 +9,7 @@
  * Lepton driver.
  */
 #include "omv_boardconfig.h"
-#if (OMV_ENABLE_LEPTON == 1)
+#if (OMV_LEPTON_ENABLE == 1)
 
 #include <stdio.h>
 #include "sensor.h"
@@ -61,10 +61,10 @@ static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_
 
 static int sleep(sensor_t *sensor, int enable) {
     if (enable) {
-        omv_gpio_write(DCMI_POWER_PIN, 0);
+        omv_gpio_write(OMV_CSI_POWER_PIN, 0);
         mp_hal_delay_ms(100);
     } else {
-        omv_gpio_write(DCMI_POWER_PIN, 1);
+        omv_gpio_write(OMV_CSI_POWER_PIN, 1);
         mp_hal_delay_ms(100);
     }
 
@@ -245,6 +245,7 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
             float *arg_max_temp = va_arg(ap, float *);
             float min_temp_range = (lepton.high_temp_mode) ? LEPTON_MIN_TEMP_HIGH : LEPTON_MIN_TEMP_NORM;
             float max_temp_range = (lepton.high_temp_mode) ? LEPTON_MAX_TEMP_HIGH : LEPTON_MAX_TEMP_NORM;
+            // Don't use clamp here, the order of comparison is important.
             lepton.min_temp = IM_MAX(IM_MIN(*arg_min_temp, *arg_max_temp), min_temp_range);
             lepton.max_temp = IM_MIN(IM_MAX(*arg_max_temp, *arg_min_temp), max_temp_range);
             break;
@@ -266,16 +267,16 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
 }
 
 static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_mode) {
-    omv_gpio_write(DCMI_POWER_PIN, 0);
+    omv_gpio_write(OMV_CSI_POWER_PIN, 0);
     mp_hal_delay_ms(10);
 
-    omv_gpio_write(DCMI_POWER_PIN, 1);
+    omv_gpio_write(OMV_CSI_POWER_PIN, 1);
     mp_hal_delay_ms(10);
 
-    omv_gpio_write(DCMI_RESET_PIN, 0);
+    omv_gpio_write(OMV_CSI_RESET_PIN, 0);
     mp_hal_delay_ms(10);
 
-    omv_gpio_write(DCMI_RESET_PIN, 1);
+    omv_gpio_write(OMV_CSI_RESET_PIN, 1);
     mp_hal_delay_ms(1000);
 
     LEP_RAD_ENABLE_E rad;
@@ -432,7 +433,7 @@ static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
 
                     // Value is the 14/16-bit value from the FLIR IR camera.
                     // However, with AGC enabled only the bottom 8-bits are non-zero.
-                    int value = __REV16(row_ptr[fast_floorf(x * scale_inv)]);
+                    int value = row_ptr[fast_floorf(x * scale_inv)];
 
                     if (lepton.measurement_mode) {
                         // Need to convert 14/16-bits to 8-bits ourselves...
@@ -440,9 +441,9 @@ static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
                             value = (value - 8192) + kelvin;
                         }
                         float celsius = (value * 0.01f) - 273.15f;
-                        celsius = IM_MAX(IM_MIN(celsius, lepton.max_temp), lepton.min_temp);
-                        value = IM_MAX(IM_MIN(IM_DIV(((celsius - lepton.min_temp) * 255),
-                                                     (lepton.max_temp - lepton.min_temp)), 255), 0);
+                        celsius = IM_CLAMP(celsius, lepton.min_temp, lepton.max_temp);
+                        value = __USAT(IM_DIV(((celsius - lepton.min_temp) * 255),
+                                              (lepton.max_temp - lepton.min_temp)), 8);
                     }
 
                     int t_x = x - MAIN_FB()->x;
@@ -536,4 +537,4 @@ int lepton_init(sensor_t *sensor) {
     }
     return 0;
 }
-#endif // (OMV_ENABLE_LEPTON == 1)
+#endif // (OMV_LEPTON_ENABLE == 1)

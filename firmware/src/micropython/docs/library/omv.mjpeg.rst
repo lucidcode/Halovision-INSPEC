@@ -33,7 +33,7 @@ Example usage::
         m.add_frame(sensor.snapshot())
 
     # Finalize.
-    m.close(c.fps())
+    m.close()
 
 Constructors
 ~~~~~~~~~~~~
@@ -92,7 +92,7 @@ Constructors
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination (which is a black background in this case). 0 results in a black image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -107,8 +107,18 @@ Constructors
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       ``quality`` is the compression quality (0-100) (int) to be used for non-JPEG images.
 
@@ -118,20 +128,16 @@ Constructors
 
       Alias for `Mjpeg.add_frame()`.
 
-   .. method:: sync(fps)
+   .. method:: sync()
 
       Flushes the mjpeg file to disk but keeps the file open for writing more data. You should call
       flush periodically ensure that the file is saved to disk.
 
-      ``fps`` is the frame rate the mjpeg was recorded at.
-
       Returns the object.
 
-   .. method:: close(fps)
+   .. method:: close()
 
       Finalizes the mjpeg recording. This method must be called once the recording
       is complete to make the file viewable.
-
-      ``fps`` is the frame rate the mjpeg was recorded at.
 
       Returns the object.

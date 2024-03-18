@@ -3382,7 +3382,7 @@ TrailBlazeContinuous(DmtxDecode *dec, DmtxRegion *reg, DmtxPointFlow flowBegin, 
 }
 
 /**
- * recives bresline, and follows strongest neighbor unless it involves
+ * receives bresline, and follows strongest neighbor unless it involves
  * ratcheting bresline inward or backward (although back + outward is allowed).
  *
  */
@@ -4326,7 +4326,7 @@ dmtxSymbolModuleStatus(DmtxMessage *message, int sizeIdx, int symbolRow, int sym
          symbolCol % (dataRegionCols+2) == 0)
       return (DmtxModuleOnRGB | (!DmtxModuleData));
 
-   /* Horinzontal calibration bars */
+   /* Horizontal calibration bars */
    if((symbolRow+1) % (dataRegionRows+2) == 0)
       return (((symbolCol & 0x01) ? 0 : DmtxModuleOnRGB) | (!DmtxModuleData));
 
@@ -6315,7 +6315,7 @@ void imlib_find_datamatrices(list_t *out, image_t *ptr, rectangle_t *roi, int ef
         img.h = roi->h;
         img.pixfmt = PIXFORMAT_GRAYSCALE;
         img.data = grayscale_image;
-        imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 256, NULL, NULL, 0, NULL, NULL);
+        imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 256, NULL, NULL, 0, NULL, NULL, NULL);
     }
 
     umm_init_x(fb_avail());

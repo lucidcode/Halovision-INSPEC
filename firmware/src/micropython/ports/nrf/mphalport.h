@@ -77,4 +77,7 @@ mp_uint_t mp_hal_ticks_ms(void);
 #define mp_hal_delay_us_fast(p)
 #define mp_hal_ticks_cpu() (0)
 
+#define NVIC_PRIORITYGROUP_4    ((uint32_t)0x00000003)
+#define IRQ_PRI_PENDSV          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 15, 0)
+
 #endif

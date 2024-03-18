@@ -1,8 +1,7 @@
-include("$(MPY_DIR)/extmod/uasyncio")
+include("$(MPY_DIR)/extmod/asyncio")
 
 # Drivers
 require("lsm6dsox")
-require("espflash")
 require("onewire")
 require("ds18x20")
 require("dht")
@@ -10,6 +9,7 @@ require("neopixel")
 freeze ("$(OMV_LIB_DIR)/", "modbus.py")
 freeze ("$(OMV_LIB_DIR)/", "pid.py")
 freeze ("$(OMV_LIB_DIR)/", "vl53l1x.py")
+freeze ("$(OMV_LIB_DIR)/", "machine.py")
 
 # Networking
 require("ntptime")

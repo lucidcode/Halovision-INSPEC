@@ -52,9 +52,10 @@
 #include "usb.h"
 #include "portmodules.h"
 #include "modmachine.h"
+#include "extmod/modmachine.h"
 #include "extmod/modnetwork.h"
 #include "extmod/vfs.h"
-#include "extmod/utime_mphal.h"
+#include "extmod/modtime.h"
 
 #if MICROPY_PY_PYB
 
@@ -63,6 +64,12 @@ STATIC mp_obj_t pyb_fault_debug(mp_obj_t value) {
     return mp_const_none;
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_fault_debug_obj, pyb_fault_debug);
+
+STATIC mp_obj_t pyb_idle(void) {
+    __WFI();
+    return mp_const_none;
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_0(pyb_idle_obj, pyb_idle);
 
 #if MICROPY_PY_PYB_LEGACY
 
@@ -87,7 +94,7 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_1(pyb_elapsed_micros_obj, pyb_elapsed_micros);
 #endif
 
 // Get or set the UART object that the REPL is repeated on.
-// This is a legacy function, use of uos.dupterm is preferred.
+// This is a legacy function, use of os.dupterm is preferred.
 STATIC mp_obj_t pyb_repl_uart(size_t n_args, const mp_obj_t *args) {
     if (n_args == 0) {
         if (MP_STATE_PORT(pyb_stdio_uart) == NULL) {
@@ -101,7 +108,7 @@ STATIC mp_obj_t pyb_repl_uart(size_t n_args, const mp_obj_t *args) {
                 uart_attach_to_repl(MP_STATE_PORT(pyb_stdio_uart), false);
                 MP_STATE_PORT(pyb_stdio_uart) = NULL;
             }
-        } else if (mp_obj_get_type(args[0]) == &pyb_uart_type) {
+        } else if (mp_obj_get_type(args[0]) == &machine_uart_type) {
             MP_STATE_PORT(pyb_stdio_uart) = MP_OBJ_TO_PTR(args[0]);
             uart_attach_to_repl(MP_STATE_PORT(pyb_stdio_uart), true);
         } else {
@@ -141,7 +148,7 @@ STATIC const mp_rom_map_elem_t pyb_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_repl_info), MP_ROM_PTR(&pyb_set_repl_info_obj) },
     #endif
 
-    { MP_ROM_QSTR(MP_QSTR_wfi), MP_ROM_PTR(&machine_idle_obj) },
+    { MP_ROM_QSTR(MP_QSTR_wfi), MP_ROM_PTR(&pyb_idle_obj) },
     { MP_ROM_QSTR(MP_QSTR_disable_irq), MP_ROM_PTR(&machine_disable_irq_obj) },
     { MP_ROM_QSTR(MP_QSTR_enable_irq), MP_ROM_PTR(&machine_enable_irq_obj) },
     #if IRQ_ENABLE_STATS
@@ -175,13 +182,13 @@ STATIC const mp_rom_map_elem_t pyb_module_globals_table[] = {
     #endif
 
     #if MICROPY_PY_PYB_LEGACY
-    { MP_ROM_QSTR(MP_QSTR_millis), MP_ROM_PTR(&mp_utime_ticks_ms_obj) },
+    { MP_ROM_QSTR(MP_QSTR_millis), MP_ROM_PTR(&mp_time_ticks_ms_obj) },
     { MP_ROM_QSTR(MP_QSTR_elapsed_millis), MP_ROM_PTR(&pyb_elapsed_millis_obj) },
-    { MP_ROM_QSTR(MP_QSTR_micros), MP_ROM_PTR(&mp_utime_ticks_us_obj) },
+    { MP_ROM_QSTR(MP_QSTR_micros), MP_ROM_PTR(&mp_time_ticks_us_obj) },
     { MP_ROM_QSTR(MP_QSTR_elapsed_micros), MP_ROM_PTR(&pyb_elapsed_micros_obj) },
-    { MP_ROM_QSTR(MP_QSTR_delay), MP_ROM_PTR(&mp_utime_sleep_ms_obj) },
-    { MP_ROM_QSTR(MP_QSTR_udelay), MP_ROM_PTR(&mp_utime_sleep_us_obj) },
-    { MP_ROM_QSTR(MP_QSTR_sync), MP_ROM_PTR(&mp_uos_sync_obj) },
+    { MP_ROM_QSTR(MP_QSTR_delay), MP_ROM_PTR(&mp_time_sleep_ms_obj) },
+    { MP_ROM_QSTR(MP_QSTR_udelay), MP_ROM_PTR(&mp_time_sleep_us_obj) },
+    { MP_ROM_QSTR(MP_QSTR_sync), MP_ROM_PTR(&mp_os_sync_obj) },
     { MP_ROM_QSTR(MP_QSTR_mount), MP_ROM_PTR(&mp_vfs_mount_obj) },
     #endif
 
@@ -229,7 +236,7 @@ STATIC const mp_rom_map_elem_t pyb_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_I2C), MP_ROM_PTR(&pyb_i2c_type) },
     #endif
     { MP_ROM_QSTR(MP_QSTR_SPI), MP_ROM_PTR(&pyb_spi_type) },
-    { MP_ROM_QSTR(MP_QSTR_UART), MP_ROM_PTR(&pyb_uart_type) },
+    { MP_ROM_QSTR(MP_QSTR_UART), MP_ROM_PTR(&machine_uart_type) },
     #if MICROPY_HW_ENABLE_CAN
     { MP_ROM_QSTR(MP_QSTR_CAN), MP_ROM_PTR(&pyb_can_type) },
     #endif

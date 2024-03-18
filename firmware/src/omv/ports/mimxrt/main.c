@@ -28,6 +28,9 @@
 #include "systick.h"
 #include "modmimxrt.h"
 
+#include "py_fir.h"
+#include "py_tv.h"
+
 #if MICROPY_PY_LWIP
 #include "lwip/init.h"
 #include "lwip/apps/mdns.h"
@@ -47,7 +50,6 @@
 
 #include "extmod/vfs.h"
 #include "extmod/vfs_fat.h"
-#include "common/factoryreset.h"
 
 #include "omv_boardconfig.h"
 #include "framebuffer.h"
@@ -56,38 +58,14 @@
 #include "tinyusb_debug.h"
 #include "fb_alloc.h"
 #include "dma_alloc.h"
-#include "ff_wrapper.h"
+#include "file_utils.h"
+#include "boot_utils.h"
 #include "mimxrt_hal.h"
 
 extern uint8_t _sstack, _estack, _heap_start, _heap_end;
 
-void exec_boot_script(const char *path, bool interruptible) {
-    nlr_buf_t nlr;
-    bool interrupted = false;
-    if (nlr_push(&nlr) == 0) {
-        // Enable IDE interrupts if allowed.
-        if (interruptible) {
-            usbdbg_set_irq_enabled(true);
-            usbdbg_set_script_running(true);
-        }
-
-        // Parse, compile and execute the script.
-        pyexec_file_if_exists(path, true);
-        nlr_pop();
-    } else {
-        interrupted = true;
-    }
-
-    // Disable IDE interrupts
-    usbdbg_set_irq_enabled(false);
-    usbdbg_set_script_running(false);
-
-    if (interrupted) {
-        mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
-    }
-}
-
 int main(void) {
+    bool sdcard_detected = false;
     bool sdcard_mounted = false;
     bool first_soft_reset = true;
 
@@ -97,9 +75,7 @@ int main(void) {
     pendsv_init();
 
 soft_reset:
-    #if defined(MICROPY_HW_LED1)
     led_init();
-    #endif
 
     // Initialise stack extents and GC heap.
     mp_stack_set_top(&_estack);
@@ -110,10 +86,7 @@ soft_reset:
     mp_init();
 
     // Initialise low-level sub-systems.
-    #if MICROPY_PY_LCD
-    py_lcd_init0();
-    #endif
-    //py_fir_init0();
+    py_fir_init0();
     #if MICROPY_PY_TV
     py_tv_init0();
     #endif
@@ -122,9 +95,6 @@ soft_reset:
     #endif // MICROPY_PY_BUZZER
     imlib_init_all();
     readline_init0();
-    #if MICROPY_HW_ENABLE_CAN
-    can_init0();
-    #endif
     fb_alloc_init0();
     framebuffer_init0();
     sensor_init0();
@@ -132,14 +102,10 @@ soft_reset:
     #ifdef IMLIB_ENABLE_IMAGE_FILE_IO
     file_buffer_init0();
     #endif
-    #if MICROPY_HW_ENABLE_SERVO
-    servo_init();
-    #endif
     usbdbg_init();
     machine_adc_init();
     #if MICROPY_PY_MACHINE_SDCARD
     machine_sdcard_init0();
-    sdcard_init_pins(&mimxrt_sdcard_objs[MICROPY_HW_SDCARD_SDMMC - 1]);
     #endif
     #if MICROPY_PY_MACHINE_I2S
     machine_i2s_init0();
@@ -169,6 +135,7 @@ soft_reset:
         memcpy(&buf[0], "PYBD", 4);
         mp_hal_get_mac_ascii(MP_HAL_MAC_WLAN0, 8, 4, (char *) &buf[4]);
         cyw43_wifi_ap_set_ssid(&cyw43_state, 8, buf);
+        cyw43_wifi_ap_set_auth(&cyw43_state, CYW43_AUTH_WPA2_AES_PSK);
         cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *) "pybd0123");
     }
     #endif
@@ -178,16 +145,22 @@ soft_reset:
     #endif
 
     #if MICROPY_PY_SENSOR
-    if (first_soft_reset
-        && sensor_init() != 0) {
-        printf("sensor init failed!\n");
+    if (first_soft_reset) {
+        sensor_init();
     }
     #endif
 
     // Mount or create a fresh filesystem.
     mp_obj_t mount_point = MP_OBJ_NEW_QSTR(MP_QSTR__slash_);
     #if MICROPY_PY_MACHINE_SDCARD
-    if (sdcard_detect(&mimxrt_sdcard_objs[MICROPY_HW_SDCARD_SDMMC - 1])) {
+    mimxrt_sdcard_obj_t *sdcard = &mimxrt_sdcard_objs[MICROPY_HW_SDCARD_SDMMC - 1];
+    if (!sdcard->state->initialized) {
+        mp_hal_pin_input(sdcard->pins->cd_b.pin);
+        sdcard_detected = !mp_hal_pin_read(sdcard->pins->cd_b.pin);
+    } else {
+        sdcard_detected = sdcard_detect(sdcard);
+    }
+    if (sdcard_detected) {
         mp_obj_t args[] = { MP_OBJ_NEW_SMALL_INT(MICROPY_HW_SDCARD_SDMMC) };
         mp_obj_t bdev = MP_OBJ_TYPE_GET_SLOT(&machine_sdcard_type, make_new) (&machine_sdcard_type, 1, 0, args);
         if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == 0) {
@@ -204,7 +177,7 @@ soft_reset:
         } else {
             // Create a fresh filesystem.
             fs_user_mount_t *vfs = MP_OBJ_TYPE_GET_SLOT(&mp_fat_vfs_type, make_new) (&mp_fat_vfs_type, 1, 0, &bdev);
-            if (factoryreset_create_filesystem(vfs) == 0) {
+            if (bootutils_init_filesystem(vfs) == 0) {
                 if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == 0) {
                     mimxrt_msc_medium = &mimxrt_flash_type;
                 }
@@ -212,16 +185,21 @@ soft_reset:
         }
     }
 
-    // Deferred tusb_init to allow the filesystem to be mounted/created before MSC.
+    // Mark the filesystem as an OpenMV storage.
+    file_ll_touch(".openmv_disk");
+
+    // Initialize TinyUSB after the filesystem is mounted.
     if (!tusb_inited()) {
         tusb_init();
     }
 
-    // Execute user scripts.
-    exec_boot_script("boot.py", false);
+    // Run boot.py script.
+    bool interrupted = bootutils_exec_bootscript("boot.py", true, false);
 
-    if (first_soft_reset) {
-        exec_boot_script("main.py", true);
+    // Run main.py script on first soft-reset.
+    if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
+        bootutils_exec_bootscript("main.py", true, false);
+        goto soft_reset_exit;
     }
 
     // If there's no script ready, just re-exec REPL
@@ -269,8 +247,13 @@ soft_reset:
         }
     }
 
+soft_reset_exit:
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
+    #if MICROPY_PY_MACHINE_CAN
+    machine_can_irq_deinit();
+    #endif
     machine_pin_irq_deinit();
+    machine_rtc_irq_deinit();
     #if MICROPY_PY_LWIP
     systick_disable_dispatch(SYSTICK_DISPATCH_LWIP);
     #endif
@@ -289,7 +272,6 @@ soft_reset:
     mp_deinit();
     first_soft_reset = false;
     goto soft_reset;
-    return 0;
 }
 
 void gc_collect(void) {

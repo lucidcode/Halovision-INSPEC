@@ -69,14 +69,6 @@ void pendsv_kbd_intr(void) {
     }
 }
 
-// This will always force the exception by using the hardware PENDSV
-void pendsv_nlr_jump(void *o) {
-    MP_STATE_MAIN_THREAD(mp_pending_exception) = MP_OBJ_NULL;
-    pendsv_dispatch_active = false;
-    pendsv_object = o;
-    SCB->ICSR = SCB_ICSR_PENDSVSET_Msk;
-}
-
 #if defined(PENDSV_DISPATCH_NUM_SLOTS)
 void pendsv_schedule_dispatch(size_t slot, pendsv_dispatch_t f) {
     pendsv_dispatch_table[slot] = f;
@@ -101,8 +93,13 @@ __attribute__((naked)) void PendSV_Handler(void) {
     // For the case of an asynchronous exception, re-jig the
     // stack so that when we return from this interrupt handler
     // it returns instead to nlr_jump with argument pendsv_object
+    // note that stack has a different layout if DEBUG is enabled
+    //
+    // For the case of a thread switch, swap stacks.
     //
     // on entry to this (naked) function, stack has the following layout:
+    //
+    // stack layout with DEBUG disabled:
     //   sp[6]: pc=r15
     //   sp[5]: lr=r14
     //   sp[4]: r12
@@ -110,6 +107,17 @@ __attribute__((naked)) void PendSV_Handler(void) {
     //   sp[2]: r2
     //   sp[1]: r1
     //   sp[0]: r0
+    //
+    // stack layout with DEBUG enabled:
+    //   sp[8]: pc=r15
+    //   sp[7]: lr=r14
+    //   sp[6]: r12
+    //   sp[5]: r3
+    //   sp[4]: r2
+    //   sp[3]: r1
+    //   sp[2]: r0
+    //   sp[1]: 0xfffffff9
+    //   sp[0]: ?
 
     __asm volatile (
         #if defined(PENDSV_DISPATCH_NUM_SLOTS)
@@ -129,13 +137,19 @@ __attribute__((naked)) void PendSV_Handler(void) {
         "ldr r0, [r1]\n"
         "cmp r0, #0\n"
         "beq .no_obj\n"
-        "mov r2, #0x01000000 \n"        // Modify stacked XPSR to make sure
-        "str r2, [sp, #28] \n"          // possible LDM/STM progress is cleared.
+        #if defined(PENDSV_DEBUG)
+        "str r0, [sp, #8]\n"            // store to r0 on stack
+        #else
         "str r0, [sp, #0]\n"            // store to r0 on stack
+        #endif
         "mov r0, #0\n"
         "str r0, [r1]\n"                // clear pendsv_object
         "ldr r0, nlr_jump_ptr\n"
+        #if defined(PENDSV_DEBUG)
+        "str r0, [sp, #32]\n"           // store to pc on stack
+        #else
         "str r0, [sp, #24]\n"           // store to pc on stack
+        #endif
         "bx lr\n"                       // return from interrupt; will return to nlr_jump
         ".no_obj:\n"                    // pendsv_object==NULL
 
@@ -150,7 +164,7 @@ __attribute__((naked)) void PendSV_Handler(void) {
         "bl pyb_thread_next\n"          // get next thread to execute
         "mov lr, r4\n"                  // restore lr
         "mov sp, r0\n"                  // switch stacks
-        "msr primask, r5\n"             // reenable interrupts
+        "msr primask, r5\n"             // re-enable interrupts
         "vpop {s16-s31}\n"
         "pop {r4-r11, lr}\n"
         "bx lr\n"                       // return from interrupt; will return to new thread

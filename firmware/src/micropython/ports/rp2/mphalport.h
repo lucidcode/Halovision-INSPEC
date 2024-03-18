@@ -31,16 +31,30 @@
 #include "hardware/clocks.h"
 #include "hardware/structs/systick.h"
 #include "RP2040.h" // cmsis, for __WFI
+#include "pendsv.h"
 
 #define SYSTICK_MAX (0xffffff)
 #define MICROPY_HW_USB_CDC_TX_TIMEOUT (500)
+
+// Entering a critical section.
+#define MICROPY_BEGIN_ATOMIC_SECTION()     mp_thread_begin_atomic_section()
+#define MICROPY_END_ATOMIC_SECTION(state)  mp_thread_end_atomic_section(state)
+
+#define MICROPY_PY_PENDSV_ENTER   pendsv_suspend()
+#define MICROPY_PY_PENDSV_EXIT    pendsv_resume()
+
+#define NVIC_PRIORITYGROUP_0    ((uint32_t)0x00000000)
+#define IRQ_PRI_PENDSV          NVIC_EncodePriority(NVIC_PRIORITYGROUP_0, 15, 0)
 
 extern int mp_interrupt_char;
 extern ringbuf_t stdin_ringbuf;
 
 int mp_hal_init();
+uint32_t mp_thread_begin_atomic_section(void);
+void mp_thread_end_atomic_section(uint32_t);
 
 void mp_hal_set_interrupt_char(int c);
+void mp_hal_time_ns_set_from_rtc(void);
 
 static inline void mp_hal_delay_us(mp_uint_t us) {
     sleep_us(us);

@@ -5,10 +5,11 @@
  */
 
 #include "pico.h"
+#include "pico/asm_helper.S"
+
 #include "hardware/regs/m0plus.h"
 #include "hardware/regs/addressmap.h"
 #include "hardware/regs/sio.h"
-#include "pico/asm_helper.S"
 #include "pico/binary_info/defs.h"
 
 #ifdef NDEBUG
@@ -17,9 +18,7 @@
 #endif
 #endif
 
-.syntax unified
-.cpu cortex-m0plus
-.thumb
+pico_default_asm_setup
 
 .section .vectors, "ax"
 .align 2
@@ -325,13 +324,29 @@ hold_non_core0_in_bootrom:
 // ----------------------------------------------------------------------------
 // Stack/heap dummies to set size
 
-.section .stack
+// Prior to SDK 1.5.1 these were `.section .stack` without the `, "a"`... Clang linker gives a warning about this,
+// however setting it explicitly to `, "a"` makes GCC *now* discard the section unless it is also KEEP. This
+// seems like very surprising behavior!
+//
+// Strictly the most correct thing to do (as .stack and .heap are unreferenced) is to mark them as "a", and also KEEP, which
+// works correctly for both GCC and Clang, however doing so may break anyone who already has custom linker scripts without
+// the KEEP. Therefore we will only add the "a" on Clang, but will also use KEEP to our own linker scripts.
+
+.macro spacer_section name
+#if PICO_ASSEMBLER_IS_CLANG
+.section \name, "a"
+#else
+.section \name
+#endif
+.endm
+
+spacer_section .stack
 // align to allow for memory protection (although this alignment is pretty much ignored by linker script)
-.align 5
+.p2align 5
     .equ StackSize, PICO_STACK_SIZE
 .space StackSize
 
-.section .heap
-.align 2
+spacer_section .heap
+.p2align 2
     .equ HeapSize, PICO_HEAP_SIZE
 .space HeapSize

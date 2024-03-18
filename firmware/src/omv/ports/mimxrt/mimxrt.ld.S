@@ -226,18 +226,6 @@ SECTIONS
     _line_buf = .;      // Image line buffer.
     . = . + OMV_LINE_BUF_SIZE;
 
-    . = ALIGN(16);
-    _msc_buf  = .;      // USB MSC bot data (2K)
-    . = . + OMV_MSC_BUF_SIZE;
-
-    . = ALIGN(16);
-    _vfs_buf  = .;      // VFS sturct + FATFS file buffer  (around 624 bytes)
-    . = . + OMV_VFS_BUF_SIZE;
-
-    . = ALIGN(16);
-    _fir_lepton_buf = .; // FIR Lepton Packet Double Buffer (328 bytes)
-    . = . + OMV_FIR_LEPTON_BUF_SIZE;
-
     #if !defined(OMV_JPEG_MEMORY)
     . = ALIGN(16);
     _jpeg_buf = .;      // IDE JPEG buffer

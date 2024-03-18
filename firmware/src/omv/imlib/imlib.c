@@ -14,14 +14,14 @@
 
 #include "font.h"
 #include "array.h"
-#include "ff_wrapper.h"
+#include "file_utils.h"
 #include "imlib.h"
 #include "omv_common.h"
 #include "omv_boardconfig.h"
 
 void imlib_init_all() {
-    #if (OMV_HARDWARE_JPEG == 1)
-    imlib_jpeg_compress_init();
+    #if (OMV_JPEG_CODEC_ENABLE == 1)
+    imlib_hardware_jpeg_init();
     #endif
 }
 
@@ -29,9 +29,13 @@ void imlib_deinit_all() {
     #ifdef IMLIB_ENABLE_DMA2D
     imlib_draw_row_deinit_all();
     #endif
-    #if (OMV_HARDWARE_JPEG == 1)
-    imlib_jpeg_compress_deinit();
+    #if (OMV_JPEG_CODEC_ENABLE == 1)
+    imlib_hardware_jpeg_deinit();
     #endif
+}
+
+int imlib_ksize_to_n(int ksize) {
+    return ((ksize * 2) + 1) * ((ksize * 2) + 1);
 }
 
 /////////////////
@@ -75,7 +79,7 @@ void point_min_area_rectangle(point_t *corners, point_t *new_corners, int corner
     float i_r = 0;
 
     // This algorithm aligns the 4 edges produced by the 4 corners to the x axis and then computes the
-    // min area rect for each alignment. The smallest rect is choosen and then re-rotated and returned.
+    // min area rect for each alignment. The smallest rect is chosen and then re-rotated and returned.
     for (int i = 0; i < corners_len; i++) {
         int16_t x0 = corners[i].x, y0 = corners[i].y;
         int x_diff = corners[(i + 1) % corners_len].x - corners[i].x;
@@ -251,6 +255,27 @@ void image_copy(image_t *dst, image_t *src) {
     memcpy(dst, src, sizeof(image_t));
 }
 
+size_t image_line_size(image_t *ptr) {
+    switch (ptr->pixfmt) {
+        case PIXFORMAT_BINARY: {
+            return IMAGE_BINARY_LINE_LEN_BYTES(ptr);
+        }
+        case PIXFORMAT_GRAYSCALE:
+        case PIXFORMAT_BAYER_ANY: {
+            // re-use
+            return IMAGE_GRAYSCALE_LINE_LEN_BYTES(ptr);
+        }
+        case PIXFORMAT_RGB565:
+        case PIXFORMAT_YUV_ANY: {
+            // re-use
+            return IMAGE_RGB565_LINE_LEN_BYTES(ptr);
+        }
+        default: {
+            return 0;
+        }
+    }
+}
+
 size_t image_size(image_t *ptr) {
     switch (ptr->pixfmt) {
         case PIXFORMAT_BINARY: {
@@ -407,7 +432,7 @@ int8_t imlib_rgb565_to_l(uint16_t pixel) {
 
     y = (y > 0.008856f) ? fast_cbrtf(y) : ((y * 7.787037f) + 0.137931f);
 
-    return IM_MAX(IM_MIN(fast_floorf(116 * y) - 16, COLOR_L_MAX), COLOR_L_MIN);
+    return IM_CLAMP(fast_floorf(116 * y) - 16, COLOR_L_MIN, COLOR_L_MAX);
 }
 
 int8_t imlib_rgb565_to_a(uint16_t pixel) {
@@ -421,7 +446,7 @@ int8_t imlib_rgb565_to_a(uint16_t pixel) {
     x = (x > 0.008856f) ? fast_cbrtf(x) : ((x * 7.787037f) + 0.137931f);
     y = (y > 0.008856f) ? fast_cbrtf(y) : ((y * 7.787037f) + 0.137931f);
 
-    return IM_MAX(IM_MIN(fast_floorf(500 * (x - y)), COLOR_A_MAX), COLOR_A_MIN);
+    return __SSAT(fast_floorf(500 * (x - y)), 8);
 }
 
 int8_t imlib_rgb565_to_b(uint16_t pixel) {
@@ -435,7 +460,7 @@ int8_t imlib_rgb565_to_b(uint16_t pixel) {
     y = (y > 0.008856f) ? fast_cbrtf(y) : ((y * 7.787037f) + 0.137931f);
     z = (z > 0.008856f) ? fast_cbrtf(z) : ((z * 7.787037f) + 0.137931f);
 
-    return IM_MAX(IM_MIN(fast_floorf(200 * (y - z)), COLOR_B_MAX), COLOR_B_MIN);
+    return __SSAT(fast_floorf(200 * (y - z)), 8);
 }
 
 // https://en.wikipedia.org/wiki/Lab_color_space -> CIELAB-CIEXYZ conversions
@@ -457,18 +482,18 @@ uint16_t imlib_lab_to_rgb(uint8_t l, int8_t a, int8_t b) {
     g_lin = (g_lin > 0.0031308f) ? ((1.055f * powf(g_lin, 0.416666f)) - 0.055f) : (g_lin * 12.92f);
     b_lin = (b_lin > 0.0031308f) ? ((1.055f * powf(b_lin, 0.416666f)) - 0.055f) : (b_lin * 12.92f);
 
-    uint32_t red = IM_MAX(IM_MIN(fast_floorf(r_lin * COLOR_R8_MAX), COLOR_R8_MAX), COLOR_R8_MIN);
-    uint32_t green = IM_MAX(IM_MIN(fast_floorf(g_lin * COLOR_G8_MAX), COLOR_G8_MAX), COLOR_G8_MIN);
-    uint32_t blue = IM_MAX(IM_MIN(fast_floorf(b_lin * COLOR_B8_MAX), COLOR_B8_MAX), COLOR_B8_MIN);
+    uint32_t red = __USAT(fast_floorf(r_lin * COLOR_R8_MAX), 8);
+    uint32_t green = __USAT(fast_floorf(g_lin * COLOR_G8_MAX), 8);
+    uint32_t blue = __USAT(fast_floorf(b_lin * COLOR_B8_MAX), 8);
 
     return COLOR_R8_G8_B8_TO_RGB565(red, green, blue);
 }
 
 // https://en.wikipedia.org/wiki/YCbCr -> JPEG Conversion
 uint16_t imlib_yuv_to_rgb(uint8_t y, int8_t u, int8_t v) {
-    uint32_t r = IM_MAX(IM_MIN(y + ((91881 * v) >> 16), COLOR_R8_MAX), COLOR_R8_MIN);
-    uint32_t g = IM_MAX(IM_MIN(y - (((22554 * u) + (46802 * v)) >> 16), COLOR_G8_MAX), COLOR_G8_MIN);
-    uint32_t b = IM_MAX(IM_MIN(y + ((116130 * u) >> 16), COLOR_B8_MAX), COLOR_B8_MIN);
+    uint32_t r = __USAT(y + ((91881 * v) >> 16), 8);
+    uint32_t g = __USAT(y - (((22554 * u) + (46802 * v)) >> 16), 8);
+    uint32_t b = __USAT(y + ((116130 * u) >> 16), 8);
 
     return COLOR_R8_G8_B8_TO_RGB565(r, g, b);
 }
@@ -541,9 +566,9 @@ static save_image_format_t imblib_parse_extension(image_t *img, const char *path
 }
 
 bool imlib_read_geometry(FIL *fp, image_t *img, const char *path, img_read_settings_t *rs) {
-    file_read_open(fp, path);
     char magic[4];
-    read_data(fp, &magic, 4);
+    file_open(fp, path, false, FA_READ | FA_OPEN_EXISTING);
+    file_read(fp, &magic, 4);
     file_close(fp);
 
     bool vflipped = false;
@@ -552,31 +577,27 @@ bool imlib_read_geometry(FIL *fp, image_t *img, const char *path, img_read_setti
             || (magic[1] == '5') || (magic[1] == '6'))) {
         // PPM
         rs->format = FORMAT_PNM;
-        file_read_open(fp, path);
-        file_buffer_on(fp); // REMEMBER TO TURN THIS OFF LATER!
+        file_open(fp, path, true, FA_READ | FA_OPEN_EXISTING);
         ppm_read_geometry(fp, img, path, &rs->ppm_rs);
     } else if ((magic[0] == 'B') && (magic[1] == 'M')) {
         // BMP
         rs->format = FORMAT_BMP;
-        file_read_open(fp, path);
-        file_buffer_on(fp); // REMEMBER TO TURN THIS OFF LATER!
+        file_open(fp, path, true, FA_READ | FA_OPEN_EXISTING);
         vflipped = bmp_read_geometry(fp, img, path, &rs->bmp_rs);
     } else if ((magic[0] == 0xFF) && (magic[1] == 0xD8)) {
         // JPG
         rs->format = FORMAT_JPG;
-        file_read_open(fp, path);
-        // Do not use file_buffer_on() here.
+        file_open(fp, path, false, FA_READ | FA_OPEN_EXISTING);
         jpeg_read_geometry(fp, img, path, &rs->jpg_rs);
-        file_buffer_on(fp); // REMEMBER TO TURN THIS OFF LATER!
+        file_buffer_on(fp);
     } else if ((magic[0] == 0x89) && (magic[1] == 0x50) && (magic[2] == 0x4E) && (magic[3] == 0x47)) {
         // PNG
         rs->format = FORMAT_PNG;
-        file_read_open(fp, path);
-        // Do not use file_buffer_on() here.
+        file_open(fp, path, false, FA_READ | FA_OPEN_EXISTING);
         png_read_geometry(fp, img, path, &rs->png_rs);
-        file_buffer_on(fp); // REMEMBER TO TURN THIS OFF LATER!
+        file_buffer_on(fp);
     } else {
-        ff_unsupported_format(NULL);
+        file_raise_format(NULL);
     }
     imblib_parse_extension(img, path); // Enforce extension!
     return vflipped;
@@ -610,7 +631,7 @@ void imlib_image_operation(image_t *img, const char *path, image_t *other, int s
         img_read_settings_t rs;
         bool vflipped = imlib_read_geometry(&fp, &temp, path, &rs);
         if (!IM_EQUAL(img, &temp)) {
-            f_close(&fp);
+            file_close(&fp);
             mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Images not equal!"));
         }
         // When processing vertically flipped images the read function will fill
@@ -636,7 +657,6 @@ void imlib_image_operation(image_t *img, const char *path, image_t *other, int s
                 }
             }
         }
-        file_buffer_off(&fp);
         file_close(&fp);
         fb_free();
         #else
@@ -723,9 +743,9 @@ void imlib_image_operation(image_t *img, const char *path, image_t *other, int s
 #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
 void imlib_load_image(image_t *img, const char *path) {
     FIL fp;
-    file_read_open(&fp, path);
     char magic[4];
-    read_data(&fp, &magic, 4);
+    file_open(&fp, path, false, FA_READ | FA_OPEN_EXISTING);
+    file_read(&fp, &magic, 4);
     file_close(&fp);
 
     if ((magic[0] == 'P')
@@ -743,7 +763,7 @@ void imlib_load_image(image_t *img, const char *path) {
         // PNG
         png_read(img, path);
     } else {
-        ff_unsupported_format(NULL);
+        file_raise_format(NULL);
     }
     imblib_parse_extension(img, path); // Enforce extension!
 }
@@ -758,8 +778,8 @@ void imlib_save_image(image_t *img, const char *path, rectangle_t *roi, int qual
             break;
         case FORMAT_RAW: {
             FIL fp;
-            file_write_open(&fp, path);
-            write_data(&fp, img->pixels, img->w * img->h);
+            file_open(&fp, path, false, FA_WRITE | FA_CREATE_ALWAYS);
+            file_write(&fp, img->pixels, img->w * img->h);
             file_close(&fp);
             break;
         }
@@ -782,8 +802,8 @@ void imlib_save_image(image_t *img, const char *path, rectangle_t *roi, int qual
             } else if (IM_IS_BAYER(img)) {
                 FIL fp;
                 char *new_path = strcat(strcpy(fb_alloc(strlen(path) + 5, FB_ALLOC_NO_HINT), path), ".raw");
-                file_write_open(&fp, new_path);
-                write_data(&fp, img->pixels, img->w * img->h);
+                file_open(&fp, new_path, false, FA_WRITE | FA_CREATE_ALWAYS);
+                file_write(&fp, img->pixels, img->w * img->h);
                 file_close(&fp);
                 fb_free();
             } else {
@@ -1135,7 +1155,7 @@ void imlib_sepconv3(image_t *img, const int8_t *krn, const float m, const int b)
                 acc = __SMLAD(krn[1], buffer[((y - 1) % 2) * img->w + x + 1], acc);
                 acc = __SMLAD(krn[2], buffer[((y - 1) % 2) * img->w + x + 2], acc);
                 acc = (acc * m) + b; // scale, offset, and clamp
-                acc = IM_MAX(IM_MIN(acc, IM_MAX_GS), 0);
+                acc = __USAT(acc, 8);
                 IM_SET_GS_PIXEL(img, (x + 1), (y), acc);
             }
         }
