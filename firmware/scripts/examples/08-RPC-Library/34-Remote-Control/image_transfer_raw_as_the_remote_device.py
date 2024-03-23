@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Image Transfer - As The Remote Device
 #
 # This script is made to pair with another OpenMV Cam running "image_transfer_raw_as_the_controller_device.py"
@@ -13,7 +17,7 @@ sensor.set_pixformat(sensor.RGB565)
 sensor.set_framesize(sensor.QVGA)
 sensor.skip_frames(time=2000)
 
-# The RPC library above is installed on your OpenMV Cam and provides mutliple classes for
+# The RPC library above is installed on your OpenMV Cam and provides multiple classes for
 # allowing your OpenMV Cam to be controlled over CAN, I2C, SPI, UART, or LAN/WLAN.
 
 ################################################################

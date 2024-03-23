@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Image Transfer - As The Remote Device
 #
 # This script is meant to talk to the "image_transfer_jpg_streaming_as_the_controller_device.py" on your computer.
@@ -21,7 +25,7 @@ sensor.skip_frames(time=2000)
 
 omv.disable_fb(True)
 
-# The RPC library above is installed on your OpenMV Cam and provides mutliple classes for
+# The RPC library above is installed on your OpenMV Cam and provides multiple classes for
 # allowing your OpenMV Cam to be controlled over USB or LAN/WLAN.
 
 ################################################################

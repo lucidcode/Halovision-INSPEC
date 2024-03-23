@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Draw Image Testing script with bounce
 #
 # Exercise draw image with many different values for testing
@@ -97,7 +101,7 @@ while True:
             x_scale=rescale,
             y_scale=rescale,
             alpha=240,
-            hint=image.BILINEAR | image.CENTER,
+            hint=image.BILINEAR
         )
         status += "alpha:240 "
         status += "+mask "
@@ -109,7 +113,7 @@ while True:
             x_scale=rescale,
             y_scale=rescale,
             alpha=128,
-            hint=image.BILINEAR | image.CENTER,
+            hint=image.BILINEAR
         )
         status += "alpha:128 "
 

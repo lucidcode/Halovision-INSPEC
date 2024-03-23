@@ -1,10 +1,14 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Single Color Grayscale Blob Tracking Example
 #
 # This example shows off single color grayscale tracking using the OpenMV Cam using the FLIR LEPTON.
 
 # FLIR Lepton Shutter Note: FLIR Leptons with radiometry and a shutter will pause the video often
 # as they heatup to re-calibrate. This will happen less and less often as the sensor temperature
-# stablizes. You can force the re-calibration to not happen if you need to via the lepton API.
+# stabilizes. You can force the re-calibration to not happen if you need to via the lepton API.
 # However, it is not recommended because the image will degrade overtime.
 
 import sensor

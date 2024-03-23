@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Lepton Get Object High Temp Example
 #
 # This example shows off how to get an object's temperature using color tracking.
@@ -10,7 +14,7 @@
 
 # FLIR Lepton Shutter Note: FLIR Leptons with radiometry and a shutter will pause the video often
 # as they heatup to re-calibrate. This will happen less and less often as the sensor temperature
-# stablizes. You can force the re-calibration to not happen if you need to via the lepton API.
+# stabilizes. You can force the re-calibration to not happen if you need to via the lepton API.
 # However, it is not recommended because the image will degrade overtime.
 
 # If you are using a LEPTON other than the Lepton 3.5 this script may not work perfectly as other

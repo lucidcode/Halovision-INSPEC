@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Sensor Manual Whitebal Control
 #
 # This example shows off how to control the camera sensor's
@@ -30,8 +34,8 @@ clock = time.clock()  # Create a clock object to track the FPS.
 # sensor.set_auto_whitebal(False, rgb_gain_db = (0.0, 0.0, 0.0))
 
 # Note: Putting (0.0, 0.0, 0.0) for the gain results in something close to zero
-# comming out. Do not expect the exact value going in to be equal to the value
-# comming out.
+# coming out. Do not expect the exact value going in to be equal to the value
+# coming out.
 
 while True:
     clock.tick()  # Update the FPS clock.

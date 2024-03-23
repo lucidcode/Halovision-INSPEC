@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Find Small Apriltags
 #
 # This script shows off how to use blob tracking as a pre-filter to
@@ -47,7 +51,7 @@ while True:
     # First, we find blobs that may be candidates for tags.
     box_list = []
 
-    # AprilTags may fail due to not having enough ram given the image sie being passed.
+    # AprilTags may fail due to not having enough ram given the image size being passed.
     tag_list = []
 
     for blob in img.find_blobs(

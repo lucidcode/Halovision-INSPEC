@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Sensor Exposure Control
 #
 # This example shows off how to cotnrol the camera sensor's
@@ -31,7 +35,7 @@ print("Initial exposure == %d" % sensor.get_exposure_us())
 sensor.skip_frames(time=2000)  # Wait for settings take effect.
 clock = time.clock()  # Create a clock object to track the FPS.
 
-# You have to turn automatic gain control and automatic white blance off
+# You have to turn automatic gain control and automatic white balance off
 # otherwise they will change the image gains to undo any exposure settings
 # that you put in place...
 sensor.set_auto_gain(False)

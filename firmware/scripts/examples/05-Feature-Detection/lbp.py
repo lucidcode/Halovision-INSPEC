@@ -1,10 +1,14 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Local Binary Patterns (LBP) Example
 #
 # This example shows off how to use the local binary pattern feature descriptor
 # on your OpenMV Cam. LBP descriptors work like Freak feature descriptors.
 #
 # WARNING: LBP supports needs to be reworked! As of right now this feature needs
-# a lot of work to be made into somethin useful. This script will reamin to show
+# a lot of work to be made into somethin useful. This script will remain to show
 # that the functionality exists, but, in its current state is inadequate.
 
 import sensor

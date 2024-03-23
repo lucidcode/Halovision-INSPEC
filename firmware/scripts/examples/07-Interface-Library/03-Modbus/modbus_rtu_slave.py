@@ -1,5 +1,9 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 import time
-from pyb import UART
+from machine import UART
 from modbus import ModbusRTU
 
 uart = UART(3, 115200, parity=None, stop=2, timeout=1, timeout_char=4)

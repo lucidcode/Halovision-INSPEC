@@ -2338,6 +2338,51 @@ STATIC mp_obj_t py_image_difference(uint n_args, const mp_obj_t *args, mp_map_t 
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_difference_obj, 2, py_image_difference);
 
+static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
+{
+    int pixelThreshold = mp_obj_get_int(args[2]);
+    
+    image_t *arg_img =
+        py_helper_arg_to_image(args[0], ARG_IMAGE_MUTABLE);
+
+    image_t *arg_msk =
+        py_helper_keyword_to_image(n_args, args, 1, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_mask), NULL);
+
+
+    fb_alloc_mark();
+
+    int differences = 0;
+
+    for (int y = 0, yy = arg_img->h; y < yy; y++) {
+        uint8_t *row_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_img, y);
+        uint8_t *row_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_msk, y);
+        for (int x = 0, xx = arg_img->w; x < xx; x++) {
+            int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, x);
+            int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, x);
+
+            int pixelDiff = 0;
+
+            pixelDiff = abs(pixel1 - pixel2);
+
+            if (pixel1 >= 32) {
+                //differences++;
+            }
+
+            if (pixelDiff >= pixelThreshold) {
+                differences = differences + pixelDiff;
+            }
+
+            //IMAGE_PUT_RGB565_PIXEL_FAST(out_row_ptr, x,
+            //    imlib_yuv_to_rgb(IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr, x), 0, 0));
+        };
+    }
+
+    fb_alloc_free_till_mark();
+
+    return mp_obj_new_int(differences);
+}
+STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_variance_obj, 2, py_image_variance);
+
 STATIC mp_obj_t py_image_blend(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     image_t *arg_img =
         py_helper_arg_to_image(args[0], ARG_IMAGE_MUTABLE);
@@ -6445,6 +6490,7 @@ static const mp_rom_map_elem_t locals_dict_table[] = {
     {MP_ROM_QSTR(MP_QSTR_min),                 MP_ROM_PTR(&py_image_min_obj)},
     {MP_ROM_QSTR(MP_QSTR_max),                 MP_ROM_PTR(&py_image_max_obj)},
     {MP_ROM_QSTR(MP_QSTR_difference),          MP_ROM_PTR(&py_image_difference_obj)},
+    {MP_ROM_QSTR(MP_QSTR_variance),            MP_ROM_PTR(&py_image_variance_obj)},
     {MP_ROM_QSTR(MP_QSTR_blend),               MP_ROM_PTR(&py_image_blend_obj)},
     #else
     {MP_ROM_QSTR(MP_QSTR_negate),              MP_ROM_PTR(&py_func_unavailable_obj)},

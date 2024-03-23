@@ -1,6 +1,10 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Blur Filter Example
 #
-# This example shows off using the guassian filter to blur images.
+# This example shows off using the gaussian filter to blur images.
 
 import sensor
 import time

@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Image Drawing Alpha Blending Test
 #
 # This script tests the performance and quality of the draw_image()
@@ -63,7 +67,7 @@ while True:
         y_bounce,
         rgb_channel=-1,
         alpha=alpha_value // alpha_div,
-        hint=hint | image.CENTER,
+        hint=hint
     )
 
     x_bounce += x_bounce_toggle

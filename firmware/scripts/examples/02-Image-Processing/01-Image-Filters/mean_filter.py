@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Mean Filter Example
 #
 # This example shows off mean filtering. Mean filtering is your standard average
@@ -17,7 +21,7 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = sensor.snapshot()  # Take a picture and return the image.
 
-    # The only argument is the kernel size. N coresponds to a ((N*2)+1)^2
+    # The only argument is the kernel size. N corresponds to a ((N*2)+1)^2
     # kernel size. E.g. 1 == 3x3 kernel, 2 == 5x5 kernel, etc. Note: You
     # shouldn't ever need to use a value bigger than 2.
     img.mean(1)

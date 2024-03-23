@@ -1,3 +1,0 @@
-[submodule "firmware.wiki"]
-	path = firmware.wiki
-	url = https://github.com/raspberrypi/firmware.wiki.git

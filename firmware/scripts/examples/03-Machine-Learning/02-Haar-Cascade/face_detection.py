@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Face Detection Example
 #
 # This example shows off the built-in face detection feature of the OpenMV Cam.
@@ -9,7 +13,7 @@
 # only evaluated if previous stages pass. Additionally, your OpenMV Cam uses
 # a data structure called the integral image to quickly execute each area
 # contrast check in constant time (the reason for feature detection being
-# grayscale only is because of the space requirment for the integral image).
+# grayscale only is because of the space requirement for the integral image).
 
 import sensor
 import time

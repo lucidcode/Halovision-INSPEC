@@ -1,15 +1,19 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Global Shutter Triggered Mode Example
 #
 # This example shows off setting the global shutter camera into triggered mode. In triggered mode
 # snapshot() controls EXACTLY when integration of the camera pixels start such that you can sync
 # taking pictures to some external movement. Since the camera captures all pixels at the same time
 # (as it is a global shutter camera versus a rolling shutter camera) movement in the image will
-# only be captured for the integration time and not the integration time multipled by the number
+# only be captured for the integration time and not the integration time multiplied by the number
 # of rows in the image. Additionally, sensor noise is reduced in triggered mode as the camera will
 # not read out rows until after exposing which results in a higher quality image.
 #
 # That said, your maximum frame rate will be reduced by 2 to 3 as frames are no longer generated
-# continously by the camera and because you have to wait for the integration to finish before
+# continuously by the camera and because you have to wait for the integration to finish before
 # readout of the frame.
 
 import sensor

@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # MAVLink OpticalFlow Script.
 #
 # This script sends out OpticalFlow detections using the MAVLink protocol to
@@ -5,25 +9,21 @@
 #
 # P4 = TXD
 
-import pyb
 import sensor
 import struct
 import time
+import machine
 
-# Parameters #################################################################
-
-uart_baudrate = 115200
-
+UART_BAUDRATE = 115200
 MAV_system_id = 1
 MAV_component_id = 0x54
-MAV_OPTICAL_FLOW_confidence_threshold = (
-    0.1  # Below 0.1 or so (YMMV) and the results are just noise.
-)
+packet_sequence = 0
 
-##############################################################################
+# Below 0.1 or so (YMMV) and the results are just noise.
+MAV_OPTICAL_FLOW_confidence_threshold = (0.1)
 
 # LED control
-led = pyb.LED(2)  # Red LED = 1, Green LED = 2, Blue LED = 3, IR LEDs = 4.
+led = machine.LED("LED_BLUE")
 led_state = 0
 
 
@@ -38,17 +38,11 @@ def update_led():
 
 
 # Link Setup
-
-uart = pyb.UART(3, uart_baudrate, timeout_char=1000)
-
-# Helper Stuff
-
-packet_sequence = 0
+uart = machine.UART(3, UART_BAUDRATE, timeout_char=1000)
 
 
-def checksum(
-    data, extra
-):  # https://github.com/mavlink/c_library_v1/blob/master/checksum.h
+# https://github.com/mavlink/c_library_v1/blob/master/checksum.h
+def checksum(data, extra):
     output = 0xFFFF
     for i in range(len(data)):
         tmp = data[i] ^ (output & 0xFF)

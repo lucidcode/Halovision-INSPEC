@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Snapshot on Movement Example
 #
 # Note: You will need an SD card to run this example.
@@ -6,11 +10,9 @@
 # motion detection. After motion is detected your OpenMV Cam will take picture.
 
 import sensor
-import pyb
+import random
 import os
-
-RED_LED_PIN = 1
-BLUE_LED_PIN = 3
+import machine
 
 sensor.reset()  # Reset and initialize the sensor.
 sensor.set_pixformat(sensor.RGB565)  # Set pixel format to RGB565 (or GRAYSCALE)
@@ -18,18 +20,17 @@ sensor.set_framesize(sensor.QVGA)  # Set frame size to QVGA (320x240)
 sensor.skip_frames(time=2000)  # Wait for settings take effect.
 sensor.set_auto_whitebal(False)  # Turn off white balance.
 
+led = machine.LED("LED_RED")
+
 if not "temp" in os.listdir():
     os.mkdir("temp")  # Make a temp directory
 
 while True:
-    pyb.LED(RED_LED_PIN).on()
     print("About to save background image...")
     sensor.skip_frames(time=2000)  # Give the user time to get ready.
 
-    pyb.LED(RED_LED_PIN).off()
     sensor.snapshot().save("temp/bg.bmp")
     print("Saved background image - Now detecting motion!")
-    pyb.LED(BLUE_LED_PIN).on()
 
     diff = 10  # We'll say we detected motion after 10 frames of motion.
     while diff:
@@ -42,6 +43,7 @@ while True:
         if stats[5] > 20:
             diff -= 1
 
-    pyb.LED(BLUE_LED_PIN).off()
+    led.on()
     print("Movement detected! Saving image...")
-    sensor.snapshot().save("temp/snapshot-%d.jpg" % pyb.rng())  # Save Pic.
+    sensor.snapshot().save("temp/snapshot-%d.jpg" % random.getrandbits(32))  # Save Pic.
+    led.off()

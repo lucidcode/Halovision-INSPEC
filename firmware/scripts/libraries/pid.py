@@ -3,12 +3,12 @@ Example:
 from pid import PID
 pid1 = PID(p=0.07, i=0, imax=90)
 while(True):
-    error = 50 #error should be caculated, target - mesure
+    error = 50 #error should be calculated, target - measure
     output=pid1.get_pid(error,1)
     #control value with output
 """
 
-from pyb import millis
+from time import ticks_ms
 from math import pi, isnan
 
 
@@ -25,7 +25,7 @@ class PID:
         self._last_derivative = float("nan")
 
     def get_pid(self, error, scaler):
-        tnow = millis()
+        tnow = ticks_ms()
         dt = tnow - self._last_t
         output = 0
         if self._last_t == 0 or dt > 1000:

@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Remote Control - As The Controller Device
 #
 # This script configures your OpenMV Cam to remotely control another OpenMV Cam using the RPC
@@ -10,7 +14,7 @@ import json
 import rpc
 import struct
 
-# The RPC library above is installed on your OpenMV Cam and provides mutliple classes for
+# The RPC library above is installed on your OpenMV Cam and provides multiple classes for
 # allowing your OpenMV Cam to control over CAN, I2C, SPI, or UART.
 
 ##############################################################
@@ -71,12 +75,6 @@ def exe_face_detection():
             "Largest Face Detected [x=%d, y=%d, w=%d, h=%d]"
             % struct.unpack("<HHHH", result)
         )
-
-
-def exe_person_detection():
-    result = interface.call("person_detection")
-    if result is not None:
-        print(bytes(result).decode())
 
 
 def exe_qrcode_detection():
@@ -167,7 +165,6 @@ def exe_jpeg_snapshot():
 
 while True:
     exe_face_detection()  # Face should be about 2ft away.
-    # exe_person_detection()
     # exe_qrcode_detection() # Place the QRCode about 2ft away.
     # exe_all_qrcode_detection() # Place the QRCode about 2ft away.
     # exe_apriltag_detection()

@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # AprilTags Max Res Example
 #
 # This example shows the power of the OpenMV Cam to detect April Tags
@@ -11,9 +15,8 @@ import omv
 
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)
-sensor.set_framesize(
-    sensor.VGA
-)  # we run out of memory if the resolution is much bigger...
+sensor.set_framesize(sensor.VGA)
+
 # AprilTags works on a maximum of < 64K pixels.
 if omv.board_type() == "H7":
     sensor.set_windowing((240, 240))
@@ -41,7 +44,7 @@ tag_families |= image.ARTOOLKIT  # comment out to disable this family
 
 # What's the difference between tag families? Well, for example, the TAG16H5 family is effectively
 # a 4x4 square tag. So, this means it can be seen at a longer distance than a TAG36H11 tag which
-# is a 6x6 square tag. However, the lower H value (H5 versus H11) means that the false positve
+# is a 6x6 square tag. However, the lower H value (H5 versus H11) means that the false positive
 # rate for the 4x4 tag is much, much, much, higher than the 6x6 tag. So, unless you have a
 # reason to use the other tags families just use TAG36H11 which is the default family.
 

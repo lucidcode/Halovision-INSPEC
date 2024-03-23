@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # TensorFlow Lite Mobilenet V1 Example
 #
 # Google's Mobilenet V1 detects 1000 classes of objects
@@ -12,7 +16,7 @@
 # To get the models please see the CNN Network library in OpenMV IDE under
 # Tools -> Machine Vision. The labels are there too.
 # You should insert a microSD card into your camera and copy-paste the mobilenet_labels.txt
-# file and your chosen model into the root folder for ths script to work.
+# file and your chosen model into the root folder for this script to work.
 #
 # In this example we slide the detector window over the image and get a list
 # of activations. Note that use a CNN with a sliding window is extremely compute
@@ -58,7 +62,7 @@ while True:
     # Setting x_overlap=-1 forces the window to stay centered in the ROI in the x direction always. If
     # y_overlap is not -1 the method will search in all vertical positions.
     # Setting y_overlap=-1 forces the window to stay centered in the ROI in the y direction always. If
-    # x_overlap is not -1 the method will serach in all horizontal positions.
+    # x_overlap is not -1 the method will search in all horizontal positions.
 
     for obj in tf.classify(
         mobilenet, img, min_scale=1.0, scale_mul=0.5, x_overlap=0.0, y_overlap=0.0

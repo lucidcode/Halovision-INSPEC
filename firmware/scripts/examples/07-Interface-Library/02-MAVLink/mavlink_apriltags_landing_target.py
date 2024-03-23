@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # MAVLink AprilTags Landing Target Script.
 #
 # This script sends out AprilTag detections using the MAVLink protocol to
@@ -6,17 +10,15 @@
 # P4 = TXD
 
 import math
-import pyb
 import sensor
 import struct
 import time
+import machine
 
-# Parameters #################################################################
-
-uart_baudrate = 115200
-
+UART_BAUDRATE = 115200
 MAV_system_id = 1
 MAV_component_id = 0x54
+packet_sequence = 0
 
 lens_mm = 2.8  # Standard Lens.
 lens_to_camera_mm = 22  # Standard Lens.
@@ -35,10 +37,8 @@ valid_tag_ids = {
     2: 165,  # 8.5" x 11" tag black border size in mm
 }
 
-##############################################################################
 
 # Camera Setup
-
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.QQVGA)
@@ -54,22 +54,17 @@ h_fov = 2 * math.atan((sensor_w_mm / 2) / lens_mm)
 v_fov = 2 * math.atan((sensor_h_mm / 2) / lens_mm)
 
 
-def translation_to_mm(translation, tag_size):  # translation is in decimeters...
+def translation_to_mm(translation, tag_size):
+    # translation is in decimeters...
     return ((translation * 100) * tag_size) / 210
 
 
 # Link Setup
-
-uart = pyb.UART(3, uart_baudrate, timeout_char=1000)
-
-# Helper Stuff
-
-packet_sequence = 0
+uart = machine.UART(3, UART_BAUDRATE, timeout_char=1000)
 
 
-def checksum(
-    data, extra
-):  # https://github.com/mavlink/c_library_v1/blob/master/checksum.h
+# https://github.com/mavlink/c_library_v1/blob/master/checksum.h
+def checksum(data, extra):
     output = 0xFFFF
     for i in range(len(data)):
         tmp = data[i] ^ (output & 0xFF)
@@ -123,8 +118,8 @@ def send_landing_target_packet(tag, dist_mm, w, h):
 
 
 # LED control
-led_success = pyb.LED(2)  # Red LED = 1, Green LED = 2, Blue LED = 3, IR LEDs = 4.
-led_fail = pyb.LED(1)
+led_success = machine.LED("LED_GREEN")
+led_fail = machine.LED("LED_RED")
 led_counter = 0
 
 

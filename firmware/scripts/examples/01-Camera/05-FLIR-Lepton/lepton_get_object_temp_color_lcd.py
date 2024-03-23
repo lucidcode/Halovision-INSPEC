@@ -1,3 +1,7 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
 # Lepton Get Object Temp Example
 #
 # This example shows off how to get an object's temperature using color tracking.
@@ -10,7 +14,7 @@
 
 # FLIR Lepton Shutter Note: FLIR Leptons with radiometry and a shutter will pause the video often
 # as they heatup to re-calibrate. This will happen less and less often as the sensor temperature
-# stablizes. You can force the re-calibration to not happen if you need to via the lepton API.
+# stabilizes. You can force the re-calibration to not happen if you need to via the lepton API.
 # However, it is not recommended because the image will degrade overtime.
 
 # If you are using a LEPTON other than the Lepton 3.5 this script may not work perfectly as other
@@ -19,7 +23,8 @@
 
 import sensor
 import time
-import lcd
+import display
+import image
 
 # Color Tracking Thresholds (Grayscale Min, Grayscale Max)
 threshold_list = [(200, 255)]
@@ -51,7 +56,7 @@ sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.LCD)
 sensor.skip_frames(time=5000)
 clock = time.clock()
-lcd.init()
+lcd = display.SPIDisplay()
 
 # Only blobs that with more pixels than "pixel_threshold" and more area than "area_threshold" are
 # returned by "find_blobs" below. Change "pixels_threshold" and "area_threshold" if you change the
@@ -84,7 +89,7 @@ while True:
                 ),
             )
         )
-    img.to_rainbow(color_palette=sensor.PALETTE_IRONBOW)  # color it
+    img.to_rainbow(color_palette=image.PALETTE_IRONBOW)  # color it
     # Draw stuff on the colored image
     for blob in blobs:
         img.draw_rectangle(blob.rect())
@@ -93,7 +98,7 @@ while True:
         img.draw_string(
             blob_stat[0], blob_stat[1] - 10, "%.2f C" % blob_stat[2], mono_space=False
         )
-    lcd.display(img)
+    lcd.write(img)
     print(
         "FPS %f - Lepton Temp: %f C"
         % (clock.fps(), sensor.ioctl(sensor.IOCTL_LEPTON_GET_FPA_TEMPERATURE))
