@@ -70,6 +70,11 @@ typedef volatile uint32_t spin_lock_t;
 #define PICO_SPINLOCK_ID_HARDWARE_CLAIM 11
 #endif
 
+// PICO_CONFIG: PICO_SPINLOCK_ID_RAND, Spinlock ID for Random Number Generator, min=0, max=31, default=12, group=hardware_sync
+#ifndef PICO_SPINLOCK_ID_RAND
+#define PICO_SPINLOCK_ID_RAND 12
+#endif
+
 // PICO_CONFIG: PICO_SPINLOCK_ID_OS1, First Spinlock ID reserved for use by low level OS style software, min=0, max=31, default=14, group=hardware_sync
 #ifndef PICO_SPINLOCK_ID_OS1
 #define PICO_SPINLOCK_ID_OS1 14
@@ -109,9 +114,11 @@ typedef volatile uint32_t spin_lock_t;
 
  * The SEV (send event) instruction sends an event to both cores.
  */
+#if !__has_builtin(__sev)
 __force_inline static void __sev(void) {
-    __asm volatile ("sev");
+    pico_default_asm_volatile ("sev");
 }
+#endif
 
 /*! \brief Insert a WFE instruction in to the code path.
  *  \ingroup hardware_sync
@@ -119,18 +126,22 @@ __force_inline static void __sev(void) {
  * The WFE (wait for event) instruction waits until one of a number of
  * events occurs, including events signalled by the SEV instruction on either core.
  */
+#if !__has_builtin(__wfe)
 __force_inline static void __wfe(void) {
-    __asm volatile ("wfe");
+    pico_default_asm_volatile ("wfe");
 }
+#endif
 
 /*! \brief Insert a WFI instruction in to the code path.
   *  \ingroup hardware_sync
 *
  * The WFI (wait for interrupt) instruction waits for a interrupt to wake up the core.
  */
+#if !__has_builtin(__wfi)
 __force_inline static void __wfi(void) {
-    __asm volatile ("wfi");
+    pico_default_asm_volatile("wfi");
 }
+#endif
 
 /*! \brief Insert a DMB instruction in to the code path.
  *  \ingroup hardware_sync
@@ -139,7 +150,7 @@ __force_inline static void __wfi(void) {
  * instruction will be observed before any explicit access after the instruction.
  */
 __force_inline static void __dmb(void) {
-    __asm volatile ("dmb" : : : "memory");
+    pico_default_asm_volatile("dmb" : : : "memory");
 }
 
 /*! \brief Insert a DSB instruction in to the code path.
@@ -150,7 +161,7 @@ __force_inline static void __dmb(void) {
  * accesses before this instruction complete.
  */
 __force_inline static void __dsb(void) {
-    __asm volatile ("dsb" : : : "memory");
+    pico_default_asm_volatile("dsb" : : : "memory");
 }
 
 /*! \brief Insert a ISB instruction in to the code path.
@@ -161,7 +172,7 @@ __force_inline static void __dsb(void) {
  * the ISB instruction has been completed.
  */
 __force_inline static void __isb(void) {
-    __asm volatile ("isb");
+    pico_default_asm_volatile("isb" ::: "memory");
 }
 
 /*! \brief Acquire a memory fence
@@ -202,8 +213,10 @@ __force_inline static void __mem_fence_release(void) {
  */
 __force_inline static uint32_t save_and_disable_interrupts(void) {
     uint32_t status;
-    __asm volatile ("mrs %0, PRIMASK" : "=r" (status)::);
-    __asm volatile ("cpsid i");
+    pico_default_asm_volatile(
+            "mrs %0, PRIMASK\n"
+            "cpsid i"
+            : "=r" (status) ::);
     return status;
 }
 
@@ -213,7 +226,7 @@ __force_inline static uint32_t save_and_disable_interrupts(void) {
  * \param status Previous interrupt status from save_and_disable_interrupts()
   */
 __force_inline static void restore_interrupts(uint32_t status) {
-    __asm volatile ("msr PRIMASK,%0"::"r" (status) : );
+    pico_default_asm_volatile("msr PRIMASK,%0"::"r" (status) : );
 }
 
 /*! \brief Get HW Spinlock instance from number
@@ -295,22 +308,12 @@ inline static bool is_spin_locked(spin_lock_t *lock) {
  *
  * \param lock Spinlock instance
  * \param saved_irq Return value from the \ref spin_lock_blocking() function.
- * \return interrupt status to be used when unlocking, to restore to original state
  *
  * \sa spin_lock_blocking()
  */
 __force_inline static void spin_unlock(spin_lock_t *lock, uint32_t saved_irq) {
     spin_unlock_unsafe(lock);
     restore_interrupts(saved_irq);
-}
-
-/*! \brief Get the current core number
- *  \ingroup hardware_sync
- *
- * \return The core number the call was made from
- */
-__force_inline static uint get_core_num(void) {
-    return (*(uint32_t *) (SIO_BASE + SIO_CPUID_OFFSET));
 }
 
 /*! \brief Initialise a spin lock
@@ -394,7 +397,8 @@ int spin_lock_claim_unused(bool required);
  */
 bool spin_lock_is_claimed(uint lock_num);
 
-#define remove_volatile_cast(t, x) ({__mem_fence_acquire(); (t)(x); })
+// no longer use __mem_fence_acquire here, as it is overkill on cortex M0+
+#define remove_volatile_cast(t, x) ({__compiler_memory_barrier(); Clang_Pragma("clang diagnostic push"); Clang_Pragma("clang diagnostic ignored \"-Wcast-qual\""); (t)(x); Clang_Pragma("clang diagnostic pop"); })
 
 #ifdef __cplusplus
 }

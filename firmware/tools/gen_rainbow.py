@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # This file is part of the OpenMV project.
 #
-# Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
-# Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+# Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+# Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
 #
 # This work is licensed under the MIT license, see the file LICENSE for details.
 #
@@ -26,7 +26,7 @@ sys.stdout.write("const uint16_t rainbow_table[%d] = {\n" % NUM_COL)
 for i in range(NUM_COL):
     if not (i % 8):
         sys.stdout.write("    ")
-    sys.stdout.write("0x%04X" % (((col[i]&0x00ff)<<8)|((col[i]&0xff00)>>8)))
+    sys.stdout.write("0x%04X" % col[i])
     if (i + 1) % 8:
         sys.stdout.write(", ")
     elif i != (NUM_COL-1):
@@ -302,7 +302,7 @@ sys.stdout.write("const uint16_t ironbow_table[%d] = {\n" % NUM_COL)
 for i in range(NUM_COL):
     if not (i % 8):
         sys.stdout.write("    ")
-    sys.stdout.write("0x%04X" % (((col[i]&0x00ff)<<8)|((col[i]&0xff00)>>8)))
+    sys.stdout.write("0x%04X" % col[i])
     if (i + 1) % 8:
         sys.stdout.write(", ")
     elif i != (NUM_COL-1):

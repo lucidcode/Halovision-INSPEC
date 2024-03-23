@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _PICO_PLATFORM_H_
-#define _PICO_PLATFORM_H_
+#ifndef _PICO_PLATFORM_H
+#define _PICO_PLATFORM_H
 
 /** \file platform.h
  *  \defgroup pico_platform pico_platform
@@ -17,6 +17,8 @@
  */
 
 #include "hardware/platform_defs.h"
+#include "hardware/regs/addressmap.h"
+#include "hardware/regs/sio.h"
 
 // Marker for builds targeting the RP2040
 #define PICO_RP2040 1
@@ -66,8 +68,79 @@
 
 #ifndef __ASSEMBLER__
 
+#if defined __GNUC__
 #include <sys/cdefs.h>
+// note LLVM defines __GNUC__
+#ifdef __clang__
+#define PICO_C_COMPILER_IS_CLANG 1
+#else
+#define PICO_C_COMPILER_IS_GNU 1
+#endif
+#elif defined __ICCARM__
+#ifndef __aligned
+#define __aligned(x)	__attribute__((__aligned__(x)))
+#endif
+#ifndef __always_inline
+#define __always_inline __attribute__((__always_inline__))
+#endif
+#ifndef __noinline
+#define __noinline      __attribute__((__noinline__))
+#endif
+#ifndef __packed
+#define __packed        __attribute__((__packed__))
+#endif
+#ifndef __printflike
+#define __printflike(a, b)
+#endif
+#ifndef __unused
+#define __unused        __attribute__((__unused__))
+#endif
+#ifndef __used
+#define __used          __attribute__((__used__))
+#endif
+#ifndef __CONCAT1
+#define __CONCAT1(a, b) a ## b
+#endif
+#ifndef __CONCAT
+#define __CONCAT(a, b)  __CONCAT1(a, b)
+#endif
+#ifndef __STRING
+#define __STRING(a)     #a
+#endif
+/* Compatible definitions of GCC builtins */
+
+static inline uint __builtin_ctz(uint x) {
+  extern uint32_t __ctzsi2(uint32_t);
+  return __ctzsi2(x);
+}
+#define __builtin_expect(x, y) (x)
+#define __builtin_isnan(x) __iar_isnan(x)
+#else
+#error Unsupported toolchain
+#endif
+
 #include "pico/types.h"
+
+// GCC_Like_Pragma(x) is a pragma on GNUC compatible compilers
+#ifdef __GNUC__
+#define GCC_Like_Pragma _Pragma
+#else
+#define GCC_Like_Pragma(x)
+#endif
+
+// Clang_Pragma(x) is a pragma on Clang only
+#ifdef __clang__
+#define Clang_Pragma _Pragma
+#else
+#define Clang_Pragma(x)
+#endif
+
+// GCC_Pragma(x) is a pragma on GCC only
+#if PICO_C_COMPILER_IS_GNU
+#define GCC_Pragma _Pragma
+#else
+#define GCC_Pragma(x)
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -75,6 +148,7 @@ extern "C" {
 
 /*! \brief Marker for an interrupt handler
  *  \ingroup pico_platform
+ *
  * For example an IRQ handler function called my_interrupt_handler:
  *
  *     void __isr my_interrupt_handler(void) {
@@ -151,14 +225,14 @@ extern "C" {
  *
  * For example a `uint32_t` foo that will retain its value if the program is restarted by reset.
  *
- *     uint32_t __uninitialized_ram("my_group_name") foo;
+ *     uint32_t __uninitialized_ram(foo);
  *
- * The section attribute is `.uninitialized_ram.<group>`
+ * The section attribute is `.uninitialized_data.<group>`
  *
  * \param group a string suffix to use in the section name to distinguish groups that can be linker
  *              garbage-collected independently
  */
-#define __uninitialized_ram(group) __attribute__((section(".uninitialized_ram." #group))) group
+#define __uninitialized_ram(group) __attribute__((section(".uninitialized_data." #group))) group
 
 /*! \brief Section attribute macro for placement in flash even in a COPY_TO_RAM binary
  *  \ingroup pico_platform
@@ -172,7 +246,7 @@ extern "C" {
  * \param group a string suffix to use in the section name to distinguish groups that can be linker
  *              garbage-collected independently
  */
-#define __in_flash(group) __attribute__((section(".flashdata" group)))
+#define __in_flash(group) __attribute__((section(".flashdata." group)))
 
 /*! \brief Indicates a function should not be stored in flash
  *  \ingroup pico_platform
@@ -233,7 +307,8 @@ extern "C" {
  *      int __force_inline my_function(int x) {
  *
  */
-#if defined(__GNUC__) && __GNUC__ <= 7
+
+#if PICO_C_COMPILER_IS_GNU && (__GNUC__ <= 6 || (__GNUC__ == 7 && (__GNUC_MINOR__ < 3 || !defined(__cplusplus))))
 #define __force_inline inline __always_inline
 #else
 #define __force_inline __always_inline
@@ -260,11 +335,14 @@ extern "C" {
 #define MIN(a, b) ((b)>(a)?(a):(b))
 #endif
 
+#define pico_default_asm(...) __asm (".syntax unified\n" __VA_ARGS__)
+#define pico_default_asm_volatile(...) __asm volatile (".syntax unified\n" __VA_ARGS__)
+
 /*! \brief Execute a breakpoint instruction
  *  \ingroup pico_platform
  */
 static inline void __breakpoint(void) {
-    __asm__("bkpt #0");
+    pico_default_asm ("bkpt #0");
 }
 
 /*! \brief Ensure that the compiler does not move memory access across this method call
@@ -280,7 +358,7 @@ static inline void __breakpoint(void) {
  * might - even above the memory store!)
  */
 __force_inline static void __compiler_memory_barrier(void) {
-    __asm__ volatile ("" : : : "memory");
+    pico_default_asm_volatile ("" : : : "memory");
 }
 
 /*! \brief Macro for converting memory addresses to 32 bit addresses suitable for DMA
@@ -312,6 +390,12 @@ void __attribute__((noreturn)) panic_unsupported(void);
  */
 void __attribute__((noreturn)) panic(const char *fmt, ...);
 
+#ifdef NDEBUG
+#define panic_compact(...) panic(__VA_ARGS__)
+#else
+#define panic_compact(...) panic("")
+#endif
+
 // PICO_CONFIG: PICO_NO_FPGA_CHECK, Remove the FPGA platform check for small code size reduction, type=bool, default=0, advanced=true, group=pico_runtime
 #ifndef PICO_NO_FPGA_CHECK
 #define PICO_NO_FPGA_CHECK 0
@@ -334,13 +418,16 @@ uint8_t rp2040_chip_version(void);
  * @return the RP2040 rom version number (1 for RP2040-B0, 2 for RP2040-B1, 3 for RP2040-B2)
  */
 static inline uint8_t rp2040_rom_version(void) {
+GCC_Pragma("GCC diagnostic push")
+GCC_Pragma("GCC diagnostic ignored \"-Warray-bounds\"")
     return *(uint8_t*)0x13;
+GCC_Pragma("GCC diagnostic pop")
 }
 
 /*! \brief No-op function for the body of tight loops
  *  \ingroup pico_platform
  *
- * Np-op function intended to be called by any tight hardware polling loop. Using this ubiquitously
+ * No-op function intended to be called by any tight hardware polling loop. Using this ubiquitously
  * makes it much easier to find tight loops, but also in the future \#ifdef-ed support for lockup
  * debugging might be added
  */
@@ -357,7 +444,7 @@ static __force_inline void tight_loop_contents(void) {}
  * \return a * b
  */
 __force_inline static int32_t __mul_instruction(int32_t a, int32_t b) {
-    asm ("mul %0, %1" : "+l" (a) : "l" (b) : );
+    pico_default_asm ("muls %0, %1" : "+l" (a) : "l" (b) : );
     return a;
 }
 
@@ -391,16 +478,63 @@ __force_inline static int32_t __mul_instruction(int32_t a, int32_t b) {
  *
  * \return the exception number if the CPU is handling an exception, or 0 otherwise
  */
-uint __get_current_exception(void);
+static __force_inline uint __get_current_exception(void) {
+    uint exception;
+    pico_default_asm( "mrs %0, ipsr" : "=l" (exception));
+    return exception;
+}
 
 #define WRAPPER_FUNC(x) __wrap_ ## x
 #define REAL_FUNC(x) __real_ ## x
+
+/*! \brief Helper method to busy-wait for at least the given number of cycles
+ *  \ingroup pico_platform
+ *
+ * This method is useful for introducing very short delays.
+ *
+ * This method busy-waits in a tight loop for the given number of system clock cycles. The total wait time is only accurate to within 2 cycles,
+ * and this method uses a loop counter rather than a hardware timer, so the method will always take longer than expected if an
+ * interrupt is handled on the calling core during the busy-wait; you can of course disable interrupts to prevent this.
+ *
+ * You can use \ref clock_get_hz(clk_sys) to determine the number of clock cycles per second if you want to convert an actual
+ * time duration to a number of cycles.
+ *
+ * \param minimum_cycles the minimum number of system clock cycles to delay for
+ */
+static inline void busy_wait_at_least_cycles(uint32_t minimum_cycles) {
+    pico_default_asm_volatile(
+        "1: subs %0, #3\n"
+        "bcs 1b\n"
+        : "+l" (minimum_cycles) : : "memory"
+    );
+}
+
+/*! \brief Get the current core number
+ *  \ingroup pico_platform
+ *
+ * \return The core number the call was made from
+ */
+__force_inline static uint get_core_num(void) {
+    return (*(uint32_t *) (SIO_BASE + SIO_CPUID_OFFSET));
+}
 
 #ifdef __cplusplus
 }
 #endif
 
 #else // __ASSEMBLER__
+
+#if defined __GNUC__
+// note LLVM defines __GNUC__
+#ifdef __clang__
+#define PICO_ASSEMBLER_IS_CLANG 1
+#else
+#define PICO_ASSEMBLER_IS_GNU 1
+#endif
+#elif defined __ICCARM__
+#else
+#error Unsupported toolchain
+#endif
 
 #define WRAPPER_FUNC_NAME(x) __wrap_##x
 #define SECTION_NAME(x) .text.##x

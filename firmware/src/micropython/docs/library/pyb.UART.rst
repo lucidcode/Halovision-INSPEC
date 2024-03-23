@@ -45,7 +45,7 @@ Earlier versions use ``uart.send`` and ``uart.recv``.
 Constructors
 ------------
 
-.. class:: pyb.UART(bus, ...)
+.. class:: UART(bus, ...)
 
    Construct a UART object on the given bus.  ``bus`` can be 1/3.
    With no additional parameters, the UART object is created but not

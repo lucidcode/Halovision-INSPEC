@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_GROUP_EMUXCFG_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a5b9fefa1e1473a64093284f1511005d3" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_GROUP_EMUXCFG_t::@209</type>
+        <definition>union XMC_VADC_GROUP_EMUXCFG_t::@209 @210</definition>
+        <argsstring></argsstring>
+        <name>@210</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1192" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 13</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1172" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1177" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1188" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a9d472636e8e590483d2183563101a190" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t connected_channel</definition>
+        <argsstring></argsstring>
+        <name>connected_channel</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The Channel to which the EMUX is connected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1176" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a0c0bcdd01551639ead516db9d74298f3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t emux_coding</definition>
+        <argsstring></argsstring>
+        <name>emux_coding</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select Binary or Gray coding. Uses <ref refid="group___v_a_d_c_1gaedf62af4b76d15e91f0786165ec34fc2" kindref="member">XMC_VADC_GROUP_EMUXCODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1181" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a67b079297a01fecd839fd79219a41185" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t emux_mode</definition>
+        <argsstring></argsstring>
+        <name>emux_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects the external multiplexer modes: Steady, Single Mode, step etc Uses <ref refid="group___v_a_d_c_1gab9942639fc1d53fc2335990884b394ba" kindref="member">XMC_VADC_GROUP_EMUXMODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1179" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1aa11cd52a7ac061a131c39028a66fea9a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_emuxctr</definition>
+        <argsstring></argsstring>
+        <name>g_emuxctr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1191" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a4c9fe9883ca928cf65e2a37d1bc6842f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t starting_external_channel</definition>
+        <argsstring></argsstring>
+        <name>starting_external_channel</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>External channel number to which the VADC will generate a control signal (needed to select the analog input in the analog multiplexer) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1169" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a68fe1c943f2f317e8052ac3110cf8ad2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t stce_usage</definition>
+        <argsstring></argsstring>
+        <name>stce_usage</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use STCE for each conversion of an external channel </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1182" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1182" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>EMUX related configuration structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="1164" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="1163" bodyend="1193"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a9d472636e8e590483d2183563101a190" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>connected_channel</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a0c0bcdd01551639ead516db9d74298f3" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>emux_coding</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a67b079297a01fecd839fd79219a41185" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>emux_mode</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1aa11cd52a7ac061a131c39028a66fea9a" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>g_emuxctr</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a4c9fe9883ca928cf65e2a37d1bc6842f" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>starting_external_channel</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___g_r_o_u_p___e_m_u_x_c_f_g__t_1a68fe1c943f2f317e8052ac3110cf8ad2" prot="public" virt="non-virtual"><scope>XMC_VADC_GROUP_EMUXCFG_t</scope><name>stce_usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

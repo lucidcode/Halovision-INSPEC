@@ -43,7 +43,7 @@
 #include "gccollect.h"
 #include "modmachine.h"
 #include "modmusic.h"
-#include "modules/uos/microbitfs.h"
+#include "modules/os/microbitfs.h"
 #include "led.h"
 #include "uart.h"
 #include "nrf.h"
@@ -88,13 +88,13 @@
 #include "py_audio.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
-#include "cambus.h"
+#include "omv_i2c.h"
 #include "sensor.h"
+#include "boot_utils.h"
 
-uint32_t HAL_GetHalVersion()
-{
-    // Hard-coded becasue it's not defined in SDK
-    return ((2<<24) | (0<<16) | (0<<8) | (0<<0));
+uint32_t HAL_GetHalVersion() {
+    // Hard-coded because it's not defined in SDK
+    return ((2 << 24) | (0 << 16) | (0 << 8) | (0 << 0));
 }
 
 extern uint32_t _heap_start;
@@ -106,7 +106,7 @@ STATIC int vfs_mount_and_chdir(mp_obj_t bdev, mp_obj_t mount_point) {
     mp_int_t ret = -MP_EIO;
     if (nlr_push(&nlr) == 0) {
         mp_obj_t args[] = { bdev, mount_point };
-        mp_vfs_mount(2, args, (mp_map_t *)&mp_const_empty_map);
+        mp_vfs_mount(2, args, (mp_map_t *) &mp_const_empty_map);
         mp_vfs_chdir(mount_point);
         ret = 0; // success
         nlr_pop();
@@ -122,8 +122,9 @@ STATIC int vfs_mount_and_chdir(mp_obj_t bdev, mp_obj_t mount_point) {
 }
 #endif
 
-int main(int argc, char **argv)
-{
+void NORETURN _start(void) {
+    bool first_soft_reset = true;
+
 soft_reset:
     #if defined(MICROPY_BOARD_EARLY_INIT)
     MICROPY_BOARD_EARLY_INIT();
@@ -134,54 +135,41 @@ soft_reset:
     #endif
 
     led_init();
-
     led_state(1, 1); // MICROPY_HW_LED_1 aka MICROPY_HW_LED_RED
 
     mp_stack_set_top(&_ram_end);
-
     // Stack limit should be less than real stack size, so we have a chance
     // to recover from limit hit.  (Limit is measured in bytes.)
-    mp_stack_set_limit((char *)&_ram_end - (char *)&_heap_end - 400);
+    mp_stack_set_limit((char *) &_ram_end - (char *) &_heap_end - 400);
 
-    machine_init();
-
+    // GC init
     gc_init(&_heap_start, &_heap_end);
 
+    machine_init();
     mp_init();
-    mp_obj_list_init(mp_sys_path, 0);
-    mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR_)); // current dir (or base dir of the script)
-    mp_obj_list_init(mp_sys_argv, 0);
-
     readline_init0();
-
-
     #if MICROPY_PY_MACHINE_HW_SPI
     spi_init0();
     #endif
-
     #if MICROPY_PY_MACHINE_I2C
     i2c_init0();
     #endif
-
     #if MICROPY_PY_MACHINE_ADC
     adc_init0();
     #endif
-
     #if MICROPY_PY_MACHINE_HW_PWM
     pwm_init0();
     #endif
-
     #if MICROPY_PY_MACHINE_RTCOUNTER
     rtc_init0();
     #endif
-
     #if MICROPY_PY_MACHINE_TIMER
     timer_init0();
     #endif
-
     #if MICROPY_PY_MACHINE_UART
     uart_init0();
     #endif
+    pin_init0();
 
     fb_alloc_init0();
     framebuffer_init0();
@@ -191,28 +179,24 @@ soft_reset:
     #endif
 
     #if (MICROPY_PY_BLE_NUS == 0) && (MICROPY_HW_USB_CDC == 0)
-    {
-        mp_obj_t args[2] = {
-            MP_OBJ_NEW_SMALL_INT(0),
-            MP_OBJ_NEW_SMALL_INT(115200),
-        };
-        MP_STATE_PORT(board_stdio_uart) = machine_hard_uart_type.make_new(
-                (mp_obj_t)&machine_hard_uart_type, MP_ARRAY_SIZE(args), 0, args);
-    }
+    mp_obj_t args[2] = {
+        MP_OBJ_NEW_SMALL_INT(0),
+        MP_OBJ_NEW_SMALL_INT(115200),
+    };
+    MP_STATE_PORT(board_stdio_uart) = machine_hard_uart_type.make_new(
+        (mp_obj_t) &machine_hard_uart_type, MP_ARRAY_SIZE(args), 0, args);
     #endif
-
-    pin_init0();
 
     #if MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE
     flashbdev_init();
 
     // Try to mount the flash on "/flash" and chdir to it for the boot-up directory.
     mp_obj_t mount_point = MP_OBJ_NEW_QSTR(MP_QSTR__slash_flash);
-    int ret = vfs_mount_and_chdir((mp_obj_t)&nrf_flash_obj, mount_point);
+    int ret = vfs_mount_and_chdir((mp_obj_t) &nrf_flash_obj, mount_point);
 
     if ((ret == -MP_ENODEV) || (ret == -MP_EIO)) {
         pyexec_frozen_module("_mkfs.py", false); // Frozen script for formatting flash filesystem.
-        ret = vfs_mount_and_chdir((mp_obj_t)&nrf_flash_obj, mount_point);
+        ret = vfs_mount_and_chdir((mp_obj_t) &nrf_flash_obj, mount_point);
     }
 
     if (ret != 0) {
@@ -282,12 +266,6 @@ soft_reset:
 
     led_state(1, 0);
 
-    #if MICROPY_VFS || MICROPY_MBFS || MICROPY_MODULE_FROZEN
-    // run boot.py and main.py if they exist.
-    pyexec_file_if_exists("boot.py", false);
-    pyexec_file_if_exists("main.py", false);
-    #endif
-
     #if MICROPY_HW_USB_CDC
     usb_cdc_init();
     #endif
@@ -295,15 +273,25 @@ soft_reset:
     usbdbg_init();
     pendsv_init();
 
+    #if MICROPY_VFS || MICROPY_MBFS || MICROPY_MODULE_FROZEN
+    // Run boot.py script.
+    bool interrupted = bootutils_exec_bootscript("boot.py", true, false);
+
+    // Run main.py script on first soft-reset.
+    if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
+        bootutils_exec_bootscript("main.py", true, false);
+        goto soft_reset_exit;
+    }
+    #endif
+
     // If there's no script ready, just re-exec REPL
     while (!usbdbg_script_ready()) {
         nlr_buf_t nlr;
 
         if (nlr_push(&nlr) == 0) {
-            // enable IDE interrupt
+            // Enable IDE interrupt
             usbdbg_set_irq_enabled(true);
 
-            //__WFI();
             // run REPL
             if (pyexec_mode_kind == PYEXEC_MODE_RAW_REPL) {
                 if (pyexec_raw_repl() != 0) {
@@ -324,36 +312,44 @@ soft_reset:
         if (nlr_push(&nlr) == 0) {
             // Enable IDE interrupt
             usbdbg_set_irq_enabled(true);
-
             // Execute the script.
             pyexec_str(usbdbg_get_script(), true);
+            // Disable IDE interrupts
+            usbdbg_set_irq_enabled(false);
             nlr_pop();
         } else {
-            mp_obj_print_exception(&mp_plat_print, (mp_obj_t)nlr.ret_val);
+            mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
+        }
+
+        if (usbdbg_is_busy() && nlr_push(&nlr) == 0) {
+            // Enable IDE interrupt
+            usbdbg_set_irq_enabled(true);
+            // Wait for the current command to finish.
+            usbdbg_wait_for_command(1000);
+            // Disable IDE interrupts
+            usbdbg_set_irq_enabled(false);
+            nlr_pop();
         }
     }
 
-    usbdbg_wait_for_command(1000);
-
-    usbdbg_set_irq_enabled(false);
-
-    mp_deinit();
-
+soft_reset_exit:
+    printf("MPY: soft reboot\n");
+    #if MICROPY_PY_MACHINE_HW_PWM
+    pwm_deinit_all();
+    #endif
     #if MICROPY_PY_AUDIO
     py_audio_deinit();
     #endif
-
     #if BLUETOOTH_SD
     sd_softdevice_disable();
     #endif
-
     #if defined(MICROPY_BOARD_DEINIT)
     MICROPY_BOARD_DEINIT();
     #endif
+    mp_deinit();
 
+    first_soft_reset = false;
     goto soft_reset;
-
-    return 0;
 }
 
 #if !MICROPY_VFS
@@ -399,9 +395,9 @@ void HardFault_Handler(void) {
     reg2 = SCB->CFSR;
     bfar = SCB->BFAR;
     for (int i = 0; i < 0; i++) {
-        (void)reg;
-        (void)reg2;
-        (void)bfar;
+        (void) reg;
+        (void) reg2;
+        (void) bfar;
     }
     #endif
 }
@@ -414,15 +410,11 @@ void NORETURN __fatal_error(const char *msg) {
 
 void nlr_jump_fail(void *val) {
     printf("FATAL: uncaught exception %p\n", val);
-    mp_obj_print_exception(&mp_plat_print, (mp_obj_t)val);
+    mp_obj_print_exception(&mp_plat_print, (mp_obj_t) val);
     __fatal_error("");
 }
 
 void MP_WEAK __assert_func(const char *file, int line, const char *func, const char *expr) {
     printf("Assertion '%s' failed, at file %s:%d\n", expr, file, line);
     __fatal_error("Assertion failed");
-}
-
-void _start(void) {
-    main(0, NULL);
 }

@@ -93,11 +93,11 @@ static uint16_t get_uint16(const uint8_t *pnt)
 static int parse_next_query(void *data, int size, dns_query_t *query)
 {
 	int len;
-	int lables;
+	int labels;
 	uint8_t *ptr;
 
 	len = 0;
-	lables = 0;
+	labels = 0;
 	ptr = (uint8_t *)data;
 
 	while (true)
@@ -107,7 +107,7 @@ static int parse_next_query(void *data, int size, dns_query_t *query)
 		lable_len = *ptr++;
 		size--;
 		if (lable_len == 0) break;
-		if (lables > 0)
+		if (labels > 0)
 		{
 			if (len == DNS_MAX_HOST_NAME_LEN) return -2;
 			query->name[len++] = '.';
@@ -118,7 +118,7 @@ static int parse_next_query(void *data, int size, dns_query_t *query)
 		len += lable_len;
 		ptr += lable_len;
 		size -= lable_len;
-		lables++;
+		labels++;
 	}
 
 	if (size < 4) return -1;
@@ -136,7 +136,7 @@ static void udp_recv_proc(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 	dns_header_t *header;
 	static dns_query_t query;
 	struct pbuf *out;
-	ip_addr_t host_addr;
+	ip4_addr_t host_addr;
 	dns_answer_t *answer;
 
 	(void)arg;

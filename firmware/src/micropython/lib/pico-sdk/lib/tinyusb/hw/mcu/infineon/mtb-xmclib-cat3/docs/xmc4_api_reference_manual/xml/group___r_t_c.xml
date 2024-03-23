@@ -1,0 +1,1138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___r_t_c" kind="group">
+    <compoundname>RTC</compoundname>
+    <title>Real-time clock (RTC)</title>
+    <innerclass refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" prot="public">XMC_RTC_ALARM_t</innerclass>
+    <innerclass refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" prot="public">XMC_RTC_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___r_t_c___t_i_m_e__t" prot="public">XMC_RTC_TIME_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_EVENT_t</name>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951abaf495d3fe42c40fe8ce9055db3d8bd6" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_SECONDS</name>
+          <initializer>= RTC_MSKSR_MPSE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a70134c3b9338fe6548649885e4b55056" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_MINUTES</name>
+          <initializer>= RTC_MSKSR_MPMI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951ab209cc2ec8a7edbb3230a3020d8104ed" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_HOURS</name>
+          <initializer>= RTC_MSKSR_MPHO_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951afa22d124a4d8ff86f9d8f7e324eddc2a" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_DAYS</name>
+          <initializer>= RTC_MSKSR_MPDA_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a317318fc7f639a462d8f42fea95f8031" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_MONTHS</name>
+          <initializer>= RTC_MSKSR_MPMO_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951ad4142a107e9a717b51cc93e52955bd06" prot="public">
+          <name>XMC_RTC_EVENT_PERIODIC_YEARS</name>
+          <initializer>= RTC_MSKSR_MPYE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9c572864ac7a5b1399523261e42f6951a8113ac4db38433f2aab4bc993ef2a720" prot="public">
+          <name>XMC_RTC_EVENT_ALARM</name>
+          <initializer>= RTC_MSKSR_MAI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Mask value to enable an event on periodic seconds </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Events which enables interrupt request generation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="115" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="114" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1ga9fbe92e7ed334021ef7290a0a7a8ac63" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_MONTH_t</name>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63ad8f2fc3fbe4264245e0a3a351693ca3d" prot="public">
+          <name>XMC_RTC_MONTH_JANUARY</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a6a80979d89e754c12cb1395a037c7bee" prot="public">
+          <name>XMC_RTC_MONTH_FEBRUARY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63aea8059b559d7616899ed301d93e17253" prot="public">
+          <name>XMC_RTC_MONTH_MARCH</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63add6d73de5807a4d0a7ab74db8a06362c" prot="public">
+          <name>XMC_RTC_MONTH_APRIL</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63aa8541aded1e25590b552ec84efb8b19f" prot="public">
+          <name>XMC_RTC_MONTH_MAY</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a65519d95936f7e356ffc4f039ba7f861" prot="public">
+          <name>XMC_RTC_MONTH_JUNE</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a9a6edaf1be418719dd94e2ab61ab78ed" prot="public">
+          <name>XMC_RTC_MONTH_JULY</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63ade38ab95923acc864cbdc942971133a1" prot="public">
+          <name>XMC_RTC_MONTH_AUGUST</name>
+          <initializer>= 7U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a832487de9cefac6de2c8dc69e01b45eb" prot="public">
+          <name>XMC_RTC_MONTH_SEPTEMBER</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a5880432fe809ad20dd78ff8fe0ee35dc" prot="public">
+          <name>XMC_RTC_MONTH_OCTOBER</name>
+          <initializer>= 9U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a695095c6dd6723ab5ae9851dccefdb8f" prot="public">
+          <name>XMC_RTC_MONTH_NOVEMBER</name>
+          <initializer>= 10U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga9fbe92e7ed334021ef7290a0a7a8ac63a9838a31b0a567cf2eb9707cdb82a7761" prot="public">
+          <name>XMC_RTC_MONTH_DECEMBER</name>
+          <initializer>= 11U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Months used to program the date </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="129" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="128" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1gaed446fc99b168a439c6cc2db2a205dfa" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_STATUS_t</name>
+        <enumvalue id="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaa47ea81dbacc888c447f4ed1a6069735c" prot="public">
+          <name>XMC_RTC_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation successful </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaa1e6887b4d065d4dc6c263e9ae46e3b6d" prot="public">
+          <name>XMC_RTC_STATUS_ERROR</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation unsuccessful </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1ggaed446fc99b168a439c6cc2db2a205dfaab80d53d7e1846c83bcbfb2071f90f302" prot="public">
+          <name>XMC_RTC_STATUS_BUSY</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Busy with a previous request </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status return values for RTC low level driver </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="105" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="104" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1ga4cab27f6000cf573b83fbdf009d0b310" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_WAKEUP_EVENT_t</name>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310a106a7101abf1a1e2aafad3d9622951cb" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_ALARM</name>
+          <initializer>= RTC_CTR_TAE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from alarm event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310a75c29c0c2990fe5bd88d428a53d79e00" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_SECONDS</name>
+          <initializer>= RTC_CTR_ESEC_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from seconds event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310a388096b8fbf43696e82a9de4cd5da633" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_MINUTES</name>
+          <initializer>= RTC_CTR_EMIC_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from minutes event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310afdebb87757763aa9397bb60d6ec0eeb4" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_HOURS</name>
+          <initializer>= RTC_CTR_EHOC_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from hours event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310a401e12792f98ca95883f29451b1e1c0b" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_DAYS</name>
+          <initializer>= RTC_CTR_EDAC_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from days event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310ac8c48c913abd83079ecf22c626f05049" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_MONTHS</name>
+          <initializer>= RTC_CTR_EMOC_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from months event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga4cab27f6000cf573b83fbdf009d0b310a326194d4132ff49d561bddf404e7791d" prot="public">
+          <name>XMC_RTC_WAKEUP_EVENT_ON_YEARS</name>
+          <initializer>= RTC_CTR_EYEC_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup from years event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Wakeup events for RTC from hibernate domain </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_rtc.h" line="71" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_rtc.h" bodystart="70" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___r_t_c_1ga6c1ab7306136e305052ea695da51c855" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_RTC_WEEKDAY_t</name>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a9b892585415c78a69ec240502f3bf22f" prot="public">
+          <name>XMC_RTC_WEEKDAY_SUNDAY</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a7bba5f016fc9f26a7037515dce5d4db5" prot="public">
+          <name>XMC_RTC_WEEKDAY_MONDAY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855ab7654790267cdb946542c43a4cf2306a" prot="public">
+          <name>XMC_RTC_WEEKDAY_TUESDAY</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855abf593867c0c2aa40c57ff4b71cf3ece5" prot="public">
+          <name>XMC_RTC_WEEKDAY_WEDNESDAY</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a669c2c3f4c8543392fc6c496abca4170" prot="public">
+          <name>XMC_RTC_WEEKDAY_THURSDAY</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855a42d7b0aadf4f45718a8a36dbb197eada" prot="public">
+          <name>XMC_RTC_WEEKDAY_FRIDAY</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___r_t_c_1gga6c1ab7306136e305052ea695da51c855abda72236fedf1377359043467d0f29ea" prot="public">
+          <name>XMC_RTC_WEEKDAY_SATURDAY</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Week days used program the date </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="148" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="147" bodyend="156"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___r_t_c_1ga68d13bcb9a9312844cba39d7792cef6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_ClearEvent</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_ClearEvent</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC event (<ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clears periodic and alarm event(s) status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the bitfields of CLRSR register to clear status bits in RAWSTAT and STSSR registers. Setting the value for the the RTC event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref> clears the corresponding status bits in RAWSTAT and STSSR registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga303f3ef19eaacd57fd05e4c65759c503" kindref="member">XMC_RTC_GetEventStatus()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="638" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Disable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Disable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables RTC peripheral for programming its registers <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Empty function (Hibernate domain is not disabled).</title><para></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___s_c_u_1gab00fa5e7e6ed73767de6f80b9a849543" kindref="member">XMC_SCU_RESET_AssertPeripheralReset()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="349" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga9cdf252baa2e293e393b3bd75c1858a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_DisableEvent</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_DisableEvent</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC event (<ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable RTC periodic and alarm event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the bitfields of MSKSR register to disable interrupt generation for requested RTC event(s). Resetting the masking value for the the event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref> blocks the generation of the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gabb9181ef4ea092ce09bc8c80318fad23" kindref="member">XMC_RTC_EnableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="620" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gacc59150194988bfcc5304317117c1da3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_DisableHibernationWakeUp</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_DisableHibernationWakeUp</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC Wakeup event (<ref refid="group___r_t_c_1ga4cab27f6000cf573b83fbdf009d0b310" kindref="member">XMC_RTC_WAKEUP_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable Wakeup from hibernate mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the bitfields of CTR register to disable wakeup from hibernate mode. Resetting the masking value for the RTC wakeup events containing in the <ref refid="group___r_t_c_1ga4cab27f6000cf573b83fbdf009d0b310" kindref="member">XMC_RTC_WAKEUP_EVENT_t</ref> disables wakeup from hibernate mode.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga7575ffd3fc767a3a5e1d8e0a3d8305fe" kindref="member">XMC_RTC_EnableHibernationWakeUp()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_rtc.h" line="123" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Enable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Enable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables RTC peripheral for programming its registers <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Enables the hibernate domain for accessing RTC peripheral registers.</title><para></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" kindref="member">XMC_RTC_Disable()</ref>, <ref refid="group___s_c_u_1gac88ad38d3473b139dafef29dc3ba5216" kindref="member">XMC_SCU_RESET_DeassertPeripheralReset()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="330" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gabb9181ef4ea092ce09bc8c80318fad23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_EnableEvent</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_EnableEvent</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC event (<ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable RTC periodic and alarm event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the bitfields of MSKSR register to enable interrupt generation for requested RTC event(s). Setting the masking value for the event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref> leads to a generation of the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga9cdf252baa2e293e393b3bd75c1858a3" kindref="member">XMC_RTC_DisableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="601" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga7575ffd3fc767a3a5e1d8e0a3d8305fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_EnableHibernationWakeUp</definition>
+        <argsstring>(const uint32_t event)</argsstring>
+        <name>XMC_RTC_EnableHibernationWakeUp</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid RTC Wakeup event (<ref refid="group___r_t_c_1ga4cab27f6000cf573b83fbdf009d0b310" kindref="member">XMC_RTC_WAKEUP_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable Wakeup from hibernate mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the bitfields of CTR register to enable wakeup from hibernate mode. Setting the masking value for the RTC wakeup events containing in the <ref refid="group___r_t_c_1ga4cab27f6000cf573b83fbdf009d0b310" kindref="member">XMC_RTC_WAKEUP_EVENT_t</ref> leads to a wakeup from hibernate mode.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gacc59150194988bfcc5304317117c1da3" kindref="member">XMC_RTC_DisableHibernationWakeUp()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_rtc.h" line="105" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetAlarm</definition>
+        <argsstring>(XMC_RTC_ALARM_t *const alarm)</argsstring>
+        <name>XMC_RTC_GetAlarm</name>
+        <param>
+          <type><ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> *const</type>
+          <declname>alarm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alarm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> structure containing the time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month and alarm year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module alarm time value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the alarm time values from ATIM0, ATIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> for the valid range of alarm time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="545" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gab7e150db371758a584a7efaf778ec65e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetAlarmStdFormat</definition>
+        <argsstring>(struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_GetAlarmStdFormat</name>
+        <param>
+          <type>struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant ::tm structure containing the time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month, alarm year(since 1900) and alarm days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module alarm time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the alarm time values from ATIM0, ATIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> for the valid range of alarm time value parameters. <linebreak/>
+ For days the valid range is (1 - Actual days of month), year (since 1900) and daysinyear (0 -365).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref>, <ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="582" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga303f3ef19eaacd57fd05e4c65759c503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_RTC_GetEventStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_GetEventStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC periodic and alarm event(s) status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the bitfields of STSSR register to get the status of RTC events. Reading the value of the register STSSR gives the status of the event(s) containing in the <ref refid="group___r_t_c_1ga9c572864ac7a5b1399523261e42f6951" kindref="member">XMC_RTC_EVENT_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga68d13bcb9a9312844cba39d7792cef6a" kindref="member">XMC_RTC_ClearEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="654" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gad6bbfb84e080773cc0bc97a6b5d04673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_RTC_GetPrescaler</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_GetPrescaler</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module prescaler value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the CTR.DIV bitfield to get the prescalar value. The default value for the prescalar with the 32.768kHz crystal (or the internal clock) is 7FFFH for a time interval of 1 sec.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gae593067f20d83f3bfb78f9fbb55f2b66" kindref="member">XMC_RTC_SetPrescaler()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="434" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="434" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetTime</definition>
+        <argsstring>(XMC_RTC_TIME_t *const time)</argsstring>
+        <name>XMC_RTC_GetTime</name>
+        <param>
+          <type><ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> *const</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> structure containing the time parameters seconds, minutes, hours, days, daysofweek, month and year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module time value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the time values from TIM0, TIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> for the valid range of time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="472" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga7ea79333ab81d7595d2d36f65d693c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_GetTimeStdFormat</definition>
+        <argsstring>(struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_GetTimeStdFormat</name>
+        <param>
+          <type>struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant ::tm structure containing the time parameters seconds, minutes, hours, days, daysofweek, month, year(since 1900) and days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the RTC module time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gets the time values from TIM0, TIM1 registers. See the structure <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> for the valid range of time value parameters. <linebreak/>
+ For days the valid range is (1 - Actual days of month), year (since 1900) and daysinyear (0 -365).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime()</ref>, <ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="509" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga6d21f3c6b2be1975f1593301c4ba9698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___r_t_c_1gaed446fc99b168a439c6cc2db2a205dfa" kindref="member">XMC_RTC_STATUS_t</ref></type>
+        <definition>XMC_RTC_STATUS_t XMC_RTC_Init</definition>
+        <argsstring>(const XMC_RTC_CONFIG_t *const config)</argsstring>
+        <name>XMC_RTC_Init</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kindref="compound">XMC_RTC_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to a constant <ref refid="struct_x_m_c___r_t_c___c_o_n_f_i_g__t" kindref="compound">XMC_RTC_CONFIG_t</ref> structure containing the time, alarm time and clock divider(prescaler) configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_RTC_STATUS_t Always returns XMC_RTC_STATUS_OK (It contains only register assignment statements)</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the RTC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>The function enables the hibernate domain for accessing RTC peripheral registers, configures</title><para>internal clock divider, time and alarm values by writing to the CTR.DIV, TIM0, TIM1, ATIM0 and ATIM1 registers. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="311" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gaa43757597d99d09440fe053536b380e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_RTC_IsEnabled</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_IsEnabled</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Checks RTC peripheral is enabled for programming its registers <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Checks the hibernate domain is enabled or not.</title><para></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1ga304ac03dcebdf34bd64d8a4a55f68e7e" kindref="member">XMC_RTC_Disable()</ref>, <ref refid="group___s_c_u_1gac88ad38d3473b139dafef29dc3ba5216" kindref="member">XMC_SCU_RESET_DeassertPeripheralReset()</ref>, <ref refid="group___s_c_u_1gab00fa5e7e6ed73767de6f80b9a849543" kindref="member">XMC_SCU_RESET_AssertPeripheralReset()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="369" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gae3c731e9a54a8723b34a3e1b7dfb54ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_RTC_IsRunning</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_IsRunning</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>bool true if RTC is running false if RTC is not running</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Checks the running status of the RTC <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the bitfield ENB of CTR register to get the running status of RTC.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" kindref="member">XMC_RTC_Start()</ref>, <ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="670" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" bodystart="670" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetAlarm</definition>
+        <argsstring>(const XMC_RTC_ALARM_t *const alarm)</argsstring>
+        <name>XMC_RTC_SetAlarm</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> *const</type>
+          <declname>alarm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alarm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to a constant <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> structure containing the alarm time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month and alarm year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module alarm time value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the ATIM0, ATIM1 registers with alarm time values. See the structure <ref refid="struct_x_m_c___r_t_c___a_l_a_r_m__t" kindref="compound">XMC_RTC_ALARM_t</ref> for the valid range of alarm time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="527" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga9b7300d074526315c349c4de2b655948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetAlarmStdFormat</definition>
+        <argsstring>(const struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_SetAlarmStdFormat</name>
+        <param>
+          <type>const struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a ::tm structure containing the time parameters alarm seconds, alarm minutes, alarm hours, alarm days, alarm daysofweek, alarm month, alarm year(since 1900) and alarm days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module alarm time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the alarm time values from ATIM0, ATIM1 registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gab729ddc6942f268a7775faf5b8dba8ea" kindref="member">XMC_RTC_SetAlarm()</ref>, <ref refid="group___r_t_c_1ga59347e7f1a7647efca68561c97dc455c" kindref="member">XMC_RTC_GetAlarm()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="562" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1gae593067f20d83f3bfb78f9fbb55f2b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetPrescaler</definition>
+        <argsstring>(uint16_t prescaler)</argsstring>
+        <name>XMC_RTC_SetPrescaler</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>prescaler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prescaler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prescaler value to be set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module prescaler value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CTR.DIV bitfield to configure the prescalar value. The default value for the prescalar with the 32.768kHz crystal (or the internal clock) is 7FFFH for a time interval of 1 sec. Before setting the prescaler value RTC should be in stop mode and hibernate domain should be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref>, <ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1gad6bbfb84e080773cc0bc97a6b5d04673" kindref="member">XMC_RTC_GetPrescaler()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="418" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetTime</definition>
+        <argsstring>(const XMC_RTC_TIME_t *const timeval)</argsstring>
+        <name>XMC_RTC_SetTime</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> *const</type>
+          <declname>timeval</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contstant pointer to a constant <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> structure containing the time parameters seconds, minutes, hours, days, daysofweek, month and year. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module time values <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the TIM0, TIM1 registers with time values. The values can only be written when RTC is disabled. See the structure <ref refid="struct_x_m_c___r_t_c___t_i_m_e__t" kindref="compound">XMC_RTC_TIME_t</ref> for the valid range of time value parameters. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime()</ref>, <ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="455" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga6ed60ac9d9ba537b8373be7c35cf7da2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_SetTimeStdFormat</definition>
+        <argsstring>(const struct tm *const stdtime)</argsstring>
+        <name>XMC_RTC_SetTimeStdFormat</name>
+        <param>
+          <type>const struct tm *const</type>
+          <declname>stdtime</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stdtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a ::tm structure containing the time parameters seconds, minutes, hours, days, daysofweek, month, year(since 1900) and days in a year in standard format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the RTC module time value in standard format <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the time values from TIM0, TIM1 registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1ga05d0802f267b55eee877eb96707658b1" kindref="member">XMC_RTC_SetTime()</ref>, <ref refid="group___r_t_c_1ga073e95cbaffd55d6f7c96557bb63cc9c" kindref="member">XMC_RTC_GetTime()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="489" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Start</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Start</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables RTC peripheral to start counting time <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function starts the RTC for counting time by setting CTR.ENB bit. Before starting the RTC, it should not be in running mode and also hibernate domain should be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" kindref="member">XMC_RTC_Stop()</ref>, <ref refid="group___s_c_u_1gac88ad38d3473b139dafef29dc3ba5216" kindref="member">XMC_SCU_RESET_DeassertPeripheralReset()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="385" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___r_t_c_1ga12b8b8ec35283763356be6f42acad92b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_RTC_Stop</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_RTC_Stop</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables RTC peripheral to start counting time <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function stops the RTC for counting time by resetting CTR.ENB. Before stopping the RTC, hibernate domain should be enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___r_t_c_1gaff18bac4a49b34e5e75db30ad226a6e2" kindref="member">XMC_RTC_Enable()</ref>, <ref refid="group___r_t_c_1ga154a51800df4635e2ab026b3c89b3678" kindref="member">XMC_RTC_Start()</ref>, <ref refid="group___s_c_u_1gab00fa5e7e6ed73767de6f80b9a849543" kindref="member">XMC_SCU_RESET_AssertPeripheralReset()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_rtc.h" line="400" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>RTC driver for XMC microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Real-time clock (RTC) is a clock that keeps track of the current time. Precise real time keeping is with a 32.768 KHz external crystal clock or a 32.768 KHz high precision internal clock. It provides a periodic time based interrupt and a programmable alarm interrupt on time match. It also supports wakeup from hibernate.</para>
+<para>The RTC low level driver provides functions to configure and initialize the RTC hardware peripheral. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

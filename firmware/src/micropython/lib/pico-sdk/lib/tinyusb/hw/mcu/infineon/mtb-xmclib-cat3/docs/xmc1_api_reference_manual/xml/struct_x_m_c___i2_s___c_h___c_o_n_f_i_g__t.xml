@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_I2S_CH_CONFIG_t</compoundname>
+    <includes local="no">xmc_i2s.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t baudrate</definition>
+        <argsstring></argsstring>
+        <name>baudrate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Module baud rate for communication </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="239" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a2c2990cf73c767157446d6dbf5080994" prot="public" static="no" mutable="no">
+        <type><ref refid="group___i2_s_1ga21a01621957ee4befb0742623b7deaf8" kindref="member">XMC_I2S_CH_BUS_MODE_t</ref></type>
+        <definition>XMC_I2S_CH_BUS_MODE_t bus_mode</definition>
+        <argsstring></argsstring>
+        <name>bus_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bus mode MASTER/SLAVE </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="249" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a6ad5ab806aecadd6cc55918f18742678" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t data_bits</definition>
+        <argsstring></argsstring>
+        <name>data_bits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data word length. A data frame can consists of several data words. <linebreak/>
+Value configured as USIC channel word length. <linebreak/>
+ <bold>Range:</bold> minimum= 1, maximum= 16 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="241" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a7cd3402eab1468f6f0f1173e41d78780" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t data_delayed_sclk_periods</definition>
+        <argsstring></argsstring>
+        <name>data_delayed_sclk_periods</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data delay defined in sclk periods </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="247" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a717fcb304647e963182027a1aab38256" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t frame_length</definition>
+        <argsstring></argsstring>
+        <name>frame_length</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of data bits transferred after a change of signal WA (data frame). <linebreak/>
+Configured as USIC channel frame length. <linebreak/>
+ <bold>Range:</bold> minimum= 1, maximum= 63 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="244" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool normal_divider_mode</definition>
+        <argsstring></argsstring>
+        <name>normal_divider_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter at cost of frequency selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="240" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1ae5fafffd716b7b95349d3ae0d6c9a905" prot="public" static="no" mutable="no">
+        <type><ref refid="group___i2_s_1gaf06d8ef70b2f776bd0e3f4a4860b6dd4" kindref="member">XMC_I2S_CH_WA_POLARITY_t</ref></type>
+        <definition>XMC_I2S_CH_WA_POLARITY_t wa_inversion</definition>
+        <argsstring></argsstring>
+        <name>wa_inversion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable inversion of Slave select signal relative to the internal WA </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="248" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>I2S_CH configuration structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="238" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="237" bodyend="250"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>baudrate</name></member>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a2c2990cf73c767157446d6dbf5080994" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>bus_mode</name></member>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a6ad5ab806aecadd6cc55918f18742678" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>data_bits</name></member>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a7cd3402eab1468f6f0f1173e41d78780" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>data_delayed_sclk_periods</name></member>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a717fcb304647e963182027a1aab38256" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>frame_length</name></member>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>normal_divider_mode</name></member>
+      <member refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t_1ae5fafffd716b7b95349d3ae0d6c9a905" prot="public" virt="non-virtual"><scope>XMC_I2S_CH_CONFIG_t</scope><name>wa_inversion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

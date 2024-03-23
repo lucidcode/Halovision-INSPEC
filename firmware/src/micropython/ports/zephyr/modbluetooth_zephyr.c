@@ -301,7 +301,7 @@ int mp_bluetooth_gap_disconnect(uint16_t conn_handle) {
     return MP_EOPNOTSUPP;
 }
 
-int mp_bluetooth_gatts_read(uint16_t value_handle, uint8_t **value, size_t *value_len) {
+int mp_bluetooth_gatts_read(uint16_t value_handle, const uint8_t **value, size_t *value_len) {
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
     }
@@ -318,21 +318,7 @@ int mp_bluetooth_gatts_write(uint16_t value_handle, const uint8_t *value, size_t
     return mp_bluetooth_gatts_db_write(MP_STATE_PORT(bluetooth_zephyr_root_pointers)->gatts_db, value_handle, value, value_len);
 }
 
-int mp_bluetooth_gatts_notify(uint16_t conn_handle, uint16_t value_handle) {
-    if (!mp_bluetooth_is_active()) {
-        return ERRNO_BLUETOOTH_NOT_ACTIVE;
-    }
-    return MP_EOPNOTSUPP;
-}
-
-int mp_bluetooth_gatts_notify_send(uint16_t conn_handle, uint16_t value_handle, const uint8_t *value, size_t value_len) {
-    if (!mp_bluetooth_is_active()) {
-        return ERRNO_BLUETOOTH_NOT_ACTIVE;
-    }
-    return MP_EOPNOTSUPP;
-}
-
-int mp_bluetooth_gatts_indicate(uint16_t conn_handle, uint16_t value_handle) {
+int mp_bluetooth_gatts_notify_indicate(uint16_t conn_handle, uint16_t value_handle, int gatts_op, const uint8_t *value, size_t value_len) {
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
     }
@@ -400,7 +386,7 @@ int mp_bluetooth_gap_scan_stop(void) {
     return bt_err_to_errno(err);
 }
 
-int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, int32_t duration_ms) {
+int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, int32_t duration_ms, int32_t min_conn_interval_us, int32_t max_conn_interval_us) {
     DEBUG_printf("mp_bluetooth_gap_peripheral_connect\n");
     if (!mp_bluetooth_is_active()) {
         return ERRNO_BLUETOOTH_NOT_ACTIVE;
@@ -408,6 +394,16 @@ int mp_bluetooth_gap_peripheral_connect(uint8_t addr_type, const uint8_t *addr, 
     return MP_EOPNOTSUPP;
 }
 
+int mp_bluetooth_gap_peripheral_connect_cancel(void) {
+    DEBUG_printf("mp_bluetooth_gap_peripheral_connect_cancel\n");
+    if (!mp_bluetooth_is_active()) {
+        return ERRNO_BLUETOOTH_NOT_ACTIVE;
+    }
+    return MP_EOPNOTSUPP;
+}
+
 #endif // MICROPY_PY_BLUETOOTH_ENABLE_CENTRAL_MODE
+
+MP_REGISTER_ROOT_POINTER(struct _mp_bluetooth_zephyr_root_pointers_t *bluetooth_zephyr_root_pointers);
 
 #endif // MICROPY_PY_BLUETOOTH

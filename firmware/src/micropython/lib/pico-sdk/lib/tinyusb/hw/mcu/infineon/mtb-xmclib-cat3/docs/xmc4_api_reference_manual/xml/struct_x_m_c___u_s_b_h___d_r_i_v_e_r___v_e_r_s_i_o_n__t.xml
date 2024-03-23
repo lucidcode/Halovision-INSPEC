@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_s_b_h___d_r_i_v_e_r___v_e_r_s_i_o_n__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_USBH_DRIVER_VERSION_t</compoundname>
+    <includes local="no">xmc_usbh.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h___d_r_i_v_e_r___v_e_r_s_i_o_n__t_1ad180da20fbde1d3dafc074af87c19540" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>API version </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="242" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_s_b_h___d_r_i_v_e_r___v_e_r_s_i_o_n__t_1adcd153bc4507926c792e86ebe74e6455" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t drv</definition>
+        <argsstring></argsstring>
+        <name>drv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Driver version </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="243" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>USB host Driver Version. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" line="241" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbh.h" bodystart="240" bodyend="244"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_s_b_h___d_r_i_v_e_r___v_e_r_s_i_o_n__t_1ad180da20fbde1d3dafc074af87c19540" prot="public" virt="non-virtual"><scope>XMC_USBH_DRIVER_VERSION_t</scope><name>api</name></member>
+      <member refid="struct_x_m_c___u_s_b_h___d_r_i_v_e_r___v_e_r_s_i_o_n__t_1adcd153bc4507926c792e86ebe74e6455" prot="public" virt="non-virtual"><scope>XMC_USBH_DRIVER_VERSION_t</scope><name>drv</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

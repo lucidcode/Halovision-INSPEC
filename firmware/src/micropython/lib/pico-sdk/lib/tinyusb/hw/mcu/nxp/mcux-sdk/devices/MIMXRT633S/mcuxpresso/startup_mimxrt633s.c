@@ -1,10 +1,10 @@
 //*****************************************************************************
 // MIMXRT633S_cm33 startup code for use with MCUXpresso IDE
 //
-// Version : 160420
+// Version : 101121
 //*****************************************************************************
 //
-// Copyright 2016-2020 NXP
+// Copyright 2016-2021 NXP
 // All rights reserved.
 //
 // SPDX-License-Identifier: BSD-3-Clause
@@ -111,7 +111,7 @@ WEAK void HWVAD0_IRQHandler(void);
 WEAK void Reserved46_IRQHandler(void);
 WEAK void RNG_IRQHandler(void);
 WEAK void RTC_IRQHandler(void);
-WEAK void DSPWAKE_IRQHandler(void);
+WEAK void Reserved49_IRQHandler(void);
 WEAK void MU_A_IRQHandler(void);
 WEAK void PIN_INT4_IRQHandler(void);
 WEAK void PIN_INT5_IRQHandler(void);
@@ -178,7 +178,7 @@ void HWVAD0_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
 void Reserved46_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
 void RNG_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
 void RTC_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
-void DSPWAKE_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
+void Reserved49_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
 void MU_A_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
 void PIN_INT4_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
 void PIN_INT5_DriverIRQHandler(void) ALIAS(IntDefaultHandler);
@@ -240,8 +240,6 @@ WEAK extern void __imghdr_imagetype();
 // This relies on the linker script to place at correct location in memory.
 //*****************************************************************************
 
-
-
 extern void (* const g_pfnVectors[])(void);
 extern void * __Vectors __attribute__ ((alias ("g_pfnVectors")));
 
@@ -256,7 +254,7 @@ void (* const g_pfnVectors[])(void) = {
     BusFault_Handler,                  // The bus fault handler
     UsageFault_Handler,                // The usage fault handler
     SecureFault_Handler,               // The secure fault handler
-#if (__ARM_FEATURE_CMSE & 0x2)
+#if (defined(__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE & 0x2))
     (void (*)())0x180000,                // Image length
 #else
     (void (*)())((unsigned)_image_size), // Image length
@@ -303,7 +301,7 @@ void (* const g_pfnVectors[])(void) = {
     Reserved46_IRQHandler,       // 46: Reserved interrupt
     RNG_IRQHandler,              // 47: Random number Generator
     RTC_IRQHandler,              // 48: RTC alarm and wake-up
-    DSPWAKE_IRQHandler,          // 49: Wake-up from DSP
+    Reserved49_IRQHandler,       // 49: Reserved interrupt
     MU_A_IRQHandler,             // 50: Messaging Unit port A for CM33
     PIN_INT4_IRQHandler,         // 51: Pin interrupt 4 or pattern match engine slice 4 int
     PIN_INT5_IRQHandler,         // 52: Pin interrupt 5 or pattern match engine slice 5 int
@@ -330,8 +328,6 @@ void (* const g_pfnVectors[])(void) = {
     CASPER_IRQHandler,           // 73: Casper cryptographic coprocessor
     PMC_PMIC_IRQHandler,         // 74: Power management IC
     HASHCRYPT_IRQHandler,        // 75: Hash-AES unit
-
-
 }; /* End of g_pfnVectors */
 
 #if defined(ENABLE_RAM_VECTOR_TABLE)
@@ -380,12 +376,10 @@ extern unsigned int __bss_section_table_end;
 // Sets up a simple runtime environment and initializes the C/C++
 // library.
 //*****************************************************************************
-__attribute__ ((section(".after_vectors.reset")))
+__attribute__ ((naked, section(".after_vectors.reset")))
 void ResetISR(void) {
-
     // Disable interrupts
     __asm volatile ("cpsid i");
-
     // Config VTOR & MSPLIM register
     __asm volatile ("LDR R0, =0xE000ED08  \n"
                     "STR %0, [R0]         \n"
@@ -426,7 +420,6 @@ void ResetISR(void) {
         SectionLen = *SectionTableAddr++;
         bss_init(ExeAddr, SectionLen);
     }
-
 
 #if defined (__cplusplus)
     //
@@ -643,8 +636,8 @@ WEAK void RTC_IRQHandler(void)
 {   RTC_DriverIRQHandler();
 }
 
-WEAK void DSPWAKE_IRQHandler(void)
-{   DSPWAKE_DriverIRQHandler();
+WEAK void Reserved49_IRQHandler(void)
+{   Reserved49_DriverIRQHandler();
 }
 
 WEAK void MU_A_IRQHandler(void)

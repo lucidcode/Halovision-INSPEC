@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ETH_PHY_CONFIG_t</compoundname>
+    <includes local="no">xmc_eth_phy.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a73ad6d33b175c19a987a180a13b95263" prot="public" static="no" mutable="no">
+        <type><ref refid="group___e_t_h___m_a_c_1gab7f9ae5d92570c07305898a48e5c5b9a" kindref="member">XMC_ETH_LINK_DUPLEX_t</ref></type>
+        <definition>XMC_ETH_LINK_DUPLEX_t duplex</definition>
+        <argsstring></argsstring>
+        <name>duplex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Half or full duplex? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="101" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a593beca42f9f65af838bacbea7981cbe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_auto_negotiate</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_negotiate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable auto-negotiate? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="102" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a873483842749d5c85874b713f111d6cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_loop_back</definition>
+        <argsstring></argsstring>
+        <name>enable_loop_back</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable loop-back? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="103" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a0c88e1dd9377089393e1f78800167fb5" prot="public" static="no" mutable="no">
+        <type><ref refid="group___e_t_h___m_a_c_1gaca9dd401fd15250f4b774698e481b0d1" kindref="member">XMC_ETH_LINK_INTERFACE_t</ref></type>
+        <definition>XMC_ETH_LINK_INTERFACE_t interface</definition>
+        <argsstring></argsstring>
+        <name>interface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Link interface </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="99" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a6d59900c033f7a1349d8573d48aa5fd3" prot="public" static="no" mutable="no">
+        <type><ref refid="group___e_t_h___m_a_c_1ga29d7022e1e9e2c857f79efc6c281b531" kindref="member">XMC_ETH_LINK_SPEED_t</ref></type>
+        <definition>XMC_ETH_LINK_SPEED_t speed</definition>
+        <argsstring></argsstring>
+        <name>speed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ETH speed: 100M or 10M? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="100" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ETH PHY configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" line="98" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_phy.h" bodystart="97" bodyend="104"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a73ad6d33b175c19a987a180a13b95263" prot="public" virt="non-virtual"><scope>XMC_ETH_PHY_CONFIG_t</scope><name>duplex</name></member>
+      <member refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a593beca42f9f65af838bacbea7981cbe" prot="public" virt="non-virtual"><scope>XMC_ETH_PHY_CONFIG_t</scope><name>enable_auto_negotiate</name></member>
+      <member refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a873483842749d5c85874b713f111d6cf" prot="public" virt="non-virtual"><scope>XMC_ETH_PHY_CONFIG_t</scope><name>enable_loop_back</name></member>
+      <member refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a0c88e1dd9377089393e1f78800167fb5" prot="public" virt="non-virtual"><scope>XMC_ETH_PHY_CONFIG_t</scope><name>interface</name></member>
+      <member refid="struct_x_m_c___e_t_h___p_h_y___c_o_n_f_i_g__t_1a6d59900c033f7a1349d8573d48aa5fd3" prot="public" virt="non-virtual"><scope>XMC_ETH_PHY_CONFIG_t</scope><name>speed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

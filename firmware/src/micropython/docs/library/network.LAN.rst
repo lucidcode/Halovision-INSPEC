@@ -1,95 +1,95 @@
 .. currentmodule:: network
 .. _network.LAN:
 
-class LAN -- control built-in Ethernet interfaces
-=================================================
+class LAN -- control an Ethernet module
+=======================================
 
-This class provides a driver for Ethernet.  Example usage::
+This class allows you to control the Ethernet interface. The PHY hardware type is board-specific.
+
+Example usage::
 
     import network
+    nic = network.LAN(0)
+    print(nic.ifconfig())
 
-    lan = network.LAN()
-    lan.active(True)
-    lan.ifconfig('dhcp')
+    # now use socket as usual
+    ...
 
-    # We should have a valid IP now via DHCP
-    print(lan.ifconfig())
 
 Constructors
 ------------
 
-.. class:: LAN()
+.. class:: LAN(id, *, phy_type=<board_default>, phy_addr=<board_default>, ref_clk_mode=<board_default>)
 
-Create a LAN network interface object.
+   Create a LAN driver object, initialise the LAN module using the given
+   PHY driver name, and return the LAN object.
+
+   Arguments are:
+
+     - *id* is the number of the Ethernet port, either 0 or 1.
+     - *phy_type* is the name of the PHY driver. For most board the on-board PHY has to be used and
+       is the default. Suitable values are port specific.
+     - *phy_addr* specifies the address of the PHY interface. As with *phy_type*, the hardwired value has
+       to be used for most boards and that value is the default.
+     - *ref_clk_mode* specifies, whether the data clock is provided by the Ethernet controller or
+       the PYH interface.
+       The default value is the one that matches the board. If set to ``LAN.OUT`` or ``Pin.OUT``
+       or ``True``, the clock is driven by the Ethernet controller, if set to ``LAN.IN``
+       or ``Pin.IN`` or ``False``, the clock is driven by the PHY interface.
+
+   For example, with the Seeed Arch Mix board you can  use::
+
+     nic = LAN(0, phy_type=LAN.PHY_LAN8720, phy_addr=1, ref_clk_mode=Pin.IN)
 
 Methods
 -------
 
-.. method:: LAN.active([is_active])
+.. method:: LAN.active([state])
 
-    Activate ("up") or deactivate ("down") network interface, if boolean
-    argument is passed. Otherwise, query current state if no argument is
-    provided. Most other methods require active interface.
-
-    Statuses:
-
-        * 0: Link Down
-        * 1: Link Join
-        * 2: Link No-IP
-        * 3: Link Up
-
-.. method:: LAN.status([param])
-
-    Return the current status of the connection:
-
-        * 0: Link Down
-        * 1: Link Join
-        * 2: Link No-IP
-        * 3: Link Up
+   With a parameter, it sets the interface active if *state* is true, otherwise it
+   sets it inactive.
+   Without a parameter, it returns the state.
 
 .. method:: LAN.isconnected()
 
-    Returns ``True`` if the link is up and false if not.
+   Returns ``True`` if the physical Ethernet link is connected and up.
+   Returns ``False`` otherwise.
+
+.. method:: LAN.status()
+
+   Returns the LAN status.
 
 .. method:: LAN.ifconfig([(ip, subnet, gateway, dns)])
 
-   Get/set IP-level network interface parameters: IP address, subnet mask,
-   gateway and DNS server. When called with no arguments, this method returns
-   a 4-tuple with the above information. To set the above values, pass a
-   4-tuple with the required information.  For example::
+   Get/set IP address, subnet mask, gateway and DNS.
+
+   When called with no arguments, this method returns a 4-tuple with the above information.
+
+   To set the above values, pass a 4-tuple with the required information.  For example::
 
     nic.ifconfig(('192.168.0.4', '255.255.255.0', '192.168.0.1', '8.8.8.8'))
 
-   For DHCP configuration do ``lan.ifconfig('dhcp')`` to get a DHCP IP.
+.. method:: LAN.config(config_parameters)
 
-.. method:: LAN.config('param')
-            LAN.config(param=value, ...)
+   Sets or gets parameters of the LAN interface. The only parameter that can be
+   retrieved is the MAC address, using::
 
-   Get or set general network interface parameters. These methods allow to work
-   with additional parameters beyond standard IP configuration (as dealt with by
-   `LAN.ifconfig()`). These include network-specific and hardware-specific
-   parameters. For setting parameters, keyword argument syntax should be used,
-   multiple parameters can be set at once. For querying, parameters name should
-   be quoted as a string, and only one parameter can be queries at time::
+      mac = LAN.config("mac")
 
-    # Set params
-    lan.config(trace=4)
-    # Query params
-    print(lan.config('mac'))
+   The parameters that can be set are:
 
-   Following are commonly supported parameters:
+    - ``trace=n`` sets trace levels; suitable values are:
 
-   =============  ===========
-   Parameter      Description
-   =============  ===========
-   mac            MAC address (bytes)
-   trace          Trace flags (int)
-   =============  ===========
+        - 2: trace TX
+        - 4: trace RX
+        - 8: full trace
 
-   When trace flags are set the system will print debug information about packets on the ethernet
-   link as they are transmitted or recieved. This may generate a lot of debug text...
+    - ``low_power=bool`` sets or clears low power mode, valid values being ``False``
+      or ``True``.
 
-   * 1 = TRACE_ASYNC_EV
-   * 2 = TRACE_ETH_TX
-   * 4 = TRACE_ETH_RX
-   * 8 = TRACE_ETH_FULL
+
+Specific LAN class implementations
+----------------------------------
+
+On the mimxrt port, suitable values for the *phy_type* constructor argument are:
+``PHY_KSZ8081``, ``PHY_DP83825``, ``PHY_DP83848``, ``PHY_LAN8720``, ``PHY_RTL8211F``.

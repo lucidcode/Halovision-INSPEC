@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc4_ofi-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Internal backup clock personality description file for XMC4000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc4_ofi" name="OFI" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc4_scu" />
+    <Resource name="scu\.clock\.osc_fi" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fOFI" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- General -->
+    <ParamChoice id="calibration_mode" name="Calibration" group="General"
+      default="XMC_SCU_CLOCK_FOFI_CALIBRATION_MODE_FACTORY" visible="true" editable="true" desc="Select calibration mode of the internal fast oscillator." >
+      <Entry name="Factory" value="XMC_SCU_CLOCK_FOFI_CALIBRATION_MODE_FACTORY" visible="true" />
+      <Entry name="Using standby clock" value="XMC_SCU_CLOCK_FOFI_CALIBRATION_MODE_AUTOMATIC" visible="true" />
+    </ParamChoice>
+    <ParamString id="fOFI" name="Frequency (Hz)" group="Internal"
+      default="24000000" visible="false" editable="false" desc="" />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fOFI)}`" visible="true" editable="false"
+      desc="Internal fast oscillator frequency." />
+  </Parameters>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_FOFI_CALIBRATION_MODE" value="`${calibration_mode}`" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

@@ -85,10 +85,10 @@ static inline void hw_divider_wait_ready(void) {
     // we use one less register and instruction than gcc which uses a TST instruction
 
     uint32_t tmp; // allow compiler to pick scratch register
-    asm volatile (
+    pico_default_asm_volatile (
     "hw_divider_result_loop_%=:"
     "ldr %0, [%1, %2]\n\t"
-    "lsr %0, #1\n\t"
+    "lsrs %0, %0, #1\n\t"
     "bcc hw_divider_result_loop_%=\n\t"
     : "=&l" (tmp)
     : "l" (sio_hw), "I" (SIO_DIV_CSR_OFFSET)
@@ -105,7 +105,8 @@ static inline void hw_divider_wait_ready(void) {
  */
 static inline divmod_result_t hw_divider_result_nowait(void) {
     // as ugly as this looks it is actually quite efficient
-    divmod_result_t rc = (((divmod_result_t) sio_hw->div_remainder) << 32u) | sio_hw->div_quotient;
+    divmod_result_t rc = ((divmod_result_t) sio_hw->div_remainder) << 32u;
+    rc |= sio_hw->div_quotient;
     return rc;
 }
 
@@ -176,29 +177,29 @@ static inline int32_t hw_divider_s32_remainder_wait(void) {
 /*! \brief Do a signed HW divide and wait for result
  *  \ingroup hardware_divider
  *
- * Divide \p a by \p b, wait for calculation to complete, return result as a fixed point 32p32 value.
+ * Divide \p a by \p b, wait for calculation to complete, return result as a pair of 32-bit quotient/remainder values.
  *
  * \param a The dividend
  * \param b The divisor
- * \return Results of divide as a 32p32 fixed point value.
+ * \return Results of divide as a pair of 32-bit quotient/remainder values.
  */
 divmod_result_t hw_divider_divmod_s32(int32_t a, int32_t b);
 
 /*! \brief Do an unsigned HW divide and wait for result
  *  \ingroup hardware_divider
  *
- * Divide \p a by \p b, wait for calculation to complete, return result as a fixed point 32p32 value.
+ * Divide \p a by \p b, wait for calculation to complete, return result as a pair of 32-bit quotient/remainder values.
  *
  * \param a The dividend
  * \param b The divisor
- * \return Results of divide as a 32p32 fixed point value.
+ * \return Results of divide as a pair of 32-bit quotient/remainder values.
  */
 divmod_result_t hw_divider_divmod_u32(uint32_t a, uint32_t b);
 
 /*! \brief Efficient extraction of unsigned quotient from 32p32 fixed point
  *  \ingroup hardware_divider
  *
- * \param r 32p32 fixed point value.
+ * \param r A pair of 32-bit quotient/remainder values.
  * \return Unsigned quotient
  */
 inline static uint32_t to_quotient_u32(divmod_result_t r) {
@@ -208,7 +209,7 @@ inline static uint32_t to_quotient_u32(divmod_result_t r) {
 /*! \brief Efficient extraction of signed quotient from 32p32 fixed point
  *  \ingroup hardware_divider
  *
- * \param r 32p32 fixed point value.
+ * \param r A pair of 32-bit quotient/remainder values.
  * \return Unsigned quotient
  */
 inline static int32_t to_quotient_s32(divmod_result_t r) {
@@ -218,7 +219,7 @@ inline static int32_t to_quotient_s32(divmod_result_t r) {
 /*! \brief Efficient extraction of unsigned remainder from 32p32 fixed point
  *  \ingroup hardware_divider
  *
- * \param r 32p32 fixed point value.
+ * \param r A pair of 32-bit quotient/remainder values.
  * \return Unsigned remainder
  *
  * \note On Arm this is just a 32 bit register move or a nop
@@ -230,7 +231,7 @@ inline static uint32_t to_remainder_u32(divmod_result_t r) {
 /*! \brief Efficient extraction of signed remainder from 32p32 fixed point
  *  \ingroup hardware_divider
  *
- * \param r 32p32 fixed point value.
+ * \param r A pair of 32-bit quotient/remainder values.
  * \return Signed remainder
  *
  * \note On arm this is just a 32 bit register move or a nop
@@ -295,7 +296,7 @@ static inline int32_t hw_divider_remainder_s32(int32_t a, int32_t b) {
  *  \ingroup hardware_divider
  */
 static inline void hw_divider_pause(void) {
-    asm volatile (
+    pico_default_asm_volatile(
     "b _1_%=\n"
     "_1_%=:\n"
     "b _2_%=\n"
@@ -304,7 +305,7 @@ static inline void hw_divider_pause(void) {
     "_3_%=:\n"
     "b _4_%=\n"
     "_4_%=:\n"
-    :: : );
+    :::);
 }
 
 /*! \brief Do a hardware unsigned HW divide, wait for result, return quotient

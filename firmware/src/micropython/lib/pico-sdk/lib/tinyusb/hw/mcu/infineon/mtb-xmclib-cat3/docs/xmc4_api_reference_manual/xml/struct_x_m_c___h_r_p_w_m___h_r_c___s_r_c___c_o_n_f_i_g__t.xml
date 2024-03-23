@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_HRPWM_HRC_SRC_CONFIG_t</compoundname>
+    <includes local="no">xmc_hrpwm.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a1dac68d7ac68f897345684d3fa351d20" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gaab18b9caec75ff8940a250d265706f3c" kindref="member">XMC_HRPWM_HRC_SRC_INPUT_t</ref></type>
+        <definition>XMC_HRPWM_HRC_SRC_INPUT_t clear_config</definition>
+        <argsstring></argsstring>
+        <name>clear_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of input clear configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="688" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a2b07cce48218720e970a1f54e420e1b7" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1ga898488583126f170c29de20ad78e7f96" kindref="member">XMC_HRPWM_HRC_SRC_EDGE_SEL_t</ref></type>
+        <definition>XMC_HRPWM_HRC_SRC_EDGE_SEL_t clear_edge_config</definition>
+        <argsstring></argsstring>
+        <name>clear_edge_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of edge for generating clear signal </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="693" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="693" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a3cb8dd8a6ba138dcd7fc5fc4ed661af1" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gac26495c9b452d11e893e55a996d1cdd2" kindref="member">XMC_HRPWM_HRC_CMP_SEL_t</ref></type>
+        <definition>XMC_HRPWM_HRC_CMP_SEL_t cmp_clear</definition>
+        <argsstring></argsstring>
+        <name>cmp_clear</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of comparator for clear configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="690" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="690" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1aa42cb6fce5ed732943664af203a1635e" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gac26495c9b452d11e893e55a996d1cdd2" kindref="member">XMC_HRPWM_HRC_CMP_SEL_t</ref></type>
+        <definition>XMC_HRPWM_HRC_CMP_SEL_t cmp_set</definition>
+        <argsstring></argsstring>
+        <name>cmp_set</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of comparator for set configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="689" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1af79763da944564b7a7fb4980c53aba7c" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1ga16f08ec4aff668ebdebfd70a349cbd1f" kindref="member">XMC_HRPWM_HRC_HR_EDGE_t</ref></type>
+        <definition>XMC_HRPWM_HRC_HR_EDGE_t high_res_mode</definition>
+        <argsstring></argsstring>
+        <name>high_res_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>high resolution mode configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="686" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="686" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1affde53b592fdb2cd8e0c01a9958a0519" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gaab18b9caec75ff8940a250d265706f3c" kindref="member">XMC_HRPWM_HRC_SRC_INPUT_t</ref></type>
+        <definition>XMC_HRPWM_HRC_SRC_INPUT_t set_config</definition>
+        <argsstring></argsstring>
+        <name>set_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of input for set configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="687" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="687" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a14156879f2742f33e319bd8fede7100c" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1ga898488583126f170c29de20ad78e7f96" kindref="member">XMC_HRPWM_HRC_SRC_EDGE_SEL_t</ref></type>
+        <definition>XMC_HRPWM_HRC_SRC_EDGE_SEL_t set_edge_config</definition>
+        <argsstring></argsstring>
+        <name>set_edge_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of edge for generating set signal </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="692" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="692" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a0b9efa1157f4fb5f06660822ed03ee1e" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1ga92348e75fa87c899d8e1e42b17ade149" kindref="member">XMC_HRPWM_FUNC_STATUS_t</ref></type>
+        <definition>XMC_HRPWM_FUNC_STATUS_t src_trap_enable</definition>
+        <argsstring></argsstring>
+        <name>src_trap_enable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of source for trap signal generation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="694" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="694" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a41aa603a15ebd290244be542461335f4" prot="public" static="no" mutable="no">
+        <type><ref refid="group___h_r_p_w_m_1gae0bbc6eaf0460ede1b5331a0ddb8d23b" kindref="member">XMC_HRPWM_HRC_TIMER_SEL_t</ref></type>
+        <definition>XMC_HRPWM_HRC_TIMER_SEL_t timer_sel</definition>
+        <argsstring></argsstring>
+        <name>timer_sel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selection of timer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="691" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="691" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HRPWM HRC source path configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="685" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="684" bodyend="695"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a1dac68d7ac68f897345684d3fa351d20" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>clear_config</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a2b07cce48218720e970a1f54e420e1b7" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>clear_edge_config</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a3cb8dd8a6ba138dcd7fc5fc4ed661af1" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>cmp_clear</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1aa42cb6fce5ed732943664af203a1635e" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>cmp_set</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1af79763da944564b7a7fb4980c53aba7c" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>high_res_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1affde53b592fdb2cd8e0c01a9958a0519" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>set_config</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a14156879f2742f33e319bd8fede7100c" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>set_edge_config</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a0b9efa1157f4fb5f06660822ed03ee1e" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>src_trap_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___h_r_c___s_r_c___c_o_n_f_i_g__t_1a41aa603a15ebd290244be542461335f4" prot="public" virt="non-virtual"><scope>XMC_HRPWM_HRC_SRC_CONFIG_t</scope><name>timer_sel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

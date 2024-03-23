@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__prng_8h" kind="file" language="C++">
+    <compoundname>xmc_prng.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <incdepgraph>
+      <node id="62">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="61">
+        <label>xmc_prng.h</label>
+        <link refid="xmc__prng_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_x_m_c___p_r_n_g___i_n_i_t__t" prot="public">XMC_PRNG_INIT_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___p_r_n_g_1ga3410d04d1e98a69e80248f5a3abb23ff" prot="public" static="no">
+        <name>XMC_PRNG_RDBS_BYTE_READ_MASK</name>
+        <initializer>(0x00FFU)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Byte mask value for random data block size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="86" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_PRNG_DATA_BLOCK_SIZE_t</name>
+        <enumvalue id="group___p_r_n_g_1gga98fce9930ded366d7fe18f3df49c1553a644bc6ed498cbf7f86ffcd26eea08b54" prot="public">
+          <name>XMC_PRNG_RDBS_RESET</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Reset state (no random data block size defined) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_r_n_g_1gga98fce9930ded366d7fe18f3df49c1553a036bfba43c946d2f33c74d1eabb163de" prot="public">
+          <name>XMC_PRNG_RDBS_BYTE</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>BYTE (8-bit) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_r_n_g_1gga98fce9930ded366d7fe18f3df49c1553ad930e8d86b61cefb6501ccdaedb4914e" prot="public">
+          <name>XMC_PRNG_RDBS_WORD</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>WORD (16-bit) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PRNG data block size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="105" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="104" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_r_n_g_1ga4b04f26e22d83d38227d712fbc3de8ae" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_PRNG_INIT_STATUS_t</name>
+        <enumvalue id="group___p_r_n_g_1gga4b04f26e22d83d38227d712fbc3de8aeaa3e5b41923572a7647a14c8d138b94c8" prot="public">
+          <name>XMC_PRNG_NOT_INITIALIZED</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Reset state or Non-initialized state (Same as XMC_PRNG_RDBS_RESET) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_r_n_g_1gga4b04f26e22d83d38227d712fbc3de8aea536ab22fd603175dcce9fbeb7f6788cc" prot="public">
+          <name>XMC_PRNG_INITIALIZED</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Initialized state </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PRNG driver initialization status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="115" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_r_n_g_1ga3c1f8f0302221803f725e24d2a903f8d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_PRNG_KEY_LOAD_OP_MODE_t</name>
+        <enumvalue id="group___p_r_n_g_1gga3c1f8f0302221803f725e24d2a903f8da777d4c1d2b7223949cc2aec5abbedc1b" prot="public">
+          <name>XMC_PRNG_STRM_MODE</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Streaming mode (default) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_r_n_g_1gga3c1f8f0302221803f725e24d2a903f8da486b96fe11584b1889980a707a6df7cb" prot="public">
+          <name>XMC_PRNG_KLD_MODE</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Loading mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PRNG key load operation modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="96" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="95" bodyend="99"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___p_r_n_g_1ga588ee58f6320cfd1d1f0ab1388cd9c83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_PRNG_CheckValidStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PRNG_CheckValidStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Checks the validity (CHK.RDV bit) of the generated random data <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the validity (CHK.RDV bit) of the generated random data. In key loading mode, this value indicates if the next partial key word can be written to PRNG_WORD or not. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="192" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="192" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_r_n_g_1ga50c7502d10a31a18d05f69c341f8c383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_PRNG_EnableKeyLoadingMode</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PRNG_EnableKeyLoadingMode</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enables the PRNG key loading mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function initializes the key loading by setting the bit CTRL.KLD. In this mode, Register WORD acts as always as a 16 bit destination register. After the complete key has been loaded, the CTRL.KLD must be set to &apos;0&apos; to prepare the following warmup phase.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_r_n_g_1ga8cd9567c3cc650f52297c67733a80bb4" kindref="member">XMC_PRNG_EnableStreamingMode()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="211" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="211" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_r_n_g_1ga8cd9567c3cc650f52297c67733a80bb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_PRNG_EnableStreamingMode</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PRNG_EnableStreamingMode</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enables the Streaming mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function enables the streaming mode and disables the PRNG key loading mode by resetting the CTRL.KLD bit.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_r_n_g_1ga50c7502d10a31a18d05f69c341f8c383" kindref="member">XMC_PRNG_EnableKeyLoadingMode()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="229" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_r_n_g_1gab7468715bc1f4ee24d3de60d4f1a9e0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_PRNG_GetPseudoRandomNumber</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PRNG_GetPseudoRandomNumber</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Generated random number</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the generated random number <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function gives the generated random number by returning the content of WORD register. Before reading the WORD register to get the generated random number it is required to check the bit CHK.RDV is set which indicates that the next random data block can be read from WORD register. After a word has been read the bit CHK.RDV is reset by the hardware and generation of new random bits starts.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_r_n_g_1ga588ee58f6320cfd1d1f0ab1388cd9c83" kindref="member">XMC_PRNG_CheckValidStatus()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="269" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="269" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_r_n_g_1ga21fe2808ff30944aff357280cb2d9774" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___p_r_n_g_1ga4b04f26e22d83d38227d712fbc3de8ae" kindref="member">XMC_PRNG_INIT_STATUS_t</ref></type>
+        <definition>XMC_PRNG_INIT_STATUS_t XMC_PRNG_Init</definition>
+        <argsstring>(const XMC_PRNG_INIT_t *prng)</argsstring>
+        <name>XMC_PRNG_Init</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___p_r_n_g___i_n_i_t__t" kindref="compound">XMC_PRNG_INIT_t</ref> *</type>
+          <declname>prng</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prng</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a constant instance of <ref refid="struct_x_m_c___p_r_n_g___i_n_i_t__t" kindref="compound">XMC_PRNG_INIT_t</ref>, pointing to the initialization configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_PRNG_INIT_STATUS_t XMC_PRNG_INITIALIZED if initialized, XMC_PRNG_NOT_INITIALIZED otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the PRNG peripheral with the configured key words and block size <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function configures block size for key loading mode, enables key loading mode, loads key words (80 bits) and wait till RDV is set, enables the streaming mode and waits for warmup phase. This function programmes the CTRL and WORD registers. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="160" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_r_n_g_1gade903f0a506405ea40958c5d99df9b57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_PRNG_LoadKeyWords</definition>
+        <argsstring>(uint16_t key)</argsstring>
+        <name>XMC_PRNG_LoadKeyWords</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key word to load into PRNG WORD register </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Loads a partial key word to the PRNG WORD register <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function loads partial key word to WORD registr. These partial words are sequentially written and loading a key word will take 16 clock cycles. The CHK.RDV bit is set to &apos;0&apos; while loading is in progress. &apos;1&apos; indicates that the next partial key word can be written to WORD register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="247" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="247" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_r_n_g_1ga52fd6a913021d7118f0d9f51dab1cbf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_PRNG_SetRandomDataBlockSize</definition>
+        <argsstring>(XMC_PRNG_DATA_BLOCK_SIZE_t block_size)</argsstring>
+        <name>XMC_PRNG_SetRandomDataBlockSize</name>
+        <param>
+          <type><ref refid="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" kindref="member">XMC_PRNG_DATA_BLOCK_SIZE_t</ref></type>
+          <declname>block_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>block_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Block size of type <ref refid="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" kindref="member">XMC_PRNG_DATA_BLOCK_SIZE_t</ref> for read access </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Programming Random Block Size <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the random data block size as byte or word by programming CTRL.RDBS bitfield. block_size = 0 for Reset state, block_size = 1 for &apos;byte&apos; and block_size = 2 for &apos;word&apos;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" line="175" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h" bodystart="175" bodyend="179"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-06-20 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="55"><highlight class="preprocessor">#ifndef<sp/>XMC_PRNG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_PRNG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined<sp/>(PRNG)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="80"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="81"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="preprocessor">#define<sp/>XMC_PRNG_RDBS_BYTE_READ_MASK<sp/>(0x00FFU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="89"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="90"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_PRNG_KEY_LOAD_OP_MODE</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga3c1f8f0302221803f725e24d2a903f8da777d4c1d2b7223949cc2aec5abbedc1b" kindref="member">XMC_PRNG_STRM_MODE</ref><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga3c1f8f0302221803f725e24d2a903f8da486b96fe11584b1889980a707a6df7cb" kindref="member">XMC_PRNG_KLD_MODE</ref><sp/><sp/>=<sp/>1U<sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}<sp/><ref refid="group___p_r_n_g_1ga3c1f8f0302221803f725e24d2a903f8d" kindref="member">XMC_PRNG_KEY_LOAD_OP_MODE_t</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_PRNG_DATA_BLOCK_SIZE</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga98fce9930ded366d7fe18f3df49c1553a644bc6ed498cbf7f86ffcd26eea08b54" kindref="member">XMC_PRNG_RDBS_RESET</ref><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga98fce9930ded366d7fe18f3df49c1553a036bfba43c946d2f33c74d1eabb163de" kindref="member">XMC_PRNG_RDBS_BYTE</ref><sp/><sp/>=<sp/>1U,<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga98fce9930ded366d7fe18f3df49c1553ad930e8d86b61cefb6501ccdaedb4914e" kindref="member">XMC_PRNG_RDBS_WORD</ref><sp/><sp/>=<sp/>2U<sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/><ref refid="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" kindref="member">XMC_PRNG_DATA_BLOCK_SIZE_t</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_PRNG_INIT_STATUS</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga4b04f26e22d83d38227d712fbc3de8aeaa3e5b41923572a7647a14c8d138b94c8" kindref="member">XMC_PRNG_NOT_INITIALIZED</ref><sp/>=<sp/>0U,<sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1gga4b04f26e22d83d38227d712fbc3de8aea536ab22fd603175dcce9fbeb7f6788cc" kindref="member">XMC_PRNG_INITIALIZED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1U<sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/><ref refid="group___p_r_n_g_1ga4b04f26e22d83d38227d712fbc3de8ae" kindref="member">XMC_PRNG_INIT_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"><sp/>*<sp/>DATA<sp/>STRUCTURES</highlight></codeline>
+<codeline lineno="122"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="struct_x_m_c___p_r_n_g___i_n_i_t__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_PRNG_INIT</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>uint16_t<sp/>key_words[5];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><ref refid="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" kindref="member">XMC_PRNG_DATA_BLOCK_SIZE_t</ref><sp/>block_size;<sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___p_r_n_g___i_n_i_t__t" kindref="compound">XMC_PRNG_INIT_t</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="139"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="140"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="group___p_r_n_g_1ga4b04f26e22d83d38227d712fbc3de8ae" kindref="member">XMC_PRNG_INIT_STATUS_t</ref><sp/><ref refid="group___p_r_n_g_1ga21fe2808ff30944aff357280cb2d9774" kindref="member">XMC_PRNG_Init</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___p_r_n_g___i_n_i_t__t" kindref="compound">XMC_PRNG_INIT_t</ref><sp/>*prng);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___p_r_n_g_1ga52fd6a913021d7118f0d9f51dab1cbf9" kindref="member">XMC_PRNG_SetRandomDataBlockSize</ref>(<ref refid="group___p_r_n_g_1ga98fce9930ded366d7fe18f3df49c1553" kindref="member">XMC_PRNG_DATA_BLOCK_SIZE_t</ref><sp/>block_size)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/>PRNG-&gt;CTRL<sp/>=<sp/>(uint16_t)((PRNG-&gt;CTRL<sp/>&amp;<sp/>(uint32_t)~PRNG_CTRL_RDBS_Msk)<sp/>|</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((uint32_t)block_size<sp/>&lt;&lt;<sp/>(uint32_t)PRNG_CTRL_RDBS_Pos));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">__STATIC_INLINE<sp/>uint16_t<sp/><ref refid="group___p_r_n_g_1ga588ee58f6320cfd1d1f0ab1388cd9c83" kindref="member">XMC_PRNG_CheckValidStatus</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(PRNG-&gt;CHK<sp/>&amp;<sp/>PRNG_CHK_RDV_Msk);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___p_r_n_g_1ga50c7502d10a31a18d05f69c341f8c383" kindref="member">XMC_PRNG_EnableKeyLoadingMode</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/>PRNG-&gt;CTRL<sp/>|=<sp/>(uint16_t)PRNG_CTRL_KLD_Msk;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___p_r_n_g_1ga8cd9567c3cc650f52297c67733a80bb4" kindref="member">XMC_PRNG_EnableStreamingMode</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/>PRNG-&gt;CTRL<sp/>&amp;=<sp/>(uint16_t)~PRNG_CTRL_KLD_Msk;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___p_r_n_g_1gade903f0a506405ea40958c5d99df9b57" kindref="member">XMC_PRNG_LoadKeyWords</ref>(uint16_t<sp/>key)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/>PRNG-&gt;WORD<sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal">__STATIC_INLINE<sp/>uint16_t<sp/><ref refid="group___p_r_n_g_1gab7468715bc1f4ee24d3de60d4f1a9e0f" kindref="member">XMC_PRNG_GetPseudoRandomNumber</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>PRNG-&gt;WORD;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#if<sp/>defined<sp/>(PRNG)<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_PRNG_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_prng.h"/>
+  </compounddef>
+</doxygen>

@@ -8,11 +8,9 @@
 #include "pico/bootrom/sf_table.h"
 #include "hardware/divider_helper.S"
 
-__pre_init __aeabi_double_init, 00020
+pico_default_asm_setup
 
-.syntax unified
-.cpu cortex-m0plus
-.thumb
+__pre_init __aeabi_double_init, 00020
 
 .macro double_section name
 #if PICO_DOUBLE_IN_RAM
@@ -290,7 +288,7 @@ wrapper_func __aeabi_cdcmple
 wrapper_func __aeabi_cdcmpeq
  push {r0-r7,r14}
 __aeabi_dfcmple_guts:
- ldr r7,=#0x7ff                @ flush NaNs and denormals
+ ldr r7,=0x7ff                @ flush NaNs and denormals
  lsls r4,r1,#1
  lsrs r4,#21
  beq 1f
@@ -450,7 +448,7 @@ wrapper_func __aeabi_i2d
     lsls r2, r4
     lsls r0, r2, #20
     lsrs r2, #12
-    ldr r1,=#1055
+    ldr r1,=1055
     subs r1, r4
     lsls r1, #20
     orrs r1, r3
@@ -552,7 +550,7 @@ regular_func double2int64_z
     cmp r1, #0
     bmi 1f
     movs r2, #0
-    rsbs r0, #0
+    negs r0, r0
     sbcs r2, r1
     mov r1, r2
     pop {pc}

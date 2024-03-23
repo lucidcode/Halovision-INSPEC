@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</compoundname>
+    <includes local="no">xmc_ccu8.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a23d04c92dc4d040baf3812908b981c46" prot="public" static="no" mutable="no">
+        <type>union XMC_CCU8_SLICE_CAPTURE_CONFIG_t::@46</type>
+        <definition>union XMC_CCU8_SLICE_CAPTURE_CONFIG_t::@46 @47</definition>
+        <argsstring></argsstring>
+        <name>@47</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1044" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1032" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1032" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1036" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1036" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1039" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1039" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 15</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1041" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1041" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1ad92556d77387ef7a5287b5f6df43a889" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fifo_enable</definition>
+        <argsstring></argsstring>
+        <name>fifo_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should the capture registers be setup as a FIFO?(Extended capture mode) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1033" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1033" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a29df27038d64d7e3933d6ae9c83a09d6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t float_limit</definition>
+        <argsstring></argsstring>
+        <name>float_limit</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The max value which the prescaler divider can increment to </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1046" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1046" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1adc471f6ede2898874dff7dd392a58736" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ignore_full_flag</definition>
+        <argsstring></argsstring>
+        <name>ignore_full_flag</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should updates to capture registers follow full flag rules? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1038" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1038" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a4a3cf72081f564642983a29ac99a5945" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t prescaler_initval</definition>
+        <argsstring></argsstring>
+        <name>prescaler_initval</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Prescaler divider value </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1045" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1045" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a1ffba296705d58df97d9163e267a642c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t prescaler_mode</definition>
+        <argsstring></argsstring>
+        <name>prescaler_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normal or floating prescaler Accepts enum :: XMC_CCU8_SLICE_PRESCALER_MODE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1040" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1040" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a3b02c663502b4444e7973a90575fce76" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t same_event</definition>
+        <argsstring></argsstring>
+        <name>same_event</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Should the capture event for C1V/C0V and C3V/C2V be same capture edge? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1037" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1037" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a7186ed69fd81b64bca110c9cde9d1b3f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t tc</definition>
+        <argsstring></argsstring>
+        <name>tc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1043" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1043" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a969a5ab278099be147e153f58d5ec258" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t timer_clear_mode</definition>
+        <argsstring></argsstring>
+        <name>timer_clear_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How should the timer register be cleared upon detection of capture event? Accepts enum <ref refid="group___c_c_u8_1ga55b21896459210c26fa40fd2d0f3686c" kindref="member">XMC_CCU8_SLICE_TIMER_CLEAR_MODE_t</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1034" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1034" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a84667327a4583422e86f6873ff497a77" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t timer_concatenation</definition>
+        <argsstring></argsstring>
+        <name>timer_concatenation</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables the concatenation of the timer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1047" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1047" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration data structure for CCU8 slice. Specifically configures the CCU8 slice to capture mode operation. This excludes event and function configuration. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" line="1027" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ccu8.h" bodystart="1026" bodyend="1048"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1ad92556d77387ef7a5287b5f6df43a889" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>fifo_enable</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a29df27038d64d7e3933d6ae9c83a09d6" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>float_limit</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1adc471f6ede2898874dff7dd392a58736" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>ignore_full_flag</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a4a3cf72081f564642983a29ac99a5945" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>prescaler_initval</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a1ffba296705d58df97d9163e267a642c" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>prescaler_mode</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a3b02c663502b4444e7973a90575fce76" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>same_event</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a7186ed69fd81b64bca110c9cde9d1b3f" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>tc</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a969a5ab278099be147e153f58d5ec258" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>timer_clear_mode</name></member>
+      <member refid="struct_x_m_c___c_c_u8___s_l_i_c_e___c_a_p_t_u_r_e___c_o_n_f_i_g__t_1a84667327a4583422e86f6873ff497a77" prot="public" virt="non-virtual"><scope>XMC_CCU8_SLICE_CAPTURE_CONFIG_t</scope><name>timer_concatenation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

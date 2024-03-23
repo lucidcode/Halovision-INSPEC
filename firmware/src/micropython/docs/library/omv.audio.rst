@@ -11,7 +11,7 @@ Please read about `PDM Microphones <https://www.st.com/resource/en/application_n
 Functions
 ---------
 
-.. function:: audio.init([channels=2, [frequency=16000, [gain_db=24, [highpass=0.9883]]]])
+.. function:: init([channels=2, [frequency=16000, [gain_db=24, [highpass=0.9883]]]])
 
    Initializes the audio module. Must be called first before using the audio module.
 
@@ -26,11 +26,11 @@ Functions
 
    ``highpass`` is the high pass filter cut off given the target sample frequency.
 
-.. function:: audio.deint()
+.. function:: deint()
 
    Deinitializes the audio module.
 
-.. function:: audio.start_streaming(callback)
+.. function:: start_streaming(callback)
 
    Calls the ``callback`` that takes one argument ``pcmbuf`` automatically forever when enough
    PCM samples have accumulated based on the audio module settings.
@@ -42,6 +42,6 @@ Functions
 
    In dual channel mode audio samples will be 8-bits each in pairs filling up the 16-bit array.
 
-.. function:: audio.stop_streaming()
+.. function:: stop_streaming()
 
    Stops audio streaming and the callback from being called.

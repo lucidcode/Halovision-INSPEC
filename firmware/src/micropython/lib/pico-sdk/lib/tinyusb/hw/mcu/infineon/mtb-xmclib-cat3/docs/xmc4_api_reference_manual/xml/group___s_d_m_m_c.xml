@@ -1,0 +1,3579 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___s_d_m_m_c" kind="group">
+    <compoundname>SDMMC</compoundname>
+    <title>Secure Digital/Multi Media Card (SDMMC)</title>
+    <innerclass refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t" prot="public">XMC_SDMMC_COMMAND_t</innerclass>
+    <innerclass refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" prot="public">XMC_SDMMC_CONFIG_t</innerclass>
+    <innerclass refid="union_x_m_c___s_d_m_m_c___p_r_e_s_e_n_t___s_t_a_t_e__t" prot="public">XMC_SDMMC_PRESENT_STATE_t</innerclass>
+    <innerclass refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t" prot="public">XMC_SDMMC_RESPONSE_t</innerclass>
+    <innerclass refid="struct_x_m_c___s_d_m_m_c__t" prot="public">XMC_SDMMC_t</innerclass>
+    <innerclass refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t" prot="public">XMC_SDMMC_TRANSFER_MODE_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga619a568fb97074dcd4db71746f0e783d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_ACMD_ERR_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da1e9d7d447532ace1d6d106305455eb03" prot="public">
+          <name>XMC_SDMMC_ACMD12_NOT_EXEC_ERR</name>
+          <initializer>= SDMMC_ACMD_ERR_STATUS_ACMD12_NOT_EXEC_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD12 not executed error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da4a56badbb61281ee72fd5f84fbd8c63f" prot="public">
+          <name>XMC_SDMMC_ACMD_TIMEOUT_ERR</name>
+          <initializer>= SDMMC_ACMD_ERR_STATUS_ACMD_TIMEOUT_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD timeout error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da736477c0da6513be69a38984a2b83a81" prot="public">
+          <name>XMC_SDMMC_ACMD_CRC_ERR</name>
+          <initializer>= SDMMC_ACMD_ERR_STATUS_ACMD_CRC_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD CRC error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da5a6cb0cfbe8250c789857da06605c0fd" prot="public">
+          <name>XMC_SDMMC_ACMD_END_BIT_ERR</name>
+          <initializer>= SDMMC_ACMD_ERR_STATUS_ACMD_END_BIT_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD end bit error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da00a19cd23672c7a19c32317be430f071" prot="public">
+          <name>XMC_SDMMC_ACMD_IND_ERR</name>
+          <initializer>= SDMMC_ACMD_ERR_STATUS_ACMD_IND_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD IND error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783daf4682e3e725021e80d6100132a721a03" prot="public">
+          <name>XMC_SDMMC_CMD_NOT_ISSUED_BY_ACMD12_ERR</name>
+          <initializer>= SDMMC_ACMD_ERR_STATUS_CMD_NOT_ISSUED_BY_ACMD12_ERR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>CMD not issued by ACMD12 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CMD12 response errors of Auto CMD12 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="327" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="326" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga3a9e0a5d7221ca515838c63101baf041" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_BUS_VOLTAGE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga3a9e0a5d7221ca515838c63101baf041aa21bb78aaaa463928e4905173513f85e" prot="public">
+          <name>XMC_SDMMC_BUS_VOLTAGE_3_3_VOLTS</name>
+          <initializer>= 0x07U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>3.3V </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC bus voltage level </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="396" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="395" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga78f8f1a05e1a4bf92976596ab4b2ca35" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_CD_SOURCE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga78f8f1a05e1a4bf92976596ab4b2ca35a55a62d0134ee1e623c77066dfd8df392" prot="public">
+          <name>XMC_SDMMC_CD_SOURCE_PIN</name>
+          <initializer>= 0 &lt;&lt; SDMMC_HOST_CTRL_CARD_DET_SIGNAL_DETECT_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>P1.10 input pin selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga78f8f1a05e1a4bf92976596ab4b2ca35a300605a4db6f53bc5fc5a10a72151ae4" prot="public">
+          <name>XMC_SDMMC_CD_SOURCE_SW</name>
+          <initializer>= 1 &lt;&lt; SDMMC_HOST_CTRL_CARD_DET_SIGNAL_DETECT_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Software is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC card detection signal source </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="435" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="434" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1gabaafbc5cadd0025ed18389bd1fdab07b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_CD_STATUS_t</name>
+        <enumvalue id="group___s_d_m_m_c_1ggabaafbc5cadd0025ed18389bd1fdab07ba7490b7146c64b390a240007050fc699a" prot="public">
+          <name>XMC_SDMMC_CD_STATUS_NO_CARD</name>
+          <initializer>= 0 &lt;&lt; SDMMC_HOST_CTRL_CARD_DETECT_TEST_LEVEL_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No card detected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggabaafbc5cadd0025ed18389bd1fdab07baf7a4a344d3ed9ad07cca98f90eafdf74" prot="public">
+          <name>XMC_SDMMC_CD_STATUS_INSERTED</name>
+          <initializer>= 1 &lt;&lt; SDMMC_HOST_CTRL_CARD_DETECT_TEST_LEVEL_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Card detected </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to set the SDMMC card detection status when the card detection status source input is set to software </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="449" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="448" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga862cf0882d377669177bb266b05540cc" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_COMMAND_RESPONSE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga862cf0882d377669177bb266b05540cca5bb52e12364b77387b4f87f57e68aea9" prot="public">
+          <name>XMC_SDMMC_COMMAND_RESPONSE_NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No Response </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga862cf0882d377669177bb266b05540cca4142380796bc4419e780ecbc2bc9323d" prot="public">
+          <name>XMC_SDMMC_COMMAND_RESPONSE_LONG</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response length 136 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga862cf0882d377669177bb266b05540ccac97959799bb9322ee06ca59b292565bd" prot="public">
+          <name>XMC_SDMMC_COMMAND_RESPONSE_SHORT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response length 48 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga862cf0882d377669177bb266b05540ccab21215487838016f825f7e68f2a7153c" prot="public">
+          <name>XMC_SDMMC_COMMAND_RESPONSE_SHORT_BUSY</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response length 48 check Busy after response </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Command response selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="354" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="353" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1gaa604cac30b1304685508ba31be2d5c77" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_COMMAND_TYPE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1ggaa604cac30b1304685508ba31be2d5c77a173c2e8169f7cbdb76a1b15be2fa65ef" prot="public">
+          <name>XMC_SDMMC_COMMAND_TYPE_NORMAL</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command normal </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaa604cac30b1304685508ba31be2d5c77a60c3fc0ce84d4e79eab7d83edd3a1210" prot="public">
+          <name>XMC_SDMMC_COMMAND_TYPE_SUSPEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command suspend </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaa604cac30b1304685508ba31be2d5c77a5144f9ff2b805dd7eba6d375276fbcd4" prot="public">
+          <name>XMC_SDMMC_COMMAND_TYPE_RESUME</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command resume </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaa604cac30b1304685508ba31be2d5c77ac02a794140d74e42690cf57ebd09f597" prot="public">
+          <name>XMC_SDMMC_COMMAND_TYPE_ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command abort </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Types of SDMMC commands </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="365" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="364" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1gad55691d733895d4675c124529805a61b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_t</name>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61baa5a0938005f2d94416e893f97d4e021f" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_13</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 13) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6bcf62fdb0435a0db5995c2530a40900" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_14</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 14) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bac8d718998549d0585513ae0e4a7cd5f8" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_15</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 15) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6b8f7b024963ba06076058a7a9477654" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_16</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 16) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6faacef3eed55c3c8f5b0f8f3170aac8" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_17</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 17) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6f90cdc48b3c3b75f3e4ecfcf4cd1984" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_18</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 18) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bac54b00642c2f8a9fb5f5523dbdb297c9" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_19</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 19) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61baf914e55ba84f0c2007fdaa8a8266b159" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_20</name>
+          <initializer>= 7U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 20) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bac42a2f1c8192c5f537ddd3ed8f174467" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_21</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 21) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61babe4f90ea8fe5a4d45b623aa45eeb85bc" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_22</name>
+          <initializer>= 9U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 22) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bacc58bc6f1e43ecb1a2d544746bca3594" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_23</name>
+          <initializer>= 10U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 23) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba861d38031c2c868c1337df79684addf4" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_24</name>
+          <initializer>= 11U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 24) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba7e3f5063882e5c6e5f55c70d2b7cd6f8" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_25</name>
+          <initializer>= 12U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 25) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba238cf59254cccd527821b0f53753912b" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_26</name>
+          <initializer>= 13U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 26) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba396c2d3e736c2dffa2da07c7228fcb2b" prot="public">
+          <name>XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_27</name>
+          <initializer>= 14U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SDCLK * (2 ^ 27) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data line timeout counter values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="404" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="403" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga73e8e2f71e92271a9bce89111c991412" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_DATA_LINES_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga73e8e2f71e92271a9bce89111c991412ae9fd67258a394386fb7843cb3db6ecd1" prot="public">
+          <name>XMC_SDMMC_DATA_LINES_1</name>
+          <initializer>= 0x00U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Single data line mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga73e8e2f71e92271a9bce89111c991412af3adb822c0f298c81bc5743c579ab9f9" prot="public">
+          <name>XMC_SDMMC_DATA_LINES_4</name>
+          <initializer>= 0x02U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>4-bit mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga73e8e2f71e92271a9bce89111c991412a47249666ac4ba639f73fa0f3e735372f" prot="public">
+          <name>XMC_SDMMC_DATA_LINES_8</name>
+          <initializer>= 0x20U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SD 8-bit mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of data lines for SDMMC data transfer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="245" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="244" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1gaca28cba8c96000149ce2ea93fe28822d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_DATA_TRANSFER_DIR_t</name>
+        <enumvalue id="group___s_d_m_m_c_1ggaca28cba8c96000149ce2ea93fe28822dab4a0b77b99a6d9e22d5f0a440aac5f0a" prot="public">
+          <name>XMC_SDMMC_DATA_TRANSFER_HOST_TO_CARD</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Host to card </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaca28cba8c96000149ce2ea93fe28822da97a0d35957584d3d8cdfb58fd57d35ed" prot="public">
+          <name>XMC_SDMMC_DATA_TRANSFER_CARD_TO_HOST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Card to host </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC data transfer direction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="426" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="425" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga5bb5c7c2b0b9119ecef8e3b5a29d52da" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_EVENT_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa05fa0cecb64756c7360f88edf14fcba4" prot="public">
+          <name>XMC_SDMMC_CMD_COMPLETE</name>
+          <initializer>= 0x01U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command complete event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daaed498b9d7a76fe16bd8c768a9a135f20" prot="public">
+          <name>XMC_SDMMC_TX_COMPLETE</name>
+          <initializer>= 0x02U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit complete event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daaed4d036e9904304282617489e76bb922" prot="public">
+          <name>XMC_SDMMC_BLOCK_GAP_EVENT</name>
+          <initializer>= 0x04U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Block gap event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daaa8fd58b0c5ffa70772583d0ee100954c" prot="public">
+          <name>XMC_SDMMC_BUFFER_WRITE_READY</name>
+          <initializer>= 0x10U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Buffer write ready event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daab5203dc324933cf825b2764b7a9f77f6" prot="public">
+          <name>XMC_SDMMC_BUFFER_READ_READY</name>
+          <initializer>= 0x20U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Buffer read ready event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daab9e4d35a7a30afaab9f104e7afd3f6da" prot="public">
+          <name>XMC_SDMMC_CARD_INS</name>
+          <initializer>= 0x40U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Card insert event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daae906f62534d7214ecad6ab42ba5dd07b" prot="public">
+          <name>XMC_SDMMC_CARD_REMOVAL</name>
+          <initializer>= 0x80U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Card removal event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daab20edbd42b647c64dbde585202a91366" prot="public">
+          <name>XMC_SDMMC_CARD_INT</name>
+          <initializer>= 0x100U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Card INT event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daaf450365c7488c1e0341c06ed0288e1ca" prot="public">
+          <name>XMC_SDMMC_CARD_ERR</name>
+          <initializer>= 0x8000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Card error interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa5a6e2b65afb8dbf6c2085dec7f099d7e" prot="public">
+          <name>XMC_SDMMC_CMD_TIMEOUT_ERR</name>
+          <initializer>= ((uint32_t)0x01 &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command time-out error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa880bfa86b36ef8435f4365330f6c9250" prot="public">
+          <name>XMC_SDMMC_CMD_CRC_ERR</name>
+          <initializer>= ((uint32_t)0x02U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command CRC error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa8ca356f9bdcf423f6e5bc1f4d4232643" prot="public">
+          <name>XMC_SDMMC_CMD_END_BIT_ERR</name>
+          <initializer>= ((uint32_t)0x04U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command end bit error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa40753994719e1e12344ec3f12c451cf0" prot="public">
+          <name>XMC_SDMMC_CMD_IND_ERR</name>
+          <initializer>= ((uint32_t)0x08U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command index error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daae3ff499395b10c75811800ffda1095e7" prot="public">
+          <name>XMC_SDMMC_DATA_TIMEOUT_ERR</name>
+          <initializer>= ((uint32_t)0x10U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data time-out error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daafc6ec37acbc540a95a17d182bcba989a" prot="public">
+          <name>XMC_SDMMC_DATA_CRC_ERR</name>
+          <initializer>= ((uint32_t)0x20U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data CRC error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa93fc1ff8ca09fb057d59ba8c190115bd" prot="public">
+          <name>XMC_SDMMC_DATA_END_BIT_ERR</name>
+          <initializer>= ((uint32_t)0x40U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data end bit error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa597b8fbe5df9901cb533da4a4081e861" prot="public">
+          <name>XMC_SDMMC_CURRENT_LIMIT_ERR</name>
+          <initializer>= ((uint32_t)0x80U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Current limit error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa6ffed811fb9912814ff7aeae261f302c" prot="public">
+          <name>XMC_SDMMC_ACMD_ERR</name>
+          <initializer>= ((uint32_t)0x100U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa3d8ff26452266c460b99d46f0af52809" prot="public">
+          <name>XMC_SDMMC_TARGET_RESP_ERR</name>
+          <initializer>= ((uint32_t)0x1000U &lt;&lt; 16U)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Target response error </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC events (Normal and error events) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="281" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="280" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga511f50b71d2fed4e7ec1a8ecde60c741" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_RESPONSE_TYPE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741a0e438ac6aa4a27b92824f8944280897d" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_NO_RESPONSE</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No response </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741ac4bc0a2b284ec4d373998726f0766eed" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_R1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response type: R1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741ae34248013f71b18615344660ca449333" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_R1b</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response type: R1b </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741aab13b3fa7969fcd6f6a2a073ba921381" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_R2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response type: R2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741a4f77cee32aebcce905dcef6190c9504b" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_R3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response type: R3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741a89d6a1ec8dee2cb31b8325a6fb5f0947" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_R6</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response type: R6 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga511f50b71d2fed4e7ec1a8ecde60c741a0df044624739a61aea8edca93c964e36" prot="public">
+          <name>XMC_SDMMC_RESPONSE_TYPE_R7</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Response type: R7 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC response types </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="340" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="339" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga2e7b8636a941b0dacb74364b80c6e0b3" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_SDCLK_FREQ_SEL_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3ab29a9277175597f2d152c2e324b6371d" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_1</name>
+          <initializer>= 0x00U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock (10 Mhz -&gt; 63 Mhz) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3aad8b70b693f49ab6f208372b389f7528" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_2</name>
+          <initializer>= 0x01U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a88d7fcc87a8f63e0098ac90ea3b839b1" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_4</name>
+          <initializer>= 0x02U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 4 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a0214a60cef46d7cca2d65058d1d6d80d" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_8</name>
+          <initializer>= 0x04U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 8 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a213bdd9541ccac5bbfaab06aa3f6ab20" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_16</name>
+          <initializer>= 0x08U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 16 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a0e27f60e55aeaeeb0e19e4dbb0e24d4c" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_32</name>
+          <initializer>= 0x10U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 32 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3aeed992edad8e94be5ce8f3759a6ad0e4" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_64</name>
+          <initializer>= 0x20U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 64 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a7a46828195963a7d18fdfe3121a5029c" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_128</name>
+          <initializer>= 0x40U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 128 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3ab422392362a3fa13806dadb82fdd5a72" prot="public">
+          <name>XMC_SDMMC_CLK_DIV_256</name>
+          <initializer>= 0x80U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Base clock divided by 256 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid SD clock frequency divider selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="255" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="254" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga9b89baeea4baf51c59d1619a315b0103" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_STATUS_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga9b89baeea4baf51c59d1619a315b0103a3e0cd638a69e98f768fa03463710d861" prot="public">
+          <name>XMC_SDMMC_STATUS_SUCCESS</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation successful </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga9b89baeea4baf51c59d1619a315b0103a3a7ba54c67271b17d2fd576aeadfc2e0" prot="public">
+          <name>XMC_SDMMC_STATUS_CMD_LINE_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Command line busy </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga9b89baeea4baf51c59d1619a315b0103a3cd4e65016888130ff09414edf540601" prot="public">
+          <name>XMC_SDMMC_STATUS_DAT_LINE_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data line busy </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status return values for the SDMMC low level driver </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="271" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="270" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1gadf201763e8785889dcc87c0a4280cc21" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_SW_RESET_t</name>
+        <enumvalue id="group___s_d_m_m_c_1ggadf201763e8785889dcc87c0a4280cc21afc6c285e067041df180bba442ee1ae7d" prot="public">
+          <name>XMC_SDMMC_SW_RESET_ALL</name>
+          <initializer>= SDMMC_SW_RESET_SW_RST_ALL_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Software reset all </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggadf201763e8785889dcc87c0a4280cc21a5f15cc4121b7b84ccc0f7c070663353d" prot="public">
+          <name>XMC_SDMMC_SW_RST_CMD_LINE</name>
+          <initializer>= SDMMC_SW_RESET_SW_RST_CMD_LINE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Software reset command line </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggadf201763e8785889dcc87c0a4280cc21a99944fb99087276b781df0776cc6f7b7" prot="public">
+          <name>XMC_SDMMC_SW_RST_DAT_LINE</name>
+          <initializer>= SDMMC_SW_RESET_SW_RST_DAT_LINE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Software reset data line </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC software reset modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="317" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="316" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga1eb010e1d7b827836ae6d5b6cce5f21e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_TRANSFER_MODE_AUTO_CMD_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga1eb010e1d7b827836ae6d5b6cce5f21ea12c2d1ec20ed4a85a84c6c32a6e4be55" prot="public">
+          <name>XMC_SDMMC_TRANSFER_MODE_AUTO_CMD_DISABLED</name>
+          <initializer>= 0x00U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD mode disabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga1eb010e1d7b827836ae6d5b6cce5f21ea52ab925dc25a592526e3d7e1188571f0" prot="public">
+          <name>XMC_SDMMC_TRANSFER_MODE_AUTO_CMD_12</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ACMD12 mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auto command transfer modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="387" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="386" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1gaa2da138dd3a8f0860265ee85f706bbbd" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_TRANSFER_MODE_TYPE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1ggaa2da138dd3a8f0860265ee85f706bbbda7332889ec2bb372b1ada55c4cfc1e8d3" prot="public">
+          <name>XMC_SDMMC_TRANSFER_MODE_TYPE_SINGLE</name>
+          <initializer>= 0x00U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer mode type: single </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaa2da138dd3a8f0860265ee85f706bbbda14f0741a653fb73a7fef81d18c7fc78c" prot="public">
+          <name>XMC_SDMMC_TRANSFER_MODE_TYPE_INFINITE</name>
+          <initializer>= 0x20U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer mode type: infinite </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaa2da138dd3a8f0860265ee85f706bbbdad651d538e5f10214cb2be5da6e723d3c" prot="public">
+          <name>XMC_SDMMC_TRANSFER_MODE_TYPE_MULTIPLE</name>
+          <initializer>= 0x22U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer mode type: multiple </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1ggaa2da138dd3a8f0860265ee85f706bbbdab1ad960599c7472b4cd1ddbc7bb88d2d" prot="public">
+          <name>XMC_SDMMC_TRANSFER_MODE_TYPE_STOP_MULTIPLE</name>
+          <initializer>= 0x22U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer mode type: multiple stop </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC transfer modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="376" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="375" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga2ddb60398957749e2c187a7fb113df00" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_WAKEUP_EVENT_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga2ddb60398957749e2c187a7fb113df00aeafafba151446b58bcd3fe8c03533a1e" prot="public">
+          <name>XMC_SDMMC_WAKEUP_EN_CARD_INT</name>
+          <initializer>= SDMMC_WAKEUP_CTRL_WAKEUP_EVENT_EN_INT_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup on card interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2ddb60398957749e2c187a7fb113df00a8fbd139cc0e0fbbe47d2da4caae68a01" prot="public">
+          <name>XMC_SDMMC_WAKEUP_EN_CARD_INS</name>
+          <initializer>= SDMMC_WAKEUP_CTRL_WAKEUP_EVENT_EN_INS_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup on SD card insertion </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga2ddb60398957749e2c187a7fb113df00a8fd15979b33d17f2b15b9320963bad38" prot="public">
+          <name>XMC_SDMMC_WAKEUP_EN_CARD_REM</name>
+          <initializer>= SDMMC_WAKEUP_CTRL_WAKEUP_EVENT_EN_REM_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Wakeup SD card removal </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC wakeup events </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="307" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="306" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga9d086b2698b5bf6fba5298979c1b31e1" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_WP_SOURCE_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga9d086b2698b5bf6fba5298979c1b31e1a55893b574e4b79bb3861c8542bf01050" prot="public">
+          <name>XMC_SDMMC_WP_SOURCE_PIN</name>
+          <initializer>= 0 &lt;&lt;  0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>P1.1 input pin selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga9d086b2698b5bf6fba5298979c1b31e1ac56b6b515a7dfd5984f71c036c99cdeb" prot="public">
+          <name>XMC_SDMMC_WP_SOURCE_SW</name>
+          <initializer>= 1 &lt;&lt;  0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Software is selected </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC card write protection signal source <simplesect kind="note"><para>Only available for XMC4300, XMC4800 and XMC4700 series </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="465" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="464" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___s_d_m_m_c_1ga60a9c82d0b8a008ee3b9e3f502cf47ca" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_SDMMC_WP_STATUS_t</name>
+        <enumvalue id="group___s_d_m_m_c_1gga60a9c82d0b8a008ee3b9e3f502cf47caada005fe51160cdd20ee213ff1aab743a" prot="public">
+          <name>XMC_SDMMC_WP_STATUS_NO_WRITE_PROTECTION</name>
+          <initializer>= 0 &lt;&lt;  4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No write protection </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___s_d_m_m_c_1gga60a9c82d0b8a008ee3b9e3f502cf47caa893d56498f49e8c2b744f2492820f6ed" prot="public">
+          <name>XMC_SDMMC_WP_STATUS_WRITE_PROTECTION</name>
+          <initializer>= 1 &lt;&lt;  4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Write protection active </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to set the SDMMC card protection status when the card protection status source input is set to software <simplesect kind="note"><para>Only available for XMC4300, XMC4800 and XMC4700 series </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="475" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="474" bodyend="478"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga52ca604890941eb97a18d4065490639e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_BusPowerOff</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_BusPowerOff</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable SDMMC bus power <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the SD_BUS_POWER bit-field in the POWER_CTRL register, disabling the bus power. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1074" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1074" bodyend="1079"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga9f47d54d0555648abab778e0e513b238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_BusPowerOn</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_BusPowerOn</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable SDMMC bus power <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the SD_BUS_POWER bit-field in the POWER_CTRL register, enabling the bus power. It may be invoked after enabling the SD clock (<ref refid="group___s_d_m_m_c_1ga4fc87e6ecf669ae13d0a265a08ea0b83" kindref="member">XMC_SDMMC_SDClockEnable()</ref>). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1056" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1056" bodyend="1061"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga5a1b7d8584aa14bec60bb7b7fe9f8507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_ClearEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_ClearEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (XMC_SDMMC_EVENT_t) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear SDMMC event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function clears requested normal/error events by settings the bit-fields of the INT_STATUS register. Please check SDMMC_INT_STATUS_NORM in the XMC45000 manual for more details. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="746" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga8be0dba8c5ac23db710b0f635ab85e96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_Disable</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_Disable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable SDMMC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function asserts the peripheral reset. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="678" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga73762e35f53a01de7cb95faa19b5025a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_DisableDelayCmdDatLines</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SDMMC_DisableDelayCmdDatLines</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable delay on the command/data out lines <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to disable delay on the command/data out lines. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1691" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1691" bodyend="1694"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gad3a221d7eee8d9d71b5dc04b2895c29e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_DisableEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_DisableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (XMC_SDMMC_EVENT_t) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable normal and error SDMMC event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function disables the interrupt generation for the requested events by clearing the bit-fields of EN_INT_SIGNAL_NORM and EN_INT_SIGNAL_ERR registers.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>The <ref refid="group___s_d_m_m_c_1gad3a221d7eee8d9d71b5dc04b2895c29e" kindref="member">XMC_SDMMC_DisableEvent()</ref> function doesn&apos;t reset the the interrupt status. One may still use <ref refid="group___s_d_m_m_c_1ga22474438be9d977ee3840a3c7a92ae66" kindref="member">XMC_SDMMC_GetEvent()</ref> to check the status of requested events even if the interrupt generation is already disabled. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="730" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gae45046328b384faf09a943c372c5add3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_DisableEventStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_DisableEventStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (XMC_SDMMC_EVENT_t) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the bit-fields of EN_INT_STATUS_NORM and EN_INT_STATUS_ERR registers to disable interrupt status for requested normal/error SDMMC events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="790" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga5766fd5bd701a4a527199f32d8906d57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_DisableHighSpeed</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_DisableHighSpeed</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>High speed disable <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to disable high speed operation. The host controller will switch back to a normal speed mode. In this mode, the host controller outputs command and data lines at 25 MHz for SD. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1746" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1746" bodyend="1751"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gace5c0f6d5deedad581a4dfdfa3810ed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_DisableInterruptAtBlockGap</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, const XMC_SDMMC_CONFIG_t *config)</argsstring>
+        <name>XMC_SDMMC_DisableInterruptAtBlockGap</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kindref="compound">XMC_SDMMC_CONFIG_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the SDMMC configuration structure (<ref refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kindref="compound">XMC_SDMMC_CONFIG_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable interrupt at block gap <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the BLOCK_GAP_CTRL.INT_AT_BLOCK_GAP bit-field to disable interrupt at block gap. This bit is only valid in a 4-bit mode of the SDIO card. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1528" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1528" bodyend="1538"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga896fe6b6d93194ca3eecd57a25602b1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_DisableWakeupEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_DisableWakeupEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC wakeup event (<ref refid="group___s_d_m_m_c_1ga2ddb60398957749e2c187a7fb113df00" kindref="member">XMC_SDMMC_WAKEUP_EVENT_t</ref>) or a valid combination of logically OR&apos;d wakeup events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable wakeup event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function disables SDMMC wakeup events by clearing appropriate bit-fields of the WAKEUP_CTRL register. <linebreak/>
+</para>
+</simplesect>
+List of supported wakeup events -&gt; Wakeup on: <linebreak/>
+ 1) Card interrupt <linebreak/>
+ 2) SD card insertion <linebreak/>
+ 3) SD card removal <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="966" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="966" bodyend="971"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga129f34541560d249e4d852fe7f74bc0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_Enable</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_Enable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable SDMMC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function de-asserts the peripheral reset. The peripheral needs to be initialized. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="666" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga0bc3ef904c27570baf81424395756090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_EnableDelayCmdDatLines</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_SDMMC_EnableDelayCmdDatLines</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable delay on the command/data out lines <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to enable delay on the command/data out lines. Invoke this function before selecting the number of delay elements. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1676" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1676" bodyend="1679"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga33525dd96681359bb6217ce24ca68c3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_EnableEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_EnableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (XMC_SDMMC_EVENT_t) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable SDMMC normal and error event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function first sets the bit-fields of EN_INT_STATUS_NORM and EN_INT_STATUS_ERR registers to enable interrupt status for requested normal/error SDMMC events. It then sets the bit-fields of EN_INT_SIGNAL_NORM and EN_INT_SIGNAL_ERR to enable the interrupt generation for the requested events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="710" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga34ed964442f03472535f21ad39544a5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_EnableEventStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_EnableEventStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (XMC_SDMMC_EVENT_t) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the bit-fields of EN_INT_STATUS_NORM and EN_INT_STATUS_ERR registers to enable interrupt status for requested normal/error SDMMC events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="775" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga105e4cde1c6597a967e52386035e86db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_EnableHighSpeed</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_EnableHighSpeed</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>High speed enable <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to enable high speed operation. The default is a normal speed operation. Once enabled, the host controller outputs command and data lines at the rising edge of the SD clock (up to 50 MHz for SD). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1727" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1727" bodyend="1732"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga3d010245d07ca157a313107c2df59304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_EnableInterruptAtBlockGap</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, const XMC_SDMMC_CONFIG_t *config)</argsstring>
+        <name>XMC_SDMMC_EnableInterruptAtBlockGap</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kindref="compound">XMC_SDMMC_CONFIG_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the SDMMC configuration structure (<ref refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kindref="compound">XMC_SDMMC_CONFIG_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable interrupt at block gap <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the BLOCK_GAP_CTRL.INT_AT_BLOCK_GAP bit-field to enable interrupt at block gap for a multi-block transfer. This bit is only valid in a 4-bit mode of the SDIO card. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1506" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1506" bodyend="1514"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga94ddd5cbad8c362a951e40f7061cba3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_EnableWakeupEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_EnableWakeupEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC wakeup event (<ref refid="group___s_d_m_m_c_1ga2ddb60398957749e2c187a7fb113df00" kindref="member">XMC_SDMMC_WAKEUP_EVENT_t</ref>) or a valid combination of logically OR&apos;d wakeup events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable wakeup event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function enables SDMMC wakeup events by setting appropriate bit-fields of the WAKEUP_CTRL register. <linebreak/>
+</para>
+</simplesect>
+List of supported wakeup events -&gt; Wakeup on: <linebreak/>
+ 1) Card interrupt <linebreak/>
+ 2) SD card insertion <linebreak/>
+ 3) SD card removal <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="941" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="941" bodyend="946"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga49dc2c6b0c702f9b1d311d9ccf6f98e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_GetACMDErrStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_ACMD_ERR_t error)</argsstring>
+        <name>XMC_SDMMC_GetACMDErrStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga619a568fb97074dcd4db71746f0e783d" kindref="member">XMC_SDMMC_ACMD_ERR_t</ref></type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC ACMD error (<ref refid="group___s_d_m_m_c_1ga619a568fb97074dcd4db71746f0e783d" kindref="member">XMC_SDMMC_ACMD_ERR_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get status of Auto CMD12 errors <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function detects the presence of an Auto CMD12 error. A boolean is returned to indicate if an error is detected. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="985" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="985" bodyend="991"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga8043778c16206382c9804ab513ac0e3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SDMMC_GetAutoCommandResponse</definition>
+        <argsstring>(const XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetAutoCommandResponse</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Auto command response value</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get card response of Auto commands <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This function returns card response [39:8] bits of auto commands: R1 of Auto CMD 23 and R1b of Auto CMD 12. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1349" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1349" bodyend="1354"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga7f46fb35225d178aa5d6148b64ecfee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_GetClockStability</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetClockStability</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check internal clock stability <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use this function to check the internal SDMMC clock stability. The function returns a boolean value indicating internal clock stability (true = stable) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1114" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1114" bodyend="1120"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga8cc4c035c3820d88ee1b1c2e320460bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SDMMC_GetCommandResponse</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetCommandResponse</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t SDMMC command response</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get card response (no Auto command) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This function returns [39:8] bits of the card response. The others are checked automatically by the peripheral. This function can be used with response type R1, R1b, R3, R4, R5, R5b, R6 but it doesn&apos;t support the retrieving of R1 of Auto CMD 23 and R1b of Auto CMD 12. To get these responses, use <ref refid="group___s_d_m_m_c_1ga8043778c16206382c9804ab513ac0e3d" kindref="member">XMC_SDMMC_GetAutoCommandResponse()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1331" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1331" bodyend="1336"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga7d78da692ba812aa1b466f74bf449414" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_GetContinueRequest</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetContinueRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get continue request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the status of the BLOCK_GAP_CTRL.CONTINUE_REQ bit-field. It returns &quot;true&quot; if the transaction is restarted after a &quot;stop at block gap&quot; request. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1486" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1486" bodyend="1491"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga22474438be9d977ee3840a3c7a92ae66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_GetEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_EVENT_t event)</argsstring>
+        <name>XMC_SDMMC_GetEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga5bb5c7c2b0b9119ecef8e3b5a29d52da" kindref="member">XMC_SDMMC_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (XMC_SDMMC_EVENT_t) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get SDMMC event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the status of a single requested (normal/error) event by reading the appropriate bit-fields of the INT_STATUS register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="760" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gaa22490df961e4a73cd6478867ea502c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_GetPowerStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetPowerStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get power status of the SDMMC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the SD_BUS_POWER bit-field of the POWER_CTRL register and returns a boolean value - &quot;on&quot; or &quot;off&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="654" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga288474aba13cd8564c6e49628dde449a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="union_x_m_c___s_d_m_m_c___p_r_e_s_e_n_t___s_t_a_t_e__t" kindref="compound">XMC_SDMMC_PRESENT_STATE_t</ref></type>
+        <definition>XMC_SDMMC_PRESENT_STATE_t XMC_SDMMC_GetPresentState</definition>
+        <argsstring>(const XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetPresentState</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="union_x_m_c___s_d_m_m_c___p_r_e_s_e_n_t___s_t_a_t_e__t" kindref="compound">XMC_SDMMC_PRESENT_STATE_t</ref> A structure storing the present state of the host controller</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get the present state of the SDMMC host controller <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Get the values of each bit-field in SDMMC_PRESENT_STATE register The function call populates an instance of the <ref refid="union_x_m_c___s_d_m_m_c___p_r_e_s_e_n_t___s_t_a_t_e__t" kindref="compound">XMC_SDMMC_PRESENT_STATE_t</ref> structure with the state of the SD host controller and returns it to the caller. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1232" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1232" bodyend="1241"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga023366e914ba2a50a8e15ef523d6a7ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_GetR2Response</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_RESPONSE_t *const response)</argsstring>
+        <name>XMC_SDMMC_GetR2Response</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t" kindref="compound">XMC_SDMMC_RESPONSE_t</ref> *const</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to structure type <ref refid="struct_x_m_c___s_d_m_m_c___r_e_s_p_o_n_s_e__t" kindref="compound">XMC_SDMMC_RESPONSE_t</ref> to store the full response </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get card R2 response <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The R2 response is 120 bits wide. The function reads all peripheral registers and store in the response data structure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1368" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gac52e360d50f698a23b9e25ef2fe5b979" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SDMMC_GetSWResetStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetSWResetStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Software reset status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get SDMMC software reset status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The SD host takes some time to reset its registers after invoking <ref refid="group___s_d_m_m_c_1ga4a1c24f05d657bdfc48c42d57ba78b50" kindref="member">XMC_SDMMC_SetSWReset()</ref>. Since <ref refid="group___s_d_m_m_c_1ga4a1c24f05d657bdfc48c42d57ba78b50" kindref="member">XMC_SDMMC_SetSWReset()</ref> is a non-blocking function, <ref refid="group___s_d_m_m_c_1gac52e360d50f698a23b9e25ef2fe5b979" kindref="member">XMC_SDMMC_GetSWResetStatus()</ref> has been provided to check the software reset status. The return value needs to be masked with the reset mode (XMC_SDMMC_SW_RESET_t) to get a specific software reset status value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1213" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1213" bodyend="1218"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gafbd8774cb44be7cb196da431f1c3f668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SDMMC_GetTransferBlocksNum</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_GetTransferBlocksNum</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Number of blocks that need to be transferred</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get the number of blocks that need to be transferred <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This function is valid only for multiple block transfers. The host controller decrements the block count after each block transfer and stops when the count reaches zero. It can only be accessed when no transaction is happening (i.e after a transaction has stopped). This function returns an invalid value during the transfer. <linebreak/>
+</para>
+</simplesect>
+When saving transfer context as a result of the suspend command, the number of blocks yet to be transferred can be determined by using this function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1401" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1401" bodyend="1406"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga26450c34eda616cb3de8481df8e15437" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_d_m_m_c_1ga9b89baeea4baf51c59d1619a315b0103" kindref="member">XMC_SDMMC_STATUS_t</ref></type>
+        <definition>XMC_SDMMC_STATUS_t XMC_SDMMC_Init</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, const XMC_SDMMC_CONFIG_t *config)</argsstring>
+        <name>XMC_SDMMC_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kindref="compound">XMC_SDMMC_CONFIG_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a constant <ref refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kindref="compound">XMC_SDMMC_CONFIG_t</ref> structure containing the bus width and clock divider configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___s_d_m_m_c_1gga9b89baeea4baf51c59d1619a315b0103a3e0cd638a69e98f768fa03463710d861" kindref="member">XMC_SDMMC_STATUS_SUCCESS</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the SDMMC peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function enables the SDMMC peripheral, sets the internal clock divider register and sets the bus width. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="693" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga1b7659d29d217ce92e205593e55c61d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_IsAllDataLinesHigh</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_IsAllDataLinesHigh</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Status of all data lines</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if all data line are high <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the SDMMC PRESENT_STATE register and returns &quot;true&quot; if all data lines are high. It can be used to handle SDMMC error conditions. For example, if an error event (<ref refid="group___s_d_m_m_c_1ga1dd9bc7baed3e1ff00d406e441c764bb" kindref="member">XMC_SDMMC_IsAnyErrorEvent()</ref>) is detected and all data lines are high, the user code can conclude that the error is of a &quot;recoverable&quot; type. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1294" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1294" bodyend="1300"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga1dd9bc7baed3e1ff00d406e441c764bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_IsAnyErrorEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_IsAnyErrorEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if any error event has occured <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can typically be used for writing an error interrupt recovery routine. Should any error be indicated (If <ref refid="group___s_d_m_m_c_1ga1dd9bc7baed3e1ff00d406e441c764bb" kindref="member">XMC_SDMMC_IsAnyErrorEvent()</ref> returns true), the routine may then clear the event after indicating the error event and reset the SDMMC command and data lines. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="916" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="916" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gac6ecd06cc0654210dcbb6e92237451c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_IsCommandLineBusy</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_IsCommandLineBusy</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool SDMMC command line status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if the command line is busy <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the SDMMC PRESENT_STATE register and returns &quot;true&quot; if the command line is busy (&quot;false&quot; otherwise). The command line must be free before sending an SDMMC command with <ref refid="group___s_d_m_m_c_1ga4557c40f3b268fc69515d62d368fa20b" kindref="member">XMC_SDMMC_SendCommand()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1255" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1255" bodyend="1260"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga87e79e134943ad440eb45b32c915a8e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_SDMMC_IsDataLineBusy</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_IsDataLineBusy</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool SDMMC data line status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if the data line is busy <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the SDMMC PRESENT_STATE register and returns &quot;true&quot; if the data line is busy (&quot;false&quot; otherwise). The data line must be free before sending an SDMMC command with <ref refid="group___s_d_m_m_c_1ga4557c40f3b268fc69515d62d368fa20b" kindref="member">XMC_SDMMC_SendCommand()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1274" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1274" bodyend="1279"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga8774a9f393fe2736cd0d6ed60d1a3455" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_SDMMC_ReadFIFO</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_ReadFIFO</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t The value held in the SDMMC FIFO</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Use this function to read a single word (32 bits) from the SDMMC FIFO. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1023" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1023" bodyend="1028"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga1a746af62bda5aca31d8679977f6b4a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SDClockDisable</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_SDClockDisable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable the SD clock <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the SDCLOCK_EN bit-field of the CLOCK_CTRL register, disabling the SD clock. It can be used alongside a SD card information reset routine (if required). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1170" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1170" bodyend="1175"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga4fc87e6ecf669ae13d0a265a08ea0b83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SDClockEnable</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_SDClockEnable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable the SD clock <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the SDCLOCK_EN bit-field of the CLOCK_CTRL register, enabling the SD clock. It can be invoked after the internal clock has achieved stability. SD card initialization process may then follow. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1152" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1152" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga9ac59487c11891ee9019bdf55592fb10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SDClockFreqSelect</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_SDCLK_FREQ_SEL_t clk)</argsstring>
+        <name>XMC_SDMMC_SDClockFreqSelect</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga2e7b8636a941b0dacb74364b80c6e0b3" kindref="member">XMC_SDMMC_SDCLK_FREQ_SEL_t</ref></type>
+          <declname>clk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired clock frequency (<ref refid="group___s_d_m_m_c_1ga2e7b8636a941b0dacb74364b80c6e0b3" kindref="member">XMC_SDMMC_SDCLK_FREQ_SEL_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set SD clock frequency <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CLOCK_CTRL register to configure the frequency of the SD clock pin. The register is programmed with the divisor of the base clock frequency (clk).</para>
+</simplesect>
+The following settings are permitted (8-bit divided clock mode): <linebreak/>
+ 00H: base clock (10MHz-&gt;63MHz) <linebreak/>
+ 01H: base clock divided by 2 <linebreak/>
+ 10H: base clock divided by 32 <linebreak/>
+ 02H: base clock divided by 4 <linebreak/>
+ 04H: base clock divided by 8 <linebreak/>
+ 08H: base clock divided by 16 <linebreak/>
+ 20H: base clock divided by 64 <linebreak/>
+ 40H: base clock divided by 128 <linebreak/>
+ 80H: base clock divided by 256 <linebreak/>
+</para>
+<para><simplesect kind="par"><title>Note: </title><para>The internal clock should be disabled before updating frequency clock select. Please see section 2.2.14 -&gt; &quot;Clock Control Register&quot; in the SD HOST specification for more information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1568" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1568" bodyend="1575"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga4557c40f3b268fc69515d62d368fa20b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___s_d_m_m_c_1ga9b89baeea4baf51c59d1619a315b0103" kindref="member">XMC_SDMMC_STATUS_t</ref></type>
+        <definition>XMC_SDMMC_STATUS_t XMC_SDMMC_SendCommand</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, const XMC_SDMMC_COMMAND_t *command, uint32_t arg)</argsstring>
+        <name>XMC_SDMMC_SendCommand</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t" kindref="compound">XMC_SDMMC_COMMAND_t</ref> *</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a constant of type <ref refid="union_x_m_c___s_d_m_m_c___c_o_m_m_a_n_d__t" kindref="compound">XMC_SDMMC_COMMAND_t</ref>, pointing to the command configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command argument </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___s_d_m_m_c_1gga9b89baeea4baf51c59d1619a315b0103a3e0cd638a69e98f768fa03463710d861" kindref="member">XMC_SDMMC_STATUS_SUCCESS</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Send normal SDMMC command <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use this function to send a normal SDMMC command. This non-blocking function sets the ARGUMENT1 and COMMAND registers. It is the user&apos;s responsibility to check if the command and data lines are busy (<ref refid="group___s_d_m_m_c_1ga87e79e134943ad440eb45b32c915a8e4" kindref="member">XMC_SDMMC_IsDataLineBusy()</ref>, <ref refid="group___s_d_m_m_c_1gac6ecd06cc0654210dcbb6e92237451c4" kindref="member">XMC_SDMMC_IsCommandLineBusy()</ref>). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1316" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gabfc671ab8b9c2e675791a5b82677a306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetBusVoltage</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_BUS_VOLTAGE_t bus_voltage)</argsstring>
+        <name>XMC_SDMMC_SetBusVoltage</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga3a9e0a5d7221ca515838c63101baf041" kindref="member">XMC_SDMMC_BUS_VOLTAGE_t</ref></type>
+          <declname>bus_voltage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bus_voltage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired bus voltage (<ref refid="group___s_d_m_m_c_1ga3a9e0a5d7221ca515838c63101baf041" kindref="member">XMC_SDMMC_BUS_VOLTAGE_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set SDMMC bus voltage <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CLOCK_CTRL register to configure the bus voltage. Currently, 3.3 volts is the supported voltage level. This function is relevant within the host controller initialization routine. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1590" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1590" bodyend="1597"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gaa71df09d2ce8171a5ba201beb94450ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetCardDetectionSource</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_CD_SOURCE_t source)</argsstring>
+        <name>XMC_SDMMC_SetCardDetectionSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga78f8f1a05e1a4bf92976596ab4b2ca35" kindref="member">XMC_SDMMC_CD_SOURCE_t</ref></type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC card detection signal source (<ref refid="group___s_d_m_m_c_1ga78f8f1a05e1a4bf92976596ab4b2ca35" kindref="member">XMC_SDMMC_CD_SOURCE_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Selects source for card detection </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="826" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="826" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gaf82c80d6194d2e506f4fc0997d452cc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetCardDetectionStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_CD_STATUS_t status)</argsstring>
+        <name>XMC_SDMMC_SetCardDetectionStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1gabaafbc5cadd0025ed18389bd1fdab07b" kindref="member">XMC_SDMMC_CD_STATUS_t</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC card detection status (<ref refid="group___s_d_m_m_c_1gabaafbc5cadd0025ed18389bd1fdab07b" kindref="member">XMC_SDMMC_CD_STATUS_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the card detection status indicating whether card is inserted or not. Generates (card ins or card removal) interrupt when the normal interrupt is enabled. </para>
+</simplesect>
+<simplesect kind="note"><para>Only valid if SDMMC card detection signal source is set to XMC_SDMMC_CD_SOURCE_SW <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="851" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="851" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga741f99a47bc883820c613175778c2ea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetContinueRequest</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, bool enabled)</argsstring>
+        <name>XMC_SDMMC_SetContinueRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;true&quot; to restart transaction, &quot;false&quot; is ignored </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Issue a continue request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to restart a transaction which was stopped using the &quot;Stop at
+block gap&quot; request. (<ref refid="group___s_d_m_m_c_1ga70753bf36a54126787b4f09d9fd9cd97" kindref="member">XMC_SDMMC_SetStopAtBlockGap()</ref>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1467" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1467" bodyend="1473"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga5482b02ea40c6dfe995f31f8453f42ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetDataLineTimeout</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_DAT_TIMEOUT_COUNTER_t timeout)</argsstring>
+        <name>XMC_SDMMC_SetDataLineTimeout</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1gad55691d733895d4675c124529805a61b" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_t</ref></type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data line timeout value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set data line timeout <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to set the interval by which the data line timeouts are detected. The timeout clock frequency is generated by dividing the SD clock (TMCLK) by the timeout argument. This function must be called before setting the bus voltage (<ref refid="group___s_d_m_m_c_1gabfc671ab8b9c2e675791a5b82677a306" kindref="member">XMC_SDMMC_SetBusVoltage()</ref>). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1612" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1612" bodyend="1619"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gad93bca6414bbfd0cd2115f59804f69b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetDataTransferDirection</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_DATA_TRANSFER_DIR_t dir)</argsstring>
+        <name>XMC_SDMMC_SetDataTransferDirection</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1gaca28cba8c96000149ce2ea93fe28822d" kindref="member">XMC_SDMMC_DATA_TRANSFER_DIR_t</ref></type>
+          <declname>dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transfer direction (<ref refid="group___s_d_m_m_c_1gaca28cba8c96000149ce2ea93fe28822d" kindref="member">XMC_SDMMC_DATA_TRANSFER_DIR_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set data transfer direction <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to set the data transfer direction: host to card OR card to host. It is typically used to configure block operations (read/write) on the SD card. For example, XMC_SDMMC_DATA_TRANSFER_HOST_TO_CARD must be used for a write block operation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1655" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1655" bodyend="1663"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga4a1221f915637177789ba12b8f0ae7a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetDataTransferMode</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_TRANSFER_MODE_t *const transfer_mode)</argsstring>
+        <name>XMC_SDMMC_SetDataTransferMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t" kindref="compound">XMC_SDMMC_TRANSFER_MODE_t</ref> *const</type>
+          <declname>transfer_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>transfer_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transfer mode configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Configure data transfer mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function configures block size, block count, type of data transfer, response type and sets the auto command configuration. Use this function to configure a multi-block SDMMC transfer. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1383" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga8529e36cf71bee6364ed39d9532ac63f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetDataTransferWidth</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_DATA_LINES_t lines)</argsstring>
+        <name>XMC_SDMMC_SetDataTransferWidth</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga73e8e2f71e92271a9bce89111c991412" kindref="member">XMC_SDMMC_DATA_LINES_t</ref></type>
+          <declname>lines</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data lines to use (<ref refid="group___s_d_m_m_c_1ga73e8e2f71e92271a9bce89111c991412" kindref="member">XMC_SDMMC_DATA_LINES_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set data transfer width <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to set the data transfer width. Before using this function, an ACMD6 command (with R1 response type) must be sent to switch the bus width. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1633" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1633" bodyend="1640"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gaef2f313da8007d163cd9656b80fdcc0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetDelay</definition>
+        <argsstring>(uint8_t tapdel)</argsstring>
+        <name>XMC_SDMMC_SetDelay</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>tapdel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tapdel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of delay elements to select </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set number of delay elements on the command/data out lines <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Use the function to set the number of delay elements on the command/data out lines. The function writes the delay value to the SDMMC delay control register (SDMMCDEL) within the realm of the SCU peripheral. A delay of tapdel + 1 is considered as the final selected number of delay elements. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1709" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1709" bodyend="1713"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gaf52a9c8eaf7f7722c4817e850c7b69a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetReadWaitControl</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, bool enabled)</argsstring>
+        <name>XMC_SDMMC_SetReadWaitControl</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;true&quot; to enable read wait control, &quot;false&quot; to disable read wait control. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Configure read wait control <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The read wait function is optional for SDIO cards. If the card supports read wait and <ref refid="group___s_d_m_m_c_1gafbd8774cb44be7cb196da431f1c3f668" kindref="member">XMC_SDMMC_GetTransferBlocksNum()</ref> is executed, the SDMMC peripheral will stop read data using DAT[2] line. If this feature is not enabled the peripheral has to stop the SD clock to hold read data, restricting commands generation. <linebreak/>
+</para>
+</simplesect>
+When the host driver detects an SD card insertion, it sets this bit according to the CCCR of the SDIO card. If the card does not support read wait, this feature shall never be enabled otherwise a DAT line conflict may occur. If this feature is disabled, Suspend/Resume cannot be supported. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1427" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1427" bodyend="1433"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga70753bf36a54126787b4f09d9fd9cd97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetStopAtBlockGap</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, bool enabled)</argsstring>
+        <name>XMC_SDMMC_SetStopAtBlockGap</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;true&quot; to set stop at block gap, &quot;false&quot; for transfer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Stop at block gap request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to terminate a transaction execution at the next block gap for non-DMA transfers. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1447" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1447" bodyend="1453"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga4a1c24f05d657bdfc48c42d57ba78b50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetSWReset</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t reset_mode)</argsstring>
+        <name>XMC_SDMMC_SetSWReset</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>reset_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reset_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reset mode or a bitwise combination of modes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set SDMMC software reset request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets in the SDMMC SW_RESET register: <linebreak/>
+ 1) bit 0 to reset all <linebreak/>
+ 2) bit 1 to reset CMD line <linebreak/>
+ 3) bit 2 reset DAT line <linebreak/>
+</para>
+</simplesect>
+It is typically used to reset the SD HOST controller&apos;s registers. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1193" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1193" bodyend="1198"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga3c281d06aec421d27b69a86110930039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetWriteProtectionSource</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_WP_SOURCE_t source)</argsstring>
+        <name>XMC_SDMMC_SetWriteProtectionSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga9d086b2698b5bf6fba5298979c1b31e1" kindref="member">XMC_SDMMC_WP_SOURCE_t</ref></type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC card detection signal source (<ref refid="group___s_d_m_m_c_1ga9d086b2698b5bf6fba5298979c1b31e1" kindref="member">XMC_SDMMC_WP_SOURCE_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Selects input for card write protection status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="872" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="872" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga475bffeb388bbb708bdcf517617bf066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_SetWriteProtectionStatus</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, XMC_SDMMC_WP_STATUS_t status)</argsstring>
+        <name>XMC_SDMMC_SetWriteProtectionStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type><ref refid="group___s_d_m_m_c_1ga60a9c82d0b8a008ee3b9e3f502cf47ca" kindref="member">XMC_SDMMC_WP_STATUS_t</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC card detection status (<ref refid="group___s_d_m_m_c_1ga60a9c82d0b8a008ee3b9e3f502cf47ca" kindref="member">XMC_SDMMC_WP_STATUS_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Sets the card write protection status indicating whether card is write protected or not. </para>
+</simplesect>
+<simplesect kind="note"><para>Only valid if SDMMC card detection signal source is set to XMC_SDMMC_WP_SOURCE_SW <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="892" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="892" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga40923e217bd165281800686b3e1e51f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_Start</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_Start</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable the internal SDMMC clock <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function enables the internal clock of the SDMMC peripheral. To check if the clock is stable, use <ref refid="group___s_d_m_m_c_1ga7f46fb35225d178aa5d6148b64ecfee5" kindref="member">XMC_SDMMC_GetClockStability()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>Invoke <ref refid="group___s_d_m_m_c_1ga26450c34eda616cb3de8481df8e15437" kindref="member">XMC_SDMMC_Init()</ref> before using this function. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1095" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1095" bodyend="1101"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gac5a331a325cf289895137d44529e2a06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_Stop</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc)</argsstring>
+        <name>XMC_SDMMC_Stop</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable internal SDMMC clock <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function disables the internal clock of the SDMMC peripheral. The SDMMC registers can still be read and written even if the internal clock is disabled. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1133" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1133" bodyend="1138"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1gac76302071448518a5aec7b92ba1fa3d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_TriggerACMDErr</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t error)</argsstring>
+        <name>XMC_SDMMC_TriggerACMDErr</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC ACMD error (<ref refid="group___s_d_m_m_c_1ga619a568fb97074dcd4db71746f0e783d" kindref="member">XMC_SDMMC_ACMD_ERR_t</ref>) or a valid combination of logically OR&apos;d ACMD error events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Triggers Auto CMD12 error(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This function triggers Auto CMD12 error(s) by setting appropriate bit-fields of the FORCE_EVENT_ACMD_ERR_STATUS register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs: </title><para><ref refid="group___s_d_m_m_c_1ga8e8348ee9e807c66799bffe6a6092aba" kindref="member">XMC_SDMMC_TriggerEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1009" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1009" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga8e8348ee9e807c66799bffe6a6092aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_TriggerEvent</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t event)</argsstring>
+        <name>XMC_SDMMC_TriggerEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid SDMMC event (<ref refid="group___s_d_m_m_c_1ga5bb5c7c2b0b9119ecef8e3b5a29d52da" kindref="member">XMC_SDMMC_EVENT_t</ref>) or a valid combination of logically OR&apos;d events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Trigger SDMMC error events <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The SDMMC peripheral supports triggering of following error events: <linebreak/>
+</para>
+</simplesect>
+<ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa5a6e2b65afb8dbf6c2085dec7f099d7e" kindref="member">XMC_SDMMC_CMD_TIMEOUT_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa880bfa86b36ef8435f4365330f6c9250" kindref="member">XMC_SDMMC_CMD_CRC_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa8ca356f9bdcf423f6e5bc1f4d4232643" kindref="member">XMC_SDMMC_CMD_END_BIT_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa40753994719e1e12344ec3f12c451cf0" kindref="member">XMC_SDMMC_CMD_IND_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daae3ff499395b10c75811800ffda1095e7" kindref="member">XMC_SDMMC_DATA_TIMEOUT_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daafc6ec37acbc540a95a17d182bcba989a" kindref="member">XMC_SDMMC_DATA_CRC_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa93fc1ff8ca09fb057d59ba8c190115bd" kindref="member">XMC_SDMMC_DATA_END_BIT_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa597b8fbe5df9901cb533da4a4081e861" kindref="member">XMC_SDMMC_CURRENT_LIMIT_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa6ffed811fb9912814ff7aeae261f302c" kindref="member">XMC_SDMMC_ACMD_ERR</ref>, <ref refid="group___s_d_m_m_c_1gga5bb5c7c2b0b9119ecef8e3b5a29d52daa3d8ff26452266c460b99d46f0af52809" kindref="member">XMC_SDMMC_TARGET_RESP_ERR</ref></para>
+<para>For triggering Auto CMD12 error, see <ref refid="group___s_d_m_m_c_1gac76302071448518a5aec7b92ba1fa3d7" kindref="member">XMC_SDMMC_TriggerACMDErr()</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="811" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="811" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="group___s_d_m_m_c_1ga5bf35975a438ce33a36ea76192953ba9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_SDMMC_WriteFIFO</definition>
+        <argsstring>(XMC_SDMMC_t *const sdmmc, uint32_t *data)</argsstring>
+        <name>XMC_SDMMC_WriteFIFO</name>
+        <param>
+          <type><ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *const</type>
+          <declname>sdmmc</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdmmc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref>, pointing to the SDMMC base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a data word (32 bits) that needs to be written to the FIFO </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Use this function to write a single word (32 bits) to the SDMMC FIFO. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="1038" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="1038" bodyend="1043"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___s_d_m_m_c_1gaf7ae2c4a41b8ae4666d05813c455b5a3" prot="public" static="no">
+        <name>XMC_SDMMC</name>
+        <initializer>((<ref refid="struct_x_m_c___s_d_m_m_c__t" kindref="compound">XMC_SDMMC_t</ref> *)SDMMC_BASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A convenient symbol for the SDMMC peripheral base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="139" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga263ae33452f0f569d80a339fa6b609cc" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_ACMD_ERR</name>
+        <param><defname>v</defname></param>
+        <initializer>((v == <ref refid="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da1e9d7d447532ace1d6d106305455eb03" kindref="member">XMC_SDMMC_ACMD12_NOT_EXEC_ERR</ref>) ||\
+   (v == <ref refid="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da4a56badbb61281ee72fd5f84fbd8c63f" kindref="member">XMC_SDMMC_ACMD_TIMEOUT_ERR</ref>)    ||\
+   (v == <ref refid="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da736477c0da6513be69a38984a2b83a81" kindref="member">XMC_SDMMC_ACMD_CRC_ERR</ref>)        ||\
+   (v == <ref refid="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da5a6cb0cfbe8250c789857da06605c0fd" kindref="member">XMC_SDMMC_ACMD_END_BIT_ERR</ref>)    ||\
+   (v == <ref refid="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783da00a19cd23672c7a19c32317be430f071" kindref="member">XMC_SDMMC_ACMD_IND_ERR</ref>)        ||\
+   (v == <ref refid="group___s_d_m_m_c_1gga619a568fb97074dcd4db71746f0e783daf4682e3e725021e80d6100132a721a03" kindref="member">XMC_SDMMC_CMD_NOT_ISSUED_BY_ACMD12_ERR</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="156" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga2f8420e2fa0f9da062dbd0181c1537ad" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_BUS_VOLTAGE</name>
+        <param><defname>v</defname></param>
+        <initializer>(v == <ref refid="group___s_d_m_m_c_1gga3a9e0a5d7221ca515838c63101baf041aa21bb78aaaa463928e4905173513f85e" kindref="member">XMC_SDMMC_BUS_VOLTAGE_3_3_VOLTS</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="185" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga060e5bacff850c9038a185b1a9c7065a" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_DAT_TIMEOUT_COUNTER</name>
+        <param><defname>c</defname></param>
+        <initializer>((c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61baa5a0938005f2d94416e893f97d4e021f" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_13</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6bcf62fdb0435a0db5995c2530a40900" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_14</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bac8d718998549d0585513ae0e4a7cd5f8" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_15</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6b8f7b024963ba06076058a7a9477654" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_16</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6faacef3eed55c3c8f5b0f8f3170aac8" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_17</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba6f90cdc48b3c3b75f3e4ecfcf4cd1984" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_18</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bac54b00642c2f8a9fb5f5523dbdb297c9" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_19</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61baf914e55ba84f0c2007fdaa8a8266b159" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_20</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bac42a2f1c8192c5f537ddd3ed8f174467" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_21</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61babe4f90ea8fe5a4d45b623aa45eeb85bc" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_22</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61bacc58bc6f1e43ecb1a2d544746bca3594" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_23</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba861d38031c2c868c1337df79684addf4" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_24</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba7e3f5063882e5c6e5f55c70d2b7cd6f8" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_25</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba238cf59254cccd527821b0f53753912b" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_26</ref>) ||\
+   (c == <ref refid="group___s_d_m_m_c_1ggad55691d733895d4675c124529805a61ba396c2d3e736c2dffa2da07c7228fcb2b" kindref="member">XMC_SDMMC_DAT_TIMEOUT_COUNTER_2_POW_27</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="193" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1gab5fa5cee67ee8bc8066579a4d24a0ef2" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_DATA_LINES</name>
+        <param><defname>l</defname></param>
+        <initializer>((l == <ref refid="group___s_d_m_m_c_1gga73e8e2f71e92271a9bce89111c991412ae9fd67258a394386fb7843cb3db6ecd1" kindref="member">XMC_SDMMC_DATA_LINES_1</ref>)        ||\
+   (l == <ref refid="group___s_d_m_m_c_1gga73e8e2f71e92271a9bce89111c991412af3adb822c0f298c81bc5743c579ab9f9" kindref="member">XMC_SDMMC_DATA_LINES_4</ref>)        ||\
+   (l == <ref refid="group___s_d_m_m_c_1gga73e8e2f71e92271a9bce89111c991412a47249666ac4ba639f73fa0f3e735372f" kindref="member">XMC_SDMMC_DATA_LINES_8</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="215" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga7ca9a467b584dd4100cb4ba7f180eaa2" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_DATA_TRANSFER_DIR</name>
+        <param><defname>d</defname></param>
+        <initializer>((d == <ref refid="group___s_d_m_m_c_1ggaca28cba8c96000149ce2ea93fe28822dab4a0b77b99a6d9e22d5f0a440aac5f0a" kindref="member">XMC_SDMMC_DATA_TRANSFER_HOST_TO_CARD</ref>)   ||\
+   (d == <ref refid="group___s_d_m_m_c_1ggaca28cba8c96000149ce2ea93fe28822da97a0d35957584d3d8cdfb58fd57d35ed" kindref="member">XMC_SDMMC_DATA_TRANSFER_CARD_TO_HOST</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="225" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga5ce4cf6c7139c546d77f7621d6e4e58a" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_MODULE_PTR</name>
+        <param><defname>p</defname></param>
+        <initializer>((p) == <ref refid="group___s_d_m_m_c_1gaf7ae2c4a41b8ae4666d05813c455b5a3" kindref="member">XMC_SDMMC</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="149" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga5c3a8a1b289eed172f32eb9229fb1a19" prot="public" static="no">
+        <name>XMC_SDMMC_CHECK_SDCLK_FREQ</name>
+        <param><defname>f</defname></param>
+        <initializer>((f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3ab29a9277175597f2d152c2e324b6371d" kindref="member">XMC_SDMMC_CLK_DIV_1</ref>)           ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3aad8b70b693f49ab6f208372b389f7528" kindref="member">XMC_SDMMC_CLK_DIV_2</ref>)           ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a88d7fcc87a8f63e0098ac90ea3b839b1" kindref="member">XMC_SDMMC_CLK_DIV_4</ref>)           ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a0214a60cef46d7cca2d65058d1d6d80d" kindref="member">XMC_SDMMC_CLK_DIV_8</ref>)           ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a213bdd9541ccac5bbfaab06aa3f6ab20" kindref="member">XMC_SDMMC_CLK_DIV_16</ref>)          ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a0e27f60e55aeaeeb0e19e4dbb0e24d4c" kindref="member">XMC_SDMMC_CLK_DIV_32</ref>)          ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3aeed992edad8e94be5ce8f3759a6ad0e4" kindref="member">XMC_SDMMC_CLK_DIV_64</ref>)          ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3a7a46828195963a7d18fdfe3121a5029c" kindref="member">XMC_SDMMC_CLK_DIV_128</ref>)         ||\
+   (f == <ref refid="group___s_d_m_m_c_1gga2e7b8636a941b0dacb74364b80c6e0b3ab422392362a3fa13806dadb82fdd5a72" kindref="member">XMC_SDMMC_CLK_DIV_256</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="169" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1gaf342e3a10661a1d5196755ab66abc386" prot="public" static="no">
+        <name>XMC_SDMMC_MAX_DELAY_ELEMENTS</name>
+        <initializer>(15U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="235" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___s_d_m_m_c_1ga6db9aec9696262ec7e9f47b5f8dec8e5" prot="public" static="no">
+        <name>XMC_SDMMC_MIN_DELAY_ELEMENTS</name>
+        <initializer>(0U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="234" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Secure Digital/Multi Media Card (SDMMC) driver for the XMC4500 microcontroller. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The SDMMC peripheral provides an interface between SD/SDIO/MMC cards and the AHB. It handles the SD/SDIO protocol at transmission level. It automatically packs data and checks for CRC, start/end bits and format correctness. For SD cards, a maximum transfer rate of 24MB/sec is supported and for MMC cards, 48MB/sec.</para>
+<para>The peripheral can be used for applications that require large storage memory; e.g. Data logging, firmware updates or an embedded database.</para>
+<para>The SDMMC low level driver provides functions to configure and initialize the SDMMC hardware peripheral. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

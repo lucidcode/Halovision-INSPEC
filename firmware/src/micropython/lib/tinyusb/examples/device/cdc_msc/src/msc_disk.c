@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -23,7 +23,7 @@
  *
  */
 
-#include "bsp/board.h"
+#include "bsp/board_api.h"
 #include "tusb.h"
 
 #if CFG_TUD_MSC
@@ -142,6 +142,7 @@ bool tud_msc_test_unit_ready_cb(uint8_t lun)
 
   // RAM disk is ready until ejected
   if (ejected) {
+    // Additional Sense 3A-00 is NOT_FOUND
     tud_msc_set_sense(lun, SCSI_SENSE_NOT_READY, 0x3a, 0x00);
     return false;
   }
@@ -194,7 +195,7 @@ int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset, void* buff
   uint8_t const* addr = msc_disk[lba] + offset;
   memcpy(buffer, addr, bufsize);
 
-  return bufsize;
+  return (int32_t) bufsize;
 }
 
 bool tud_msc_is_writable_cb (uint8_t lun)
@@ -224,7 +225,7 @@ int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset, uint8_t* 
   (void) lba; (void) offset; (void) buffer;
 #endif
 
-  return bufsize;
+  return (int32_t) bufsize;
 }
 
 // Callback invoked when received an SCSI command not in built-in list below
@@ -242,11 +243,6 @@ int32_t tud_msc_scsi_cb (uint8_t lun, uint8_t const scsi_cmd[16], void* buffer, 
 
   switch (scsi_cmd[0])
   {
-    case SCSI_CMD_PREVENT_ALLOW_MEDIUM_REMOVAL:
-      // Host is about to read/write etc ... better not to disconnect disk
-      resplen = 0;
-    break;
-
     default:
       // Set Sense = Invalid Command Operation
       tud_msc_set_sense(lun, SCSI_SENSE_ILLEGAL_REQUEST, 0x20, 0x00);
@@ -263,14 +259,14 @@ int32_t tud_msc_scsi_cb (uint8_t lun, uint8_t const scsi_cmd[16], void* buffer, 
   {
     if(in_xfer)
     {
-      memcpy(buffer, response, resplen);
+      memcpy(buffer, response, (size_t) resplen);
     }else
     {
       // SCSI output
     }
   }
 
-  return resplen;
+  return (int32_t) resplen;
 }
 
 #endif

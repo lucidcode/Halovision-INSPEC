@@ -12,7 +12,7 @@ void board_low_power(int mode)
             sdram_enter_low_power();
             break;
         case 2:     // Enter standby mode.
-            sdram_powerdown();
+            sdram_enter_power_down();
             break;
     }
     // Enable QSPI deepsleep for modes 1 and 2

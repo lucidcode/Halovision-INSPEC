@@ -43,6 +43,15 @@ Functions
       positional; further arguments are not supported. CPython-compatible
       ``traceback`` module can be found in `micropython-lib`.
 
+.. function:: settrace(tracefunc)
+
+   Enable tracing of bytecode execution.  For details see the `CPython
+   documentation <https://docs.python.org/3/library/sys.html#sys.settrace>`_.
+
+   This function requires a custom MicroPython build as it is typically not
+   present in pre-built firmware (due to it affecting performance).  The relevant
+   configuration option is *MICROPY_PY_SYS_SETTRACE*.
+
 Constants
 ---------
 
@@ -61,6 +70,8 @@ Constants
 
    * *name* - string "micropython"
    * *version* - tuple (major, minor, micro), e.g. (1, 7, 0)
+   * *_machine* - string describing the underlying machine
+   * *_mpy* - supported mpy file-format version (optional attribute)
 
    This object is the recommended way to distinguish MicroPython from other
    Python implementations (note that it still may not exist in the very
@@ -106,6 +117,14 @@ Constants
 
    A mutable list of directories to search for imported modules.
 
+   .. admonition:: Difference to CPython
+      :class: attention
+
+      On MicroPython, an entry with the value ``".frozen"`` will indicate that import
+      should search :term:`frozen modules <frozen module>` at that point in the search.
+      If no frozen module is found then search will *not* look for a directory called
+      ``.frozen``, instead it will continue with the next entry in ``sys.path``.
+
 .. data:: platform
 
    The platform that MicroPython is running on. For OS/RTOS ports, this is
@@ -114,6 +133,12 @@ Constants
    reference board. It thus can be used to distinguish one board from another.
    If you need to check whether your program runs on MicroPython (vs other
    Python implementation), use `sys.implementation` instead.
+
+.. data:: ps1
+          ps2
+
+   Mutable attributes holding strings, which are used for the REPL prompt.  The defaults
+   give the standard Python prompt of ``>>>`` and ``...``.
 
 .. data:: stderr
 
@@ -126,6 +151,14 @@ Constants
 .. data:: stdout
 
    Standard output :std:term:`stream`.
+
+.. data:: tracebacklimit
+
+   A mutable attribute holding an integer value which is the maximum number of traceback
+   entries to store in an exception.  Set to 0 to disable adding tracebacks.  Defaults
+   to 1000.
+
+   Note: this is not available on all ports.
 
 .. data:: version
 

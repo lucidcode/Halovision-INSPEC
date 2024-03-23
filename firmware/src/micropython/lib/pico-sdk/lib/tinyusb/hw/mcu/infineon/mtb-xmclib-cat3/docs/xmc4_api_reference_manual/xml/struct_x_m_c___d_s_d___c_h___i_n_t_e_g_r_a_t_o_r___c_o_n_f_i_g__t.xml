@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DSD_CH_INTEGRATOR_CONFIG_t</compoundname>
+    <includes local="no">xmc_dsd.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a4cce3d4cd160f9381b603eec95e6138c" prot="public" static="no" mutable="no">
+        <type>union XMC_DSD_CH_INTEGRATOR_CONFIG_t::@88</type>
+        <definition>union XMC_DSD_CH_INTEGRATOR_CONFIG_t::@88 @89</definition>
+        <argsstring></argsstring>
+        <name>@89</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="471" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="463" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="465" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 17</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="467" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a5c916a22a9e3caa43e6ddc3059910563" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t counted_values</definition>
+        <argsstring></argsstring>
+        <name>counted_values</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of mainfilter results, integrated to a integrator result.Bitfields <emphasis>NVALINT</emphasis> of <emphasis>IWCTR</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="475" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a167e1a10631c95280bb5a5d45621d6dd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t discarded_values</definition>
+        <argsstring></argsstring>
+        <name>discarded_values</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of mainfilter results,discarded before integration starts.Bitfields <emphasis>NVALDIS</emphasis> of <emphasis>IWCTR</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="473" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a584145513e3635072bb55326bd04c3d7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t integration_loop</definition>
+        <argsstring></argsstring>
+        <name>integration_loop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Integration loops to see stop condition. Bitfields <emphasis>REPVAL</emphasis> of <emphasis>IWCTR</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="472" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1aa1cc695334fa678b79c06972211b011d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t integrator_trigger</definition>
+        <argsstring></argsstring>
+        <name>integrator_trigger</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Demodulator Input Configuration Register(<emphasis>DICFG</emphasis>). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="469" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="469" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a4e4e60da9b4ae68e6313d9603af287e0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t start_condition</definition>
+        <argsstring></argsstring>
+        <name>start_condition</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Can take a value of XMC_DSD_CH_INTEGRATOR_START_t.Bitfields <emphasis>ITRMODE</emphasis> of <emphasis>DICFG</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="464" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1ae72b767b513a94c501f9ac2c9684ad2d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t stop_condition</definition>
+        <argsstring></argsstring>
+        <name>stop_condition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Integrator stop condition. Can take a value of XMC_DSD_CH_INTEGRATOR_STOP_t.Bitfields <emphasis>IWS</emphasis> of <emphasis>IWCTR</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="474" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a142018736ea30d27e6d10463091c7ce4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t trigger_source</definition>
+        <argsstring></argsstring>
+        <name>trigger_source</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Can take a value of XMC_DSD_CH_TRIGGER_SOURCE_t.Bitfields <emphasis>TRSEL</emphasis> of <emphasis>DICFG</emphasis>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="466" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The integrator is mainly used for high accurate measurement. Note:DSD Filter is mandatory to use this block. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" line="458" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dsd.h" bodystart="457" bodyend="477"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a5c916a22a9e3caa43e6ddc3059910563" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>counted_values</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a167e1a10631c95280bb5a5d45621d6dd" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>discarded_values</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a584145513e3635072bb55326bd04c3d7" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>integration_loop</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1aa1cc695334fa678b79c06972211b011d" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>integrator_trigger</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a4e4e60da9b4ae68e6313d9603af287e0" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>start_condition</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1ae72b767b513a94c501f9ac2c9684ad2d" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>stop_condition</name></member>
+      <member refid="struct_x_m_c___d_s_d___c_h___i_n_t_e_g_r_a_t_o_r___c_o_n_f_i_g__t_1a142018736ea30d27e6d10463091c7ce4" prot="public" virt="non-virtual"><scope>XMC_DSD_CH_INTEGRATOR_CONFIG_t</scope><name>trigger_source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

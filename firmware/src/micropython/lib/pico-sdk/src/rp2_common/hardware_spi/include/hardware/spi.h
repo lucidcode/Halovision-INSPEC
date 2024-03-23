@@ -8,7 +8,6 @@
 #define _HARDWARE_SPI_H
 
 #include "pico.h"
-#include "pico/time.h"
 #include "hardware/structs/spi.h"
 #include "hardware/regs/dreq.h"
 
@@ -53,7 +52,7 @@ typedef struct spi_inst spi_inst_t;
  *
  *  \ingroup hardware_spi
  */
-#define spi0 ((spi_inst_t * const)spi0_hw)
+#define spi0 ((spi_inst_t *)spi0_hw)
 
 /** Identifier for the second (SPI 1) hardware SPI instance (for use in SPI functions).
  *
@@ -61,7 +60,7 @@ typedef struct spi_inst spi_inst_t;
  *
  *  \ingroup hardware_spi
  */
-#define spi1 ((spi_inst_t * const)spi1_hw)
+#define spi1 ((spi_inst_t *)spi1_hw)
 
 #if !defined(PICO_DEFAULT_SPI_INSTANCE) && defined(PICO_DEFAULT_SPI)
 #define PICO_DEFAULT_SPI_INSTANCE (__CONCAT(spi,PICO_DEFAULT_SPI))
@@ -181,6 +180,11 @@ static inline void spi_set_format(spi_inst_t *spi, uint data_bits, spi_cpol_t cp
     invalid_params_if(SPI, order != SPI_MSB_FIRST);
     invalid_params_if(SPI, cpol != SPI_CPOL_0 && cpol != SPI_CPOL_1);
     invalid_params_if(SPI, cpha != SPI_CPHA_0 && cpha != SPI_CPHA_1);
+
+    // Disable the SPI
+    uint32_t enable_mask = spi_get_hw(spi)->cr1 & SPI_SSPCR1_SSE_BITS;
+    hw_clear_bits(&spi_get_hw(spi)->cr1, SPI_SSPCR1_SSE_BITS);
+
     hw_write_masked(&spi_get_hw(spi)->cr0,
                     ((uint)(data_bits - 1)) << SPI_SSPCR0_DSS_LSB |
                     ((uint)cpol) << SPI_SSPCR0_SPO_LSB |
@@ -188,6 +192,9 @@ static inline void spi_set_format(spi_inst_t *spi, uint data_bits, spi_cpol_t cp
         SPI_SSPCR0_DSS_BITS |
         SPI_SSPCR0_SPO_BITS |
         SPI_SSPCR0_SPH_BITS);
+
+    // Re-enable the SPI
+    hw_set_bits(&spi_get_hw(spi)->cr1, enable_mask);
 }
 
 /*! \brief Set SPI master/slave
@@ -200,10 +207,17 @@ static inline void spi_set_format(spi_inst_t *spi, uint data_bits, spi_cpol_t cp
  * \param slave true to set SPI device as a slave device, false for master.
  */
 static inline void spi_set_slave(spi_inst_t *spi, bool slave) {
+    // Disable the SPI
+    uint32_t enable_mask = spi_get_hw(spi)->cr1 & SPI_SSPCR1_SSE_BITS;
+    hw_clear_bits(&spi_get_hw(spi)->cr1, SPI_SSPCR1_SSE_BITS);
+
     if (slave)
         hw_set_bits(&spi_get_hw(spi)->cr1, SPI_SSPCR1_MS_BITS);
     else
         hw_clear_bits(&spi_get_hw(spi)->cr1, SPI_SSPCR1_MS_BITS);
+
+    // Re-enable the SPI
+    hw_set_bits(&spi_get_hw(spi)->cr1, enable_mask);
 }
 
 // ----------------------------------------------------------------------------

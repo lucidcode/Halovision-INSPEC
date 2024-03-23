@@ -60,7 +60,7 @@ SECTIONS
         /* bit of a hack right now to exclude all floating point and time critical (e.g. memset, memcpy) code from
          * FLASH ... we will include any thing excluded here in .data below by default */
         *(.init)
-        /* Change for MicroPython... excluse gc.c, parse.c, vm.c from flash */
+        /* Change for MicroPython... exclude gc.c, parse.c, vm.c from flash */
         *(EXCLUDE_FILE(*libgcc.a: *libc.a: *lib_a-mem*.o *libm.a: *gc.c.obj *vm.c.obj *parse.c.obj) .text*)
         *(.fini)
         /* Pull all c'tors into .text */
@@ -188,7 +188,10 @@ SECTIONS
     {
       . = ALIGN(4);
       _fb_base = .;
-      . = . + OMV_FB_SIZE + OMV_FB_ALLOC_SIZE;
+      . += OMV_FB_SIZE;
+
+      _fb_end = .;
+      . += OMV_FB_ALLOC_SIZE;
 
       . = ALIGN(4);
       _fballoc = .;

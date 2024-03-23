@@ -1,0 +1,578 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_SDRAM_CONFIG_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a20054aa2400cfac9704b19888143fc09" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_SDRAM_CONFIG_t::@136</type>
+        <definition>union XMC_EBU_SDRAM_CONFIG_t::@136 @137</definition>
+        <argsstring></argsstring>
+        <name>@137</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="888" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1afed1e51674fb48745040b8ad07cbd691" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_SDRAM_CONFIG_t::@138</type>
+        <definition>union XMC_EBU_SDRAM_CONFIG_t::@138 @139</definition>
+        <argsstring></argsstring>
+        <name>@139</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="921" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a7371c80f0650ad0e825187e9674cc3f5" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_SDRAM_CONFIG_t::@140</type>
+        <definition>union XMC_EBU_SDRAM_CONFIG_t::@140 @141</definition>
+        <argsstring></argsstring>
+        <name>@141</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="977" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="899" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="899" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="905" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="905" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="975" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="975" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1af4e565ca82d73897629a7dbf737c5462" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_init_refresh_commands_counter</definition>
+        <argsstring></argsstring>
+        <name>ebu_init_refresh_commands_counter</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(CRFSH) Number of refresh commands issued during powerup init sequence: Perform CRFSH + 1 refresh cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="839" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="839" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a40fe29a2c5bccc5cfd0e392ac04bbcc8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_mode_register_set_up_time</definition>
+        <argsstring></argsstring>
+        <name>ebu_mode_register_set_up_time</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(CRSC) Number of NOP cycles after a mode register set command: Insert CRSC + 1 NOP cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="844" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="844" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a4d056c9e4519ced599b69c3b1f0fcad2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_row_precharge_delay_counter</definition>
+        <argsstring></argsstring>
+        <name>ebu_row_precharge_delay_counter</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of clock cycles between row activate command and a precharge command </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="834" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="834" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a3409310c7a4d0a8091ad28d49e6a4852" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_row_precharge_time_counter</definition>
+        <argsstring></argsstring>
+        <name>ebu_row_precharge_time_counter</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(CRP) Number of NOP cycles inserted after a precharge command: Insert CRP + 1 NOP cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="849" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="849" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aae8c10215b40bfa05e253859f8182642" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_auto_refresh</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_auto_refresh</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If 1, an auto refresh cycle will be performed; If 0, no refresh will be performed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="969" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="969" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a1efe25dc0b5e60a651e99cb7f352ac79" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_auto_self_refresh</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_auto_self_refresh</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If 1, memory controller will automatically issue the &quot;self refresh
+entry&quot; command to all SDRAM devices when it gives up control of the external bus. It will also automatically issue &quot;self refresh exit&quot; when it regains control of the bus </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="955" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="955" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a454cde2e634f6d533904fe35c9fea0b9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_burst_length</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_burst_length</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of locations can be accessed with a single command </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="898" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="898" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a78cd743c02cb5db5551dfa8d98fc24b9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_casclk_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_casclk_mode</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of clocks between a READ command and the availability of data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="904" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="904" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a6ab4b3b207606794c3409ced7ca4567f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_clk_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_clk_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDRAM clock mode select </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="886" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="886" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a5f17ed98d3a8d59ec6aa180224110c08" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_clk_output</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_clk_output</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable SDRAM clock output </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="878" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="878" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ad8499e170147036dfb7298ba352c4899" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_cold_start</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_cold_start</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cold start </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="909" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="909" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aa11c9f4cc67b1f89d257ab28cd9a22f0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_delay_on_power_down_exit</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_delay_on_power_down_exit</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of NOPs after the SDRAM controller exits power down before an active command is permitted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="974" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="974" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1abedf8afc03ffa1d42fe82019641d0dc4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_extended_operation_bank_select</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_extended_operation_bank_select</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Value to be written to the bank select pins of a mobile SDRAM device during an extended mode register write operation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="919" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="919" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1accfdeb761752180bb9e473755827cb62" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_extended_operation_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_extended_operation_mode</name>
+        <bitfield> 12</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Value to be written to the extended mode register of a mobile SDRAM device </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="914" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="914" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ae4ad4fdb0be155ef9783237535ab36e9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_extended_refresh_counter_period</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_extended_refresh_counter_period</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extended number of refresh counter period </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="959" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="959" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a92715b692e7835e6cd5296215adc8f4a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_mask_for_bank_tag</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_mask_for_bank_tag</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mask for bank tag </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="870" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="870" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a21f6ab94fb555eba343580f21ed5c900" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_mask_for_row_tag</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_mask_for_row_tag</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Mask for row tag </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="866" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="866" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a98d36da29f058438e3b0c1f6275ae52e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_num_refresh_cmnds</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_num_refresh_cmnds</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of refresh commands </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="936" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="936" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a2e58fcd8cb208b2747e2860437da3a01" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_num_refresh_counter_period</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_num_refresh_counter_period</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of refresh counter period: Refresh period is &apos;num_refresh_counter_period&apos; x 64 clock cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="932" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="932" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a2e2bc42e7ea4972f0a8e432652f50beb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_pwr_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_pwr_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Power Save Mode used for gated clock mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="882" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="882" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ae324a28fac6e271db6bd1c558b50f3cb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_row_cycle_time_counter</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_row_cycle_time_counter</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Row cycle time counter: Insert (CRCE * 8) + CRC + 1 NOP cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="862" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="862" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a2ac2607b97cd2ae9e2ee54ca37813adf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_row_cycle_time_counter_extension</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_row_cycle_time_counter_extension</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extension to the Row cycle time counter (CRCE) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="874" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="874" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a7363a4776d2a2b58c0bbd07c96704154" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_row_to_column_delay_counter</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_row_to_column_delay_counter</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(CRCD) Number of NOP cycles between a row address and a column address: Insert CRCD + 1 NOP cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="858" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="858" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a333aadd878f5dfa3080070b1830ffbf7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_self_refresh_entry</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_self_refresh_entry</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If &quot;1&quot;, the self refresh entry command is issued to all SDRAM devices, regardless regardless of their attachment to type 0 or type 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="948" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="948" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aa8bb194d7daa87ead2c4f7b165ace59b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_self_refresh_exit</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_self_refresh_exit</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If 1, the self refresh exit command is issued to all SDRAM devices regardless of their attachment to type 0 or type 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="942" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="942" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ab84982ac7e0b1f07961445d8efaafad2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_self_refresh_exit_delay</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_self_refresh_exit_delay</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of NOP cycles inserted after a self refresh exit before a command is permitted to the SDRAM/DDRAM </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="964" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="964" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a4ada8d7b61edbb0403745b63c6c57692" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_sdram_width_of_column_address</definition>
+        <argsstring></argsstring>
+        <name>ebu_sdram_width_of_column_address</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of address bits from bit 0 to be used for column address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="853" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="853" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw0</definition>
+        <argsstring></argsstring>
+        <name>raw0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="827" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="827" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1acbe7c18e421b751048bd70d61fa08577" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw1</definition>
+        <argsstring></argsstring>
+        <name>raw1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="892" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="892" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aed4a46abac796144f25cb0c926fc788f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw2</definition>
+        <argsstring></argsstring>
+        <name>raw2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="925" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="925" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>SDRAM configuration structure <linebreak/>
+</para>
+<para>The structure is a placeholder for setting (and obtaining) the SDRAM configuration, operation mode configuration and the right refresh parameters. The <ref refid="group___e_b_u_1gae530a04a7bc98515bed866feb8dc521a" kindref="member">XMC_EBU_ConfigureSdram()</ref> can be used to populate the structure with the SDRAM operation mode and refresh parameters configuration. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="823" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="822" bodyend="978"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1af4e565ca82d73897629a7dbf737c5462" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_init_refresh_commands_counter</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a40fe29a2c5bccc5cfd0e392ac04bbcc8" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_mode_register_set_up_time</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a4d056c9e4519ced599b69c3b1f0fcad2" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_row_precharge_delay_counter</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a3409310c7a4d0a8091ad28d49e6a4852" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_row_precharge_time_counter</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aae8c10215b40bfa05e253859f8182642" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_auto_refresh</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a1efe25dc0b5e60a651e99cb7f352ac79" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_auto_self_refresh</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a454cde2e634f6d533904fe35c9fea0b9" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_burst_length</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a78cd743c02cb5db5551dfa8d98fc24b9" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_casclk_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a6ab4b3b207606794c3409ced7ca4567f" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_clk_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a5f17ed98d3a8d59ec6aa180224110c08" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_clk_output</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ad8499e170147036dfb7298ba352c4899" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_cold_start</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aa11c9f4cc67b1f89d257ab28cd9a22f0" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_delay_on_power_down_exit</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1abedf8afc03ffa1d42fe82019641d0dc4" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_extended_operation_bank_select</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1accfdeb761752180bb9e473755827cb62" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_extended_operation_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ae4ad4fdb0be155ef9783237535ab36e9" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_extended_refresh_counter_period</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a92715b692e7835e6cd5296215adc8f4a" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_mask_for_bank_tag</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a21f6ab94fb555eba343580f21ed5c900" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_mask_for_row_tag</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a98d36da29f058438e3b0c1f6275ae52e" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_num_refresh_cmnds</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a2e58fcd8cb208b2747e2860437da3a01" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_num_refresh_counter_period</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a2e2bc42e7ea4972f0a8e432652f50beb" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_pwr_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ae324a28fac6e271db6bd1c558b50f3cb" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_row_cycle_time_counter</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a2ac2607b97cd2ae9e2ee54ca37813adf" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_row_cycle_time_counter_extension</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a7363a4776d2a2b58c0bbd07c96704154" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_row_to_column_delay_counter</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a333aadd878f5dfa3080070b1830ffbf7" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_self_refresh_entry</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aa8bb194d7daa87ead2c4f7b165ace59b" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_self_refresh_exit</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1ab84982ac7e0b1f07961445d8efaafad2" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_self_refresh_exit_delay</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a4ada8d7b61edbb0403745b63c6c57692" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>ebu_sdram_width_of_column_address</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>raw0</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1acbe7c18e421b751048bd70d61fa08577" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>raw1</name></member>
+      <member refid="struct_x_m_c___e_b_u___s_d_r_a_m___c_o_n_f_i_g__t_1aed4a46abac796144f25cb0c926fc788f" prot="public" virt="non-virtual"><scope>XMC_EBU_SDRAM_CONFIG_t</scope><name>raw2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

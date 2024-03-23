@@ -13,13 +13,13 @@ The ``buzzer`` module is used to control the amplitude and frequency of a buzzer
 Functions
 ---------
 
-.. function:: buzzer.freq(freq)
+.. function:: freq(freq)
 
    Sets the buzzer frequency independently of the volume.
 
    ``freq`` any frequency to drive the buzzer at.
 
-.. function:: buzzer.duty(duty)
+.. function:: duty(duty)
 
    Sets the buzzer duty cycle independently of the frequency.
 
@@ -28,6 +28,6 @@ Functions
 Constants
 ---------
 
-.. data:: buzzer.RESONANT_FREQ
+.. data:: RESONANT_FREQ
 
    Constant definting the highest volume frequency of the buzzer (typically 4000 Hz).

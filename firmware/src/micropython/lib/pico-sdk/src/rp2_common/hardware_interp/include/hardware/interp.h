@@ -296,7 +296,7 @@ static inline void interp_set_config(interp_hw_t *interp, uint lane, interp_conf
  */
 static inline void interp_set_force_bits(interp_hw_t *interp, uint lane, uint bits) {
     // note cannot use hw_set_bits on SIO
-    interp->ctrl[lane] |= (bits << SIO_INTERP0_CTRL_LANE0_FORCE_MSB_LSB);
+    interp->ctrl[lane] = interp->ctrl[lane] | (bits << SIO_INTERP0_CTRL_LANE0_FORCE_MSB_LSB);
 }
 
 typedef struct {
@@ -432,7 +432,6 @@ static inline uint32_t interp_peek_full_result(interp_hw_t *interp) {
  * \param interp Interpolator instance, interp0 or interp1.
  * \param lane The lane number, 0 or 1
  * \param val Value to add
- * \return The content of the FULL register
  */
 static inline void interp_add_accumulater(interp_hw_t *interp, uint lane, uint32_t val) {
     interp->add_raw[lane] = val;

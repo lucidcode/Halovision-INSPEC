@@ -1,0 +1,508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___p_a_u" kind="group">
+    <compoundname>PAU</compoundname>
+    <title>Peripheral Access Unit (PAU)</title>
+    <innerclass refid="struct_x_m_c___p_a_u__t" prot="public">XMC_PAU_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_PAU_PERIPHERAL_t</name>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194abbb2b95cb95ef6361428604c847e0edd" prot="public">
+          <name>XMC_PAU_PERIPHERAL_FLASH</name>
+          <initializer>= PAU_PRIVDIS0_PDIS2_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Flash SFRs Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194ac75e2d5fd10024a794d5dd671648bdae" prot="public">
+          <name>XMC_PAU_PERIPHERAL_RAM_BLOCK1</name>
+          <initializer>= PAU_PRIVDIS0_PDIS5_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RAM Block 1 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194aceda4b2b2355e6492224ee9ed80cbe67" prot="public">
+          <name>XMC_PAU_PERIPHERAL_RAM_BLOCK2</name>
+          <initializer>= PAU_PRIVDIS0_PDIS6_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RAM Block 2 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194ac300e74d5bfc21040f1609c1f5587230" prot="public">
+          <name>XMC_PAU_PERIPHERAL_RAM_BLOCK3</name>
+          <initializer>= PAU_PRIVDIS0_PDIS7_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>RAM Block 3 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a47dea6b7ed292bb52abdae44f3d0309d" prot="public">
+          <name>XMC_PAU_PERIPHERAL_MATH_GLOBAL_AND_DIV</name>
+          <initializer>= PAU_PRIVDIS0_PDIS20_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>MATH Global SFRs and Divider Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a316dfa779c6203dd7a28c80292015a0b" prot="public">
+          <name>XMC_PAU_PERIPHERAL_MATH_CORDIC</name>
+          <initializer>= PAU_PRIVDIS0_PDIS21_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>MATH CORDIC Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a9974560db824526fc57f915f3e1b368d" prot="public">
+          <name>XMC_PAU_PERIPHERAL_USIC0_CH0</name>
+          <initializer>= PAU_PRIVDIS1_PDIS0_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USIC0 Channel 0 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194acca0051c22957baa429a12e7fcb093b2" prot="public">
+          <name>XMC_PAU_PERIPHERAL_USIC0_CH1</name>
+          <initializer>= PAU_PRIVDIS1_PDIS1_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USIC0 Channel 1 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194ad0b10eb53fc58500bb05ba77a243470f" prot="public">
+          <name>XMC_PAU_PERIPHERAL_USIC1_CH0</name>
+          <initializer>= PAU_PRIVDIS1_PDIS16_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USIC1 Channel 0 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a56ec50ca40fca5dd74644941eb9c5720" prot="public">
+          <name>XMC_PAU_PERIPHERAL_USIC1_CH1</name>
+          <initializer>= PAU_PRIVDIS1_PDIS17_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USIC1 Channel 1 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a94956048a1362999ae8e1b3c29257853" prot="public">
+          <name>XMC_PAU_PERIPHERAL_PRNG</name>
+          <initializer>= PAU_AVAIL1_AVAIL4_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>PRNG Availability Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194adbca4b47a1fcd07e2f48fb8909ddb565" prot="public">
+          <name>XMC_PAU_PERIPHERAL_CCU40_CC40_AND_GLOBAL</name>
+          <initializer>= PAU_PRIVDIS1_PDIS9_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>CCU40_CC40 and CCU40 Kernel SFRs Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194aaf0078f02cc06126926d6294b5c96272" prot="public">
+          <name>XMC_PAU_PERIPHERAL_CCU41_CC40_AND_GLOBAL</name>
+          <initializer>= PAU_PRIVDIS1_PDIS25_Msk | 0x10000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>CCU41_CC40 and CCU41 Kernel SFRs Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a55d115357c236c3b65a6e6d04de0a435" prot="public">
+          <name>XMC_PAU_PERIPHERAL_CCU80_CC80_AND_GLOBAL</name>
+          <initializer>= PAU_PRIVDIS2_PDIS0_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>CCU80_CC80 and CCU80 Kernel SFRs Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a5922761ebfe6d1189b55ac932b8b8d9c" prot="public">
+          <name>XMC_PAU_PERIPHERAL_CCU81_CC80_AND_GLOBAL</name>
+          <initializer>= PAU_PRIVDIS2_PDIS16_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>CCU81_CC80 and CCU81 Kernel SFRs Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a3c0ab64ba24f16c33bb444c3b6f4565f" prot="public">
+          <name>XMC_PAU_PERIPHERAL_POSIF0</name>
+          <initializer>= PAU_PRIVDIS2_PDIS12_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>POSIF0 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194af62d9bb5fa15403fbb4453819956fcf8" prot="public">
+          <name>XMC_PAU_PERIPHERAL_POSIF1</name>
+          <initializer>= PAU_PRIVDIS2_PDIS28_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>POSIF1 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a1931f2a4e3613bdd0cf65dfd67fe38de" prot="public">
+          <name>XMC_PAU_PERIPHERAL_LEDTS0</name>
+          <initializer>= PAU_PRIVDIS2_PDIS13_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>LEDTS0 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a14b4f60b24f6380ea83614aacf6971c0" prot="public">
+          <name>XMC_PAU_PERIPHERAL_LEDTS1</name>
+          <initializer>= PAU_PRIVDIS2_PDIS14_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>LEDTS1 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194ad0cab829967e99f633dc4f2402c48a2f" prot="public">
+          <name>XMC_PAU_PERIPHERAL_LEDTS2</name>
+          <initializer>= PAU_PRIVDIS2_PDIS29_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>LEDTS2 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194ac8bdb27ba6516a237627b051016af497" prot="public">
+          <name>XMC_PAU_PERIPHERAL_BCCU0</name>
+          <initializer>= PAU_PRIVDIS2_PDIS15_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>BCCU0 Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga02b04cbd81dc39714020749abb0cf194a46c59dc7a7824251cc1a2a6b8e750c03" prot="public">
+          <name>XMC_PAU_PERIPHERAL_MCAN_OBJECTS</name>
+          <initializer>= PAU_PRIVDIS2_PDIS28_Msk | 0x20000000U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>MCAN Message Objects Privilege Disable Flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PAU peripheral select </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="114" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="113" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_a_u_1ga1ee3b9e78e198fcb50a3a25258290ed8" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_PAU_STATUS_t</name>
+        <enumvalue id="group___p_a_u_1gga1ee3b9e78e198fcb50a3a25258290ed8a8f3b25165bf9d1347d4ee1b8a47fe4b2" prot="public">
+          <name>XMC_PAU_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation successful </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga1ee3b9e78e198fcb50a3a25258290ed8a923f505198844fc1c25ef47d444bbda3" prot="public">
+          <name>XMC_PAU_STATUS_BUSY</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Busy with a previous request </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_a_u_1gga1ee3b9e78e198fcb50a3a25258290ed8a14bf7febfd7d24eb1f7d075a42f2c0e8" prot="public">
+          <name>XMC_PAU_STATUS_ERROR</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation unsuccessful </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status return values for PAU low level driver </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="104" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="103" bodyend="108"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___p_a_u_1ga01feaa2ceb4268cfec5c8b8349194611" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_PAU_DisablePeripheralAccess</definition>
+        <argsstring>(XMC_PAU_PERIPHERAL_t peripheral)</argsstring>
+        <name>XMC_PAU_DisablePeripheralAccess</name>
+        <param>
+          <type><ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peripheral of type <ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref> for which access needs to be disabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable the peripheral access <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the PRIVDISx.PDISy bit to disable the access to the registers of a peripheral during run time. An access to a disabled or unassigned address location generates a hardfault exception.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_a_u_1ga7abe9d04ce8ba287e1128801b723b457" kindref="member">XMC_PAU_EnablePeripheralAccess()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="308" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_a_u_1ga7abe9d04ce8ba287e1128801b723b457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_PAU_EnablePeripheralAccess</definition>
+        <argsstring>(XMC_PAU_PERIPHERAL_t peripheral)</argsstring>
+        <name>XMC_PAU_EnablePeripheralAccess</name>
+        <param>
+          <type><ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peripheral of type <ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref> for which access needs to be enabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable the peripheral access <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the PRIVDISx.PDISy bit to enable the access to the registers of a peripheral during run time.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_a_u_1ga01feaa2ceb4268cfec5c8b8349194611" kindref="member">XMC_PAU_DisablePeripheralAccess()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="291" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_a_u_1ga44ef1042f01f1d738766bece457f914e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_PAU_GetFlashSize</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PAU_GetFlashSize</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Returns flash size</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the flash size <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the FLSIZE.ADDR bitfield to indicate the available size of FLASH in the device in Kbytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="362" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="362" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_a_u_1gadf5baa73b031d6225e3bd777dee91303" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_PAU_GetRAMSize</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PAU_GetRAMSize</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Returns RAM size</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets RAM size <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the RAM0SIZE.ADDR bitfield to indicate the available size of RAM in the device in bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="376" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="376" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_a_u_1ga8730363d9dd4777a185f797a25fcefe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_PAU_GetROMSize</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_PAU_GetROMSize</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t Returns ROM size</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Gets the ROM size <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the ROMSIZE.ADDR bitfield to indicate the available size of ROM in the device in bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="348" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="348" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_a_u_1ga52443d9f517f71027ad92876a8eab449" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_PAU_IsPeripheralAccessEnabled</definition>
+        <argsstring>(XMC_PAU_PERIPHERAL_t peripheral)</argsstring>
+        <name>XMC_PAU_IsPeripheralAccessEnabled</name>
+        <param>
+          <type><ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peripheral of type <ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref> for which access enabled status to be checked </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool &quot;false&quot; if peripheral access is enabled, &quot;true&quot; otherwise</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Checks if the peripheral access is enabled or not <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the PRIVDISx.PDISy bit to know whether the access to the registers of a peripheral during run time is enabled or not.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_a_u_1ga01feaa2ceb4268cfec5c8b8349194611" kindref="member">XMC_PAU_DisablePeripheralAccess()</ref>, <ref refid="group___p_a_u_1ga7abe9d04ce8ba287e1128801b723b457" kindref="member">XMC_PAU_EnablePeripheralAccess()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="324" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_a_u_1gabf6db7229473508b4e193ce30b4793c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_PAU_IsPeripheralAvailable</definition>
+        <argsstring>(XMC_PAU_PERIPHERAL_t peripheral)</argsstring>
+        <name>XMC_PAU_IsPeripheralAvailable</name>
+        <param>
+          <type><ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref></type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peripheral of type <ref refid="group___p_a_u_1ga02b04cbd81dc39714020749abb0cf194" kindref="member">XMC_PAU_PERIPHERAL_t</ref> for which access needs to be disabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Returns &quot;true&quot; if peripheral is available, &quot;false&quot; otherwise</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Checks if a peripheral is available or not <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function checks the AVAILx.AVAILy bit to know whether the peripheral is available or not for the particular device variant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="337" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___p_a_u_1ga36591736444bb39705e087ab5ebd1066" prot="public" static="no">
+        <name>XMC_PAU</name>
+        <initializer>((<ref refid="struct_x_m_c___p_a_u__t" kindref="compound">XMC_PAU_t</ref> *) PAU_BASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A convenient symbol for the PAU peripheral base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="89" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___p_a_u_1ga50bd40e331a3b70cd3cc702f42754ea8" prot="public" static="no">
+        <name>XMC_PAU_CHECK_MODULE_PTR</name>
+        <param><defname>p</defname></param>
+        <initializer>((p) == <ref refid="group___p_a_u_1ga36591736444bb39705e087ab5ebd1066" kindref="member">XMC_PAU</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" line="94" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_pau.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Peripheral Access Unit (PAU) driver for the XMC1000 microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The Peripheral Access Unit (PAU) supports access control of memories and peripherals. It allows user application to enable/disable the access to the registers of a peripheral. It generates a HardFault exception when there is an access to a disabled or unassigned address location. It also provides information on the availability of peripherals and sizes of memories.</para>
+<para>The PAU low level driver provides functions to check the availability of peripherals and to enable/disable peripheral access. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

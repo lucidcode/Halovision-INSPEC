@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___r_e_g_i_o_n__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_REGION_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___r_e_g_i_o_n__t_1a05e428245192f47f12726e31cfab1ed7" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_b_u___r_e_g_i_o_n___r_e_a_d___c_o_n_f_i_g__t" kindref="compound">XMC_EBU_REGION_READ_CONFIG_t</ref></type>
+        <definition>XMC_EBU_REGION_READ_CONFIG_t read_config</definition>
+        <argsstring></argsstring>
+        <name>read_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1024" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1024" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___r_e_g_i_o_n__t_1a5ae1c336cade6c9cd8701494a9dda997" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___e_b_u___r_e_g_i_o_n___w_r_i_t_e___c_o_n_f_i_g__t" kindref="compound">XMC_EBU_REGION_WRITE_CONFIG_t</ref></type>
+        <definition>XMC_EBU_REGION_WRITE_CONFIG_t write_config</definition>
+        <argsstring></argsstring>
+        <name>write_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1025" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1025" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>EBU region initialization with read and write configurations <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the read, read timing, write and write timing configurations for a region of EBU. The <ref refid="group___e_b_u_1ga61dac3f06d3abac9b1ef8eb99532cb7b" kindref="member">XMC_EBU_ConfigureRegion()</ref> can be used to populate the structure with the region read and write configuration values of EBU. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="77">
+        <label>XMC_EBU_REGION_READ_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___r_e_g_i_o_n___r_e_a_d___c_o_n_f_i_g__t"/>
+        <childnode refid="78" relation="usage">
+          <edgelabel>ebu_bus_read_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="78">
+        <label>XMC_EBU_BUS_READ_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="80">
+        <label>XMC_EBU_BUS_WRITE_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___b_u_s___w_r_i_t_e___c_o_n_f_i_g__t"/>
+      </node>
+      <node id="79">
+        <label>XMC_EBU_REGION_WRITE_CONFIG_t</label>
+        <link refid="struct_x_m_c___e_b_u___r_e_g_i_o_n___w_r_i_t_e___c_o_n_f_i_g__t"/>
+        <childnode refid="80" relation="usage">
+          <edgelabel>ebu_bus_write_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="76">
+        <label>XMC_EBU_REGION_t</label>
+        <link refid="struct_x_m_c___e_b_u___r_e_g_i_o_n__t"/>
+        <childnode refid="77" relation="usage">
+          <edgelabel>read_config</edgelabel>
+        </childnode>
+        <childnode refid="79" relation="usage">
+          <edgelabel>write_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="1023" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="1022" bodyend="1026"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___r_e_g_i_o_n__t_1a05e428245192f47f12726e31cfab1ed7" prot="public" virt="non-virtual"><scope>XMC_EBU_REGION_t</scope><name>read_config</name></member>
+      <member refid="struct_x_m_c___e_b_u___r_e_g_i_o_n__t_1a5ae1c336cade6c9cd8701494a9dda997" prot="public" virt="non-virtual"><scope>XMC_EBU_REGION_t</scope><name>write_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_VADC_QUEUE_ENTRY_t</compoundname>
+    <includes local="no">xmc_vadc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a5441ab9a291cf86dd32d7069cd839345" prot="public" static="no" mutable="no">
+        <type>union XMC_VADC_QUEUE_ENTRY_t::@287</type>
+        <definition>union XMC_VADC_QUEUE_ENTRY_t::@287 @288</definition>
+        <argsstring></argsstring>
+        <name>@288</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="977" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 24</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="973" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="973" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a3566d5e4a8a1e89ae07bb668852a5e3d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t channel_num</definition>
+        <argsstring></argsstring>
+        <name>channel_num</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Channel number associated with this queue entry.<linebreak/>
+Range:[0x0 to 0x7] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="969" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="969" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a0a364133ff7f3b087ce66910e7571c4b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t external_trigger</definition>
+        <argsstring></argsstring>
+        <name>external_trigger</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conversion requests are raised on an external trigger. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="972" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="972" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1adb3d404be230a38e8f5525f0658cee60" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t generate_interrupt</definition>
+        <argsstring></argsstring>
+        <name>generate_interrupt</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Generates a queue request source event </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="971" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="971" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a7802f5de75372308b3f5327c53fce438" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t qinr0</definition>
+        <argsstring></argsstring>
+        <name>qinr0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="976" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="976" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1aeb35d8472e07362c072365a93ae862f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t refill_needed</definition>
+        <argsstring></argsstring>
+        <name>refill_needed</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conversion completed channel gets inserted back into the queue </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="970" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="970" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure to initialize a queue entry. Use type <ref refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t" kindref="compound">XMC_VADC_QUEUE_ENTRY_t</ref>. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" line="964" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_vadc.h" bodystart="963" bodyend="978"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_VADC_QUEUE_ENTRY_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a3566d5e4a8a1e89ae07bb668852a5e3d" prot="public" virt="non-virtual"><scope>XMC_VADC_QUEUE_ENTRY_t</scope><name>channel_num</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a0a364133ff7f3b087ce66910e7571c4b" prot="public" virt="non-virtual"><scope>XMC_VADC_QUEUE_ENTRY_t</scope><name>external_trigger</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1adb3d404be230a38e8f5525f0658cee60" prot="public" virt="non-virtual"><scope>XMC_VADC_QUEUE_ENTRY_t</scope><name>generate_interrupt</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1a7802f5de75372308b3f5327c53fce438" prot="public" virt="non-virtual"><scope>XMC_VADC_QUEUE_ENTRY_t</scope><name>qinr0</name></member>
+      <member refid="struct_x_m_c___v_a_d_c___q_u_e_u_e___e_n_t_r_y__t_1aeb35d8472e07362c072365a93ae862f5" prot="public" virt="non-virtual"><scope>XMC_VADC_QUEUE_ENTRY_t</scope><name>refill_needed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

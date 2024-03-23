@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_HRPWM_CSG_SGEN_t</compoundname>
+    <includes local="no">xmc_hrpwm.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a46d1293d4f7df69fb53eedd0d6149d06" prot="public" static="no" mutable="no">
+        <type>union XMC_HRPWM_CSG_SGEN_t::@201</type>
+        <definition>union XMC_HRPWM_CSG_SGEN_t::@201 @202</definition>
+        <argsstring></argsstring>
+        <name>@202</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="846" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="832" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="832" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="837" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="837" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="841" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="841" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad3__</definition>
+        <argsstring></argsstring>
+        <name>__pad3__</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="843" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="843" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a6b5a96cea1fb16b478c1be5b8578b95e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ctrl_mode</definition>
+        <argsstring></argsstring>
+        <name>ctrl_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope control mode. Accepts enum XMC_HRPWM_CSG_SLOPE_CTRL_MODE_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="833" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="833" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a8095b0d8a6e49f93b1350f1f82a0cf97" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ext_start_mode</definition>
+        <argsstring></argsstring>
+        <name>ext_start_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope external start mode. Accepts enum XMC_HRPWM_CSG_SLOPE_EXT_START_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="834" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="834" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1aa0e29797fe04d022d8f8f98c71ce89b2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ext_stop_mode</definition>
+        <argsstring></argsstring>
+        <name>ext_stop_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope external stop mode. Accepts enum XMC_HRPWM_CSG_SLOPE_EXT_STOP_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="835" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="835" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1ac1d0dd74a2ca774ebdc0a7a7fd9f8775" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fixed_prescaler_enable</definition>
+        <argsstring></argsstring>
+        <name>fixed_prescaler_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fixed pre-scaler, 0:enabled, 1:disabled </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="830" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="830" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a9eb1672151cfde78992de59d38b1c0a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t prescaler</definition>
+        <argsstring></argsstring>
+        <name>prescaler</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-scaler division factor </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="831" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="831" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a569dad4ce10330bc332aacfd6533e44f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t prescaler_ext_start_mode</definition>
+        <argsstring></argsstring>
+        <name>prescaler_ext_start_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-scaler external start mode. Accepts enum XMC_HRPWM_CSG_PRESCALER_EXT_START_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="828" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="828" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1af80d92b2de6918b01d3f2274b61f085f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t prescaler_ext_stop_mode</definition>
+        <argsstring></argsstring>
+        <name>prescaler_ext_stop_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-scaler external stop mode. Accepts enum XMC_HRPWM_CSG_PRESCALER_EXT_STOP_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="829" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="829" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1acf9ecc2a2427db187ea8834989637111" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pulse_swallow_enable</definition>
+        <argsstring></argsstring>
+        <name>pulse_swallow_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pulse swallow enable / disable. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="840" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="840" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a3a95c19964e3062ad03cc0c1698b1aa1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pulse_swallow_val</definition>
+        <argsstring></argsstring>
+        <name>pulse_swallow_val</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pulse swallow value </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="847" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="847" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a437c03fed7439dfaea0decb3e398ba84" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pulse_swallow_win_mode</definition>
+        <argsstring></argsstring>
+        <name>pulse_swallow_win_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pulse swallow window mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="842" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="842" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a0bfe55eede93a5e4147b89cccb22b136" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sc</definition>
+        <argsstring></argsstring>
+        <name>sc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope Generation Configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="845" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="845" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a293cc3f3147e34019d14d9d9107d093f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t slope_ref_val_mode</definition>
+        <argsstring></argsstring>
+        <name>slope_ref_val_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope reference value mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="836" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="836" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1ab7a61852daea4dcad32f54abf86ce577" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t static_mode_ist_enable</definition>
+        <argsstring></argsstring>
+        <name>static_mode_ist_enable</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Immediate shadow transfer in static mode enabled. Accepts enum XMC_HRPWM_FUNC_STATUS_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="839" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="839" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1aceaf865a696d43bed56375dbf353ea1c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t step_gain</definition>
+        <argsstring></argsstring>
+        <name>step_gain</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope step gain configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="838" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="838" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>CSG Unit - Slope Generation configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="823" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="822" bodyend="848"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a4854608c0e776f0704a4d9a4b98ea57d" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>__pad3__</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a6b5a96cea1fb16b478c1be5b8578b95e" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>ctrl_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a8095b0d8a6e49f93b1350f1f82a0cf97" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>ext_start_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1aa0e29797fe04d022d8f8f98c71ce89b2" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>ext_stop_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1ac1d0dd74a2ca774ebdc0a7a7fd9f8775" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>fixed_prescaler_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a9eb1672151cfde78992de59d38b1c0a7" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>prescaler</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a569dad4ce10330bc332aacfd6533e44f" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>prescaler_ext_start_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1af80d92b2de6918b01d3f2274b61f085f" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>prescaler_ext_stop_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1acf9ecc2a2427db187ea8834989637111" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>pulse_swallow_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a3a95c19964e3062ad03cc0c1698b1aa1" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>pulse_swallow_val</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a437c03fed7439dfaea0decb3e398ba84" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>pulse_swallow_win_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a0bfe55eede93a5e4147b89cccb22b136" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>sc</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1a293cc3f3147e34019d14d9d9107d093f" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>slope_ref_val_mode</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1ab7a61852daea4dcad32f54abf86ce577" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>static_mode_ist_enable</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t_1aceaf865a696d43bed56375dbf353ea1c" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_SGEN_t</scope><name>step_gain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -3,21 +3,20 @@
 
 #define MICROPY_EMIT_THUMB          (0)
 #define MICROPY_EMIT_INLINE_THUMB   (0)
+#define MICROPY_OPT_COMPUTED_GOTO   (0)
 #define MICROPY_PY_BUILTINS_COMPLEX (0)
 #define MICROPY_PY_GENERATOR_PEND_THROW (0)
-#define MICROPY_PY_USOCKET          (0)
+#define MICROPY_PY_SOCKET           (0)
 #define MICROPY_PY_NETWORK          (0)
 #define MICROPY_PY_ONEWIRE          (0)
 #define MICROPY_PY_STM              (0)
 #define MICROPY_PY_PYB_LEGACY       (0)
-#define MICROPY_PY_UHEAPQ           (0)
-#define MICROPY_PY_UTIMEQ           (0)
+#define MICROPY_PY_HEAPQ            (0)
 
 #define MICROPY_HW_ENABLE_RTC       (1)
 #define MICROPY_HW_ENABLE_ADC       (1)
 #define MICROPY_HW_ENABLE_DAC       (1)
 #define MICROPY_HW_ENABLE_USB       (0) // requires a custom USB connector on PA11/PA12
-#define MICROPY_HW_ENABLE_TIMER     (1)
 #define MICROPY_HW_HAS_SWITCH       (0)
 #define MICROPY_HW_HAS_FLASH        (1)
 

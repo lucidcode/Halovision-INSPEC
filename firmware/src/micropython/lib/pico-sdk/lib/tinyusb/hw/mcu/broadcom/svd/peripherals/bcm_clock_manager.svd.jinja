@@ -1,0 +1,113 @@
+{% macro peripheral(name, base_address) -%}
+    <peripheral>
+      <name>{{ name }}</name>
+      <description>Broadcom Clock Manager</description>
+      <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+      <addressBlock>
+        <offset>0x0</offset>
+        <size>0x8</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>CS</name>
+          <description>Control / Status</description>
+          <addressOffset>0x00</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>PASSWD</name>
+              <description>Password. Always 0x5a</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+              <access>write-only</access>
+              <enumeratedValues>
+                <enumeratedValue><name>PASSWD</name><value>0x5a</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>MASH</name>
+              <description>MASH control, stage count</description>
+              <bitOffset>9</bitOffset>
+              <bitWidth>2</bitWidth>
+            </field>
+            <field>
+              <name>FLIP</name>
+              <description>Generate an edge on output. (For testing)</description>
+              <bitOffset>8</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>BUSY</name>
+              <description>Indicates the clock generator is running</description>
+              <bitOffset>7</bitOffset>
+              <bitWidth>1</bitWidth>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>KILL</name>
+              <description>Stop and reset the generator</description>
+              <bitOffset>5</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>ENAB</name>
+              <description>Enable the clock generator. (Switch SRC first.)</description>
+              <bitOffset>4</bitOffset>
+              <bitWidth>1</bitWidth>
+            </field>
+            <field>
+              <name>SRC</name>
+              <description>Clock source</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>4</bitWidth>
+              <enumeratedValues>
+                <enumeratedValue><name>GND</name><isDefault>true</isDefault></enumeratedValue>
+                <enumeratedValue><name>XOSC</name><value>1</value></enumeratedValue>
+                <enumeratedValue><name>TEST0</name><value>2</value></enumeratedValue>
+                <enumeratedValue><name>TEST1</name><value>3</value></enumeratedValue>
+                <enumeratedValue><name>PLLA</name><value>4</value></enumeratedValue>
+                <enumeratedValue><name>PLLB</name><value>5</value></enumeratedValue>
+                <enumeratedValue><name>PLLC</name><value>6</value></enumeratedValue>
+                <enumeratedValue><name>HDMI</name><value>7</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>DIV</name>
+          <description>Clock divisor</description>
+          <addressOffset>0x04</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x00000000</resetValue>
+          <fields>
+            <field>
+              <name>PASSWD</name>
+              <description>Password. Always 0x5a</description>
+              <bitOffset>24</bitOffset>
+              <bitWidth>8</bitWidth>
+              <access>write-only</access>
+              <enumeratedValues>
+                <enumeratedValue><name>PASSWD</name><value>0x5a</value></enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>DIVI</name>
+              <description>Integer part of divisor</description>
+              <bitOffset>12</bitOffset>
+              <bitWidth>12</bitWidth>
+            </field>
+            <field>
+              <name>DIVF</name>
+              <description>Fractional part of divisor</description>
+              <bitOffset>0</bitOffset>
+              <bitWidth>12</bitWidth>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+{% endmacro %}

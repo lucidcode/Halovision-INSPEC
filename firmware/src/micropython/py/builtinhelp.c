@@ -67,10 +67,10 @@ STATIC void mp_help_add_from_map(mp_obj_t list, const mp_map_t *map) {
 #if MICROPY_MODULE_FROZEN
 STATIC void mp_help_add_from_names(mp_obj_t list, const char *name) {
     while (*name) {
-        size_t l = strlen(name);
+        size_t len = strlen(name);
         // name should end in '.py' and we strip it off
-        mp_obj_list_append(list, mp_obj_new_str(name, l - 3));
-        name += l + 1;
+        mp_obj_list_append(list, mp_obj_new_str(name, len - 3));
+        name += len + 1;
     }
 }
 #endif
@@ -79,15 +79,11 @@ STATIC void mp_help_print_modules(void) {
     mp_obj_t list = mp_obj_new_list(0, NULL);
 
     mp_help_add_from_map(list, &mp_builtin_module_map);
+    mp_help_add_from_map(list, &mp_builtin_extensible_module_map);
 
-    #if MICROPY_MODULE_FROZEN_STR
-    extern const char mp_frozen_str_names[];
-    mp_help_add_from_names(list, mp_frozen_str_names);
-    #endif
-
-    #if MICROPY_MODULE_FROZEN_MPY
-    extern const char mp_frozen_mpy_names[];
-    mp_help_add_from_names(list, mp_frozen_mpy_names);
+    #if MICROPY_MODULE_FROZEN
+    extern const char mp_frozen_names[];
+    mp_help_add_from_names(list, mp_frozen_names);
     #endif
 
     // sort the list so it's printed in alphabetical order
@@ -148,14 +144,15 @@ STATIC void mp_help_print_obj(const mp_obj_t obj) {
         if (type == &mp_type_type) {
             type = MP_OBJ_TO_PTR(obj);
         }
-        if (type->locals_dict != NULL) {
-            map = &type->locals_dict->map;
+        if (MP_OBJ_TYPE_HAS_SLOT(type, locals_dict)) {
+            map = &MP_OBJ_TYPE_GET_SLOT(type, locals_dict)->map;
         }
     }
     if (map != NULL) {
         for (uint i = 0; i < map->alloc; i++) {
-            if (map->table[i].key != MP_OBJ_NULL) {
-                mp_help_print_info_about_object(map->table[i].key, map->table[i].value);
+            mp_obj_t key = map->table[i].key;
+            if (key != MP_OBJ_NULL) {
+                mp_help_print_info_about_object(key, map->table[i].value);
             }
         }
     }

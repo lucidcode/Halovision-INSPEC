@@ -24,10 +24,8 @@
  * THE SOFTWARE.
  */
 
-#include <stdio.h>
-#include <string.h>
-
 #include "py/runtime.h"
+#include "py/mperrno.h"
 #include "py/mphal.h"
 #include "irq.h"
 #include "pin.h"
@@ -69,7 +67,7 @@
 ///
 /// You can specify a timeout (in ms):
 ///
-///     i2c.send(b'123', timeout=2000)   # timout after 2 seconds
+///     i2c.send(b'123', timeout=2000)   # timeout after 2 seconds
 ///
 /// A controller must specify the recipient's address:
 ///
@@ -130,14 +128,14 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
     #endif
 };
 
-#if defined(STM32F7) || defined(STM32L4) || defined(STM32H7)
+#if defined(STM32F7) || defined(STM32G0) || defined(STM32G4) || defined(STM32H7) || defined(STM32L4)
 
 // The STM32F0, F3, F7, H7 and L4 use a TIMINGR register rather than ClockSpeed and
 // DutyCycle.
 
 #define PYB_I2C_TIMINGR (1)
 
-#if defined(STM32F746xx)
+#if defined(STM32F745xx) || defined(STM32F746xx) || defined(STM32F756xx)
 
 // The value 0x40912732 was obtained from the DISCOVERY_I2Cx_TIMING constant
 // defined in the STM32F7Cube file Drivers/BSP/STM32F746G-Discovery/stm32f7456g_discovery.h
@@ -163,6 +161,38 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
 #define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_FULL)
 #define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_FAST)
 
+#elif defined(STM32G0)
+// generated using CubeMX
+#define MICROPY_HW_I2C_BAUDRATE_TIMING { \
+        {PYB_I2C_SPEED_STANDARD, 0x10707DBC}, \
+        {PYB_I2C_SPEED_FULL, 0x00602173}, \
+        {PYB_I2C_SPEED_FAST, 0x00300B29}, \
+}
+#define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_FULL)
+#define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_FAST)
+
+#elif defined(STM32G4)
+// timing input depends on PLL
+// for now: 170MHz sysclock, PCLK 10.625 MHz
+// using PCLOCK
+// generated using CubeMX
+#if defined(STM32G431xx) || defined(STM32G441xx)
+#define MICROPY_HW_I2C_BAUDRATE_TIMING { \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+}
+#else
+#define MICROPY_HW_I2C_BAUDRATE_TIMING { \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+        {PYB_I2C_SPEED_STANDARD, 0x30A0A7FB}, \
+}
+#endif
+#define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_STANDARD)
+#define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_STANDARD)
+
 #elif defined(STM32H7)
 
 // I2C TIMINGs obtained from the STHAL examples.
@@ -176,11 +206,14 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
 
 #elif defined(STM32L4)
 
-// The value 0x90112626 was obtained from the DISCOVERY_I2C1_TIMING constant
-// defined in the STM32L4Cube file Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.h
-#define MICROPY_HW_I2C_BAUDRATE_TIMING {{PYB_I2C_SPEED_STANDARD, 0x90112626}}
-#define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_STANDARD)
-#define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_STANDARD)
+// generated using CubeMX
+#define MICROPY_HW_I2C_BAUDRATE_TIMING { \
+        {PYB_I2C_SPEED_STANDARD, 0x10909CEC}, \
+        {PYB_I2C_SPEED_FULL, 0x00702991}, \
+        {PYB_I2C_SPEED_FAST, 0x00300F33}, \
+}
+#define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_FULL)
+#define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_FAST)
 
 #else
 #error "no I2C timings for this MCU"
@@ -255,10 +288,10 @@ void i2c_init0(void) {
     #endif
 }
 
-void pyb_i2c_init(I2C_HandleTypeDef *i2c) {
+int pyb_i2c_init(I2C_HandleTypeDef *i2c) {
     int i2c_unit;
-    const pin_obj_t *scl_pin;
-    const pin_obj_t *sda_pin;
+    const machine_pin_obj_t *scl_pin;
+    const machine_pin_obj_t *sda_pin;
 
     if (0) {
     #if defined(MICROPY_HW_I2C1_SCL)
@@ -291,7 +324,7 @@ void pyb_i2c_init(I2C_HandleTypeDef *i2c) {
     #endif
     } else {
         // I2C does not exist for this board (shouldn't get here, should be checked by caller)
-        return;
+        return -MP_EINVAL;
     }
 
     // init the GPIO lines
@@ -303,10 +336,7 @@ void pyb_i2c_init(I2C_HandleTypeDef *i2c) {
     // init the I2C device
     if (HAL_I2C_Init(i2c) != HAL_OK) {
         // init error
-        // TODO should raise an exception, but this function is not necessarily going to be
-        // called via Python, so may not be properly wrapped in an NLR handler
-        printf("OSError: HAL_I2C_Init failed\n");
-        return;
+        return -MP_EIO;
     }
 
     // invalidate the DMA channels so they are initialised on first use
@@ -336,21 +366,11 @@ void pyb_i2c_init(I2C_HandleTypeDef *i2c) {
         HAL_NVIC_EnableIRQ(I2C4_ER_IRQn);
     #endif
     }
+
+    return 0; // success
 }
 
 void i2c_deinit(I2C_HandleTypeDef *i2c) {
-    // Find and disabled the correct dma channels for the i2c bus.
-    for (int i = 0; i < (sizeof(pyb_i2c_obj) / sizeof(pyb_i2c_obj_t)); i++) {
-        if (pyb_i2c_obj[i].i2c == i2c) {
-            if (pyb_i2c_obj[i].rx_dma_descr != NULL) {
-                dma_deinit(pyb_i2c_obj[i].rx_dma_descr);
-            }
-            if (pyb_i2c_obj[i].tx_dma_descr != NULL) {
-                dma_deinit(pyb_i2c_obj[i].tx_dma_descr);
-            }
-            break;
-        }
-    }
     HAL_I2C_DeInit(i2c);
     if (0) {
     #if defined(MICROPY_HW_I2C1_SCL)
@@ -360,7 +380,6 @@ void i2c_deinit(I2C_HandleTypeDef *i2c) {
         __HAL_RCC_I2C1_CLK_DISABLE();
         HAL_NVIC_DisableIRQ(I2C1_EV_IRQn);
         HAL_NVIC_DisableIRQ(I2C1_ER_IRQn);
-        
     #endif
     #if defined(MICROPY_HW_I2C2_SCL)
     } else if (i2c->Instance == I2C2) {
@@ -398,7 +417,7 @@ void i2c_deinit_all(void) {
     }
 }
 
-void pyb_i2c_init_freq(const pyb_i2c_obj_t *self, mp_int_t freq) {
+int pyb_i2c_init_freq(const pyb_i2c_obj_t *self, mp_int_t freq) {
     I2C_InitTypeDef *init = &self->i2c->Init;
 
     init->AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -415,7 +434,7 @@ void pyb_i2c_init_freq(const pyb_i2c_obj_t *self, mp_int_t freq) {
 
     // init the I2C bus
     i2c_deinit(self->i2c);
-    pyb_i2c_init(self->i2c);
+    return pyb_i2c_init(self->i2c);
 }
 
 STATIC void i2c_reset_after_error(I2C_HandleTypeDef *i2c) {
@@ -492,8 +511,41 @@ void i2c_er_irq_handler(mp_uint_t i2c_id) {
             return;
     }
 
-    // Use the HAL's IRQ handler
+    #if defined(STM32F4)
+
+    uint32_t sr1 = hi2c->Instance->SR1;
+
+    // I2C Bus error
+    if (sr1 & I2C_FLAG_BERR) {
+        hi2c->ErrorCode |= HAL_I2C_ERROR_BERR;
+        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_BERR);
+    }
+
+    // I2C Arbitration Loss error
+    if (sr1 & I2C_FLAG_ARLO) {
+        hi2c->ErrorCode |= HAL_I2C_ERROR_ARLO;
+        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_ARLO);
+    }
+
+    // I2C Acknowledge failure
+    if (sr1 & I2C_FLAG_AF) {
+        hi2c->ErrorCode |= HAL_I2C_ERROR_AF;
+        SET_BIT(hi2c->Instance->CR1, I2C_CR1_STOP);
+        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_AF);
+    }
+
+    // I2C Over-Run/Under-Run
+    if (sr1 & I2C_FLAG_OVR) {
+        hi2c->ErrorCode |= HAL_I2C_ERROR_OVR;
+        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_OVR);
+    }
+
+    #else
+
+    // if not an F4 MCU, use the HAL's IRQ handler
     HAL_I2C_ER_IRQHandler(hi2c);
+
+    #endif
 }
 
 STATIC HAL_StatusTypeDef i2c_wait_dma_finished(I2C_HandleTypeDef *i2c, uint32_t timeout) {
@@ -616,7 +668,10 @@ STATIC mp_obj_t pyb_i2c_init_helper(const pyb_i2c_obj_t *self, size_t n_args, co
 
     // init the I2C bus
     i2c_deinit(self->i2c);
-    pyb_i2c_init(self->i2c);
+    int ret = pyb_i2c_init(self->i2c);
+    if (ret != 0) {
+        mp_raise_OSError(-ret);
+    }
 
     return mp_const_none;
 }
@@ -863,7 +918,7 @@ STATIC mp_obj_t pyb_i2c_recv(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
     if (o_ret != MP_OBJ_NULL) {
         return o_ret;
     } else {
-        return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+        return mp_obj_new_bytes_from_vstr(&vstr);
     }
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_recv_obj, 1, pyb_i2c_recv);
@@ -939,7 +994,7 @@ STATIC mp_obj_t pyb_i2c_mem_read(size_t n_args, const mp_obj_t *pos_args, mp_map
     if (o_ret != MP_OBJ_NULL) {
         return o_ret;
     } else {
-        return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+        return mp_obj_new_bytes_from_vstr(&vstr);
     }
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(pyb_i2c_mem_read_obj, 1, pyb_i2c_mem_read);
@@ -1031,12 +1086,13 @@ STATIC const mp_rom_map_elem_t pyb_i2c_locals_dict_table[] = {
 
 STATIC MP_DEFINE_CONST_DICT(pyb_i2c_locals_dict, pyb_i2c_locals_dict_table);
 
-const mp_obj_type_t pyb_i2c_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_I2C,
-    .print = pyb_i2c_print,
-    .make_new = pyb_i2c_make_new,
-    .locals_dict = (mp_obj_dict_t *)&pyb_i2c_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    pyb_i2c_type,
+    MP_QSTR_I2C,
+    MP_TYPE_FLAG_NONE,
+    make_new, pyb_i2c_make_new,
+    print, pyb_i2c_print,
+    locals_dict, &pyb_i2c_locals_dict
+    );
 
 #endif // MICROPY_PY_PYB_LEGACY && MICROPY_HW_ENABLE_HW_I2C

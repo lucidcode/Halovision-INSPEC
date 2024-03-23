@@ -1,4 +1,3 @@
-include ../../../tools/top.mk
 include ../../make.mk
 
 INC += \
@@ -6,10 +5,13 @@ INC += \
 	$(TOP)/hw \
 
 # Example source
-EXAMPLE_SOURCE += $(wildcard src/*.c)
-SRC_C += $(addprefix $(CURRENT_PATH)/, $(EXAMPLE_SOURCE))
+EXAMPLE_SOURCE = \
+  src/cdc_app.c \
+  src/hid_app.c \
+  src/main.c \
+  src/msc_app.c \
 
-CFLAGS += -Wno-error=cast-align
+SRC_C += $(addprefix $(CURRENT_PATH)/, $(EXAMPLE_SOURCE))
 
 # TinyUSB Host Stack source
 SRC_C += \
@@ -18,10 +20,7 @@ SRC_C += \
 	src/class/msc/msc_host.c \
 	src/host/hub.c \
 	src/host/usbh.c \
-	src/host/usbh_control.c \
-	src/portable/ehci/ehci.c \
 	src/portable/ohci/ohci.c \
-	src/portable/nxp/transdimension/hcd_transdimension.c \
 	src/portable/nxp/lpc17_40/hcd_lpc17_40.c
 
 include ../../rules.mk

@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_LEDTS_GLOBAL_t</compoundname>
+    <includes local="no">xmc_ledts.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1ad3606c907984ebf611645aa5bc498239" prot="public" static="no" mutable="no">
+        <type>__O uint32_t</type>
+        <definition>__O uint32_t EVFR</definition>
+        <argsstring></argsstring>
+        <name>EVFR</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x5002000C) Event Flag Register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="158" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a76cf621f36206a5fdf6b8eb228fd313d" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t FNCTL</definition>
+        <argsstring></argsstring>
+        <name>FNCTL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x50020008) Function Control Register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="157" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a5cabce3b1dc5d7055c1d8b3ddfbf1ef5" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t GLOBCTL</definition>
+        <argsstring></argsstring>
+        <name>GLOBCTL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x50020004) Global Control Register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="156" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t ID</definition>
+        <argsstring></argsstring>
+        <name>ID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x50020000) Module Identification Register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="155" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a0df70c149c31bf194ff1fd88c521a363" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t LDCMP[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>LDCMP</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x5002001C) LED Compare Register 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="161" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1ae0b99fb1c981fb35088cd22a2d5b2005" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t LINE[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>LINE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x50020014) Line Pattern Register 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="160" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1aaa2320630d02b08a446a6cf2f40874a2" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t TSCMP[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>TSCMP</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x50020024) Touch-sense Compare Register 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="162" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1af365baff7c314f65144f48b871d77ab4" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t TSVAL</definition>
+        <argsstring></argsstring>
+        <name>TSVAL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>(@ 0x50020010) Touch-sense TS-Counter Value </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="159" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines LEDTS module structure. This holds data and configuration registers of LEDTS modules. Use type <ref refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t" kindref="compound">XMC_LEDTS_GLOBAL_t</ref> for this data structure.<linebreak/>
+ &lt; (@ 0x50020000) LEDTS Structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="154" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="153" bodyend="163"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1ad3606c907984ebf611645aa5bc498239" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>EVFR</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a76cf621f36206a5fdf6b8eb228fd313d" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>FNCTL</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a5cabce3b1dc5d7055c1d8b3ddfbf1ef5" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>GLOBCTL</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>ID</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1a0df70c149c31bf194ff1fd88c521a363" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>LDCMP</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1ae0b99fb1c981fb35088cd22a2d5b2005" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>LINE</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1aaa2320630d02b08a446a6cf2f40874a2" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>TSCMP</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l__t_1af365baff7c314f65144f48b871d77ab4" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_t</scope><name>TSVAL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

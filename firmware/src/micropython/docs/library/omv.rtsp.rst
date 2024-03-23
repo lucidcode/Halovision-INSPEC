@@ -15,7 +15,14 @@ Please checkout the example scripts in OpenMV IDE under ``Web Servers``.
 The `rtsp_server` is very easy to use. After being created you just need to call the `rtsp_server.stream()`
 method with a call back function to generate image objects. For example::
 
-    server = rtsp.rtsp_server("SSID", "SSID_KEY", network.WINC.WPA_PSK)
+    network_if = network.WLAN(network.STA_IF)
+    network_if.active(True)
+    network_if.connect('your-ssid', 'your-password')
+    while not network_if.isconnected():
+        print("Trying to connect. Note this may take a while...")
+        time.sleep_ms(1000)
+
+    server = rtsp.rtsp_server(network_if)
     server.stream(lambda pathname, session: sensor.snapshot())
 
 Note that not all RTSP clients can decode all types of JPEG images streamed. For best results please
@@ -29,99 +36,96 @@ The `rtsp_server` class creates a single connection RTSP web server on your Open
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rtsp.rtsp_server(ssid, ssid_key, ssid_security, port=554, mode=network.WINC.MODE_STA, static_ip=None)
+.. class:: rtsp_server(network_if, port=554)
 
    Creates a WiFi ``rtsp`` server.
 
-   * ssid - WiFi network to connect to.
-   * ssid_key - WiFi network password.
-   * ssid_security - WiFi security.
-   * port - Port to listen to (554).
-   * mode - Regular or access-point mode.
-   * static_ip - If not None then a tuple of the (IP Address, Subnet Mask, Gateway, DNS Address)
+   ``network_if`` is the network module interface created from ``network.LAN()``, ``network.WLAN()``, or etc.
 
-Methods
-~~~~~~~
+   ``port`` is the port number to use. The default RTSP port is 554.
 
-.. method:: rtsp_server.register_setup_cb(cb)
+   Methods
+   ~~~~~~~
 
-   Bind a call back (``cb``) to be executed when a client sets up a RTSP connection with the `rtsp_server`.
+   .. method:: register_setup_cb(cb)
 
-   Registering a call back is not required for the `rtsp_server` to work.
+      Bind a call back (``cb``) to be executed when a client sets up a RTSP connection with the `rtsp_server`.
 
-   The call back should accept two arguments:
+      Registering a call back is not required for the `rtsp_server` to work.
 
-   ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
-   needed. Otherwise, you can use it to determine what image object to return. By default the
-   ``pathname`` will be "/".
+      The call back should accept two arguments:
 
-   ``session`` is random number that will change when a new connection is established. You can use
-   ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
+      ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
+      needed. Otherwise, you can use it to determine what image object to return. By default the
+      ``pathname`` will be "/".
 
-.. method:: rtsp_server.register_play_cb(cb)
+      ``session`` is random number that will change when a new connection is established. You can use
+      ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
 
-   Bind a call back (``cb``) to be executed when a client wants to start streaming.
+   .. method:: register_play_cb(cb)
 
-   Registering a call back is not required for the `rtsp_server` to work.
+      Bind a call back (``cb``) to be executed when a client wants to start streaming.
 
-   The call back should accept two arguments:
+      Registering a call back is not required for the `rtsp_server` to work.
 
-   ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
-   needed. Otherwise, you can use it to determine what image object to return. By default the
-   ``pathname`` will be "/".
+      The call back should accept two arguments:
 
-   ``session`` is random number that will change when a new connection is established. You can use
-   ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
+      ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
+      needed. Otherwise, you can use it to determine what image object to return. By default the
+      ``pathname`` will be "/".
 
-.. method:: rtsp_server.register_pause_cb(cb)
+      ``session`` is random number that will change when a new connection is established. You can use
+      ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
 
-   Bind a call back (``cb``) to be executed when a client wants to pause streaming.
+   .. method:: register_pause_cb(cb)
 
-   Registering a call back is not required for the `rtsp_server` to work.
+      Bind a call back (``cb``) to be executed when a client wants to pause streaming.
 
-   NOTE: When you click the pause button on `VLC <https://www.videolan.org/vlc/index.html>`_ in does not tell the server to pause.
+      Registering a call back is not required for the `rtsp_server` to work.
 
-   The call back should accept two arguments:
+      NOTE: When you click the pause button on `VLC <https://www.videolan.org/vlc/index.html>`_ in does not tell the server to pause.
 
-   ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
-   needed. Otherwise, you can use it to determine what image object to return. By default the
-   ``pathname`` will be "/".
+      The call back should accept two arguments:
 
-   ``session`` is random number that will change when a new connection is established. You can use
-   ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
+      ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
+      needed. Otherwise, you can use it to determine what image object to return. By default the
+      ``pathname`` will be "/".
 
-.. method:: rtsp_server.register_teardown_cb(cb)
+      ``session`` is random number that will change when a new connection is established. You can use
+      ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
 
-   Bind a call back (``cb``) to be executed when a client wants tear down a RTSP connection with the `rtsp_server`.
+   .. method:: register_teardown_cb(cb)
 
-   Registering a call back is not required for the `rtsp_server` to work.
+      Bind a call back (``cb``) to be executed when a client wants tear down a RTSP connection with the `rtsp_server`.
 
-   The call back should accept two arguments:
+      Registering a call back is not required for the `rtsp_server` to work.
 
-   ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
-   needed. Otherwise, you can use it to determine what image object to return. By default the
-   ``pathname`` will be "/".
+      The call back should accept two arguments:
 
-   ``session`` is random number that will change when a new connection is established. You can use
-   ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
+      ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
+      needed. Otherwise, you can use it to determine what image object to return. By default the
+      ``pathname`` will be "/".
 
-.. method:: rtsp_server.stream(cb, quality=90)
+      ``session`` is random number that will change when a new connection is established. You can use
+      ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
 
-   Starts running the `rtsp_server` logic and does not return. Make sure to setup everything you
-   want to first before calling this method. Once called the `rtsp_server` will start accepting
-   connections and streaming video data.
+   .. method:: stream(cb, quality=90)
 
-   ``cb`` should be a call back that returns an `Image` object which the RTSP library will jpeg
-   compress and stream to the remote client. You are free to modify a `sensor.snapshot()` image
-   as much as you like before returning the image object to be sent.
+      Starts running the `rtsp_server` logic and does not return. Make sure to setup everything you
+      want to first before calling this method. Once called the `rtsp_server` will start accepting
+      connections and streaming video data.
 
-   ``quality`` is the JPEG compression quality to use while streaming.
+      ``cb`` should be a call back that returns an `Image` object which the RTSP library will jpeg
+      compress and stream to the remote client. You are free to modify a `sensor.snapshot()` image
+      as much as you like before returning the image object to be sent.
 
-   The call back should accept two arguments:
+      ``quality`` is the JPEG compression quality to use while streaming.
 
-   ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
-   needed. Otherwise, you can use it to determine what image object to return. By default the
-   ``pathname`` will be "/".
+      The call back should accept two arguments:
 
-   ``session`` is random number that will change when a new connection is established. You can use
-   ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.
+      ``pathname`` is the name of the stream resource the client wants. You can ignore this if it's not
+      needed. Otherwise, you can use it to determine what image object to return. By default the
+      ``pathname`` will be "/".
+
+      ``session`` is random number that will change when a new connection is established. You can use
+      ``session`` with a dictionary to differentiate different accesses to the same ``pathname``.

@@ -43,8 +43,8 @@
 #include "shared/readline/readline.h"
 #include "shared/runtime/pyexec.h"
 #include "genhdr/mpversion.h"
+#include "usbdbg.h"
 
-extern uint32_t HAL_GetHalVersion();
 pyexec_mode_kind_t pyexec_mode_kind = PYEXEC_MODE_FRIENDLY_REPL;
 int pyexec_system_exit = 0;
 
@@ -86,7 +86,11 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
         #if MICROPY_MODULE_FROZEN_MPY
         if (exec_flags & EXEC_FLAG_SOURCE_IS_RAW_CODE) {
             // source is a raw_code object, create the function
-            module_fun = mp_make_function_from_raw_code(source, MP_OBJ_NULL, MP_OBJ_NULL);
+            const mp_frozen_module_t *frozen = source;
+            mp_module_context_t *ctx = m_new_obj(mp_module_context_t);
+            ctx->module.globals = mp_globals_get();
+            ctx->constants = frozen->constants;
+            module_fun = mp_make_function_from_raw_code(frozen->rc, ctx, NULL);
         } else
         #endif
         {
@@ -98,7 +102,7 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
             } else if (exec_flags & EXEC_FLAG_SOURCE_IS_READER) {
                 lex = mp_lexer_new(MP_QSTR__lt_stdin_gt_, *(mp_reader_t *)source);
             } else if (exec_flags & EXEC_FLAG_SOURCE_IS_FILENAME) {
-                lex = mp_lexer_new_from_file(source);
+                lex = mp_lexer_new_from_file(qstr_from_str(source));
             } else {
                 lex = (mp_lexer_t *)source;
             }
@@ -112,7 +116,7 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
         }
 
         // execute code
-        mp_hal_set_interrupt_char(CHAR_CTRL_C); // allow ctrl-C to interrupt us
+        mp_hal_set_interrupt_char(CHAR_CTRL_C);
         #if MICROPY_REPL_INFO
         start = mp_hal_ticks_ms();
         #endif
@@ -137,6 +141,7 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
 
         // re-raise same exception
         if (exec_flags & EXEC_FLAG_RERAISE) {
+            usbdbg_set_irq_enabled(false);
             nlr_raise(nlr.ret_val);
         }
 
@@ -159,12 +164,12 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
     // display debugging info if wanted
     if ((exec_flags & EXEC_FLAG_ALLOW_DEBUGGING) && repl_display_debugging_info) {
         mp_uint_t ticks = mp_hal_ticks_ms() - start; // TODO implement a function that does this properly
-        printf("took " UINT_FMT " ms\n", ticks);
+        mp_printf(&mp_plat_print, "took " UINT_FMT " ms\n", ticks);
         // qstr info
         {
             size_t n_pool, n_qstr, n_str_data_bytes, n_total_bytes;
             qstr_pool_info(&n_pool, &n_qstr, &n_str_data_bytes, &n_total_bytes);
-            printf("qstr:\n  n_pool=%u\n  n_qstr=%u\n  "
+            mp_printf(&mp_plat_print, "qstr:\n  n_pool=%u\n  n_qstr=%u\n  "
                 "n_str_data_bytes=%u\n  n_total_bytes=%u\n",
                 (unsigned)n_pool, (unsigned)n_qstr, (unsigned)n_str_data_bytes, (unsigned)n_total_bytes);
         }
@@ -172,7 +177,7 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
         #if MICROPY_ENABLE_GC
         // run collection and print GC info
         gc_collect();
-        gc_dump_info();
+        gc_dump_info(&mp_plat_print);
         #endif
     }
     #endif
@@ -406,12 +411,9 @@ STATIC int pyexec_friendly_repl_process_char(int c) {
         } else if (ret == CHAR_CTRL_B) {
             // reset friendly REPL
             mp_hal_stdout_tx_str("\r\n");
-            char buf_ver[16];
-            uint32_t hal_ver = HAL_GetHalVersion();
-            snprintf(buf_ver, sizeof(buf_ver), "%ld.%ld.%ld", hal_ver >> 24, (hal_ver >> 16) & 0xFF, (hal_ver >> 8) & 0xFF);
-            mp_hal_stdout_tx_str("MicroPython: " MICROPY_GIT_TAG " OpenMV: " OPENMV_GIT_TAG " HAL: v");
-            mp_hal_stdout_tx_str(buf_ver);
-            mp_hal_stdout_tx_str(" BOARD: " MICROPY_HW_BOARD_NAME "-" MICROPY_HW_MCU_NAME "\r\n");
+            mp_hal_stdout_tx_str(MICROPY_BANNER_NAME_AND_VERSION);
+            mp_hal_stdout_tx_str("; " MICROPY_BANNER_MACHINE);
+            mp_hal_stdout_tx_str("\r\n");
             #if MICROPY_PY_BUILTINS_HELP
             mp_hal_stdout_tx_str("Type \"help()\" for more information.\r\n");
             #endif
@@ -443,7 +445,7 @@ STATIC int pyexec_friendly_repl_process_char(int c) {
 
         vstr_add_byte(MP_STATE_VM(repl_line), '\n');
         repl.cont_line = true;
-        readline_note_newline("... ");
+        readline_note_newline(mp_repl_get_ps2());
         return 0;
 
     } else {
@@ -464,7 +466,7 @@ STATIC int pyexec_friendly_repl_process_char(int c) {
 
         if (mp_repl_continue_with_input(vstr_null_terminated_str(MP_STATE_VM(repl_line)))) {
             vstr_add_byte(MP_STATE_VM(repl_line), '\n');
-            readline_note_newline("... ");
+            readline_note_newline(mp_repl_get_ps2());
             return 0;
         }
 
@@ -478,7 +480,7 @@ STATIC int pyexec_friendly_repl_process_char(int c) {
         vstr_reset(MP_STATE_VM(repl_line));
         repl.cont_line = false;
         repl.paste_mode = false;
-        readline_init(MP_STATE_VM(repl_line), ">>> ");
+        readline_init(MP_STATE_VM(repl_line), mp_repl_get_ps1());
         return 0;
     }
 }
@@ -495,6 +497,8 @@ int pyexec_event_repl_process_char(int c) {
     pyexec_repl_active = 0;
     return res;
 }
+
+MP_REGISTER_ROOT_POINTER(vstr_t * repl_line);
 
 #else // MICROPY_REPL_EVENT_DRIVEN
 
@@ -561,15 +565,10 @@ int pyexec_friendly_repl(void) {
     vstr_t line;
     vstr_init(&line, 32);
 
-    char buf_ver[16];
-    uint32_t hal_ver = HAL_GetHalVersion();
-    snprintf(buf_ver, sizeof(buf_ver), "%ld.%ld.%ld", hal_ver >> 24, (hal_ver >> 16) & 0xFF, (hal_ver >> 8) & 0xFF);
-
 friendly_repl_reset:
-    mp_hal_stdout_tx_str("MicroPython: " MICROPY_GIT_TAG " OpenMV: " OPENMV_GIT_TAG " HAL: v");
-    mp_hal_stdout_tx_str(buf_ver);
-    mp_hal_stdout_tx_str(" BOARD: " MICROPY_HW_BOARD_NAME "-" MICROPY_HW_MCU_NAME "\r\n");
-
+    mp_hal_stdout_tx_str(MICROPY_BANNER_NAME_AND_VERSION);
+    mp_hal_stdout_tx_str("; " MICROPY_BANNER_MACHINE);
+    mp_hal_stdout_tx_str("\r\n");
     #if MICROPY_PY_BUILTINS_HELP
     mp_hal_stdout_tx_str("Type \"help()\" for more information.\r\n");
     #endif
@@ -600,7 +599,7 @@ friendly_repl_reset:
             // If the user gets to here and interrupts are disabled then
             // they'll never see the prompt, traceback etc. The USB REPL needs
             // interrupts to be enabled or no transfers occur. So we try to
-            // do the user a favor and reenable interrupts.
+            // do the user a favor and re-enable interrupts.
             if (query_irq() == IRQ_STATE_DISABLED) {
                 enable_irq(IRQ_STATE_ENABLED);
                 mp_hal_stdout_tx_str("MPY: enabling IRQs\r\n");
@@ -615,7 +614,7 @@ friendly_repl_reset:
         }
 
         vstr_reset(&line);
-        int ret = readline(&line, ">>> ");
+        int ret = readline(&line, mp_repl_get_ps1());
         mp_parse_input_kind_t parse_input_kind = MP_PARSE_SINGLE_INPUT;
 
         if (ret == CHAR_CTRL_A) {
@@ -668,7 +667,7 @@ friendly_repl_reset:
             // got a line with non-zero length, see if it needs continuing
             while (mp_repl_continue_with_input(vstr_null_terminated_str(&line))) {
                 vstr_add_byte(&line, '\n');
-                ret = readline(&line, "... ");
+                ret = readline(&line, mp_repl_get_ps2());
                 if (ret == CHAR_CTRL_C) {
                     // cancel everything
                     mp_hal_stdout_tx_str("\r\n");
@@ -702,7 +701,7 @@ int pyexec_file(const char *filename, bool raise_error) {
 
 int pyexec_file_if_exists(const char *filename, bool raise_error) {
     #if MICROPY_MODULE_FROZEN
-    if (mp_frozen_stat(filename) == MP_IMPORT_STAT_FILE) {
+    if (mp_find_frozen_module(filename, NULL, NULL) == MP_IMPORT_STAT_FILE) {
         return pyexec_frozen_module(filename, raise_error);
     }
     #endif
@@ -715,8 +714,9 @@ int pyexec_file_if_exists(const char *filename, bool raise_error) {
 #if MICROPY_MODULE_FROZEN
 int pyexec_frozen_module(const char *name, bool raise_error) {
     void *frozen_data;
-    int frozen_type = mp_find_frozen_module(name, strlen(name), &frozen_data);
+    int frozen_type;
     uint32_t flags = (raise_error) ? EXEC_FLAG_RERAISE : 0;
+    mp_find_frozen_module(name, &frozen_type, &frozen_data);
 
     switch (frozen_type) {
         #if MICROPY_MODULE_FROZEN_STR

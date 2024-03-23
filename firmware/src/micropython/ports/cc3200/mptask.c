@@ -55,7 +55,7 @@
 #include "mperror.h"
 #include "simplelink.h"
 #include "modnetwork.h"
-#include "modusocket.h"
+#include "modsocket.h"
 #include "modwlan.h"
 #include "serverstask.h"
 #include "telnet.h"
@@ -70,7 +70,6 @@
 #include "cryptohash.h"
 #include "mpirq.h"
 #include "updater.h"
-#include "moduos.h"
 #include "antenna.h"
 #include "task.h"
 
@@ -99,8 +98,8 @@ OsiTaskHandle svTaskHandle;
 static fs_user_mount_t *sflash_vfs_fat;
 
 static const char fresh_main_py[] = "# main.py -- put your code here!\r\n";
-static const char fresh_boot_py[] = "# boot.py -- run on boot-up\r\n"
-    "# can run arbitrary Python, but best to keep it minimal\r\n"
+static const char fresh_boot_py[] = "# boot.py -- run on boot to configure USB and filesystem\r\n"
+    "# Put app code in main.py\r\n"
                                     #if MICROPY_STDIO_UART
     "import os, machine\r\n"
     "os.dupterm(machine.UART(0, " MP_STRINGIFY(MICROPY_STDIO_UART_BAUD) "))\r\n"
@@ -139,9 +138,6 @@ soft_reset:
 
     // MicroPython init
     mp_init();
-    mp_obj_list_init(mp_sys_path, 0);
-    mp_obj_list_init(mp_sys_argv, 0);
-    mp_obj_list_append(mp_sys_path, MP_OBJ_NEW_QSTR(MP_QSTR_)); // current dir (or base dir of the script)
 
     // execute all basic initializations
     mp_irq_init0();
@@ -161,7 +157,7 @@ soft_reset:
             // to enable simplelink and leave it as is
             wlan_first_start();
         } else {
-            // only if not comming out of hibernate or a soft reset
+            // only if not coming out of hibernate or a soft reset
             mptask_enter_ap_mode();
         }
 
@@ -250,9 +246,6 @@ soft_reset_exit:
     // clean-up the user socket space
     modusocket_close_all_user_sockets();
 
-    // unmount all user file systems
-    osmount_unmount_all();
-
     // wait for pending transactions to complete
     mp_hal_delay_ms(20);
 
@@ -318,7 +311,7 @@ STATIC void mptask_init_sflash_filesystem(void) {
         // create empty main.py
         mptask_create_main_py();
     } else if (res == FR_OK) {
-        // mount sucessful
+        // mount successful
         if (FR_OK != f_stat(&vfs_fat->fatfs, "/main.py", &fno)) {
             // create empty main.py
             mptask_create_main_py();

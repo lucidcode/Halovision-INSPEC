@@ -1,0 +1,1752 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___f_c_e" kind="group">
+    <compoundname>FCE</compoundname>
+    <title>Flexible CRC Engine(FCE)</title>
+    <innerclass refid="struct_x_m_c___f_c_e___c_o_n_f_i_g__t" prot="public">XMC_FCE_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___f_c_e__t" prot="public">XMC_FCE_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___f_c_e_1gac31b85dc4b54f93fbe117f74393bbe66" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FCE_CONFIG_ALGO_t</name>
+        <enumvalue id="group___f_c_e_1ggac31b85dc4b54f93fbe117f74393bbe66a8aa7368c7d1d915dd33282a61ac0275c" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_REFIN</name>
+          <initializer>= FCE_KE_CFG_REFIN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables input byte reflection </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1ggac31b85dc4b54f93fbe117f74393bbe66a57bb9abb4269116867a6e753339248a8" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_REFOUT</name>
+          <initializer>= FCE_KE_CFG_REFOUT_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables Final CRC reflection </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1ggac31b85dc4b54f93fbe117f74393bbe66a0c039b4f56adb809d784bc61bf54d2e4" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_XSEL</name>
+          <initializer>= FCE_KE_CFG_XSEL_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables output inversion </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE algorithm configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="150" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="149" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_c_e_1ga2bac6d5765db73d1d45e4ae26b44a133" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FCE_CONFIG_INTERRUPT_t</name>
+        <enumvalue id="group___f_c_e_1gga2bac6d5765db73d1d45e4ae26b44a133a01663848e2de87b65c0f15c3625a37d7" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_CMI</name>
+          <initializer>= FCE_KE_CFG_CMI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables CRC Mismatch interrupt <linebreak/>
+ </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga2bac6d5765db73d1d45e4ae26b44a133ab5ca82e77fc3733d342ca451aeda8c96" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_CEI</name>
+          <initializer>= FCE_KE_CFG_CEI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables Configuration error interrupt <linebreak/>
+ </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga2bac6d5765db73d1d45e4ae26b44a133a9e048ba40ebffaecc16a107b534bfca7" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_LEI</name>
+          <initializer>= FCE_KE_CFG_LEI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables Length error interrupt <linebreak/>
+ </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga2bac6d5765db73d1d45e4ae26b44a133a4f6654974301b9f416c7a3152f940cd7" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_BEI</name>
+          <initializer>= FCE_KE_CFG_BEI_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables Bus error interrupt <linebreak/>
+ </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE interrupt configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="130" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_c_e_1ga87c160453f1680dbc2c511faf86305af" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FCE_CONFIG_OPERATION_t</name>
+        <enumvalue id="group___f_c_e_1gga87c160453f1680dbc2c511faf86305afae4ec4c5864248a0268e0c3868d1e17df" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_CCE</name>
+          <initializer>= FCE_KE_CFG_CCE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables CRC check </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga87c160453f1680dbc2c511faf86305afaad4011a05e9076f568a5ee307fa9e56c" prot="public">
+          <name>XMC_FCE_CFG_CONFIG_ALR</name>
+          <initializer>= FCE_KE_CFG_ALR_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Enables Automatic length reload </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE operation configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="141" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="140" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_c_e_1gac1640d166dc06bd70e37c3f10feb29b0" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FCE_CTR_TEST_t</name>
+        <enumvalue id="group___f_c_e_1ggac1640d166dc06bd70e37c3f10feb29b0af67b7e10a72dc2ef56b4eae6e17cc764" prot="public">
+          <name>XMC_FCE_CTR_MISMATCH_CRC</name>
+          <initializer>= FCE_KE_CTR_FCM_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Forces CRC mismatch </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1ggac1640d166dc06bd70e37c3f10feb29b0a0a518a2f55abfcb22b553e2731d38e6f" prot="public">
+          <name>XMC_FCE_CTR_MISMATCH_CFG</name>
+          <initializer>= FCE_KE_CTR_FRM_CFG_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Forces CFG Register mismatch </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1ggac1640d166dc06bd70e37c3f10feb29b0adc5e1a974e929f7cda9d901bb5840669" prot="public">
+          <name>XMC_FCE_CTR_MISMATCH_CHECK</name>
+          <initializer>= FCE_KE_CTR_FRM_CHECK_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Forces CRC Check Register mismatch </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE control configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="171" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="170" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FCE_STATUS_t</name>
+        <enumvalue id="group___f_c_e_1ggaa201918317831fdfdf8e8d841b98bf1da8af5aed729ba6b3961e4c75733bd10a7" prot="public">
+          <name>XMC_FCE_STATUS_OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Returns OK on success </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1ggaa201918317831fdfdf8e8d841b98bf1da882374cec39193e7f35e5a18528b8cd3" prot="public">
+          <name>XMC_FCE_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Returns BUSY when API is busy with a previous request </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1ggaa201918317831fdfdf8e8d841b98bf1dab1636323d50542719f57cf1986cb9dfc" prot="public">
+          <name>XMC_FCE_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Returns ERROR when API cannot fulfil request </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE status enumeration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="181" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="180" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___f_c_e_1ga255d187d760614e2eb51d8be58f89ac0" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_FCE_STS_FLAG_t</name>
+        <enumvalue id="group___f_c_e_1gga255d187d760614e2eb51d8be58f89ac0a025f8ec9e161810543e7398ee03c6a6e" prot="public">
+          <name>XMC_FCE_STS_MISMATCH_CRC</name>
+          <initializer>= FCE_KE_STS_CMF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>CRC Mismatch flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga255d187d760614e2eb51d8be58f89ac0a58636da03679d3a9428f4a363064e297" prot="public">
+          <name>XMC_FCE_STS_CONFIG_ERROR</name>
+          <initializer>= FCE_KE_STS_CEF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Configuration Error flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga255d187d760614e2eb51d8be58f89ac0aa89aca6602b2b90f9b41f3463a9b0180" prot="public">
+          <name>XMC_FCE_STS_LENGTH_ERROR</name>
+          <initializer>= FCE_KE_STS_LEF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Length Error flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___f_c_e_1gga255d187d760614e2eb51d8be58f89ac0a8fc62cc7b43e879a97debdcd5727b436" prot="public">
+          <name>XMC_FCE_STS_BUS_ERROR</name>
+          <initializer>= FCE_KE_STS_BEF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bus Error flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE status flag configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="160" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="159" bodyend="165"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___f_c_e_1gaa48f868a31e4d625cec55f99835f112d" prot="public" static="no">
+        <type>FCE_KE_TypeDef</type>
+        <definition>typedef FCE_KE_TypeDef XMC_FCE_Kernel_t</definition>
+        <argsstring></argsstring>
+        <name>XMC_FCE_Kernel_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>FCE kernel </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="194" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___f_c_e_1gaa71d58d838b803f825a0aa6e6edcaee6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></type>
+        <definition>XMC_FCE_STATUS_t XMC_FCE_CalculateCRC16</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint16_t *data, uint32_t length, uint16_t *result)</argsstring>
+        <name>XMC_FCE_CalculateCRC16</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint16_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>uint16_t *</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to computed CRC result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_FCE_STATUS_ERROR on error </para>
+</simplesect>
+<simplesect kind="return"><para>XMC_FCE_STATUS_SUCCESS otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Calculate and update the RC16 checksum in the result pointer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>A write to Internal Register (IRm m = 2) triggers the CRC kernel to update the message checksum according to the IR and current CRC register contents. Only 32-bit or 16-bit write transactions are permitted. Any other bus write transaction will lead to a bus error. Only the lower 16-bit of the write transactions will be used. <ref refid="group___f_c_e_1ga10e664d8268d58b4fb9eb1efdbdae969" kindref="member">XMC_FCE_GetCRCResult()</ref> should be called after <ref refid="group___f_c_e_1gaa71d58d838b803f825a0aa6e6edcaee6" kindref="member">XMC_FCE_CalculateCRC16()</ref> to get final CRC value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="603" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga9ad0488c7a8eeb6a3d69a712e0f579fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></type>
+        <definition>XMC_FCE_STATUS_t XMC_FCE_CalculateCRC16Ex</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint8_t *data, uint32_t length, uint16_t *const result)</argsstring>
+        <name>XMC_FCE_CalculateCRC16Ex</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>uint16_t *const</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to computed CRC result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_FCE_STATUS_ERROR on error </para>
+</simplesect>
+<simplesect kind="return"><para>XMC_FCE_STATUS_SUCCESS otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Calculate and update the RC16 checksum in the result pointer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>Alternative to <ref refid="group___f_c_e_1gaa71d58d838b803f825a0aa6e6edcaee6" kindref="member">XMC_FCE_CalculateCRC16()</ref> where a uint8_t data array can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="622" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga4f5f5dbaa42bc07f50568421d65c0b6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></type>
+        <definition>XMC_FCE_STATUS_t XMC_FCE_CalculateCRC32</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint32_t *data, uint32_t length, uint32_t *result)</argsstring>
+        <name>XMC_FCE_CalculateCRC32</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of bytes of data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to computed CRC result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_FCE_STATUS_ERROR on error </para>
+</simplesect>
+<simplesect kind="return"><para>XMC_FCE_STATUS_SUCCESS otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Calculate and update the calculated CRC32 checksum in the result pointer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>A write to Internal Register (IRm, m = 0-1) triggers the CRC kernel to update the message checksum according to the IR and current CRC register contents. Only 32-bit write transactions are permitted. Any other bus write transaction will lead to a bus error. <ref refid="group___f_c_e_1ga10e664d8268d58b4fb9eb1efdbdae969" kindref="member">XMC_FCE_GetCRCResult()</ref> should be called after <ref refid="group___f_c_e_1ga4f5f5dbaa42bc07f50568421d65c0b6e" kindref="member">XMC_FCE_CalculateCRC32()</ref> to get final CRC value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="645" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gab1c29941ffc8307c86fe292e0281c554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></type>
+        <definition>XMC_FCE_STATUS_t XMC_FCE_CalculateCRC32Ex</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint8_t *data, uint32_t length, uint32_t *const result)</argsstring>
+        <name>XMC_FCE_CalculateCRC32Ex</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>uint32_t *const</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of bytes of data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to computed CRC result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_FCE_STATUS_ERROR on error </para>
+</simplesect>
+<simplesect kind="return"><para>XMC_FCE_STATUS_SUCCESS otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Calculate and update the calculated CRC32 checksum in the result pointer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Alternative to <ref refid="group___f_c_e_1ga4f5f5dbaa42bc07f50568421d65c0b6e" kindref="member">XMC_FCE_CalculateCRC32()</ref> where a uint8_t data array can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="664" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gae9a0f7a14d2888951f8683bfb14e3926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></type>
+        <definition>XMC_FCE_STATUS_t XMC_FCE_CalculateCRC8</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint8_t *data, uint32_t length, uint8_t *result)</argsstring>
+        <name>XMC_FCE_CalculateCRC8</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of bytes of data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to computed CRC result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_FCE_STATUS_ERROR on error </para>
+</simplesect>
+<simplesect kind="return"><para>XMC_FCE_STATUS_SUCCESS otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Calculate and updates the CRC8 checksum in the result pointer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>A write to IRm (m = 3) triggers the CRC kernel to update the message checksum according to the IR and current CRC register contents. Any write transaction is allowed to this IRm register. Only the lower 8-bit of the write transactions will be used. <ref refid="group___f_c_e_1ga10e664d8268d58b4fb9eb1efdbdae969" kindref="member">XMC_FCE_GetCRCResult()</ref> should be called after invoking <ref refid="group___f_c_e_1gae9a0f7a14d2888951f8683bfb14e3926" kindref="member">XMC_FCE_CalculateCRC8()</ref> to get final CRC value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="579" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gaaf51fa0f0908f85d7a7600ff8647db01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_ClearEvent</definition>
+        <argsstring>(const XMC_FCE_t *const engine, XMC_FCE_STS_FLAG_t event)</argsstring>
+        <name>XMC_FCE_ClearEvent</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="group___f_c_e_1ga255d187d760614e2eb51d8be58f89ac0" kindref="member">XMC_FCE_STS_FLAG_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event of type <ref refid="group___f_c_e_1ga255d187d760614e2eb51d8be58f89ac0" kindref="member">XMC_FCE_STS_FLAG_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear an FCE event <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function clears requested FCE events by setting the bit-fields of the STS register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="434" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="434" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga56a95b1e8021a7f51a75bcf09cb139c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_Disable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FCE_Disable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable the FCE module <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function asserts the FCE peripheral reset and sets the DISR bit in the CLC register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>All pending transactions running on the bus slave interface must be completed before entering the disabled state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="326" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gafcc9d746d18eedb4308f8e23752bd21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_DisableCRCAlgorithm</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t algo)</argsstring>
+        <name>XMC_FCE_DisableCRCAlgorithm</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid algorithm of type <ref refid="group___f_c_e_1gac31b85dc4b54f93fbe117f74393bbe66" kindref="member">XMC_FCE_CONFIG_ALGO_t</ref> or a valid combination of logically OR&apos;d algorithms </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable CRC algorithm(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>Options for disabling CRC algorithm: <linebreak/>
+ REFIN: Input byte wise reflection <linebreak/>
+ REFOUT: Output bit wise reflection <linebreak/>
+ XSEL: Value to be XORed with final CRC <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="516" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="516" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga322643ab4a1d580a72241711a156057f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_DisableEvent</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t event)</argsstring>
+        <name>XMC_FCE_DisableEvent</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OR&apos;d values of <ref refid="group___f_c_e_1ga2bac6d5765db73d1d45e4ae26b44a133" kindref="member">XMC_FCE_CONFIG_INTERRUPT_t</ref> enumeration values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable FCE event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function clears the CFG register to disable FCE event(s). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="400" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="400" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga548e5d8f435f91abf8436bea8bb7a5e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_DisableOperation</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t operation)</argsstring>
+        <name>XMC_FCE_DisableOperation</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>FCE operation of type <ref refid="group___f_c_e_1ga87c160453f1680dbc2c511faf86305af" kindref="member">XMC_FCE_CONFIG_OPERATION_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable CRC operations <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function disables FRC operations by writing to the CFG register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>CRC comparison check (at the end of message) can be disabled using the CCE bit-field. Automatic reload of LENGTH field (at the end of message) can be disabled using the ALR bit field. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="476" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="476" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga556a01f459a9fab6d30bb1df8eb664b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_Enable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FCE_Enable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable the FCE module <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function de-asserts the peripheral reset and clears the DISR bit CLC register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="338" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gad4f5492ceed9b2941b6ab0c41eed9a6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_EnableCRCAlgorithm</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t algo)</argsstring>
+        <name>XMC_FCE_EnableCRCAlgorithm</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid algorithm of type <ref refid="group___f_c_e_1gac31b85dc4b54f93fbe117f74393bbe66" kindref="member">XMC_FCE_CONFIG_ALGO_t</ref> or a valid combination of logically OR&apos;d algorithms </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enables CRC algorithm(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>Options for enabling CRC algorithm: <linebreak/>
+ REFIN: Input byte wise reflection <linebreak/>
+ REFOUT: Output bit wise reflection <linebreak/>
+ XSEL: Value to be XORed with final CRC <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="496" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="496" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga723d650743af1a525b40a9716327df95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_EnableEvent</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t event)</argsstring>
+        <name>XMC_FCE_EnableEvent</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OR&apos;d values of <ref refid="group___f_c_e_1ga2bac6d5765db73d1d45e4ae26b44a133" kindref="member">XMC_FCE_CONFIG_INTERRUPT_t</ref> enumeration values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable FCE event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CFG register to enable FCE event(s). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="384" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="384" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga4b935bce31e83a3ae63a694331ba2fa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_EnableOperation</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t operation)</argsstring>
+        <name>XMC_FCE_EnableOperation</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>FCE operation of type <ref refid="group___f_c_e_1ga87c160453f1680dbc2c511faf86305af" kindref="member">XMC_FCE_CONFIG_OPERATION_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable CRC operations <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function enables FRC operations by writing to the CFG register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>CRC comparison check (at the end of message) can be enabled using the CCE bit-field. Automatic reload of LENGTH field (at the end of message) can be enabled using the ALR bit field. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="455" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="455" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga33e6179662ae0971e68aef973a74b05c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_FCE_Get_DisableStatus</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FCE_Get_DisableStatus</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Disable status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Return the disable status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the FCE module disable status (DISS) bit. It returns &quot;true&quot; if set, &quot;false&quot; otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="306" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="306" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga10e664d8268d58b4fb9eb1efdbdae969" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_GetCRCResult</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t *result)</argsstring>
+        <name>XMC_FCE_GetCRCResult</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to CRC result </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Read the final CRC value from RES register <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="677" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="677" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga1fe595bbc0751b2b68468681832f443d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_FCE_GetEventStatus</definition>
+        <argsstring>(const XMC_FCE_t *const engine, XMC_FCE_STS_FLAG_t event)</argsstring>
+        <name>XMC_FCE_GetEventStatus</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="group___f_c_e_1ga255d187d760614e2eb51d8be58f89ac0" kindref="member">XMC_FCE_STS_FLAG_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event of type <ref refid="group___f_c_e_1ga255d187d760614e2eb51d8be58f89ac0" kindref="member">XMC_FCE_STS_FLAG_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Return the event status of FCE event <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the status of a single requested FCE event by reading the appropriate bit-fields of the STS register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="417" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="417" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga13573f1af0cd2763870914eb82bb792e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></type>
+        <definition>XMC_FCE_STATUS_t XMC_FCE_Init</definition>
+        <argsstring>(const XMC_FCE_t *const engine)</argsstring>
+        <name>XMC_FCE_Init</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___f_c_e_1gaa201918317831fdfdf8e8d841b98bf1d" kindref="member">XMC_FCE_STATUS_t</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the FCE engine <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets to the CFG and CRC registers with the FCE configuration and seeds values. The function always returns XMC_FCE_STATUS_SUCCESS.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>The software must first ensure that the CRC kernel is properly configured with the initial CRC value (seed value). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="355" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga2bda1fdc55b9ed600683884123d44478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_InitializeSeedValue</definition>
+        <argsstring>(const XMC_FCE_t *const engine, uint32_t seedvalue)</argsstring>
+        <name>XMC_FCE_InitializeSeedValue</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seedvalue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seedvalue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial CRC value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize FCE seed value</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the initial CRC (seed) value in the CRC register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="368" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="368" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga1fe0d3174cf6fcc907442e429b699e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_LittleEndian16bit</definition>
+        <argsstring>(uint8_t *inbuffer, uint16_t *outbuffer, uint16_t length)</argsstring>
+        <name>XMC_FCE_LittleEndian16bit</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inbuffer</declname>
+        </param>
+        <param>
+          <type>uint16_t *</type>
+          <declname>outbuffer</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inbuffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to input data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outbuffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the output data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of the input buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Convert input data buffer&apos;s endianness from big endian to little endian <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function stores the converted data in output data buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>This function should be invoked before using <ref refid="group___f_c_e_1gaa71d58d838b803f825a0aa6e6edcaee6" kindref="member">XMC_FCE_CalculateCRC16()</ref> to compute the CRC value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="709" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga58e3933830d20733f76ca9296041994f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_LittleEndian32bit</definition>
+        <argsstring>(uint8_t *inbuffer, uint32_t *outbuffer, uint16_t length)</argsstring>
+        <name>XMC_FCE_LittleEndian32bit</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>inbuffer</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>outbuffer</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inbuffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to input data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outbuffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the output data buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of the input buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Convert input data buffer&apos;s endianness from big endian to little endian <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function stores the converted data in output data buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>This function should be invoked before using <ref refid="group___f_c_e_1ga4f5f5dbaa42bc07f50568421d65c0b6e" kindref="member">XMC_FCE_CalculateCRC32()</ref> to compute the CRC value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="727" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga25252b703e5a74735a204a83ecd27f4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_FCE_ReadModuleNumber</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FCE_ReadModuleNumber</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Module number</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Read FCE module number <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The return value for FCE module is currently 0x00CA. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="289" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="289" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gaa1cce83f757a114f8abcfcf8a89807cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_FCE_ReadModuleRev</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FCE_ReadModuleRev</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Module revision number</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Read FCE module revision number <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The value of a module revision starts with 0x01 (first revision). The current revision number is 0x01. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="259" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="259" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga18b50e156648da2f8e8dd0e6fe33e359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_FCE_ReadModuleType</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_FCE_ReadModuleType</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Module type</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Read the FCE module type <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The return value is currently 0xC0. It defines the module as a 32-bit module. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="274" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="274" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga364416214c6a2c02dce02f78b8fb708c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_TriggerMismatch</definition>
+        <argsstring>(const XMC_FCE_t *const engine, XMC_FCE_CTR_TEST_t test)</argsstring>
+        <name>XMC_FCE_TriggerMismatch</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="group___f_c_e_1gac1640d166dc06bd70e37c3f10feb29b0" kindref="member">XMC_FCE_CTR_TEST_t</ref></type>
+          <declname>test</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>test</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>values of type <ref refid="group___f_c_e_1gac1640d166dc06bd70e37c3f10feb29b0" kindref="member">XMC_FCE_CTR_TEST_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Trigger the CTR register to generate a CRC mismatch/register mismatch/check register mismatch interrupt <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="691" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1ga3442156a013c7a23277e14cbf8f3b2c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_UpdateCRCCheck</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint32_t checkvalue)</argsstring>
+        <name>XMC_FCE_UpdateCRCCheck</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>checkvalue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkvalue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checksum value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Updates CRC check value <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>When the CFG.CCE bit field is set, every time the IR register is written, the LENGTH register is decremented by one until it reaches zero. The hardware monitors the transition of the LENGTH register from 1 to 0 to detect the end of the message and proceed with the comparison of the result register (RES) value with the CHECK register value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="536" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="536" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="group___f_c_e_1gab694200a03236b2da346c6ffb4919ea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_FCE_UpdateLength</definition>
+        <argsstring>(const XMC_FCE_t *const engine, const uint32_t checklength)</argsstring>
+        <name>XMC_FCE_UpdateLength</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref> *const</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>checklength</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to <ref refid="struct_x_m_c___f_c_e__t" kindref="compound">XMC_FCE_t</ref>, pointing to the FCE base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checklength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checksum length </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Updates CRC length specified in the input parameter <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>When the ALR bit field is set to 1, every write to the IR register decrements the value of the LENGTH bit field. The LENGTH field shall be reloaded with its configuration value at the end of the cycle where LENGTH reaches 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="555" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="555" bodyend="559"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___f_c_e_1gaa5fdf68e9c5046c6567448bd99d448f6" prot="public" static="no">
+        <name>XMC_FCE_CRC16</name>
+        <initializer>FCE_KE2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Kernel 2 <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="112" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1gae80e07a7aa16ae99cd675b8cc8d77b23" prot="public" static="no">
+        <name>XMC_FCE_CRC32_0</name>
+        <initializer>FCE_KE0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Kernel 0 <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="110" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1ga1d6eebed52e153c32cbe0ea0aa707bb5" prot="public" static="no">
+        <name>XMC_FCE_CRC32_1</name>
+        <initializer>FCE_KE1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Kernel 1 <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="111" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1ga6fb39fa5f426ce8a794f573fcc765e10" prot="public" static="no">
+        <name>XMC_FCE_CRC8</name>
+        <initializer>FCE_KE3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Kernel 3 <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="113" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1ga2d5bf647b58b26bf4b5a105f8581be07" prot="public" static="no">
+        <name>XMC_FCE_INVSEL_RESET</name>
+        <initializer>(0U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disables output inversion </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="120" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1gaff6959c1e05562872196c1975ee64b1f" prot="public" static="no">
+        <name>XMC_FCE_INVSEL_SET</name>
+        <initializer>(1U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables output inversion </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="119" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1ga7aa4f66cea43e9a2dd3cc9f9c3c770b5" prot="public" static="no">
+        <name>XMC_FCE_REFIN_RESET</name>
+        <initializer>(0U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disables input reflection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="116" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1gafc995b86db4a1a45bbedaf73cac1ef8a" prot="public" static="no">
+        <name>XMC_FCE_REFIN_SET</name>
+        <initializer>(1U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables input reflection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="115" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1ga725cf1694b82279fccab75c73b4e8bee" prot="public" static="no">
+        <name>XMC_FCE_REFOUT_RESET</name>
+        <initializer>(0U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disables output reflection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="118" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___f_c_e_1gaef5de33112144b2dce0a1dd95e7f092a" prot="public" static="no">
+        <name>XMC_FCE_REFOUT_SET</name>
+        <initializer>(1U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables output reflection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" line="117" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_fce.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Flexible CRC Engine(FCE) driver for the XMC microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The FCE provides a parallel implementation of Cyclic Redundancy Code (CRC) algorithms. The current FCE version for the XMC4000 microcontroller family implements the IEEE 802.3 ethernet CRC32, the CCITT CRC16 and the SAE J1850 CRC8 polynomials. The primary target of FCE is to be used as an hardware acceleration engine for software applications or operating systems services using CRC signatures.</para>
+<para><image type="html" name="fce_overview.png"></image>
+ <image type="latex" name="fce_overview.png"></image>
+ FCE Features: <linebreak/>
+ <image type="html" name="fce_polynomials.png"></image>
+ <image type="latex" name="fce_polynomials.png"></image>
+<itemizedlist>
+<listitem><para>CRC kernel 0 and 1: IEEE 802.3 CRC32 ethernet polynomial: 0x04C11DB71 <linebreak/>
+</para>
+</listitem><listitem><para>CRC kernel 2: CCITT CRC16 polynomial: 0x1021 <linebreak/>
+</para>
+</listitem><listitem><para>CRC kernel 3: SAE J1850 CRC8 polynomial: 0x1D <linebreak/>
+</para>
+</listitem><listitem><para>Configuration Registers enable to control the CRC operation and perform automatic checksum checks at the end of a message. <linebreak/>
+</para>
+</listitem><listitem><para>Extended register interface to control reliability of FCE execution in safety applications. <linebreak/>
+</para>
+</listitem><listitem><para>Error notification scheme via dedicated interrupt node for: <linebreak/>
+ a)Transient error detection: Error interrupt generation (maskable) with local status register (cleared by software) <linebreak/>
+ b)Checksum failure: Error interrupt generation (maskable) with local status register (cleared by software) <linebreak/>
+</para>
+</listitem></itemizedlist>
+</para>
+<para>FCE provides one interrupt line to the interrupt system. Each CRC engine has its own set of flag registers. <linebreak/>
+ </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

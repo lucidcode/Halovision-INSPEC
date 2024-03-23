@@ -1,0 +1,531 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_BUS_READ_CONFIG_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1af6634e8edb2316f6c08d03bea0793514" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_BUS_READ_CONFIG_t::@120</type>
+        <definition>union XMC_EBU_BUS_READ_CONFIG_t::@120 @121</definition>
+        <argsstring></argsstring>
+        <name>@121</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="608" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aabc74dd7e249400b85ae3d971678c211" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_BUS_READ_CONFIG_t::@122</type>
+        <definition>union XMC_EBU_BUS_READ_CONFIG_t::@122 @123</definition>
+        <argsstring></argsstring>
+        <name>@123</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="690" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 8</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="596" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="596" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="605" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="605" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aa5fc04645a02b6ce88faf4f57f037234" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t address_cycles</definition>
+        <argsstring></argsstring>
+        <name>address_cycles</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Address Cycles: This bit field determines the number of clock cycles of the address phase.<linebreak/>
+ 0000B: 1 clock cycle selected <linebreak/>
+ 0001B: 1 clock cycle selected <linebreak/>
+ ... <linebreak/>
+ 1110B: 14 clock cycles selected <linebreak/>
+ 1111B: 15 clock cycles selected <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="688" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aafea8fcb570ed737119ff6e02685fa8e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t address_hold_cycles</definition>
+        <argsstring></argsstring>
+        <name>address_hold_cycles</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Address hold cycles: <linebreak/>
+ This bit field determines the number of clock cycles of the address hold phase.<linebreak/>
+ 0000B: 0 clock cycle selected <linebreak/>
+ 0001B: 1 clock cycle selected <linebreak/>
+ ... <linebreak/>
+ 1110B: 14 clock cycles selected <linebreak/>
+ 1111B: 15 clock cycles selected <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="678" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="678" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ab42e007bc669642065d09719219e8bde" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t command_delay_lines</definition>
+        <argsstring></argsstring>
+        <name>command_delay_lines</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Command delay cycles: <linebreak/>
+ This bit field determines the basic number of Command Delay phase clock cycles.<linebreak/>
+ 0000B: 0 clock cycle selected <linebreak/>
+ 0001B: 1 clock cycle selected <linebreak/>
+ ... <linebreak/>
+ 1110B: 14 clock cycles selected <linebreak/>
+ 1111B: 15 clock cycles selected <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="668" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="668" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aba6d3d9b4087e0fbd30916297a7cde6c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_asynchronous_address_phase</definition>
+        <argsstring></argsstring>
+        <name>ebu_asynchronous_address_phase</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Asynchronous address phase (<ref refid="group___e_b_u_1gaa27abe69423e93cafd80546717dd25b4" kindref="member">XMC_EBU_ASYNCHRONOUS_ADDRESS_PHASE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="604" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="604" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a8e144ecd1dbd215b536c9eb1caf5b668" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_burst_address_wrapping</definition>
+        <argsstring></argsstring>
+        <name>ebu_burst_address_wrapping</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Burst address wrapping (<ref refid="group___e_b_u_1ga6f1e665f832c06796f47b3fd91c6d745" kindref="member">XMC_EBU_BURST_ADDRESS_WRAPPING_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="599" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a01b291a106e937697eae13f2879f101c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_burst_buffer_sync_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_burst_buffer_sync_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Burst buffer mode (<ref refid="group___e_b_u_1gab55fcf393a1277a80090e70536b36444" kindref="member">XMC_EBU_BURST_BUFFER_SYNC_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="591" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a81e34dcfbf3e2d1b570ae3bd4c8c7343" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_burst_flash_clock_feedback</definition>
+        <argsstring></argsstring>
+        <name>ebu_burst_flash_clock_feedback</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Burst flash clock feedback enable/disable (<ref refid="group___e_b_u_1gaad7be42e92688d41082acc45b75f095c" kindref="member">XMC_EBU_BURST_FLASH_CLOCK_FEEDBACK_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="593" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="593" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a29365216885c14a9a8ad6d39c13f9c17" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_burst_flash_clock_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_burst_flash_clock_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Burst flash clock mode select (<ref refid="group___e_b_u_1gaa6ccda5eac773c98e05607bb006ce6b9" kindref="member">XMC_EBU_BURST_FLASH_CLOCK_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="594" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ac634adfa1698ddc79b4e820a053a117e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_burst_length_sync</definition>
+        <argsstring></argsstring>
+        <name>ebu_burst_length_sync</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Burst length for synchronous burst (<ref refid="group___e_b_u_1ga078e81cde5be916553622c04d8cf462e" kindref="member">XMC_EBU_BURST_LENGTH_SYNC_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="590" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a524e764e220487c3d8fe82e2eb257425" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_burst_signal_sync</definition>
+        <argsstring></argsstring>
+        <name>ebu_burst_signal_sync</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Early burst signal enable for synchronous burst (<ref refid="group___e_b_u_1ga1e6be4e6205bbe8c44f4b482cce5cee4" kindref="member">XMC_EBU_BURST_SIGNAL_SYNC_BURST_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="598" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="598" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a60cc2a4cd404631146e67bd5f7d68718" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_byte_control</definition>
+        <argsstring></argsstring>
+        <name>ebu_byte_control</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Byte control signal control (<ref refid="group___e_b_u_1ga43087015d29aaa4a8b32d769c69bfe6a" kindref="member">XMC_EBU_BYTE_CONTROL_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="601" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="601" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a96bd64bc1f9d12ebea67327db71b86cf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_data_hold_cycles_for_read_accesses</definition>
+        <argsstring></argsstring>
+        <name>ebu_data_hold_cycles_for_read_accesses</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data Hold Cycles for Read Accesses <linebreak/>
+ This bit field determines the basic number of Data Hold phase clock cycles during read accesses. It has no effect in the current implementation<linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="650" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="650" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a29e9c7035b94a479786a22717a5cbc43" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_device_addressing_mode</definition>
+        <argsstring></argsstring>
+        <name>ebu_device_addressing_mode</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Device addressing mode (<ref refid="group___e_b_u_1ga239aff03e96cbe0814177fdcc0fa9e6a" kindref="member">XMC_EBU_DEVICE_ADDRESSING_MODE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="602" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="602" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1abd206212398403e7dba2f01376d5c6ad" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_device_type</definition>
+        <argsstring></argsstring>
+        <name>ebu_device_type</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Device type for region (<ref refid="group___e_b_u_1gaf6f1e50ac1ff13355a5047661362775d" kindref="member">XMC_EBU_DEVICE_TYPE_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="606" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="606" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ad96e9c8692551b122a74eddfe62fdab2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_early_chip_select_sync_burst</definition>
+        <argsstring></argsstring>
+        <name>ebu_early_chip_select_sync_burst</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Early chip select for sync burst (<ref refid="group___e_b_u_1ga441b1805b4fb3907c9568d19afc33e87" kindref="member">XMC_EBU_EARLY_CHIP_SELECT_SYNC_BURST_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="597" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="597" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a486d75ee6ea52a670b6648243a74a2d5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_ext_data</definition>
+        <argsstring></argsstring>
+        <name>ebu_ext_data</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EBU Extended data (<ref refid="group___e_b_u_1ga8fb8549ed85f30c05687a18d91a1e139" kindref="member">XMC_EBU_EXT_DATA_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="658" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a379a83c0e94efa6fb2f551760fb463e3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_flash_non_array_access</definition>
+        <argsstring></argsstring>
+        <name>ebu_flash_non_array_access</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flash non-array access (<ref refid="group___e_b_u_1ga99649773f51c7887823fd8af45782b10" kindref="member">XMC_EBU_FLASH_NON_ARRAY_ACCESS_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="595" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="595" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1afca82a90601a18a29303264cc3ea1026" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_freq_ext_clk_pin</definition>
+        <argsstring></argsstring>
+        <name>ebu_freq_ext_clk_pin</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Frequency of external clock at pin BFCLKO (<ref refid="group___e_b_u_1gac16c71d81d8a97a55188dde6b9cf87d8" kindref="member">XMC_EBU_FREQ_EXT_CLK_PIN_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="654" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="654" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ae54fd1c77c48af9bfb8606d6b0104c82" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_programmed_wait_states_for_read_accesses</definition>
+        <argsstring></argsstring>
+        <name>ebu_programmed_wait_states_for_read_accesses</name>
+        <bitfield> 5</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Programmed wait states for read accesses: <linebreak/>
+ Number of programmed wait states for read accesses. For synchronous accesses, this will always be adjusted so that the phase exits on a rising edge of the external clock.<linebreak/>
+ 00000B: 1 wait state <linebreak/>
+ 00001B: 1 wait state <linebreak/>
+ 00010B: 2 wait state <linebreak/>
+ ... <linebreak/>
+ 11110B: 30 wait states <linebreak/>
+ 11111B: 31 wait states <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="645" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="645" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a99a679932478fe1e98c63efdd8725b76" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_read_stages_synch</definition>
+        <argsstring></argsstring>
+        <name>ebu_read_stages_synch</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Read single stage synchronization </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="592" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="592" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ae468133f8f830ef27d7a18423c8516cc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_recovery_cycles_after_read_accesses</definition>
+        <argsstring></argsstring>
+        <name>ebu_recovery_cycles_after_read_accesses</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recovery cycles after read accesses: <linebreak/>
+ This bit field determines the basic number of clock cycles of the Recovery Phase at the end of read accesses.<linebreak/>
+ 000B: No recovery phase clock cycles available <linebreak/>
+ 001B: 1 clock cycle selected <linebreak/>
+ ... <linebreak/>
+ 110B: 6 clock cycles selected <linebreak/>
+ 111B: 7 clock cycles selected <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="634" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="634" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ae76b5e0c33547d41f4d2defef9ebe529" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_recovery_cycles_between_different_regions</definition>
+        <argsstring></argsstring>
+        <name>ebu_recovery_cycles_between_different_regions</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recovery Cycles between Different Regions: <linebreak/>
+ This bit field determines the number of clock cycles of the Recovery Phase between consecutive accesses directed to different regions or different types of access.<linebreak/>
+ 0000B: No recovery phase clock cycles available <linebreak/>
+ 0001B: 1 clock cycle selected <linebreak/>
+ ... <linebreak/>
+ 1110B: 14 clock cycles selected <linebreak/>
+ 1111B: 15 clock cycles selected <linebreak/>
+ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="624" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="624" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1af85dd7c1ae0f2e95bec9e3184d8b9c95" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_wait_control</definition>
+        <argsstring></argsstring>
+        <name>ebu_wait_control</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>External wait control (<ref refid="group___e_b_u_1gaad0e41baf7d64e0497972a3823a1f1dc" kindref="member">XMC_EBU_WAIT_CONTROL_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="603" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ada6921f9e15ca117281fda8fb9abfbae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ebu_wait_signal_polarity</definition>
+        <argsstring></argsstring>
+        <name>ebu_wait_signal_polarity</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reversed polarity at WAIT (<ref refid="group___e_b_u_1ga184c3ec5aa33164682af56311973eab3" kindref="member">XMC_EBU_WAIT_SIGNAL_POLARITY_t</ref>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="600" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="600" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw0</definition>
+        <argsstring></argsstring>
+        <name>raw0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="587" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="587" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1acbe7c18e421b751048bd70d61fa08577" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw1</definition>
+        <argsstring></argsstring>
+        <name>raw1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="612" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="612" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Read configuration for a region of EBU <linebreak/>
+</para>
+<para>The structure presents a convenient way to set/obtain the read and read timing configuration for a region for EBU. The <ref refid="group___e_b_u_1ga61dac3f06d3abac9b1ef8eb99532cb7b" kindref="member">XMC_EBU_ConfigureRegion()</ref> can be used to populate the structure with the read configuration values for EBU. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="583" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="582" bodyend="691"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aa5fc04645a02b6ce88faf4f57f037234" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>address_cycles</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aafea8fcb570ed737119ff6e02685fa8e" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>address_hold_cycles</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ab42e007bc669642065d09719219e8bde" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>command_delay_lines</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1aba6d3d9b4087e0fbd30916297a7cde6c" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_asynchronous_address_phase</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a8e144ecd1dbd215b536c9eb1caf5b668" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_burst_address_wrapping</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a01b291a106e937697eae13f2879f101c" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_burst_buffer_sync_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a81e34dcfbf3e2d1b570ae3bd4c8c7343" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_burst_flash_clock_feedback</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a29365216885c14a9a8ad6d39c13f9c17" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_burst_flash_clock_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ac634adfa1698ddc79b4e820a053a117e" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_burst_length_sync</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a524e764e220487c3d8fe82e2eb257425" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_burst_signal_sync</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a60cc2a4cd404631146e67bd5f7d68718" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_byte_control</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a96bd64bc1f9d12ebea67327db71b86cf" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_data_hold_cycles_for_read_accesses</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a29e9c7035b94a479786a22717a5cbc43" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_device_addressing_mode</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1abd206212398403e7dba2f01376d5c6ad" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_device_type</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ad96e9c8692551b122a74eddfe62fdab2" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_early_chip_select_sync_burst</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a486d75ee6ea52a670b6648243a74a2d5" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_ext_data</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a379a83c0e94efa6fb2f551760fb463e3" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_flash_non_array_access</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1afca82a90601a18a29303264cc3ea1026" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_freq_ext_clk_pin</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ae54fd1c77c48af9bfb8606d6b0104c82" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_programmed_wait_states_for_read_accesses</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a99a679932478fe1e98c63efdd8725b76" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_read_stages_synch</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ae468133f8f830ef27d7a18423c8516cc" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_recovery_cycles_after_read_accesses</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ae76b5e0c33547d41f4d2defef9ebe529" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_recovery_cycles_between_different_regions</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1af85dd7c1ae0f2e95bec9e3184d8b9c95" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_wait_control</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1ada6921f9e15ca117281fda8fb9abfbae" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>ebu_wait_signal_polarity</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>raw0</name></member>
+      <member refid="struct_x_m_c___e_b_u___b_u_s___r_e_a_d___c_o_n_f_i_g__t_1acbe7c18e421b751048bd70d61fa08577" prot="public" virt="non-virtual"><scope>XMC_EBU_BUS_READ_CONFIG_t</scope><name>raw1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

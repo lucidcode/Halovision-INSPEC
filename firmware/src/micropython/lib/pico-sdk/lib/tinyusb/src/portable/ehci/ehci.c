@@ -24,9 +24,9 @@
  * This file is part of the TinyUSB stack.
  */
 
-#include "host/hcd_attr.h"
+#include "tusb_option.h"
 
-#if TUSB_OPT_HOST_ENABLED && defined(HCD_ATTR_EHCI_TRANSDIMENSION)
+#if CFG_TUH_ENABLED && defined(TUP_USBIP_EHCI)
 
 //--------------------------------------------------------------------+
 // INCLUDE
@@ -45,7 +45,7 @@
 #define EHCI_DBG     2
 
 // Framelist size as small as possible to save SRAM
-#ifdef HCD_ATTR_EHCI_TRANSDIMENSION
+#ifdef TUP_USBIP_CHIPIDEA_HS
   // NXP Transdimension: 8 elements
   #define FRAMELIST_SIZE_BIT_VALUE      7u
   #define FRAMELIST_SIZE_USBCMD_VALUE   (((FRAMELIST_SIZE_BIT_VALUE &  3) << EHCI_USBCMD_POS_FRAMELIST_SIZE) | \
@@ -57,6 +57,9 @@
 #endif
 
 #define FRAMELIST_SIZE                  (1024 >> FRAMELIST_SIZE_BIT_VALUE)
+
+#define QHD_MAX      (CFG_TUH_DEVICE_MAX*CFG_TUH_ENDPOINT_MAX)
+#define QTD_MAX      QHD_MAX
 
 typedef struct
 {
@@ -73,8 +76,8 @@ typedef struct
     ehci_qtd_t qtd;
   }control[CFG_TUH_DEVICE_MAX+CFG_TUH_HUB+1];
 
-  ehci_qhd_t qhd_pool[HCD_MAX_ENDPOINT];
-  ehci_qtd_t qtd_pool[HCD_MAX_XFER] TU_ATTR_ALIGNED(32);
+  ehci_qhd_t qhd_pool[QHD_MAX];
+  ehci_qtd_t qtd_pool[QTD_MAX] TU_ATTR_ALIGNED(32);
 
   ehci_registers_t* regs;
 
@@ -128,7 +131,7 @@ static inline ehci_qtd_t* qtd_find_free (void);
 static inline ehci_qtd_t* qtd_next (ehci_qtd_t const * p_qtd);
 static inline void qtd_insert_to_qhd (ehci_qhd_t *p_qhd, ehci_qtd_t *p_qtd_new);
 static inline void qtd_remove_1st_from_qhd (ehci_qhd_t *p_qhd);
-static void qtd_init (ehci_qtd_t* p_qtd, void* buffer, uint16_t total_bytes);
+static void qtd_init (ehci_qtd_t* p_qtd, void const* buffer, uint16_t total_bytes);
 
 static inline void list_insert (ehci_link_t *current, ehci_link_t *new, uint8_t new_type);
 static inline ehci_link_t* list_next (ehci_link_t *p_link_pointer);
@@ -160,15 +163,15 @@ void hcd_port_reset(uint8_t rhport)
   regs->portsc = portsc;
 }
 
-#if 0
 void hcd_port_reset_end(uint8_t rhport)
 {
   (void) rhport;
 
+#if 0
   ehci_registers_t* regs = ehci_data.regs;
   regs->portsc_bm.port_reset = 0;
-}
 #endif
+}
 
 bool hcd_port_connect_status(uint8_t rhport)
 {
@@ -185,14 +188,18 @@ tusb_speed_t hcd_port_speed_get(uint8_t rhport)
 static void list_remove_qhd_by_addr(ehci_link_t* list_head, uint8_t dev_addr)
 {
   for(ehci_link_t* prev = list_head;
-      !prev->terminate && (tu_align32(prev->address) != (uint32_t) list_head);
+      !prev->terminate && (tu_align32(prev->address) != (uint32_t) list_head) && prev != NULL;
       prev = list_next(prev) )
   {
     // TODO check type for ISO iTD and siTD
+    // TODO Suppress cast-align warning
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wcast-align"
     ehci_qhd_t* qhd = (ehci_qhd_t*) list_next(prev);
+    #pragma GCC diagnostic pop
     if ( qhd->dev_addr == dev_addr )
     {
-      // TODO deactive all TD, wait for QHD to inactive before removal
+      // TODO deactivate all TD, wait for QHD to inactive before removal
       prev->address = qhd->next.address;
 
       // EHCI 4.8.2 link the removed qhd to async head (which always reachable by Host Controller)
@@ -392,7 +399,7 @@ bool hcd_setup_send(uint8_t rhport, uint8_t dev_addr, uint8_t const setup_packet
   ehci_qhd_t* qhd = &ehci_data.control[dev_addr].qhd;
   ehci_qtd_t* td  = &ehci_data.control[dev_addr].qtd;
 
-  qtd_init(td, (void*) setup_packet, 8);
+  qtd_init(td, setup_packet, 8);
   td->pid          = EHCI_PID_SETUP;
   td->int_on_complete = 1;
   td->next.terminate  = 1;
@@ -474,7 +481,7 @@ static void async_advance_isr(uint8_t rhport)
   (void) rhport;
 
   ehci_qhd_t* qhd_pool = ehci_data.qhd_pool;
-  for(uint32_t i = 0; i < HCD_MAX_ENDPOINT; i++)
+  for(uint32_t i = 0; i < QHD_MAX; i++)
   {
     if ( qhd_pool[i].removing )
     {
@@ -542,7 +549,7 @@ static void period_list_xfer_complete_isr(uint8_t hostid, uint32_t interval_ms)
   // TODO abstract max loop guard for period
   while( !next_item.terminate &&
       !(interval_ms > 1 && period_1ms_addr == tu_align32(next_item.address)) &&
-      max_loop < (HCD_MAX_ENDPOINT + EHCI_MAX_ITD + EHCI_MAX_SITD)*CFG_TUH_DEVICE_MAX)
+      max_loop < (QHD_MAX + EHCI_MAX_ITD + EHCI_MAX_SITD)*CFG_TUH_DEVICE_MAX)
   {
     switch ( next_item.type )
     {
@@ -649,6 +656,26 @@ static void xfer_error_isr(uint8_t hostid)
   }
 }
 
+#if CFG_TUSB_DEBUG >= EHCI_DBG
+
+static inline void print_portsc(ehci_registers_t* regs)
+{
+  TU_LOG_HEX(EHCI_DBG, regs->portsc);
+  TU_LOG(EHCI_DBG, "  Current Connect Status: %u\r\n", regs->portsc_bm.current_connect_status);
+  TU_LOG(EHCI_DBG, "  Connect Status Change : %u\r\n", regs->portsc_bm.connect_status_change);
+  TU_LOG(EHCI_DBG, "  Port Enabled          : %u\r\n", regs->portsc_bm.port_enabled);
+  TU_LOG(EHCI_DBG, "  Port Enabled Change   : %u\r\n", regs->portsc_bm.port_enable_change);
+
+  TU_LOG(EHCI_DBG, "  Port Reset            : %u\r\n", regs->portsc_bm.port_reset);
+  TU_LOG(EHCI_DBG, "  Port Power            : %u\r\n", regs->portsc_bm.port_power);
+}
+
+#else
+
+#define print_portsc(_reg)
+
+#endif
+
 //------------- Host Controller Driver's Interrupt Handler -------------//
 void hcd_int_handler(uint8_t rhport)
 {
@@ -657,7 +684,7 @@ void hcd_int_handler(uint8_t rhport)
   uint32_t int_status = regs->status;
   int_status &= regs->inten;
   
-  regs->status |= int_status; // Acknowledge handled interrupt
+  regs->status = int_status; // Acknowledge handled interrupt
 
   if (int_status == 0) return;
 
@@ -668,9 +695,8 @@ void hcd_int_handler(uint8_t rhport)
 
   if (int_status & EHCI_INT_MASK_PORT_CHANGE)
   {
-    uint32_t port_status = regs->portsc & EHCI_PORTSC_MASK_ALL;
-
-    TU_LOG_HEX(EHCI_DBG, regs->portsc);
+    uint32_t const port_status = regs->portsc & EHCI_PORTSC_MASK_ALL;
+    print_portsc(regs);
 
     if (regs->portsc_bm.connect_status_change)
     {
@@ -714,7 +740,7 @@ void hcd_int_handler(uint8_t rhport)
 //------------- queue head helper -------------//
 static inline ehci_qhd_t* qhd_find_free (void)
 {
-  for (uint32_t i=0; i<HCD_MAX_ENDPOINT; i++)
+  for (uint32_t i=0; i<QHD_MAX; i++)
   {
     if ( !ehci_data.qhd_pool[i].used ) return &ehci_data.qhd_pool[i];
   }
@@ -731,7 +757,7 @@ static inline ehci_qhd_t* qhd_get_from_addr(uint8_t dev_addr, uint8_t ep_addr)
 {
   ehci_qhd_t* qhd_pool = ehci_data.qhd_pool;
 
-  for(uint32_t i=0; i<HCD_MAX_ENDPOINT; i++)
+  for(uint32_t i=0; i<QHD_MAX; i++)
   {
     if ( (qhd_pool[i].dev_addr == dev_addr) &&
           ep_addr == tu_edpt_addr(qhd_pool[i].ep_number, qhd_pool[i].pid) )
@@ -746,7 +772,7 @@ static inline ehci_qhd_t* qhd_get_from_addr(uint8_t dev_addr, uint8_t ep_addr)
 //------------- TD helper -------------//
 static inline ehci_qtd_t* qtd_find_free(void)
 {
-  for (uint32_t i=0; i<HCD_MAX_XFER; i++)
+  for (uint32_t i=0; i<QTD_MAX; i++)
   {
     if ( !ehci_data.qtd_pool[i].used ) return &ehci_data.qtd_pool[i];
   }
@@ -802,7 +828,7 @@ static void qhd_init(ehci_qhd_t *p_qhd, uint8_t dev_addr, tusb_desc_endpoint_t c
   p_qhd->ep_speed           = devtree_info.speed;
   p_qhd->data_toggle_control= (xfer_type == TUSB_XFER_CONTROL) ? 1 : 0;
   p_qhd->head_list_flag     = (dev_addr == 0) ? 1 : 0; // addr0's endpoint is the static asyn list head
-  p_qhd->max_packet_size    = ep_desc->wMaxPacketSize.size;
+  p_qhd->max_packet_size    = tu_edpt_packet_size(ep_desc);
   p_qhd->fl_ctrl_ep_flag    = ((xfer_type == TUSB_XFER_CONTROL) && (p_qhd->ep_speed != TUSB_SPEED_HIGH))  ? 1 : 0;
   p_qhd->nak_reload         = 0;
 
@@ -813,7 +839,7 @@ static void qhd_init(ehci_qhd_t *p_qhd, uint8_t dev_addr, tusb_desc_endpoint_t c
     if (TUSB_SPEED_HIGH == p_qhd->ep_speed)
     {
       TU_ASSERT( interval <= 16, );
-      if ( interval < 4) // sub milisecond interval
+      if ( interval < 4) // sub millisecond interval
       {
         p_qhd->interval_ms = 0;
         p_qhd->int_smask   = (interval == 1) ? TU_BIN8(11111111) :
@@ -857,7 +883,7 @@ static void qhd_init(ehci_qhd_t *p_qhd, uint8_t dev_addr, tusb_desc_endpoint_t c
   }
 }
 
-static void qtd_init(ehci_qtd_t* p_qtd, void* buffer, uint16_t total_bytes)
+static void qtd_init(ehci_qtd_t* p_qtd, void const* buffer, uint16_t total_bytes)
 {
   tu_memclr(p_qtd, sizeof(ehci_qtd_t));
 

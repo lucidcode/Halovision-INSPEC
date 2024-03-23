@@ -1,0 +1,2105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___i2_s" kind="group">
+    <compoundname>I2S</compoundname>
+    <title>Inter IC Sound (IIS)</title>
+    <innerclass refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t" prot="public">XMC_I2S_CH_CONFIG_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___i2_s_1ga6cf990895c6ccc01ceaf11c028ad35cc" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_BRG_SHIFT_CLOCK_OUTPUT_t</name>
+        <enumvalue id="group___i2_s_1gga6cf990895c6ccc01ceaf11c028ad35ccacd7860ed986e8121655856927aa72deb" prot="public">
+          <name>XMC_I2S_CH_BRG_SHIFT_CLOCK_OUTPUT_SCLK</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_OUTPUT_SCLK</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baudrate Generator shift clock output: SCLK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga6cf990895c6ccc01ceaf11c028ad35cca7a8efe245ea1426c808d9d07b8cb392d" prot="public">
+          <name>XMC_I2S_CH_BRG_SHIFT_CLOCK_OUTPUT_DX1</name>
+          <initializer>= XMC_USIC_CH_BRG_SHIFT_CLOCK_OUTPUT_DX1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Clock obtained as input from master: DX1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2S Baudrate Generator shift clock output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="151" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="150" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1ga21a01621957ee4befb0742623b7deaf8" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_BUS_MODE_t</name>
+        <enumvalue id="group___i2_s_1gga21a01621957ee4befb0742623b7deaf8ac94943f0fe50ea5db0ba76b0e7164ac9" prot="public">
+          <name>XMC_I2S_CH_BUS_MODE_MASTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>I2S Master </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga21a01621957ee4befb0742623b7deaf8a482da8c823c483b895a4c1d35b969372" prot="public">
+          <name>XMC_I2S_CH_BUS_MODE_SLAVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>I2S Slave </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Defines the I2S bus mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="226" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="225" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1ga8e7a5c82ca942de7450cfba67907aa22" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_CHANNEL_t</name>
+        <enumvalue id="group___i2_s_1gga8e7a5c82ca942de7450cfba67907aa22a9884bce0586ebf037f9fad4c576b6af9" prot="public">
+          <name>XMC_I2S_CH_CHANNEL_1_LEFT</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Channel 1 (left) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga8e7a5c82ca942de7450cfba67907aa22a8aa09ec1ebaa2f86cd923b3c5a22967c" prot="public">
+          <name>XMC_I2S_CH_CHANNEL_2_RIGHT</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Channel 2 (right) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Defines the Polarity of the WA in the SELO output lines in relation to the internal WA signal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="202" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="201" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1ga0519dc913371e5e1b2fb93602e8af7eb" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_EVENT_t</name>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba6f555796d0e490cdb8bb21ca6668e9bf" prot="public">
+          <name>XMC_I2S_CH_EVENT_RECEIVE_START</name>
+          <initializer>= USIC_CH_CCR_RSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive start event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba2ec499d4478e0288bc8f36fa122760ff" prot="public">
+          <name>XMC_I2S_CH_EVENT_DATA_LOST</name>
+          <initializer>= USIC_CH_CCR_DLIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data lost event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba1c415b086e85445c3b20f60befc35e64" prot="public">
+          <name>XMC_I2S_CH_EVENT_TRANSMIT_SHIFT</name>
+          <initializer>= USIC_CH_CCR_TSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit shift event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7ebae050d22d0c6670c83a7b3938445f3ca4" prot="public">
+          <name>XMC_I2S_CH_EVENT_TRANSMIT_BUFFER</name>
+          <initializer>= USIC_CH_CCR_TBIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit buffer event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba103fe11c9572f6b4f5416a7203cae51f" prot="public">
+          <name>XMC_I2S_CH_EVENT_STANDARD_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_RIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba451277b6303c2d2fe97f3160d73811c6" prot="public">
+          <name>XMC_I2S_CH_EVENT_ALTERNATIVE_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_AIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Alternate receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba5f773a997f74338bff7f899bf84e31da" prot="public">
+          <name>XMC_I2S_CH_EVENT_BAUD_RATE_GENERATOR</name>
+          <initializer>= USIC_CH_CCR_BRGIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baudrate generator event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba6f2c0491e36b530b7f0f372c0e0562c1" prot="public">
+          <name>XMC_I2S_CH_EVENT_WA_FALLING_EDGE</name>
+          <initializer>= USIC_CH_PCR_IISMode_WAFEIEN_Msk &lt;&lt; 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>WA falling edge event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba22b218a082c9d70ce83289158ff66501" prot="public">
+          <name>XMC_I2S_CH_EVENT_WA_RISING_EDGE</name>
+          <initializer>= USIC_CH_PCR_IISMode_WAREIEN_Msk &lt;&lt; 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>WA rising edge event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7eba7cc0ddea3695a17c27747b418e7b16a1" prot="public">
+          <name>XMC_I2S_CH_EVENT_WA_GENERATION_END</name>
+          <initializer>= USIC_CH_PCR_IISMode_ENDIEN_Msk &lt;&lt; 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>END event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga0519dc913371e5e1b2fb93602e8af7ebaeec8987e03c66150a84fc0ca021330d1" prot="public">
+          <name>XMC_I2S_CH_EVENT_DX2TIEN_ACTIVATED</name>
+          <initializer>= USIC_CH_PCR_IISMode_DX2TIEN_Msk &lt;&lt; 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>WA input signal transition event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2S events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="172" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="171" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_INPUT_t</name>
+        <enumvalue id="group___i2_s_1ggaf92c3536e625729aefc26a87ca915fa1a1f1c8603d2a16dd28d10fc20e07e0f23" prot="public">
+          <name>XMC_I2S_CH_INPUT_DIN0</name>
+          <initializer>= 0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaf92c3536e625729aefc26a87ca915fa1aa489eba5dd199e2763f913d9cd182ad0" prot="public">
+          <name>XMC_I2S_CH_INPUT_SLAVE_SCLKIN</name>
+          <initializer>= 1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Clock input stage </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaf92c3536e625729aefc26a87ca915fa1aa2078ff62f39e669f5d7359edc2daa10" prot="public">
+          <name>XMC_I2S_CH_INPUT_SLAVE_WA</name>
+          <initializer>= 2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>WA input stage </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaf92c3536e625729aefc26a87ca915fa1a5185333fb09982c55cb169c274486b63" prot="public">
+          <name>XMC_I2S_CH_INPUT_DIN1</name>
+          <initializer>= 3UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaf92c3536e625729aefc26a87ca915fa1a42fbab05215695e05b455624d9b18823" prot="public">
+          <name>XMC_I2S_CH_INPUT_DIN2</name>
+          <initializer>= 4UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaf92c3536e625729aefc26a87ca915fa1a2f5da0034674287460fcd83cf7512660" prot="public">
+          <name>XMC_I2S_CH_INPUT_DIN3</name>
+          <initializer>= 5UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data input stage 3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2S input stage selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="211" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="210" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1gaa876770c9147fa5b0ca79b5bbd755ce9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_INTERRUPT_NODE_POINTER_t</name>
+        <enumvalue id="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9ac00bde3addfb72171f5bd0607fc0426c" prot="public">
+          <name>XMC_I2S_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit shift interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9a57e6d7b8a3d66799258e3ded542a872c" prot="public">
+          <name>XMC_I2S_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit buffer interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9a5675f33e9565e0b87dc10342e3b541ac" prot="public">
+          <name>XMC_I2S_CH_INTERRUPT_NODE_POINTER_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9a9a3f8e7dcd7d67904c74d12b399921f1" prot="public">
+          <name>XMC_I2S_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for alternate receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9ac8250779e4d8ccf20d17d66421c46660" prot="public">
+          <name>XMC_I2S_CH_INTERRUPT_NODE_POINTER_PROTOCOL</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for protocol related interrupts </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2S channel interrupt node pointers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="160" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1ga86eb677be3865bdf0545767e8818d7ea" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_STATUS_FLAG_t</name>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa47a2558d7b0bde69cded893a1fe0078e" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_WORD_ADDRESS</name>
+          <initializer>= USIC_CH_PSR_IISMode_WA_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Word Address status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa202a435971e4df1ebd791b861d727758" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_DX2S</name>
+          <initializer>= USIC_CH_PSR_IISMode_DX2S_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status of WA input(DX2) signal </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaab1530782132d2cf834660a322df93135" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_DX2T_EVENT_DETECTED</name>
+          <initializer>= USIC_CH_PSR_IISMode_DX2TEV_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status for WA input signal transition </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa1441fa1c8f4a37644132dc5933293ec7" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_WA_FALLING_EDGE_EVENT</name>
+          <initializer>= USIC_CH_PSR_IISMode_WAFE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Falling edge of the WA output signal has been generated </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa6a427d736c2dc6e7ab6c29818284c21f" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_WA_RISING_EDGE_EVENT</name>
+          <initializer>= USIC_CH_PSR_IISMode_WARE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Rising edge of the WA output signal has been generated </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaaf54ccb4a544ffa1218f043e1cbbda580" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_WA_GENERATION_END</name>
+          <initializer>= USIC_CH_PSR_IISMode_END_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The WA generation has ended </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa3afcb8e827cc2c2feed7d6cca2f6ed0f" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_RECEIVER_START_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_RSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive start indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa2c33679c1d063d0705c837accd1eb368" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_DATA_LOST_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_DLIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data lost indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaad1d427bdbccec03368967c462e2c5a07" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_TRANSMIT_SHIFT_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_TSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit shift indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa681237dd41b82191e802ae34223f4d6d" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_TRANSMIT_BUFFER_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_TBIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit buffer indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaace4b8f986d8321f8c6d3596c63a29640" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_RIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaaf4bb61d7a7b20500af6662cc7a1f8053" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_ALTERNATIVE_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_AIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Alternate receive indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1gga86eb677be3865bdf0545767e8818d7eaa5892fcb5ffa53ea6361d0ad145be183e" prot="public">
+          <name>XMC_I2S_CH_STATUS_FLAG_BAUD_RATE_GENERATOR_INDICATION</name>
+          <initializer>= USIC_CH_PSR_IISMode_BRGIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baud rate generator indication status </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2S status flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="129" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="128" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1gad79d76187d3de45ba4d8ec7f17989a20" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_STATUS_t</name>
+        <enumvalue id="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20aefa3783742bd11437e465de7cf19b9d0" prot="public">
+          <name>XMC_I2S_CH_STATUS_OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status OK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20a274f43657b1d0d60d6a4a3979025f6f0" prot="public">
+          <name>XMC_I2S_CH_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status ERROR </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20ad630d122134df50be10aaa7aeb01cf80" prot="public">
+          <name>XMC_I2S_CH_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status BUSY </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>I2S Status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="119" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="118" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___i2_s_1gaf06d8ef70b2f776bd0e3f4a4860b6dd4" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_I2S_CH_WA_POLARITY_t</name>
+        <enumvalue id="group___i2_s_1ggaf06d8ef70b2f776bd0e3f4a4860b6dd4aad9792a6807914460708783fca529b97" prot="public">
+          <name>XMC_I2S_CH_WA_POLARITY_DIRECT</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The SELO outputs have the same polarity as the WA signal (active high) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___i2_s_1ggaf06d8ef70b2f776bd0e3f4a4860b6dd4aee02f33af07c1e12c1feea0b77d4c1eb" prot="public">
+          <name>XMC_I2S_CH_WA_POLARITY_INVERTED</name>
+          <initializer>= 0x1UL &lt;&lt; USIC_CH_PCR_IISMode_SELINV_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The SELO outputs have the inverted polarity to the WA signal (active low) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Defines the Polarity of the WA in the SELO output lines in relation to the internal WA signal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="191" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="190" bodyend="196"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___i2_s_1gaab7c4e8e4aa32520307fd34c387a9ee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_ClearStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t flag)</argsstring>
+        <name>XMC_I2S_CH_ClearStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol event status to be cleared for detection of next occurence. Refer @ XMC_I2S_CH_STATUS_FLAG_t for valid values. <bold>OR</bold> combinations of these enum item can be used as input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears the events specified, by setting PSCR register.<linebreak/>
+<linebreak/>
+During communication the events occurred have to be cleared to detect their next occurence.<linebreak/>
+e.g: During transmission Transmit buffer event occurs to indicating data word transfer has started. This event has to be cleared after transmission of each data word. Otherwise next event cannot be recognized.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga8ea6d90429a2ac4de4bbe1db35a7087c" kindref="member">XMC_I2S_CH_GetStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="553" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="553" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga791fd46fa82e2c4a87eca3ff2e543813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_ConfigureShiftClockOutput</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_BRG_SHIFT_CLOCK_OUTPUT_t clock_output)</argsstring>
+        <name>XMC_I2S_CH_ConfigureShiftClockOutput</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1ga6cf990895c6ccc01ceaf11c028ad35cc" kindref="member">XMC_I2S_CH_BRG_SHIFT_CLOCK_OUTPUT_t</ref></type>
+          <declname>clock_output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clock_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>shift clock source.<linebreak/>
+ Refer <ref refid="group___i2_s_1ga6cf990895c6ccc01ceaf11c028ad35cc" kindref="member">XMC_I2S_CH_BRG_SHIFT_CLOCK_OUTPUT_t</ref> for valid inputs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the shift clock source by setting BRG.SCLKOSEL.<linebreak/>
+<linebreak/>
+In Master mode operation, shift clock is generated by the internal baud rate generator. This SCLK is made available for external slave devices by SCLKOUT signal.<linebreak/>
+In Slave mode, the signal is received from the external master. So the DX1(input) stage has to be connected to input.<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="607" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="607" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga84e90979653181ee8ca36366322368d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_DisableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_DisableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, <ref refid="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" kindref="member">XMC_I2S0_CH1</ref>,<ref refid="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" kindref="member">XMC_I2S1_CH0</ref>,<ref refid="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" kindref="member">XMC_I2S1_CH1</ref>,<ref refid="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" kindref="member">XMC_I2S2_CH0</ref>,<ref refid="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" kindref="member">XMC_I2S2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___i2_s_1gaefff3825c713fe5b9926d2c9f3936430" kindref="member">XMC_I2S_CH_EnableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gaefff3825c713fe5b9926d2c9f3936430" kindref="member">XMC_I2S_CH_EnableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="875" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="875" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gac731fe4fbd6e50a8e0b0a8819d30ed56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_DisableDelayCompensation</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_DisableDelayCompensation</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, <ref refid="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" kindref="member">XMC_I2S0_CH1</ref>,<ref refid="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" kindref="member">XMC_I2S1_CH0</ref>,<ref refid="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" kindref="member">XMC_I2S1_CH1</ref>,<ref refid="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" kindref="member">XMC_I2S2_CH0</ref>,<ref refid="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" kindref="member">XMC_I2S2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables delay compensation.. <linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga6484a12dcff80b2055d1b986e8cba28d" kindref="member">XMC_I2S_CH_EnableDelayCompensation()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="838" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="838" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga624bd3292e9b6ea3bb41689d41fadb27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_DisableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t event)</argsstring>
+        <name>XMC_I2S_CH_DisableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol events which have to be disabled. Refer @ XMC_I2S_CH_EVENT_t for valid values. <bold>OR</bold> combinations of these enum item can be used as input.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the I2S protocol specific events, by configuring PCR register.<linebreak/>
+<linebreak/>
+After disabling the events, <ref refid="group___i2_s_1ga3dd5f7a8841af9489527611acdfa1bd4" kindref="member">XMC_I2S_CH_EnableEvent()</ref> has to be invoked to re-enable the events.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga3dd5f7a8841af9489527611acdfa1bd4" kindref="member">XMC_I2S_CH_EnableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="518" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gad442af0346273424ef742ccd3abe40dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_DisableInputInversion</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_INPUT_t input)</argsstring>
+        <name>XMC_I2S_CH_DisableInputInversion</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" kindref="member">XMC_I2S_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2S channel input stage.<linebreak/>
+ Refer <ref refid="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" kindref="member">XMC_I2S_CH_INPUT_t</ref> for valid inputs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables the polarity inversion of input data signal, by clearing DXyCR.DPOL(where y = <emphasis>input</emphasis>).<linebreak/>
+<linebreak/>
+Resets the input data polarity. Invoke <ref refid="group___i2_s_1ga3cfdd666f14a7897c24a7e79660179b5" kindref="member">XMC_I2S_CH_EnableInputInversion()</ref> to apply inversion.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga3cfdd666f14a7897c24a7e79660179b5" kindref="member">XMC_I2S_CH_EnableInputInversion()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="731" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="731" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gafca8077849ed95bc45949481d3110659" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_DisableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_DisableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the generation of Master clock by clearing PCR.MCLK bit.<linebreak/>
+<linebreak/>
+This clock can be enabled by invoking <ref refid="group___i2_s_1ga99608c0251e3b153d1f71b49350d5c0c" kindref="member">XMC_I2S_CH_EnableMasterClock()</ref> as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga99608c0251e3b153d1f71b49350d5c0c" kindref="member">XMC_I2S_CH_EnableMasterClock()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="589" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="589" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gaefff3825c713fe5b9926d2c9f3936430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_EnableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_EnableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, <ref refid="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" kindref="member">XMC_I2S0_CH1</ref>,<ref refid="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" kindref="member">XMC_I2S1_CH0</ref>,<ref refid="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" kindref="member">XMC_I2S1_CH1</ref>,<ref refid="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" kindref="member">XMC_I2S2_CH0</ref>,<ref refid="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" kindref="member">XMC_I2S2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___i2_s_1ga84e90979653181ee8ca36366322368d5" kindref="member">XMC_I2S_CH_DisableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>. </para>
+</simplesect>
+<simplesect kind="note"><para>If you need more control over the start of transmission use <ref refid="group___u_s_i_c_1ga3b02352ba5e94e8f79751dea304084e0" kindref="member">XMC_USIC_CH_SetStartTransmisionMode()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga84e90979653181ee8ca36366322368d5" kindref="member">XMC_I2S_CH_DisableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="857" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="857" bodyend="860"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga6484a12dcff80b2055d1b986e8cba28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_EnableDelayCompensation</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_EnableDelayCompensation</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, <ref refid="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" kindref="member">XMC_I2S0_CH1</ref>,<ref refid="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" kindref="member">XMC_I2S1_CH0</ref>,<ref refid="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" kindref="member">XMC_I2S1_CH1</ref>,<ref refid="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" kindref="member">XMC_I2S2_CH0</ref>,<ref refid="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" kindref="member">XMC_I2S2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables delay compensation. <linebreak/>
+<linebreak/>
+ Delay compensation can be applied to the receive path. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gac731fe4fbd6e50a8e0b0a8819d30ed56" kindref="member">XMC_I2S_CH_DisableDelayCompensation()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="822" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="822" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga3dd5f7a8841af9489527611acdfa1bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_EnableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t event)</argsstring>
+        <name>XMC_I2S_CH_EnableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol events which have to be enabled. Refer @ XMC_I2S_CH_EVENT_t for valid values. <bold>OR</bold> combinations of these enum items can be used as input.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the I2S protocol specific events, by configuring PCR register.<linebreak/>
+<linebreak/>
+Events can be enabled as needed using <ref refid="group___i2_s_1ga3dd5f7a8841af9489527611acdfa1bd4" kindref="member">XMC_I2S_CH_EnableEvent()</ref>. <ref refid="group___i2_s_1ga624bd3292e9b6ea3bb41689d41fadb27" kindref="member">XMC_I2S_CH_DisableEvent()</ref> can be used to disable the events.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga624bd3292e9b6ea3bb41689d41fadb27" kindref="member">XMC_I2S_CH_DisableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="501" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga3cfdd666f14a7897c24a7e79660179b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_EnableInputInversion</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_INPUT_t input)</argsstring>
+        <name>XMC_I2S_CH_EnableInputInversion</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" kindref="member">XMC_I2S_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2S channel input stage.<linebreak/>
+ Refer <ref refid="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" kindref="member">XMC_I2S_CH_INPUT_t</ref> for valid inputs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the polarity inversion of input data signal, by setting DXyCR.DPOL(where y = <emphasis>input</emphasis>).<linebreak/>
+<linebreak/>
+This is not set in <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref>. Invoke <ref refid="group___i2_s_1ga3cfdd666f14a7897c24a7e79660179b5" kindref="member">XMC_I2S_CH_EnableInputInversion()</ref> as needed later in the program. To disable the inversion <ref refid="group___i2_s_1gad442af0346273424ef742ccd3abe40dd" kindref="member">XMC_I2S_CH_DisableInputInversion()</ref> can be invoked.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gad442af0346273424ef742ccd3abe40dd" kindref="member">XMC_I2S_CH_DisableInputInversion()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="711" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="711" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga99608c0251e3b153d1f71b49350d5c0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_EnableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_EnableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the generation of Master clock by setting PCR.MCLK bit.<linebreak/>
+<linebreak/>
+This clock can be used as a clock reference for external devices. This is not enabled during initialization in <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref>. Invoke <ref refid="group___i2_s_1ga99608c0251e3b153d1f71b49350d5c0c" kindref="member">XMC_I2S_CH_EnableMasterClock()</ref> to enable as needed in the program, or if it is disabled by <ref refid="group___i2_s_1gafca8077849ed95bc45949481d3110659" kindref="member">XMC_I2S_CH_DisableMasterClock()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gafca8077849ed95bc45949481d3110659" kindref="member">XMC_I2S_CH_DisableMasterClock()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="572" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="572" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga4302cec4acffcd49bc2178b1b98afcb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_I2S_CH_GetReceivedData</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_GetReceivedData</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Data read from the receive buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads data from the receive buffer based on the FIFO selection.<linebreak/>
+<linebreak/>
+Invocation of <ref refid="group___i2_s_1ga1c7bd3c147219fce76f9c1c61b21898a" kindref="member">XMC_I2S_CH_Receive()</ref> receives the data and place it into receive buffer. After receiving the data <ref refid="group___i2_s_1ga4302cec4acffcd49bc2178b1b98afcb4" kindref="member">XMC_I2S_CH_GetReceivedData()</ref> can be used to read the data from the buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga1c7bd3c147219fce76f9c1c61b21898a" kindref="member">XMC_I2S_CH_Receive()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="447" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga8ea6d90429a2ac4de4bbe1db35a7087c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_I2S_CH_GetStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_GetStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Status of I2S protocol events.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Returns the status of the events, by reading PSR register.<linebreak/>
+<linebreak/>
+This indicates the status of the all the events, for I2S communication.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gaab7c4e8e4aa32520307fd34c387a9ee1" kindref="member">XMC_I2S_CH_ClearStatusFlag()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="532" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="532" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_Init</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_CONFIG_t *const config)</argsstring>
+        <name>XMC_I2S_CH_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2S_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, XMC_I2S0_CH1,XMC_I2S1_CH0, XMC_I2S1_CH1,XMC_I2S2_CH0, XMC_I2S2_CH1 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to I2S configuration structure of type <ref refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2S_CH_CONFIG_t</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_I2S_CH_STATUS_t Status of initializing the USIC channel for I2S protocol.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20aefa3783742bd11437e465de7cf19b9d0" kindref="member">XMC_I2S_CH_STATUS_OK</ref> if initialization is successful.<linebreak/>
+ <ref refid="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20a274f43657b1d0d60d6a4a3979025f6f0" kindref="member">XMC_I2S_CH_STATUS_ERROR</ref> if configuration of baudrate failed.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Initializes the USIC channel for I2S protocol.<linebreak/>
+<linebreak/>
+During the initialization, USIC channel is enabled and baudrate is configured. After each change of the WA signal, a complete data frame is intended to be transferred (frame length &lt;= system word length). The number of data bits transferred after a change of signal WA is defined by config-&gt;frame_length. A data frame can consist of several data words with a data word length defined by config-&gt;data_bits. The changes of signal WA define the system word length as the number of SCLK cycles between two changes of WA. The system word length is set by default to the frame length defined by config-&gt;frame_length.</para>
+</simplesect>
+<ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref> should be invoked after the initialization to enable the channel.</para>
+<para><simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref>, <ref refid="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" kindref="member">XMC_I2S_CH_Stop()</ref>, <ref refid="group___i2_s_1ga961ec248ea914b53a1e7595f4a0e8d01" kindref="member">XMC_I2S_CH_Transmit()</ref>, <ref refid="group___i2_s_1gabb2198a50935a491a48686d85b53f0bf" kindref="member">XMC_I2S_CH_SetSystemWordLength()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="307" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="307" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gab82202f0981b705a15ab7ed80ddc6b09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_InitEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_CONFIG_t *const config, bool init_brg)</argsstring>
+        <name>XMC_I2S_CH_InitEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2S_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>init_brg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, XMC_I2S0_CH1,XMC_I2S1_CH0, XMC_I2S1_CH1,XMC_I2S2_CH0, XMC_I2S2_CH1 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to I2S configuration structure of type <ref refid="struct_x_m_c___i2_s___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_I2S_CH_CONFIG_t</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>init_brg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects if the baudrate generator should be configured automatically. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_I2S_CH_STATUS_t Status of initializing the USIC channel for I2S protocol.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20aefa3783742bd11437e465de7cf19b9d0" kindref="member">XMC_I2S_CH_STATUS_OK</ref> if initialization is successful.<linebreak/>
+ <ref refid="group___i2_s_1ggad79d76187d3de45ba4d8ec7f17989a20a274f43657b1d0d60d6a4a3979025f6f0" kindref="member">XMC_I2S_CH_STATUS_ERROR</ref> if configuration of baudrate failed.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Initializes the USIC channel for I2S protocol.<linebreak/>
+<linebreak/>
+During the initialization, USIC channel is enabled and baudrate is configured. After each change of the WA signal, a complete data frame is intended to be transferred (frame length &lt;= system word length). The number of data bits transferred after a change of signal WA is defined by config-&gt;frame_length. A data frame can consist of several data words with a data word length defined by config-&gt;data_bits. The changes of signal WA define the system word length as the number of SCLK cycles between two changes of WA. The system word length is set by default to the frame length defined by config-&gt;frame_length.</para>
+</simplesect>
+<ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref> should be invoked after the initialization to enable the channel.</para>
+<para><simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref>, <ref refid="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" kindref="member">XMC_I2S_CH_Stop()</ref>, <ref refid="group___i2_s_1ga961ec248ea914b53a1e7595f4a0e8d01" kindref="member">XMC_I2S_CH_Transmit()</ref>, <ref refid="group___i2_s_1gabb2198a50935a491a48686d85b53f0bf" kindref="member">XMC_I2S_CH_SetSystemWordLength()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="283" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga1c7bd3c147219fce76f9c1c61b21898a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_Receive</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_CHANNEL_t channel_number)</argsstring>
+        <name>XMC_I2S_CH_Receive</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1ga8e7a5c82ca942de7450cfba67907aa22" kindref="member">XMC_I2S_CH_CHANNEL_t</ref></type>
+          <declname>channel_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Communication output channel of the I2S, based on this mode TCI(Transmit control information)is updated.<linebreak/>
+ Refer <ref refid="group___i2_s_1ga8e7a5c82ca942de7450cfba67907aa22" kindref="member">XMC_I2S_CH_CHANNEL_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Transmits a dummy data(FFFFH) to provide clock for slave and receives the data from the slave.<linebreak/>
+<linebreak/>
+<ref refid="group___i2_s_1ga1c7bd3c147219fce76f9c1c61b21898a" kindref="member">XMC_I2S_CH_Receive()</ref> receives the data and places it into buffer based on the FIFO selection. After reception of data <ref refid="group___i2_s_1ga4302cec4acffcd49bc2178b1b98afcb4" kindref="member">XMC_I2S_CH_GetReceivedData()</ref> can be invoked to read the data from the buffers.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga4302cec4acffcd49bc2178b1b98afcb4" kindref="member">XMC_I2S_CH_GetReceivedData()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="428" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="428" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gafd9b940110725dee4580f570f54028ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SelectInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_INTERRUPT_NODE_POINTER_t interrupt_node, const uint32_t service_request)</argsstring>
+        <name>XMC_I2S_CH_SelectInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1gaa876770c9147fa5b0ca79b5bbd755ce9" kindref="member">XMC_I2S_CH_INTERRUPT_NODE_POINTER_t</ref></type>
+          <declname>interrupt_node</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, <ref refid="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" kindref="member">XMC_I2S0_CH1</ref>,<ref refid="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" kindref="member">XMC_I2S1_CH0</ref>,<ref refid="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" kindref="member">XMC_I2S1_CH1</ref>,<ref refid="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" kindref="member">XMC_I2S2_CH0</ref>,<ref refid="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" kindref="member">XMC_I2S2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interrupt_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interrupt node pointer to be configured. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9ac00bde3addfb72171f5bd0607fc0426c" kindref="member">XMC_I2S_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</ref>, <ref refid="group___i2_s_1ggaa876770c9147fa5b0ca79b5bbd755ce9a57e6d7b8a3d66799258e3ded542a872c" kindref="member">XMC_I2S_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</ref> etc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number.<linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for USIC channel events. <linebreak/>
+<linebreak/>
+For an event to generate interrupt, node pointer should be configured with service request(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so.<linebreak/>
+ Note: NVIC node should be separately enabled to generate the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga3dd5f7a8841af9489527611acdfa1bd4" kindref="member">XMC_I2S_CH_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="782" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="782" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gaff2473a1c092b6cbb61c9996086c2ea9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___i2_s_1gad79d76187d3de45ba4d8ec7f17989a20" kindref="member">XMC_I2S_CH_STATUS_t</ref></type>
+        <definition>XMC_I2S_CH_STATUS_t XMC_I2S_CH_SetBaudrate</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t rate)</argsstring>
+        <name>XMC_I2S_CH_SetBaudrate</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bus speed in bits per second</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_I2S_CH_STATUS_t Status of the I2S driver after the request for setting baudrate is processed. <linebreak/>
+ XMC_I2S_CH_STATUS_OK- If the baudrate is successfully changed. <linebreak/>
+ XMC_I2S_CH_STATUS_ERROR- If the new baudrate value is out of range.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the bus speed in bits per second</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref>, <ref refid="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" kindref="member">XMC_I2S_CH_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="362" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga429db55541512a3a9c61a1f1655a1ee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___i2_s_1gad79d76187d3de45ba4d8ec7f17989a20" kindref="member">XMC_I2S_CH_STATUS_t</ref></type>
+        <definition>XMC_I2S_CH_STATUS_t XMC_I2S_CH_SetBaudrateEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t rate, bool normal_divider_mode)</argsstring>
+        <name>XMC_I2S_CH_SetBaudrateEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normal_divider_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bus speed in bits per second </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normal_divider_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter at cost of frequency selection</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_I2S_CH_STATUS_t Status of the I2S driver after the request for setting baudrate is processed. <linebreak/>
+ XMC_I2S_CH_STATUS_OK- If the baudrate is successfully changed. <linebreak/>
+ XMC_I2S_CH_STATUS_ERROR- If the new baudrate value is out of range.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the bus speed in bits per second</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref>, <ref refid="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" kindref="member">XMC_I2S_CH_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="379" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga365e507fce74d7a9d1f02a00b8db9223" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetBitOrderLsbFirst</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_SetBitOrderLsbFirst</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the order of data transfer from LSB to MSB, by clearing SCTR.SDIR bit.<linebreak/>
+<linebreak/>
+This is typically based on the slave settings. Invoke <ref refid="group___i2_s_1ga365e507fce74d7a9d1f02a00b8db9223" kindref="member">XMC_I2S_CH_SetBitOrderLsbFirst()</ref> to set direction as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga33a3c6090697d5df5038b3c1b5ed1c13" kindref="member">XMC_I2S_CH_SetBitOrderMsbFirst()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="462" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="462" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga33a3c6090697d5df5038b3c1b5ed1c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetBitOrderMsbFirst</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_SetBitOrderMsbFirst</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the order of data transfer from MSB to LSB, by setting SCTR.SDIR bit.<linebreak/>
+<linebreak/>
+This is typically based on the slave settings. This is not set during <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref>. Invoke <ref refid="group___i2_s_1ga33a3c6090697d5df5038b3c1b5ed1c13" kindref="member">XMC_I2S_CH_SetBitOrderMsbFirst()</ref> to set direction as needed in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga365e507fce74d7a9d1f02a00b8db9223" kindref="member">XMC_I2S_CH_SetBitOrderLsbFirst()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="480" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="480" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gacf411f00a4585150d33d3259dfc785ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetFrameLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t frame_length)</argsstring>
+        <name>XMC_I2S_CH_SetFrameLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>frame_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>frame_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bits in a frame. <linebreak/>
+ <bold>Range:</bold> 1 to 64.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Define the data frame length.<linebreak/>
+<linebreak/>
+Set the number of bits to be serially transmitted in a frame. The frame length should be multiples of word length.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1gabb9d02b8388a03cd28190c976cdb8b78" kindref="member">XMC_USIC_CH_SetWordLength()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="648" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="648" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga32572b75a2b528238622cfa91da6239f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetInputSource</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_INPUT_t input, const uint8_t source)</argsstring>
+        <name>XMC_I2S_CH_SetInputSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" kindref="member">XMC_I2S_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2S channel input stage.<linebreak/>
+ Refer <ref refid="group___i2_s_1gaf92c3536e625729aefc26a87ca915fa1" kindref="member">XMC_I2S_CH_INPUT_t</ref> for valid values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input source select for the input stage. Range : [0 to 7]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Selects the data source for I2S input stage, by configuring DXCR.DSEL bits.<linebreak/>
+<linebreak/>
+Selects the input data signal source among DXnA, DXnB.. DXnG for the input stage. The API can be used for all the input stages like DX0CR, DX1CR etc. This is not done during initialization. This has to be configured before starting the I2S communication. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="668" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="668" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga8af8cb0639aeede0ab9faead5fa7f55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t service_request)</argsstring>
+        <name>XMC_I2S_CH_SetInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number. Range: [0 to 5]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for I2S channel events.<linebreak/>
+<linebreak/>
+For an event to generate interrupt, node pointer should be configured with service request(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so. This is not configured in <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref> during initialization.</para>
+</simplesect>
+<simplesect kind="par"><title>Note::</title><para><orderedlist>
+<listitem><para>NVIC node should be separately enabled to generate the interrupt.</para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1ga6f9467a0f290d65f7292b45cc29e32b4" kindref="member">XMC_USIC_CH_EnableEvent()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="756" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="756" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1gabb2198a50935a491a48686d85b53f0bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetSystemWordLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t sclk_cycles_system_word_length)</argsstring>
+        <name>XMC_I2S_CH_SetSystemWordLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>sclk_cycles_system_word_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sclk_cycles_system_word_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>system word length in terms of sclk clock cycles.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the system word length by setting BRG.DCTQ bit field.<linebreak/>
+<linebreak/>
+This value has to be always higher than 1U and lower than the data with (SCTR.FLE) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="392" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga55da8db55309c3afb4d9c6f238aeb240" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_SetWordLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t word_length)</argsstring>
+        <name>XMC_I2S_CH_SetWordLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>word_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>word_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bits to be configured for a data word. <linebreak/>
+ <bold>Range:</bold> 1 to 16.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Defines the data word length.<linebreak/>
+<linebreak/>
+Sets the number of bits to represent a data word. Frame length should be a multiple of word length.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gacf411f00a4585150d33d3259dfc785ca" kindref="member">XMC_I2S_CH_SetFrameLength()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="628" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="628" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_Start</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_Start</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the selected USIC channel to operate in I2S mode, by setting CCR.MODE bits.<linebreak/>
+<linebreak/>
+It should be executed after <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref> during initialization. By invoking <ref refid="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" kindref="member">XMC_I2S_CH_Stop()</ref>, the MODE is set to IDLE state. Call <ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref> to set the I2S mode again, as needed later in the program.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref>, <ref refid="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" kindref="member">XMC_I2S_CH_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="325" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="325" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga1fab03647f2593b60365e39463fe5cb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___i2_s_1gad79d76187d3de45ba4d8ec7f17989a20" kindref="member">XMC_I2S_CH_STATUS_t</ref></type>
+        <definition>XMC_I2S_CH_STATUS_t XMC_I2S_CH_Stop</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_I2S_CH_Stop</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_I2S_CH_STATUS_t Status of the I2S driver after the request for stopping is processed. <linebreak/>
+ XMC_I2S_CH_STATUS_OK- If the USIC channel is successfully put to IDLE mode. <linebreak/>
+ XMC_I2S_CH_STATUS_BUSY- If the USIC channel is busy transmitting data.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set the selected I2S channel to IDLE mode, by clearing CCR.MODE bits.<linebreak/>
+<linebreak/>
+After calling XMC_I2S_CH_Stop, channel is IDLE mode. So no communication is supported. <ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref> has to be invoked to start the communication again.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga398df3f0a83ceee1c0b2891c6f551da5" kindref="member">XMC_I2S_CH_Start()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="346" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga961ec248ea914b53a1e7595f4a0e8d01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_Transmit</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t data, const XMC_I2S_CH_CHANNEL_t channel_number)</argsstring>
+        <name>XMC_I2S_CH_Transmit</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1ga8e7a5c82ca942de7450cfba67907aa22" kindref="member">XMC_I2S_CH_CHANNEL_t</ref></type>
+          <declname>channel_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to be transmitted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Communication output channel of the I2S, based on this channel selection TCI(Transmit control information)is updated.<linebreak/>
+ Refer <ref refid="group___i2_s_1ga8e7a5c82ca942de7450cfba67907aa22" kindref="member">XMC_I2S_CH_CHANNEL_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Puts the data into FIFO, if FIFO mode is enabled or else into standard buffer, by setting the proper mode.<linebreak/>
+<linebreak/>
+TCI(Transmit Control Information) allows dynamic control of output channel during data transfers. To support this auto update, TCSR.WAMD(Automatic WA mode) will be enabled during the initialization using <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref> for all modes.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1ga1c7bd3c147219fce76f9c1c61b21898a" kindref="member">XMC_I2S_CH_Receive()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="411" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga4332db9df7ffbb91a633d94a05897ac4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_TriggerServiceRequest</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t service_request_line)</argsstring>
+        <name>XMC_I2S_CH_TriggerServiceRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request_line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" kindref="member">XMC_I2S0_CH0</ref>, <ref refid="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" kindref="member">XMC_I2S0_CH1</ref>,<ref refid="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" kindref="member">XMC_I2S1_CH0</ref>,<ref refid="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" kindref="member">XMC_I2S1_CH1</ref>,<ref refid="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" kindref="member">XMC_I2S2_CH0</ref>,<ref refid="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" kindref="member">XMC_I2S2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of I2S1 and I2S2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_request_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>service request number of the event to be triggered. <linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Trigger a I2S interrupt service request.<linebreak/>
+<linebreak/>
+When the I2S service request is triggered, the NVIC interrupt associated with it will be generated if enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___i2_s_1gafd9b940110725dee4580f570f54028ab" kindref="member">XMC_I2S_CH_SelectInterruptNodePointer()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="805" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="805" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="group___i2_s_1ga356145e003922d6ef50f7aab6a14afe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_I2S_CH_WordAddressSignalPolarity</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_I2S_CH_WA_POLARITY_t wa_inversion)</argsstring>
+        <name>XMC_I2S_CH_WordAddressSignalPolarity</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___i2_s_1gaf06d8ef70b2f776bd0e3f4a4860b6dd4" kindref="member">XMC_I2S_CH_WA_POLARITY_t</ref></type>
+          <declname>wa_inversion</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref>, pointing to the USIC channel base address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wa_inversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Polarity of the word address signal.<linebreak/>
+ Refer <ref refid="group___i2_s_1gaf06d8ef70b2f776bd0e3f4a4860b6dd4" kindref="member">XMC_I2S_CH_WA_POLARITY_t</ref> for valid values</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Set the polarity of the word address signal, by configuring PCR.SELINV bit.<linebreak/>
+<linebreak/>
+Normally WA signal is active low level signal. This is configured in <ref refid="group___i2_s_1ga9b4b3f64ebe0ab20c359f6184e923d98" kindref="member">XMC_I2S_CH_Init()</ref> during initialization. Invoke <ref refid="group___i2_s_1ga356145e003922d6ef50f7aab6a14afe9" kindref="member">XMC_I2S_CH_WordAddressSignalPolarity()</ref> with desired settings as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="689" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="689" bodyend="694"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___i2_s_1gaca9db6d0386bd723e662653ce19620b2" prot="public" static="no">
+        <name>XMC_I2S0_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1ga28dd6da4b742e7336b12ae6fa8de5e9f" kindref="member">XMC_USIC0_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC0 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="98" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_s_1ga7222d2a24ef59d2ab98f270c6d634d22" prot="public" static="no">
+        <name>XMC_I2S0_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1gab7c9a3765e7d637114fc67951cf20c5b" kindref="member">XMC_USIC0_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC0 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="99" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_s_1ga66e6fc510d71d8e8cd1fb249dd574749" prot="public" static="no">
+        <name>XMC_I2S1_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab3012ea0f6b1dddc5b1c05425e15c4a1" kindref="member">XMC_USIC1_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC1 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="103" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_s_1ga39a744cb1b509dffe39efccde9de1fe8" prot="public" static="no">
+        <name>XMC_I2S1_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga8892cec48c6246ff3e470178e4273f99" kindref="member">XMC_USIC1_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC1 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="104" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_s_1ga2052bed13ae87be6b83ee0e2d3697118" prot="public" static="no">
+        <name>XMC_I2S2_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab79d676f4efb3235bd3d8c977b83b1cf" kindref="member">XMC_USIC2_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC2 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="108" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___i2_s_1ga1dbf4e63749d2f645a8160712666e618" prot="public" static="no">
+        <name>XMC_I2S2_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga6f71692f25917f0dcd77bb77e5518313" kindref="member">XMC_USIC2_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC2 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" line="109" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_i2s.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>(IIS) driver for the XMC microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>USIC IIS Features: <linebreak/>
+ </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

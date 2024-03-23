@@ -28,14 +28,13 @@ CFLAGS += \
 	-mstrict-align \
 	-nostdlib -nostartfiles \
 	-DCFG_TUSB_MCU=OPT_MCU_GD32VF103 \
-	-DDOWNLOAD_MODE=DOWNLOAD_MODE_FLASHXIP \
-	-DGD32VF103 
+	-DDOWNLOAD_MODE=DOWNLOAD_MODE_FLASHXIP
 
 # mcu driver cause following warnings
 CFLAGS += -Wno-error=unused-parameter
 
 SRC_C += \
-	src/portable/st/synopsys/dcd_synopsys.c \
+	src/portable/synopsys/dwc2/dcd_dwc2.c \
 	$(GD32VF103_SDK_DRIVER)/gd32vf103_rcu.c \
 	$(GD32VF103_SDK_DRIVER)/gd32vf103_gpio.c \
 	$(GD32VF103_SDK_DRIVER)/Usb/gd32vf103_usb_hw.c \
@@ -45,7 +44,7 @@ SRC_C += \
 	$(LIBC_STUBS)/isatty.c \
 	$(LIBC_STUBS)/fstat.c \
 	$(LIBC_STUBS)/lseek.c \
-	$(LIBC_STUBS)/read.c 
+	$(LIBC_STUBS)/read.c
 
 SRC_S += \
 	$(STARTUP_ASM)/startup_gd32vf103.S \
@@ -58,7 +57,7 @@ INC += \
 	$(TOP)/$(GD32VF103_SDK_SOC)/Common/Include/Usb
 
 # For freeRTOS port source
-FREERTOS_PORT = RISC-V
+FREERTOS_PORTABLE_SRC = $(FREERTOS_PORTABLE_PATH)/RISC-V
 
 # For flash-jlink target
 JLINK_IF = jtag

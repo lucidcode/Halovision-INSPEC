@@ -83,6 +83,7 @@ SECTIONS
         *libnet80211.a:(.literal.* .text.*)
         *libwpa.a:(.literal.* .text.*)
         *libwpa2.a:(.literal.* .text.*)
+        *libespnow.a:(.literal.* .text.*)
 
         /* we put some specific text in this section */
 
@@ -144,14 +145,13 @@ SECTIONS
         *shared/timeutils/*.o*(.literal*, .text*)
         *drivers/bus/*.o(.literal* .text*)
 
-        build-*/main.o(.literal* .text*)
+        */main.o(.literal* .text*)
         *fatfs_port.o(.literal* .text*)
         *gccollect.o(.literal* .text*)
         *gchelper.o(.literal* .text*)
         *help.o(.literal* .text*)
         *lexerstr32.o(.literal* .text*)
         *utils.o(.literal* .text*)
-        *modpyb.o(.literal*, .text*)
         *machine_pin.o(.literal*, .text*)
         *machine_pwm.o(.literal*, .text*)
         *machine_rtc.o(.literal*, .text*)
@@ -161,15 +161,14 @@ SECTIONS
         *modmachine.o(.literal*, .text*)
         *machine_wdt.o(.literal*, .text*)
         *machine_spi.o(.literal*, .text*)
-        *machine_hspi.o(.literal*, .text*)
         *hspi.o(.literal*, .text*)
         *modesp.o(.literal* .text*)
-        *modnetwork.o(.literal* .text*)
-        *moduos.o(.literal* .text*)
-        *modutime.o(.literal* .text*)
+        *modespnow.o(.literal* .text*)
+        *modos.o(.literal* .text*)
         *modlwip.o(.literal* .text*)
         *modsocket.o(.literal* .text*)
         *modonewire.o(.literal* .text*)
+        *network_wlan.o(.literal* .text*)
         *esp_mphal.o(.literal* .text*)
 
         /* we put as much rodata as possible in this section */
@@ -182,7 +181,7 @@ SECTIONS
         */frozen.o(.rodata.mp_frozen_content) /* frozen modules */
 
         /* for -mforce-l32 */
-        build-*/*.o(.rodata*)
+        */*.o(.rodata*)
 
         _irom0_text_end = ABSOLUTE(.);
     } >irom0_0_seg :irom0_0_phdr

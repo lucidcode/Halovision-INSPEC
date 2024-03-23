@@ -9,38 +9,38 @@ The ``omv`` module is used to get OpenMV Cam information.
 Functions
 ---------
 
-.. function:: omv.version_major()
+.. function:: version_major()
 
    Returns the major version number (int).
 
-.. function:: omv.version_minor()
+.. function:: version_minor()
 
    Returns the minor version number (int).
 
-.. function:: omv.version_patch()
+.. function:: version_patch()
 
    Returns the patch version number (int).
 
-.. function:: omv.version_string()
+.. function:: version_string()
 
    Returns the version string (e.g. "2.8.0").
 
-.. function:: omv.arch()
+.. function:: arch()
 
    Returns the board architecture string. This string is really just meant for
    OpenMV IDE but you can get it with this function.
 
-.. function:: omv.board_type()
+.. function:: board_type()
 
    Returns the board type string. This string is really just meant for
    OpenMV IDE but you can get it with this function.
 
-.. function:: omv.board_id()
+.. function:: board_id()
 
    Returns the board id string. This string is really just meant for
    OpenMV IDE but you can get it with this function.
 
-.. function:: omv.disable_fb([disable])
+.. function:: disable_fb([disable])
 
    When ``disable`` is set to ``True`` the OpenMV Cam will no longer jpeg compress images and stream
    them to OpenMV IDE. The IDE may still poll for images unless ``Disable FB`` is checked in OpenMV

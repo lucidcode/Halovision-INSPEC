@@ -86,7 +86,7 @@ enum
   // 0 control, 1 In, 2 Bulk, 3 Iso, 4 In etc ...
   #define EPNUM_AUDIO   0x03
 
-#elif TU_CHECK_MCU(NRF5X)
+#elif TU_CHECK_MCU(OPT_MCU_NRF5X)
   // nRF5x ISO can only be endpoint 8
   #define EPNUM_AUDIO   0x08
 
@@ -149,7 +149,7 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid)
     const char* str = string_desc_arr[index];
 
     // Cap at max char
-    chr_count = strlen(str);
+    chr_count = (uint8_t) strlen(str);
     if ( chr_count > 31 ) chr_count = 31;
 
     for(uint8_t i=0; i<chr_count; i++)
@@ -159,7 +159,7 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid)
   }
 
   // first byte is length (including header), second byte is string type
-  _desc_str[0] = (TUSB_DESC_STRING << 8 ) | (2*chr_count + 2);
+  _desc_str[0] = (uint16_t) ((TUSB_DESC_STRING << 8 ) | (2*chr_count + 2));
 
   return _desc_str;
 }

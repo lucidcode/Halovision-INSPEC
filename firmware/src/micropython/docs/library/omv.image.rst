@@ -9,31 +9,31 @@ The ``image`` module is used for machine vision.
 Functions
 ---------
 
-.. function:: image.binary_to_grayscale(binary_image_value)
+.. function:: binary_to_grayscale(binary_image_value)
 
    Returns a converted binary value (0-1) to a grayscale value (0-255).
 
-.. function:: image.binary_to_rgb(binary_image_value)
+.. function:: binary_to_rgb(binary_image_value)
 
    Returns a converted binary value (0-1) to a 3 value RGB888 tuple.
 
-.. function:: image.binary_to_lab(binary_image_value)
+.. function:: binary_to_lab(binary_image_value)
 
    Returns a converted binary value (0-1) to a 3 value LAB tuple.
 
    L goes between 0 and 100 and A/B go from -128 to 128.
 
-.. function:: image.binary_to_yuv(binary_image_value)
+.. function:: binary_to_yuv(binary_image_value)
 
    Returns a converted binary value (0-1) to a 3 value YUV tuple.
 
    Y goes between 0 and 255 and U/V go from -128 to 128.
 
-.. function:: image.grayscale_to_binary(grayscale_value)
+.. function:: grayscale_to_binary(grayscale_value)
 
    Returns a converted grayscale value (0-255) to a binary value (0-1).
 
-.. function:: image.grayscale_to_rgb(grayscale_value)
+.. function:: grayscale_to_rgb(grayscale_value)
 
    Returns a converted grayscale value to a 3 value RGB888 tuple.
 
@@ -43,7 +43,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.grayscale_to_lab(grayscale_value)
+.. function:: grayscale_to_lab(grayscale_value)
 
    Returns a converted grayscale value to a 3 value LAB tuple.
 
@@ -55,7 +55,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.grayscale_to_yuv(grayscale_value)
+.. function:: grayscale_to_yuv(grayscale_value)
 
    Returns a converted grayscale value to a 3 value YUV tuple.
 
@@ -67,7 +67,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.rgb_to_binary(rgb_tuple)
+.. function:: rgb_to_binary(rgb_tuple)
 
    Returns a converted 3 value RGB888 tuple to a center range thresholded binary value (0-1).
 
@@ -77,7 +77,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.rgb_to_grayscale(rgb_tuple)
+.. function:: rgb_to_grayscale(rgb_tuple)
 
    Returns a converted 3 value RGB888 tuple to a grayscale value (0-255).
 
@@ -87,7 +87,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.rgb_to_lab(rgb_tuple)
+.. function:: rgb_to_lab(rgb_tuple)
 
    Returns a converted 3 value RGB888 tuple to a 3 value LAB tuple.
 
@@ -99,7 +99,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.rgb_to_yuv(rgb_tuple)
+.. function:: rgb_to_yuv(rgb_tuple)
 
    Returns a converted 3 value RGB888 tuple to a 3 value YUV tuple.
 
@@ -111,7 +111,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.lab_to_binary(lab_tuple)
+.. function:: lab_to_binary(lab_tuple)
 
    Returns a converted 3 value LAB tuple to a center range thresholded binary value (0-1).
 
@@ -121,7 +121,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.lab_to_grayscale(lab_tuple)
+.. function:: lab_to_grayscale(lab_tuple)
 
    Returns a converted 3 value LAB tuple to a grayscale value (0-255).
 
@@ -131,7 +131,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.lab_to_rgb(lab_tuple)
+.. function:: lab_to_rgb(lab_tuple)
 
    Returns a converted 3 value LAB tuple to a 3 value RGB888 tuple.
 
@@ -141,7 +141,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.lab_to_yuv(lab_tuple)
+.. function:: lab_to_yuv(lab_tuple)
 
    Returns a converted 3 value LAB tuple to a 3 value YUV tuple.
 
@@ -153,7 +153,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.yuv_to_binary(yuv_tuple)
+.. function:: yuv_to_binary(yuv_tuple)
 
    Returns a converted 3 value YUV tuple to a center range thresholded binary value (0-1).
 
@@ -163,7 +163,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.yuv_to_grayscale(yuv_tuple)
+.. function:: yuv_to_grayscale(yuv_tuple)
 
    Returns a converted 3 value YUV tuple to a grayscale value (0-255).
 
@@ -173,7 +173,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.yuv_to_rgb(lab_tuple)
+.. function:: yuv_to_rgb(lab_tuple)
 
    Returns a converted 3 value YUV tuple to a 3 value RGB888 tuple.
 
@@ -183,7 +183,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.yuv_to_lab(yuv_tuple)
+.. function:: yuv_to_lab(yuv_tuple)
 
    Returns a converted 3 value YUV tuple to a 3 value LAB tuple.
 
@@ -195,19 +195,19 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: image.load_decriptor(path)
+.. function:: load_decriptor(path)
 
    Loads a descriptor object from disk.
 
    ``path`` is the path to the descriptor file to load.
 
-.. function:: image.save_descriptor(path, descriptor)
+.. function:: save_descriptor(path, descriptor)
 
    Saves the descriptor object ``descriptor`` to disk.
 
    ``path`` is the path to the descriptor file to save.
 
-.. function:: image.match_descriptor(descritor0, descriptor1, [threshold=70, [filter_outliers=False]])
+.. function:: match_descriptor(descritor0, descriptor1, [threshold=70, [filter_outliers=False]])
 
    For LBP descriptors this function returns an integer representing the
    difference between the two descriptors. You may then threshold/compare this
@@ -226,17 +226,17 @@ Functions
 class HaarCascade -- Feature Descriptor
 ---------------------------------------
 
-The Haar Cascade feature descriptor is used for the `image.find_features()`
+The Haar Cascade feature descriptor is used for the `Image.find_features()`
 method. It doesn't have any methods itself for you to call.
 
-.. class:: image.HaarCascade(path, [stages=Auto])
+.. class:: HaarCascade(path, [stages=Auto])
 
    Loads a Haar Cascade into memory from a Haar Cascade binary file formatted
    for your OpenMV Cam. If you pass "frontalface" instead of a path then this
    constructor will load the built-in frontal face Haar Cascade into memory.
    Additionally, you can also pass "eye" to load a Haar Cascade for eyes into
    memory. Finally, this method returns the loaded Haar Cascade object for use
-   with `image.find_features()`.
+   with `Image.find_features()`.
 
    ``stages`` defaults to the number of stages in the Haar Cascade. However,
    you can specify a lower number of stages to speed up processing the feature
@@ -274,7 +274,7 @@ method. It doesn't have any methods itself for you to call.
 class Histogram -- Histogram Object
 -----------------------------------
 
-The histogram object is returned by `image.get_histogram()`.
+The histogram object is returned by `Image.get_histogram()`.
 
 Grayscale histograms have one channel with some number of bins. All bins are
 normalized so that all bins sum to 1.
@@ -282,35 +282,35 @@ normalized so that all bins sum to 1.
 RGB565 histograms have three channels with some number of bins each. All bins
 are normalized so that all bins in a channel sum to 1.
 
-.. class:: image.histogram()
+.. class:: histogram()
 
-   Please call `image.get_histogram()` to create this object.
+   Please call `Image.get_histogram()` to create this object.
 
-   .. method:: histogram.bins()
+   .. method:: bins()
 
       Returns a list of floats for the grayscale histogram.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: histogram.l_bins()
+   .. method:: l_bins()
 
       Returns a list of floats for the RGB565 histogram LAB L channel.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: histogram.a_bins()
+   .. method:: a_bins()
 
       Returns a list of floats for the RGB565 histogram LAB A channel.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: histogram.b_bins()
+   .. method:: b_bins()
 
       Returns a list of floats for the RGB565 histogram LAB B channel.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: histogram.get_percentile(percentile)
+   .. method:: get_percentile(percentile)
 
       Computes the CDF of the histogram channels and returns a `image.percentile`
       object with the values of the histogram at the passed in ``percentile`` (0.0
@@ -320,14 +320,14 @@ are normalized so that all bins in a channel sum to 1.
       0.1) and max (with 0.9) of a color distribution without outlier effects
       ruining your results for adaptive color tracking.
 
-   .. method:: histogram.get_threshold()
+   .. method:: get_threshold()
 
       Uses Otsu's Method to compute the optimal threshold values that split the
       histogram into two halves for each channel of the histogram. This method
       returns a `image.threshold` object. This method is particularly useful for
-      determining optimal `image.binary()` thresholds.
+      determining optimal `Image.binary()` thresholds.
 
-   .. method:: histogram.get_statistics()
+   .. method:: get_statistics()
 
       Computes the mean, median, mode, standard deviation, min, max, lower
       quartile, and upper quartile of each color channel in the histogram and
@@ -347,29 +347,29 @@ Grayscale percentiles have one channel. Use the non ``l_*``, ``a_*``, and
 RGB565 percentiles have three channels. Use the ``l_*``, ``a_*``, and ``b_*``
 methods.
 
-.. class:: image.percentile()
+.. class:: percentile()
 
    Please call `histogram.get_percentile()` to create this object.
 
-   .. method:: percentile.value()
+   .. method:: value()
 
       Return the grayscale percentile value (between 0 and 255).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: percentile.l_value()
+   .. method:: l_value()
 
       Return the RGB565 LAB L channel percentile value (between 0 and 100).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: percentile.a_value()
+   .. method:: a_value()
 
       Return the RGB565 LAB A channel percentile value (between -128 and 127).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: percentile.b_value()
+   .. method:: b_value()
 
       Return the RGB565 LAB B channel percentile value (between -128 and 127).
 
@@ -386,29 +386,29 @@ Grayscale thresholds have one channel. Use the non ``l_*``, ``a_*``, and
 RGB565 thresholds have three channels. Use the ``l_*``, ``a_*``, and ``b_*``
 methods.
 
-.. class:: image.threshold()
+.. class:: threshold()
 
    Please call `histogram.get_threshold()` to create this object.
 
-   .. method:: threshold.value()
+   .. method:: value()
 
       Return the grayscale threshold value (between 0 and 255).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: threshold.l_value()
+   .. method:: l_value()
 
       Return the RGB565 LAB L channel threshold value (between 0 and 100).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: threshold.a_value()
+   .. method:: a_value()
 
       Return the RGB565 LAB A channel threshold value (between -128 and 127).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: threshold.b_value()
+   .. method:: b_value()
 
       Return the RGB565 LAB B channel threshold value (between -128 and 127).
 
@@ -418,7 +418,7 @@ class Statistics -- Statistics Object
 -------------------------------------
 
 The percentile object is returned by `histogram.get_statistics()` or
-`image.get_statistics()`.
+`Image.get_statistics()`.
 
 Grayscale statistics have one channel. Use the non ``l_*``, ``a_*``, and
 ``b_*`` method.
@@ -426,197 +426,197 @@ Grayscale statistics have one channel. Use the non ``l_*``, ``a_*``, and
 RGB565 statistics have three channels. Use the ``l_*``, ``a_*``, and ``b_*``
 methods.
 
-.. class:: image.statistics()
+.. class:: statistics()
 
-   Please call `histogram.get_statistics()` or `image.get_statistics()` to create this object.
+   Please call `histogram.get_statistics()` or `Image.get_statistics()` to create this object.
 
-   .. method:: statistics.mean()
+   .. method:: mean()
 
       Returns the grayscale mean (0-255) (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: statistics.median()
+   .. method:: median()
 
       Returns the grayscale median (0-255) (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: statistics.mode()
+   .. method:: mode()
 
       Returns the grayscale mode (0-255) (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: statistics.stdev()
+   .. method:: stdev()
 
       Returns the grayscale standard deviation (0-255) (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: statistics.min()
+   .. method:: min()
 
       Returns the grayscale min (0-255) (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: statistics.max()
+   .. method:: max()
 
       Returns the grayscale max (0-255) (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: statistics.lq()
+   .. method:: lq()
 
       Returns the grayscale lower quartile (0-255) (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: statistics.uq()
+   .. method:: uq()
 
       Returns the grayscale upper quartile (0-255) (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: statistics.l_mean()
+   .. method:: l_mean()
 
       Returns the RGB565 LAB L mean (0-255) (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: statistics.l_median()
+   .. method:: l_median()
 
       Returns the RGB565 LAB L median (0-255) (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: statistics.l_mode()
+   .. method:: l_mode()
 
       Returns the RGB565 LAB L mode (0-255) (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: statistics.l_stdev()
+   .. method:: l_stdev()
 
       Returns the RGB565 LAB L standard deviation (0-255) (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: statistics.l_min()
+   .. method:: l_min()
 
       Returns the RGB565 LAB L min (0-255) (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: statistics.l_max()
+   .. method:: l_max()
 
       Returns the RGB565 LAB L max (0-255) (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: statistics.l_lq()
+   .. method:: l_lq()
 
       Returns the RGB565 LAB L lower quartile (0-255) (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: statistics.l_uq()
+   .. method:: l_uq()
 
       Returns the RGB565 LAB L upper quartile (0-255) (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: statistics.a_mean()
+   .. method:: a_mean()
 
       Returns the RGB565 LAB A mean (0-255) (int).
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: statistics.a_median()
+   .. method:: a_median()
 
       Returns the RGB565 LAB A median (0-255) (int).
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: statistics.a_mode()
+   .. method:: a_mode()
 
       Returns the RGB565 LAB A mode (0-255) (int).
 
       You may also get this value doing ``[10]`` on the object.
 
-   .. method:: statistics.a_stdev()
+   .. method:: a_stdev()
 
       Returns the RGB565 LAB A standard deviation (0-255) (int).
 
       You may also get this value doing ``[11]`` on the object.
 
-   .. method:: statistics.a_min()
+   .. method:: a_min()
 
       Returns the RGB565 LAB A min (0-255) (int).
 
       You may also get this value doing ``[12]`` on the object.
 
-   .. method:: statistics.a_max()
+   .. method:: a_max()
 
       Returns the RGB565 LAB A max (0-255) (int).
 
       You may also get this value doing ``[13]`` on the object.
 
-   .. method:: statistics.a_lq()
+   .. method:: a_lq()
 
       Returns the RGB565 LAB A lower quartile (0-255) (int).
 
       You may also get this value doing ``[14]`` on the object.
 
-   .. method:: statistics.a_uq()
+   .. method:: a_uq()
 
       Returns the RGB565 LAB A upper quartile (0-255) (int).
 
       You may also get this value doing ``[15]`` on the object.
 
-   .. method:: statistics.b_mean()
+   .. method:: b_mean()
 
       Returns the RGB565 LAB B mean (0-255) (int).
 
       You may also get this value doing ``[16]`` on the object.
 
-   .. method:: statistics.b_median()
+   .. method:: b_median()
 
       Returns the RGB565 LAB B median (0-255) (int).
 
       You may also get this value doing ``[17]`` on the object.
 
-   .. method:: statistics.b_mode()
+   .. method:: b_mode()
 
       Returns the RGB565 LAB B mode (0-255) (int).
 
       You may also get this value doing ``[18]`` on the object.
 
-   .. method:: statistics.b_stdev()
+   .. method:: b_stdev()
 
       Returns the RGB565 LAB B standard deviation (0-255) (int).
 
       You may also get this value doing ``[19]`` on the object.
 
-   .. method:: statistics.b_min()
+   .. method:: b_min()
 
       Returns the RGB565 LAB B min (0-255) (int).
 
       You may also get this value doing ``[20]`` on the object.
 
-   .. method:: statistics.b_max()
+   .. method:: b_max()
 
       Returns the RGB565 LAB B max (0-255) (int).
 
       You may also get this value doing ``[21]`` on the object.
 
-   .. method:: statistics.b_lq()
+   .. method:: b_lq()
 
       Returns the RGB565 LAB B lower quartile (0-255) (int).
 
       You may also get this value doing ``[22]`` on the object.
 
-   .. method:: statistics.b_uq()
+   .. method:: b_uq()
 
       Returns the RGB565 LAB B upper quartile (0-255) (int).
 
@@ -625,79 +625,79 @@ methods.
 class Blob -- Blob object
 -------------------------
 
-The blob object is returned by `image.find_blobs()`.
+The blob object is returned by `Image.find_blobs()`.
 
-.. class:: image.blob()
+.. class:: blob()
 
-   Please call `image.find_blobs()` to create this object.
+   Please call `Image.find_blobs()` to create this object.
 
-   .. method:: blob.corners()
+   .. method:: corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: blob.min_corners()
+   .. method:: min_corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners than bound the min area
       rectangle of the blob. Unlike `blob.corners()` the min area rectangle corners
       do not necessarily lie on the blob.
 
-   .. method:: blob.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the blob's bounding box.
+      like `Image.draw_rectangle()` of the blob's bounding box.
 
-   .. method:: blob.x()
+   .. method:: x()
 
       Returns the blob's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: blob.y()
+   .. method:: y()
 
       Returns the blob's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: blob.w()
+   .. method:: w()
 
       Returns the blob's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: blob.h()
+   .. method:: h()
 
       Returns the blob's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: blob.pixels()
+   .. method:: pixels()
 
       Returns the number of pixels that are part of this blob (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: blob.cx()
+   .. method:: cx()
 
       Returns the centroid x position of the blob (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: blob.cxf()
+   .. method:: cxf()
 
       Returns the centroid x position of the blob (float).
 
-   .. method:: blob.cy()
+   .. method:: cy()
 
       Returns the centroid y position of the blob (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: blob.cyf()
+   .. method:: cyf()
 
       Returns the centroid y position of the blob (float).
 
-   .. method:: blob.rotation()
+   .. method:: rotation()
 
       Returns the rotation of the blob in radians (float). If the blob is like
       a pencil or pen this value will be unique for 0-180 degrees. If the blob
@@ -705,161 +705,161 @@ The blob object is returned by `image.find_blobs()`.
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: blob.rotation_deg()
+   .. method:: rotation_deg()
 
       Returns the rotation of the blob in degrees.
 
-   .. method:: blob.rotation_rad()
+   .. method:: rotation_rad()
 
       Returns the rotation of the blob in radians. This method is more descriptive
       than just `blob.rotation()`.
 
-   .. method:: blob.code()
+   .. method:: code()
 
       Returns a 32-bit binary number with a bit set in it for each color threshold
-      that's part of this blob. For example, if you passed `image.find_blobs()`
+      that's part of this blob. For example, if you passed `Image.find_blobs()`
       three color thresholds to look for then bits 0/1/2 may be set for this blob.
-      Note that only one bit will be set for each blob unless `image.find_blobs()`
+      Note that only one bit will be set for each blob unless `Image.find_blobs()`
       was called with ``merge=True``. Then its possible for multiple blobs with
       different color thresholds to be merged together. You can use this method
       along with multiple thresholds to implement color code tracking.
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: blob.count()
+   .. method:: count()
 
       Returns the number of blobs merged into this blob. This is 1 unless you
-      called `image.find_blobs()` with ``merge=True``.
+      called `Image.find_blobs()` with ``merge=True``.
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: blob.perimeter()
+   .. method:: perimeter()
 
       Returns the number of pixels on this blob's perimeter.
 
-   .. method:: blob.roundness()
+   .. method:: roundness()
 
       Returns a value between 0 and 1 representing how round the object is. A circle would be a 1.
 
-   .. method:: blob.elongation()
+   .. method:: elongation()
 
       Returns a value between 0 and 1 representing how long (not round) the object is. A line would be a 1.
 
-   .. method:: blob.area()
+   .. method:: area()
 
       Returns the area of the bounding box around the blob. (w * h).
 
-   .. method:: blob.density()
+   .. method:: density()
 
       Returns the density ratio of the blob. This is the number of pixels in the
       blob over its bounding box area. A low density ratio means in general that
       the lock on the object isn't very good. The result is between 0 and 1.
 
-   .. method:: blob.extent()
+   .. method:: extent()
 
       Alias for `blob.density()`.
 
-   .. method:: blob.compactness()
+   .. method:: compactness()
 
       Like `blob.density()`, but, uses the perimeter of the blob instead to measure
       the objects density and is thus more accurate. The result is between 0 and 1.
 
-   .. method:: blob.solidity()
+   .. method:: solidity()
 
       Like `blob.density()` but, uses the minimum area rotated rectangle versus the
       bounding rectangle to measure density. The result is between 0 and 1.
 
-   .. method:: blob.convexity()
+   .. method:: convexity()
 
       Returns a value between 0 and 1 representing how convex the object is. A square would be 1.
 
-   .. method:: blob.x_hist_bins()
+   .. method:: x_hist_bins()
 
       Returns a histogram of the x axis of all columns in a blob. Bin values are
       scaled between 0 and 1.
 
-   .. method:: blob.y_hist_bins()
+   .. method:: y_hist_bins()
 
       Returns a histogram of the y axis of all the rows in a blob. Bin values are
       scaled between 0 and 1.
 
-   .. method:: blob.major_axis_line()
+   .. method:: major_axis_line()
 
-      Returns a line tuple (x1, y1, x2, y2) that can be drawn with `image.draw_line()` of the major
+      Returns a line tuple (x1, y1, x2, y2) that can be drawn with `Image.draw_line()` of the major
       axis of the blob (the line going through the longest side of the min area rectangle).
 
-   .. method:: blob.minor_axis_line()
+   .. method:: minor_axis_line()
 
-      Returns a line tuple (x1, y1, x2, y2) that can be drawn with `image.draw_line()` of the minor
+      Returns a line tuple (x1, y1, x2, y2) that can be drawn with `Image.draw_line()` of the minor
       axis of the blob (the line going through the shortest side of the min area rectangle).
 
-   .. method:: blob.enclosing_circle()
+   .. method:: enclosing_circle()
 
-      Returns a circle tuple (x, y, r) that can be drawn with `image.draw_circle()` of
+      Returns a circle tuple (x, y, r) that can be drawn with `Image.draw_circle()` of
       the circle that encloses the min area rectangle of a blob.
 
-   .. method:: blob.enclosed_ellipse()
+   .. method:: enclosed_ellipse()
 
-      Returns an ellipse tuple (x, y, rx, ry, rotation) that can be drawn with `image.draw_ellipse()`
+      Returns an ellipse tuple (x, y, rx, ry, rotation) that can be drawn with `Image.draw_ellipse()`
       of the ellipse that fits inside of the min area rectangle of a blob.
 
 class Line -- Line object
 -------------------------
 
-The line object is returned by `image.find_lines()`, `image.find_line_segments()`, or `image.get_regression()`.
+The line object is returned by `Image.find_lines()`, `Image.find_line_segments()`, or `Image.get_regression()`.
 
-.. class:: image.line()
+.. class:: line()
 
-   Please call `image.find_lines()`, `image.find_line_segments()`, or `image.get_regression()` to create this object.
+   Please call `Image.find_lines()`, `Image.find_line_segments()`, or `Image.get_regression()` to create this object.
 
-   .. method:: line.line()
+   .. method:: line()
 
       Returns a line tuple (x1, y1, x2, y2) for use with other `image` methods
-      like `image.draw_line()`.
+      like `Image.draw_line()`.
 
-   .. method:: line.x1()
+   .. method:: x1()
 
       Returns the line's p1 x component.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: line.y1()
+   .. method:: y1()
 
       Returns the line's p1 y component.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: line.x2()
+   .. method:: x2()
 
       Returns the line's p2 x component.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: line.y2()
+   .. method:: y2()
 
       Returns the line's p2 y component.
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: line.length()
+   .. method:: length()
 
       Returns the line's length: sqrt(((x2-x1)^2) + ((y2-y1)^2).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: line.magnitude()
+   .. method:: magnitude()
 
       Returns the magnitude of the line from the hough transform.
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: line.theta()
+   .. method:: theta()
 
       Returns the angle of the line from the hough transform - (0 - 179) degrees.
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: line.rho()
+   .. method:: rho()
 
       Returns the the rho value for the line from the hough transform.
 
@@ -868,31 +868,31 @@ The line object is returned by `image.find_lines()`, `image.find_line_segments()
 class Circle -- Circle object
 -----------------------------
 
-The circle object is returned by `image.find_circles()`.
+The circle object is returned by `Image.find_circles()`.
 
-.. class:: image.circle()
+.. class:: circle()
 
-   Please call `image.find_circles()` to create this object.
+   Please call `Image.find_circles()` to create this object.
 
-   .. method:: circle.x()
+   .. method:: x()
 
       Returns the circle's x position.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: circle.y()
+   .. method:: y()
 
       Returns the circle's y position.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: circle.r()
+   .. method:: r()
 
       Returns the circle's radius.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: circle.magnitude()
+   .. method:: magnitude()
 
       Returns the circle's magnitude.
 
@@ -901,47 +901,47 @@ The circle object is returned by `image.find_circles()`.
 class Rect -- Rectangle Object
 ------------------------------
 
-The rect object is returned by `image.find_rects()`.
+The rect object is returned by `Image.find_rects()`.
 
-.. class:: image.rect()
+.. class:: rect()
 
-   Please call `image.find_rects()` to create this object.
+   Please call `Image.find_rects()` to create this object.
 
-   .. method:: rect.corners()
+   .. method:: corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the rect's bounding box.
+      like `Image.draw_rectangle()` of the rect's bounding box.
 
-   .. method:: rect.x()
+   .. method:: x()
 
       Returns the rectangle's top left corner's x position.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: rect.y()
+   .. method:: y()
 
       Returns the rectangle's top left corner's y position.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: rect.w()
+   .. method:: w()
 
       Returns the rectangle's width.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: rect.h()
+   .. method:: h()
 
       Returns the rectangle's height.
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: rect.magnitude()
+   .. method:: magnitude()
 
       Returns the rectangle's magnitude.
 
@@ -950,77 +950,77 @@ The rect object is returned by `image.find_rects()`.
 class QRCode -- QRCode object
 -----------------------------
 
-The qrcode object is returned by `image.find_qrcodes()`.
+The qrcode object is returned by `Image.find_qrcodes()`.
 
-.. class:: image.qrcode()
+.. class:: qrcode()
 
-   Please call `image.find_qrcodes()` to create this object.
+   Please call `Image.find_qrcodes()` to create this object.
 
-   .. method:: qrcode.corners()
+   .. method:: corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: qrcode.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the qrcode's bounding box.
+      like `Image.draw_rectangle()` of the qrcode's bounding box.
 
-   .. method:: qrcode.x()
+   .. method:: x()
 
       Returns the qrcode's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: qrcode.y()
+   .. method:: y()
 
       Returns the qrcode's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: qrcode.w()
+   .. method:: w()
 
       Returns the qrcode's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: qrcode.h()
+   .. method:: h()
 
       Returns the qrcode's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: qrcode.payload()
+   .. method:: payload()
 
       Returns the payload string of the qrcode. E.g. the URL.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: qrcode.version()
+   .. method:: version()
 
       Returns the version number of the qrcode (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: qrcode.ecc_level()
+   .. method:: ecc_level()
 
       Returns the ecc_level of the qrcode (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: qrcode.mask()
+   .. method:: mask()
 
       Returns the mask of the qrcode (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: qrcode.data_type()
+   .. method:: data_type()
 
       Returns the data type of the qrcode (int).
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: qrcode.eci()
+   .. method:: eci()
 
       Returns the eci of the qrcode (int). The eci stores the encoding of data
       bytes in the QR Code. If you plan to handling QR Codes that contain more
@@ -1028,22 +1028,22 @@ The qrcode object is returned by `image.find_qrcodes()`.
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: qrcode.is_numeric()
+   .. method:: is_numeric()
 
       Returns True if the data_type of the qrcode is numeric.
 
-   .. method:: qrcode.is_alphanumeric()
+   .. method:: is_alphanumeric()
 
       Returns True if the data_type of the qrcode is alpha numeric.
 
-   .. method:: qrcode.is_binary()
+   .. method:: is_binary()
 
       Returns True if the data_type of the qrcode is binary. If you are serious
       about handling all types of text you need to check the eci if this is True
       to determine the text encoding of the data. Usually, it's just standard
       ASCII, but, it could be UTF8 that has some 2-byte characters in it.
 
-   .. method:: qrcode.is_kanji()
+   .. method:: is_kanji()
 
       Returns True if the data_type of the qrcode is alpha Kanji. If this is True
       then you'll need to decode the string yourself as Kanji symbols are 10-bits
@@ -1053,47 +1053,47 @@ The qrcode object is returned by `image.find_qrcodes()`.
 class AprilTag -- AprilTag object
 ---------------------------------
 
-The apriltag object is returned by `image.find_apriltags()`.
+The apriltag object is returned by `Image.find_apriltags()`.
 
-.. class:: image.apriltag()
+.. class:: apriltag()
 
-   Please call `image.find_apriltags()` to create this object.
+   Please call `Image.find_apriltags()` to create this object.
 
-   .. method:: apriltag.corners()
+   .. method:: corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: apriltag.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the apriltag's bounding box.
+      like `Image.draw_rectangle()` of the apriltag's bounding box.
 
-   .. method:: apriltag.x()
+   .. method:: x()
 
       Returns the apriltag's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: apriltag.y()
+   .. method:: y()
 
       Returns the apriltag's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: apriltag.w()
+   .. method:: w()
 
       Returns the apriltag's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: apriltag.h()
+   .. method:: h()
 
       Returns the apriltag's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: apriltag.id()
+   .. method:: id()
 
       Returns the numeric id of the apriltag.
 
@@ -1106,7 +1106,7 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: apriltag.family()
+   .. method:: family()
 
       Returns the numeric family of the apriltag.
 
@@ -1119,31 +1119,39 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: apriltag.cx()
+   .. method:: cx()
 
       Returns the centroid x position of the apriltag (int).
 
+   .. method:: cxf()
+
+      Returns the centroid x position of the apriltag (float).
+
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: apriltag.cy()
+   .. method:: cy()
 
       Returns the centroid y position of the apriltag (int).
 
+   .. method:: cyf()
+
+      Returns the centroid y position of the apriltag (float).
+
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: apriltag.rotation()
+   .. method:: rotation()
 
       Returns the rotation of the apriltag in radians (float).
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: apriltag.decision_margin()
+   .. method:: decision_margin()
 
       Returns the quality of the apriltag match (0.0 - 1.0) where 1.0 is the best.
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: apriltag.hamming()
+   .. method:: hamming()
 
       Returns the number of accepted bit errors for this tag.
 
@@ -1156,7 +1164,7 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[10]`` on the object.
 
-   .. method:: apriltag.goodness()
+   .. method:: goodness()
 
       Returns the quality of the apriltag image (0.0 - 1.0) where 1.0 is the best.
 
@@ -1168,7 +1176,7 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[11]`` on the object.
 
-   .. method:: apriltag.x_translation()
+   .. method:: x_translation()
 
       Returns the translation in unknown units from the camera in the X direction.
 
@@ -1182,7 +1190,7 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[12]`` on the object.
 
-   .. method:: apriltag.y_translation()
+   .. method:: y_translation()
 
       Returns the translation in unknown units from the camera in the Y direction.
 
@@ -1196,7 +1204,7 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[13]`` on the object.
 
-   .. method:: apriltag.z_translation()
+   .. method:: z_translation()
 
       Returns the translation in unknown units from the camera in the Z direction.
 
@@ -1210,21 +1218,21 @@ The apriltag object is returned by `image.find_apriltags()`.
 
       You may also get this value doing ``[14]`` on the object.
 
-   .. method:: apriltag.x_rotation()
+   .. method:: x_rotation()
 
       Returns the rotation in radians of the apriltag in the X plane. E.g. moving
       the camera left-to-right while looking at the tag.
 
       You may also get this value doing ``[15]`` on the object.
 
-   .. method:: apriltag.y_rotation()
+   .. method:: y_rotation()
 
       Returns the rotation in radians of the apriltag in the Y plane. E.g. moving
       the camera up-to-down while looking at the tag.
 
       You may also get this value doing ``[16]`` on the object.
 
-   .. method:: apriltag.z_rotation()
+   .. method:: z_rotation()
 
       Returns the rotation in radians of the apriltag in the Z plane. E.g.
       rotating the camera while looking directly at the tag.
@@ -1236,77 +1244,77 @@ The apriltag object is returned by `image.find_apriltags()`.
 class DataMatrix -- DataMatrix object
 -------------------------------------
 
-The datamatrix object is returned by `image.find_datamatrices()`.
+The datamatrix object is returned by `Image.find_datamatrices()`.
 
-.. class:: image.datamatrix()
+.. class:: datamatrix()
 
-   Please call `image.find_datamatrices()` to create this object.
+   Please call `Image.find_datamatrices()` to create this object.
 
-   .. method:: datamatrix.corners()
+   .. method:: corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: datamatrix.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the datamatrix's bounding box.
+      like `Image.draw_rectangle()` of the datamatrix's bounding box.
 
-   .. method:: datamatrix.x()
+   .. method:: x()
 
       Returns the datamatrix's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: datamatrix.y()
+   .. method:: y()
 
       Returns the datamatrix's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: datamatrix.w()
+   .. method:: w()
 
       Returns the datamatrix's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: datamatrix.h()
+   .. method:: h()
 
       Returns the datamatrix's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: datamatrix.payload()
+   .. method:: payload()
 
       Returns the payload string of the datamatrix. E.g. The string.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: datamatrix.rotation()
+   .. method:: rotation()
 
       Returns the rotation of the datamatrix in radians (float).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: datamatrix.rows()
+   .. method:: rows()
 
       Returns the number of rows in the data matrix (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: datamatrix.columns()
+   .. method:: columns()
 
       Returns the number of columns in the data matrix (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: datamatrix.capacity()
+   .. method:: capacity()
 
       Returns how many characters could fit in this data matrix.
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: datamatrix.padding()
+   .. method:: padding()
 
       Returns how many unused characters are in this data matrix.
 
@@ -1315,53 +1323,53 @@ The datamatrix object is returned by `image.find_datamatrices()`.
 class BarCode -- BarCode object
 -------------------------------
 
-The barcode object is returned by `image.find_barcodes()`.
+The barcode object is returned by `Image.find_barcodes()`.
 
-.. class:: image.barcode()
+.. class:: barcode()
 
-   Please call `image.find_barcodes()` to create this object.
+   Please call `Image.find_barcodes()` to create this object.
 
-   .. method:: barcode.corners()
+   .. method:: corners()
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: barcode.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the barcode's bounding box.
+      like `Image.draw_rectangle()` of the barcode's bounding box.
 
-   .. method:: barcode.x()
+   .. method:: x()
 
       Returns the barcode's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: barcode.y()
+   .. method:: y()
 
       Returns the barcode's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: barcode.w()
+   .. method:: w()
 
       Returns the barcode's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: barcode.h()
+   .. method:: h()
 
       Returns the barcode's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: barcode.payload()
+   .. method:: payload()
 
       Returns the payload string of the barcode. E.g. The number.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: barcode.type()
+   .. method:: type()
 
       Returns the type enumeration of the barcode (int).
 
@@ -1384,13 +1392,13 @@ The barcode object is returned by `image.find_barcodes()`.
         * image.CODE93
         * image.CODE128
 
-   .. method:: barcode.rotation()
+   .. method:: rotation()
 
       Returns the rotation of the barcode in radians (float).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: barcode.quality()
+   .. method:: quality()
 
       Returns the number of times this barcode was detected in the image (int).
 
@@ -1402,39 +1410,39 @@ The barcode object is returned by `image.find_barcodes()`.
 class Displacement -- Displacement object
 -----------------------------------------
 
-The displacement object is returned by `image.find_displacement()`.
+The displacement object is returned by `Image.find_displacement()`.
 
-.. class:: image.displacement()
+.. class:: displacement()
 
-   Please call `image.find_displacement()` to create this object.
+   Please call `Image.find_displacement()` to create this object.
 
-   .. method:: displacement.x_translation()
+   .. method:: x_translation()
 
       Returns the x translation in pixels between two images. This is sub pixel
       accurate so it's a float.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: displacement.y_translation()
+   .. method:: y_translation()
 
       Returns the y translation in pixels between two images. This is sub pixel
       accurate so it's a float.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: displacement.rotation()
+   .. method:: rotation()
 
       Returns the rotation in radians between two images.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: displacement.scale()
+   .. method:: scale()
 
       Returns the scale change between two images.
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: displacement.response()
+   .. method:: response()
 
       Returns the quality of the results of displacement matching between two images.
       Between 0-1. A ``displacement`` object with a response less than 0.1 is likely noise.
@@ -1446,64 +1454,64 @@ class kptmatch -- Keypoint Object
 
 The kptmatch object is returned by `image.match_descriptor()` for keypoint matches.
 
-.. class:: image.kptmatch()
+.. class:: kptmatch()
 
    Please call `image.match_descriptor()` to create this object.
 
-   .. method:: kptmatch.rect()
+   .. method:: rect()
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
-      like `image.draw_rectangle()` of the kptmatch's bounding box.
+      like `Image.draw_rectangle()` of the kptmatch's bounding box.
 
-   .. method:: kptmatch.cx()
+   .. method:: cx()
 
       Returns the centroid x position of the kptmatch (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: kptmatch.cy()
+   .. method:: cy()
 
       Returns the centroid y position of the kptmatch (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: kptmatch.x()
+   .. method:: x()
 
       Returns the kptmatch's bounding box x coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: kptmatch.y()
+   .. method:: y()
 
       Returns the kptmatch's bounding box y coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: kptmatch.w()
+   .. method:: w()
 
       Returns the kptmatch's bounding box w coordinate (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: kptmatch.h()
+   .. method:: h()
 
       Returns the kptmatch's bounding box h coordinate (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: kptmatch.count()
+   .. method:: count()
 
       Returns the number of keypoints matched (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: kptmatch.theta()
+   .. method:: theta()
 
       Returns the estimated angle of rotation for the keypoint (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: kptmatch.match()
+   .. method:: match()
 
       Returns the list of (x,y) tuples of matching keypoints.
 
@@ -1515,7 +1523,7 @@ class ImageIO  -- ImageIO Object
 The ImageIO object allows you to read/write OpenMV Image objects in their native form to disk
 or to memory. This class provides fast read/write random access for loading/storing images.
 
-.. class:: image.ImageIO(path, mode)
+.. class:: ImageIO(path, mode)
 
    Creates an ImageIO object.
 
@@ -1526,6 +1534,33 @@ or to memory. This class provides fast read/write random access for loading/stor
    this case is then the number of image buffers to store in memory. Note that the in-memory
    storage buffer is not allowed to grow in size after being allocated. Use a ``bpp`` value of
    0 for binary images, 1 for grayscale images, and 2 for rgb565 images.
+
+   .. method:: type()
+
+      Returns if the `ImageIO` object is a `FILE_STREAM` or `MEMORY_STREAM`.
+
+   .. method:: is_closed()
+
+      Returns if the `ImageIO` object is closed and can no longer be used.
+
+   .. method:: count()
+
+      Returns the number of frames stored.
+
+   .. method:: offset()
+
+      Returns the image index offset.
+
+   .. method:: version()
+
+      Returns the version of the object if it's `FILE_STREAM`.
+      `MEMORY_STREAM` versions are ``none``.
+
+   .. method:: buffer_size()
+
+      Returns the size allocated by the object for a frame in a single buffer.
+
+      ``buffer_size() * count() == size()``
 
    .. method:: size()
 
@@ -1539,7 +1574,7 @@ or to memory. This class provides fast read/write random access for loading/stor
 
       Returns the ImageIO object.
 
-   .. method:: read([copy_to_fb=False, [loop=True, [pause=True]]])
+   .. method:: read([copy_to_fb=True, [loop=True, [pause=True]]])
 
       Returns an image object from the ImageIO object. If ``copy_to_fb`` is False then
       the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
@@ -1552,58 +1587,56 @@ or to memory. This class provides fast read/write random access for loading/stor
       ``pause`` if True causes this method to pause for a previously recorded number of milliseconds
       by write in-order to match the original frame rate that captured the image data.
 
-      ``copy_to_fb`` may also be another image object if you want to replace that image object's memory
-      buffer, type, width, and height with new image data.
-
-      .. note::
-
-         Any use of ``copy_to_fb`` invalidates the previous image object it overwrites. Do not use
-         any references to previous image objects anymore it overwrites. Either for an image object
-         referencing the frame buffer, frame buffer stack, or an image on the MicroPython heap.
-
    .. method:: seek(offset)
 
       Seeks to the image slot number ``offset`` in the ImageIO object.
 
-      You may use this along with write and read to implement an image fifo.
+      Works for on disk or in-memory objects.
+
+   .. method:: sync()
+
+      Writes out all data pending for on-disk ImageIO objects.
 
    .. method:: close()
 
       Closes the ImageIO object. For in-memory objects this free's the allocated space and for
       on-disk files this closes the file and writes out all meta-data.
 
+   .. data:: FILE_STREAM
+
+      ImageIO object was opened on a file.
+
+   .. data:: MEMORY_STREAM
+
+      iamgeIO object was opened in memory.
+
 class Image -- Image object
 ---------------------------
 
 The image object is the basic object for machine vision operations.
 
-.. class:: image.Image(path, [copy_to_fb=False])
+.. class:: Image(path, [buffer=None, [copy_to_fb=False]])
 
    Creates a new image object from a file at ``path``. Alternatively, you may
-   pass a width, height, and either `sensor.BINARY`, `sensor.GRAYSCALE`, or
-   `sensor.RGB565` to create new blank image object (initialized to 0 - black).
+   pass a `width`, `height`, and either they any image format value like ``image.GRAYSCALE``
+   to create new blank image object (initialized to 0 - black).
 
-   Supports bmp/pgm/ppm/jpg/jpeg image files.
+   Supports bmp/pgm/ppm/jpg/jpeg/png image files.
 
    ``copy_to_fb`` if True the image is loaded directly into the frame buffer
    allowing you to load up large images. If False, the image is loaded into
    MicroPython's heap which is much smaller than the frame buffer.
 
-   You may also set ``copy_to_fb`` equal to another image object and that
-   buffer will then be overwritten with the copied image changing the passed
-   image object's pixel format and resolution.
-
-   .. note::
-
-      If ``copy_to_fb`` is set to True or another image object do not continue
-      using the old image object passed to this method or the frame buffer
-      image object. Use the new returned image object reference from this
-      method as the old references are now stale.
+   ``buffer`` can be set to the any buffer object to use that as the data source
+   for the image. For example, if you'd like to create a JPEG image from a JPEG
+   ``bytes()`` or ``bytearray()`` object you can pass the ``width``, ``height``,
+   ``image.JPEG`` for the JPEG along with setting ``buffer`` to the JPEG byte stream
+   to create a JPEG image. Finally, note that images are buffer objects themselves.
 
    Images support "[]" notation. Do ``image[index] = 8/16-bit value`` to assign
    an image pixel or ``image[index]`` to get an image pixel which will be
-   either an 8-bit value for grayscale images of a 16-bit RGB565 value for RGB
-   images.
+   either an 8-bit value for grayscale/bayer images of a 16-bit value for RGB565/YUV
+   images. Binary images return a 1-bit value.
 
    For JPEG images the "[]" allows you to access the compressed JPEG image blob
    as a byte-array. Reading and writing to the data array is opaque however as
@@ -1614,25 +1647,25 @@ The image object is the basic object for machine vision operations.
    particular, if you'd like to transmit an image you can just pass it to the
    UART/SPI/I2C write functions to be transmitted automatically.
 
-   .. method:: image.width()
+   .. method:: width()
 
       Returns the image width in pixels.
 
-   .. method:: image.height()
+   .. method:: height()
 
       Returns the image height in pixels.
 
-   .. method:: image.format()
+   .. method:: format()
 
-      Returns `sensor.GRAYSCALE` for grayscale images, `sensor.RGB565` for RGB565
-      images, `sensor.BAYER` for bayer pattern images, and `sensor.JPEG` for JPEG
+      Returns `image.GRAYSCALE` for grayscale images, `image.RGB565` for RGB565
+      images, `image.BAYER` for bayer pattern images, and `image.JPEG` for JPEG
       images.
 
-   .. method:: image.size()
+   .. method:: size()
 
       Returns the image size in bytes.
 
-   .. method:: image.bytearray()
+   .. method:: bytearray()
 
       Returns a `bytearray` object that points to the image data for byte-level read/write access.
 
@@ -1642,7 +1675,7 @@ The image object is the basic object for machine vision operations.
          that requires a `bytes` like object. This is read-only access.
          Call `bytearray()` to get read/write access.
 
-   .. method:: image.get_pixel(x, y, [rgbtuple])
+   .. method:: get_pixel(x, y, [rgbtuple])
 
       For grayscale images: Returns the grayscale pixel value at location (x, y).
       For RGB565 images: Returns the RGB888 pixel tuple (r, g, b) at location (x, y).
@@ -1661,13 +1694,13 @@ The image object is the basic object for machine vision operations.
 
       .. note::
 
-         `image.get_pixel()` and `image.set_pixel()` are the only methods that allow
+         `Image.get_pixel()` and `Image.set_pixel()` are the only methods that allow
          you to manipulate bayer pattern images. Bayer pattern images are literal images
          where pixels in the image are R/G/R/G/etc. for even rows and G/B/G/B/etc. for
-         odd rows. Each pixel is 8-bits. If you call this method with ``rgbtuple`` set then `image.get_pixel()`
+         odd rows. Each pixel is 8-bits. If you call this method with ``rgbtuple`` set then `Image.get_pixel()`
          will debayer the source image at that pixel location and return a valid RGB888 tuple for the pixel location.
 
-   .. method:: image.set_pixel(x, y, pixel)
+   .. method:: set_pixel(x, y, pixel)
 
       For grayscale images: Sets the pixel at location (x, y) to the grayscale value ``pixel``.
       For RGB565 images: Sets the pixel at location (x, y) to the RGB888 tuple (r, g, b) ``pixel``.
@@ -1685,13 +1718,13 @@ The image object is the basic object for machine vision operations.
 
       .. note::
 
-         `image.get_pixel()` and `image.set_pixel()` are the only methods that allow
+         `Image.get_pixel()` and `Image.set_pixel()` are the only methods that allow
          you to manipulate bayer pattern images. Bayer pattern images are literal images
          where pixels in the image are R/G/R/G/etc. for even rows and G/B/G/B/etc. for
          odd rows. Each pixel is 8-bits. If you call this method with an RGB888 tuple the grayscale
          value of that RGB888 tuple is extracted and set to the pixel location.
 
-   .. method:: image.mean_pool(x_div, y_div)
+   .. method:: mean_pool(x_div, y_div)
 
       Finds the mean of ``x_div`` * ``y_div`` squares in the image and returns
       the modified image composed of the mean of each square.
@@ -1700,7 +1733,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.mean_pooled(x_div, y_div)
+   .. method:: mean_pooled(x_div, y_div)
 
       Finds the mean of ``x_div`` * ``y_div`` squares in the image and returns
       a new image composed of the mean of each square.
@@ -1709,7 +1742,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.midpoint_pool(x_div, y_div, [bias=0.5])
+   .. method:: midpoint_pool(x_div, y_div, [bias=0.5])
 
       Finds the midpoint of ``x_div`` * ``y_div`` squares in the image and returns
       the modified image composed of the midpoint of each square.
@@ -1721,7 +1754,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.midpoint_pooled(x_div, y_div, [bias=0.5])
+   .. method:: midpoint_pooled(x_div, y_div, [bias=0.5])
 
       Finds the midpoint of ``x_div`` * ``y_div`` squares in the image and returns
       a new image composed of the midpoint of each square.
@@ -1733,7 +1766,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.to_bitmap([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_bitmap([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to a bitmap image (1 bit per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1744,11 +1777,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1762,7 +1797,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1777,20 +1812,18 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       .. note::
 
@@ -1807,9 +1840,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
-
-   .. method:: image.to_grayscale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_grayscale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to a grayscale image (8-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1820,11 +1851,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1838,7 +1871,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1853,26 +1886,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
-
-   .. method:: image.to_rgb565([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_rgb565([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to an RGB565 image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1883,11 +1912,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1901,7 +1932,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1916,26 +1947,22 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
-
-   .. method:: image.to_rainbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=sensor.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: to_rainbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=image.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Converts an image to an RGB565 rainbow image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1946,11 +1973,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -1964,7 +1993,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -1979,28 +2008,207 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
+   .. method:: to_ironbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=image.PALETTE_IRONBOW, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
-   .. method:: image.compress([quality=50])
+      Converts an image to an RGB565 ironbow image (16-bits per pixel). If ``copy`` is False
+      this method will try to modify the image in-place. If ``copy`` is True then
+      this method will return a new image copy allocated on the heap.
 
-      JPEG compresses the image in place. Use this method versus `image.compressed()`
+      ``copy`` may also be another image object, which in this case this method will try to
+      re-use that image objects storage space and will return a new image object that uses
+      the previous image objects storage space. After doing this do not use any references
+      to the old image object anymore as they will be stale.
+
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
+      allows you to extract just the pixels in the ROI to scale and draw on the destination image.
+
+      ``rgb_channel`` is the RGB channel (0=R, G=1, B=2) to extract from an RGB565 image (if passed)
+      and to render onto the destination image. For example, if you pass ``rgb_channel=1`` this will
+      extract the green channel of the source RGB565 image and draw that in grayscale on the
+      destination image.
+
+      ``alpha`` controls how much of the source image to blend into the destination image. A value of
+      256 draws an opaque source image while a value lower than 256 produces a blend between the source
+      and destination image. 0 results in no modification to the destination image.
+
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
+      a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
+      whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
+
+      ``alpha_palette`` if not ``-1`` can be a 256 pixel in total GRAYSCALE image to use as a alpha
+      palette which modulates the ``alpha`` value of the source image being drawn at a pixel pixel
+      level allowing you to precisely control the alpha value of pixels based on their grayscale value.
+      A pixel value of 255 in the alpha lookup table is opaque which anything less than 255 becomes
+      more transparent until 0. This is applied after ``rgb_channel`` extraction if used.
+
+      ``hint`` can be a logical OR of the flags:
+
+         * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
+         * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
+         * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
+         * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
+         * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+   .. method:: to_jpeg([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+
+      Converts an image to a JPEG image. If ``copy`` is False
+      this method will try to modify the image in-place. If ``copy`` is True then
+      this method will return a new image copy allocated on the heap.
+
+      ``copy`` may also be another image object, which in this case this method will try to
+      re-use that image objects storage space and will return a new image object that uses
+      the previous image objects storage space. After doing this do not use any references
+      to the old image object anymore as they will be stale.
+
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
+      allows you to extract just the pixels in the ROI to scale and draw on the destination image.
+
+      ``rgb_channel`` is the RGB channel (0=R, G=1, B=2) to extract from an RGB565 image (if passed)
+      and to render onto the destination image. For example, if you pass ``rgb_channel=1`` this will
+      extract the green channel of the source RGB565 image and draw that in grayscale on the
+      destination image.
+
+      ``alpha`` controls how much of the source image to blend into the destination image. A value of
+      256 draws an opaque source image while a value lower than 256 produces a blend between the source
+      and destination image. 0 results in no modification to the destination image.
+
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
+      a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
+      whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
+
+      ``alpha_palette`` if not ``-1`` can be a 256 pixel in total GRAYSCALE image to use as a alpha
+      palette which modulates the ``alpha`` value of the source image being drawn at a pixel pixel
+      level allowing you to precisely control the alpha value of pixels based on their grayscale value.
+      A pixel value of 255 in the alpha lookup table is opaque which anything less than 255 becomes
+      more transparent until 0. This is applied after ``rgb_channel`` extraction if used.
+
+      ``hint`` can be a logical OR of the flags:
+
+         * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
+         * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
+         * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
+         * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
+         * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+   .. method:: to_png([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+
+      Converts an image to a PNG image. If ``copy`` is False
+      this method will try to modify the image in-place. If ``copy`` is True then
+      this method will return a new image copy allocated on the heap.
+
+      ``copy`` may also be another image object, which in this case this method will try to
+      re-use that image objects storage space and will return a new image object that uses
+      the previous image objects storage space. After doing this do not use any references
+      to the old image object anymore as they will be stale.
+
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
+      allows you to extract just the pixels in the ROI to scale and draw on the destination image.
+
+      ``rgb_channel`` is the RGB channel (0=R, G=1, B=2) to extract from an RGB565 image (if passed)
+      and to render onto the destination image. For example, if you pass ``rgb_channel=1`` this will
+      extract the green channel of the source RGB565 image and draw that in grayscale on the
+      destination image.
+
+      ``alpha`` controls how much of the source image to blend into the destination image. A value of
+      256 draws an opaque source image while a value lower than 256 produces a blend between the source
+      and destination image. 0 results in no modification to the destination image.
+
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
+      a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
+      whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
+
+      ``alpha_palette`` if not ``-1`` can be a 256 pixel in total GRAYSCALE image to use as a alpha
+      palette which modulates the ``alpha`` value of the source image being drawn at a pixel pixel
+      level allowing you to precisely control the alpha value of pixels based on their grayscale value.
+      A pixel value of 255 in the alpha lookup table is opaque which anything less than 255 becomes
+      more transparent until 0. This is applied after ``rgb_channel`` extraction if used.
+
+      ``hint`` can be a logical OR of the flags:
+
+         * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
+         * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
+         * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
+         * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
+         * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+   .. method:: compress([quality=90])
+
+      JPEG compresses the image in place. Use this method versus `Image.compressed()`
       to save heap space and to use a higher ``quality`` for compression at the
       cost of destroying the original image.
 
@@ -2010,9 +2218,9 @@ The image object is the basic object for machine vision operations.
 
       Returns the compressed image if called on a compressed image.
 
-   .. method:: image.compress_for_ide([quality=50])
+   .. method:: compress_for_ide([quality=90])
 
-      JPEG compresses the image in place. Use this method versus `image.compressed()`
+      JPEG compresses the image in place. Use this method versus `Image.compressed()`
       to save heap space and to use a higher ``quality`` for compression at the
       cost of destroying the original image.
 
@@ -2031,23 +2239,23 @@ The image object is the basic object for machine vision operations.
       Returns the image compressed for the IDE if called on a compressed image.
       Do not call this on an image already compressed for the IDE.
 
-   .. method:: image.compressed([quality=50])
+   .. method:: compressed([quality=90])
 
       Returns a JPEG compressed image - the original image is untouched. However,
       this method requires a somewhat large allocation of heap space so the image
       compression quality must be lower and the image resolution must be lower
-      than what you could do with `image.compress()`.
+      than what you could do with `Image.compress()`.
 
       ``quality`` is the compression quality (0-100) (int).
 
       Returns a compressed image copy if called on a compressed image.
 
-   .. method:: image.compressed_for_ide([quality=50])
+   .. method:: compressed_for_ide([quality=90])
 
       Returns a JPEG compressed image - the original image is untouched. However,
       this method requires a somewhat large allocation of heap space so the image
       compression quality must be lower and the image resolution must be lower
-      than what you could do with `image.compress()`.
+      than what you could do with `Image.compress()`.
 
       This method JPEG compresses the image and then formats the JPEG data for
       transmission to OpenMV IDE to display by encoding every 6-bits as a byte
@@ -2092,18 +2300,20 @@ The image object is the basic object for machine vision operations.
 
       Only works on JPEG images.
 
-   .. method:: image.copy([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy_to_fb=False]]]]]]]]]]])
+   .. method:: copy([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy_to_fb=False]]]]]]]]])
 
       Creates a deep copy of the image object. If ``copy_to_fb`` is False then
       the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
       and may not have space to store the new image if exhausted. Instead, set ``copy_to_fb`` to
       True to set the frame buffer to the new image making this function work just like `sensor.snapshot()`.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2117,7 +2327,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2132,35 +2342,24 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
-
-      ``copy_to_fb`` may also be another image object if you want to replace that image object's memory
-      buffer, type, width, and height with new image data.
-
-      .. note::
-
-         Any use of ``copy_to_fb`` invalidates the previous image object it overwrites. Do not use
-         any references to previous image objects anymore it overwrites. Either for an image object
-         referencing the frame buffer, frame buffer stack, or an image on the MicroPython heap.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the new image object.
 
       Not supported on compressed images.
 
-   .. method:: image.crop([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: crop([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Modifies an image in-place without changing the underlying image type. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2171,11 +2370,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2189,7 +2390,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2204,26 +2405,24 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
       Not supported on compressed images.
 
-   .. method:: image.scale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+   .. method:: scale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
 
       Modifies an image in-place without changing the underlying image type. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2234,11 +2433,13 @@ The image object is the basic object for machine vision operations.
       the previous image objects storage space. After doing this do not use any references
       to the old image object anymore as they will be stale.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2252,7 +2453,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2267,26 +2468,24 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
       Returns the image object so you can call another method using ``.`` notation.
 
       Not supported on compressed images.
 
-   .. method:: image.save(path, [roi, [quality=50]])
+   .. method:: save(path, [roi, [quality=50]])
 
       Saves a copy of the image to the filesystem at ``path``.
 
@@ -2302,11 +2501,11 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: image.flush()
+   .. method:: flush()
 
       Updates the frame buffer in the IDE with the image in the frame buffer on the camera.
 
-   .. method:: image.clear([mask])
+   .. method:: clear([mask])
 
       Sets all pixels in the image to zero (very fast).
 
@@ -2319,7 +2518,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: image.draw_line(x0, y0, x1, y1, [color, [thickness=1]])
+   .. method:: draw_line(x0, y0, x1, y1, [color, [thickness=1]])
 
       Draws a line from (x0, y0) to (x1, y1) on the image. You may either
       pass x0, y0, x1, y1 separately or as a tuple (x0, y0, x1, y1).
@@ -2334,7 +2533,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_rectangle(x, y, w, h, [color, [thickness=1, [fill=False]]])
+   .. method:: draw_rectangle(x, y, w, h, [color, [thickness=1, [fill=False]]])
 
       Draws a rectangle on the image. You may either pass x, y, w, h separately
       or as a tuple (x, y, w, h).
@@ -2351,7 +2550,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_circle(x, y, radius, [color, [thickness=1, [fill=False]]])
+   .. method:: draw_circle(x, y, radius, [color, [thickness=1, [fill=False]]])
 
       Draws a circle on the image. You may either pass x, y, radius separately or
       as a tuple (x, y, radius).
@@ -2368,7 +2567,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_ellipse(cx, cy, rx, ry, rotation, [color, [thickness=1, [fill=False]]])
+   .. method:: draw_ellipse(cx, cy, rx, ry, rotation, [color, [thickness=1, [fill=False]]])
 
       Draws an ellipse on the image. You may either pass cx, cy, rx, ry, and the
       rotation (in degrees) separately or as a tuple (cx, yc, rx, ry, rotation).
@@ -2385,7 +2584,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_string(x, y, text, [color, [scale=1, [x_spacing=0, [y_spacing=0, [mono_space=True, [char_rotation=0, [char_hmirror=False, [char_vflip=False, [string_rotation=0, [string_hmirror=False, [string_vflip=False]]]]]]]]]]])
+   .. method:: draw_string(x, y, text, [color, [scale=1, [x_spacing=0, [y_spacing=0, [mono_space=True, [char_rotation=0, [char_hmirror=False, [char_vflip=False, [string_rotation=0, [string_hmirror=False, [string_vflip=False]]]]]]]]]]])
 
       Draws 8x10 text starting at location (x, y) in the image. You may either pass
       x, y separately or as a tuple (x, y).
@@ -2428,7 +2627,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_cross(x, y, [color, [size=5, [thickness=1]]])
+   .. method:: draw_cross(x, y, [color, [size=5, [thickness=1]]])
 
       Draws a cross at location x, y. You may either pass x, y separately or as a
       tuple (x, y).
@@ -2445,7 +2644,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_arrow(x0, y0, x1, y1, [color, [thickness=1]])
+   .. method:: draw_arrow(x0, y0, x1, y1, [color, [thickness=1]])
 
       Draws an arrow from (x0, y0) to (x1, y1) on the image. You may
       either pass x0, y0, x1, y1 separately or as a tuple (x0, y0, x1, y1).
@@ -2460,7 +2659,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_edges(image, corners, [color, [size=0, [thickness=1, [fill=False]]]])
+   .. method:: draw_edges(image, corners, [color, [size=0, [thickness=1, [fill=False]]]])
 
       Draws line edges between a corner list returned by methods like `blob.corners`. Coners is
       a four valued tuple of two valued x/y tuples. E.g. [(x1,y1),(x2,y2),(x3,y3),(x4,y4)].
@@ -2479,17 +2678,22 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None]]]]]]]]]])
+   .. method:: draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]]])
 
       Draws an ``image`` whose top-left corner starts at location x, y. You may either pass x, y
       separately or as a tuple (x, y). This method automatically handles rendering the image passed
       into the correct pixel format for the destination image while also handling clipping seamlessly.
 
-      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
-      value is negative the image will be flipped horizontally.
+      You may also pass a path instead of an image object for this method to automatically load the image
+      from disk and draw it in one step. E.g. ``draw_image("test.jpg")``.
 
-      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
-      value is negative the image will be flipped vertically.
+      ``x_scale`` controls how much the displayed image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally. Note that if ``y_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
+
+      ``y_scale`` controls how much the displayed image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically. Note that if ``x_scale`` is not specified
+      then it will match ``x_scale`` to maintain the aspect ratio.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
       allows you to extract just the pixels in the ROI to scale and draw on the destination image.
@@ -2503,7 +2707,7 @@ The image object is the basic object for machine vision operations.
       256 draws an opaque source image while a value lower than 256 produces a blend between the source
       and destination image. 0 results in no modification to the destination image.
 
-      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      ``color_palette`` if not ``-1`` can be `image.PALETTE_RAINBOW`, `image.PALETTE_IRONBOW`, or
       a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
       whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
 
@@ -2518,26 +2722,25 @@ The image object is the basic object for machine vision operations.
          * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
          * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
          * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
-         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.CENTER`: Center the image being drawn on the display. This is applied after scaling.
+         * `image.HMIRROR`: Horizontally mirror the image.
+         * `image.VFLIP`: Vertically flip the image.
+         * `image.TRANSPOSE`: Transpose the image (swap x/y).
          * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
          * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
-         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
-
-      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
-      and ``x_scale`` will automatically be determined passed on the input image size. If neither
-      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
-      ``x_size`` to maintain the aspect-ratio.
-
-      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
-      and ``y_scale`` will automatically be determined passed on the input image size. If neither
-      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
-      ``y_size`` to maintain the aspect-ratio.
+         * `image.SCALE_ASPECT_KEEP`: Scale the image being drawn to fit inside the display.
+         * `image.SCALE_ASPECT_EXPAND`: Scale the image being drawn to fill the display (results in cropping)
+         * `image.SCALE_ASPECT_IGNORE`: Scale the image being drawn to fill the display (results in stretching).
+         * `image.ROTATE_90`: Rotate the image by 90 degrees (this is just VFLIP | TRANSPOSE).
+         * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
+         * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
+         * `image.BLACK_BACKGROUND`: Assume the background image being drawn on is black speeding up blending.
 
       Returns the image object so you can call another method using ``.`` notation.
 
       Not supported on compressed images.
 
-   .. method:: image.draw_keypoints(keypoints, [color, [size=10, [thickness=1, [fill=False]]]])
+   .. method:: draw_keypoints(keypoints, [color, [size=10, [thickness=1, [fill=False]]]])
 
       Draws the keypoints of a keypoints object on the image. You may also pass a
       list of three value tuples containing the (x, y, rotation_angle_in_degrees) to
@@ -2558,7 +2761,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.flood_fill(x, y, [seed_threshold=0.05, [floating_threshold=0.05, [color, [invert=False, [clear_background=False, [mask=None]]]]]])
+   .. method:: flood_fill(x, y, [seed_threshold=0.05, [floating_threshold=0.05, [color, [invert=False, [clear_background=False, [mask=None]]]]]])
 
       Flood fills a region of the image starting from location x, y. You may either
       pass x, y separately or as a tuple (x, y).
@@ -2590,7 +2793,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.mask_rectange([x, y, w, h])
+   .. method:: mask_rectange([x, y, w, h])
 
       Zeros a rectangular part of the image. If no arguments are supplied this
       method zeros the center of the image.
@@ -2599,7 +2802,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.mask_circle([x, y, radius])
+   .. method:: mask_circle([x, y, radius])
 
       Zeros a circular part of the image. If no arguments are supplied this
       method zeros the center of the image.
@@ -2608,7 +2811,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.mask_ellipse([x, y, radius_x, radius_y, rotation_angle_in_degrees])
+   .. method:: mask_ellipse([x, y, radius_x, radius_y, rotation_angle_in_degrees])
 
       Zeros an ellipsed shaped part of the image. If no arguments are supplied this
       method zeros the center of the image.
@@ -2617,7 +2820,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.binary(thresholds, [invert=False, [zero=False, [mask=None, [to_bitmap=False, [copy=False]]]]])
+   .. method:: binary(thresholds, [invert=False, [zero=False, [mask=None, [to_bitmap=False, [copy=False]]]]])
 
       Sets all pixels in the image to black or white depending on if the pixel
       is inside of a threshold in the threshold list ``thresholds`` or not.
@@ -2684,7 +2887,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.invert()
+   .. method:: invert()
 
       Flips (binary inverts) all pixels values in a binary image very quickly.
 
@@ -2692,7 +2895,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.b_and(image, [mask=None])
+   .. method:: b_and(image, [mask=None])
 
       Logically ANDs this image with another image.
 
@@ -2710,7 +2913,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.b_nand(image, [mask=None])
+   .. method:: b_nand(image, [mask=None])
 
       Logically NANDs this image with another image.
 
@@ -2728,7 +2931,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.b_or(image, [mask=None])
+   .. method:: b_or(image, [mask=None])
 
       Logically ORs this image with another image.
 
@@ -2746,7 +2949,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.b_nor(image, [mask=None])
+   .. method:: b_nor(image, [mask=None])
 
       Logically NORs this image with another image.
 
@@ -2764,7 +2967,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.b_xor(image, [mask=None])
+   .. method:: b_xor(image, [mask=None])
 
       Logically XORs this image with another image.
 
@@ -2782,7 +2985,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.b_xnor(image, [mask=None])
+   .. method:: b_xnor(image, [mask=None])
 
       Logically XNORs this image with another image.
 
@@ -2800,7 +3003,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.erode(size, [threshold, [mask=None]])
+   .. method:: erode(size, [threshold, [mask=None]])
 
       Removes pixels from the edges of segmented areas.
 
@@ -2821,7 +3024,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.dilate(size, [threshold, [mask=None]])
+   .. method:: dilate(size, [threshold, [mask=None]])
 
       Adds pixels to the edges of segmented areas.
 
@@ -2843,24 +3046,10 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.open(size, [threshold, [mask=None]])
+   .. method:: open(size, [threshold, [mask=None]])
 
-      Performs erosion and dilation on an image in order. Please see `image.erode()`
-      and `image.dilate()` for more information.
-
-      ``mask`` is another image to use as a pixel level mask for the operation.
-      The mask should be an image with just black or white pixels and should be the
-      same size as the image being operated on. Only pixels set in the mask are
-      modified.
-
-      Returns the image object so you can call another method using ``.`` notation.
-
-      Not supported on compressed images or bayer images.
-
-   .. method:: image.close(size, [threshold, [mask=None]])
-
-      Performs dilation and erosion on an image in order. Please see `image.dilate()`
-      and `image.erode()` for more information.
+      Performs erosion and dilation on an image in order. Please see `Image.erode()`
+      and `Image.dilate()` for more information.
 
       ``mask`` is another image to use as a pixel level mask for the operation.
       The mask should be an image with just black or white pixels and should be the
@@ -2871,9 +3060,23 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.top_hat(size, [threshold, [mask=None]])
+   .. method:: close(size, [threshold, [mask=None]])
 
-      Returns the image difference of the image and `image.open()`'ed image.
+      Performs dilation and erosion on an image in order. Please see `Image.dilate()`
+      and `Image.erode()` for more information.
+
+      ``mask`` is another image to use as a pixel level mask for the operation.
+      The mask should be an image with just black or white pixels and should be the
+      same size as the image being operated on. Only pixels set in the mask are
+      modified.
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+      Not supported on compressed images or bayer images.
+
+   .. method:: top_hat(size, [threshold, [mask=None]])
+
+      Returns the image difference of the image and `Image.open()`'ed image.
 
       ``mask`` is another image to use as a pixel level mask for the operation.
       The mask should be an image with just black or white pixels and should be the
@@ -2882,9 +3085,9 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.black_hat(size, [threshold, [mask=None]])
+   .. method:: black_hat(size, [threshold, [mask=None]])
 
-      Returns the image difference of the image and `image.close()`'ed image.
+      Returns the image difference of the image and `Image.close()`'ed image.
 
       ``mask`` is another image to use as a pixel level mask for the operation.
       The mask should be an image with just black or white pixels and should be the
@@ -2893,11 +3096,51 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.gamma_corr([gamma=1.0, [contrast=1.0, [brightness=0.0])
+   .. method:: awb(max=False)
 
-      Quickly changes the image gamma, contrast, and brightness. Please use this
-      method instead of `image.mul` or `image.div` which are meant for blending to
-      adjust pixels values.
+      Performs automatic white balance on the image using the gray-world algorithm. This method
+      operates on RAW Bayer Images so that you can improve image quality before converting
+      to RGB565 or passing the RAW Bayer Image to an image processing funciton. You may also
+      call this on a RGB565. This method has no affect on binary/grayscale images.
+
+      ``max`` if True uses the white-patch algorithm instead.
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+      Not supported on compressed images.
+
+   .. method:: ccm(matrix)
+
+      Multiples the passed floating-point color-correction-matrix with the image. Matrices may be in the form of::
+
+          [[rr, rg, rb], [gr, gg, gb], [br, bg, bb]]
+          [[rr, rg, rb], [gr, gg, gb], [br, bg, bb], [xx, xx, xx]]
+          [[rr, rg, rb, ro], [gr, gg, gb, go], [br, bg, bb, bo]]
+          [[rr, rg, rb, ro], [gr, gg, gb, go], [br, bg, bb, bo], [xx, xx, xx, xx]]
+
+          [rr, rg, rb, ro, gr, gg, gb, go, br, bg, bb, bo]
+          [rr, rg, rb, ro, gr, gg, gb, go, br, bg, bb, bo, xx, xx, xx, xx]
+
+      The CCM Method does::
+
+          |R'|                |R|      |R'|                |R|
+          |G'| = 3x3 Matrix * |G|  or  |G'| = 3x4 Matrix * |G|
+          |B'|                |B|      |B'|                |B|
+                                                           |1|
+
+      Note that the sum of each row in the 3x3 matrix should generally be -1, +1, or 0.
+      Weights may either be positive or negative.
+
+      You may want to use this method to eliminate systemic cross talk between color channels.
+      Or alternatively, to do color correction on the whole image.
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+      Not supported on compressed images or bayer images.
+
+   .. method:: gamma([gamma=1.0, [contrast=1.0, [brightness=0.0])
+
+      Quickly changes the image gamma, contrast, and brightness.
 
       ``gamma`` with values greater than 1.0 makes the image darker in a non-linear
       manner while less than 1.0 makes the image brighter. The gamma value is applied
@@ -2916,9 +3159,13 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images or bayer images.
+      Not supported on compressed images.
 
-   .. method:: image.negate()
+   .. method:: gamma_corr([gamma=1.0, [contrast=1.0, [brightness=0.0])
+
+      Alias for `Image.gamma`.
+
+   .. method:: negate()
 
       Flips (numerically inverts) all pixels values in an image very quickly. E.g.
       for GRAYSCALE images this method changes all pixels from ``pixel`` to ``255 - pixel``.
@@ -2927,7 +3174,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.replace(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+   .. method:: replace(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
 
       Replaces all pixels in the image object with a new image.
 
@@ -2967,15 +3214,15 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.assign(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+   .. method:: assign(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
 
-      Alias for `image.replace`.
+      Alias for `Image.replace`.
 
-   .. method:: image.set(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+   .. method:: set(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
 
-      Alias for `image.replace`.
+      Alias for `Image.replace`.
 
-   .. method:: image.add(image, [mask=None])
+   .. method:: add(image, [mask=None])
 
       Adds an image pixel-wise to this one.
 
@@ -2993,7 +3240,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.sub(image, [reverse=False, [mask=None]])
+   .. method:: sub(image, [reverse=False, [mask=None]])
 
       Subtracts an image pixel-wise to this one.
 
@@ -3014,62 +3261,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.mul(image, [invert=False, [mask=None]])
-
-      Multiplies two images pixel-wise with each other.
-
-      ``image`` can either be an image object, a path to an uncompressed image
-      file (bmp/pgm/ppm), or a scalar value. If a scalar value the value can
-      either be an RGB888 tuple or the underlying pixel value (e.g. an 8-bit grayscale
-      for grayscale images or a RGB565 value for RGB images).
-
-      Set ``invert`` to True to change the multiplication operation from ``a*b``
-      to ``1/((1/a)*(1/b))``. In particular, this lightens the image instead of
-      darkening it (e.g. multiply versus burn operations).
-
-      ``mask`` is another image to use as a pixel level mask for the operation.
-      The mask should be an image with just black or white pixels and should be the
-      same size as the image being operated on. Only pixels set in the mask are
-      modified.
-
-      Returns the image object so you can call another method using ``.`` notation.
-
-      Not supported on compressed images or bayer images.
-
-      .. note::
-
-         This method is meant for image blending and cannot multiply the pixels in
-         the image by a scalar like ``2``. Use `image.gamma_corr` for that.
-
-   .. method:: image.div(image, [invert=False, [mod=False, [mask=None]]])
-
-      Divides this image by another one.
-
-      ``image`` can either be an image object, a path to an uncompressed image
-      file (bmp/pgm/ppm), or a scalar value. If a scalar value the value can
-      either be an RGB888 tuple or the underlying pixel value (e.g. an 8-bit grayscale
-      for grayscale images or a RGB565 value for RGB images).
-
-      Set ``invert`` to True to change the division direction from ``a/b`` to
-      ``b/a``.
-
-      Set ``mod`` to True to change the division operation to the modulus operation.
-
-      ``mask`` is another image to use as a pixel level mask for the operation.
-      The mask should be an image with just black or white pixels and should be the
-      same size as the image being operated on. Only pixels set in the mask are
-      modified.
-
-      Returns the image object so you can call another method using ``.`` notation.
-
-      Not supported on compressed images or bayer images.
-
-      .. note::
-
-         This method is meant for image blending and cannot divide the pixels in
-         the image by a scalar like ``2``. Use `image.gamma_corr` for that.
-
-   .. method:: image.min(image, [mask=None])
+   .. method:: min(image, [mask=None])
 
       Returns the minimum image of two images pixel-wise.
 
@@ -3087,7 +3279,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.max(image, [mask=None])
+   .. method:: max(image, [mask=None])
 
       Returns the maximum image of two images pixel-wise.
 
@@ -3105,7 +3297,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.difference(image, [mask=None])
+   .. method:: difference(image, [mask=None])
 
       Returns the absolute difference image between two images (e.g. ||a-b||).
 
@@ -3123,7 +3315,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.blend(image, [alpha=128, [mask=None]])
+   .. method:: blend(image, [alpha=128, [mask=None]])
 
       Alpha blends two images with each other.
 
@@ -3146,7 +3338,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.histeq([adaptive=False, [clip_limit=-1, [mask=None]]])
+   .. method:: histeq([adaptive=False, [clip_limit=-1, [mask=None]]])
 
       Runs the histogram equalization algorithm on the image. Histogram
       equalization normalizes the contrast and brightness in the image.
@@ -3168,7 +3360,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.mean(size, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: mean(size, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
 
       Standard mean blurring filter using a box filter.
 
@@ -3224,7 +3416,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.mode(size, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: mode(size, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
 
       Runs the mode filter on the image by replacing each pixel with the mode of
       their neighbors. This method works great on grayscale images. However, on
@@ -3252,7 +3444,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.midpoint(size, [bias=0.5, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: midpoint(size, [bias=0.5, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
 
       Runs the midpoint filter on the image. This filter finds the midpoint
       ((max-min)/2) of each pixel neighborhood in the image.
@@ -3281,7 +3473,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.morph(size, kernel, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]])
+   .. method:: morph(size, kernel, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]])
 
       Convolves the image by a filter kernel. This allows you to do general purpose
       convolutions on an image.
@@ -3318,7 +3510,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.gaussian(size, [unsharp=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
+   .. method:: gaussian(size, [unsharp=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
 
       Convolves the image by a smoothing guassian kernel.
 
@@ -3354,7 +3546,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.laplacian(size, [sharpen=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
+   .. method:: laplacian(size, [sharpen=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
 
       Convolves the image by a edge detecting laplacian kernel.
 
@@ -3392,7 +3584,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.bilateral(size, [color_sigma=0.1, [space_sigma=1, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]])
+   .. method:: bilateral(size, [color_sigma=0.1, [space_sigma=1, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]])
 
       Convolves the image by a bilateral filter. The bilateral filter smooths the
       image while keeping edges in the image.
@@ -3424,7 +3616,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.linpolar([reverse=False])
+   .. method:: linpolar([reverse=False])
 
       Re-project's and image from cartessian coordinates to linear polar coordinates.
 
@@ -3436,7 +3628,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.logpolar([reverse=False])
+   .. method:: logpolar([reverse=False])
 
       Re-project's and image from cartessian coordinates to log polar coordinates.
 
@@ -3449,7 +3641,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.lens_corr([strength=1.8, [zoom=1.0, [x_corr=0.0, [y_corr=0.0]]]])
+   .. method:: lens_corr([strength=1.8, [zoom=1.0, [x_corr=0.0, [y_corr=0.0]]]])
 
       Performs lens correction to un-fisheye the image due to the lens distortion.
 
@@ -3512,12 +3704,12 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.get_histogram([thresholds, [invert=False, [roi, [bins, [l_bins, [a_bins, [b_bins, [difference]]]]]]]])
+   .. method:: get_histogram([thresholds, [invert=False, [roi, [bins, [l_bins, [a_bins, [b_bins, [difference]]]]]]]])
 
       Computes the normalized histogram on all color channels for an ``roi`` and
       returns a `image.histogram` object. Please see the `image.histogram` object for more
-      information. You can also invoke this method by using ``image.get_hist()`` or
-      ``image.histogram()``. If you pass a list of ``thresholds`` then the histogram
+      information. You can also invoke this method by using ``Image.get_hist()`` or
+      ``Image.histogram()``. If you pass a list of ``thresholds`` then the histogram
       information will only be computed from pixels within the threshold list.
 
       ``thresholds`` must be a list of tuples
@@ -3552,7 +3744,7 @@ The image object is the basic object for machine vision operations.
       of the known color bounds.
 
       Unless you need to do something advanced with color statistics just use the
-      `image.get_statistics()` method instead of this method for looking at pixel
+      `Image.get_statistics()` method instead of this method for looking at pixel
       areas in an image.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
@@ -3572,13 +3764,13 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.get_statistics([thresholds, [invert=False, [roi, [bins, [l_bins, [a_bins, [b_bins, [difference]]]]]]]])
+   .. method:: get_statistics([thresholds, [invert=False, [roi, [bins, [l_bins, [a_bins, [b_bins, [difference]]]]]]]])
 
       Computes the mean, median, mode, standard deviation, min, max, lower
       quartile, and upper quartile for all color channels for an ``roi`` and
       returns a `image.statistics` object. Please see the `image.statistics`
       object for more information. You can also invoke this method by using
-      ``image.get_stats`` or ``image.statistics``. If you pass a list of
+      ``Image.get_stats()`` or ``Image.statistics()``. If you pass a list of
       ``thresholds`` then the histogram information will only be computed from
       pixels within the threshold list.
 
@@ -3636,7 +3828,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.get_regression(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [robust=False]]]]]]])
+   .. method:: get_regression(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [robust=False]]]]]]])
 
       Computes a linear regression on all the thresholded pixels in the image. The
       linear regression is computed using least-squares normally which is fast but
@@ -3696,7 +3888,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.find_blobs(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [merge=False, [margin=0, [threshold_cb=None, [merge_cb=None, [x_hist_bins_max=0, [y_hist_bins_max=0]]]]]]]]]]]])
+   .. method:: find_blobs(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [merge=False, [margin=0, [threshold_cb=None, [merge_cb=None, [x_hist_bins_max=0, [y_hist_bins_max=0]]]]]]]]]]]])
 
       Finds all blobs (connected pixel regions that pass a threshold test) in the
       image and returns a list of `image.blob` objects which describe each blob.
@@ -3758,7 +3950,7 @@ The image object is the basic object for machine vision operations.
 
       Merging blobs allows you to implement color code tracking. Each blob object
       has a ``code`` value which is a bit vector made up of 1s for each color
-      threshold. For example, if you pass `image.find_blobs` two color
+      threshold. For example, if you pass `Image.find_blobs` two color
       thresholds then the first threshold has a code of 1 and the second 2 (a
       third threshold would be 4 and a fourth would be 8 and so on). Merged blobs
       logically OR all their codes together so that you know what colors produced
@@ -3769,7 +3961,7 @@ The image object is the basic object for machine vision operations.
       do not fully track all the pixels of an object you are trying to follow.
 
       Finally, if you want to merge blobs, but, don't want two color thresholds to
-      be merged then just call `image.find_blobs` twice with separate thresholds
+      be merged then just call `Image.find_blobs` twice with separate thresholds
       so that blobs aren't merged.
 
       ``threshold_cb`` may be set to the function to call on every blob after its
@@ -3792,7 +3984,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: image.find_lines([roi, [x_stride=2, [y_stride=1, [threshold=1000, [theta_margin=25, [rho_margin=25]]]]]])
+   .. method:: find_lines([roi, [x_stride=2, [y_stride=1, [threshold=1000, [theta_margin=25, [rho_margin=25]]]]]])
 
       Finds all infinite lines in the image using the hough transform. Returns a list
       of `image.line` objects.
@@ -3828,7 +4020,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_line_segments([roi, [merge_distance=0, [max_theta_difference=15]]])
+   .. method:: find_line_segments([roi, [merge_distance=0, [max_theta_difference=15]]])
 
       Finds line segments in the image using the hough transform. Returns a list
       of `image.line` objects .
@@ -3846,11 +4038,9 @@ The image object is the basic object for machine vision operations.
       This method uses the LSD library (also used by OpenCV) to find line segements
       in the image. It's somewhat slow but very accurate and lines don't jump around.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_circles([roi, [x_stride=2, [y_stride=1, [threshold=2000, [x_margin=10, [y_margin=10, [r_margin=10, [r_min=2, [r_max, [r_step=2]]]]]]]]]])
+   .. method:: find_circles([roi, [x_stride=2, [y_stride=1, [threshold=2000, [x_margin=10, [y_margin=10, [r_margin=10, [r_min=2, [r_max, [r_step=2]]]]]]]]]])
 
       Finds circles in the image using the hough transform. Returns a list of
       `image.circle` objects.
@@ -3888,11 +4078,9 @@ The image object is the basic object for machine vision operations.
 
       ``r_step`` controls how to step the radius detection by. Defaults to 2.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_rects([roi=Auto, [threshold=10000]])
+   .. method:: find_rects([roi=Auto, [threshold=10000]])
 
       Find rectangles in the image using the same quad detection algorithm used to
       find apriltags. Works best of rectangles that have good contrast against the
@@ -3908,11 +4096,9 @@ The image object is the basic object for machine vision operations.
       their values) less than ``threshold`` are filtered out of the returned list.
       The correct value of ``threshold`` is depended on your application/scene.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_qrcodes([roi])
+   .. method:: find_qrcodes([roi])
 
       Finds all qrcodes within the ``roi`` and returns a list of `image.qrcode`
       objects. Please see the `image.qrcode` object for more information.
@@ -3920,7 +4106,7 @@ The image object is the basic object for machine vision operations.
       QR Codes need to be relatively flat in the image for this method to work.
       You can achieve a flatter image that is not effected by lens distortion by
       either using the `sensor.set_windowing()` function to zoom in the on the
-      center of the lens, `image.lens_corr()` to undo lens barrel distortion, or
+      center of the lens, `Image.lens_corr()` to undo lens barrel distortion, or
       by just changing out the lens for something with a narrower fields of view.
       There are machine vision lenses available which do not cause barrel
       distortion but they are much more expensive to than the standard lenses
@@ -3930,11 +4116,9 @@ The image object is the basic object for machine vision operations.
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_apriltags([roi, [families=image.TAG36H11, [fx, [fy, [cx, [cy]]]]]])
+   .. method:: find_apriltags([roi, [families=image.TAG36H11, [fx, [fy, [cx, [cy]]]]]])
 
       Finds all apriltags within the ``roi`` and returns a list of `image.apriltag`
       objects. Please see the `image.apriltag` object for more information.
@@ -3969,7 +4153,7 @@ The image object is the basic object for machine vision operations.
         * `image.ARTOOLKIT`
 
       By default it is just `image.TAG36H11` which is the best tag family to
-      use. Note that `image.find_apriltags()` slows down per enabled tag family.
+      use. Note that `Image.find_apriltags()` slows down per enabled tag family.
 
       ``fx`` is the camera X focal length in pixels. For the standard OpenMV Cam
       this is (2.8 / 3.984) * 656. Which is the lens focal length in mm, divided
@@ -3991,7 +4175,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_datamatrices([roi, [effort=200]])
+   .. method:: find_datamatrices([roi, [effort=200]])
 
       Finds all datamatrices within the ``roi`` and returns a list of `image.datamatrix`
       objects. Please see the `image.datamatrix` object for more information.
@@ -3999,7 +4183,7 @@ The image object is the basic object for machine vision operations.
       Data Matrices need to be relatively flat in the image for this method to work.
       You can achieve a flatter image that is not effected by lens distortion by
       either using the `sensor.set_windowing()` function to zoom in the on the
-      center of the lens, `image.lens_corr()` to undo lens barrel distortion, or
+      center of the lens, `Image.lens_corr()` to undo lens barrel distortion, or
       by just changing out the lens for something with a narrower fields of view.
       There are machine vision lenses available which do not cause barrel
       distortion but they are much more expensive to than the standard lenses
@@ -4018,11 +4202,9 @@ The image object is the basic object for machine vision operations.
       as you like. But, any values above 240 or so do not result in much increase
       in the detection rate.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_barcodes([roi])
+   .. method:: find_barcodes([roi])
 
       Finds all 1D barcodes within the ``roi`` and returns a list of `image.barcode`
       objects. Please see the `image.barcode` object for more information.
@@ -4058,11 +4240,9 @@ The image object is the basic object for machine vision operations.
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_displacement(template, [roi, [template_roi, [logpolar=False]]])
+   .. method:: find_displacement(template, [roi, [template_roi, [logpolar=False]]])
 
       Find the translation offset of the this image from the template. This
       method can be used to do optical flow. This method returns a `image.displacement`
@@ -4078,7 +4258,7 @@ The image object is the basic object for machine vision operations.
       location in the image. You may slide smaller rois arround a larger image to
       get an optical flow gradient image...
 
-      `image.find_displacement()` normally computes the x/y translation between two
+      `Image.find_displacement()` normally computes the x/y translation between two
       images. However, if you pass ``logpolar=True`` it will instead find rotation
       and scale changes between the two images. The same `image.displacement` object
       result encodes both possible repsonses.
@@ -4093,7 +4273,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: image.find_template(template, threshold, [roi, [step=2, [search=image.SEARCH_EX]]])
+   .. method:: find_template(template, threshold, [roi, [step=2, [search=image.SEARCH_EX]]])
 
       Tries to find the first location in the image where template matches using
       Normalized Cross Correlation. Returns a bounding box tuple (x, y, w, h) for
@@ -4122,7 +4302,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: image.find_features(cascade, [threshold=0.5, [scale=1.5, [roi]]])
+   .. method:: find_features(cascade, [threshold=0.5, [scale=1.5, [roi]]])
 
       This method searches the image for all areas that match the passed in Haar
       Cascade and returns a list of bounding box rectangles tuples (x, y, w, h)
@@ -4143,17 +4323,17 @@ The image object is the basic object for machine vision operations.
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
 
-   .. method:: image.find_eye(roi)
+   .. method:: find_eye(roi)
 
       Searches for the pupil in a region-of-interest (x, y, w, h) tuple around an
       eye. Returns a tuple with the (x, y) location of the pupil in the image.
       Returns (0,0) if no pupils are found.
 
-      To use this function first use `image.find_features()` with the
+      To use this function first use `Image.find_features()` with the
       ``frontalface`` HaarCascade to find someone's face. Then use
-      `image.find_features()` with the ``eye`` HaarCascade to find the eyes on the
+      `Image.find_features()` with the ``eye`` HaarCascade to find the eyes on the
       face. Finally, call this method on the eye ROI returned by
-      `image.find_features()` to get the pupil coordinates.
+      `Image.find_features()` to get the pupil coordinates.
 
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
       specified, it is equal to the image rectangle. Only pixels within the
@@ -4161,7 +4341,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: image.find_lbp(roi)
+   .. method:: find_lbp(roi)
 
       Extracts LBP (local-binary-patterns) keypoints from the region-of-interest
       (x, y, w, h) tuple. You can then use then use the `image.match_descriptor()`
@@ -4173,7 +4353,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: image.find_keypoints([roi, [threshold=20, [normalized=False, [scale_factor=1.5, [max_keypoints=100, [corner_detector=image.CORNER_AGAST]]]]]])
+   .. method:: find_keypoints([roi, [threshold=20, [normalized=False, [scale_factor=1.5, [max_keypoints=100, [corner_detector=image.CORNER_AGAST]]]]]])
 
       Extracts ORB keypoints from the region-of-interest (x, y, w, h) tuple. You
       can then use then use the `image.match_descriptor()` function to compare
@@ -4207,7 +4387,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: image.find_edges(edge_type, [threshold])
+   .. method:: find_edges(edge_type, [threshold])
 
       Turns the image to black and white leaving only the edges as white pixels.
 
@@ -4233,40 +4413,90 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
+   .. method:: stero_disparity([reversed=False, [max_disparity=64, [threshold=64]]])
+
+      Takes a double wide grayscale image that contains the output of two camera sensors
+      side-by-side and replaces one of the images int he double wide image with the stero-disparity
+      image where each pixel reprsents depth. E.g. if you have two 320x240 cameras then this method
+      takes a 640x240 image.
+
+      ``reversed`` By default the left image is compared to the right image and the right image
+      is then replaced. Pass true to compare the right image to the left image and replace the left
+      image.
+
+      .. note::
+
+         The algorithm only works comparing left->right or right->left. If your camrea setup does
+         not match this then you will get useless results.
+
+      ``max_disparity`` is the maximum distance to search for a matching pixel block using the
+      sum-of-absolute differences algorith. Larger values take exponentially longer to search with
+      but result in higher quality images. Lower values make the algorithm run faster but may
+      result in nonsense output.
+
+      ``threshold`` if the sum-of-absolute differences between two blocks is less than or equal
+      to this threshold they are considered to be matching.
+
+      This method is only available on the Arduino Portenta.
+
+      .. note::
+
+         Even with our best SIMD effort this algorithm is not real-time on the Cortex-M7 processor.
+         This is just a toy example algorithm showing off stero-disparity.
+
 Constants
 ---------
 
-.. data:: image.BINARY
+.. data:: BINARY
 
    BINARY (bitmap) pixel format. Each pixel is 1-bit.
 
-.. data:: image.GRAYSCALE
+.. data:: GRAYSCALE
 
    GRAYSCALE pixel format. Each pixel is 8-bits, 1-byte.
 
-.. data:: image.RGB565
+.. data:: RGB565
 
    RGB565 pixel format. Each pixel is 16-bits, 2-bytes. 5-bits are used for red,
    6-bits are used for green, and 5-bits are used for blue.
 
-.. data:: image.BAYER
+.. data:: BAYER
 
    RAW BAYER image pixel format. If you try to make the frame size too big
    to fit in the frame buffer your OpenMV Cam will set the pixel format
    to BAYER so that you can capture images but no image processing methods
    will be operational.
 
-.. data:: image.JPEG
+.. data:: YUV422
+
+   A pixel format that is very easy to jpeg compress. Each pixel is stored as a grayscale
+   8-bit Y value followed by alternating 8-bit U/V color values that are shared between two
+   Y values (8-bits Y1, 8-bits U, 8-bits Y2, 8-bits V, etc.). Only some image processing
+   methods work with YUV422.
+
+.. data:: JPEG
 
    A JPEG image.
 
-.. data:: image.AREA
+.. data:: PNG
+
+   A PNG image.
+
+.. data:: PALETTE_RAINBOW
+
+   Default OpenMV Cam color palette for thermal images using a smooth color wheel.
+
+.. data:: PALETTE_IRONBOW
+
+   Makes images look like the FLIR Lepton thermal images using a very non-linear color palette.
+
+.. data:: AREA
 
    Use area scaling when downscaling an image (Nearest Neighbor is used for upscaling).
 
    You should use area scaling when downscaling for the highest visual quality.
 
-.. data:: image.BILINEAR
+.. data:: BILINEAR
 
    Use bilinear scaling when upscaling an image. This produces a good quality scaled image output
    and is fast.
@@ -4274,7 +4504,7 @@ Constants
    When downscaling an image this method will subsample the input image to produce the downscaled
    image. Use `image.AREA` for the higest quality downscaling if speed is not an issue.
 
-.. data:: image.BICUBIC
+.. data:: BICUBIC
 
    Use bicubic scaling when upscaling an image. This produces a high quality scaled image output,
    but is slow.
@@ -4282,134 +4512,178 @@ Constants
    When downscaling an image this method will subsample the input image to produce the downscaled
    image. Use `image.AREA` for the higest quality downscaling if speed is not an issue.
 
-.. data:: image.CENTER
+.. data:: VFLIP
 
-   Anchor the image being drawn with `draw_image` in the center versus the top left hand corner.
+   Vertically flip the image being drawn by `draw_image`.
 
-.. data:: image.EXTRACT_RGB_CHANNEL_FIRST
+.. data:: HMIRROR
+
+   Horizontally mirror the image being drawn by `draw_image`.
+
+.. data:: TRANSPOSE
+
+   Transpose (swap x/y) the image being draw by `draw_image`.
+
+.. data:: CENTER
+
+   Center the image being drawn to the center of the image/canvas it's being drawn on. Any x/y
+   offsets passed will move the image being drawn from the center by that amount.
+
+.. data:: EXTRACT_RGB_CHANNEL_FIRST
 
    When extracting an RGB channel from an RGB image using `draw_image` extract the channel first
    before scaling versus afterwards to prevent any artifacts.
 
-.. data:: image.APPLY_COLOR_PALETTE_FIRST
+.. data:: APPLY_COLOR_PALETTE_FIRST
 
    When applying a color lookup table to an image using `draw_image` apply the color look table
    first before scaling versus afterwards to prevent any artifacts.
 
-.. data:: image.BLACK_BACKGROUND
+.. data:: SCALE_ASPECT_KEEP
+
+   Scale the image being drawn to fit inside of the image/canvas being drawn on while maintaining
+   the aspect ratio. Unless the image aspect ratios match the image being drawn will not completley
+   cover the image/canvas being drawn on. Any x_scale/y_scale values passed will additionally scale
+   the scaled image.
+
+.. data:: SCALE_ASPECT_EXPAND
+
+   Scale the image being drawn to fill image/canvas being drawn on while maintaining
+   the aspect ratio. Unless the image aspect ratios match the image being drawn will be cropped.
+   Any x_scale/y_scale values passed will additionally scale the scaled image.
+
+.. data:: SCALE_ASPECT_IGNORE
+
+   Scale the image being drawn to fill the image/canvas being drawn on. This does not maintain
+   the aspect ratio of the image being drawn. Any x_scale/y_scale values passed will additionally
+   scale the scaled image.
+
+.. data:: ROTATE_90
+
+   Rotate the image by 90 degrees (this is just `image.VFLIP` ORed with `image.TRANSPOSE`).
+
+.. data:: ROTATE_180
+
+   Rotate the image by 180 degrees (this is just `image.HMIRROR` ORed with `image.VFLIP`).
+
+.. data:: ROTATE_270
+
+   Rotate the image by 270 degrees (this is just `image.HMIRROR` ORed with `image.TRANSPOSE`).
+
+.. data:: BLACK_BACKGROUND
 
    Speeds up `draw_image` when drawing on a black destination image when using alpha effects that
    require reading both source and destination pixels. This skips reading the destination pixel.
 
-.. data:: image.SEARCH_EX
+.. data:: SEARCH_EX
 
    Exhaustive template matching search.
 
-.. data:: image.SEARCH_DS
+.. data:: SEARCH_DS
 
    Faster template matching search.
 
-.. data:: image.EDGE_CANNY
+.. data:: EDGE_CANNY
 
    Use the canny edge detection algorithm for doing edge detection on an image.
 
-.. data:: image.EDGE_SIMPLE
+.. data:: EDGE_SIMPLE
 
    Use a simple thresholded high pass filter algorithm for doing edge detection
    on an image.
 
-.. data:: image.CORNER_FAST
+.. data:: CORNER_FAST
 
    Faster and less accurate corner detection algorithm for ORB keypoints.
 
-.. data:: image.CORNER_AGAST
+.. data:: CORNER_AGAST
 
    Slower and more accurate corner detection algorithm for ORB keypoints.
 
-.. data:: image.TAG16H5
+.. data:: TAG16H5
 
    TAG1H5 tag family bit mask enum. Used for AprilTags.
 
-.. data:: image.TAG25H7
+.. data:: TAG25H7
 
    TAG25H7 tag family bit mask enum. Used for AprilTags.
 
-.. data:: image.TAG25H9
+.. data:: TAG25H9
 
    TAG25H9 tag family bit mask enum. Used for AprilTags.
 
-.. data:: image.TAG36H10
+.. data:: TAG36H10
 
    TAG36H10 tag family bit mask enum. Used for AprilTags.
 
-.. data:: image.TAG36H11
+.. data:: TAG36H11
 
    TAG36H11 tag family bit mask enum. Used for AprilTags.
 
-.. data:: image.ARTOOLKIT
+.. data:: ARTOOLKIT
 
    ARTOOLKIT tag family bit mask enum. Used for AprilTags.
 
-.. data:: image.EAN2
+.. data:: EAN2
 
    EAN2 barcode type enum.
 
-.. data:: image.EAN5
+.. data:: EAN5
 
    EAN5 barcode type enum.
 
-.. data:: image.EAN8
+.. data:: EAN8
 
    EAN8 barcode type enum.
 
-.. data:: image.UPCE
+.. data:: UPCE
 
    UPCE barcode type enum.
 
-.. data:: image.ISBN10
+.. data:: ISBN10
 
    ISBN10 barcode type enum.
 
-.. data:: image.UPCA
+.. data:: UPCA
 
    UPCA barcode type enum.
 
-.. data:: image.EAN13
+.. data:: EAN13
 
    EAN13 barcode type enum.
 
-.. data:: image.ISBN13
+.. data:: ISBN13
 
    ISBN13 barcode type enum.
 
-.. data:: image.I25
+.. data:: I25
 
    I25 barcode type enum.
 
-.. data:: image.DATABAR
+.. data:: DATABAR
 
    DATABAR barcode type enum.
 
-.. data:: image.DATABAR_EXP
+.. data:: DATABAR_EXP
 
    DATABAR_EXP barcode type enum.
 
-.. data:: image.CODABAR
+.. data:: CODABAR
 
    CODABAR barcode type enum.
 
-.. data:: image.CODE39
+.. data:: CODE39
 
    CODE39 barcode type enum.
 
-.. data:: image.PDF417
+.. data:: PDF417
 
    PDF417 barcode type enum - Future (e.g. doesn't work right now).
 
-.. data:: image.CODE93
+.. data:: CODE93
 
    CODE93 barcode type enum.
 
-.. data:: image.CODE128
+.. data:: CODE128
 
    CODE128 barcode type enum.

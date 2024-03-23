@@ -29,6 +29,9 @@
 // Enable midpoint pooling
 #define IMLIB_ENABLE_MIDPOINT_POOLING
 
+// Enable ISP ops
+#define IMLIB_ENABLE_ISP_OPS
+
 // Enable binary ops
 #define IMLIB_ENABLE_BINARY_OPS
 
@@ -58,9 +61,6 @@
 
 // Enable bilateral()
 //#define IMLIB_ENABLE_BILATERAL
-
-// Enable cartoon()
-//#define IMLIB_ENABLE_CARTOON
 
 // Enable linpolar()
 //#define IMLIB_ENABLE_LINPOLAR
@@ -112,6 +112,11 @@
 // Enable find_barcodes() (42 KB)
 //#define IMLIB_ENABLE_BARCODES
 
+// Enable find_features() and built-in Haar cascades. (75KBs)
+//#define IMLIB_ENABLE_FEATURES
+//#define IMLIB_ENABLE_FEATURES_BUILTIN_FACE_CASCADE
+//#define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
+
 // Enable Tensor Flow
 //#define IMLIB_ENABLE_TF
 
@@ -135,5 +140,8 @@
 
 // Enable STM32 DMA2D
 #define IMLIB_ENABLE_DMA2D
+
+// Stereo Imaging
+// #define IMLIB_ENABLE_STEREO_DISPARITY
 
 #endif //__IMLIB_CONFIG_H__

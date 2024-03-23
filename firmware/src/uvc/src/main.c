@@ -15,10 +15,13 @@
 #include "usbd_desc.h"
 #include "usbd_uvc.h"
 #include "usbd_uvc_if.h"
-#include "cambus.h"
+#include "omv_i2c.h"
 #include "sensor.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
+#if OMV_ENABLE_BOOTLOADER
+#include "omv_bootconfig.h"
+#endif
 
 #if defined(I2C1)
 I2C_HandleTypeDef I2CHandle1;
@@ -32,6 +35,27 @@ I2C_HandleTypeDef I2CHandle3;
 #if defined(I2C4)
 I2C_HandleTypeDef I2CHandle4;
 #endif
+
+#if defined(SPI1)
+SPI_HandleTypeDef SPIHandle1;
+#endif
+#if defined(SPI2)
+SPI_HandleTypeDef SPIHandle2;
+#endif
+#if defined(SPI3)
+SPI_HandleTypeDef SPIHandle3;
+#endif
+#if defined(SPI4)
+SPI_HandleTypeDef SPIHandle4;
+#endif
+#if defined(SPI5)
+SPI_HandleTypeDef SPIHandle5;
+#endif
+#if defined(SPI6)
+SPI_HandleTypeDef SPIHandle6;
+#endif
+
+DMA_HandleTypeDef *dma_handle[16];
 
 extern sensor_t sensor;
 USBD_HandleTypeDef hUsbDeviceFS;
@@ -49,6 +73,12 @@ mp_uint_t mp_hal_ticks_ms(void)
 }
 
 void __attribute__((noreturn)) __fatal_error()
+{
+    while (1) {
+    }
+}
+
+void __attribute__((noreturn)) mp_raise_msg_varg(const void *err, ...)
 {
     while (1) {
     }
@@ -94,6 +124,9 @@ NORETURN void nlr_jump(void *val)
 void *mp_obj_new_exception_msg(const void *exc_type, const char *msg)
 {
     return NULL;
+}
+
+void mp_handle_pending(bool x) {
 }
 
 const void *mp_type_MemoryError = NULL;
@@ -161,14 +194,16 @@ int main()
 {
     HAL_Init();
 
+    #if OMV_ENABLE_BOOTLOADER
     GPIO_InitTypeDef  GPIO_InitStructure;
     GPIO_InitStructure.Pull  = GPIO_PULLUP;
     GPIO_InitStructure.Speed = GPIO_SPEED_LOW;
     GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
 
-    GPIO_InitStructure.Pin = OMV_BOOTLDR_LED_PIN;
-    HAL_GPIO_Init(OMV_BOOTLDR_LED_PORT, &GPIO_InitStructure);
-    HAL_GPIO_WritePin(OMV_BOOTLDR_LED_PORT, OMV_BOOTLDR_LED_PIN, GPIO_PIN_SET);
+    GPIO_InitStructure.Pin = OMV_BOOT_LED_PIN;
+    HAL_GPIO_Init(OMV_BOOT_LED_PORT, &GPIO_InitStructure);
+    HAL_GPIO_WritePin(OMV_BOOT_LED_PORT, OMV_BOOT_LED_PIN, GPIO_PIN_SET);
+    #endif
 
     // Re-enable IRQs (disabled by bootloader)
     __enable_irq();

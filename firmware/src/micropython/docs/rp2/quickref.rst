@@ -92,6 +92,37 @@ Use the :ref:`machine.Pin <machine.Pin>` class::
     p4 = Pin(4, Pin.IN, Pin.PULL_UP) # enable internal pull-up resistor
     p5 = Pin(5, Pin.OUT, value=1) # set pin high on creation
 
+Programmable IO (PIO)
+---------------------
+
+PIO is useful to build low-level IO interfaces from scratch.  See the :mod:`rp2` module
+for detailed explanation of the assembly instructions.
+
+Example using PIO to blink an LED at 1Hz::
+
+    from machine import Pin
+    import rp2
+
+    @rp2.asm_pio(set_init=rp2.PIO.OUT_LOW)
+    def blink_1hz():
+        # Cycles: 1 + 7 + 32 * (30 + 1) = 1000
+        set(pins, 1)
+        set(x, 31)                  [6]
+        label("delay_high")
+        nop()                       [29]
+        jmp(x_dec, "delay_high")
+
+        # Cycles: 1 + 7 + 32 * (30 + 1) = 1000
+        set(pins, 0)
+        set(x, 31)                  [6]
+        label("delay_low")
+        nop()                       [29]
+        jmp(x_dec, "delay_low")
+
+    # Create and start a StateMachine with blink_1hz, outputting on Pin(25)
+    sm = rp2.StateMachine(0, blink_1hz, freq=2000, set_base=Pin(25))
+    sm.active(1)
+
 UART (serial bus)
 -----------------
 
@@ -115,19 +146,30 @@ See :ref:`machine.UART <machine.UART>`. ::
 PWM (pulse width modulation)
 ----------------------------
 
-There are 8 independent channels each of which have 2 outputs making it 16
-PWM channels in total which can be clocked from 7Hz to 125Mhz.
+There are 8 independent PWM generators called slices, which each have two
+channels making it 16 PWM channels in total which can be clocked from
+8Hz to 62.5Mhz at a machine.freq() of 125Mhz. The two channels of a
+slice run at the same frequency, but can have a different duty rate.
+The two channels are usually assigned to adjacent GPIO pin pairs with
+even/odd numbers. So GPIO0 and GPIO1 are at slice 0, GPIO2 and GPIO3
+are at slice 1, and so on. A certain channel can be assigned to
+different GPIO pins (see Pinout). For instance slice 0, channel A can be assigned
+to both GPIO0 and GPIO16.
 
 Use the ``machine.PWM`` class::
 
     from machine import Pin, PWM
 
-    pwm0 = PWM(Pin(0))      # create PWM object from a pin
-    pwm0.freq()             # get current frequency
-    pwm0.freq(1000)         # set frequency
-    pwm0.duty_u16()         # get current duty cycle, range 0-65535
-    pwm0.duty_u16(200)      # set duty cycle, range 0-65535
-    pwm0.deinit()           # turn off PWM on the pin
+    # create PWM object from a pin and set the frequency of slice 0
+    # and duty cycle for channel A
+    pwm0 = PWM(Pin(0), freq=2000, duty_u16=32768)
+    pwm0.freq()             # get the current frequency of slice 0
+    pwm0.freq(1000)         # set/change the frequency of slice 0
+    pwm0.duty_u16()         # get the current duty cycle of channel A, range 0-65535
+    pwm0.duty_u16(200)      # set the duty cycle of channel A, range 0-65535
+    pwm0.duty_u16(0)        # stop the output at channel A
+    print(pwm0)             # show the properties of the PWM object.
+    pwm0.deinit()           # turn off PWM of slice 0, stopping channels A and B
 
 ADC (analog to digital conversion)
 ----------------------------------
@@ -219,6 +261,26 @@ has the same methods as software I2C above::
     i2c = I2C(0)   # default assignment: scl=Pin(9), sda=Pin(8)
     i2c = I2C(1, scl=Pin(3), sda=Pin(2), freq=400_000)
 
+I2S bus
+-------
+
+See :ref:`machine.I2S <machine.I2S>`. ::
+
+    from machine import I2S, Pin
+
+    i2s = I2S(0, sck=Pin(16), ws=Pin(17), sd=Pin(18), mode=I2S.TX, bits=16, format=I2S.STEREO, rate=44100, ibuf=40000) # create I2S object
+    i2s.write(buf)             # write buffer of audio samples to I2S device
+
+    i2s = I2S(1, sck=Pin(0), ws=Pin(1), sd=Pin(2), mode=I2S.RX, bits=16, format=I2S.MONO, rate=22050, ibuf=40000) # create I2S object
+    i2s.readinto(buf)          # fill buffer with audio samples from I2S device
+
+The ``ws`` pin number must be one greater than the ``sck`` pin number.
+
+The I2S class is currently available as a Technical Preview.  During the preview period, feedback from
+users is encouraged.  Based on this feedback, the I2S class API and implementation may be changed.
+
+Two I2S buses are supported with id=0 and id=1.
+
 Real time clock (RTC)
 ---------------------
 
@@ -245,6 +307,7 @@ See :ref:`machine.WDT <machine.WDT>`. ::
     wdt = WDT(timeout=5000)
     wdt.feed()
 
+The maximum value for timeout is 8388 ms.
 
 OneWire driver
 --------------

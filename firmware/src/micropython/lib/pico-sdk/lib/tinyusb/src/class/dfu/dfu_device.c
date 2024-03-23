@@ -26,7 +26,7 @@
 
 #include "tusb_option.h"
 
-#if (TUSB_OPT_DEVICE_ENABLED && CFG_TUD_DFU)
+#if (CFG_TUD_ENABLED && CFG_TUD_DFU)
 
 #include "device/usbd.h"
 #include "device/usbd_pvt.h"
@@ -167,6 +167,8 @@ uint16_t dfu_moded_open(uint8_t rhport, tusb_desc_interface_t const * itf_desc, 
   uint8_t alt_count = 0;
 
   uint16_t drv_len = 0;
+  TU_VERIFY(itf_desc->bInterfaceSubClass == TUD_DFU_APP_SUBCLASS && itf_desc->bInterfaceProtocol == DFU_PROTOCOL_DFU, 0);
+
   while(itf_desc->bInterfaceSubClass == TUD_DFU_APP_SUBCLASS && itf_desc->bInterfaceProtocol == DFU_PROTOCOL_DFU)
   {
     TU_ASSERT(max_len > drv_len, 0);
@@ -190,7 +192,7 @@ uint16_t dfu_moded_open(uint8_t rhport, tusb_desc_interface_t const * itf_desc, 
   _dfu_ctx.attrs = func_desc->bAttributes;
 
   // CFG_TUD_DFU_XFER_BUFSIZE has to be set to the buffer size used in TUD_DFU_DESCRIPTOR
-  uint16_t const transfer_size = tu_le16toh( tu_unaligned_read16((uint8_t*) func_desc + offsetof(tusb_desc_dfu_functional_t, wTransferSize)) );
+  uint16_t const transfer_size = tu_le16toh( tu_unaligned_read16((uint8_t const*) func_desc + offsetof(tusb_desc_dfu_functional_t, wTransferSize)) );
   TU_ASSERT(transfer_size <= CFG_TUD_DFU_XFER_BUFSIZE, drv_len);
 
   return drv_len;

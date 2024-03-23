@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file uart-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* UART personality description file.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc_usic_intrinsic" name="USIC_GLOBAL" intrinsic="true" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc_usic" />
+    <Resource name="usic" />
+  </Dependencies>
+  <ExposedMembers/>
+  <Parameters>
+    <ParamString id="InstNumber" name="" group="" default="`${getInstNumber(&quot;usic&quot;)}`" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="`${&quot;Total allocated FIFO size for USIC &quot; . InstNumber . &quot; should not exceed 64 words.&quot;}`" condition="`${
+      ((isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) ? getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) : 0) +
+       (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;) ? getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) : 0) + 
+       (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) ? getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) : 0) +
+       (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;) ? getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) : 0) > 64) ? true : false}`" />
+
+    <!-- FIFO overlap DRCs -->
+    <DRC type="ERROR" text="`${&quot;USIC &quot; . InstNumber . &quot; FIFO buffer regions overlap: Channel 0 RX and Channel 0 TX. Update FIFO data pointer settings. &quot;}`" condition="`${
+      (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) &gt; 0) &amp;&amp;  (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) &gt; 0)) ?
+      (((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) &lt;= getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) - 1))) || 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) - 1)) &amp;&amp; 
+      ((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) - 1) &lt;= (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;)))) : false}`" />
+  
+    <DRC type="ERROR" text="`${&quot;USIC &quot; . InstNumber . &quot; FIFO buffer regions overlap: Channel 0 RX and Channel 1 RX. Update FIFO data pointer settings. &quot;}`" condition="`${
+      (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) &amp;&amp; (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) &gt; 0) &amp;&amp; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) &gt; 0)) ?
+      (((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) &lt;= getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) - 1))) || 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) - 1)) &amp;&amp; 
+      ((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) - 1) &lt;= (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;)))) : false}`" />
+  
+    <DRC type="ERROR" text="`${&quot;USIC &quot; . InstNumber . &quot; FIFO buffer regions overlap: Channel 0 RX and Channel 1 TX. Update FIFO data pointer settings. &quot;}`" condition="`${
+      (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) &amp;&amp; (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;)) &amp;&amp;
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) &gt; 0) &amp;&amp;  (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) &gt; 0)) ?
+      (((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) &lt;= getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;) - 1))) || 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) - 1)) &amp;&amp; 
+      ((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) - 1) &lt;= (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;RxFIFOSize&quot;)))) : false}`" />
+
+    <DRC type="ERROR" text="`${&quot;USIC &quot; . InstNumber . &quot; FIFO buffer regions overlap: Channel 0 TX and Channel 1 RX. Update FIFO data pointer settings. &quot;}`" condition="`${
+      (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) &amp;&amp; (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;)) &amp;&amp;
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) &gt; 0) &amp;&amp;  (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) &gt; 0)) ?
+      (((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) &lt;= getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) - 1))) || 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) - 1)) &amp;&amp; 
+      ((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) - 1) &lt;= (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;)))) : false}`" />
+ 
+    <DRC type="ERROR" text="`${&quot;USIC &quot; . InstNumber . &quot; FIFO buffer regions overlap: Channel 0 TX and Channel 1 TX. Update FIFO data pointer settings. &quot;}`" condition="`${
+      (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;) &amp;&amp; (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;)) &amp;&amp;
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) &gt; 0) &amp;&amp;  (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) &gt; 0)) ?
+      (((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) &lt;= getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;) - 1))) || 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) - 1)) &amp;&amp; 
+      ((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) - 1) &lt;= (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[0]&quot;, &quot;TxFIFOSize&quot;)))) : false}`" />
+
+    <DRC type="ERROR" text="`${&quot;USIC &quot; . InstNumber . &quot; FIFO buffer regions overlap: Channel 1 RX and Channel 1 TX. Update FIFO data pointer settings. &quot;}`" condition="`${
+      (isBlockUsed(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;) &amp;&amp;
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) &gt; 0) &amp;&amp;  (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) &gt; 0)) ?
+      (((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) &lt;= getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;)) &amp;&amp; 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;) - 1))) || 
+      (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) &lt; (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) - 1)) &amp;&amp; 
+      ((getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;TxFIFOSize&quot;) - 1) &lt;= (getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOPointer&quot;) + getExposedMember(&quot;usic[&quot; . InstNumber . &quot;].ch[1]&quot;, &quot;RxFIFOSize&quot;)))) : false}`" />
+
+  </DRCs>
+  <ConfigFirmware/>
+
+</Personality>

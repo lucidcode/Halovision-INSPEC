@@ -1,27 +1,59 @@
-import usocket as socket
-import ustruct as struct
-from ubinascii import hexlify
+# The MIT License (MIT)
+#
+# Copyright (c) 2013, 2014 micropython-lib contributors
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+# Based on: https://github.com/micropython/micropython-lib/tree/master/micropython/umqtt.simple
+
+import socket
+import struct
+import select
+import ssl
+
 
 class MQTTException(Exception):
     pass
 
-class MQTTClient:
 
-    def __init__(self, client_id, server, port=0, user=None, password=None, keepalive=0,
-                 ssl=False, ssl_params={}):
-        if port == 0:
-            port = 8883 if ssl else 1883
+class MQTTClient:
+    def __init__(
+        self,
+        client_id,
+        server,
+        port,
+        ssl_params=None,
+        user=None,
+        password=None,
+        keepalive=0,
+        callback=None,
+    ):
         self.client_id = client_id
-        self.sock = None
         self.server = server
         self.port = port
-        self.ssl = ssl
         self.ssl_params = ssl_params
-        self.pid = 0
-        self.cb = None
         self.user = user
         self.pswd = password
         self.keepalive = keepalive
+        self.cb = callback
+        self.sock = None
+        self.pid = 0
         self.lw_topic = None
         self.lw_msg = None
         self.lw_qos = 0
@@ -36,7 +68,7 @@ class MQTTClient:
         sh = 0
         while 1:
             b = self.sock.read(1)[0]
-            n |= (b & 0x7f) << sh
+            n |= (b & 0x7F) << sh
             if not b & 0x80:
                 return n
             sh += 7
@@ -52,14 +84,19 @@ class MQTTClient:
         self.lw_qos = qos
         self.lw_retain = retain
 
-    def connect(self, clean_session=True):
-        self.sock = socket.socket()
-        addr = None
+    def connect(self, clean_session=True, timeout=5.0):
         addr = socket.getaddrinfo(self.server, self.port)[0][-1]
+
+        if self.sock is not None:
+            self.sock.close()
+            self.sock = None
+
+        self.sock = socket.socket()
+        self.sock.settimeout(timeout)
         self.sock.connect(addr)
-        if self.ssl:
-            import ussl
-            self.sock = ussl.wrap_socket(self.sock, **self.ssl_params)
+        if self.ssl_params is not None:
+            self.sock = ssl.wrap_socket(self.sock, **self.ssl_params)
+
         premsg = bytearray(b"\x10\0\0\0\0\0")
         msg = bytearray(b"\x04MQTT\x04\x02\0\0")
 
@@ -78,15 +115,14 @@ class MQTTClient:
             msg[6] |= self.lw_retain << 5
 
         i = 1
-        while sz > 0x7f:
-            premsg[i] = (sz & 0x7f) | 0x80
+        while sz > 0x7F:
+            premsg[i] = (sz & 0x7F) | 0x80
             sz >>= 7
             i += 1
         premsg[i] = sz
 
-        self.sock.write(premsg[0:i + 2])
+        self.sock.write(premsg[0 : i + 2])
         self.sock.write(msg)
-        #print(hex(len(msg)), hexlify(msg, ":"))
         self._send_str(self.client_id)
         if self.lw_topic:
             self._send_str(self.lw_topic)
@@ -115,13 +151,13 @@ class MQTTClient:
             sz += 2
         assert sz < 2097152
         i = 1
-        while sz > 0x7f:
-            pkt[i] = (sz & 0x7f) | 0x80
+        while sz > 0x7F:
+            pkt[i] = (sz & 0x7F) | 0x80
             sz >>= 7
             i += 1
         pkt[i] = sz
-        #print(hex(len(pkt)), hexlify(pkt, ":"))
-        self.sock.write(pkt[0:i + 1])
+        # print(hex(len(pkt)), hexlify(pkt, ":"))
+        self.sock.write(pkt[0 : i + 1])
         self._send_str(topic)
         if qos > 0:
             self.pid += 1
@@ -147,7 +183,7 @@ class MQTTClient:
         pkt = bytearray(b"\x82\0\0\0")
         self.pid += 1
         struct.pack_into("!BH", pkt, 1, 2 + 2 + len(topic) + 1, self.pid)
-        #print(hex(len(pkt)), hexlify(pkt, ":"))
+        # print(hex(len(pkt)), hexlify(pkt, ":"))
         self.sock.write(pkt)
         self._send_str(topic)
         self.sock.write(qos.to_bytes(1, "little"))
@@ -155,7 +191,7 @@ class MQTTClient:
             op = self.wait_msg()
             if op == 0x90:
                 resp = self.sock.read(4)
-                #print(resp)
+                # print(resp)
                 assert resp[1] == pkt[2] and resp[2] == pkt[3]
                 if resp[3] == 0x80:
                     raise MQTTException(resp[3])
@@ -167,15 +203,14 @@ class MQTTClient:
     # messages processed internally.
     def wait_msg(self):
         res = self.sock.read(1)
-        if res == b"" or res == None:
+        if res is None or res == b"":
             return None
-        self.sock.setblocking(True)
         if res == b"\xd0":  # PINGRESP
             sz = self.sock.read(1)[0]
             assert sz == 0
             return None
         op = res[0]
-        if op & 0xf0 != 0x30:
+        if op & 0xF0 != 0x30:
             return op
         sz = self._recv_len()
         topic_len = self.sock.read(2)
@@ -199,5 +234,6 @@ class MQTTClient:
     # If not, returns immediately with None. Otherwise, does
     # the same processing as wait_msg.
     def check_msg(self):
-        self.sock.setblocking(False)
-        return self.wait_msg()
+        r, w, e = select.select([self.sock], [], [], 0.05)
+        if len(r):
+            return self.wait_msg()

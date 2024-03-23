@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SCU_CLOCK_CONFIG_t</compoundname>
+    <includes local="no">xmc4_scu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a18ce527740f63f1b382e16e4ba97742a" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1ga7ba412eed9b7e0f28d60090b5a53768d" kindref="member">XMC_SCU_CLOCK_FOFI_CALIBRATION_MODE_t</ref></type>
+        <definition>XMC_SCU_CLOCK_FOFI_CALIBRATION_MODE_t calibration_mode</definition>
+        <argsstring></argsstring>
+        <name>calibration_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Backup clock trimming mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="944" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="944" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a11fa42f2fb14a29c2c52c6cf4d2686e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_oschp</definition>
+        <argsstring></argsstring>
+        <name>enable_oschp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable external high precision oscillator. Should be enabled when fOHP has to be source of system clock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="940" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="940" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ab8f0425906a8dc65344a06085c4537f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_osculp</definition>
+        <argsstring></argsstring>
+        <name>enable_osculp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable external ultra low power oscillator. Should be enabled when fULP has to be source of standby clock(fSTDBY). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="942" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="942" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a013af3965f9090ce5241045162c9c2f7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t fccu_clkdiv</definition>
+        <argsstring></argsstring>
+        <name>fccu_clkdiv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ratio of fSys to fCCU. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="949" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="949" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a579a5e1af4ce90fb62e9bb5daf68c7a9" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t fcpu_clkdiv</definition>
+        <argsstring></argsstring>
+        <name>fcpu_clkdiv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ratio of fSys to fCPU. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="948" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="948" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ac49e13a16215198ae00f59dac16355ac" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t fperipheral_clkdiv</definition>
+        <argsstring></argsstring>
+        <name>fperipheral_clkdiv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ratio of fSYS to fPERI. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="950" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="950" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ae983ba9c72025119f3c3c7c5c9ad1a7c" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1ga8290034e7a28d8e2e8ed0086d6f92ab5" kindref="member">XMC_SCU_HIB_STDBYCLKSRC_t</ref></type>
+        <definition>XMC_SCU_HIB_STDBYCLKSRC_t fstdby_clksrc</definition>
+        <argsstring></argsstring>
+        <name>fstdby_clksrc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Standby clock source. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="945" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="945" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a6956c72347040184cd805a4ff27ea686" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t fsys_clkdiv</definition>
+        <argsstring></argsstring>
+        <name>fsys_clkdiv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ratio of fPLL to fSYS. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="947" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="947" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ac57094a026c31683326d5d60b9a70db4" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1gaccffa04837e2b0c2132f74f3c502139b" kindref="member">XMC_SCU_CLOCK_SYSCLKSRC_t</ref></type>
+        <definition>XMC_SCU_CLOCK_SYSCLKSRC_t fsys_clksrc</definition>
+        <argsstring></argsstring>
+        <name>fsys_clksrc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Choice of system clock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="946" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="946" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1afa66c374c23ebdeb4a29dcf5a4130d14" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t" kindref="compound">XMC_SCU_CLOCK_SYSPLL_CONFIG_t</ref></type>
+        <definition>XMC_SCU_CLOCK_SYSPLL_CONFIG_t syspll_config</definition>
+        <argsstring></argsstring>
+        <name>syspll_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PLL configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="939" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="939" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines a data structure used for initializing the clock functional block. Clock functional block configures clock source needed for various peripheral and its divider values. Use type <emphasis><ref refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kindref="compound">XMC_SCU_CLOCK_CONFIG_t</ref></emphasis> for accessing these structure parameters. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="168">
+        <label>XMC_SCU_CLOCK_CONFIG_t</label>
+        <link refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t"/>
+        <childnode refid="169" relation="usage">
+          <edgelabel>syspll_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="169">
+        <label>XMC_SCU_CLOCK_SYSPLL_CONFIG_t</label>
+        <link refid="struct_x_m_c___s_c_u___c_l_o_c_k___s_y_s_p_l_l___c_o_n_f_i_g__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" line="938" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc4_scu.h" bodystart="937" bodyend="951"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a18ce527740f63f1b382e16e4ba97742a" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>calibration_mode</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a11fa42f2fb14a29c2c52c6cf4d2686e3" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>enable_oschp</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ab8f0425906a8dc65344a06085c4537f5" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>enable_osculp</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a013af3965f9090ce5241045162c9c2f7" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fccu_clkdiv</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a579a5e1af4ce90fb62e9bb5daf68c7a9" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fcpu_clkdiv</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ac49e13a16215198ae00f59dac16355ac" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fperipheral_clkdiv</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ae983ba9c72025119f3c3c7c5c9ad1a7c" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fstdby_clksrc</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a6956c72347040184cd805a4ff27ea686" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fsys_clkdiv</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ac57094a026c31683326d5d60b9a70db4" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fsys_clksrc</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1afa66c374c23ebdeb4a29dcf5a4130d14" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>syspll_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

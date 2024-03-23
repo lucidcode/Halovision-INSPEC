@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___c_a_n___m_o__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_CAN_MO_t</compoundname>
+    <includes local="no">xmc_can.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a6e738d091c93db8c78cba7824a816c2e" prot="public" static="no" mutable="no">
+        <type>union XMC_CAN_MO_t::@32</type>
+        <definition>union XMC_CAN_MO_t::@32 @33</definition>
+        <argsstring></argsstring>
+        <name>@33</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="572" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a2b30ed67af7dce991101056e40b47c4f" prot="public" static="no" mutable="no">
+        <type>union XMC_CAN_MO_t::@34</type>
+        <definition>union XMC_CAN_MO_t::@34 @35</definition>
+        <argsstring></argsstring>
+        <name>@35</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="581" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a375691eba44edbfbcbcc4ae7d4e7fcc4" prot="public" static="no" mutable="no">
+        <type>union XMC_CAN_MO_t::@36</type>
+        <definition>union XMC_CAN_MO_t::@36 @37</definition>
+        <argsstring></argsstring>
+        <name>@37</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="592" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1acecc85ddf6f11d5fddda5e56ae6ec62e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_data[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>can_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>can_data[0] lower 4 bytes of the data. can_data[1], higher 4 bytes of the data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="589" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1ac99cd3b7bd39157fa87d7c625cd4f863" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t can_data_byte[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>can_data_byte</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Each position of the array represents a data byte </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="587" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="587" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1ace905b2193685e394c9ade25ac146410" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t can_data_length</definition>
+        <argsstring></argsstring>
+        <name>can_data_length</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Message data length, Range:0-8 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="582" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="582" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1ac99a08106aef6d26cb8abb62655f7475" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t can_data_long</definition>
+        <argsstring></argsstring>
+        <name>can_data_long</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="591" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1ad86eed15a50a137ec3ef4e6811731289" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t can_data_word[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>can_data_word</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Each position of the array represents a 16 bits data word </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="588" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1aafdb185d7ad247e1d80141451719181e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_id_mask</definition>
+        <argsstring></argsstring>
+        <name>can_id_mask</name>
+        <bitfield> 29</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CAN Identifier of Message Object </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="577" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="577" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a1bc50d1516b0ac8ecef7689e50907d73" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_id_mode</definition>
+        <argsstring></argsstring>
+        <name>can_id_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Standard/Extended identifier support </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="568" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a0b35f45889a24060818e40e5dac8e889" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_ide_mask</definition>
+        <argsstring></argsstring>
+        <name>can_ide_mask</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Identifier Extension Bit of Message Object </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="578" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="578" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a3ac03968891110b9c46b3a83e4a161d6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_identifier</definition>
+        <argsstring></argsstring>
+        <name>can_identifier</name>
+        <bitfield> 29</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>standard (11 bit)/Extended (29 bit) message identifier </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="567" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a93593ca451037e051fd6e76d116d3f4a" prot="public" static="no" mutable="no">
+        <type>CAN_MO_TypeDef *</type>
+        <definition>CAN_MO_TypeDef* can_mo_ptr</definition>
+        <argsstring></argsstring>
+        <name>can_mo_ptr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the Message Object CAN register </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="562" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="562" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a9d6efc5caebe53cfabdc7b4358e996df" prot="public" static="no" mutable="no">
+        <type><ref refid="group___c_a_n_1ga3fbcea02aab3f82946f94f9a31a23cc6" kindref="member">XMC_CAN_MO_TYPE_t</ref></type>
+        <definition>XMC_CAN_MO_TYPE_t can_mo_type</definition>
+        <argsstring></argsstring>
+        <name>can_mo_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Message Type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="594" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a3bacfc6bfd05a5a3e49d9bdbadde84fb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t can_priority</definition>
+        <argsstring></argsstring>
+        <name>can_priority</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Arbitration Mode/Priority </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="569" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a8a1452785a7de1a47685d34960b81ad0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mo_amr</definition>
+        <argsstring></argsstring>
+        <name>mo_amr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="580" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="580" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___m_o__t_1a968843df2111d453ca2a11a412f6e5bf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t mo_ar</definition>
+        <argsstring></argsstring>
+        <name>mo_ar</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="571" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines CAN Message Object runtime elements. Use type <emphasis><ref refid="struct_x_m_c___c_a_n___m_o__t" kindref="compound">XMC_CAN_MO_t</ref></emphasis> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="561" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="560" bodyend="596"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1acecc85ddf6f11d5fddda5e56ae6ec62e" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_data</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1ac99cd3b7bd39157fa87d7c625cd4f863" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_data_byte</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1ace905b2193685e394c9ade25ac146410" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_data_length</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1ac99a08106aef6d26cb8abb62655f7475" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_data_long</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1ad86eed15a50a137ec3ef4e6811731289" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_data_word</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1aafdb185d7ad247e1d80141451719181e" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_id_mask</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a1bc50d1516b0ac8ecef7689e50907d73" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_id_mode</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a0b35f45889a24060818e40e5dac8e889" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_ide_mask</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a3ac03968891110b9c46b3a83e4a161d6" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_identifier</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a93593ca451037e051fd6e76d116d3f4a" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_mo_ptr</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a9d6efc5caebe53cfabdc7b4358e996df" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_mo_type</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a3bacfc6bfd05a5a3e49d9bdbadde84fb" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>can_priority</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a8a1452785a7de1a47685d34960b81ad0" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>mo_amr</name></member>
+      <member refid="struct_x_m_c___c_a_n___m_o__t_1a968843df2111d453ca2a11a412f6e5bf" prot="public" virt="non-virtual"><scope>XMC_CAN_MO_t</scope><name>mo_ar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

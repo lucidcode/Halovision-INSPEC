@@ -45,7 +45,7 @@
 #define STM32L4_SYNOPSYS
 #endif
 
-#if TUSB_OPT_DEVICE_ENABLED &&                                          \
+#if CFG_TUD_ENABLED &&                                          \
     ( (CFG_TUSB_MCU == OPT_MCU_STM32F1 && defined(STM32F1_SYNOPSYS)) || \
        CFG_TUSB_MCU == OPT_MCU_STM32F2                               || \
        CFG_TUSB_MCU == OPT_MCU_STM32F4                               || \
@@ -370,7 +370,7 @@ static bool USB_HS_PHYCInit(void)
 {
   USB_HS_PHYC_GlobalTypeDef *usb_hs_phyc = (USB_HS_PHYC_GlobalTypeDef*) USB_HS_PHYC_CONTROLLER_BASE;
 
-  // Enable LDO
+  // Enable LDO: Note STM32F72/3xx Reference Manual rev 3 June 2018 incorrectly defined this bit as Disabled !!
   usb_hs_phyc->USB_HS_PHYC_LDO |= USB_HS_PHYC_LDO_ENABLE;
 
   // Wait until LDO ready
@@ -602,6 +602,13 @@ void dcd_disconnect(uint8_t rhport)
   dev->DCTL |= USB_OTG_DCTL_SDIS;
 }
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
 
 /*------------------------------------------------------------------*/
 /* DCD Endpoint port
@@ -622,10 +629,10 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * desc_edpt)
   TU_ASSERT(epnum < EP_MAX);
 
   xfer_ctl_t * xfer = XFER_CTL_BASE(epnum, dir);
-  xfer->max_size = desc_edpt->wMaxPacketSize.size;
+  xfer->max_size = tu_edpt_packet_size(desc_edpt);
   xfer->interval = desc_edpt->bInterval;
 
-  uint16_t const fifo_size = (desc_edpt->wMaxPacketSize.size + 3) / 4; // Round up to next full word
+  uint16_t const fifo_size = (xfer->max_size + 3) / 4; // Round up to next full word
 
   if(dir == TUSB_DIR_OUT)
   {
@@ -644,7 +651,7 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * desc_edpt)
     out_ep[epnum].DOEPCTL |= (1 << USB_OTG_DOEPCTL_USBAEP_Pos)        |
         (desc_edpt->bmAttributes.xfer << USB_OTG_DOEPCTL_EPTYP_Pos)   |
         (desc_edpt->bmAttributes.xfer != TUSB_XFER_ISOCHRONOUS ? USB_OTG_DOEPCTL_SD0PID_SEVNFRM : 0) |
-        (desc_edpt->wMaxPacketSize.size << USB_OTG_DOEPCTL_MPSIZ_Pos);
+        (xfer->max_size << USB_OTG_DOEPCTL_MPSIZ_Pos);
 
     dev->DAINTMSK |= (1 << (USB_OTG_DAINTMSK_OEPM_Pos + epnum));
   }
@@ -686,7 +693,7 @@ bool dcd_edpt_open (uint8_t rhport, tusb_desc_endpoint_t const * desc_edpt)
         (epnum << USB_OTG_DIEPCTL_TXFNUM_Pos) |
         (desc_edpt->bmAttributes.xfer << USB_OTG_DIEPCTL_EPTYP_Pos) |
         (desc_edpt->bmAttributes.xfer != TUSB_XFER_ISOCHRONOUS ? USB_OTG_DIEPCTL_SD0PID_SEVNFRM : 0) |
-        (desc_edpt->wMaxPacketSize.size << USB_OTG_DIEPCTL_MPSIZ_Pos);
+        (xfer->max_size << USB_OTG_DIEPCTL_MPSIZ_Pos);
 
     dev->DAINTMSK |= (1 << (USB_OTG_DAINTMSK_IEPM_Pos + epnum));
   }
@@ -976,7 +983,7 @@ static void handle_rxflvl_ints(uint8_t rhport, USB_OTG_OUTEndpointTypeDef * out_
       if (xfer->ff)
       {
         // Ring buffer
-        tu_fifo_write_n_const_addr_full_words(xfer->ff, (const void *) rx_fifo, bcnt);
+        tu_fifo_write_n_const_addr_full_words(xfer->ff, (const void *)(uintptr_t) rx_fifo, bcnt);
       }
       else
       {
@@ -1096,7 +1103,7 @@ static void handle_epin_ints(uint8_t rhport, USB_OTG_DeviceTypeDef * dev, USB_OT
           if (xfer->ff)
           {
             usb_fifo_t tx_fifo = FIFO_BASE(rhport, n);
-            tu_fifo_read_n_const_addr_full_words(xfer->ff, (void *) tx_fifo, packet_size);
+            tu_fifo_read_n_const_addr_full_words(xfer->ff, (void *)(uintptr_t) tx_fifo, packet_size);
           }
           else
           {

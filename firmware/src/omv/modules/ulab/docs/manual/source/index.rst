@@ -22,9 +22,12 @@ Welcome to the ulab book!
    numpy-universal
    numpy-fft
    numpy-linalg
+   scipy-linalg
    scipy-optimize
    scipy-signal
    scipy-special
+   ulab-utils
+   ulab-tricks
    ulab-programming
 
 Indices and tables

@@ -1,0 +1,3133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___d_m_a" kind="group">
+    <compoundname>DMA</compoundname>
+    <title>General purpose DMA (GPDMA)</title>
+    <innerclass refid="struct_g_p_d_m_a___c_h__t" prot="public">GPDMA_CH_t</innerclass>
+    <innerclass refid="struct_x_m_c___d_m_a___c_h___c_o_n_f_i_g__t" prot="public">XMC_DMA_CH_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___d_m_a___l_l_i__t" prot="public">XMC_DMA_LLI_t</innerclass>
+    <innerclass refid="struct_x_m_c___d_m_a__t" prot="public">XMC_DMA_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___d_m_a_1ga0b36edf2049d67bc15b7e76a0e33ad65" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_ADDRESS_COUNT_MODE_t</name>
+        <enumvalue id="group___d_m_a_1gga0b36edf2049d67bc15b7e76a0e33ad65ae7b136eefb3f64d5727135af8565254e" prot="public">
+          <name>XMC_DMA_CH_ADDRESS_COUNT_MODE_INCREMENT</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Address count mode: increment </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga0b36edf2049d67bc15b7e76a0e33ad65aee00d6c2834df57542d3257d831e298c" prot="public">
+          <name>XMC_DMA_CH_ADDRESS_COUNT_MODE_DECREMENT</name>
+          <initializer>= 0x1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Address count mode: decrement </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga0b36edf2049d67bc15b7e76a0e33ad65aac1bb5e053c0d18454bad5e3d66e1564" prot="public">
+          <name>XMC_DMA_CH_ADDRESS_COUNT_MODE_NO_CHANGE</name>
+          <initializer>= 0x2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Address count mode: no change </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA address count mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="171" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="170" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gab2e7d47bf6d6b766ad6fb8943991b16f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_BURST_LENGTH_t</name>
+        <enumvalue id="group___d_m_a_1ggab2e7d47bf6d6b766ad6fb8943991b16fa38df5f0b7bd79dd2d1452fa864f35096" prot="public">
+          <name>XMC_DMA_CH_BURST_LENGTH_1</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Burst length: 1 word </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab2e7d47bf6d6b766ad6fb8943991b16fa6d049dbb5f665bf90dea1f8f431dfce7" prot="public">
+          <name>XMC_DMA_CH_BURST_LENGTH_4</name>
+          <initializer>= 0x1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Burst length: 4 words </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab2e7d47bf6d6b766ad6fb8943991b16fa482402e735b8afe1a5c5a7d96440b9b1" prot="public">
+          <name>XMC_DMA_CH_BURST_LENGTH_8</name>
+          <initializer>= 0x2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Burst length: 8 words </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid burst length values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="151" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1ga726c5d8b4d82b8c80c40d728d9b4687b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_DST_HANDSHAKING_t</name>
+        <enumvalue id="group___d_m_a_1gga726c5d8b4d82b8c80c40d728d9b4687bad7eff9ecea3278fa8cc41a00ba455d1b" prot="public">
+          <name>XMC_DMA_CH_DST_HANDSHAKING_HARDWARE</name>
+          <initializer>= 0x0UL &lt;&lt; GPDMA0_CH_CFGL_HS_SEL_DST_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Destination: hardware handshake </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga726c5d8b4d82b8c80c40d728d9b4687bafa2ae8838345eb06beec7d39bf17797b" prot="public">
+          <name>XMC_DMA_CH_DST_HANDSHAKING_SOFTWARE</name>
+          <initializer>= 0x1UL &lt;&lt; GPDMA0_CH_CFGL_HS_SEL_DST_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Destination: software handshake </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destination handshake interface </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="205" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="204" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gaf060a6658295ad05f021471858e3cf65" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_EVENT_t</name>
+        <enumvalue id="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65adf40aa87e9a29b90161ad82d77a60ac0" prot="public">
+          <name>XMC_DMA_CH_EVENT_TRANSFER_COMPLETE</name>
+          <initializer>= 0x1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer complete event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65a60a7f134d544d91aa9f0dc7113d21c5a" prot="public">
+          <name>XMC_DMA_CH_EVENT_BLOCK_TRANSFER_COMPLETE</name>
+          <initializer>= 0x2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Block transfer complete event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65afea4585e3b585cc569fe243f0164de46" prot="public">
+          <name>XMC_DMA_CH_EVENT_SRC_TRANSACTION_COMPLETE</name>
+          <initializer>= 0x4UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Source transaction complete event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65a3cafae3b05ca04d5fbbc7a68fbf25ea5" prot="public">
+          <name>XMC_DMA_CH_EVENT_DST_TRANSACTION_COMPLETE</name>
+          <initializer>= 0x8UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Destination transaction complete event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65ab1d515480732bf84cb7bf568b293f719" prot="public">
+          <name>XMC_DMA_CH_EVENT_ERROR</name>
+          <initializer>= 0x10UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA error event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA events </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="230" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gab756df17d6894a455be9bc6e28dd8362" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_t</name>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362afec0992d5488c52a402f32a84a6f5157" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_0</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362ab683ed0fa1cb010f82b868f88eda74fe" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_1</name>
+          <initializer>= 0x1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362ad1498e978272415fda51168b862cba67" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_2</name>
+          <initializer>= 0x2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362a0485e2e3cb5dc39719fa3a37f91b4835" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_3</name>
+          <initializer>= 0x3UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362a8f78f16c3b40cae33577bc2128ddd097" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_4</name>
+          <initializer>= 0x4UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 4 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362ab5b24fa1915ddd34ccd3cacef09ecbdc" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_5</name>
+          <initializer>= 0x5UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 5 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362a26e7cbdcab2361c605f71a7f314de020" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_6</name>
+          <initializer>= 0x6UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 6 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggab756df17d6894a455be9bc6e28dd8362abe1d0a978e820e223430f7c56cdf06ec" prot="public">
+          <name>XMC_DMA_CH_HARDWARE_HANDSHAKING_IF_7</name>
+          <initializer>= 0x7UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hardware handshaking interface 7 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA hardware handshaking interface Hardware handshaking available only if DMA is flow controller </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="215" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="214" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1ga32b4a50ce0fab8b542e0f217c86ea786" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_PRIORITY_t</name>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a53271e0bfc789a64957e1a603e432a7f" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_0</name>
+          <initializer>= 0x0UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 0 (low) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786abe48f8c1606e627aa67532e8d0fa41eb" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_1</name>
+          <initializer>= 0x1UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a1f2f2c9d396f1d1b9bcc4f7bea96b106" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_2</name>
+          <initializer>= 0x2UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 2 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a073f18b95033081d69114a68345079f8" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_3</name>
+          <initializer>= 0x3UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a964438fc0e84cc4b9dd6079408310002" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_4</name>
+          <initializer>= 0x4UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 4 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a6370d2d45e2dbdcef31f99bd095af74d" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_5</name>
+          <initializer>= 0x5UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 5 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a62364f6dc50106ed176bcfe8dc00abc7" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_6</name>
+          <initializer>= 0x6UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 6 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga32b4a50ce0fab8b542e0f217c86ea786a43de0533d1e7d91ce38e3f8da9e4cd7b" prot="public">
+          <name>XMC_DMA_CH_PRIORITY_7</name>
+          <initializer>= 0x7UL &lt;&lt; GPDMA0_CH_CFGL_CH_PRIOR_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA channel priority 7 (high) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA channel priorities </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="181" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="180" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1ga6b3c8a2ea3ce9b3326e362fa3d5e8701" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_SRC_HANDSHAKING_t</name>
+        <enumvalue id="group___d_m_a_1gga6b3c8a2ea3ce9b3326e362fa3d5e8701ab319c1c955b076d0fb1cdb42f073d7e4" prot="public">
+          <name>XMC_DMA_CH_SRC_HANDSHAKING_HARDWARE</name>
+          <initializer>= 0x0UL &lt;&lt; GPDMA0_CH_CFGL_HS_SEL_SRC_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Source: hardware handshake </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga6b3c8a2ea3ce9b3326e362fa3d5e8701ada372e9bfb40089c5208249abb3581b1" prot="public">
+          <name>XMC_DMA_CH_SRC_HANDSHAKING_SOFTWARE</name>
+          <initializer>= 0x1UL &lt;&lt; GPDMA0_CH_CFGL_HS_SEL_SRC_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Source: software handshake </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source handshake interface </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="196" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="195" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gadc425339a107c8a6f8248d027ee69b47" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_STATUS_t</name>
+        <enumvalue id="group___d_m_a_1ggadc425339a107c8a6f8248d027ee69b47abbe13983487c134f9c94c85cee145d09" prot="public">
+          <name>XMC_DMA_CH_STATUS_OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA status OK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggadc425339a107c8a6f8248d027ee69b47ac4d14c32c875621f38b41895936e2a0e" prot="public">
+          <name>XMC_DMA_CH_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA status error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggadc425339a107c8a6f8248d027ee69b47a88a8aa5941e49c8b364b41f47701a127" prot="public">
+          <name>XMC_DMA_CH_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>DMA is busy </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA channel status values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="251" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="250" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gabe587216a440005a974f626404f0b595" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_TRANSACTION_TYPE_t</name>
+        <enumvalue id="group___d_m_a_1ggabe587216a440005a974f626404f0b595a17d321a37948e2087d1c7772d7d9d6a9" prot="public">
+          <name>XMC_DMA_CH_TRANSACTION_TYPE_SINGLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Single DMA transaction </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggabe587216a440005a974f626404f0b595acd2de614c574d6ac966237533484afe9" prot="public">
+          <name>XMC_DMA_CH_TRANSACTION_TYPE_BURST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Burst transaction </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction types </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="242" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="241" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gaafe7db2c07b2c337f7c85baeeac76699" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_TRANSFER_FLOW_t</name>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a9cf7cf359dd1bcdb88f10dba9e0004dd" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_M2M_DMA</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Memory to memory (DMA flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a03aff464ac33b0c21591b78734064f34" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_M2P_DMA</name>
+          <initializer>= 0x1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Memory to peripheral (DMA flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a54bb945cc7907710f0b776a301745b32" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_P2M_DMA</name>
+          <initializer>= 0x2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Peripheral to memory (DMA flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a6edf85b44632aaba21dfb8d8291377e3" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_P2P_DMA</name>
+          <initializer>= 0x3UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Peripheral to peripheral (DMA flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a276402cd947362648e1fa6bcf1d481c9" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_P2M_PER</name>
+          <initializer>= 0x4UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Peripheral to memory (Peripheral flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a1e0f8e9d531e656d4e38aeea11600c3b" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_P2P_SRCPER</name>
+          <initializer>= 0x5UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Peripheral to peripheral (Source peripheral flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699ad7b04a84aade3b174b7748d6933bfbd5" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_M2P_PER</name>
+          <initializer>= 0x6UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Memory to peripheral (Peripheral flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggaafe7db2c07b2c337f7c85baeeac76699a176d147c6cb7e05d81f075c586add39a" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_FLOW_P2P_DSTPER</name>
+          <initializer>= 0x7UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Peripheral to peripheral (Destination peripheral flow controller) </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA transfer flow modes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="136" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="135" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1gad6348c4075dfcda149b9423edfb408b7" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_TRANSFER_TYPE_t</name>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7ad443442416beb06b0446a399314f4f75" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_SINGLE_BLOCK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Single block </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7af218869813bbcbd79211b90737c443e3" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_CONTIGUOUS_DSTADR_RELOAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address contiguous, dst address reload </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7a4206cf74c07fb2d24daebb044d9f6fdb" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_RELOAD_DSTADR_CONTIGUOUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address reload, dst address contiguous </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7abf2399e979416c29d4511fd375570a0e" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_RELOAD_DSTADR_RELOAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address reload, dst address reload </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7a33de16330fa70dedc7eeb0ef3870a934" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_CONTIGUOUS_DSTADR_LINKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address contiguous, dst address linked </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7a24521aa3289625b87bb6aa6289540854" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_RELOAD_DSTADR_LINKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address reload, dst address linked </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7af9e05bbbcb67ea94b521c5c0afcb762b" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_LINKED_DSTADR_CONTIGUOUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address linked, dst address contiguous </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7ade02ccf974e01e3fcf7148aa003d27ae" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_LINKED_DSTADR_RELOAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address linked, dst address reload </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1ggad6348c4075dfcda149b9423edfb408b7a6670ab4efee0567433c0f7fc8a023029" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_TYPE_MULTI_BLOCK_SRCADR_LINKED_DSTADR_LINKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Multi-block: src address linked, dst address linked </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA transfer types </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="120" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="119" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___d_m_a_1ga8c5148218c05958ecd685b76cef4a7c4" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_DMA_CH_TRANSFER_WIDTH_t</name>
+        <enumvalue id="group___d_m_a_1gga8c5148218c05958ecd685b76cef4a7c4a74cdb3a59b6d62e779afc0d6bcf3fa95" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_WIDTH_8</name>
+          <initializer>= 0x0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>8-bit transfer width </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga8c5148218c05958ecd685b76cef4a7c4a11c8ad6964cb59b7b62b4df284810e65" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_WIDTH_16</name>
+          <initializer>= 0x1UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>16-bit transfer width </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___d_m_a_1gga8c5148218c05958ecd685b76cef4a7c4a73f438731b523de0ac36dbdbb18f84e3" prot="public">
+          <name>XMC_DMA_CH_TRANSFER_WIDTH_32</name>
+          <initializer>= 0x2UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>32-bit transfer width </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Valid transfer width values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="161" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="160" bodyend="165"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___d_m_a_1ga64c3569965d36b229349d2dbe507fd44" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* XMC_DMA_CH_EVENT_HANDLER_t) (XMC_DMA_CH_EVENT_t event)</definition>
+        <argsstring>)(XMC_DMA_CH_EVENT_t event)</argsstring>
+        <name>XMC_DMA_CH_EVENT_HANDLER_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA channel event handler </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="450" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group___d_m_a_1ga44b6c22c009181b175dd7fc09f6214a5" prot="public" static="no">
+        <type><ref refid="struct_x_m_c___d_m_a___l_l_i__t" kindref="compound">XMC_DMA_LLI_t</ref> **</type>
+        <definition>typedef XMC_DMA_LLI_t** XMC_DMA_LIST_t</definition>
+        <argsstring></argsstring>
+        <name>XMC_DMA_LIST_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Type definition for a linked list pointer </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="380" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___d_m_a_1ga2c7fb961b05f06d0ca855c2d60a00f20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_ClearDestinationPeripheralRequest</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_ClearDestinationPeripheralRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destination peripheral request for which DMA channel is to be cleared? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear destination peripheral request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to clear the destination peripheral request for a given DMA channel. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1243" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga3003bd66b286e04adb3cde94e61f6bfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_ClearEventStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, const uint32_t event)</argsstring>
+        <name>XMC_DMA_CH_ClearEventStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the event(s) need(s) to be disabled </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid GPDMA event (<ref refid="group___d_m_a_1gaf060a6658295ad05f021471858e3cf65" kindref="member">XMC_DMA_CH_EVENT_t</ref>) or a valid combination of logically OR&apos;d GPDMA events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear GPDMA event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The following events are supported by the GPDMA peripheral: <linebreak/>
+ 1) Transfer complete event <linebreak/>
+ 2) Block transfer complete event <linebreak/>
+ 3) Source transaction complete event <linebreak/>
+ 4) Destination transaction complete event <linebreak/>
+ 5) DMA error event <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to clear the status of one (or more) of the aforementioned events. Typically, its use is in the GPDMA interrupt handler function. Once an event is detected, an appropriate callback function must run and the event status should be cleared. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="984" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gab8ecd554663ac2f57a7aecf962a3a6e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_ClearSourcePeripheralRequest</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_ClearSourcePeripheralRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source peripheral request for which DMA channel is to be cleared? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear source peripheral request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to clear the source peripheral request for a given DMA channel. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1229" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga0185b44a84b166a2a88a9def7c13c3e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_Disable</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_Disable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel should be disabled? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable a GPDMA channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function resets the GPDMA&apos;s CHENREG register to disable a DMA channel. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="761" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga9d4a6c404a00639da7f48d17699a554f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_DisableDestinationAddressReload</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_DisableDestinationAddressReload</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the destination address reload must be disabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable destination address reload <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The destination DMA address can be automatically reloaded from its initial value at the end of every block in a multi-block transfer. To disable this feature, use this function. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1182" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga34a4607079def65ccf4176b5fe061222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_DisableDestinationScatter</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_DisableDestinationScatter</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source gather for which DMA channel is to be disabled? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable source gather <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to disable the destination scatter feature in the GPDMA peripheral. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1077" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gac6cb234126c0674c470fbf4809caa715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_DisableEvent</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, const uint32_t event)</argsstring>
+        <name>XMC_DMA_CH_DisableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the event(s) need(s) to be disabled </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid GPDMA event (<ref refid="group___d_m_a_1gaf060a6658295ad05f021471858e3cf65" kindref="member">XMC_DMA_CH_EVENT_t</ref>) or a valid combination of logically OR&apos;d GPDMA events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable GPDMA event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The following events are supported by the GPDMA peripheral: <linebreak/>
+ 1) Transfer complete event <linebreak/>
+ 2) Block transfer complete event <linebreak/>
+ 3) Source transaction complete event <linebreak/>
+ 4) Destination transaction complete event <linebreak/>
+ 5) DMA error event <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can be used to disable one (or more) of the aforementioned events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="958" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga76ee31aff66fe3067ee851c1899ceca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_DisableFifoMode</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_DisableFifoMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destination peripheral request for which DMA channel is to be cleared? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable FIFO mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>When the FIFO mode is not enabled, the channel waits only until <linebreak/>
+ the FIFO can transmit or accept a single AHB transfer before it requests the master bus interface. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___d_m_a_1gad024d8bbd06f08520939f8f2dea36256" kindref="member">XMC_DMA_CH_EnableFifoMode()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1283" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="1283" bodyend="1286"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga9e1eb282060df94310df0d484f0478aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_DisableSourceAddressReload</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_DisableSourceAddressReload</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the source address reload must be disabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable source address reload <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The source DMA address can be automatically reloaded from its initial value at the end of every block in a multi-block transfer. To disable this feature, use this function. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1150" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga4cd0ec48dde1c2623552c02c8527336f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_DisableSourceGather</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_DisableSourceGather</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source gather for which DMA channel is to be disabled? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable source gather <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to disable the source gather feature in the GPDMA peripheral. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1043" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_Enable</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_Enable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel should be enabled? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable a GPDMA channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the GPDMA&apos;s CHENREG register to enable a DMA channel. Please ensure that the GPDMA module itself is enabled before calling this function. See <ref refid="group___d_m_a_1ga387bb0f0e386d1698c7de9c3a1f1a555" kindref="member">XMC_DMA_Enable()</ref> for details. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="745" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="745" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gafb0dd1f444b71d16b6b0fa6349c55f30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_EnableDestinationAddressReload</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_EnableDestinationAddressReload</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the destination address must be reloaded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable source address reload <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to automatically reload the destination DMA address (from its initial value) at the end of every block in a multi-block transfer. The auto- reload will begin soon after the DMA channel initialization (configured for a multi-block transaction). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1166" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gab5c56037411c1f380eb1291bb8ea3bbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_EnableDestinationScatter</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, uint32_t interval, uint16_t count)</argsstring>
+        <name>XMC_DMA_CH_EnableDestinationScatter</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>interval</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel is used for destination scatter? </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scatter interval </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scatter count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable destination scatter <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to enable the destination scatter feature in the GPDMA peripheral. The user must also specify the scatter count and interval. Once the configuration is successful, calling <ref refid="group___d_m_a_1gacf1247954481dabc15a74bc4b5fbd1d9" kindref="member">XMC_DMA_CH_EnableEvent()</ref> will initiate destination gather. This function is normally used in conjunction with source gather. Please see <ref refid="group___d_m_a_1gad80d0b242d8c8c26440ea9730bcf1a25" kindref="member">XMC_DMA_CH_EnableSourceGather()</ref> for additional information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1063" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gacf1247954481dabc15a74bc4b5fbd1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_EnableEvent</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, const uint32_t event)</argsstring>
+        <name>XMC_DMA_CH_EnableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the event(s) need(s) to be enabled </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A valid GPDMA event (<ref refid="group___d_m_a_1gaf060a6658295ad05f021471858e3cf65" kindref="member">XMC_DMA_CH_EVENT_t</ref>) or a valid combination of logically OR&apos;d GPDMA events </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable GPDMA event(s) <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The following events are supported by the GPDMA peripheral: <linebreak/>
+ 1) Transfer complete event <linebreak/>
+ 2) Block transfer complete event <linebreak/>
+ 3) Source transaction complete event <linebreak/>
+ 4) Destination transaction complete event <linebreak/>
+ 5) DMA error event <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can be used to enable one (or more) of the aforementioned events. Once the events have been enabled, <ref refid="group___d_m_a_1gad62049f00eeba99b81c2093f0722f6d9" kindref="member">XMC_DMA_CH_SetEventHandler()</ref> API can be used to set a callback function. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="935" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gad024d8bbd06f08520939f8f2dea36256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_EnableFifoMode</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_EnableFifoMode</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destination peripheral request for which DMA channel is to be cleared? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable FIFO mode <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Special mode to improve bandwidth. When enabled, the channel waits until the FIFO <linebreak/>
+ is less than half full to fetch the data from the source peripheral, and waits until the FIFO is greater <linebreak/>
+ than or equal to half full in order to send data to the destination peripheral. Because of this, the <linebreak/>
+ channel can transfer the data using bursts, which eliminates the need to arbitrate for the AHB master <linebreak/>
+ interface in each single AHB transfer.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___d_m_a_1ga76ee31aff66fe3067ee851c1899ceca1" kindref="member">XMC_DMA_CH_DisableFifoMode()</ref><linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1263" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="1263" bodyend="1266"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga93a73656b4544287a382c581ad68fc02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_EnableSourceAddressReload</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_EnableSourceAddressReload</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the source address must be reloaded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable source address reload <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to automatically reload the source DMA address (from its initial value) at the end of every block in a multi-block transfer. The auto- reload will begin soon after the DMA channel initialization (configured for a multi-block transaction). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1135" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gad80d0b242d8c8c26440ea9730bcf1a25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_EnableSourceGather</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, uint32_t interval, uint16_t count)</argsstring>
+        <name>XMC_DMA_CH_EnableSourceGather</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>interval</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel is used for source gather? </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gather interval </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gather count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable source gather <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to enable the source gather feature in the GPDMA peripheral. The user must also specify the gather count and interval. Once the configuration is successful, calling <ref refid="group___d_m_a_1gacf1247954481dabc15a74bc4b5fbd1d9" kindref="member">XMC_DMA_CH_EnableEvent()</ref> will initiate source gather. This function is normally used in conjunction with destination scatter. Please see <ref refid="group___d_m_a_1gab5c56037411c1f380eb1291bb8ea3bbe" kindref="member">XMC_DMA_CH_EnableDestinationScatter()</ref> for additional information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1030" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga29b25f457108ab77605ef266f689c2d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_CH_GetEventStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_GetEventStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the event(s) status must be obtained </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Event status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get GPDMA channel event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used obtain the status of one (or more) of the aforementioned events. The return value may then be masked with any one of the following enumerations to obtain the status of individual DMA events. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Transfer complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65adf40aa87e9a29b90161ad82d77a60ac0" kindref="member">XMC_DMA_CH_EVENT_TRANSFER_COMPLETE</ref> <linebreak/>
+ Block transfer complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65a60a7f134d544d91aa9f0dc7113d21c5a" kindref="member">XMC_DMA_CH_EVENT_BLOCK_TRANSFER_COMPLETE</ref> <linebreak/>
+ Source transaction complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65afea4585e3b585cc569fe243f0164de46" kindref="member">XMC_DMA_CH_EVENT_SRC_TRANSACTION_COMPLETE</ref> <linebreak/>
+ Destination transaction complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65a3cafae3b05ca04d5fbbc7a68fbf25ea5" kindref="member">XMC_DMA_CH_EVENT_DST_TRANSACTION_COMPLETE</ref> <linebreak/>
+ DMA error event -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65ab1d515480732bf84cb7bf568b293f719" kindref="member">XMC_DMA_CH_EVENT_ERROR</ref> <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Typically, its use is in the GPDMA interrupt handler function. Once an event is detected, an appropriate callback function must run and the event status should be cleared. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1011" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga110d227318ad258a34eea3f3028a0648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_CH_GetTransferredData</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_GetTransferredData</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destination peripheral request for which DMA channel is to be cleared? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Total number of data items already read from the source peripheral</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Obtain the total number of data items already read from the source peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>The width of the single transaction is determined by src_transfer_width. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1300" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="1300" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga5e51b2881816ed6adec123c46bfc5380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___d_m_a_1gadc425339a107c8a6f8248d027ee69b47" kindref="member">XMC_DMA_CH_STATUS_t</ref></type>
+        <definition>XMC_DMA_CH_STATUS_t XMC_DMA_CH_Init</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, const XMC_DMA_CH_CONFIG_t *const config)</argsstring>
+        <name>XMC_DMA_CH_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___d_m_a___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_DMA_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The GPDMA channel (number) which needs to be initialized </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_DMA_CH_CONFIG_t</ref>, pointing to a const channel configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_DMA_CH_STATUS_t Initialization status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize a GPDMA channel with provided channel configuration <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets up the following channel configuration parameters for a GPDMA channel (specified by the parameter channel): <linebreak/>
+ 1) Source and destination addresses (and linked list address if requested) <linebreak/>
+ 2) Source and destination handshaking interface (hardware or software?) <linebreak/>
+ 3) Scatter/gather configuration <linebreak/>
+ 4) Source and destination peripheral request (DMA is the flow controller) <linebreak/>
+ 5) Transfer flow and type <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns one of the following values: <linebreak/>
+ 1) In case the DMA channel is not enabled: <ref refid="group___d_m_a_1ggadc425339a107c8a6f8248d027ee69b47a88a8aa5941e49c8b364b41f47701a127" kindref="member">XMC_DMA_CH_STATUS_BUSY</ref> <linebreak/>
+ 2) If the GPDMA module itself is not enabled: <ref refid="group___d_m_a_1ggadc425339a107c8a6f8248d027ee69b47ac4d14c32c875621f38b41895936e2a0e" kindref="member">XMC_DMA_CH_STATUS_ERROR</ref> <linebreak/>
+ 3) If the configuration was successful: <ref refid="group___d_m_a_1ggadc425339a107c8a6f8248d027ee69b47abbe13983487c134f9c94c85cee145d09" kindref="member">XMC_DMA_CH_STATUS_OK</ref> <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Once the initialization is successful, calling <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> will trigger a GPDMA transfer. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="730" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga70d41fc2c38744589cc344e8d43506f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_DMA_CH_IsEnabled</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_IsEnabled</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel should be disabled? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if a GPDMA channel is enabled <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the GPDMA&apos;s CHENREG register to check if a DMA channel is enabled or not. The function returns &quot;true&quot; is the requested channel is enabled, &quot;false&quot; otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="776" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga62f0becc2c9bfc0587d651b49a74d4a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_DMA_CH_IsSuspended</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_IsSuspended</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel should be checked for a suspended transfer? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if a GPDMA <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function reads the CH_SUSP bit of the GPDMA&apos;s GFGL register to check if a DMA transfer for the requested channel has been suspended. The function returns &quot;true&quot; if it detects a transfer suspension or &quot;false&quot; if it doesn&apos;t.</para>
+</simplesect>
+<simplesect kind="par"><title>Related API: </title><para><ref refid="group___d_m_a_1ga24ca883c0955cc70c2754134f0c7fdd3" kindref="member">XMC_DMA_CH_Suspend()</ref>, <ref refid="group___d_m_a_1ga09bf578676e499baa8c4148cf4f2bc20" kindref="member">XMC_DMA_CH_Resume()</ref> <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="910" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga29532c774bff76fbabe38dffb0e6902f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_RequestLastMultiblockTransfer</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_RequestLastMultiblockTransfer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel is participating in a multi-block transfer? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Trigger the end of a multi-block transfer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used signal the end of multi-block DMA transfer. It clears the RELOAD_SRC and RELOAD_DST bits of the CFGL register to keep the source and destination addresses from getting updated. The function is typically used in an event handler to signal that the next block getting transferred is the last block in the transfer sequence. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1199" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga09bf578676e499baa8c4148cf4f2bc20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_Resume</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_Resume</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel should resume transfer? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Resume a GPDMA channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function clears the CH_SUSP bit of the GPDMA&apos;s GFGL register to resume a DMA transfer. The function may be called after enabling the DMA channel. Please see <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> for more information.</para>
+</simplesect>
+<simplesect kind="par"><title>Related API: </title><para><ref refid="group___d_m_a_1ga24ca883c0955cc70c2754134f0c7fdd3" kindref="member">XMC_DMA_CH_Suspend()</ref> <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="812" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gaa4208f3ba47602da1e234dbc81192c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_SetBlockSize</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, uint32_t block_size)</argsstring>
+        <name>XMC_DMA_CH_SetBlockSize</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>block_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A DMA channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>block_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transfer size [1-2048] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>This function sets the block size of a transfer<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function may be called after enabling the DMA channel. Please see <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> for more information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="870" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="870" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gada24d6603d661f3a5a8eff20b4621ef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_SetDestinationAddress</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, uint32_t addr)</argsstring>
+        <name>XMC_DMA_CH_SetDestinationAddress</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A DMA channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>destination address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>This function sets the destination address of the specified channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function may be called after enabling the DMA channel. Please see <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> for more information.</para>
+</simplesect>
+<simplesect kind="par"><title>Related API: </title><para><ref refid="group___d_m_a_1gac423ad1fe2fcbc1f2e53f4f30f77d930" kindref="member">XMC_DMA_CH_SetSourceAddress()</ref> <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="851" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="851" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gad62049f00eeba99b81c2093f0722f6d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_SetEventHandler</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, XMC_DMA_CH_EVENT_HANDLER_t event_handler)</argsstring>
+        <name>XMC_DMA_CH_SetEventHandler</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type><ref refid="group___d_m_a_1ga64c3569965d36b229349d2dbe507fd44" kindref="member">XMC_DMA_CH_EVENT_HANDLER_t</ref></type>
+          <declname>event_handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The channel for which the event handler is being registered </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event_handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event handler which will be invoked when the DMA event occurs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Set a GPDMA event handler to service GPDMA events <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function is used to register user callback functions for servicing DMA events. Call this function after enabling the GPDMA events (See <ref refid="group___d_m_a_1gacf1247954481dabc15a74bc4b5fbd1d9" kindref="member">XMC_DMA_CH_EnableEvent()</ref>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1215" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga1af75deef35d69332d64116ddc3d5baf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_SetLinkedListPointer</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, XMC_DMA_LLI_t *ll_ptr)</argsstring>
+        <name>XMC_DMA_CH_SetLinkedListPointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a___l_l_i__t" kindref="compound">XMC_DMA_LLI_t</ref> *</type>
+          <declname>ll_ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A DMA channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ll_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>linked list pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>This function sets the linked list pointer<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function may be called after enabling the DMA channel. Please see <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> for more information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="889" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="889" bodyend="892"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gac423ad1fe2fcbc1f2e53f4f30f77d930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_SetSourceAddress</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, uint32_t addr)</argsstring>
+        <name>XMC_DMA_CH_SetSourceAddress</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A DMA channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>source address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>This function sets the source address of the specified channel <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function may be called after enabling the DMA channel. Please see <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> for more information.</para>
+</simplesect>
+<simplesect kind="par"><title>Related API: </title><para><ref refid="group___d_m_a_1gada24d6603d661f3a5a8eff20b4621ef8" kindref="member">XMC_DMA_CH_SetDestinationAddress()</ref> <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="830" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="830" bodyend="833"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga24ca883c0955cc70c2754134f0c7fdd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_Suspend</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel)</argsstring>
+        <name>XMC_DMA_CH_Suspend</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel should suspend transfer? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Suspend a GPDMA channel transfer <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function sets the CH_SUSP bit of the GPDMA&apos;s GFGL register to initiate a DMA transfer suspend. The function may be called after enabling the DMA channel. Please see <ref refid="group___d_m_a_1gafc0bec99c89ffc54ec360e9d9fa5de5f" kindref="member">XMC_DMA_CH_Enable()</ref> for more information.</para>
+</simplesect>
+<simplesect kind="par"><title>Related API: </title><para><ref refid="group___d_m_a_1ga09bf578676e499baa8c4148cf4f2bc20" kindref="member">XMC_DMA_CH_Resume()</ref> <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="794" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga8fe6d4fdb2d14662e9782ed62b7616f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_TriggerDestinationRequest</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, const XMC_DMA_CH_TRANSACTION_TYPE_t type, bool last)</argsstring>
+        <name>XMC_DMA_CH_TriggerDestinationRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___d_m_a_1gabe587216a440005a974f626404f0b595" kindref="member">XMC_DMA_CH_TRANSACTION_TYPE_t</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>last</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel is being used? </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction type: Single/burst mode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Specify &quot;true&quot; if it is the last destination request trigger, &quot;false&quot; otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Trigger destination request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can be used for GPDMA transfers involving a peripheral in software handshaking mode viz. Peripheral -&gt; memory and peripheral -&gt; peripheral.</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>One would typically use this function in a (source) peripheral&apos;s event callback function to trigger the destination request. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1119" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga412645a62fb0fefc5a40e9dd37e5b4b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_CH_TriggerSourceRequest</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t channel, const XMC_DMA_CH_TRANSACTION_TYPE_t type, bool last)</argsstring>
+        <name>XMC_DMA_CH_TriggerSourceRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___d_m_a_1gabe587216a440005a974f626404f0b595" kindref="member">XMC_DMA_CH_TRANSACTION_TYPE_t</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>last</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DMA channel is being used? </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction type: Single/burst mode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>last</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Specify &quot;true&quot; if it is the last source request trigger, &quot;false&quot; otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Trigger source request <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function can be used for GPDMA transfers involving a peripheral in software handshaking mode viz. Memory -&gt; peripheral and peripheral -&gt; peripheral.</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>One would typically use this function in a (destination) peripheral&apos;s event callback function to trigger the source request. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1098" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gae8d6e05cb999df4f9619753353e75fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_ClearOverrunStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t line)</argsstring>
+        <name>XMC_DMA_ClearOverrunStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line for which the overrun status must be cleared </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear overrun status of a DLR line <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function clears the overrun status of a line by setting the corresponding line bit in the DLR&apos;s OVERCLR register. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="699" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga5487744727d5c8edaa07f538d401641b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_ClearRequestLine</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t line)</argsstring>
+        <name>XMC_DMA_ClearRequestLine</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DLR (DMA line router) line should the function use? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Clear request line <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function clears a DLR (DMA line router) request line. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="669" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga110b4bb4ac527e62fa90a888fccec3c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_Disable</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_Disable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable the GPDMA peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function asserts the GPDMA peripheral reset. In addition, it gates the GPDMA0 peripheral clock for all XMC4000 series of microcontrollers with an exception of the XMC4500 microcontroller. The XMC4500 doesn&apos;t support gating. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="499" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gae34f52feae127b101b963043ef2e5439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_DisableRequestLine</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t line)</argsstring>
+        <name>XMC_DMA_DisableRequestLine</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DLR (DMA line router) line should the function use? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Disable request line <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function disables a DLR (DMA line router) line by clearing appropriate bits in the LNEN register. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="656" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga387bb0f0e386d1698c7de9c3a1f1a555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_Enable</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_Enable</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable the GPDMA peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function de-asserts the GPDMA peripheral reset. In addition, it un-gates the GPDMA0 peripheral clock for all XMC4000 series of microcontrollers with an exception of the XMC4500 microcontroller. The XMC4500 doesn&apos;t support gating. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="485" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga05dde751d131d0a99f92a88229942c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_EnableRequestLine</definition>
+        <argsstring>(XMC_DMA_t *const dma, uint8_t line, uint8_t peripheral)</argsstring>
+        <name>XMC_DMA_EnableRequestLine</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which DLR (DMA line router) line should the function use? </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which hardware peripheral is the GPDMA communicating with? </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Enable request line <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function enables a DLR (DMA line router) line and selects a service request source, resulting in the trigger of a DMA transfer. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>The DLR is used for a DMA transfer typically involving a peripheral; For example, the ADC peripheral may use the DLR in hardware handshaking mode to transfer ADC conversion values to a destination memory block. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="642" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga28b95c66ee965233dc69f53038fdfdc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_GetChannelsBlockCompleteStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_GetChannelsBlockCompleteStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t DMA block complete status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get block transfer complete status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns GPDMA block transfer complete interrupt status. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="566" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="566" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gaaeb0c998371496fba538b5cb2f90c389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_GetChannelsDestinationTransactionCompleteStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_GetChannelsDestinationTransactionCompleteStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t DMA event status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get destination transaction complete status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the destination transaction complete interrupt status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>If the destination peripheral is memory, the destination transaction complete interrupt is ignored. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="604" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="604" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga83f40491351c8259381bf742278fe71a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_GetChannelsErrorStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_GetChannelsErrorStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t DMA error event status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get DMA error event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns error interrupt status. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="619" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="619" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gaffc5d4205a0fef681e5fd49c9d62c629" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_GetChannelsSourceTransactionCompleteStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_GetChannelsSourceTransactionCompleteStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t DMA event status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get source transaction complete status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the source transaction complete interrupt status. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note: </title><para>If the source peripheral is memory, the source transaction complete interrupt is ignored. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="585" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="585" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gaf893788bf45792df2c84cb3fdeaf220c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_GetChannelsTransferCompleteStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_GetChannelsTransferCompleteStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t DMA transfer complete status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get transfer complete status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns GPDMA transfer complete interrupt status. <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="551" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="551" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gadffe9745983b5829949bb34345b30666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_DMA_GetEventStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_GetEventStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t DMA event status</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get DMA event status <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function returns the collective (global) status of GPDMA events. The following lists the various DMA events and their corresponding enumeration. The return value of this function may then be masked with any one of the following enumerations to obtain the status of individual DMA events. <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Transfer complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65adf40aa87e9a29b90161ad82d77a60ac0" kindref="member">XMC_DMA_CH_EVENT_TRANSFER_COMPLETE</ref> <linebreak/>
+ Block transfer complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65a60a7f134d544d91aa9f0dc7113d21c5a" kindref="member">XMC_DMA_CH_EVENT_BLOCK_TRANSFER_COMPLETE</ref> <linebreak/>
+ Source transaction complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65afea4585e3b585cc569fe243f0164de46" kindref="member">XMC_DMA_CH_EVENT_SRC_TRANSACTION_COMPLETE</ref> <linebreak/>
+ Destination transaction complete -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65a3cafae3b05ca04d5fbbc7a68fbf25ea5" kindref="member">XMC_DMA_CH_EVENT_DST_TRANSACTION_COMPLETE</ref> <linebreak/>
+ DMA error event -&gt; <ref refid="group___d_m_a_1ggaf060a6658295ad05f021471858e3cf65ab1d515480732bf84cb7bf568b293f719" kindref="member">XMC_DMA_CH_EVENT_ERROR</ref> <linebreak/>
+ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="536" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="536" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga684f1ef5480aa1bc53c0911d77dbedee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_DMA_GetOverrunStatus</definition>
+        <argsstring>(XMC_DMA_t *const dma, const uint8_t line)</argsstring>
+        <name>XMC_DMA_GetOverrunStatus</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line for which the overrun status is requested </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool &quot;true&quot; if overrun occured, &quot;false&quot; otherwise</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Get overrun status of a DLR line <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The DLR module&apos;s OVERSTAT register keeps track of DMA service request overruns. Should an overrun occur, the bit corresponding to the used DLR line is set. The function simply reads this status and returns &quot;true&quot; if an overrun is detected It returns &quot;false&quot; if an overrun isn&apos;t registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="685" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1gae42662ab2834c6961b5af10b1827a999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_Init</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Initialize the GPDMA peripheral <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function initializes a prioritized list of DMA channels and enables the GPDMA peripheral. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="471" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga7f37893fccd2bc67011485b67df44cb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_DMA_IRQHandler</definition>
+        <argsstring>(XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_IRQHandler</name>
+        <param>
+          <type><ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Default GPDMA IRQ handler <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The function implements a default GPDMA IRQ handler. It can be used within the following (device specific) routines: <linebreak/>
+ 1) GPDMA0_0_IRQHandler <linebreak/>
+ 2) GPDMA1_0_IRQHandler <linebreak/>
+</para>
+</simplesect>
+The function handles the enabled GPDMA events and runs the user callback function registered by the user to service the event. To register a callback function, see <ref refid="group___d_m_a_1gad62049f00eeba99b81c2093f0722f6d9" kindref="member">XMC_DMA_CH_SetEventHandler()</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="1323" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___d_m_a_1ga53f4afcd0969774e61e82d38c48697bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_DMA_IsEnabled</definition>
+        <argsstring>(const XMC_DMA_t *const dma)</argsstring>
+        <name>XMC_DMA_IsEnabled</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *const</type>
+          <declname>dma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant pointer to <ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref>, pointing to the GPDMA base address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool</para>
+</simplesect>
+<simplesect kind="par"><title>Description: </title><para>Check if the GPDMA peripheral is enabled <linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>For the XMC4500 microcontroller, the function checks if the GPDMA module is asserted and returns &quot;false&quot; if it is. In addition, it also checks if the clock is gated for the other XMC4000 series of microcontrollers. It returns &quot;true&quot; if the peripheral is enabled. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="514" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___d_m_a_1ga56e566fb69cbb1e0ddd476aaa19d173d" prot="public" static="no">
+        <name>XMC_DMA0</name>
+        <initializer>((<ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *)GPDMA0_CH0_BASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA module 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="103" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___d_m_a_1ga8b69f703937469a4c2cde8c06430c0e9" prot="public" static="no">
+        <name>XMC_DMA0_NUM_CHANNELS</name>
+        <initializer>8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="104" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___d_m_a_1gaaf2a547ad7cf42892ee13113195b36dc" prot="public" static="no">
+        <name>XMC_DMA1</name>
+        <initializer>((<ref refid="struct_x_m_c___d_m_a__t" kindref="compound">XMC_DMA_t</ref> *)GPDMA1_CH0_BASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA module 1, only available in XMC45xx series </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="108" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___d_m_a_1gab397bd652c0d258abebed3ffa6f335b0" prot="public" static="no">
+        <name>XMC_DMA1_NUM_CHANNELS</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" line="109" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dma.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>General purpose DMA (GPDMA) driver for the XMC4000 microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The GPDMA is a highly configurable DMA controller that allows high-speed data transfers between peripherals and memories. Complex data transfers can be done with minimal intervention of the processor, making CPU available for other operations.</para>
+<para>GPDMA provides extensive support for XMC microcontroller peripherals like A/D, D/A converters and timers. Data transfers through communication interfaces (USIC) using the GPDMA increase efficiency and parallelism for real-time applications.</para>
+<para>The DMA low level driver provides functions to configure and initialize the GPDMA hardware peripheral. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

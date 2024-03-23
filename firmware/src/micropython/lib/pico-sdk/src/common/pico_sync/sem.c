@@ -15,7 +15,12 @@ void sem_init(semaphore_t *sem, int16_t initial_permits, int16_t max_permits) {
 }
 
 int __time_critical_func(sem_available)(semaphore_t *sem) {
+#ifdef __GNUC__
     return *(volatile typeof(sem->permits) *) &sem->permits;
+#else
+    static_assert(sizeof(sem->permits) == 2, "");
+    return *(volatile int16_t *) &sem->permits;
+#endif
 }
 
 void __time_critical_func(sem_acquire_blocking)(semaphore_t *sem) {
@@ -23,7 +28,7 @@ void __time_critical_func(sem_acquire_blocking)(semaphore_t *sem) {
         uint32_t save = spin_lock_blocking(sem->core.spin_lock);
         if (sem->permits > 0) {
             sem->permits--;
-            lock_internal_spin_unlock_with_notify(&sem->core, save);
+            spin_unlock(sem->core.spin_lock, save);
             break;
         }
         lock_internal_spin_unlock_with_wait(&sem->core, save);
@@ -43,13 +48,24 @@ bool __time_critical_func(sem_acquire_block_until)(semaphore_t *sem, absolute_ti
         uint32_t save = spin_lock_blocking(sem->core.spin_lock);
         if (sem->permits > 0) {
             sem->permits--;
-            lock_internal_spin_unlock_with_notify(&sem->core, save);
+            spin_unlock(sem->core.spin_lock, save);
             return true;
         }
         if (lock_internal_spin_unlock_with_best_effort_wait_or_timeout(&sem->core, save, until)) {
             return false;
         }
     } while (true);
+}
+
+bool __time_critical_func(sem_try_acquire)(semaphore_t *sem) {
+    uint32_t save = spin_lock_blocking(sem->core.spin_lock);
+    if (sem->permits > 0) {
+        sem->permits--;
+        spin_unlock(sem->core.spin_lock, save);
+        return true;
+    }
+    spin_unlock(sem->core.spin_lock, save);
+    return false;
 }
 
 // todo this should really have a blocking variant for when permits are maxed out

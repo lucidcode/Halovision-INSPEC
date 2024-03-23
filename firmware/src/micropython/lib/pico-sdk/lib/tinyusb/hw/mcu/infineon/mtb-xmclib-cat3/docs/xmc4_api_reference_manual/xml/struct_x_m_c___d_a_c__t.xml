@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___d_a_c__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_DAC_t</compoundname>
+    <includes local="no">xmc_dac.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1a66520c0e8b5c4b6446ef009be26133fc" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t DAC01DATA</definition>
+        <argsstring></argsstring>
+        <name>DAC01DATA</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="296" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1abbf42225773e1af747e1d4cf914a4a4b" prot="public" static="no" mutable="no">
+        <type>struct XMC_DAC_t::@50</type>
+        <definition>struct XMC_DAC_t::@50  DACCFG[ (2U) /**&lt; DAC maximum channels */ ]</definition>
+        <argsstring>[(2U)/**&lt; DAC maximum channels */]</argsstring>
+        <name>DACCFG</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="293" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1a996ac7881d7850aabeb52abf8c29f3c7" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t DACDATA[(2U)]</definition>
+        <argsstring>[(2U)]</argsstring>
+        <name>DACDATA</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="295" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1a28c0aed80524e52d707238c33b81aa92" prot="public" static="no" mutable="no">
+        <type>struct XMC_DAC_t::@51</type>
+        <definition>struct XMC_DAC_t::@51  DACPAT[ (2U) /**&lt; DAC maximum channels */ ]</definition>
+        <argsstring>[(2U)/**&lt; DAC maximum channels */]</argsstring>
+        <name>DACPAT</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="302" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1a752c6d7b3b05108aecc3e1b9462ef7ff" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t high</definition>
+        <argsstring></argsstring>
+        <name>high</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="292" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t ID</definition>
+        <argsstring></argsstring>
+        <name>ID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="287" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___d_a_c__t_1a3b980d1d65867d9d2713fc852c8349d1" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t low</definition>
+        <argsstring></argsstring>
+        <name>low</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="291" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>DAC peripheral registers configuration. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" line="286" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_dac.h" bodystart="285" bodyend="304"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___d_a_c__t_1a66520c0e8b5c4b6446ef009be26133fc" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>DAC01DATA</name></member>
+      <member refid="struct_x_m_c___d_a_c__t_1abbf42225773e1af747e1d4cf914a4a4b" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>DACCFG</name></member>
+      <member refid="struct_x_m_c___d_a_c__t_1a996ac7881d7850aabeb52abf8c29f3c7" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>DACDATA</name></member>
+      <member refid="struct_x_m_c___d_a_c__t_1a28c0aed80524e52d707238c33b81aa92" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>DACPAT</name></member>
+      <member refid="struct_x_m_c___d_a_c__t_1a752c6d7b3b05108aecc3e1b9462ef7ff" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>high</name></member>
+      <member refid="struct_x_m_c___d_a_c__t_1a4b54fa3095fbaabb5caab30ea9a26969" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>ID</name></member>
+      <member refid="struct_x_m_c___d_a_c__t_1a3b980d1d65867d9d2713fc852c8349d1" prot="public" virt="non-virtual"><scope>XMC_DAC_t</scope><name>low</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

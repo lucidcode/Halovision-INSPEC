@@ -1,4 +1,7 @@
 #!/bin/sh
+
+GIT_HASH=`git describe --abbrev=8 --always`
+
 # POSIX compliant version
 readlinkf_posix() {
   [ "${1:-}" ] || return 1
@@ -35,22 +38,33 @@ readlinkf_posix() {
   return 1
 }
 NPROC=`python3 -c 'import multiprocessing; print(multiprocessing.cpu_count())'`
+PLATFORM=`python3 -c 'import sys; print(sys.platform)'`
 set -e
 HERE="$(dirname -- "$(readlinkf_posix -- "${0}")" )"
-[ -e micropython/py/py.mk ] || git clone --no-recurse-submodules https://github.com/micropython/micropython
-[ -e micropython/lib/axtls/README ] || (cd micropython && git submodule update --init lib/axtls )
+dims=${1-2}
+if [ ! -d "micropython" ] ; then
+  git clone https://github.com/micropython/micropython
+else
+  git -C micropython pull
+fi
 make -C micropython/mpy-cross -j${NPROC}
-make -C micropython/ports/unix -j${NPROC} axtls
-make -C micropython/ports/unix -j${NPROC} USER_C_MODULES="${HERE}" DEBUG=1 STRIP=: MICROPY_PY_FFI=0 MICROPY_PY_BTREE=0
+make -C micropython/ports/unix submodules
+make -C micropython/ports/unix -j${NPROC} USER_C_MODULES="${HERE}" DEBUG=1 STRIP=: MICROPY_PY_FFI=0 MICROPY_PY_BTREE=0 CFLAGS_EXTRA=-DULAB_MAX_DIMS=$dims CFLAGS_EXTRA+=-DULAB_HASH=$GIT_HASH BUILD=build-$dims PROG=micropython-$dims
 
+PROG="micropython/ports/unix/build-$dims/micropython-$dims"
+if [ ! -e "$PROG" ]; then
+  # Older MicroPython revision, executable is still in ports/unix.
+  PROG="micropython/ports/unix/micropython-$dims"
+fi
 
-for dir in "numpy" "common"
-do
-	if ! env MICROPY_MICROPYTHON=micropython/ports/unix/micropython ./run-tests -d tests/"$dir"; then
-		for exp in *.exp; do
-			testbase=$(basename $exp .exp);
-			echo -e "\nFAILURE $testbase";
-			diff -u $testbase.exp $testbase.out;
-		done
-	fi
-done
+bash test-common.sh "${dims}" "$PROG"
+
+# Build with single-precision float.
+make -C micropython/ports/unix -j${NPROC} USER_C_MODULES="${HERE}" DEBUG=1 STRIP=: MICROPY_PY_FFI=0 MICROPY_PY_BTREE=0 CFLAGS_EXTRA=-DMICROPY_FLOAT_IMPL=MICROPY_FLOAT_IMPL_FLOAT CFLAGS_EXTRA+=-DULAB_MAX_DIMS=$dims CFLAGS_EXTRA+=-DULAB_HASH=$GIT_HASH BUILD=build-nanbox-$dims PROG=micropython-nanbox-$dims
+
+# The unix nanbox variant builds as a 32-bit executable and requires gcc-multilib.
+# macOS doesn't support i386 builds so only build on linux.
+if [ $PLATFORM = linux ]; then
+    make -C micropython/ports/unix -j${NPROC} VARIANT=nanbox USER_C_MODULES="${HERE}" DEBUG=1 STRIP=: MICROPY_PY_FFI=0 MICROPY_PY_BTREE=0 CFLAGS_EXTRA=-DULAB_MAX_DIMS=$dims CFLAGS_EXTRA+=-DULAB_HASH=$GIT_HASH BUILD=build-nanbox-$dims PROG=micropython-nanbox-$dims
+fi
+

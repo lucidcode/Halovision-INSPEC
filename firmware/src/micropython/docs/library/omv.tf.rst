@@ -11,7 +11,7 @@ You can read more about how to create your own models that can run on the
 OpenMV Cam `here <https://www.tensorflow.org/lite/microcontrollers>`__. In
 particular:
 
-   * Supported operations are listed `here <https://github.com/openmv/tensorflow/blob/master/tensorflow/lite/micro/all_ops_resolver.cc>`__.
+   * Supported operations are listed `here <https://github.com/openmv/tensorflow-lib/blob/master/libtf.cc#L71>`__.
 
      * Note that tensorflow lite operations are versioned. If no version numbers
        are listed after the operation then the min and max version supported are
@@ -44,7 +44,7 @@ However, this significantly limits the model size on all OpenMV Cams.
 Functions
 ---------
 
-.. function:: tf.classify(path, img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
+.. function:: classify(path, img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
 
    Executes the TensorFlow Lite image classification model on the ``img``
    object and returns a list of `tf_classification` objects. This method
@@ -80,7 +80,7 @@ Functions
    area of the sliding window. A value of zero means no overlap. A value of
    0.95 would mean 95% overlap.
 
-.. function:: tf.segment(path, img, [roi])
+.. function:: segment(path, img, [roi])
 
    Executes the TensorFlow Lite image segmentation model on the ``img``
    object and returns a list of grayscale `image` objects for each
@@ -95,7 +95,49 @@ Functions
    specified, it is equal to the image rectangle. Only pixels within the
    ``roi`` are operated on.
 
-.. function:: tf.load(path, [load_to_fb=False])
+.. function:: detect(path, img, [roi, [thresholds, [invert]]])
+
+   Executes the TensorFlow Lite image segmentation model on the ``img``
+   object and returns a list of `image.blob` objects for each segmentation
+   class output. E.g. if you have an image that's segmented into two classes
+   this method will return a list of two lists of blobs that match the requested
+   thresholds.
+
+   ``path`` a path to a ``.tflite`` model to execute on your OpenMV Cam's
+   disk. The model is loaded into memory, executed, and released all in
+   one function call to save from having to load the model in the
+   MicroPython heap.
+
+   ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
+   specified, it is equal to the image rectangle. Only pixels within the
+   ``roi`` are operated on.
+
+   ``thresholds`` must be a list of tuples
+   ``[(lo, hi), (lo, hi), ..., (lo, hi)]`` defining the ranges of color you
+   want to track. You may pass up to 32 threshold tuples in one call. Each tuple
+   needs to contain two values - a min grayscale value and a max grayscale value.
+   Only pixel regions that fall between these thresholds will be considered.
+   For easy usage this function will automatically fix swapped min and max values.
+   If the tuple is too short the rest of the thresholds are assumed to be at maximum
+   range. If no thresholds are specified they are assumed to be (128, 255) which
+   will detect "active" pixel regions in the segmented images. 
+
+   ``invert`` inverts the thresholding operation such that instead of matching
+   pixels inside of some known color bounds pixels are matched that are outside
+   of the known color bounds.
+
+.. function:: regression(path, array)
+
+   Executes the TensorFlow Lite regression model on the passed array of floats and returns
+   a new array of floats as the result. This method accepts 1D/2D/3D arrays which must match
+   the input shape of the network. Arrays should be organized in [height][width][channel] order.
+
+   ``path`` a path to a ``.tflite`` model to execute on your OpenMV Cam's
+   disk. The model is loaded into memory, executed, and released all in
+   one function call to save from having to load the model in the
+   MicroPython heap.
+
+.. function:: load(path, [load_to_fb=False])
 
    ``path`` a path to a ``.tflite`` model to load into memory on the MicroPython heap by default.
 
@@ -113,7 +155,7 @@ Functions
 
    Returns a `tf_model` object which can operate on an image.
 
-.. function:: tf.free_from_fb()
+.. function:: free_from_fb()
 
    Deallocates a previously allocated `tf_model` object created with ``load_to_fb`` set to True.
 
@@ -127,51 +169,51 @@ The tf_classification object is returned by `tf.classify()` or `tf_model.classif
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: tf.tf_classification()
+.. class:: tf_classification()
 
    Please call `tf.classify()` or `tf_model.classify()` to create this object.
 
-Methods
-~~~~~~~
+   Methods
+   ~~~~~~~
 
-.. method:: tf_classification.rect()
+   .. method:: rect()
 
-   Returns a rectangle tuple (x, y, w, h) for use with `image` methods
-   like `image.draw_rectangle()` of the tf_classification's bounding box.
+      Returns a rectangle tuple (x, y, w, h) for use with `image` methods
+      like `Image.draw_rectangle()` of the tf_classification's bounding box.
 
-.. method:: tf_classification.x()
+   .. method:: x()
 
-   Returns the tf_classification's bounding box x coordinate (int).
+      Returns the tf_classification's bounding box x coordinate (int).
 
-   You may also get this value doing ``[0]`` on the object.
+      You may also get this value doing ``[0]`` on the object.
 
-.. method:: tf_classification.y()
+   .. method:: y()
 
-   Returns the tf_classification's bounding box y coordinate (int).
+      Returns the tf_classification's bounding box y coordinate (int).
 
-   You may also get this value doing ``[1]`` on the object.
+      You may also get this value doing ``[1]`` on the object.
 
-.. method:: tf_classification.w()
+   .. method:: w()
 
-   Returns the tf_classification's bounding box w coordinate (int).
+      Returns the tf_classification's bounding box w coordinate (int).
 
-   You may also get this value doing ``[2]`` on the object.
+      You may also get this value doing ``[2]`` on the object.
 
-.. method:: tf_classification.h()
+   .. method:: h()
 
-   Returns the tf_classification's bounding box h coordinate (int).
+      Returns the tf_classification's bounding box h coordinate (int).
 
-   You may also get this value doing ``[3]`` on the object.
+      You may also get this value doing ``[3]`` on the object.
 
-.. method:: tf_classification.classification_output()
+   .. method:: classification_output()
 
-   Returns a list of the classification label scores. The size of this
-   list is determined by your model output channel size. For example,
-   mobilenet outputs a list of 1000 classification scores for all 1000
-   classes understood by mobilenet. Use ``zip`` in python to combine
-   the classification score results with classification labels.
+      Returns a list of the classification label scores. The size of this
+      list is determined by your model output channel size. For example,
+      mobilenet outputs a list of 1000 classification scores for all 1000
+      classes understood by mobilenet. Use ``zip`` in python to combine
+      the classification score results with classification labels.
 
-   You may also get this value doing ``[4]`` on the object.
+      You may also get this value doing ``[4]`` on the object.
 
 class tf_model -- TensorFlow Model
 ----------------------------------
@@ -183,77 +225,142 @@ each time you wish to execute it.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: tf.tf_model()
+.. class:: tf_model()
 
    Please call `tf.load()` to create the TensorFlow Model object. TensorFlow Model objects allow
    you to execute a model from RAM versus having to load it from disk repeatedly.
 
-Methods
-~~~~~~~
+   Methods
+   ~~~~~~~
 
-.. method:: tf_model.len()
+   .. method:: len()
 
-   Returns the size in bytes of the `tf_model`.
+      Returns the size in bytes of the model.
 
-.. method:: tf_model.height()
+   .. method:: ram()
 
-   Returns the input height of the model. You can use this to size your input
-   image height appropriately.
+      Returns the model's required free RAM in bytes.
 
-.. method:: tf_model.width()
+   .. method:: input_height()
 
-   Returns the input width of the model. You can use this to size your input
-   image width appropriately.
+      Returns the input height of the model. You can use this to size your input
+      image height appropriately.
 
-.. method:: tf_model.channels()
+   .. method:: input_width()
 
-   Returns the number of color channels in the model. 1 for grayscale
-   and 3 for RGB.
+      Returns the input width of the model. You can use this to size your input
+      image width appropriately.
 
-.. method:: tf_model.signed()
+   .. method:: input_channels()
 
-   Returns True if the model input is signed and False if unsigned.
+      Returns the number of input color channels in the model.
 
-.. method:: tf_model.is_float()
+   .. method:: input_datatype()
 
-   Returns True if the model input is floating point and False if not floating point.
+      Returns the model's input datatype (this is a string of "uint8", "int8", or "float").
 
-.. method:: tf_model.classify(img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
+   .. method:: input_scale()
 
-   Executes the TensorFlow Lite image classification model on the ``img``
-   object and returns a list of `tf_classification` objects. This method
-   executes the network multiple times on the image in a controllable sliding
-   window type manner (by default the algorithm only executes the network once
-   on the whole image frame).
+      Returns the input scale for the model.
 
-   ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
-   specified, it is equal to the image rectangle. Only pixels within the
-   ``roi`` are operated on.
+   .. method:: input_zero_point()
 
-   ``min_scale`` controls how much scaling is applied to the network. At the
-   default value the network is not scaled. However, a value of 0.5 would allow
-   for detecting objects 50% in size of the image roi size...
+      Returns the output zero point for the model.
 
-   ``scale_mul`` controls how many different scales are tested out. The sliding
-   window method works by multiplying a default scale of 1 by ``scale_mul``
-   while the result is over ``min_scale``. The default value of ``scale_mul``,
-   0.5, tests out a 50% size reduction per scale change. However, a value of
-   0.95 would only be a 5% size reductioin.
+   .. method:: output_height()
 
-   ``x_overlap`` controls the percentage of overlap with the next detector
-   area of the sliding window. A value of zero means no overlap. A value of
-   0.95 would mean 95% overlap.
+      Returns the output height of the model. You can use this to size your output
+      image height appropriately.
 
-   ``y_overlap`` controls the percentage of overlap with the next detector
-   area of the sliding window. A value of zero means no overlap. A value of
-   0.95 would mean 95% overlap.
+   .. method:: output_width()
 
-.. method:: tf_model.segment(img, [roi])
+      Returns the output width of the model. You can use this to size your output
+      image width appropriately.
 
-   Executes the TensorFlow Lite image segmentation model on the ``img``
-   object and returns a list of grayscale `image` objects for each
-   segmentation class output channel.
+   .. method:: output_channels()
 
-   ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
-   specified, it is equal to the image rectangle. Only pixels within the
-   ``roi`` are operated on.
+      Returns the number of output color channels in the model.
+
+   .. method:: output_datatype()
+
+      Returns the model's output datatype (this is a string of "uint8", "int8", or "float").
+
+   .. method:: output_scale()
+
+      Returns the output scale for the model.
+
+   .. method:: output_zero_point()
+
+      Returns the output zero point for the model.
+
+   .. method:: classify(img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
+
+      Executes the TensorFlow Lite image classification model on the ``img``
+      object and returns a list of `tf_classification` objects. This method
+      executes the network multiple times on the image in a controllable sliding
+      window type manner (by default the algorithm only executes the network once
+      on the whole image frame).
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
+      specified, it is equal to the image rectangle. Only pixels within the
+      ``roi`` are operated on.
+
+      ``min_scale`` controls how much scaling is applied to the network. At the
+      default value the network is not scaled. However, a value of 0.5 would allow
+      for detecting objects 50% in size of the image roi size...
+
+      ``scale_mul`` controls how many different scales are tested out. The sliding
+      window method works by multiplying a default scale of 1 by ``scale_mul``
+      while the result is over ``min_scale``. The default value of ``scale_mul``,
+      0.5, tests out a 50% size reduction per scale change. However, a value of
+      0.95 would only be a 5% size reductioin.
+
+      ``x_overlap`` controls the percentage of overlap with the next detector
+      area of the sliding window. A value of zero means no overlap. A value of
+      0.95 would mean 95% overlap.
+
+      ``y_overlap`` controls the percentage of overlap with the next detector
+      area of the sliding window. A value of zero means no overlap. A value of
+      0.95 would mean 95% overlap.
+
+   .. method:: segment(img, [roi])
+
+      Executes the TensorFlow Lite image segmentation model on the ``img``
+      object and returns a list of grayscale `image` objects for each
+      segmentation class output channel.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
+      specified, it is equal to the image rectangle. Only pixels within the
+      ``roi`` are operated on.
+
+   .. method:: detect(img, [roi, [thresholds, [invert]]])
+
+      Executes the TensorFlow Lite image segmentation model on the ``img``
+      object and returns a list of `image.blob` objects for each segmentation
+      class output. E.g. if you have an image that's segmented into two classes
+      this method will return a list of two lists of blobs that match the requested
+      thresholds.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
+      specified, it is equal to the image rectangle. Only pixels within the
+      ``roi`` are operated on.
+
+      ``thresholds`` must be a list of tuples
+      ``[(lo, hi), (lo, hi), ..., (lo, hi)]`` defining the ranges of color you
+      want to track. You may pass up to 32 threshold tuples in one call. Each tuple
+      needs to contain two values - a min grayscale value and a max grayscale value.
+      Only pixel regions that fall between these thresholds will be considered.
+      For easy usage this function will automatically fix swapped min and max values.
+      If the tuple is too short the rest of the thresholds are assumed to be at maximum
+      range. If no thresholds are specified they are assumed to be (128, 255) which
+      will detect "active" pixel regions in the segmented images. 
+
+      ``invert`` inverts the thresholding operation such that instead of matching
+      pixels inside of some known color bounds pixels are matched that are outside
+      of the known color bounds.
+
+   .. method:: regression(array)
+
+      Executes the TensorFlow Lite regression model on the passed array of floats and returns
+      a new array of floats as the result. This method accepts 1D/2D/3D arrays which must match
+      the input shape of the network. Arrays should be organized in [height][width][channel] order.

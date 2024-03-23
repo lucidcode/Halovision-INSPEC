@@ -40,7 +40,7 @@
 
 #if MICROPY_HW_ENABLE_SDCARD || MICROPY_HW_ENABLE_MMCARD
 
-#if defined(STM32F7) || defined(STM32H7) || defined(STM32L4)
+#if defined(STM32F7) || defined(STM32H5) || defined(STM32H7) || defined(STM32L4)
 
 // The H7/F7/L4 have 2 SDMMC peripherals, but at the moment this driver only supports
 // using one of them in a given build, selected by MICROPY_HW_SDCARD_SDMMC.
@@ -60,6 +60,10 @@
 #define STATIC_AF_SDCARD_D1 STATIC_AF_SDMMC2_D1
 #define STATIC_AF_SDCARD_D2 STATIC_AF_SDMMC2_D2
 #define STATIC_AF_SDCARD_D3 STATIC_AF_SDMMC2_D3
+#define STATIC_AF_SDCARD_D4 STATIC_AF_SDMMC2_D4
+#define STATIC_AF_SDCARD_D5 STATIC_AF_SDMMC2_D5
+#define STATIC_AF_SDCARD_D6 STATIC_AF_SDMMC2_D6
+#define STATIC_AF_SDCARD_D7 STATIC_AF_SDMMC2_D7
 #else
 #define SDIO SDMMC1
 #define SDMMC_IRQHandler SDMMC1_IRQHandler
@@ -75,10 +79,14 @@
 #define STATIC_AF_SDCARD_D1 STATIC_AF_SDMMC1_D1
 #define STATIC_AF_SDCARD_D2 STATIC_AF_SDMMC1_D2
 #define STATIC_AF_SDCARD_D3 STATIC_AF_SDMMC1_D3
+#define STATIC_AF_SDCARD_D4 STATIC_AF_SDMMC1_D4
+#define STATIC_AF_SDCARD_D5 STATIC_AF_SDMMC1_D5
+#define STATIC_AF_SDCARD_D6 STATIC_AF_SDMMC1_D6
+#define STATIC_AF_SDCARD_D7 STATIC_AF_SDMMC1_D7
 #endif
 
 // The F7 & L4 series calls the peripheral SDMMC rather than SDIO, so provide some
-// #defines for backwards compatability.
+// #defines for backwards compatibility.
 
 #define SDIO_CLOCK_EDGE_RISING              SDMMC_CLOCK_EDGE_RISING
 #define SDIO_CLOCK_EDGE_FALLING             SDMMC_CLOCK_EDGE_FALLING
@@ -96,7 +104,7 @@
 #define SDIO_HARDWARE_FLOW_CONTROL_DISABLE  SDMMC_HARDWARE_FLOW_CONTROL_DISABLE
 #define SDIO_HARDWARE_FLOW_CONTROL_ENABLE   SDMMC_HARDWARE_FLOW_CONTROL_ENABLE
 
-#if defined(STM32H7)
+#if defined(STM32H5) || defined(STM32H7)
 #define SDIO_TRANSFER_CLK_DIV               SDMMC_NSpeed_CLK_DIV
 #define SDIO_USE_GPDMA                      0
 #else
@@ -120,6 +128,10 @@
 #define STATIC_AF_SDCARD_D1 STATIC_AF_SDIO_D1
 #define STATIC_AF_SDCARD_D2 STATIC_AF_SDIO_D2
 #define STATIC_AF_SDCARD_D3 STATIC_AF_SDIO_D3
+#define STATIC_AF_SDCARD_D4 STATIC_AF_SDIO_D4
+#define STATIC_AF_SDCARD_D5 STATIC_AF_SDIO_D5
+#define STATIC_AF_SDCARD_D6 STATIC_AF_SDIO_D6
+#define STATIC_AF_SDCARD_D7 STATIC_AF_SDIO_D7
 
 #endif
 
@@ -131,6 +143,13 @@
 #define MICROPY_HW_SDCARD_D3 (pin_C11)
 #define MICROPY_HW_SDCARD_CK (pin_C12)
 #define MICROPY_HW_SDCARD_CMD (pin_D2)
+#endif
+
+// Define a constant to select the bus width.
+#if MICROPY_HW_SDCARD_BUS_WIDTH == 4
+#define SDIO_BUS_WIDE_VALUE SDIO_BUS_WIDE_4B
+#elif MICROPY_HW_SDCARD_BUS_WIDTH == 8
+#define SDIO_BUS_WIDE_VALUE SDIO_BUS_WIDE_8B
 #endif
 
 #define PYB_SDMMC_FLAG_SD       (0x01)
@@ -162,10 +181,16 @@ void sdcard_init(void) {
     mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_CK, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_CK);
     mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_CMD, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_CMD);
     mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D0, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D0);
-    #if MICROPY_HW_SDCARD_BUS_WIDTH == 4
+    #if MICROPY_HW_SDCARD_BUS_WIDTH >= 4
     mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D1, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D1);
     mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D2, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D2);
     mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D3, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D3);
+    #if MICROPY_HW_SDCARD_BUS_WIDTH == 8
+    mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D4, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D4);
+    mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D5, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D5);
+    mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D6, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D6);
+    mp_hal_pin_config_alt_static(MICROPY_HW_SDCARD_D7, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, STATIC_AF_SDCARD_D7);
+    #endif
     #endif
 
     // configure the SD card detect pin
@@ -173,6 +198,14 @@ void sdcard_init(void) {
     #if defined(MICROPY_HW_SDCARD_DETECT_PIN)
     mp_hal_pin_config(MICROPY_HW_SDCARD_DETECT_PIN, MP_HAL_PIN_MODE_INPUT, MICROPY_HW_SDCARD_DETECT_PULL, 0);
     #endif
+}
+
+void sdcard_select_sd(void) {
+    pyb_sdmmc_flags |= PYB_SDMMC_FLAG_SD;
+}
+
+void sdcard_select_mmc(void) {
+    pyb_sdmmc_flags |= PYB_SDMMC_FLAG_MMC;
 }
 
 STATIC void sdmmc_msp_init(void) {
@@ -224,7 +257,7 @@ bool sdcard_is_present(void) {
     }
     #endif
     #if defined(MICROPY_HW_SDCARD_DETECT_PIN)
-    return HAL_GPIO_ReadPin(MICROPY_HW_SDCARD_DETECT_PIN->gpio, MICROPY_HW_SDCARD_DETECT_PIN->pin_mask) == MICROPY_HW_SDCARD_DETECT_PRESENT;
+    return mp_hal_pin_read(MICROPY_HW_SDCARD_DETECT_PIN) == MICROPY_HW_SDCARD_DETECT_PRESENT;
     #else
     return true;
     #endif
@@ -238,7 +271,7 @@ STATIC HAL_StatusTypeDef sdmmc_init_sd(void) {
     // SD device interface configuration
     sdmmc_handle.sd.Instance = SDIO;
     sdmmc_handle.sd.Init.ClockEdge = SDIO_CLOCK_EDGE_RISING;
-    #ifndef STM32H7
+    #if !defined(STM32H5) && !defined(STM32H7)
     sdmmc_handle.sd.Init.ClockBypass = SDIO_CLOCK_BYPASS_DISABLE;
     #endif
     sdmmc_handle.sd.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_ENABLE;
@@ -255,9 +288,9 @@ STATIC HAL_StatusTypeDef sdmmc_init_sd(void) {
         mp_hal_delay_ms(50);
     }
 
-    #if MICROPY_HW_SDCARD_BUS_WIDTH == 4
-    // configure the SD bus width for 4-bit wide operation
-    status = HAL_SD_ConfigWideBusOperation(&sdmmc_handle.sd, SDIO_BUS_WIDE_4B);
+    #if MICROPY_HW_SDCARD_BUS_WIDTH >= 4
+    // configure the SD bus width for 4/8-bit wide operation
+    status = HAL_SD_ConfigWideBusOperation(&sdmmc_handle.sd, SDIO_BUS_WIDE_VALUE);
     if (status != HAL_OK) {
         HAL_SD_DeInit(&sdmmc_handle.sd);
         return status;
@@ -287,15 +320,19 @@ STATIC HAL_StatusTypeDef sdmmc_init_mmc(void) {
         return status;
     }
 
-    // As this is an eMMC card, overwrite LogBlockNbr with actual value
-    sdmmc_handle.mmc.MmcCard.LogBlockNbr = 7469056 + 2048;
+    #ifdef MICROPY_HW_MMCARD_LOG_BLOCK_NBR
+    // A board can override the number of logical blocks (card capacity) if needed.
+    // This is needed when a card is high capacity because the extended CSD command
+    // is not supported by the current version of the HAL.
+    sdmmc_handle.mmc.MmcCard.LogBlockNbr = MICROPY_HW_MMCARD_LOG_BLOCK_NBR;
+    #endif
 
-    #if MICROPY_HW_SDCARD_BUS_WIDTH == 4
-    // Configure the SDIO bus width for 4-bit wide operation
+    #if MICROPY_HW_SDCARD_BUS_WIDTH >= 4
+    // Configure the SDIO bus width for 4/8-bit wide operation
     #ifdef STM32F7
     sdmmc_handle.mmc.Init.ClockBypass = SDIO_CLOCK_BYPASS_ENABLE;
     #endif
-    status = HAL_MMC_ConfigWideBusOperation(&sdmmc_handle.mmc, SDIO_BUS_WIDE_4B);
+    status = HAL_MMC_ConfigWideBusOperation(&sdmmc_handle.mmc, SDIO_BUS_WIDE_VALUE);
     if (status != HAL_OK) {
         HAL_MMC_DeInit(&sdmmc_handle.mmc);
         return status;
@@ -473,7 +510,7 @@ mp_uint_t sdcard_read_blocks(uint8_t *dest, uint32_t block_num, uint32_t num_blo
     // we must disable USB irqs to prevent MSC contention with SD card
     uint32_t basepri = raise_irq_pri(IRQ_PRI_OTG_FS);
 
-    if (query_irq() == IRQ_STATE_ENABLED && DMA_BUFFER(dest) && IS_D1_ADDR(dest)) {
+    if (query_irq() == IRQ_STATE_ENABLED && SD_DMA_BUFFER(SDIO, dest)) {
         #if SDIO_USE_GPDMA
         DMA_HandleTypeDef sd_dma;
         dma_init(&sd_dma, &SDMMC_DMA, DMA_PERIPH_TO_MEMORY, &sdmmc_handle);
@@ -542,7 +579,7 @@ mp_uint_t sdcard_write_blocks(const uint8_t *src, uint32_t block_num, uint32_t n
     // we must disable USB irqs to prevent MSC contention with SD card
     uint32_t basepri = raise_irq_pri(IRQ_PRI_OTG_FS);
 
-    if (query_irq() == IRQ_STATE_ENABLED && DMA_BUFFER(src) && IS_D1_ADDR(src)) {
+    if (query_irq() == IRQ_STATE_ENABLED && SD_DMA_BUFFER(SDIO, src)) {
         #if SDIO_USE_GPDMA
         DMA_HandleTypeDef sd_dma;
         dma_init(&sd_dma, &SDMMC_DMA, DMA_MEMORY_TO_PERIPH, &sdmmc_handle);
@@ -605,6 +642,8 @@ mp_uint_t sdcard_write_blocks(const uint8_t *src, uint32_t block_num, uint32_t n
 // MicroPython bindings
 //
 // Expose the SD card or MMC as an object with the block protocol.
+
+#if !BUILDING_MBOOT
 
 // There are singleton SDCard/MMCard objects
 #if MICROPY_HW_ENABLE_SDCARD
@@ -788,21 +827,23 @@ STATIC const mp_rom_map_elem_t pyb_sdcard_locals_dict_table[] = {
 STATIC MP_DEFINE_CONST_DICT(pyb_sdcard_locals_dict, pyb_sdcard_locals_dict_table);
 
 #if MICROPY_HW_ENABLE_SDCARD
-const mp_obj_type_t pyb_sdcard_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_SDCard,
-    .make_new = pyb_sdcard_make_new,
-    .locals_dict = (mp_obj_dict_t *)&pyb_sdcard_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    pyb_sdcard_type,
+    MP_QSTR_SDCard,
+    MP_TYPE_FLAG_NONE,
+    make_new, pyb_sdcard_make_new,
+    locals_dict, &pyb_sdcard_locals_dict
+    );
 #endif
 
 #if MICROPY_HW_ENABLE_MMCARD
-const mp_obj_type_t pyb_mmcard_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_MMCard,
-    .make_new = pyb_mmcard_make_new,
-    .locals_dict = (mp_obj_dict_t *)&pyb_sdcard_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    pyb_mmcard_type,
+    MP_QSTR_MMCard,
+    MP_TYPE_FLAG_NONE,
+    make_new, pyb_mmcard_make_new,
+    locals_dict, &pyb_sdcard_locals_dict
+    );
 #endif
 
 void sdcard_init_vfs(fs_user_mount_t *vfs, int part) {
@@ -822,5 +863,7 @@ void sdcard_init_vfs(fs_user_mount_t *vfs, int part) {
     vfs->blockdev.u.ioctl[0] = MP_OBJ_FROM_PTR(&pyb_sdcard_ioctl_obj);
     vfs->blockdev.u.ioctl[1] = MP_OBJ_FROM_PTR(&pyb_sdcard_obj);
 }
+
+#endif // !BUILDING_MBOOT
 
 #endif // MICROPY_HW_ENABLE_SDCARD || MICROPY_HW_ENABLE_MMCARD

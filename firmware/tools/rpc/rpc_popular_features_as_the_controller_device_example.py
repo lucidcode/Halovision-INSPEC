@@ -34,7 +34,39 @@ sys.stdout.flush()
 # * my_ip - IP address to bind to ("" to bind to all interfaces...)
 # * port - Port to route traffic to.
 #
-# interface = rpc.rpc_wifi_or_ethernet_master(slave_ip="xxx.xxx.xxx.xxx", my_ip="", port=0x1DBA)
+# interface = rpc.rpc_network_master(slave_ip="xxx.xxx.xxx.xxx", my_ip="", port=0x1DBA)
+
+# Uncomment the below lines to setup your OpenMV Cam for controlling over a UART (Serial / COM Port).
+#
+# * port - Serial Port Name.
+# * baudrate - Bits per second.
+#
+# print("\nAvailable Ports:\n")
+# for port, desc, hwid in serial.tools.list_ports.comports():
+#     print("{} : {} [{}]".format(port, desc, hwid))
+# sys.stdout.write("\nPlease enter a port name: ")
+# sys.stdout.flush()
+# interface = rpc.rpc_uart_master(port=input(), baudrate=115200)
+# print("")
+# sys.stdout.flush()
+
+# Uncomment the below line to setup your OpenMV Cam for controlling over CAN.
+#
+# * channel - Kvarser CAN channel number.
+# * message_id - 11-bit message ID to use for data transport.
+# * bit_rate - CAN baud rate.
+# * sampling_point - Sampling point percentage.
+#
+# from canlib import canlib
+# print("\nAvailable Channels:\n")
+# for channel in range(canlib.getNumberOfChannels()):
+#     chdata = canlib.ChannelData(channel)
+#     print("%d. %s (%s / %s)" % (channel, chdata.channel_name, chdata.card_upc_no, chdata.card_serial_no))
+# sys.stdout.write("\nPlease enter a channel name: ")
+# sys.stdout.flush()
+# interface = rpc.rpc_kvarser_can_master(channel=int(input()), message_id=0x7FF, bit_rate=250000, sampling_point=75)
+# print("")
+# sys.stdout.flush()
 
 ##############################################################
 # Call Back Handlers
@@ -44,11 +76,6 @@ def exe_face_detection():
     result = interface.call("face_detection")
     if result is not None and len(result):
         print("Largest Face Detected [x=%d, y=%d, w=%d, h=%d]" % struct.unpack("<HHHH", result))
-
-def exe_person_detection():
-    result = interface.call("person_detection")
-    if result is not None:
-        print(result.tobytes())
 
 def exe_qrcode_detection():
     result = interface.call("qrcode_detection")
@@ -120,7 +147,6 @@ def exe_jpeg_snapshot():
 
 while(True):
     exe_face_detection() # Face should be about 2ft away.
-    # exe_person_detection()
     # exe_qrcode_detection() # Place the QRCode about 2ft away.
     # exe_all_qrcode_detection() # Place the QRCode about 2ft away.
     # exe_apriltag_detection()

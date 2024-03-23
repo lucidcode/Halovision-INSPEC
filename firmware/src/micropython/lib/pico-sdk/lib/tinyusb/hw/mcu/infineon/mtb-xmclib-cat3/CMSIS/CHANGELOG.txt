@@ -1,0 +1,94 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [5.7.0-p1] - 2020-11
+Based on CMSIS 5.7.0 with Infineon specific files
+See https://github.com/ARM-software/CMSIS_5/releases for changes on CMSIS 5.7.0
+
+### Added
+- Option to generate own ISR handlers for interrupts instead of a single common default ISR
+- Scatter files for ARM compiler v5 and v6
+### Changed
+- Infineon specific files uses now the Boost Software License, https://www.boost.org/users/license.html
+- Device header files to avoid compilation warnings in Keil MDK
+### Fixed
+- system_XMC1400.c
+  Fix seeting of ANAOSCHPCTRL accoring to OSC_CM.D001 in errata
+- system_XMC4100.c
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- system_XMC4200.c
+  Fix EXTCLKDIV macro definition
+  Fix code for condition EXTCLK_PIN == EXTCLK_PIN_P1_15
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- system_XMC4300.c
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- system_XMC4400.c
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- system_XMC4500.c
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- system_XMC4700.c
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- system_XMC4800.c
+  Fix clock setup when using internal oscillator as clock source for the system PLL
+- Newlib/syscalls.c
+  Fix C++ compilation
+
+### Added
+- CMSIS Driver implementation
+
+## [5.6.0-p1] - 2019-08-01
+Based on CMSIS 5.6.0 with Infineon specific files
+See https://github.com/ARM-software/CMSIS_5/releases for changes on CMSIS 5.6.0
+
+
+## [5.5.1-p1] - 2019-06-05
+Based on CMSIS 5.5.1 with Infineon specific files
+See https://github.com/ARM-software/CMSIS_5/releases for changes on CMSIS 5.5.1
+### Added
+- system_XMC1400.c 
+  Added DISABLE_WAIT_RTC_XTAL_OSC_STARTUP preprocessor guard:
+    The RTC_XTAL can be used as clock source for RTC or as reference for DCO1 calibration 
+    In both cases if no wait is done in the startup after enabling the RTC_XTAL oscillator,
+    the RTC_Enable() or the calibration will stall the MCU until the oscillator is stable (max. 5s according datasheet)
+- Added XMC1xxx scatter files for ARMCC6
+- Extended ROM XMC1xxx functions to incorporate _CalcTemperature, _NvmEraseSector, _NvmProgVerifyBlock, _CalcTSEVAR
+
+### Fixed
+- system_XMC1100.c 
+  Fix variable location of SystemCoreClock for ARMCC compiler
+- system_XMC1200.c 
+  Fix variable location of SystemCoreClock for ARMCC compiler
+- system_XMC1300.c 
+  Fix variable location of SystemCoreClock for ARMCC compiler
+- system_XMC1400.c 
+  Fix variable location of SystemCoreClock for ARMCC compiler
+  Fix clock initialization if external XTAL is used (clock watchdog issue, see errata SCU_CM.023)
+- system_XMC4100.c
+  Fix variable location of SystemCoreClock, g_hrpwm_char_data and g_chipid for ARMCC compiler
+- system_XMC4200.c 
+  Fix variable location of SystemCoreClock, g_hrpwm_char_data and g_chipid for ARMCC compiler
+- system_XMC4300.c 
+  Fix variable location of SystemCoreClock and g_chipid for ARMCC compiler
+- system_XMC4400.c
+  Fix variable location of SystemCoreClock, g_hrpwm_char_data and g_chipid for ARMCC compiler
+- system_XMC4500.c 
+  Fix variable location of SystemCoreClock and g_chipid for ARMCC compiler
+- system_XMC4700.c 
+  Fix variable location of SystemCoreClock and g_chipid for ARMCC compiler
+- system_XMC4800.c 
+  Fix variable location of SystemCoreClock and g_chipid for ARMCC compiler
+- startup_XMC1100.S
+  Fix linker issues (Error: L6985E) with ARMCC6 when linking the IRQ VENEERS
+- startup_XMC1200.S
+  Fix linker issues (Error: L6985E) with ARMCC6 when linking the IRQ VENEERS
+- startup_XMC1300.S
+  Fix linker issues (Error: L6985E) with ARMCC6 when linking the IRQ VENEERS
+- startup_XMC1400.S
+  Fix linker issues (Error: L6985E) with ARMCC6 when linking the IRQ VENEERS
+
+
+
+

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _HARDWARE_PLL_H_
-#define _HARDWARE_PLL_H_
+#ifndef _HARDWARE_PLL_H
+#define _HARDWARE_PLL_H
 
 #include "pico.h"
 #include "hardware/structs/pll.h"
@@ -23,13 +23,29 @@ extern "C" {
  *   - pll_sys - Used to generate up to a 133MHz system clock
  *   - pll_usb - Used to generate a 48MHz USB reference clock
  *
- * For details on how the PLL's are calculated, please refer to the RP2040 datasheet.
+ * For details on how the PLLs are calculated, please refer to the RP2040 datasheet.
  */
 
 typedef pll_hw_t *PLL;
 
 #define pll_sys pll_sys_hw
 #define pll_usb pll_usb_hw
+
+#ifndef PICO_PLL_VCO_MIN_FREQ_KHZ
+#ifndef PICO_PLL_VCO_MIN_FREQ_MHZ
+#define PICO_PLL_VCO_MIN_FREQ_KHZ (750 * KHZ)
+#else
+#define PICO_PLL_VCO_MIN_FREQ_KHZ (PICO_PLL_VCO_MIN_FREQ_MHZ * KHZ)
+#endif
+#endif
+
+#ifndef PICO_PLL_VCO_MAX_FREQ_KHZ
+#ifndef PICO_PLL_VCO_MAX_FREQ_MHZ
+#define PICO_PLL_VCO_MAX_FREQ_KHZ (1600 * KHZ)
+#else
+#define PICO_PLL_VCO_MAX_FREQ_KHZ (PICO_PLL_VCO_MAX_FREQ_MHZ * KHZ)
+#endif
+#endif
 
 /*! \brief Initialise specified PLL.
  *  \ingroup hardware_pll

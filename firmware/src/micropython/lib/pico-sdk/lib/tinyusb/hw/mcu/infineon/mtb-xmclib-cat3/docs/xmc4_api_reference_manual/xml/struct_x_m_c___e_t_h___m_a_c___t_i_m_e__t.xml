@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_t_h___m_a_c___t_i_m_e__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ETH_MAC_TIME_t</compoundname>
+    <includes local="no">xmc_eth_mac.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___t_i_m_e__t_1a09629b6ede86efb92f988f34a11b236f" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t nanoseconds</definition>
+        <argsstring></argsstring>
+        <name>nanoseconds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Nanoseconds </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="382" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___t_i_m_e__t_1a6d5694839ec935781627e5c52de21fda" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t seconds</definition>
+        <argsstring></argsstring>
+        <name>seconds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Seconds </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="381" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ETH MAC time </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="380" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="379" bodyend="383"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___t_i_m_e__t_1a09629b6ede86efb92f988f34a11b236f" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_TIME_t</scope><name>nanoseconds</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___t_i_m_e__t_1a6d5694839ec935781627e5c52de21fda" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_TIME_t</scope><name>seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

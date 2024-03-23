@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _HARDWARE_EXCEPTION_H_
-#define _HARDWARE_EXCEPTION_H_
+#ifndef _HARDWARE_EXCEPTION_H
+#define _HARDWARE_EXCEPTION_H
 
 #include "pico.h"
 #include "hardware/address_mapped.h"
-#include "hardware/regs/m0plus.h"
 
 /** \file exception.h
  *  \defgroup hardware_exception hardware_exception

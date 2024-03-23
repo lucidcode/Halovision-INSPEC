@@ -1,0 +1,696 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__wdt_8h" kind="file" language="C++">
+    <compoundname>xmc_wdt.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <includes refid="xmc__scu_8h" local="yes">xmc_scu.h</includes>
+    <incdepgraph>
+      <node id="119">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="118">
+        <label>xmc_wdt.h</label>
+        <link refid="xmc__wdt_8h"/>
+        <childnode refid="119" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_x_m_c___w_d_t___c_o_n_f_i_g__t" prot="public">XMC_WDT_CONFIG_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___w_d_t_1gac75de77c354d42eb0ce1a6113e73fd21" prot="public" static="no">
+        <name>XMC_WDT_MAGIC_WORD</name>
+        <initializer>(0xABADCAFEU) /* Magic word to be written in Service Register (SRV),
+                                                          to service or feed the watchdog. */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="93" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___w_d_t_1gaed390fe9732c725c40c562096aab71cd" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_WDT_DEBUG_MODE_t</name>
+        <enumvalue id="group___w_d_t_1ggaed390fe9732c725c40c562096aab71cdabc342504a908273ced690963f2fc555c" prot="public">
+          <name>XMC_WDT_DEBUG_MODE_STOP</name>
+          <initializer>= (uint32_t)0x0 &lt;&lt; WDT_CTR_DSP_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Watchdog counter is paused during debug halt. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___w_d_t_1ggaed390fe9732c725c40c562096aab71cda0b4c94db55d751206f8aca156afc20c8" prot="public">
+          <name>XMC_WDT_DEBUG_MODE_RUN</name>
+          <initializer>= (uint32_t)0x1 &lt;&lt; WDT_CTR_DSP_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Watchdog counter is not paused during debug halt. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines debug behaviour of watchdog when the CPU enters HALT mode. Use type XMC_WDT_DEBUG_MODE_t for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="115" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___w_d_t_1gaf8feb4ab4b16a18837346cb43436aa47" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_WDT_MODE_t</name>
+        <enumvalue id="group___w_d_t_1ggaf8feb4ab4b16a18837346cb43436aa47ada83aa5589e602344357133806fc1bba" prot="public">
+          <name>XMC_WDT_MODE_TIMEOUT</name>
+          <initializer>= (uint32_t)0x0 &lt;&lt; WDT_CTR_PRE_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Generates reset request as soon as the timer overflow occurs. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___w_d_t_1ggaf8feb4ab4b16a18837346cb43436aa47a2abe0ec0da13065c293da0400e2c0e99" prot="public">
+          <name>XMC_WDT_MODE_PREWARNING</name>
+          <initializer>= (uint32_t)0x1 &lt;&lt; WDT_CTR_PRE_Pos</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Generates an alarm event for the first overflow. And reset request after subsequent overflow, if not serviced after first overflow. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines working modes for watchdog. Use type XMC_WDT_MODE_t for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="103" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="102" bodyend="109"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___w_d_t_1gaec9decd4cc72b82083a1459282f0e601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_ClearAlarm</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_ClearAlarm</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears pre-warning alarm by setting ALMC bit in WDTCLR register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>In pre-warning mode, first overflow of the timer upper window bound fires the pre-warning alarm. <ref refid="group___w_d_t_1gaec9decd4cc72b82083a1459282f0e601" kindref="member">XMC_WDT_ClearAlarm()</ref> must be invoked to clear the alarm alarm. After clearing of the alarm, watchdog timer must be serviced within valid time window. Otherwise watchdog timer triggers the reset request up on crossing the upper bound value in a subsequent cycle.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1ga5ce909e8a079938c30259381a993d316" kindref="member">XMC_WDT_Service()</ref>, <ref refid="group___w_d_t_1ga4355fd0cb98afd500dc5184f1f636206" kindref="member">XMC_WDT_SetMode()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="424" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="424" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1gaac46f3f30e3afdc70f673ad61184adf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_Disable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_Disable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the clock and resets watchdog timer.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>Resets the registers with default values. So <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref> has to be invoked again to configure the watchdog. </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1gaf6e290c84927a63f326245e1d50bfe18" kindref="member">XMC_WDT_Enable()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="230" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1gaf6e290c84927a63f326245e1d50bfe18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_Enable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_Enable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables watchdog clock and releases watchdog reset.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>This API is invoked by <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref> and therefore no need to call it explicitly during watchdog initialization sequence. Invoke this API to enable watchdog once again if the watchdog is disabled by invoking <ref refid="group___w_d_t_1gaac46f3f30e3afdc70f673ad61184adf6" kindref="member">XMC_WDT_Disable()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>It is required to configure the watchdog, again after invoking <ref refid="group___w_d_t_1gaac46f3f30e3afdc70f673ad61184adf6" kindref="member">XMC_WDT_Disable()</ref>. Since all the registers are reset with default values. </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>, <ref refid="group___w_d_t_1gaac46f3f30e3afdc70f673ad61184adf6" kindref="member">XMC_WDT_Disable()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="203" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1ga9f47993615bd96ac1c564832826bb5e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_WDT_GetCounter</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_GetCounter</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Current count value of watchdog timer register (TIM). Range: [0H to FFFFFFFFH]</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Reads current count of timer register (TIM).<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Invoke this API before servicing or feeding the watchdog to check whether count is between lower and upper window bounds.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1ga5ce909e8a079938c30259381a993d316" kindref="member">XMC_WDT_Service()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="380" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="380" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_Init</definition>
+        <argsstring>(const XMC_WDT_CONFIG_t *const config)</argsstring>
+        <name>XMC_WDT_Init</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___w_d_t___c_o_n_f_i_g__t" kindref="compound">XMC_WDT_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a constant watchdog configuration data structure. Refer data structure <ref refid="struct_x_m_c___w_d_t___c_o_n_f_i_g__t" kindref="compound">XMC_WDT_CONFIG_t</ref> for detail.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes and configures watchdog with configuration data pointed by <emphasis>config</emphasis>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>It invokes <ref refid="group___w_d_t_1gaf6e290c84927a63f326245e1d50bfe18" kindref="member">XMC_WDT_Enable()</ref> to enable clock and release reset. Then configures the lower and upper window bounds, working mode (timeout/pre-warning), debug behaviour and service request indication pulse width.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>With out invoking this <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref> or <ref refid="group___w_d_t_1gaf6e290c84927a63f326245e1d50bfe18" kindref="member">XMC_WDT_Enable()</ref>, invocation of other APIs like <ref refid="group___w_d_t_1gaf30ba72a44f3383261020301cf17bcd6" kindref="member">XMC_WDT_SetWindowBounds()</ref>, <ref refid="group___w_d_t_1ga4355fd0cb98afd500dc5184f1f636206" kindref="member">XMC_WDT_SetMode()</ref>, <ref refid="group___w_d_t_1gafde760e88485be382c54241129718c1a" kindref="member">XMC_WDT_SetServicePulseWidth()</ref>, <ref refid="group___w_d_t_1ga5ee071622fac49ddd071a0070bf6c788" kindref="member">XMC_WDT_SetDebugMode()</ref>, <ref refid="group___w_d_t_1gad01935f7e01dcc6697efe642d64e0053" kindref="member">XMC_WDT_Start()</ref>, <ref refid="group___w_d_t_1ga9f47993615bd96ac1c564832826bb5e0" kindref="member">XMC_WDT_GetCounter()</ref>, <ref refid="group___w_d_t_1ga5ce909e8a079938c30259381a993d316" kindref="member">XMC_WDT_Service()</ref>, <ref refid="group___w_d_t_1gaec9decd4cc72b82083a1459282f0e601" kindref="member">XMC_WDT_ClearAlarm()</ref> has no affect. </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="249" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1ga5ce909e8a079938c30259381a993d316" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_Service</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_Service</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Services or feeds the watchdog by writing the Magic word in SRV register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Service watchdog when count value of watchdog timer is between lower and upper window bounds. Successful servicing will reset watchdog timer (TIM register) to 0H and generate service indication pulse.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>invoking this API when count value of watchdog timer is less than window lower bound results wrong servicing and immediately triggers reset request.</para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1ga9f47993615bd96ac1c564832826bb5e0" kindref="member">XMC_WDT_GetCounter()</ref>, <ref refid="group___w_d_t_1gaf30ba72a44f3383261020301cf17bcd6" kindref="member">XMC_WDT_SetWindowBounds()</ref>, <ref refid="group___w_d_t_1gafde760e88485be382c54241129718c1a" kindref="member">XMC_WDT_SetServicePulseWidth()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="403" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="403" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1ga5ee071622fac49ddd071a0070bf6c788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_SetDebugMode</definition>
+        <argsstring>(const XMC_WDT_DEBUG_MODE_t debug_mode)</argsstring>
+        <name>XMC_WDT_SetDebugMode</name>
+        <param>
+          <type>const <ref refid="group___w_d_t_1gaed390fe9732c725c40c562096aab71cd" kindref="member">XMC_WDT_DEBUG_MODE_t</ref></type>
+          <declname>debug_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>debug_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>running state of watchdog during debug halt mode. Refer <ref refid="group___w_d_t_1gaed390fe9732c725c40c562096aab71cd" kindref="member">XMC_WDT_DEBUG_MODE_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets debug behaviour of watchdog by modifying DSP bit of CTR register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Depending upon DSP bit, the watchdog timer stops when CPU is in HALT mode. The debug behaviour is initially set as XMC_WDT_DEBUG_MODE_STOP during initialization in <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>. Invoke this API to change the debug behaviour as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="323" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="323" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1ga4355fd0cb98afd500dc5184f1f636206" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_SetMode</definition>
+        <argsstring>(XMC_WDT_MODE_t mode)</argsstring>
+        <name>XMC_WDT_SetMode</name>
+        <param>
+          <type><ref refid="group___w_d_t_1gaf8feb4ab4b16a18837346cb43436aa47" kindref="member">XMC_WDT_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is one of the working modes of the watchdog timer, i.e timeout or pre-warning. Refer <ref refid="group___w_d_t_1gaf8feb4ab4b16a18837346cb43436aa47" kindref="member">XMC_WDT_MODE_t</ref> for valid values.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets watchdog working mode (timeout or pre-warning) by updating PRE bit of CTR register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The working mode is set during initialization in <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>. Invoke this API to alter the mode as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="288" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="288" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1gafde760e88485be382c54241129718c1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_SetServicePulseWidth</definition>
+        <argsstring>(uint8_t service_pulse_width)</argsstring>
+        <name>XMC_WDT_SetServicePulseWidth</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>service_pulse_width</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_pulse_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>specifies Service indication pulse width in terms of fwdt. Range: [0H – FFH]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets service indication pulse width by updating SPW bit field of CTR register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>The service indication pulse (with width service_pulse_width + 1 in fwdt cycles) is generated on successful servicing or feeding of watchdog. The pulse width is initially set during initialization in <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>. Invoke this API to alter the width as needed later in the program. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="305" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="305" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1gaf30ba72a44f3383261020301cf17bcd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_SetWindowBounds</definition>
+        <argsstring>(uint32_t lower_bound, uint32_t upper_bound)</argsstring>
+        <name>XMC_WDT_SetWindowBounds</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>lower_bound</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>upper_bound</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lower_bound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>specifies watchdog window lower bound in terms of watchdog clock (fWDT) cycles. Range: [0H to FFFFFFFFH]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upper_bound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>specifies watchdog window upper bound in terms of watchdog clock (fWDT) cycles. Range: [0H to FFFFFFFFH].</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets watchdog window lower and upper bounds by updating WLB and WUB registers.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Window lower and upper bounds are set during initialization in <ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>. Invoke this API to alter the values as needed later in the program. This upper bound and lower bound can be calculated by using the below formula<linebreak/>
+ upper_bound or lower_bound = desired_boundary_time(sec) * fwdt(hz)</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para><orderedlist>
+<listitem><para>Always ensure that upper_bound is greater than the lower_bound value. If not, whenever timer crosses the upper_bound value it triggers the reset(wdt_rst_req) of the controller. </para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="270" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="270" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1gad01935f7e01dcc6697efe642d64e0053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_Start</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_Start</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Start the watchdog timer by setting ENB bit of CTR register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Invoke this API to start the watchdog after initialization, or to resume the watchdog when paused by invoking <ref refid="group___w_d_t_1gaabc4465fb821a3e6e778503fc2f59bfe" kindref="member">XMC_WDT_Stop()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>, <ref refid="group___w_d_t_1gaabc4465fb821a3e6e778503fc2f59bfe" kindref="member">XMC_WDT_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="342" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="342" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="group___w_d_t_1gaabc4465fb821a3e6e778503fc2f59bfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_WDT_Stop</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_WDT_Stop</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Pauses watchdog timer by resetting ENB bit of CTR register.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title></title><para>Invoke this API to pause the watchdog as needed in the program e.g. debugging through software control.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init()</ref>, <ref refid="group___w_d_t_1gaabc4465fb821a3e6e778503fc2f59bfe" kindref="member">XMC_WDT_Stop()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" line="360" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h" bodystart="360" bodyend="363"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-08-06 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="56"><highlight class="preprocessor">#ifndef<sp/>XMC_WDT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_WDT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="61"><highlight class="comment"><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_scu.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="89"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="90"><highlight class="comment"><sp/><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_WDT_MAGIC_WORD<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xABADCAFEU)<sp/></highlight><highlight class="comment">/*<sp/>Magic<sp/>word<sp/>to<sp/>be<sp/>written<sp/>in<sp/>Service<sp/>Register<sp/>(SRV),</highlight></codeline>
+<codeline lineno="93"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>service<sp/>or<sp/>feed<sp/>the<sp/>watchdog.<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="96"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="97"><highlight class="comment"><sp/><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_WDT_MODE</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><ref refid="group___w_d_t_1ggaf8feb4ab4b16a18837346cb43436aa47ada83aa5589e602344357133806fc1bba" kindref="member">XMC_WDT_MODE_TIMEOUT</ref><sp/><sp/><sp/><sp/>=<sp/>(uint32_t)0x0<sp/>&lt;&lt;<sp/>WDT_CTR_PRE_Pos,<sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><ref refid="group___w_d_t_1ggaf8feb4ab4b16a18837346cb43436aa47a2abe0ec0da13065c293da0400e2c0e99" kindref="member">XMC_WDT_MODE_PREWARNING</ref><sp/>=<sp/>(uint32_t)0x1<sp/>&lt;&lt;<sp/>WDT_CTR_PRE_Pos<sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/><ref refid="group___w_d_t_1gaf8feb4ab4b16a18837346cb43436aa47" kindref="member">XMC_WDT_MODE_t</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_WDT_DEBUG_MODE</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><ref refid="group___w_d_t_1ggaed390fe9732c725c40c562096aab71cdabc342504a908273ced690963f2fc555c" kindref="member">XMC_WDT_DEBUG_MODE_STOP</ref><sp/>=<sp/>(uint32_t)0x0<sp/>&lt;&lt;<sp/>WDT_CTR_DSP_Pos,<sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><ref refid="group___w_d_t_1ggaed390fe9732c725c40c562096aab71cda0b4c94db55d751206f8aca156afc20c8" kindref="member">XMC_WDT_DEBUG_MODE_RUN</ref><sp/><sp/>=<sp/>(uint32_t)0x1<sp/>&lt;&lt;<sp/>WDT_CTR_DSP_Pos<sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/><ref refid="group___w_d_t_1gaed390fe9732c725c40c562096aab71cd" kindref="member">XMC_WDT_DEBUG_MODE_t</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"><sp/>*<sp/>DATA<sp/>STRUCTURES</highlight></codeline>
+<codeline lineno="122"><highlight class="comment"><sp/><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Anonymous<sp/>structure/union<sp/>guard<sp/>start<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CC_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>push</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>anon_unions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__TASKING__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning<sp/>586</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="struct_x_m_c___w_d_t___c_o_n_f_i_g__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_WDT_CONFIG</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/>uint32_t<sp/>window_upper_bound;<sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>uint32_t<sp/>window_lower_bound;<sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>:<sp/>1;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>prewarn_mode<sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>:<sp/>2;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>run_in_debug_mode<sp/>:<sp/>1;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>:<sp/>3;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>service_pulse_width<sp/>:<sp/>8;<sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>:<sp/>16;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>wdt_ctr;<sp/></highlight><highlight class="comment">/*<sp/>Value<sp/>of<sp/>operation<sp/>mode<sp/>control<sp/>register<sp/>(CTR).<sp/>It’s<sp/>bit<sp/>fields<sp/>are<sp/>represented<sp/>by<sp/>above</highlight></codeline>
+<codeline lineno="158"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>union<sp/>members.<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___w_d_t___c_o_n_f_i_g__t" kindref="compound">XMC_WDT_CONFIG_t</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Anonymous<sp/>structure/union<sp/>guard<sp/>end<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__CC_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>pop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(__TASKING__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">/*********************************************************************************************************************</highlight></codeline>
+<codeline lineno="168"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="169"><highlight class="comment"><sp/><sp/>********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gaf6e290c84927a63f326245e1d50bfe18" kindref="member">XMC_WDT_Enable</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gaac46f3f30e3afdc70f673ad61184adf6" kindref="member">XMC_WDT_Disable</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1ga44e875ad3a51f991024fc826dd309d62" kindref="member">XMC_WDT_Init</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___w_d_t___c_o_n_f_i_g__t" kindref="compound">XMC_WDT_CONFIG_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>config);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gaf30ba72a44f3383261020301cf17bcd6" kindref="member">XMC_WDT_SetWindowBounds</ref>(uint32_t<sp/>lower_bound,<sp/>uint32_t<sp/>upper_bound)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/>WDT-&gt;WLB<sp/>=<sp/>lower_bound;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/>WDT-&gt;WUB<sp/>=<sp/>upper_bound;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1ga4355fd0cb98afd500dc5184f1f636206" kindref="member">XMC_WDT_SetMode</ref>(<ref refid="group___w_d_t_1gaf8feb4ab4b16a18837346cb43436aa47" kindref="member">XMC_WDT_MODE_t</ref><sp/>mode)</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/>WDT-&gt;CTR<sp/>=<sp/>(WDT-&gt;CTR<sp/>&amp;<sp/>(uint32_t)~WDT_CTR_PRE_Msk)<sp/>|<sp/>(uint32_t)mode;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gafde760e88485be382c54241129718c1a" kindref="member">XMC_WDT_SetServicePulseWidth</ref>(uint8_t<sp/>service_pulse_width)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/>WDT-&gt;CTR<sp/>=<sp/>(WDT-&gt;CTR<sp/>&amp;<sp/>(uint32_t)~WDT_CTR_SPW_Msk)<sp/>|<sp/>((uint32_t)service_pulse_width<sp/>&lt;&lt;<sp/>WDT_CTR_SPW_Pos);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1ga5ee071622fac49ddd071a0070bf6c788" kindref="member">XMC_WDT_SetDebugMode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gaed390fe9732c725c40c562096aab71cd" kindref="member">XMC_WDT_DEBUG_MODE_t</ref><sp/>debug_mode)</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/>WDT-&gt;CTR<sp/>=<sp/>(WDT-&gt;CTR<sp/>&amp;<sp/>(uint32_t)~WDT_CTR_DSP_Msk)<sp/>|<sp/>(uint32_t)debug_mode;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gad01935f7e01dcc6697efe642d64e0053" kindref="member">XMC_WDT_Start</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/>WDT-&gt;CTR<sp/>|=<sp/>(uint32_t)WDT_CTR_ENB_Msk;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gaabc4465fb821a3e6e778503fc2f59bfe" kindref="member">XMC_WDT_Stop</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/>WDT-&gt;CTR<sp/>&amp;=<sp/>(uint32_t)~WDT_CTR_ENB_Msk;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal">__STATIC_INLINE<sp/>uint32_t<sp/><ref refid="group___w_d_t_1ga9f47993615bd96ac1c564832826bb5e0" kindref="member">XMC_WDT_GetCounter</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>WDT-&gt;TIM;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1ga5ce909e8a079938c30259381a993d316" kindref="member">XMC_WDT_Service</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="404"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/>WDT-&gt;SRV<sp/>=<sp/>XMC_WDT_MAGIC_WORD;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal">__STATIC_INLINE<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___w_d_t_1gaec9decd4cc72b82083a1459282f0e601" kindref="member">XMC_WDT_ClearAlarm</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="425"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/>WDT-&gt;WDTCLR<sp/>=<sp/>WDT_WDTCLR_ALMC_Msk;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_WDT_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_wdt.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_HRPWM_CSG_CONFIG_t</compoundname>
+    <includes local="no">xmc_hrpwm.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t_1a9b71f0de9bf2bbaaddbcf17ba759d363" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___h_r_p_w_m___c_s_g___c_m_p__t" kindref="compound">XMC_HRPWM_CSG_CMP_t</ref></type>
+        <definition>XMC_HRPWM_CSG_CMP_t cmp_config</definition>
+        <argsstring></argsstring>
+        <name>cmp_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comparator set up </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="862" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="862" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t_1a0b809ca2a9f1515cddb05ea47c810346" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t" kindref="compound">XMC_HRPWM_CSG_DAC_t</ref></type>
+        <definition>XMC_HRPWM_CSG_DAC_t dac_config</definition>
+        <argsstring></argsstring>
+        <name>dac_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DAC configuration of CSG </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="863" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="863" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t_1aec087f7c2995a9fe2c5ff20f4578e0ef" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t" kindref="compound">XMC_HRPWM_CSG_SGEN_t</ref></type>
+        <definition>XMC_HRPWM_CSG_SGEN_t sgen_config</definition>
+        <argsstring></argsstring>
+        <name>sgen_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slope generation related configurations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="864" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="864" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HRPWM CSG configuration </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="123">
+        <label>XMC_HRPWM_CSG_CONFIG_t</label>
+        <link refid="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t"/>
+        <childnode refid="124" relation="usage">
+          <edgelabel>cmp_config</edgelabel>
+        </childnode>
+        <childnode refid="125" relation="usage">
+          <edgelabel>sgen_config</edgelabel>
+        </childnode>
+        <childnode refid="126" relation="usage">
+          <edgelabel>dac_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="125">
+        <label>XMC_HRPWM_CSG_SGEN_t</label>
+        <link refid="struct_x_m_c___h_r_p_w_m___c_s_g___s_g_e_n__t"/>
+      </node>
+      <node id="126">
+        <label>XMC_HRPWM_CSG_DAC_t</label>
+        <link refid="struct_x_m_c___h_r_p_w_m___c_s_g___d_a_c__t"/>
+      </node>
+      <node id="124">
+        <label>XMC_HRPWM_CSG_CMP_t</label>
+        <link refid="struct_x_m_c___h_r_p_w_m___c_s_g___c_m_p__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" line="861" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_hrpwm.h" bodystart="860" bodyend="865"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t_1a9b71f0de9bf2bbaaddbcf17ba759d363" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_CONFIG_t</scope><name>cmp_config</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t_1a0b809ca2a9f1515cddb05ea47c810346" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_CONFIG_t</scope><name>dac_config</name></member>
+      <member refid="struct_x_m_c___h_r_p_w_m___c_s_g___c_o_n_f_i_g__t_1aec087f7c2995a9fe2c5ff20f4578e0ef" prot="public" virt="non-virtual"><scope>XMC_HRPWM_CSG_CONFIG_t</scope><name>sgen_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

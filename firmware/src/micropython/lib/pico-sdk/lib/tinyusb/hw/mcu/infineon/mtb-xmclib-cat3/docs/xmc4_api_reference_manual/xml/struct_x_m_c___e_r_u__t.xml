@@ -1,0 +1,484 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_r_u__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ERU_t</compoundname>
+    <includes local="no">xmc_eru.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a5ea582ab63e4b89e1fb1f5d81fa0c982" prot="public" static="no" mutable="no">
+        <type>union XMC_ERU_t::@149</type>
+        <definition>union XMC_ERU_t::@149 @150</definition>
+        <argsstring></argsstring>
+        <name>@150</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="315" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a0b25c7e0d968e92f4d377eabca252cca" prot="public" static="no" mutable="no">
+        <type>union XMC_ERU_t::@151</type>
+        <definition>union XMC_ERU_t::@151 @152</definition>
+        <argsstring></argsstring>
+        <name>@152</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="332" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a3d43a5f83d495607005a91e6ba43c4fc" prot="public" static="no" mutable="no">
+        <type>union XMC_ERU_t::@153</type>
+        <definition>union XMC_ERU_t::@153 @154</definition>
+        <argsstring></argsstring>
+        <name>@154</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="348" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="344" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1ab258afc6b0d91396f4e8d9e57a1cf49b" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t ED</definition>
+        <argsstring></argsstring>
+        <name>ED</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="326" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a4c3a79fc32dbe4364cc851e8cbf85a91" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXICON[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>EXICON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="320" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a51d334e95f70504731d25fd197a07217" prot="public" static="no" mutable="no">
+        <type>struct XMC_ERU_t::@151::@156</type>
+        <definition>struct XMC_ERU_t::@151::@156  EXICON_b[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>EXICON_b</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="331" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1ae01320249b16d00118b06a015514df3c" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXISEL</definition>
+        <argsstring></argsstring>
+        <name>EXISEL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="302" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1abd363bd019ed57fbec4c4bc85afa725a" prot="public" static="no" mutable="no">
+        <type>struct XMC_ERU_t::@149::@155</type>
+        <definition>struct XMC_ERU_t::@149::@155  EXISEL_b</definition>
+        <argsstring></argsstring>
+        <name>EXISEL_b</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="314" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a350d783f21195368d69f295524bc91e3" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXOCON[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>EXOCON</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="336" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a9155050ecf402c2119b2d68aa9ddb904" prot="public" static="no" mutable="no">
+        <type>struct XMC_ERU_t::@153::@157</type>
+        <definition>struct XMC_ERU_t::@153::@157  EXOCON_b[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>EXOCON_b</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="347" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a138e546f7b2f98abea1ac802a4dccc44" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS0A</definition>
+        <argsstring></argsstring>
+        <name>EXS0A</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="306" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a5feedfead136e07ba11dccaa0a8aa23a" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS0B</definition>
+        <argsstring></argsstring>
+        <name>EXS0B</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="307" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a378201da178da5cd8ddc16825a689f48" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS1A</definition>
+        <argsstring></argsstring>
+        <name>EXS1A</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="308" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a8460d57996e7b4e5b06dad18ee66a208" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS1B</definition>
+        <argsstring></argsstring>
+        <name>EXS1B</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="309" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1aac1cb9c9a017f0246b9060a73e2e9842" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS2A</definition>
+        <argsstring></argsstring>
+        <name>EXS2A</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="310" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1ac4efca119d266cc3e453e5c99282d68a" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS2B</definition>
+        <argsstring></argsstring>
+        <name>EXS2B</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="311" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a0bc66578998c98bb645fce9eaf0b2165" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS3A</definition>
+        <argsstring></argsstring>
+        <name>EXS3A</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="312" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a2bafcc3cc5242d87070dd0023846e599" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t EXS3B</definition>
+        <argsstring></argsstring>
+        <name>EXS3B</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="313" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1afb8f0387f99a3245580b19cbb6d0d9d7" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t FL</definition>
+        <argsstring></argsstring>
+        <name>FL</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="328" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a711234646458c0d7f08a9baa4a15ece4" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t GEEN</definition>
+        <argsstring></argsstring>
+        <name>GEEN</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="341" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1ab31483688f1ed97c5966169b2fdfd67e" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t GP</definition>
+        <argsstring></argsstring>
+        <name>GP</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="343" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a77edd1f8fb93e2b4293c76c06776bf94" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t IPEN</definition>
+        <argsstring></argsstring>
+        <name>IPEN</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="345" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a256ad0dcbf7bfdcb146e6efb076a05f2" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t ISS</definition>
+        <argsstring></argsstring>
+        <name>ISS</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="340" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a1fb40109bbc1b0191c576dd4097e79f2" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t LD</definition>
+        <argsstring></argsstring>
+        <name>LD</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="325" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a7d317fb58a14ebb6838e2c32d9245b58" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t OCS</definition>
+        <argsstring></argsstring>
+        <name>OCS</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="327" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a9a75268a8af757ae98f6204f36bc6f6c" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t PDR</definition>
+        <argsstring></argsstring>
+        <name>PDR</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="342" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a76f6db45c0759410784b290f9b434c29" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t PE</definition>
+        <argsstring></argsstring>
+        <name>PE</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="324" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1abf904f8360a449816588a2cf9c9ad3c7" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED0[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>RESERVED0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="316" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a39fbdbb7ad559315fa9c23de59936655" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED1</definition>
+        <argsstring></argsstring>
+        <name>RESERVED1</name>
+        <bitfield> 20</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="330" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a13d8c36a296a876371d8e463cfce0bc5" prot="public" static="no" mutable="no">
+        <type>__I uint32_t</type>
+        <definition>__I uint32_t RESERVED2</definition>
+        <argsstring></argsstring>
+        <name>RESERVED2</name>
+        <bitfield> 16</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="346" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u__t_1a17a2b3dae9dae259c4ec09bb1411d6e0" prot="public" static="no" mutable="no">
+        <type>__IO uint32_t</type>
+        <definition>__IO uint32_t SS</definition>
+        <argsstring></argsstring>
+        <name>SS</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="329" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ERU module </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="299" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="298" bodyend="349"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_r_u__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1ab258afc6b0d91396f4e8d9e57a1cf49b" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>ED</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a4c3a79fc32dbe4364cc851e8cbf85a91" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXICON</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a51d334e95f70504731d25fd197a07217" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXICON_b</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1ae01320249b16d00118b06a015514df3c" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXISEL</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1abd363bd019ed57fbec4c4bc85afa725a" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXISEL_b</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a350d783f21195368d69f295524bc91e3" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXOCON</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a9155050ecf402c2119b2d68aa9ddb904" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXOCON_b</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a138e546f7b2f98abea1ac802a4dccc44" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS0A</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a5feedfead136e07ba11dccaa0a8aa23a" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS0B</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a378201da178da5cd8ddc16825a689f48" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS1A</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a8460d57996e7b4e5b06dad18ee66a208" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS1B</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1aac1cb9c9a017f0246b9060a73e2e9842" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS2A</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1ac4efca119d266cc3e453e5c99282d68a" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS2B</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a0bc66578998c98bb645fce9eaf0b2165" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS3A</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a2bafcc3cc5242d87070dd0023846e599" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>EXS3B</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1afb8f0387f99a3245580b19cbb6d0d9d7" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>FL</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a711234646458c0d7f08a9baa4a15ece4" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>GEEN</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1ab31483688f1ed97c5966169b2fdfd67e" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>GP</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a77edd1f8fb93e2b4293c76c06776bf94" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>IPEN</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a256ad0dcbf7bfdcb146e6efb076a05f2" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>ISS</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a1fb40109bbc1b0191c576dd4097e79f2" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>LD</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a7d317fb58a14ebb6838e2c32d9245b58" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>OCS</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a9a75268a8af757ae98f6204f36bc6f6c" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>PDR</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a76f6db45c0759410784b290f9b434c29" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>PE</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1abf904f8360a449816588a2cf9c9ad3c7" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>RESERVED0</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a39fbdbb7ad559315fa9c23de59936655" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>RESERVED1</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a13d8c36a296a876371d8e463cfce0bc5" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>RESERVED2</name></member>
+      <member refid="struct_x_m_c___e_r_u__t_1a17a2b3dae9dae259c4ec09bb1411d6e0" prot="public" virt="non-virtual"><scope>XMC_ERU_t</scope><name>SS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

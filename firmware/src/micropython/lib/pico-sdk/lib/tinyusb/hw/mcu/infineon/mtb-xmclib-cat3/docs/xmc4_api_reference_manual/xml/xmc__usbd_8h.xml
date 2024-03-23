@@ -1,0 +1,2386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="xmc__usbd_8h" kind="file" language="C++">
+    <compoundname>xmc_usbd.h</compoundname>
+    <includes local="yes">xmc_common.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">xmc_usbd_regs.h</includes>
+    <includes refid="xmc__scu_8h" local="yes">xmc_scu.h</includes>
+    <incdepgraph>
+      <node id="101">
+        <label>xmc_common.h</label>
+      </node>
+      <node id="102">
+        <label>stdlib.h</label>
+      </node>
+      <node id="104">
+        <label>xmc_usbd_regs.h</label>
+      </node>
+      <node id="100">
+        <label>xmc_usbd.h</label>
+        <link refid="xmc__usbd_8h"/>
+        <childnode refid="101" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" prot="public">XMC_USBD_CAPABILITIES_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_d___d_e_v_i_c_e__t" prot="public">XMC_USBD_DEVICE_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_d___d_r_i_v_e_r__t" prot="public">XMC_USBD_DRIVER_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_d___e_p__t" prot="public">XMC_USBD_EP_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" prot="public">XMC_USBD_STATE_t</innerclass>
+    <innerclass refid="struct_x_m_c___u_s_b_d__t" prot="public">XMC_USBD_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___u_s_b_d_1gab3f9330f97ac25565dfc235592539b23" prot="public" static="no">
+        <name>XMC_USBD_DCFG_DEVSPD_FS</name>
+        <initializer>(0x3U)	/*USB Full Speed device flag in DCFG register */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="150" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gab1c802f6c9e96e1f7da3f74322c208e8" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_DIRECTION_MASK</name>
+        <initializer>(0x80U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Endpoint direction mask to get the EP direction from address. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="158" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga8037eaa900c5d1a0ae001af59ccdd265" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_MAX_PACKET_SIZE_MASK</name>
+        <initializer>(0x07FFU)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Endpoint Maximum Packet Size mask </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="160" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gaf869a105c53ddcc082193e3ed82b64be" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_MFRAME_TR_1</name>
+        <initializer>(0x0000U)/* Selects USB Endpoint micro frame TR1 */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="163" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga6aa86156278ee05d77b7142eea6cc2ba" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_MFRAME_TR_2</name>
+        <initializer>(0x0800U)/* Selects USB Endpoint micro frame TR2 */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="164" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga3c3043344a55263976241b51dfc4c1b2" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_MFRAME_TR_3</name>
+        <initializer>(0x1000U)/* Selects USB Endpoint micro frame TR3 */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="165" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga8e5b147e6fc2ccbade2a696bed557f8b" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_MFRAME_TR_MASK</name>
+        <initializer>(0x1800U)/* USB Endpoint micro frame TR mask */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="162" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga525dd0b1bf8605bfea203b042ca6b108" prot="public" static="no">
+        <name>XMC_USBD_ENDPOINT_NUMBER_MASK</name>
+        <initializer>(0x0FU)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Endpoint number mask to get the EP number from address. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="156" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gaa8294afe75e1f11450912fe0e48262c1" prot="public" static="no">
+        <name>XMC_USBD_EP0_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 0 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="170" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gab22693a7bbe49153576b4d481fa2e7a4" prot="public" static="no">
+        <name>XMC_USBD_EP1_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 1 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="172" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga70e21366d5218f367a0b495be2dc2271" prot="public" static="no">
+        <name>XMC_USBD_EP2_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 2 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="174" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga854897d10ad0fecb33d8fc7457d3e4f0" prot="public" static="no">
+        <name>XMC_USBD_EP3_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 3 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="176" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga4e641cf5160e84fd640adcf1d936c418" prot="public" static="no">
+        <name>XMC_USBD_EP4_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 4 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="178" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga3cae8973e1405591c7cdb7a5ba6e4c95" prot="public" static="no">
+        <name>XMC_USBD_EP5_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 5 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="180" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga94a8c1a01615d8972ce85b5f59e195ae" prot="public" static="no">
+        <name>XMC_USBD_EP6_BUFFER_SIZE</name>
+        <initializer>(64U)	/* Endpoint 6 buffer size */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="182" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga45f97d1784301af706011ec194b7051e" prot="public" static="no">
+        <name>XMC_USBD_EP_DIR_MASK</name>
+        <initializer>(0x80U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Endpoint direction mask </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="148" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga57c582d9481a38d6d13ff06c9f4556a0" prot="public" static="no">
+        <name>XMC_USBD_EP_NUM_MASK</name>
+        <initializer>(0x0FU)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB Endpoint number mask. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="146" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gafa5e2795ac35096a761782612ca72e56" prot="public" static="no">
+        <name>XMC_USBD_MAX_FIFO_SIZE</name>
+        <initializer>(2048U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum USBD endpoint fifo size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="125" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gaa793a8df254ec8724b62d3cb4d9e80db" prot="public" static="no">
+        <name>XMC_USBD_MAX_PACKET_SIZE</name>
+        <initializer>(64U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum packet size for all endpoints (including ep0) Maximum transfer size for endpoints.</para>
+<para>It&apos;s based on the maximum payload, due to the fact, that we only can transfer 2^10 - 1 packets and this is less than the transfer size field can hold. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="130" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga9e73ae182ec9da08fe53912e3aaa2ee7" prot="public" static="no">
+        <name>XMC_USBD_MAX_TRANSFER_SIZE</name>
+        <initializer>(((uint32_t)((uint32_t)1U &lt;&lt; (uint32_t)10U) - 1U) * (uint32_t)XMC_USBD_MAX_PACKET_SIZE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="138" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga31089a0a781ac70ae6f1445847ab2683" prot="public" static="no">
+        <name>XMC_USBD_MAX_TRANSFER_SIZE_EP0</name>
+        <initializer>(64U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum transfer size for endpoint 0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="140" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga4d76d3b99600addc55f489000ff9d23d" prot="public" static="no">
+        <name>XMC_USBD_NUM_EPS</name>
+        <initializer>(7U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of hardware endpoints </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="127" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga4af1761f07df3a8bb43b6ee8070f92e9" prot="public" static="no">
+        <name>XMC_USBD_NUM_TX_FIFOS</name>
+        <initializer>(7U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of hardware transmission endpoint fifos </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="123" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga658b3523c9a1a6bfd7a40ea57b1aa7a2" prot="public" static="no">
+        <name>XMC_USBD_SETUP_COUNT</name>
+        <initializer>(3U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of USB setup packets </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="142" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga4d351b5fc9b8b32dac88369e7d7a4e25" prot="public" static="no">
+        <name>XMC_USBD_SETUP_SIZE</name>
+        <initializer>(8U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The size of USB setup data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="144" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1gacdb39ab4197b13b6363b14181f081e3f" prot="public" static="no">
+        <name>XMC_USBD_SPEED_FULL</name>
+        <initializer>(1U)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Speed Mode. Full Speed </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="168" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga68bf895d08b62dad20fe2453efb8ac27" prot="public" static="no">
+        <name>XMC_USBD_TX_FIFO_OFFSET</name>
+        <initializer>(0x1000U)/* Offset for each fifo register */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="154" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_s_b_d_1ga6ff731c13cc452ed592b698703694c1c" prot="public" static="no">
+        <name>XMC_USBD_TX_FIFO_REG_OFFSET</name>
+        <initializer>(0x1000U)/* First endpoint fifo register offset from base address */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="152" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_ENDPOINT_TYPE_t</name>
+        <enumvalue id="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284cad6e387496d0f904a066bc4ac7ffdf2ca" prot="public">
+          <name>XMC_USBD_ENDPOINT_TYPE_CONTROL</name>
+          <initializer>= 0x0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Control endpoint </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284caea00e8371dfd7203b9557d5490e8b547" prot="public">
+          <name>XMC_USBD_ENDPOINT_TYPE_ISOCHRONOUS</name>
+          <initializer>= 0x01U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Isochronous endpoint </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284cab242625a605762145cb7f54c11616926" prot="public">
+          <name>XMC_USBD_ENDPOINT_TYPE_BULK</name>
+          <initializer>= 0x02U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Bulk endpoint </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284cab0e04ee932b57daee5524237c55a8169" prot="public">
+          <name>XMC_USBD_ENDPOINT_TYPE_INTERRUPT</name>
+          <initializer>= 0x03U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Interrupt endpoint </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the options for the USB endpoint type. The values are from the USB 2.0 specification. Use type <ref refid="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" kindref="member">XMC_USBD_ENDPOINT_TYPE_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="208" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="207" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1ga6af185b470e216aeb9f5a8f57934c523" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_EP_EVENT_t</name>
+        <enumvalue id="group___u_s_b_d_1gga6af185b470e216aeb9f5a8f57934c523aad2323067f37cd025ea812c7e2782f1a" prot="public">
+          <name>XMC_USBD_EP_EVENT_SETUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SETUP packet </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1gga6af185b470e216aeb9f5a8f57934c523ad98f0520946b50cd67e99015b9d84d35" prot="public">
+          <name>XMC_USBD_EP_EVENT_OUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OUT packet </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1gga6af185b470e216aeb9f5a8f57934c523a1a238282052f9a66736f62e27279ff88" prot="public">
+          <name>XMC_USBD_EP_EVENT_IN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>IN packet </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the generic USB endpoint events. Use type <ref refid="group___u_s_b_d_1ga6af185b470e216aeb9f5a8f57934c523" kindref="member">XMC_USBD_EP_EVENT_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="292" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="291" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1gae9d04ab6e275df9194533711f3f2fffe" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_EVENT_IN_EP_t</name>
+        <enumvalue id="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffea5282d2ec5170a450542055174d7b1c8f" prot="public">
+          <name>XMC_USBD_EVENT_IN_EP_TX_COMPLET</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB IN ep transmission complete </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffeacf660faba3964908927d8e692dfcd033" prot="public">
+          <name>XMC_USBD_EVENT_IN_EP_DISABLED</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB IN ep disabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffeadd67d9bee08e07860bf006ab419b58dd" prot="public">
+          <name>XMC_USBD_EVENT_IN_EP_AHB_ERROR</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB IN ep AHB error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffeae68c6f0d3558ba6468de8cbd2815e9e6" prot="public">
+          <name>XMC_USBD_EVENT_IN_EP_TIMEOUT</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB IN ep timeout </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the USB IN endpoint events. Use type <ref refid="group___u_s_b_d_1gae9d04ab6e275df9194533711f3f2fffe" kindref="member">XMC_USBD_EVENT_IN_EP_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="267" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="266" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1gae670af5d633ceb13ed361390c49c2128" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_EVENT_OUT_EP_t</name>
+        <enumvalue id="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128aab42b2cc55b7c7544ce82c26af313256" prot="public">
+          <name>XMC_USBD_EVENT_OUT_EP_TX_COMPLET</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB OUT ep transmission complete </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128a5d88091a27a6c7335750ebc2a9dd999e" prot="public">
+          <name>XMC_USBD_EVENT_OUT_EP_DISABLED</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB OUT ep disabled </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128a6970257a69bbdd596ea043e1d7475937" prot="public">
+          <name>XMC_USBD_EVENT_OUT_EP_AHB_ERROR</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB OUT ep AHB error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128aacdd50c13ea1dbbc9c41f943fe889fed" prot="public">
+          <name>XMC_USBD_EVENT_OUT_EP_SETUP</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB OUT ep setup </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the USB OUT endpoint events. Use type <ref refid="group___u_s_b_d_1gae670af5d633ceb13ed361390c49c2128" kindref="member">XMC_USBD_EVENT_OUT_EP_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="279" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="278" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_EVENT_t</name>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca26083e0907c204498dc256d2d7672f50" prot="public">
+          <name>XMC_USBD_EVENT_POWER_ON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Device Power On </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca75f695425041a9808d76726a75fc0c98" prot="public">
+          <name>XMC_USBD_EVENT_POWER_OFF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Device Power Off </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca71edcf809669023763055b5b4040afaf" prot="public">
+          <name>XMC_USBD_EVENT_CONNECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Device connected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caced5b43e4893c849a2bfec634603ab27" prot="public">
+          <name>XMC_USBD_EVENT_DISCONNECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Device disconnected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca35c08a1b1fda2483d50de49ff19aae9a" prot="public">
+          <name>XMC_USBD_EVENT_RESET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Reset occurred </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca0614b7af2d019050a87d71b0fcf9346e" prot="public">
+          <name>XMC_USBD_EVENT_HIGH_SPEED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB switch to High Speed occurred </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca7f5ad99f9dfa832826ec8c7e336fcf43" prot="public">
+          <name>XMC_USBD_EVENT_SUSPEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Suspend occurred </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca747e81db30bbdb33fc23289cec41f390" prot="public">
+          <name>XMC_USBD_EVENT_RESUME</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Resume occurred </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca914fcd65e6beae942001767c870b8211" prot="public">
+          <name>XMC_USBD_EVENT_REMOTE_WAKEUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Remote wakeup </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150cace38af9bdbcc48dd60eca96fc4ba36fd" prot="public">
+          <name>XMC_USBD_EVENT_SOF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Start of frame event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caa620e9ce8bb8f9b786af69b66ffb35be" prot="public">
+          <name>XMC_USBD_EVENT_EARLYSUSPEND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB Early suspend </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca4c0bfbed5e888792676faa63dd8fb7c8" prot="public">
+          <name>XMC_USBD_EVENT_ENUMDONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB enumeration done </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caca15fd85a47c745792708723b080e335" prot="public">
+          <name>XMC_USBD_EVENT_ENUMNOTDONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB enumeration not done </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caf6ea63c187d2a0c508f13a6ff8f7faac" prot="public">
+          <name>XMC_USBD_EVENT_OUTEP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB OUT endpoint </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca152b5d852cbe94b08f872803a714a656" prot="public">
+          <name>XMC_USBD_EVENT_INEP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USB IN endpoint </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the USB Device events. Use type <ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="244" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="243" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1gaef2c56426dd4ecb5da943eab0cf08e13" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_GRXSTS_PKTSTS_t</name>
+        <enumvalue id="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a4c34882f1c5ddeccc4aecac4b98a4c49" prot="public">
+          <name>XMC_USBD_GRXSTS_PKTSTS_GOUTNAK</name>
+          <initializer>= 0x1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Global out nack send ( triggers an interrupt ) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a6da8520458120cfaba76159c5ba6c9a8" prot="public">
+          <name>XMC_USBD_GRXSTS_PKTSTS_OUTDATA</name>
+          <initializer>= 0x2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OUT data packet received </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a13b19907a0417f09f0385bef52431c3e" prot="public">
+          <name>XMC_USBD_GRXSTS_PKTSTS_OUTCMPL</name>
+          <initializer>= 0x3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>OUT transfer completed (triggers an interrupt) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a65761560fedab5236f8e6e97c2e4c443" prot="public">
+          <name>XMC_USBD_GRXSTS_PKTSTS_SETUPCMPL</name>
+          <initializer>= 0x4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SETUP transaction completed (triggers an interrupt) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13aee092e930d84748b127f17446c345148" prot="public">
+          <name>XMC_USBD_GRXSTS_PKTSTS_SETUP</name>
+          <initializer>= 0x6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SETUP data packet received </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the options for the global receive fifo packet status. Use type <ref refid="group___u_s_b_d_1gaef2c56426dd4ecb5da943eab0cf08e13" kindref="member">XMC_USBD_GRXSTS_PKTSTS_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="195" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="194" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1gaa7e7d0502c559923da7e324160c527a7" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_MAX_NUM_EPS_t</name>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a6bb26eec5cd8f27a8789cf5f6cdfa7e6" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_1</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 1 endpoint used </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a9a54cc0b5435be2c1694bb59dd5a6042" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_2</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 2 endpoints used </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7af4dda15407014e54cef3e7927e700790" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_3</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 3 endpoints used </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a181279f81880219809c139ef01caf1f6" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_4</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 4 endpoints used </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a4c97fdca7ad6ea7f7f119ddc7bd02432" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_5</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 5 endpoints used </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7ac19349e23f2e7cf6b9c48d831043fadf" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_6</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 6 endpoints used </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a28dffb25c224b6507f9248cd4cbd1fbb" prot="public">
+          <name>XMC_USBD_MAX_NUM_EPS_7</name>
+          <initializer>= 7U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Maximum 2 endpoints used </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the options for the maximum number of endpoints used. Use type <ref refid="group___u_s_b_d_1gaa7e7d0502c559923da7e324160c527a7" kindref="member">XMC_USBD_MAX_NUM_EPS_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="313" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="312" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_SET_ADDRESS_STAGE_t</name>
+        <enumvalue id="group___u_s_b_d_1gga1983ea285c683f63ee535552d9d2ec1eae46c347e00fbbf9c315ad9e0d5a8279a" prot="public">
+          <name>XMC_USBD_SET_ADDRESS_STAGE_SETUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Setup address </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1gga1983ea285c683f63ee535552d9d2ec1ea95fb7ee8ca9ec0dd6820da21c1be0417" prot="public">
+          <name>XMC_USBD_SET_ADDRESS_STAGE_STATUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Status address </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the options for USB device state while setting the address. Use type <ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="221" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_STATUS_t</name>
+        <enumvalue id="group___u_s_b_d_1gga2ed7a439225ce1a0b56349cf914b8cdaa252bc4cec27a140368769ae0ea6a349b" prot="public">
+          <name>XMC_USBD_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USBD Status: Operation succeeded </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1gga2ed7a439225ce1a0b56349cf914b8cdaa1ddef3a7f4b624a87abb31dae5407c20" prot="public">
+          <name>XMC_USBD_STATUS_BUSY</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Driver is busy and cannot handle request </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1gga2ed7a439225ce1a0b56349cf914b8cdaa87da2dd04f9fa46dfe27cc599330feb6" prot="public">
+          <name>XMC_USBD_STATUS_ERROR</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>USBD Status: Unspecified error </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the USB Device Status of executed operation. Use type <ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="232" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="231" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_USBD_TRANSFER_MODE_t</name>
+        <enumvalue id="group___u_s_b_d_1ggac1a7468fe227f852bd4835ae2723d7dba6a790ad5624ce6bf47062c87ce9e50d6" prot="public">
+          <name>XMC_USBD_USE_DMA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer by DMA </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_s_b_d_1ggac1a7468fe227f852bd4835ae2723d7dba6b2871991c75c20b1f4a2cd778ae63d6" prot="public">
+          <name>XMC_USBD_USE_FIFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transfer by FIFO </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the options for the USB data transfer modes. Use type <ref refid="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" kindref="member">XMC_USBD_TRANSFER_MODE_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="303" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="302" bodyend="306"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___u_s_b_d_1ga4d1be41d2cd37f5c9367b75a91a517d6" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* XMC_USBD_SignalDeviceEvent_t) (XMC_USBD_EVENT_t event)</definition>
+        <argsstring>)(XMC_USBD_EVENT_t event)</argsstring>
+        <name>XMC_USBD_SignalDeviceEvent_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USB device/endpoint event function pointersPointer to USB device event call back. Uses type <ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref> as the argument of callback. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="326" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group___u_s_b_d_1ga52dd28acc7e2e09a7d3a48c136f1ecdb" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* XMC_USBD_SignalEndpointEvent_t) (uint8_t ep_addr, XMC_USBD_EP_EVENT_t ep_event)</definition>
+        <argsstring>)(uint8_t ep_addr, XMC_USBD_EP_EVENT_t ep_event)</argsstring>
+        <name>XMC_USBD_SignalEndpointEvent_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to USB endpoint event call back. Uses type <ref refid="group___u_s_b_d_1ga6af185b470e216aeb9f5a8f57934c523" kindref="member">XMC_USBD_EP_EVENT_t</ref> and EP address as the argument of callback. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="328" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group___u_s_b_d_1ga24b0d090ba036e032aba146ca34fc035" prot="public" static="no" mutable="no">
+        <type>const <ref refid="struct_x_m_c___u_s_b_d___d_r_i_v_e_r__t" kindref="compound">XMC_USBD_DRIVER_t</ref></type>
+        <definition>const XMC_USBD_DRIVER_t Driver_USBD0</definition>
+        <argsstring></argsstring>
+        <name>Driver_USBD0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the driver interface function table. To access the XMC device controller driver interface use this table of functions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="497" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___u_s_b_d_1ga407e973323123c34ea9c9c04b6899992" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_x_m_c___u_s_b_d___d_e_v_i_c_e__t" kindref="compound">XMC_USBD_DEVICE_t</ref></type>
+        <definition>XMC_USBD_DEVICE_t xmc_device</definition>
+        <argsstring></argsstring>
+        <name>xmc_device</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the XMC USB device data The instance of <ref refid="struct_x_m_c___u_s_b_d___d_e_v_i_c_e__t" kindref="compound">XMC_USBD_DEVICE_t</ref> structure describing the XMC device. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="504" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___u_s_b_d_1ga0f50121054da395d3685c6ad9ecb0a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_ClearEvent</definition>
+        <argsstring>(XMC_USBD_EVENT_t event)</argsstring>
+        <name>XMC_USBD_ClearEvent</name>
+        <param>
+          <type><ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single event that needs to be cleared. Use <ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref> as argument.<linebreak/>
+ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears the selected USBD <emphasis>event</emphasis>.<linebreak/>
+ It clears the event by writing to the GINTSTS register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called inside the USB interrupt handler to clear the event XMC_USBD_EVENT_t and maintain the device state machine.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gadaef35f7f883268c95e15e8849bf3530" kindref="member">XMC_USBD_ClearEventOUTEP()</ref>,<ref refid="group___u_s_b_d_1gaf5f99dc34a65ebd0dd4d5686632702e7" kindref="member">XMC_USBD_ClearEventINEP()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="561" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gaf5f99dc34a65ebd0dd4d5686632702e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_ClearEventINEP</definition>
+        <argsstring>(uint32_t event, uint8_t ep_num)</argsstring>
+        <name>XMC_USBD_ClearEventINEP</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>ep_num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single event or multiple events that need to be cleared.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ep_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The IN endpoint number on which the events to be cleared.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears the single event or multiple events of the selected IN endpoint.<linebreak/>
+ The multiple events can be selected by the bitwise OR operation of <ref refid="group___u_s_b_d_1gae9d04ab6e275df9194533711f3f2fffe" kindref="member">XMC_USBD_EVENT_IN_EP_t</ref> elements.<linebreak/>
+It clears the event by programming DIEPINT register.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called inside the USB IN EP interrupt handler to clear the <ref refid="group___u_s_b_d_1gae9d04ab6e275df9194533711f3f2fffe" kindref="member">XMC_USBD_EVENT_IN_EP_t</ref> event and maintain the device state machine.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gadaef35f7f883268c95e15e8849bf3530" kindref="member">XMC_USBD_ClearEventOUTEP()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="583" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gadaef35f7f883268c95e15e8849bf3530" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_ClearEventOUTEP</definition>
+        <argsstring>(uint32_t event, uint8_t ep_num)</argsstring>
+        <name>XMC_USBD_ClearEventOUTEP</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>ep_num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single event or multiple events that need to be cleared.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ep_num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The OUT endpoint number on which the events to be cleared.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Clears the single <emphasis>event</emphasis> or multiple events of the selected OUT endpoint.<linebreak/>
+ The multiple events can be selected by the bitwise OR operation of <ref refid="group___u_s_b_d_1gae670af5d633ceb13ed361390c49c2128" kindref="member">XMC_USBD_EVENT_OUT_EP_t</ref> elements. It clears the event by writing to DOEPINT register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called inside the USB OUT EP interrupt handler to clear the <ref refid="group___u_s_b_d_1gae670af5d633ceb13ed361390c49c2128" kindref="member">XMC_USBD_EVENT_OUT_EP_t</ref> event and maintain the device state machine.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaf5f99dc34a65ebd0dd4d5686632702e7" kindref="member">XMC_USBD_ClearEventINEP()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="605" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_DeviceConnect</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_DeviceConnect</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Connects the USB device to host and triggers the USB enumeration.<linebreak/>
+ Connects the USB device to host by programming DCTL register.<linebreak/>
+It resets the soft disconnect bit, which activates the speed pull up at d+ line of USB. <ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref> should be called before calling this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Once this API is called, USB host starts the enumeration process and the device should handle the descriptor requests.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="718" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga7b341bdd4b66740230bda3f94d49052e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_DeviceDisconnect</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_DeviceDisconnect</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disconnects the USB device from host.<linebreak/>
+ By programming DCTL register, it sets the soft disconnect bit, which deactivates<linebreak/>
+the speed pull up at d+ line of USB.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Once this API is called, USB device will not be accessible from host.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="736" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga42cdb3dc1b05ec18cf8687ea88c7c175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" kindref="compound">XMC_USBD_STATE_t</ref></type>
+        <definition>XMC_USBD_STATE_t XMC_USBD_DeviceGetState</definition>
+        <argsstring>(const XMC_USBD_t *const obj)</argsstring>
+        <name>XMC_USBD_DeviceGetState</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref> *const</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to the USB device handle structure <emphasis><ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref></emphasis>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" kindref="compound">XMC_USBD_STATE_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Retrieves the current USB device state.<linebreak/>
+ Power,active,speed and connection status data are retrieved.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Before calling this API, USB should be initialized with <ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init</ref>.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="753" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga0cb810be749bfd8e8c733a6e17bd5388" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_DeviceSetAddress</definition>
+        <argsstring>(uint8_t address, XMC_USBD_SET_ADDRESS_STAGE_t stage)</argsstring>
+        <name>XMC_USBD_DeviceSetAddress</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type><ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref></type>
+          <declname>stage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address to be set for the USB device . </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The device request stage-setup or status <ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the USB device address.<linebreak/>
+ The device address is programmed in the DCFG register.<linebreak/>
+</para>
+</simplesect>
+The address should be more than 0; as 0 is the default USB device address at the starting of enumeration. As part of enumeration, host sends the control request to the device to set the USB address; and in turn,<linebreak/>
+in the USB device event call back handler, user has to set the address using this API for the set address request.<linebreak/>
+</para>
+<para>The stage parameter should be XMC_USBD_SET_ADDRESS_STAGE_SETUP from the enum <ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref>.</para>
+<para><simplesect kind="par"><title>Note:</title><para>Before calling this API, USB should be initialized with <ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init</ref> () and connected to USB host using <ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect()</ref> <linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref>, <ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="779" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga1c28d84f9afe864fb9dc0e253137ae54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_Disable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_Disable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Disables the USB module in the XMC controller.<linebreak/>
+ It asserts the peripheral reset on USB0 module and disables the USB power.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga755920b85d839979d699894e98c13b69" kindref="member">XMC_USBD_Enable()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="543" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga755920b85d839979d699894e98c13b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_Enable</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_Enable</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the USB module in the XMC controller.<linebreak/>
+ It de-asserts the peripheral reset on USB0 module and enables the USB power.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called inside the <ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref>.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga1c28d84f9afe864fb9dc0e253137ae54" kindref="member">XMC_USBD_Disable()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="529" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gaaec2e039f617fdbaa50acb34061c5056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_EnableEventINEP</definition>
+        <argsstring>(uint32_t event)</argsstring>
+        <name>XMC_USBD_EnableEventINEP</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single event or multiple events that need to be enabled.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the <emphasis>event</emphasis> or multiple events of the USB IN endpoints.<linebreak/>
+ The multiple events can be selected by the bitwise OR operation of <ref refid="group___u_s_b_d_1gae9d04ab6e275df9194533711f3f2fffe" kindref="member">XMC_USBD_EVENT_IN_EP_t</ref> elements. It enables the event by programming DIEPMSK register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called inside the <ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref> to enable the IN EP interrupts.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga215e0c7a10299d26c9f91c6ad06866f6" kindref="member">XMC_USBD_EnableEventOUTEP()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="641" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga215e0c7a10299d26c9f91c6ad06866f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_EnableEventOUTEP</definition>
+        <argsstring>(uint32_t event)</argsstring>
+        <name>XMC_USBD_EnableEventOUTEP</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single event or multiple events that need to be enabled.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Enables the event or multiple events of the OUT endpoints.<linebreak/>
+ The multiple events can be selected by the bitwise OR operation of <ref refid="group___u_s_b_d_1gae670af5d633ceb13ed361390c49c2128" kindref="member">XMC_USBD_EVENT_OUT_EP_t</ref> elements. It enables the event by programming DOEPMSK register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API is called inside the <ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref> to enable the OUT EP interrupts.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaaec2e039f617fdbaa50acb34061c5056" kindref="member">XMC_USBD_EnableEventINEP()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="623" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga685e20ab2777c403ae1e3463d47f2d53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_EndpointAbort</definition>
+        <argsstring>(uint8_t ep_addr)</argsstring>
+        <name>XMC_USBD_EndpointAbort</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB endpoint, on which the data need to be aborted.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Abort the transfer on endpoint <emphasis>ep_addr</emphasis>.<linebreak/>
+ On any failure with the USB transmission user can reset the endpoint into default state and clear all assigned buffers, to start from a clean point. The endpoint will not be unconfigured or disabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga7903550b9130e811d39b55936174cc36" kindref="member">XMC_USBD_EndpointUnconfigure()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="933" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga1ec7cf807c281084ab7022c23617bdcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_EndpointConfigure</definition>
+        <argsstring>(uint8_t ep_addr, XMC_USBD_ENDPOINT_TYPE_t ep_type, uint16_t ep_max_packet_size)</argsstring>
+        <name>XMC_USBD_EndpointConfigure</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <param>
+          <type><ref refid="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" kindref="member">XMC_USBD_ENDPOINT_TYPE_t</ref></type>
+          <declname>ep_type</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>ep_max_packet_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB endpoint, which needs to be configured. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ep_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" kindref="member">XMC_USBD_ENDPOINT_TYPE_t</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ep_max_packet_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum packet size of endpoint in USB full speed.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Configures the USB endpoint.<linebreak/>
+ The endpoint is configured by programming the DAINT,DIEPCTL and DOEPCTL registers.<linebreak/>
+</para>
+</simplesect>
+Configures the EP type, FIFO number,maximum packet size, enables endpoint and sets the DATA0 PID. This function also initializes the internal buffer handling for the specified endpoint, but does not start any transfers.<linebreak/>
+</para>
+<para>As part of enumeration, host sends the control request to the device to set the configuration; and in turn,<linebreak/>
+in the USB device event call back handler, user has to set the configuration and configure the endpoints <linebreak/>
+required for the device.<linebreak/>
+ <simplesect kind="par"><title>Note:</title><para>This API should only be used as part of enumeration.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref>,<ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect()</ref>,<ref refid="group___u_s_b_d_1ga7903550b9130e811d39b55936174cc36" kindref="member">XMC_USBD_EndpointUnconfigure()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="806" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_USBD_EndpointRead</definition>
+        <argsstring>(const uint8_t ep_addr, uint8_t *buffer, uint32_t length)</argsstring>
+        <name>XMC_USBD_EndpointRead</name>
+        <param>
+          <type>const uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB OUT endpoint, from which data need to be read. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to the user buffer,in which data need to be received. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes to be read from OUT EP.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><linebreak/>
+ The actual number of bytes received.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Read <emphasis>length</emphasis> number of bytes from an OUT endpoint <emphasis>ep_addr</emphasis>.<linebreak/>
+ If data has been received for this endpoint, it gets copied into the user buffer until its full or no data is left in the driver buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>For preparing the next OUT token, use <ref refid="group___u_s_b_d_1ga18f4cb810289187a885e6f04659bc335" kindref="member">XMC_USBD_EndpointReadStart()</ref> after <ref refid="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" kindref="member">XMC_USBD_EndpointRead()</ref>.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga18f4cb810289187a885e6f04659bc335" kindref="member">XMC_USBD_EndpointReadStart()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="894" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga18f4cb810289187a885e6f04659bc335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_EndpointReadStart</definition>
+        <argsstring>(const uint8_t ep_addr, uint32_t size)</argsstring>
+        <name>XMC_USBD_EndpointReadStart</name>
+        <param>
+          <type>const uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB endpoint, from which data need to be read. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes to be read.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Prepares an endpoint to receive OUT tokens from the USB host.<linebreak/>
+ The selected endpoint gets configured, so that it receives the specified amount of data from the host. As part of streaming of OUT data, after reading the current OUT buffer using <ref refid="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" kindref="member">XMC_USBD_EndpointRead()</ref>,<linebreak/>
+user can prepare endpoint for the next OUT packet by using <ref refid="group___u_s_b_d_1ga18f4cb810289187a885e6f04659bc335" kindref="member">XMC_USBD_EndpointReadStart()</ref>.</para>
+</simplesect>
+The registers DOEPDMA,DOEPTSIZ and DOEPCTL are programmed to start a new read request.</para>
+<para><simplesect kind="par"><title>Note:</title><para>For the data received on OUT EP buffer, use <ref refid="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" kindref="member">XMC_USBD_EndpointRead()</ref>.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" kindref="member">XMC_USBD_EndpointRead()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="871" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga6b54b58df01ada8156d8449129778f05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_EndpointStall</definition>
+        <argsstring>(uint8_t ep_addr, bool stall)</argsstring>
+        <name>XMC_USBD_EndpointStall</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stall</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB endpoint, on which stall needs to be set or cleared. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The boolean variable to decide on set or clear of stall on EP.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Set or Clear stall on the USB endpoint <emphasis>ep_addr</emphasis>, based on <emphasis>stall</emphasis> parameter.<linebreak/>
+</para>
+</simplesect>
+By programming stall bit in the doepctl and diepctl, it sets or clears the stall on the endpoint. The endpoint can be stalled when a non supported request comes from the USB host. The <ref refid="group___u_s_b_d_1ga6b54b58df01ada8156d8449129778f05" kindref="member">XMC_USBD_EndpointStall()</ref> should be called with <emphasis>stall</emphasis> set to 0, in the clear feature standard request in the USB device event call back handler. *</para>
+<para><simplesect kind="par"><title>Note:</title><para>The host should clear the stall set on the endpoint by sending the clear feature standard request on the non EP0 endpoints. On EP0, the stall will automatically gets cleared on the next control request.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga685e20ab2777c403ae1e3463d47f2d53" kindref="member">XMC_USBD_EndpointAbort()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="848" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga7903550b9130e811d39b55936174cc36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_EndpointUnconfigure</definition>
+        <argsstring>(uint8_t ep_addr)</argsstring>
+        <name>XMC_USBD_EndpointUnconfigure</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB endpoint, which needs to be unconfigured.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Unconfigures the USB endpoint.<linebreak/>
+ The endpoint is unconfigured by programming the DAINT,DIEPCTL and DOEPCTL registers.<linebreak/>
+Disables the endpoint, unassign the fifo, deactivate it and only send nacks.<linebreak/>
+Waits until the endpoint has finished operation and disables it. All (eventuallly) allocated buffers gets freed. Forces the endpoint to stop immediately, any pending transfers are killed(Can cause device reset).</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga1ec7cf807c281084ab7022c23617bdcb" kindref="member">XMC_USBD_EndpointConfigure()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="825" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga27d8052980544dc78f56462fc7c157ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t XMC_USBD_EndpointWrite</definition>
+        <argsstring>(const uint8_t ep_addr, const uint8_t *buffer, uint32_t length)</argsstring>
+        <name>XMC_USBD_EndpointWrite</name>
+        <param>
+          <type>const uint8_t</type>
+          <declname>ep_addr</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ep_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the USB IN endpoint, on which data should be sent. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to the data buffer, to write to the endpoint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes to be written to IN EP.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><linebreak/>
+ The actual amount of data written to the endpoint buffer.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Write the <emphasis>length</emphasis> bytes of data to an IN endpoint <emphasis>ep_addr</emphasis>.<linebreak/>
+ The User data gets copied into the driver buffer or will be send directly based on the buffer concept selected in the <ref refid="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" kindref="member">XMC_USBD_TRANSFER_MODE_t</ref> configuration.</para>
+</simplesect>
+Then the endpoint is set up to transfer the data to the host.<linebreak/>
+DIEPDMA,DIEPTSIZ and DIEPCTL registers are programmed to start the IN transfer.</para>
+<para><simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" kindref="member">XMC_USBD_EndpointRead()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="917" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga26113550391be8fc0e2678fe0e6e85ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" kindref="compound">XMC_USBD_CAPABILITIES_t</ref></type>
+        <definition>XMC_USBD_CAPABILITIES_t XMC_USBD_GetCapabilities</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_GetCapabilities</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" kindref="compound">XMC_USBD_CAPABILITIES_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Retrieves the USB device capabilities of type <emphasis><ref refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" kindref="compound">XMC_USBD_CAPABILITIES_t</ref></emphasis> <linebreak/>
+ The USB device capabilities supported by the USBD driver, like power on/off, connect/disconnect, reset,suspend/resume,USB speed etc are retrieved.</para>
+</simplesect>
+It can be called after initializing the USB device to get the information on the USBD capabilities. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="656" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gace9648d66a9f092562ca5da8754f5ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_USBD_GetFrameNumber</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_GetFrameNumber</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The 16 bit current USB frame number.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Read the current USB frame number.<linebreak/>
+ * Reads the device status register (DSTS) and returns the SOFFN field. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="945" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_Init</definition>
+        <argsstring>(XMC_USBD_t *obj)</argsstring>
+        <name>XMC_USBD_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref> *</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to the USB device handle <ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_USBD_STATUS_t The USB device status of type <ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Initializes the USB device to get ready for connect to USB host.<linebreak/>
+ Enables the USB module,sets the EP buffer sizes,registers the device and EP event call backs. Initializes the global,device and FIFO register base addresses. Configures the global AHB,enables the global interrupt and DMA by programming GAHBCFG register. Configures the USB in to device mode and enables the session request protocol by programming GUSBCFG register. Configures the USB device speed to full speed by programming DCFG register. Disconnects the USB device by programming DCTL register. Enables the USB common and device interrupts by programming GINTMSK register.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This API makes the USB device ready to connect to host.The user has to explicitly call the <ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect()</ref> after the USB initialization to connect to USB host.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="681" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga275780df6f1b3acf50c4c51151d228b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_USBD_IRQHandler</definition>
+        <argsstring>(const XMC_USBD_t *const obj)</argsstring>
+        <name>XMC_USBD_IRQHandler</name>
+        <param>
+          <type>const <ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref> *const</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to the USB device handle structure.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>USB device default IRQ handler.<linebreak/>
+ USBD Peripheral LLD provides default implementation of ISR. The user needs to explicitly either use our default implementation or use its own one using the LLD APIs.</para>
+</simplesect>
+For example: <ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref> *obj; void USB0_0_IRQHandler(void) { XMC_USBD_IRQHandler(obj); }</para>
+<para><simplesect kind="par"><title>Note:</title><para>The user should initialize the XMC USB device configuration structure before calling <ref refid="group___u_s_b_d_1ga275780df6f1b3acf50c4c51151d228b8" kindref="member">XMC_USBD_IRQHandler()</ref> in the actual USB0 IRQ handler. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="985" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1gac958c928fc573f39b30126ac2e2828d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_USBD_IsEnumDone</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_IsEnumDone</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns 1, if the speed enumeration is done and 0 otherwise.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Gets the speed enumeration completion status of the USB device.<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>This should not be used for the actual USB enumeration completion status. For the actual USB enumeration status, the application layer should check for the completion of USB standard request &apos;Set configuration&apos;.<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="960" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_s_b_d_1ga21f8d8e728cce37ff9d4898acb2e62cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref></type>
+        <definition>XMC_USBD_STATUS_t XMC_USBD_Uninitialize</definition>
+        <argsstring>(void)</argsstring>
+        <name>XMC_USBD_Uninitialize</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>None.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Uninitialises the USB device.<linebreak/>
+ Disconnects the USB device by programming DCTL register and resets the XMC USB device data.</para>
+</simplesect>
+<simplesect kind="par"><title>Note:</title><para>Once this API is called, USB device will not be accessible from host.<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init()</ref><linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h" line="698" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2015-06-20</para>
+</simplesect>
+XMClib v2.2.0 - XMC Peripheral Driver Library</para>
+<para>Copyright (c) 2015-2020, Infineon Technologies AG All rights reserved.</para>
+<para>Boost Software License - Version 1.0 - August 17th, 2003</para>
+<para>Permission is hereby granted, free of charge, to any person or organization obtaining a copy of the software and accompanying documentation covered by this license (the &quot;Software&quot;) to use, reproduce, display, distribute, execute, and transmit the Software, and to prepare derivative works of the Software, and to permit third-parties to whom the Software is furnished to do so, all subject to the following:</para>
+<para>The copyright notices in the Software and this entire statement, including the above license grant, this restriction and the following disclaimer, must be included in all copies of the Software, in whole or in part, and all derivative works of the Software, unless such copies or derivative works are solely in the form of machine-executable object code generated by a source language processor.</para>
+<para>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</para>
+<para>To improve the quality of the software, users are encouraged to share modifications, enhancements or bug fixes with Infineon Technologies AG at <ulink url="mailto:XMCSupport@infineon.com">XMCSupport@infineon.com</ulink>.</para>
+<para><heading level="2">Change History </heading>
+</para>
+<para>2015-02-16:<itemizedlist>
+<listitem><para>Initial Version.<linebreak/>
+ 2015-03-18:</para>
+</listitem><listitem><para>Updated the doxygen comments for documentation. <linebreak/>
+</para>
+</listitem><listitem><para>Updated the XMC_USBD_PATCH_VERSION to 4. <linebreak/>
+</para>
+</listitem></itemizedlist>
+</para>
+<para>2015-06-20:<itemizedlist>
+<listitem><para>Removed version macros and declaration of GetDriverVersion API.<linebreak/>
+</para>
+</listitem><listitem><para>Updated the doxygen comments for API <ref refid="group___u_s_b_d_1gac958c928fc573f39b30126ac2e2828d7" kindref="member">XMC_USBD_IsEnumDone()</ref>.<linebreak/>
+</para>
+</listitem><listitem><para>Updated the copy right in the file header.<linebreak/>
+ </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="58"><highlight class="preprocessor">#ifndef<sp/>XMC_USBD_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="62"><highlight class="comment"><sp/>*<sp/>HEADER<sp/>FILES</highlight></codeline>
+<codeline lineno="63"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(USB0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_usbd_regs.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;xmc_scu.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="120"><highlight class="comment"><sp/>*<sp/>MACROS</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_NUM_TX_FIFOS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(7U)<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="preprocessor">#define<sp/>XMC_USBD_MAX_FIFO_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(2048U)<sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="preprocessor">#define<sp/>XMC_USBD_NUM_EPS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(7U)<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="preprocessor">#define<sp/>XMC_USBD_MAX_PACKET_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="preprocessor">#define<sp/>XMC_USBD_MAX_TRANSFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(((uint32_t)((uint32_t)1U<sp/>&lt;&lt;<sp/>(uint32_t)10U)<sp/>-<sp/>1U)<sp/>*<sp/>(uint32_t)XMC_USBD_MAX_PACKET_SIZE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_MAX_TRANSFER_SIZE_EP0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="preprocessor">#define<sp/>XMC_USBD_SETUP_COUNT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(3U)<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="preprocessor">#define<sp/>XMC_USBD_SETUP_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(8U)<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="preprocessor">#define<sp/>XMC_USBD_EP_NUM_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0FU)<sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="preprocessor">#define<sp/>XMC_USBD_EP_DIR_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x80U)<sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="preprocessor">#define<sp/>XMC_USBD_DCFG_DEVSPD_FS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3U)<sp/><sp/><sp/></highlight><highlight class="comment">/*USB<sp/>Full<sp/>Speed<sp/>device<sp/>flag<sp/>in<sp/>DCFG<sp/>register<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_TX_FIFO_REG_OFFSET<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1000U)</highlight><highlight class="comment">/*<sp/>First<sp/>endpoint<sp/>fifo<sp/>register<sp/>offset<sp/>from<sp/>base<sp/>address<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_TX_FIFO_OFFSET<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1000U)</highlight><highlight class="comment">/*<sp/>Offset<sp/>for<sp/>each<sp/>fifo<sp/>register<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_NUMBER_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0FU)<sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_DIRECTION_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x80U)<sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_MAX_PACKET_SIZE_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x07FFU)</highlight></codeline>
+<codeline lineno="162"><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_MFRAME_TR_MASK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1800U)</highlight><highlight class="comment">/*<sp/>USB<sp/>Endpoint<sp/>micro<sp/>frame<sp/>TR<sp/>mask<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_MFRAME_TR_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0000U)</highlight><highlight class="comment">/*<sp/>Selects<sp/>USB<sp/>Endpoint<sp/>micro<sp/>frame<sp/>TR1<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_MFRAME_TR_2<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0800U)</highlight><highlight class="comment">/*<sp/>Selects<sp/>USB<sp/>Endpoint<sp/>micro<sp/>frame<sp/>TR2<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_ENDPOINT_MFRAME_TR_3<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1000U)</highlight><highlight class="comment">/*<sp/>Selects<sp/>USB<sp/>Endpoint<sp/>micro<sp/>frame<sp/>TR3<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_SPEED_FULL<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(1U)<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="preprocessor">#define<sp/>XMC_USBD_EP0_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>0<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_EP1_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>1<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_EP2_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>2<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_EP3_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>3<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_EP4_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>4<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_EP5_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>5<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>XMC_USBD_EP6_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(64U)<sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Endpoint<sp/>6<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="186"><highlight class="comment"><sp/>*<sp/>ENUMS</highlight></codeline>
+<codeline lineno="187"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_GRXSTS_PKTSTS</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a4c34882f1c5ddeccc4aecac4b98a4c49" kindref="member">XMC_USBD_GRXSTS_PKTSTS_GOUTNAK</ref><sp/><sp/><sp/>=<sp/>0x1U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a6da8520458120cfaba76159c5ba6c9a8" kindref="member">XMC_USBD_GRXSTS_PKTSTS_OUTDATA</ref><sp/><sp/><sp/>=<sp/>0x2U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a13b19907a0417f09f0385bef52431c3e" kindref="member">XMC_USBD_GRXSTS_PKTSTS_OUTCMPL</ref><sp/><sp/><sp/>=<sp/>0x3U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13a65761560fedab5236f8e6e97c2e4c443" kindref="member">XMC_USBD_GRXSTS_PKTSTS_SETUPCMPL</ref><sp/>=<sp/>0x4U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaef2c56426dd4ecb5da943eab0cf08e13aee092e930d84748b127f17446c345148" kindref="member">XMC_USBD_GRXSTS_PKTSTS_SETUP</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0x6U<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gaef2c56426dd4ecb5da943eab0cf08e13" kindref="member">XMC_USBD_GRXSTS_PKTSTS_t</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_ENDPOINT_TYPE</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284cad6e387496d0f904a066bc4ac7ffdf2ca" kindref="member">XMC_USBD_ENDPOINT_TYPE_CONTROL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284caea00e8371dfd7203b9557d5490e8b547" kindref="member">XMC_USBD_ENDPOINT_TYPE_ISOCHRONOUS</ref><sp/><sp/><sp/><sp/>=<sp/>0x01U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284cab242625a605762145cb7f54c11616926" kindref="member">XMC_USBD_ENDPOINT_TYPE_BULK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x02U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae7245a0620a6bb5fe8249380d14b284cab0e04ee932b57daee5524237c55a8169" kindref="member">XMC_USBD_ENDPOINT_TYPE_INTERRUPT</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x03U<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" kindref="member">XMC_USBD_ENDPOINT_TYPE_t</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_SET_ADDRESS_STAGE</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga1983ea285c683f63ee535552d9d2ec1eae46c347e00fbbf9c315ad9e0d5a8279a" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_SETUP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga1983ea285c683f63ee535552d9d2ec1ea95fb7ee8ca9ec0dd6820da21c1be0417" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_STATUS</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_STATUS</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga2ed7a439225ce1a0b56349cf914b8cdaa252bc4cec27a140368769ae0ea6a349b" kindref="member">XMC_USBD_STATUS_OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga2ed7a439225ce1a0b56349cf914b8cdaa1ddef3a7f4b624a87abb31dae5407c20" kindref="member">XMC_USBD_STATUS_BUSY</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>2U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga2ed7a439225ce1a0b56349cf914b8cdaa87da2dd04f9fa46dfe27cc599330feb6" kindref="member">XMC_USBD_STATUS_ERROR</ref><sp/><sp/><sp/><sp/>=<sp/>1U<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_EVENT</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca26083e0907c204498dc256d2d7672f50" kindref="member">XMC_USBD_EVENT_POWER_ON</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca75f695425041a9808d76726a75fc0c98" kindref="member">XMC_USBD_EVENT_POWER_OFF</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca71edcf809669023763055b5b4040afaf" kindref="member">XMC_USBD_EVENT_CONNECT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caced5b43e4893c849a2bfec634603ab27" kindref="member">XMC_USBD_EVENT_DISCONNECT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca35c08a1b1fda2483d50de49ff19aae9a" kindref="member">XMC_USBD_EVENT_RESET</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca0614b7af2d019050a87d71b0fcf9346e" kindref="member">XMC_USBD_EVENT_HIGH_SPEED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca7f5ad99f9dfa832826ec8c7e336fcf43" kindref="member">XMC_USBD_EVENT_SUSPEND</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca747e81db30bbdb33fc23289cec41f390" kindref="member">XMC_USBD_EVENT_RESUME</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca914fcd65e6beae942001767c870b8211" kindref="member">XMC_USBD_EVENT_REMOTE_WAKEUP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150cace38af9bdbcc48dd60eca96fc4ba36fd" kindref="member">XMC_USBD_EVENT_SOF</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caa620e9ce8bb8f9b786af69b66ffb35be" kindref="member">XMC_USBD_EVENT_EARLYSUSPEND</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca4c0bfbed5e888792676faa63dd8fb7c8" kindref="member">XMC_USBD_EVENT_ENUMDONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caca15fd85a47c745792708723b080e335" kindref="member">XMC_USBD_EVENT_ENUMNOTDONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150caf6ea63c187d2a0c508f13a6ff8f7faac" kindref="member">XMC_USBD_EVENT_OUTEP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaab5d22fa8b9bbf4d4295ee761ca1150ca152b5d852cbe94b08f872803a714a656" kindref="member">XMC_USBD_EVENT_INEP</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_EVENT_IN_EP</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffea5282d2ec5170a450542055174d7b1c8f" kindref="member">XMC_USBD_EVENT_IN_EP_TX_COMPLET</ref><sp/>=<sp/>1U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffeacf660faba3964908927d8e692dfcd033" kindref="member">XMC_USBD_EVENT_IN_EP_DISABLED</ref><sp/>=<sp/>2U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffeadd67d9bee08e07860bf006ab419b58dd" kindref="member">XMC_USBD_EVENT_IN_EP_AHB_ERROR</ref><sp/>=<sp/>4U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae9d04ab6e275df9194533711f3f2fffeae68c6f0d3558ba6468de8cbd2815e9e6" kindref="member">XMC_USBD_EVENT_IN_EP_TIMEOUT</ref><sp/>=<sp/>8U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gae9d04ab6e275df9194533711f3f2fffe" kindref="member">XMC_USBD_EVENT_IN_EP_t</ref>;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_EVENT_OUT_EP</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128aab42b2cc55b7c7544ce82c26af313256" kindref="member">XMC_USBD_EVENT_OUT_EP_TX_COMPLET</ref><sp/>=<sp/>1U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128a5d88091a27a6c7335750ebc2a9dd999e" kindref="member">XMC_USBD_EVENT_OUT_EP_DISABLED</ref><sp/>=<sp/>2U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128a6970257a69bbdd596ea043e1d7475937" kindref="member">XMC_USBD_EVENT_OUT_EP_AHB_ERROR</ref><sp/>=<sp/>4U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggae670af5d633ceb13ed361390c49c2128aacdd50c13ea1dbbc9c41f943fe889fed" kindref="member">XMC_USBD_EVENT_OUT_EP_SETUP</ref><sp/>=<sp/>8U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gae670af5d633ceb13ed361390c49c2128" kindref="member">XMC_USBD_EVENT_OUT_EP_t</ref>;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_EP_EVENT</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga6af185b470e216aeb9f5a8f57934c523aad2323067f37cd025ea812c7e2782f1a" kindref="member">XMC_USBD_EP_EVENT_SETUP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga6af185b470e216aeb9f5a8f57934c523ad98f0520946b50cd67e99015b9d84d35" kindref="member">XMC_USBD_EP_EVENT_OUT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gga6af185b470e216aeb9f5a8f57934c523a1a238282052f9a66736f62e27279ff88" kindref="member">XMC_USBD_EP_EVENT_IN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1ga6af185b470e216aeb9f5a8f57934c523" kindref="member">XMC_USBD_EP_EVENT_t</ref>;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_TRANSFER_MODE</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggac1a7468fe227f852bd4835ae2723d7dba6a790ad5624ce6bf47062c87ce9e50d6" kindref="member">XMC_USBD_USE_DMA</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggac1a7468fe227f852bd4835ae2723d7dba6b2871991c75c20b1f4a2cd778ae63d6" kindref="member">XMC_USBD_USE_FIFO</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" kindref="member">XMC_USBD_TRANSFER_MODE_t</ref>;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>XMC_USBD_MAX_NUM_EPS</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a6bb26eec5cd8f27a8789cf5f6cdfa7e6" kindref="member">XMC_USBD_MAX_NUM_EPS_1</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a9a54cc0b5435be2c1694bb59dd5a6042" kindref="member">XMC_USBD_MAX_NUM_EPS_2</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7af4dda15407014e54cef3e7927e700790" kindref="member">XMC_USBD_MAX_NUM_EPS_3</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a181279f81880219809c139ef01caf1f6" kindref="member">XMC_USBD_MAX_NUM_EPS_4</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a4c97fdca7ad6ea7f7f119ddc7bd02432" kindref="member">XMC_USBD_MAX_NUM_EPS_5</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7ac19349e23f2e7cf6b9c48d831043fadf" kindref="member">XMC_USBD_MAX_NUM_EPS_6</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>6U,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ggaa7e7d0502c559923da7e324160c527a7a28dffb25c224b6507f9248cd4cbd1fbb" kindref="member">XMC_USBD_MAX_NUM_EPS_7</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7U<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}<sp/><ref refid="group___u_s_b_d_1gaa7e7d0502c559923da7e324160c527a7" kindref="member">XMC_USBD_MAX_NUM_EPS_t</ref>;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<ref refid="group___u_s_b_d_1ga4d1be41d2cd37f5c9367b75a91a517d6" kindref="member">XMC_USBD_SignalDeviceEvent_t</ref>)<sp/><sp/><sp/>(<ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref><sp/>event);</highlight></codeline>
+<codeline lineno="327"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*<ref refid="group___u_s_b_d_1ga52dd28acc7e2e09a7d3a48c136f1ecdb" kindref="member">XMC_USBD_SignalEndpointEvent_t</ref>)<sp/>(uint8_t<sp/>ep_addr,<sp/><ref refid="group___u_s_b_d_1ga6af185b470e216aeb9f5a8f57934c523" kindref="member">XMC_USBD_EP_EVENT_t</ref><sp/>ep_event);</highlight></codeline>
+<codeline lineno="330"><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="331"><highlight class="comment"><sp/>*<sp/>DATA<sp/>STRUCTURES</highlight></codeline>
+<codeline lineno="332"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_USBD_CAPABILITIES</highlight></codeline>
+<codeline lineno="338" refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" refkind="compound"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_power_on<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_power_off<sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_connect<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_disconnect<sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_reset<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_high_speed<sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_suspend<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_resume<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/>uint32_t<sp/>event_remote_wakeup<sp/>:<sp/><sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/>uint32_t<sp/>reserved<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>23;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" kindref="compound">XMC_USBD_CAPABILITIES_t</ref>;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_USBD_STATE</highlight></codeline>
+<codeline lineno="355" refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" refkind="compound"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/>uint32_t<sp/>powered<sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/>uint32_t<sp/>connected<sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/>uint32_t<sp/>active<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/>uint32_t<sp/>speed<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" kindref="compound">XMC_USBD_STATE_t</ref>;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="struct_x_m_c___u_s_b_d___e_p__t" refkind="compound"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">union</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>address<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>number<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>pading<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>direction<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>address_st;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/>}<sp/>address_u;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/>uint32_t<sp/>type<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/>uint32_t<sp/>isConfigured<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint32_t<sp/>inInUse<sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint32_t<sp/>outInUse<sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/>uint32_t<sp/>isStalled<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/>uint32_t<sp/>txFifoNum<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/>uint32_t<sp/>sendZeroLengthPacket<sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/>uint32_t<sp/>maxPacketSize<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/>uint32_t<sp/>maxTransferSize<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>19;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/>uint8_t<sp/>*outBuffer;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/>uint32_t<sp/>outBytesAvailable;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/>uint32_t<sp/>outBufferSize;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/>uint32_t<sp/>outOffset;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/>uint8_t<sp/>*inBuffer;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/>uint32_t<sp/>inBufferSize;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/>uint8_t<sp/>*xferBuffer;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/>uint32_t<sp/>xferLength;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/>uint32_t<sp/>xferCount;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/>uint32_t<sp/>xferTotal;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___u_s_b_d___e_p__t" kindref="compound">XMC_USBD_EP_t</ref>;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_USBD_DEVICE</highlight></codeline>
+<codeline lineno="409" refid="struct_x_m_c___u_s_b_d___d_e_v_i_c_e__t" refkind="compound"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><ref refid="struct_x_m_c___u_s_b_d___e_p__t" kindref="compound">XMC_USBD_EP_t</ref><sp/>ep[8];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/>dwc_otg_core_global_regs_t<sp/>*global_register;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/>dwc_otg_device_global_regs_t<sp/>*device_register;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/>dwc_otg_dev_in_ep_regs_t<sp/>*endpoint_in_register[(uint8_t)<ref refid="group___u_s_b_d_1ga4d76d3b99600addc55f489000ff9d23d" kindref="member">XMC_USBD_NUM_EPS</ref>];</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/>dwc_otg_dev_out_ep_regs_t<sp/>*endpoint_out_register[(uint8_t)<ref refid="group___u_s_b_d_1ga4d76d3b99600addc55f489000ff9d23d" kindref="member">XMC_USBD_NUM_EPS</ref>];</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint32_t<sp/>*fifo[(uint8_t)<ref refid="group___u_s_b_d_1ga4af1761f07df3a8bb43b6ee8070f92e9" kindref="member">XMC_USBD_NUM_TX_FIFOS</ref>];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/>uint16_t<sp/>txfifomsk;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/>uint32_t<sp/>IsConnected<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/>uint32_t<sp/>IsActive<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/>uint32_t<sp/>IsPowered<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga4d1be41d2cd37f5c9367b75a91a517d6" kindref="member">XMC_USBD_SignalDeviceEvent_t</ref><sp/>DeviceEvent_cb;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga52dd28acc7e2e09a7d3a48c136f1ecdb" kindref="member">XMC_USBD_SignalEndpointEvent_t</ref><sp/>EndpointEvent_cb;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="422"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___u_s_b_d___d_e_v_i_c_e__t" kindref="compound">XMC_USBD_DEVICE_t</ref>;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_USBD_OBJ</highlight></codeline>
+<codeline lineno="429" refid="struct_x_m_c___u_s_b_d__t" refkind="compound"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/>USB0_GLOBAL_TypeDef<sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>usbd;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga4d1be41d2cd37f5c9367b75a91a517d6" kindref="member">XMC_USBD_SignalDeviceEvent_t</ref><sp/><sp/>cb_xmc_device_event;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga52dd28acc7e2e09a7d3a48c136f1ecdb" kindref="member">XMC_USBD_SignalEndpointEvent_t</ref><sp/>cb_endpoint_event;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gaa7e7d0502c559923da7e324160c527a7" kindref="member">XMC_USBD_MAX_NUM_EPS_t</ref><sp/>usbd_max_num_eps;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1gac1a7468fe227f852bd4835ae2723d7db" kindref="member">XMC_USBD_TRANSFER_MODE_t</ref><sp/>usbd_transfer_mode;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="435"><highlight class="normal">}<sp/><ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref>;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">XMC_USBD_DRIVER</highlight></codeline>
+<codeline lineno="441" refid="struct_x_m_c___u_s_b_d___d_r_i_v_e_r__t" refkind="compound"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><ref refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" kindref="compound">XMC_USBD_CAPABILITIES_t</ref><sp/>(*GetCapabilities)<sp/><sp/><sp/><sp/>(void);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*Initialize)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(<ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref><sp/>*obj);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*Uninitialize)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*DeviceConnect)<sp/><sp/><sp/><sp/><sp/><sp/>(void);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*DeviceDisconnect)<sp/><sp/><sp/>(void);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><ref refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" kindref="compound">XMC_USBD_STATE_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*DeviceGetState)<sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>obj);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*DeviceSetAddress)<sp/><sp/><sp/>(uint8_t<sp/>dev_addr,<sp/><ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref><sp/>stage);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointConfigure)<sp/><sp/>(uint8_t<sp/>ep_addr,<sp/><ref refid="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" kindref="member">XMC_USBD_ENDPOINT_TYPE_t</ref><sp/>ep_type,<sp/>uint16_t<sp/>ep_max_packet_size);<sp/></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointUnconfigure)(uint8_t<sp/>ep_addr);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointStall)<sp/><sp/><sp/><sp/><sp/><sp/>(uint8_t<sp/>ep_addr,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>stall);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointReadStart)<sp/><sp/>(uint8_t<sp/>ep_addr,<sp/>uint32_t<sp/>len);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/>int32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointRead)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(uint8_t<sp/>ep_addr,<sp/>uint8_t<sp/>*buf,<sp/>uint32_t<sp/>len);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/>int32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointWrite)<sp/><sp/><sp/><sp/><sp/><sp/>(uint8_t<sp/>ep_addr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*buf,<sp/>uint32_t<sp/>len);<sp/></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*EndpointAbort)<sp/><sp/><sp/><sp/><sp/><sp/>(uint8_t<sp/>ep_addr);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*GetFrameNumber)<sp/><sp/><sp/><sp/><sp/>(void);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*IsEnumDone)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="490"><highlight class="normal">}<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___u_s_b_d___d_r_i_v_e_r__t" kindref="compound">XMC_USBD_DRIVER_t</ref>;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___u_s_b_d___d_r_i_v_e_r__t" kindref="compound">XMC_USBD_DRIVER_t</ref><sp/><ref refid="group___u_s_b_d_1ga24b0d090ba036e032aba146ca34fc035" kindref="member">Driver_USBD0</ref>;</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___u_s_b_d___d_e_v_i_c_e__t" kindref="compound">XMC_USBD_DEVICE_t</ref><sp/><ref refid="group___u_s_b_d_1ga407e973323123c34ea9c9c04b6899992" kindref="member">xmc_device</ref>;</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight><highlight class="comment">/**********************************************************************************************************************</highlight></codeline>
+<codeline lineno="506"><highlight class="comment"><sp/>*<sp/>API<sp/>PROTOTYPES</highlight></codeline>
+<codeline lineno="507"><highlight class="comment"><sp/>*********************************************************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1ga755920b85d839979d699894e98c13b69" kindref="member">XMC_USBD_Enable</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1ga1c28d84f9afe864fb9dc0e253137ae54" kindref="member">XMC_USBD_Disable</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1ga0f50121054da395d3685c6ad9ecb0a56" kindref="member">XMC_USBD_ClearEvent</ref>(<ref refid="group___u_s_b_d_1gaab5d22fa8b9bbf4d4295ee761ca1150c" kindref="member">XMC_USBD_EVENT_t</ref><sp/>event);</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1gaf5f99dc34a65ebd0dd4d5686632702e7" kindref="member">XMC_USBD_ClearEventINEP</ref>(uint32_t<sp/>event,<sp/>uint8_t<sp/>ep_num);</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1gadaef35f7f883268c95e15e8849bf3530" kindref="member">XMC_USBD_ClearEventOUTEP</ref>(uint32_t<sp/>event,<sp/>uint8_t<sp/>ep_num);</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"></highlight></codeline>
+<codeline lineno="622"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1ga215e0c7a10299d26c9f91c6ad06866f6" kindref="member">XMC_USBD_EnableEventOUTEP</ref>(uint32_t<sp/>event);</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"></highlight></codeline>
+<codeline lineno="640"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1gaaec2e039f617fdbaa50acb34061c5056" kindref="member">XMC_USBD_EnableEventINEP</ref>(uint32_t<sp/>event);</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"></highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><ref refid="struct_x_m_c___u_s_b_d___c_a_p_a_b_i_l_i_t_i_e_s__t" kindref="compound">XMC_USBD_CAPABILITIES_t</ref><sp/><ref refid="group___u_s_b_d_1ga26113550391be8fc0e2678fe0e6e85ff" kindref="member">XMC_USBD_GetCapabilities</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"></highlight></codeline>
+<codeline lineno="657"><highlight class="normal"></highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1gaad24c323055e8e5014835159867878c1" kindref="member">XMC_USBD_Init</ref>(<ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref><sp/>*obj);</highlight></codeline>
+<codeline lineno="681"><highlight class="normal"></highlight></codeline>
+<codeline lineno="697"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga21f8d8e728cce37ff9d4898acb2e62cf" kindref="member">XMC_USBD_Uninitialize</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="698"><highlight class="normal"></highlight></codeline>
+<codeline lineno="717"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga5a46af80a2ac68076e8d82d0b7967613" kindref="member">XMC_USBD_DeviceConnect</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="718"><highlight class="normal"></highlight></codeline>
+<codeline lineno="735"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga7b341bdd4b66740230bda3f94d49052e" kindref="member">XMC_USBD_DeviceDisconnect</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="736"><highlight class="normal"></highlight></codeline>
+<codeline lineno="752"><highlight class="normal"><ref refid="struct_x_m_c___u_s_b_d___s_t_a_t_e__t" kindref="compound">XMC_USBD_STATE_t</ref><sp/><ref refid="group___u_s_b_d_1ga42cdb3dc1b05ec18cf8687ea88c7c175" kindref="member">XMC_USBD_DeviceGetState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>obj);</highlight></codeline>
+<codeline lineno="753"><highlight class="normal"></highlight></codeline>
+<codeline lineno="754"><highlight class="normal"></highlight></codeline>
+<codeline lineno="778"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga0cb810be749bfd8e8c733a6e17bd5388" kindref="member">XMC_USBD_DeviceSetAddress</ref>(uint8_t<sp/>address,<sp/><ref refid="group___u_s_b_d_1ga1983ea285c683f63ee535552d9d2ec1e" kindref="member">XMC_USBD_SET_ADDRESS_STAGE_t</ref><sp/>stage);</highlight></codeline>
+<codeline lineno="779"><highlight class="normal"></highlight></codeline>
+<codeline lineno="805"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga1ec7cf807c281084ab7022c23617bdcb" kindref="member">XMC_USBD_EndpointConfigure</ref>(uint8_t<sp/>ep_addr,</highlight></codeline>
+<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group___u_s_b_d_1gae7245a0620a6bb5fe8249380d14b284c" kindref="member">XMC_USBD_ENDPOINT_TYPE_t</ref><sp/>ep_type,</highlight></codeline>
+<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>ep_max_packet_size);</highlight></codeline>
+<codeline lineno="808"><highlight class="normal"></highlight></codeline>
+<codeline lineno="824"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga7903550b9130e811d39b55936174cc36" kindref="member">XMC_USBD_EndpointUnconfigure</ref>(uint8_t<sp/>ep_addr);</highlight></codeline>
+<codeline lineno="825"><highlight class="normal"></highlight></codeline>
+<codeline lineno="847"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga6b54b58df01ada8156d8449129778f05" kindref="member">XMC_USBD_EndpointStall</ref>(uint8_t<sp/>ep_addr,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>stall);</highlight></codeline>
+<codeline lineno="848"><highlight class="normal"></highlight></codeline>
+<codeline lineno="849"><highlight class="normal"></highlight></codeline>
+<codeline lineno="870"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga18f4cb810289187a885e6f04659bc335" kindref="member">XMC_USBD_EndpointReadStart</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>ep_addr,<sp/>uint32_t<sp/>size);</highlight></codeline>
+<codeline lineno="871"><highlight class="normal"></highlight></codeline>
+<codeline lineno="872"><highlight class="normal"></highlight></codeline>
+<codeline lineno="893"><highlight class="normal">int32_t<sp/><ref refid="group___u_s_b_d_1gafd364e0fd03285bde32bc6359e6bc218" kindref="member">XMC_USBD_EndpointRead</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>ep_addr,<sp/>uint8_t<sp/>*buffer,<sp/>uint32_t<sp/>length);</highlight></codeline>
+<codeline lineno="894"><highlight class="normal"></highlight></codeline>
+<codeline lineno="895"><highlight class="normal"></highlight></codeline>
+<codeline lineno="916"><highlight class="normal">int32_t<sp/><ref refid="group___u_s_b_d_1ga27d8052980544dc78f56462fc7c157ba" kindref="member">XMC_USBD_EndpointWrite</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>ep_addr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*buffer,<sp/>uint32_t<sp/>length);</highlight></codeline>
+<codeline lineno="917"><highlight class="normal"></highlight></codeline>
+<codeline lineno="918"><highlight class="normal"></highlight></codeline>
+<codeline lineno="932"><highlight class="normal"><ref refid="group___u_s_b_d_1ga2ed7a439225ce1a0b56349cf914b8cda" kindref="member">XMC_USBD_STATUS_t</ref><sp/><ref refid="group___u_s_b_d_1ga685e20ab2777c403ae1e3463d47f2d53" kindref="member">XMC_USBD_EndpointAbort</ref>(uint8_t<sp/>ep_addr);</highlight></codeline>
+<codeline lineno="933"><highlight class="normal"></highlight></codeline>
+<codeline lineno="944"><highlight class="normal">uint16_t<sp/><ref refid="group___u_s_b_d_1gace9648d66a9f092562ca5da8754f5ac0" kindref="member">XMC_USBD_GetFrameNumber</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="945"><highlight class="normal"></highlight></codeline>
+<codeline lineno="959"><highlight class="normal">uint32_t<sp/><ref refid="group___u_s_b_d_1gac958c928fc573f39b30126ac2e2828d7" kindref="member">XMC_USBD_IsEnumDone</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="960"><highlight class="normal"></highlight></codeline>
+<codeline lineno="961"><highlight class="normal"></highlight></codeline>
+<codeline lineno="984"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group___u_s_b_d_1ga275780df6f1b3acf50c4c51151d228b8" kindref="member">XMC_USBD_IRQHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_x_m_c___u_s_b_d__t" kindref="compound">XMC_USBD_t</ref><sp/>*</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>obj);</highlight></codeline>
+<codeline lineno="985"><highlight class="normal"></highlight></codeline>
+<codeline lineno="986"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="987"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="988"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="989"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1001"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>defined(USB0)<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1002"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1003"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>XMC_USBD_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_usbd.h"/>
+  </compounddef>
+</doxygen>

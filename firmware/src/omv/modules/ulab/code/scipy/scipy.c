@@ -19,11 +19,18 @@
 #include "optimize/optimize.h"
 #include "signal/signal.h"
 #include "special/special.h"
+#include "linalg/linalg.h"
 
 #if ULAB_HAS_SCIPY
 
+//| """Compatibility layer for scipy"""
+//|
+
 static const mp_rom_map_elem_t ulab_scipy_globals_table[] = {
-    { MP_OBJ_NEW_QSTR(MP_QSTR___name__), MP_OBJ_NEW_QSTR(MP_QSTR_scipy) },
+    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_scipy) },
+    #if ULAB_SCIPY_HAS_LINALG_MODULE
+        { MP_ROM_QSTR(MP_QSTR_linalg), MP_ROM_PTR(&ulab_scipy_linalg_module) },
+    #endif
     #if ULAB_SCIPY_HAS_OPTIMIZE_MODULE
         { MP_ROM_QSTR(MP_QSTR_optimize), MP_ROM_PTR(&ulab_scipy_optimize_module) },
     #endif
@@ -37,8 +44,15 @@ static const mp_rom_map_elem_t ulab_scipy_globals_table[] = {
 
 static MP_DEFINE_CONST_DICT(mp_module_ulab_scipy_globals, ulab_scipy_globals_table);
 
-mp_obj_module_t ulab_scipy_module = {
+const mp_obj_module_t ulab_scipy_module = {
     .base = { &mp_type_module },
     .globals = (mp_obj_dict_t*)&mp_module_ulab_scipy_globals,
 };
+#if CIRCUITPY_ULAB
+#if !defined(MICROPY_VERSION) || MICROPY_VERSION <= 70144
+MP_REGISTER_MODULE(MP_QSTR_ulab_dot_scipy, ulab_scipy_module, MODULE_ULAB_ENABLED);
+#else
+MP_REGISTER_MODULE(MP_QSTR_ulab_dot_scipy, ulab_scipy_module);
 #endif
+#endif
+#endif /* ULAB_HAS_SCIPY */

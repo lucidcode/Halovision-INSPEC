@@ -27,6 +27,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <errno.h>
+#include <time.h>
 #include "py/mphal.h"
 #include "py/gc.h"
 
@@ -66,8 +67,4 @@ uint32_t htonl(uint32_t netlong) {
 
 time_t time(time_t *t) {
     return mp_hal_ticks_ms() / 1000;
-}
-
-time_t mktime(void *tm) {
-    return 0;
 }

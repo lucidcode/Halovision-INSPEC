@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 NXP
+ * Copyright 2017-2020,2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -21,11 +21,11 @@
 
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 !!GlobalInfo
-product: Clocks v7.0
+product: Clocks v8.0
 processor: MIMXRT1052xxxxB
 package_id: MIMXRT1052DVL6B
 mcu_data: ksdk2_0
-processor_version: 0.7.9
+processor_version: 10.0.0
 board: IMXRT1050-EVKB
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
@@ -64,7 +64,6 @@ outputs:
 - {id: CLK_1M.outFreq, value: 1 MHz}
 - {id: CLK_24M.outFreq, value: 24 MHz}
 - {id: CSI_CLK_ROOT.outFreq, value: 12 MHz}
-- {id: ENET1_TX_CLK.outFreq, value: 2.4 MHz}
 - {id: ENET_125M_CLK.outFreq, value: 2.4 MHz}
 - {id: ENET_25M_REF_CLK.outFreq, value: 1.2 MHz}
 - {id: FLEXIO1_CLK_ROOT.outFreq, value: 30 MHz}
@@ -105,7 +104,6 @@ settings:
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.SEMC_PODF.scale, value: '8'}
 - {id: CCM.TRACE_CLK_SEL.sel, value: CCM_ANALOG.PLL2_MAIN_CLK}
-- {id: CCM.TRACE_PODF.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.PLL1_BYPASS.sel, value: CCM_ANALOG.PLL1}
 - {id: CCM_ANALOG.PLL1_PREDIV.scale, value: '1', locked: true}
 - {id: CCM_ANALOG.PLL1_VDIV.scale, value: '50', locked: true}
@@ -126,7 +124,7 @@ settings:
 - {id: CCM_ANALOG.PLL4.denom, value: '50'}
 - {id: CCM_ANALOG.PLL4.div, value: '47'}
 - {id: CCM_ANALOG.PLL5.denom, value: '1'}
-- {id: CCM_ANALOG.PLL5.div, value: '31', locked: true}
+- {id: CCM_ANALOG.PLL5.div, value: '31'}
 - {id: CCM_ANALOG.PLL5.num, value: '0'}
 - {id: CCM_ANALOG.PLL5_BYPASS.sel, value: CCM_ANALOG.PLL5_POST_DIV}
 - {id: CCM_ANALOG.PLL5_POST_DIV.scale, value: '2'}
@@ -252,7 +250,7 @@ void BOARD_BootClockRUN(void)
     /* Set FLEXSPI_PODF. */
     CLOCK_SetDiv(kCLOCK_FlexspiDiv, 2);
     /* Set Flexspi clock source. */
-    CLOCK_SetMux(kCLOCK_FlexspiMux, 3);
+    CLOCK_SetMux(kCLOCK_FlexspiMux, 1);
 #endif
     /* Disable CSI clock gate. */
     CLOCK_DisableClock(kCLOCK_Csi);
@@ -382,8 +380,6 @@ void BOARD_BootClockRUN(void)
     CLOCK_InitSysPfd(kCLOCK_Pfd2, 24);
     /* Init System pfd3. */
     CLOCK_InitSysPfd(kCLOCK_Pfd3, 16);
-    /* Disable pfd offset. */
-    CCM_ANALOG->PLL_SYS &= ~CCM_ANALOG_PLL_SYS_PFD_OFFSET_EN_MASK;
 #endif
     /* In SDK projects, external flash (configured by FLEXSPI) will be initialized by dcd.
      * With this macro XIP_EXTERNAL_FLASH, usb1 pll (selected to be FLEXSPI clock source in SDK projects) will be left unchanged.
@@ -428,8 +424,6 @@ void BOARD_BootClockRUN(void)
     while ((CCM_ANALOG->PLL_VIDEO & CCM_ANALOG_PLL_VIDEO_LOCK_MASK) == 0)
     {
     }
-    /* Disable pfd offset. */
-    CCM_ANALOG->PLL_VIDEO &= ~CCM_ANALOG_PLL_VIDEO_PFD_OFFSET_EN_MASK;
     /* Disable bypass for Video PLL. */
     CLOCK_SetPllBypass(CCM_ANALOG, kCLOCK_PllVideo, 0);
     /* DeInit Enet PLL. */
@@ -484,7 +478,7 @@ void BOARD_BootClockRUN(void)
     IOMUXC_SetSaiMClkClockSource(IOMUXC_GPR, kIOMUXC_GPR_SAI3MClk3Sel, 0);
     /* Set MQS configuration. */
     IOMUXC_MQSConfig(IOMUXC_GPR,kIOMUXC_MqsPwmOverSampleRate32, 0);
-    /* Set ENET Tx clock source. */
+    /* Set ENET Ref clock source. */
     IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1RefClkMode, false);
     /* Set GPT1 High frequency reference clock source. */
     IOMUXC_GPR->GPR5 &= ~IOMUXC_GPR_GPR5_VREF_1M_CLK_GPT1_MASK;
@@ -493,4 +487,3 @@ void BOARD_BootClockRUN(void)
     /* Set SystemCoreClock variable. */
     SystemCoreClock = BOARD_BOOTCLOCKRUN_CORE_CLOCK;
 }
-

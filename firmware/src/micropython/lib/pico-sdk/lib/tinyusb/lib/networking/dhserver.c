@@ -96,19 +96,19 @@ static const dhcp_config_t *config = NULL;
 
 char magic_cookie[] = {0x63,0x82,0x53,0x63};
 
-static ip_addr_t get_ip(const uint8_t *pnt)
+static ip4_addr_t get_ip(const uint8_t *pnt)
 {
-  ip_addr_t result;
+  ip4_addr_t result;
   memcpy(&result, pnt, sizeof(result));
   return result;
 }
 
-static void set_ip(uint8_t *pnt, ip_addr_t value)
+static void set_ip(uint8_t *pnt, ip4_addr_t value)
 {
   memcpy(pnt, &value.addr, sizeof(value.addr));
 }
 
-static dhcp_entry_t *entry_by_ip(ip_addr_t ip)
+static dhcp_entry_t *entry_by_ip(ip4_addr_t ip)
 {
 	int i;
 	for (i = 0; i < config->num_entry; i++)
@@ -162,11 +162,11 @@ uint8_t *find_dhcp_option(uint8_t *attrs, int size, uint8_t attr)
 int fill_options(void *dest,
 	uint8_t msg_type,
 	const char *domain,
-	ip_addr_t dns,
+	ip4_addr_t dns,
 	int lease_time,
-	ip_addr_t serverid,
-	ip_addr_t router,
-	ip_addr_t subnet)
+	ip4_addr_t serverid,
+	ip4_addr_t router,
+	ip4_addr_t subnet)
 {
 	uint8_t *ptr = (uint8_t *)dest;
 	/* ACK message type */
@@ -240,7 +240,11 @@ static void udp_recv_proc(void *arg, struct udp_pcb *upcb, struct pbuf *p, const
 	unsigned n = p->len;
 	if (n > sizeof(dhcp_data)) n = sizeof(dhcp_data);
 	memcpy(&dhcp_data, p->payload, n);
-	switch (dhcp_data.dp_options[2])
+
+	ptr = find_dhcp_option(dhcp_data.dp_options, sizeof(dhcp_data.dp_options), DHCP_MESSAGETYPE);
+	if (ptr == NULL) return;
+
+	switch (ptr[2])
 	{
 		case DHCP_DISCOVER:
 			entry = entry_by_mac(dhcp_data.dp_chaddr);

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc4_extclk-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* External clock personality description file for XMC4000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc4_extclk" name="EXTCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc4_scu" />
+    <Resource name="scu\.clock\.extclk" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fEXT" />
+    <ExposedMember key="sourceClockDisplayName" paramId="clock_source_display" />
+    <ExposedMember key="pin" paramId="extPin" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- General -->
+    <ParamChoice id="clock_source" name="Source Clock" group="General"
+      default="XMC_SCU_CLOCK_EXTOUTCLKSRC_SYS" visible="true" editable="true" desc="Select a source of external clock.">
+      <Entry name="System Clock" value="XMC_SCU_CLOCK_EXTOUTCLKSRC_SYS" visible="true"/>
+      <Entry name="USB PLL" value="XMC_SCU_CLOCK_EXTOUTCLKSRC_USB" visible="true"/>
+      <Entry name="System PLL" value="XMC_SCU_CLOCK_EXTOUTCLKSRC_PLL" visible="true"/>
+      <Entry name="Standby clock" value="XMC_SCU_CLOCK_EXTOUTCLKSRC_STDBY" visible="`${HAS_EXTOUTCLK_STDBY}`"/>
+    </ParamChoice>
+    <ParamString id="clock_source_display" name="Source Clock Display" group="Internal"
+      default="`${getParamValueDisplay(&quot;clock_source&quot;)}`" visible="false" editable="false"
+      desc="The display name of the currently selected clock source." />
+    <ParamString id="source_resource" name="Source Resource" group="Internal"
+      default="scu[0].clock[0].`${(clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_SYS) ?
+        &quot;sysclk[0]&quot; : ((clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_USB) ?
+        &quot;pll_usb[0]&quot; : ((clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_PLL) ?
+        &quot;pll_sys[0]&quot; : &quot;stdbyclk[0]&quot;))}`"
+      visible="false" editable="false" desc="" />
+    <ParamBool id="source_enabled" name="Source Enabled" group="Internal"
+      default="`${isBlockUsed(source_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_frequency" name="Source Frequency (Hz)" group="Internal"
+      default="`${source_enabled ? getExposedMember(source_resource, &quot;frequency&quot;) : 0.0 }`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="source_frequency_info" name="Source Frequency" group="General"
+      default="`${formatFrequency(source_frequency)}`" visible="true" editable="false"
+      desc="Frequency of the selected clock source." />
+
+    <ParamRange id="divider" name="Divider" group="General"
+      default="1" min="1" max="512" resolution="1"
+      visible="`${(clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_USB) ||
+                  (clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_PLL)}`"
+      editable="true" desc="External clock divider." />
+    <ParamString id="divider_val" name="Divider Value" group="Internal"
+      default="`${(clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_USB) ||
+                  (clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_PLL) ? divider : 1}`"
+      visible="false" editable="false" desc="" />
+    <ParamString id="fEXT" name="Frequency (Hz)" group="Internal"
+      default="`${source_frequency / divider_val}`" visible="false" editable="false" desc="" />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fEXT)}`" visible="true" editable="false"
+      desc="Actual EXTCLK clock frequency." />
+
+    <!-- Connections -->
+    <ParamSignal port="extclk[0]" name="EXTCLK" group="Connections" visible="true"
+      desc="The input terminal to connect the external clock signal" canBeEmpty="true" multiSelect="false" />
+    <ParamString id="extPin" name="Pin Name" group="General"
+      default="`${getParamValueDisplay(&quot;extclk[0]&quot;)}`" visible="false" editable="false"
+      desc="The pin the clock is connected to." />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for External clock is not enabled" condition="`${!source_enabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${source_resource}`" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="fEXT exceeds maximum value 80 MHz" condition="`${fEXT > 80000000}`" paramId="divider">
+      <FixIt action="SET_PARAM" target="divider" value="`${(source_frequency > 80000000) ? (source_frequency / 80000000) + 1 : 1}`"
+        valid="`${clock_source ne XMC_SCU_CLOCK_EXTOUTCLKSRC_SYS}`" />
+      <FixIt action="SET_PARAM" target="clock_source" value="XMC_SCU_CLOCK_EXTOUTCLKSRC_PLL"
+        valid="`${clock_source eq XMC_SCU_CLOCK_EXTOUTCLKSRC_SYS}`" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_EXTCLK_ENABLED" value="1" public="false" include="true" />
+    <ConfigDefine name="CLOCK_EXTCLK_DIV" value="`${divider_val}`U" public="false" include="true" />
+    <ConfigDefine name="CLOCK_EXTCLK_SEL" value="`${clock_source}`" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

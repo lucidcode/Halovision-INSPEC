@@ -18,4 +18,6 @@ The OpenMV Cam tutorial covers how to use your OpenMV Cam and its accessories.
    io_tutorial.rst
    system_architecture.rst
 
+   production.rst
+
    more_information.rst

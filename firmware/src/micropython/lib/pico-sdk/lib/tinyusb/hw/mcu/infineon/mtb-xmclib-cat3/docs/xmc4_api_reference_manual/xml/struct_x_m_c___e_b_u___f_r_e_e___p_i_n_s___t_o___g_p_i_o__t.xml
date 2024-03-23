@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_EBU_FREE_PINS_TO_GPIO_t</compoundname>
+    <includes local="no">xmc_ebu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a113ac588e222ae223d47eb3c883bc571" prot="public" static="no" mutable="no">
+        <type>union XMC_EBU_FREE_PINS_TO_GPIO_t::@116</type>
+        <definition>union XMC_EBU_FREE_PINS_TO_GPIO_t::@116 @117</definition>
+        <argsstring></argsstring>
+        <name>@117</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="572" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 16</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="567" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 6</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="570" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1ad6eec046d8093c6408ecbc5dac8bdea4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t address_pins_gpio</definition>
+        <argsstring></argsstring>
+        <name>address_pins_gpio</name>
+        <bitfield> 9</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>0 - Address bit required for addressing memory; 1 - Address bit available as GPIO </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="568" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a10d111ffa78011e460b2ccdc59e23da2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t adv_pin_gpio</definition>
+        <argsstring></argsstring>
+        <name>adv_pin_gpio</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adv pin to GPIO mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="569" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw0</definition>
+        <argsstring></argsstring>
+        <name>raw0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="564" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>GPIO mode configuration for the allocated EBU ports <linebreak/>
+ Configuring this structure frees the allocated EBU ports for GPIO functionality. The <ref refid="group___e_b_u_1ga8215e4bdc48f3d94cdacecc6856834a8" kindref="member">XMC_EBU_Init()</ref> is used to populate the structure with the GPIO mode for the allocated EBU ports. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" line="561" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ebu.h" bodystart="560" bodyend="573"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_EBU_FREE_PINS_TO_GPIO_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_EBU_FREE_PINS_TO_GPIO_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1ad6eec046d8093c6408ecbc5dac8bdea4" prot="public" virt="non-virtual"><scope>XMC_EBU_FREE_PINS_TO_GPIO_t</scope><name>address_pins_gpio</name></member>
+      <member refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a10d111ffa78011e460b2ccdc59e23da2" prot="public" virt="non-virtual"><scope>XMC_EBU_FREE_PINS_TO_GPIO_t</scope><name>adv_pin_gpio</name></member>
+      <member refid="struct_x_m_c___e_b_u___f_r_e_e___p_i_n_s___t_o___g_p_i_o__t_1a1c9c29d7f8e7f061fe1b649d9bfb082a" prot="public" virt="non-virtual"><scope>XMC_EBU_FREE_PINS_TO_GPIO_t</scope><name>raw0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

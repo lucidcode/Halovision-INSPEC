@@ -1,14 +1,14 @@
 #!/usr/bin/env python2
 # This file is part of the OpenMV project.
 #
-# Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
-# Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+# Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
+# Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
 #
 # This work is licensed under the MIT license, see the file LICENSE for details.
 #
 # This module implements the DFU protocol for STM32 chips.
 # See app note AN3156 for a description of the DFU protocol.
-# See document UM0391 for a dscription of the DFuse file.
+# See document UM0391 for a description of the DFuse file.
 
 from __future__ import print_function
 
@@ -426,7 +426,7 @@ def get_memory_layout(device):
 
 
 def list_dfu_devices(*args, **kwargs):
-    """Prints a lits of devices detected in DFU mode."""
+    """Prints a list of devices detected in DFU mode."""
     devices = get_dfu_devices(*args, **kwargs)
     if not devices:
         print("No DFU capable devices found")

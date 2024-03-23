@@ -88,6 +88,12 @@
 #ifndef BOARD_LED3_GPIO_PIN
 #define BOARD_LED3_GPIO_PIN 22U
 #endif
+#ifndef BOARD_LED4_GPIO
+#define BOARD_LED4_GPIO GPIOE
+#endif
+#ifndef BOARD_LED4_GPIO_PIN
+#define BOARD_LED4_GPIO_PIN 0U
+#endif
 
 #ifndef BOARD_LED4_GPIO
 #define BOARD_LED4_GPIO GPIOE

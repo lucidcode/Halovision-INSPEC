@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ERU_ETL_CONFIG_t</compoundname>
+    <includes local="no">xmc_eru.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a339beae6315d9970d91664e5a14c74f6" prot="public" static="no" mutable="no">
+        <type>union XMC_ERU_ETL_CONFIG_t::@87</type>
+        <definition>union XMC_ERU_ETL_CONFIG_t::@87 @88</definition>
+        <argsstring></argsstring>
+        <name>@88</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="370" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1aad1ef086472485fe30eaec78cbb5c985" prot="public" static="no" mutable="no">
+        <type>union XMC_ERU_ETL_CONFIG_t::@89</type>
+        <definition>union XMC_ERU_ETL_CONFIG_t::@89 @90</definition>
+        <argsstring></argsstring>
+        <name>@90</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="390" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 28</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="368" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 20</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="388" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a23f005cc2d2c65241e0b6ce5f52b9b0c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t edge_detection</definition>
+        <argsstring></argsstring>
+        <name>edge_detection</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure the event trigger edge(FE, RE). Refer <ref refid="group___e_r_u_1ga853b59a72ff0b97692d690697f1c9553" kindref="member">XMC_ERU_ETL_EDGE_DETECTION_t</ref> for valid values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="381" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a10dc323300efdb1e8b8ffc18ecfd3c65" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t enable_output_trigger</definition>
+        <argsstring></argsstring>
+        <name>enable_output_trigger</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables the generation of trigger pulse(PE), for the configured edge detection. This accepts boolean values as input. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="377" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a237ac13643964d05d26f13a42e1543b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>While configuring the bit fields, the values have to be shifted according to the position </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="363" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a106f50855416cfe6030a1f2876e9dd9b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t input_a</definition>
+        <argsstring></argsstring>
+        <name>input_a</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures input A. Refer <ref refid="group___e_r_u_1ga308f21ee6d582ff8551092860b3f5ba4" kindref="member">XMC_ERU_ETL_INPUT_A_t</ref> for valid values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="366" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a24ee9d7ad79183b004b36bef1160fc39" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t input_b</definition>
+        <argsstring></argsstring>
+        <name>input_b</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configures input B. Refer <ref refid="group___e_r_u_1gac3fd5e4f15fa5da8177b31e28421bf42" kindref="member">XMC_ERU_ETL_INPUT_B_t</ref> for valid values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="367" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a40c1bf8bdc6ef232e976990848896b83" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t output_trigger_channel</definition>
+        <argsstring></argsstring>
+        <name>output_trigger_channel</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Output channel select(OCS) for ETLx output trigger pulse. Refer <ref refid="group___e_r_u_1ga15d2fb3d1c965b350e28bcfae34eae87" kindref="member">XMC_ERU_ETL_OUTPUT_TRIGGER_CHANNEL_t</ref> for valid values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="383" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a0a595268561edc58e347ca8387000bc6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t raw</definition>
+        <argsstring></argsstring>
+        <name>raw</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="374" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1acced9a05ed6f381d74d67de65d66fa3b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Input path combination along with polarity for event generation. Refer <ref refid="group___e_r_u_1gace2abdc83ae2a12af12ca448bc5faa1c" kindref="member">XMC_ERU_ETL_SOURCE_t</ref> for valid values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="386" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a3767979ded8e6ca4f24bb6a8b410c842" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t status_flag_mode</definition>
+        <argsstring></argsstring>
+        <name>status_flag_mode</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enables the status flag auto clear(LD), for the opposite edge of the configured event edge. This accepts boolean values as input. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="379" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure for initializing ERUx_ETLy (x = [0], y = [0..4]) module. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" line="360" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eru.h" bodystart="359" bodyend="391"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a23f005cc2d2c65241e0b6ce5f52b9b0c" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>edge_detection</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a10dc323300efdb1e8b8ffc18ecfd3c65" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>enable_output_trigger</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a237ac13643964d05d26f13a42e1543b3" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>input</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a106f50855416cfe6030a1f2876e9dd9b" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>input_a</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a24ee9d7ad79183b004b36bef1160fc39" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>input_b</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a40c1bf8bdc6ef232e976990848896b83" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>output_trigger_channel</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a0a595268561edc58e347ca8387000bc6" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>raw</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1acced9a05ed6f381d74d67de65d66fa3b" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>source</name></member>
+      <member refid="struct_x_m_c___e_r_u___e_t_l___c_o_n_f_i_g__t_1a3767979ded8e6ca4f24bb6a8b410c842" prot="public" virt="non-virtual"><scope>XMC_ERU_ETL_CONFIG_t</scope><name>status_flag_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

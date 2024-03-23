@@ -1,0 +1,2271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___u_a_r_t" kind="group">
+    <compoundname>UART</compoundname>
+    <title>Universal Asynchronous Receiver/Transmitter (UART)</title>
+    <innerclass refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" prot="public">XMC_UART_CH_CONFIG_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___u_a_r_t_1ga122d0cf7042ea6cb81ccdb50df5f62b6" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_UART_CH_EVENT_t</name>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6addd2af8f6f565002a1b4ea856b7bbcee" prot="public">
+          <name>XMC_UART_CH_EVENT_RECEIVE_START</name>
+          <initializer>= USIC_CH_CCR_RSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive start event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a6e76badf4b36a6fa694cd7c4c0d873b9" prot="public">
+          <name>XMC_UART_CH_EVENT_DATA_LOST</name>
+          <initializer>= USIC_CH_CCR_DLIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Data lost event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6af28054e5044087c68da450015df6771f" prot="public">
+          <name>XMC_UART_CH_EVENT_TRANSMIT_SHIFT</name>
+          <initializer>= USIC_CH_CCR_TSIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit shift event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a26b35a7f887b79474fa97856749f182b" prot="public">
+          <name>XMC_UART_CH_EVENT_TRANSMIT_BUFFER</name>
+          <initializer>= USIC_CH_CCR_TBIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Transmit buffer event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a3fec2fc1685b8db717c095a21053240a" prot="public">
+          <name>XMC_UART_CH_EVENT_STANDARD_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_RIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6ad640d6bca0daeeb45ac4023b1e4db5b4" prot="public">
+          <name>XMC_UART_CH_EVENT_ALTERNATIVE_RECEIVE</name>
+          <initializer>= USIC_CH_CCR_AIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Alternate receive event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6ac9364f8566efee358ffc0491940122e2" prot="public">
+          <name>XMC_UART_CH_EVENT_BAUD_RATE_GENERATOR</name>
+          <initializer>= USIC_CH_CCR_BRGIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Baudrate generator event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a266352a130a03ea0a41565bc695ef146" prot="public">
+          <name>XMC_UART_CH_EVENT_SYNCHRONIZATION_BREAK</name>
+          <initializer>= USIC_CH_PCR_ASCMode_SBIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event synchronization break </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6acf263e5b91743a7e5d424d551a9f177b" prot="public">
+          <name>XMC_UART_CH_EVENT_COLLISION</name>
+          <initializer>= USIC_CH_PCR_ASCMode_CDEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event collision </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a9045609949ae1b88827a4ec8fd005b93" prot="public">
+          <name>XMC_UART_CH_EVENT_RECEIVER_NOISE</name>
+          <initializer>= USIC_CH_PCR_ASCMode_RNIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event receiver noise </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6aef5d7acb2f77f77405a56b2c04fbaba5" prot="public">
+          <name>XMC_UART_CH_EVENT_FORMAT_ERROR</name>
+          <initializer>= USIC_CH_PCR_ASCMode_FEIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event format error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a2ea7a5f9780633b9cb5702c1fc7296d2" prot="public">
+          <name>XMC_UART_CH_EVENT_FRAME_FINISHED</name>
+          <initializer>= USIC_CH_PCR_ASCMode_FFIEN_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Event frame finished </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART configuration events. The enums can be used for configuring events using the CCR register. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="170" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="169" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_a_r_t_1ga2deb0d11792f241e1e5c02e6a4063998" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_UART_CH_INPUT_SAMPLING_FREQ_t</name>
+        <enumvalue id="group___u_a_r_t_1gga2deb0d11792f241e1e5c02e6a4063998a916e6151ac686996fbef2b0c059d0527" prot="public">
+          <name>XMC_UART_CH_INPUT_SAMPLING_FREQ_FPERIPH</name>
+          <initializer>= XMC_USIC_CH_INPUT_SAMPLING_FREQ_FPERIPH</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sampling frequency input fperiph </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga2deb0d11792f241e1e5c02e6a4063998ac1ae8f6ca1096c61ca0619dae0a18b92" prot="public">
+          <name>XMC_UART_CH_INPUT_SAMPLING_FREQ_FRACTIONAL_DIVIDER</name>
+          <initializer>= XMC_USIC_CH_INPUT_SAMPLING_FREQ_FRACTIONAL_DIVIDER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Sampling frequency input fractional divider </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART Input sampling frequency options </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="190" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="189" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_UART_CH_INPUT_t</name>
+        <enumvalue id="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" prot="public">
+          <name>XMC_UART_CH_INPUT_RXD</name>
+          <initializer>= 0UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART input stage DX0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" prot="public">
+          <name>XMC_UART_CH_INPUT_RXD1</name>
+          <initializer>= 3UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART input stage DX3 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" prot="public">
+          <name>XMC_UART_CH_INPUT_RXD2</name>
+          <initializer>= 5UL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART input stage DX5 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART input stages </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="199" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_a_r_t_1ga29676690a77272438ef1cfc21575ff6d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_UART_CH_INTERRUPT_NODE_POINTER_t</name>
+        <enumvalue id="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6da0069cc6489d3bf33490bf4cc95e998d4" prot="public">
+          <name>XMC_UART_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit shift interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6da59a31b003753d05ac1b5d5067751121e" prot="public">
+          <name>XMC_UART_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for transmit buffer interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6da668bf0b677803516a7815b85cc98880d" prot="public">
+          <name>XMC_UART_CH_INTERRUPT_NODE_POINTER_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6daa2617445b7d8d4c1b05dda8e02c1e431" prot="public">
+          <name>XMC_UART_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_ALTERNATE_RECEIVE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for alternate receive interrupt </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6dad86f5c91df1f3e5713ed174d1371a3f5" prot="public">
+          <name>XMC_UART_CH_INTERRUPT_NODE_POINTER_PROTOCOL</name>
+          <initializer>= XMC_USIC_CH_INTERRUPT_NODE_POINTER_PROTOCOL</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Node pointer for protocol related interrupts </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART channel interrupt node pointers </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="213" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="212" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_a_r_t_1ga802a057f335dc7bc1465ae11b19d09af" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_UART_CH_STATUS_FLAG_t</name>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa8838558f1c949dfdfa117908e21d7058" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_TRANSMISSION_IDLE</name>
+          <initializer>= USIC_CH_PSR_ASCMode_TXIDLE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status transmit IDLE </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa02d60fc761d9eee4c4d1c525f2429a5c" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_RECEPTION_IDLE</name>
+          <initializer>= USIC_CH_PSR_ASCMode_RXIDLE_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status receive IDLE </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afaeaf9ee65696e36e06e012e0e3e5b5855" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_SYNCHRONIZATION_BREAK_DETECTED</name>
+          <initializer>= USIC_CH_PSR_ASCMode_SBD_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status synchronization break detected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa1127a4bc2e8bca81c351cdc344245fd0" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_COLLISION_DETECTED</name>
+          <initializer>= USIC_CH_PSR_ASCMode_COL_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status collision detected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa147a2ad3b6ab6a1aacb07fa971eb1275" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_RECEIVER_NOISE_DETECTED</name>
+          <initializer>= USIC_CH_PSR_ASCMode_RNS_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status receiver noise detected </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afaf6d928be53c8c901a05872e3ef950bc7" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_FORMAT_ERROR_IN_STOP_BIT_0</name>
+          <initializer>= USIC_CH_PSR_ASCMode_FER0_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status format error in stop bit 0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa5733cca57c6cff9c79da3c824e644a72" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_FORMAT_ERROR_IN_STOP_BIT_1</name>
+          <initializer>= USIC_CH_PSR_ASCMode_FER1_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status format error in stop bit 1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa5abbfe2717ee3117550e329d90769863" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_RECEIVE_FRAME_FINISHED</name>
+          <initializer>= USIC_CH_PSR_ASCMode_RFF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status receive frame finished </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afae8fe75675b2f99f20032577dd0ca4f7c" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_TRANSMITTER_FRAME_FINISHED</name>
+          <initializer>= USIC_CH_PSR_ASCMode_TFF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status transmit frame finished </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa68079f24c35e5259c9984e39c602db45" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_TRANSFER_STATUS_BUSY</name>
+          <initializer>= USIC_CH_PSR_ASCMode_BUSY_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status transfer status busy </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa81b11006a6b243c9f04f4a8a9f5c5735" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_RECEIVER_START_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_RSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status receive start indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afadcd6021f9d2ab0764ae114b544a1244a" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_DATA_LOST_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_DLIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status data lost indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa4b78514f4ad98fead964ecf359c673ae" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_TRANSMIT_SHIFT_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_TSIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status transmit shift indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afaa8188ae95171fc9461c3c4905e41739b" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_TRANSMIT_BUFFER_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_TBIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status transmit buffer indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa47f5b38bcab2bc0e1b009cffcca18855" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_RIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status receive indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afaaac652362ebf22f1b23c1e2e4dd52cfa" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_ALTERNATIVE_RECEIVE_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_AIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status alternative receive indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa5e66e98130f3a6f072c57295a1a779f7" prot="public">
+          <name>XMC_UART_CH_STATUS_FLAG_BAUD_RATE_GENERATOR_INDICATION</name>
+          <initializer>= USIC_CH_PSR_ASCMode_BRGIF_Msk</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART Protocol Status baudrate generator indication flag </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART portocol status. The enum values can be used for getting the status of UART channel. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="146" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="145" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___u_a_r_t_1gadd220ce3211af8111e0af876a0619788" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_UART_CH_STATUS_t</name>
+        <enumvalue id="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a1d4d4ea36dc6c0ceb6599efed42f0559" prot="public">
+          <name>XMC_UART_CH_STATUS_OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART driver status : OK </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a146ec14a2e6f316f449c332a863289b0" prot="public">
+          <name>XMC_UART_CH_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART driver status : ERROR </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a410817c31e098fd03c04f4d5ecb76ef1" prot="public">
+          <name>XMC_UART_CH_STATUS_BUSY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>UART driver status : BUSY </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>UART driver status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="135" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="134" bodyend="139"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___u_a_r_t_1ga6840ff2cfd59836fea619b9c1cfbbac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_ClearStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t flag)</argsstring>
+        <name>XMC_UART_CH_ClearStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>flag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART events to be cleared. <linebreak/>
+ <bold>Range:</bold> Use <ref refid="group___u_a_r_t_1ga802a057f335dc7bc1465ae11b19d09af" kindref="member">XMC_UART_CH_STATUS_FLAG_t</ref> enumerations for event bitmasks. <ref refid="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa8838558f1c949dfdfa117908e21d7058" kindref="member">XMC_UART_CH_STATUS_FLAG_TRANSMISSION_IDLE</ref>, <ref refid="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa02d60fc761d9eee4c4d1c525f2429a5c" kindref="member">XMC_UART_CH_STATUS_FLAG_RECEPTION_IDLE</ref>, <ref refid="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afaeaf9ee65696e36e06e012e0e3e5b5855" kindref="member">XMC_UART_CH_STATUS_FLAG_SYNCHRONIZATION_BREAK_DETECTED</ref> etc. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Clears the status of UART channel events.<linebreak/>
+<linebreak/>
+Multiple events can be combined using the bitwise OR operation and configured in one function call. XMC_UART_CH_STATUS_FLAG_t enumerates multiple event bitmasks. These enumerations can be used as input to the API. Events are cleared by setting the bitmask to the PSCR register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga87743034df2fe747615ce39a6b870a0c" kindref="member">XMC_UART_CH_DisableEvent()</ref>, <ref refid="group___u_a_r_t_1ga5578bae41ea73c00dd704924c63f7370" kindref="member">XMC_UART_CH_GetStatusFlag()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="623" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="623" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga935afb3b95df6c123883f44a1d63208f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_DisableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_DisableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___u_a_r_t_1gac81a2e2617e9c6e9ddd314036185c08f" kindref="member">XMC_UART_CH_EnableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gac81a2e2617e9c6e9ddd314036185c08f" kindref="member">XMC_UART_CH_EnableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="893" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="893" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga87743034df2fe747615ce39a6b870a0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_DisableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t event)</argsstring>
+        <name>XMC_UART_CH_DisableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bitmask of events to disable. Use the type <ref refid="group___u_a_r_t_1ga122d0cf7042ea6cb81ccdb50df5f62b6" kindref="member">XMC_UART_CH_EVENT_t</ref> for naming events.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6addd2af8f6f565002a1b4ea856b7bbcee" kindref="member">XMC_UART_CH_EVENT_RECEIVE_START</ref>, <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a6e76badf4b36a6fa694cd7c4c0d873b9" kindref="member">XMC_UART_CH_EVENT_DATA_LOST</ref>, <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6af28054e5044087c68da450015df6771f" kindref="member">XMC_UART_CH_EVENT_TRANSMIT_SHIFT</ref>, <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a26b35a7f887b79474fa97856749f182b" kindref="member">XMC_UART_CH_EVENT_TRANSMIT_BUFFER</ref>, etc. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables the interrupt events by clearing the bits in CCR register.<linebreak/>
+<linebreak/>
+Multiple events can be combined using the bitwise OR operation and configured in one function call. XMC_UART_CH_EVENT_FLAG_t enumerates multiple event bitmasks. These enumerations can be used as input to the API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga6840ff2cfd59836fea619b9c1cfbbac5" kindref="member">XMC_UART_CH_ClearStatusFlag()</ref>, <ref refid="group___u_a_r_t_1gaf511dd60e7f23bc40bad0207ff9bd266" kindref="member">XMC_UART_CH_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="510" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gaef225ec3a0bc7db11ddf0b4f260a905c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_DisableInputDigitalFilter</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input)</argsstring>
+        <name>XMC_UART_CH_DisableInputDigitalFilter</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables the digital filter for UART input stage.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gaeec73a4f59460bbe97aad10c1d925c73" kindref="member">XMC_UART_CH_EnableInputDigitalFilter()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="799" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="799" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gafd566960d84740ec0c0713197839b071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_DisableInputInversion</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input)</argsstring>
+        <name>XMC_UART_CH_DisableInputInversion</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables input inversion for UART input data signal.<linebreak/>
+<linebreak/>
+Resets the input data polarity for the UART input data signal. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga95acf430dde4497f55838626ec22b808" kindref="member">XMC_UART_CH_EnableInputInversion()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="763" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="763" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga655549975b9c7dce3fb9f28c89b5685f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_DisableInputSync</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input)</argsstring>
+        <name>XMC_UART_CH_DisableInputSync</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables synchronous input for the UART input stage.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga52aa3807f291f58be66b4d946aec7d47" kindref="member">XMC_UART_CH_EnableInputSync()</ref>, <ref refid="group___u_a_r_t_1gaeec73a4f59460bbe97aad10c1d925c73" kindref="member">XMC_UART_CH_EnableInputDigitalFilter()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="834" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="834" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga34495c14c7650599ba2e2ab348333cf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_DisableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_DisableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Disables the generation of the master clock MCLK.<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1gaf9deda88e97525978786d4711aa75067" kindref="member">XMC_USIC_CH_SetMclkOutputPassiveLevel()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="704" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="704" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gac81a2e2617e9c6e9ddd314036185c08f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_EnableDataTransmission</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_EnableDataTransmission</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enable data transmission.<linebreak/>
+<linebreak/>
+Use this function in combination with <ref refid="group___u_a_r_t_1ga935afb3b95df6c123883f44a1d63208f" kindref="member">XMC_UART_CH_DisableDataTransmission()</ref> to fill the FIFO and send the FIFO content without gaps in the transmission. FIFO is filled using <ref refid="group___u_s_i_c_1gae96e9afeaefe2585b687e36f6227727f" kindref="member">XMC_USIC_CH_TXFIFO_PutData()</ref>. </para>
+</simplesect>
+<simplesect kind="note"><para>If you need more control over the start of transmission use <ref refid="group___u_s_i_c_1ga3b02352ba5e94e8f79751dea304084e0" kindref="member">XMC_USIC_CH_SetStartTransmisionMode()</ref></para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga935afb3b95df6c123883f44a1d63208f" kindref="member">XMC_UART_CH_DisableDataTransmission()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="875" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="875" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gaf511dd60e7f23bc40bad0207ff9bd266" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_EnableEvent</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t event)</argsstring>
+        <name>XMC_UART_CH_EnableEvent</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event bitmasks to enable. Use the type <ref refid="group___u_a_r_t_1ga122d0cf7042ea6cb81ccdb50df5f62b6" kindref="member">XMC_UART_CH_EVENT_t</ref> for naming events. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6addd2af8f6f565002a1b4ea856b7bbcee" kindref="member">XMC_UART_CH_EVENT_RECEIVE_START</ref>, <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a6e76badf4b36a6fa694cd7c4c0d873b9" kindref="member">XMC_UART_CH_EVENT_DATA_LOST</ref>, <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6af28054e5044087c68da450015df6771f" kindref="member">XMC_UART_CH_EVENT_TRANSMIT_SHIFT</ref>, <ref refid="group___u_a_r_t_1gga122d0cf7042ea6cb81ccdb50df5f62b6a26b35a7f887b79474fa97856749f182b" kindref="member">XMC_UART_CH_EVENT_TRANSMIT_BUFFER</ref>, etc. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables interrupt events for UART communication.<linebreak/>
+<linebreak/>
+Multiple events can be combined using the bitwise OR operation and configured in one function call. <ref refid="group___u_a_r_t_1ga122d0cf7042ea6cb81ccdb50df5f62b6" kindref="member">XMC_UART_CH_EVENT_t</ref> enumerates multiple event bitmasks. These enumerations can be used as input to the API. Events are configured by setting bits in the CCR register. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga87743034df2fe747615ce39a6b870a0c" kindref="member">XMC_UART_CH_DisableEvent()</ref>, <ref refid="group___u_a_r_t_1gaa013e09337b1c9c05b41eac29b2518ea" kindref="member">XMC_UART_CH_SetInterruptNodePointer()</ref>, <ref refid="group___u_a_r_t_1ga5578bae41ea73c00dd704924c63f7370" kindref="member">XMC_UART_CH_GetStatusFlag()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="491" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gaeec73a4f59460bbe97aad10c1d925c73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_EnableInputDigitalFilter</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input)</argsstring>
+        <name>XMC_UART_CH_EnableInputDigitalFilter</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the digital filter for UART input stage.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gaef225ec3a0bc7db11ddf0b4f260a905c" kindref="member">XMC_UART_CH_DisableInputDigitalFilter()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="781" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="781" bodyend="784"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga95acf430dde4497f55838626ec22b808" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_EnableInputInversion</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input)</argsstring>
+        <name>XMC_UART_CH_EnableInputInversion</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables input inversion for UART input data signal.<linebreak/>
+<linebreak/>
+Polarity of the input source can be changed to provide inverted data input. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gafd566960d84740ec0c0713197839b071" kindref="member">XMC_UART_CH_DisableInputInversion()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="744" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="744" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga52aa3807f291f58be66b4d946aec7d47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_EnableInputSync</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input)</argsstring>
+        <name>XMC_UART_CH_EnableInputSync</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None </para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables synchronous input for the UART input stage.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga655549975b9c7dce3fb9f28c89b5685f" kindref="member">XMC_UART_CH_DisableInputSync()</ref>, <ref refid="group___u_a_r_t_1gaeec73a4f59460bbe97aad10c1d925c73" kindref="member">XMC_UART_CH_EnableInputDigitalFilter()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="816" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="816" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga60eafedc1effa37f174e772a313c94fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_EnableMasterClock</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_EnableMasterClock</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Enables the generation of the master clock MCLK.<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_s_i_c_1gaf9deda88e97525978786d4711aa75067" kindref="member">XMC_USIC_CH_SetMclkOutputPassiveLevel()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="688" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="688" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga578c15fc0df2e8ea7a265c92c0a26536" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_UART_CH_GetReceivedData</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_GetReceivedData</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>uint16_t Received data over UART communication channel. </para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides one word of data received over UART communication channel.<linebreak/>
+<linebreak/>
+Based on the channel configuration, data is either read from the receive FIFO or RBUF register. Before returning the value, there is no check for data validity. User should check the appropriate data receive flags(standard receive/alternative receive/FIFO standard receive/FIFO alternative receive) before executing the API. Reading from an empty receive FIFO can generate a receive error event.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga5578bae41ea73c00dd704924c63f7370" kindref="member">XMC_UART_CH_GetStatusFlag()</ref>, <ref refid="group___u_a_r_t_1ga3a9b41f5d74a0dde43d9b19166ffa7c6" kindref="member">XMC_UART_CH_Transmit()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="426" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga5578bae41ea73c00dd704924c63f7370" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t XMC_UART_CH_GetStatusFlag</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_GetStatusFlag</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>Status of UART channel events. <linebreak/>
+ <bold>Range:</bold> Use <ref refid="group___u_a_r_t_1ga802a057f335dc7bc1465ae11b19d09af" kindref="member">XMC_UART_CH_STATUS_FLAG_t</ref> enumerations for event bitmasks. <ref refid="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa8838558f1c949dfdfa117908e21d7058" kindref="member">XMC_UART_CH_STATUS_FLAG_TRANSMISSION_IDLE</ref>, <ref refid="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afa02d60fc761d9eee4c4d1c525f2429a5c" kindref="member">XMC_UART_CH_STATUS_FLAG_RECEPTION_IDLE</ref>, <ref refid="group___u_a_r_t_1gga802a057f335dc7bc1465ae11b19d09afaeaf9ee65696e36e06e012e0e3e5b5855" kindref="member">XMC_UART_CH_STATUS_FLAG_SYNCHRONIZATION_BREAK_DETECTED</ref> etc.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Provides the status of UART channel events.<linebreak/>
+<linebreak/>
+Status provided by the API represents the status of multiple events at their bit positions. The bitmasks can be obtained using the enumeration XMC_UART_CH_STATUS_FLAG_t. Event status is obtained by reading the register PSR_ASCMode.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gaf511dd60e7f23bc40bad0207ff9bd266" kindref="member">XMC_UART_CH_EnableEvent()</ref>, <ref refid="group___u_a_r_t_1ga6840ff2cfd59836fea619b9c1cfbbac5" kindref="member">XMC_UART_CH_ClearStatusFlag()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="600" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="600" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga719ad21f9ccaf9585dd0b473b4daef7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_Init</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_CONFIG_t *const config)</argsstring>
+        <name>XMC_UART_CH_Init</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_UART_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, XMC_UART0_CH1,XMC_UART1_CH0, XMC_UART1_CH1,XMC_UART2_CH0, XMC_UART2_CH1 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to UART configuration structure of type <ref refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_UART_CH_CONFIG_t</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_UART_CH_STATUS_t Status of initializing the USIC channel for UART protocol.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a1d4d4ea36dc6c0ceb6599efed42f0559" kindref="member">XMC_UART_CH_STATUS_OK</ref> if initialization is successful.<linebreak/>
+ <ref refid="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a146ec14a2e6f316f449c332a863289b0" kindref="member">XMC_UART_CH_STATUS_ERROR</ref> if configuration of baudrate failed.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Initializes the USIC channel for UART protocol.<linebreak/>
+<linebreak/>
+During the initialization, USIC channel is enabled, baudrate is configured with the defined oversampling value in the intialization structure. If the oversampling value is set to 0 in the structure, the default oversampling of 16 is considered. Sampling point for each symbol is configured at the half of sampling period. Symbol value is decided by the majority decision among 3 samples. Word length is configured with the number of data bits. If the value of <emphasis>frame_length</emphasis> is 0, then USIC channel frame length is set to the same value as word length. If <emphasis>frame_length</emphasis> is greater than 0, it is set as the USIC channel frame length. Parity mode is set to the value configured for <emphasis>parity_mode</emphasis>. The USIC channel should be set to UART mode by calling the <ref refid="group___u_a_r_t_1ga786385b5527c6c6405d7e9e3626e0587" kindref="member">XMC_UART_CH_Start()</ref> API after the initialization.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga786385b5527c6c6405d7e9e3626e0587" kindref="member">XMC_UART_CH_Start()</ref>, <ref refid="group___u_a_r_t_1ga083e4d7b2be613994d61ebc9841f7ebd" kindref="member">XMC_UART_CH_Stop()</ref>, <ref refid="group___u_a_r_t_1ga3a9b41f5d74a0dde43d9b19166ffa7c6" kindref="member">XMC_UART_CH_Transmit()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="297" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="297" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gaca0ca9010bb1284a819b265694b7a5f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_InitEx</definition>
+        <argsstring>(XMC_USIC_CH_t *channel, const XMC_UART_CH_CONFIG_t *const config, bool init_brg)</argsstring>
+        <name>XMC_UART_CH_InitEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_UART_CH_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>init_brg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, XMC_UART0_CH1,XMC_UART1_CH0, XMC_UART1_CH1,XMC_UART2_CH0, XMC_UART2_CH1 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to UART configuration structure of type <ref refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_UART_CH_CONFIG_t</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>init_brg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects if the baudrate generator should be configured automatically. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_UART_CH_STATUS_t Status of initializing the USIC channel for UART protocol.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a1d4d4ea36dc6c0ceb6599efed42f0559" kindref="member">XMC_UART_CH_STATUS_OK</ref> if initialization is successful.<linebreak/>
+ <ref refid="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a146ec14a2e6f316f449c332a863289b0" kindref="member">XMC_UART_CH_STATUS_ERROR</ref> if configuration of baudrate failed.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Initializes the USIC channel for UART protocol.<linebreak/>
+<linebreak/>
+During the initialization, USIC channel is enabled, baudrate is configured with the defined oversampling value in the intialization structure. If the oversampling value is set to 0 in the structure, the default oversampling of 16 is considered. Sampling point for each symbol is configured at the half of sampling period. Symbol value is decided by the majority decision among 3 samples. Word length is configured with the number of data bits. If the value of <emphasis>frame_length</emphasis> is 0, then USIC channel frame length is set to the same value as word length. If <emphasis>frame_length</emphasis> is greater than 0, it is set as the USIC channel frame length. Parity mode is set to the value configured for <emphasis>parity_mode</emphasis>. The USIC channel should be set to UART mode by calling the <ref refid="group___u_a_r_t_1ga786385b5527c6c6405d7e9e3626e0587" kindref="member">XMC_UART_CH_Start()</ref> API after the initialization.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga786385b5527c6c6405d7e9e3626e0587" kindref="member">XMC_UART_CH_Start()</ref>, <ref refid="group___u_a_r_t_1ga083e4d7b2be613994d61ebc9841f7ebd" kindref="member">XMC_UART_CH_Stop()</ref>, <ref refid="group___u_a_r_t_1ga3a9b41f5d74a0dde43d9b19166ffa7c6" kindref="member">XMC_UART_CH_Transmit()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="273" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gadd72632ef25d7f44d8518141fde99a2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SelectInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INTERRUPT_NODE_POINTER_t interrupt_node, const uint32_t service_request)</argsstring>
+        <name>XMC_UART_CH_SelectInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga29676690a77272438ef1cfc21575ff6d" kindref="member">XMC_UART_CH_INTERRUPT_NODE_POINTER_t</ref></type>
+          <declname>interrupt_node</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interrupt_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interrupt node pointer to be configured. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6da0069cc6489d3bf33490bf4cc95e998d4" kindref="member">XMC_UART_CH_INTERRUPT_NODE_POINTER_TRANSMIT_SHIFT</ref>, <ref refid="group___u_a_r_t_1gga29676690a77272438ef1cfc21575ff6da59a31b003753d05ac1b5d5067751121e" kindref="member">XMC_UART_CH_INTERRUPT_NODE_POINTER_TRANSMIT_BUFFER</ref> etc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number.<linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for USIC channel events. <linebreak/>
+<linebreak/>
+For an event to generate interrupt, node pointer should be configured with service request(SR0, SR1..SR5). The NVIC node gets linked to the interrupt event by doing so.<linebreak/>
+ Note: NVIC node should be separately enabled to generate the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gaf511dd60e7f23bc40bad0207ff9bd266" kindref="member">XMC_UART_CH_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="555" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="555" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga0f757d62a86fc8944cf7188137490b62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_a_r_t_1gadd220ce3211af8111e0af876a0619788" kindref="member">XMC_UART_CH_STATUS_t</ref></type>
+        <definition>XMC_UART_CH_STATUS_t XMC_UART_CH_SetBaudrate</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t rate, uint32_t oversampling)</argsstring>
+        <name>XMC_UART_CH_SetBaudrate</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>oversampling</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, XMC_UART0_CH1 ,XMC_UART1_CH0, XMC_UART1_CH1, XMC_UART2_CH0, XMC_UART2_CH1 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired baudrate. <linebreak/>
+ <bold>Range:</bold> minimum value = 100, maximum value depends on the peripheral clock frequency<linebreak/>
+ and <emphasis>oversampling</emphasis>. Maximum baudrate can be derived using the formula: (fperiph * 1023)/(1024 * oversampling) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>oversampling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required oversampling. The value indicates the number of time quanta for one symbol of data.<linebreak/>
+ This can be related to the number of samples for each logic state of the data signal.<linebreak/>
+ <bold>Range:</bold> 4 to 32. Value should be chosen based on the protocol used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_UART_CH_STATUS_t Status indicating the baudrate configuration.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_s_i_c_1ggaf0ce1333656386f14f018b400beb9e39a7f5eeda6309c7b3a3e8f08380ed47e3c" kindref="member">XMC_USIC_CH_STATUS_OK</ref> if baudrate is successfully configured, <ref refid="group___u_s_i_c_1ggaf0ce1333656386f14f018b400beb9e39af9cf48d10eb977902d20eeaed491bcf0" kindref="member">XMC_USIC_CH_STATUS_ERROR</ref> if desired baudrate or oversampling is invalid.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the bus speed in bits per second.<linebreak/>
+<linebreak/>
+Derives the values of <emphasis>STEP</emphasis> and PDIV to arrive at the optimum realistic speed possible. <emphasis>oversampling</emphasis> is the number of samples to be taken for each symbol of UART protocol. Default <emphasis>oversampling</emphasis> of 16 is considered if the input <emphasis>oversampling</emphasis> is less than 4. It is recommended to keep a minimum oversampling of 4 for UART.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga719ad21f9ccaf9585dd0b473b4daef7e" kindref="member">XMC_UART_CH_Init()</ref>, <ref refid="group___u_a_r_t_1ga083e4d7b2be613994d61ebc9841f7ebd" kindref="member">XMC_UART_CH_Stop()</ref>, <ref refid="group___u_s_i_c_1gae9092b12f490047882c1bb9897985c0e" kindref="member">XMC_USIC_CH_GetBaudrate()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="361" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga516877b6a939a19eb1c7ec772b6535f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_a_r_t_1gadd220ce3211af8111e0af876a0619788" kindref="member">XMC_UART_CH_STATUS_t</ref></type>
+        <definition>XMC_UART_CH_STATUS_t XMC_UART_CH_SetBaudrateEx</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, uint32_t rate, uint32_t oversampling, bool normal_divider_mode)</argsstring>
+        <name>XMC_UART_CH_SetBaudrateEx</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>oversampling</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normal_divider_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, XMC_UART0_CH1 ,XMC_UART1_CH0, XMC_UART1_CH1, XMC_UART2_CH0, XMC_UART2_CH1 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired baudrate. <linebreak/>
+ <bold>Range:</bold> minimum value = 100, maximum value depends on the peripheral clock frequency<linebreak/>
+ and <emphasis>oversampling</emphasis>. Maximum baudrate can be derived using the formula: (fperiph * 1023)/(1024 * oversampling) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>oversampling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required oversampling. The value indicates the number of time quanta for one symbol of data.<linebreak/>
+ This can be related to the number of samples for each logic state of the data signal.<linebreak/>
+ <bold>Range:</bold> 4 to 32. Value should be chosen based on the protocol used. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normal_divider_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter of signal at the cost of frequency selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>XMC_UART_CH_STATUS_t Status indicating the baudrate configuration.<linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_s_i_c_1ggaf0ce1333656386f14f018b400beb9e39a7f5eeda6309c7b3a3e8f08380ed47e3c" kindref="member">XMC_USIC_CH_STATUS_OK</ref> if baudrate is successfully configured, <ref refid="group___u_s_i_c_1ggaf0ce1333656386f14f018b400beb9e39af9cf48d10eb977902d20eeaed491bcf0" kindref="member">XMC_USIC_CH_STATUS_ERROR</ref> if desired baudrate or oversampling is invalid.</para>
+</simplesect>
+<simplesect kind="par"><title>Description:</title><para>Sets the bus speed in bits per second.<linebreak/>
+<linebreak/>
+Derives the values of <emphasis>STEP</emphasis> and PDIV to arrive at the optimum realistic speed possible. <emphasis>oversampling</emphasis> is the number of samples to be taken for each symbol of UART protocol. Default <emphasis>oversampling</emphasis> of 16 is considered if the input <emphasis>oversampling</emphasis> is less than 4. It is recommended to keep a minimum oversampling of 4 for UART.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga719ad21f9ccaf9585dd0b473b4daef7e" kindref="member">XMC_UART_CH_Init()</ref>, <ref refid="group___u_a_r_t_1ga083e4d7b2be613994d61ebc9841f7ebd" kindref="member">XMC_UART_CH_Stop()</ref>, <ref refid="group___u_s_i_c_1gae9092b12f490047882c1bb9897985c0e" kindref="member">XMC_USIC_CH_GetBaudrate()</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="387" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga9f6eb4a3265729b4b7cf7e3d198130d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetFrameLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t frame_length)</argsstring>
+        <name>XMC_UART_CH_SetFrameLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>frame_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frame_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data bits in each UART frame. <linebreak/>
+ <bold>Range:</bold> minimum= 1, maximum= 64. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the number of data bits for UART communication.<linebreak/>
+<linebreak/>
+The frame length is configured by setting the input value to <emphasis>SCTR</emphasis> register. The value of <emphasis>frame_length</emphasis> will be decremented by 1, before setting it to the register. Frame length should not be set to 64 for UART communication.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga6b12b3bdebda3d3a6c28d5c79a12735b" kindref="member">XMC_UART_CH_SetWordLength()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="469" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="469" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gad6c3cf150769886938ceb811557db243" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetInputSamplingFreq</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input, const XMC_UART_CH_INPUT_SAMPLING_FREQ_t sampling_freq)</argsstring>
+        <name>XMC_UART_CH_SetInputSamplingFreq</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga2deb0d11792f241e1e5c02e6a4063998" kindref="member">XMC_UART_CH_INPUT_SAMPLING_FREQ_t</ref></type>
+          <declname>sampling_freq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sampling_freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input sampling frequency. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga2deb0d11792f241e1e5c02e6a4063998a916e6151ac686996fbef2b0c059d0527" kindref="member">XMC_UART_CH_INPUT_SAMPLING_FREQ_FPERIPH</ref>, <ref refid="group___u_a_r_t_1gga2deb0d11792f241e1e5c02e6a4063998ac1ae8f6ca1096c61ca0619dae0a18b92" kindref="member">XMC_UART_CH_INPUT_SAMPLING_FREQ_FRACTIONAL_DIVIDER</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the sampling frequency for the UART input stage.<linebreak/>
+<linebreak/>
+ </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga52aa3807f291f58be66b4d946aec7d47" kindref="member">XMC_UART_CH_EnableInputSync()</ref>, <ref refid="group___u_a_r_t_1gaeec73a4f59460bbe97aad10c1d925c73" kindref="member">XMC_UART_CH_EnableInputDigitalFilter()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="854" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="854" bodyend="859"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga1f6aded563def78ca10e8638889bd898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetInputSource</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const XMC_UART_CH_INPUT_t input, const uint8_t source)</argsstring>
+        <name>XMC_UART_CH_SetInputSource</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref></type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UART channel input stage of type <ref refid="group___u_a_r_t_1ga7358da2d90633473ae9de4636ddb3a46" kindref="member">XMC_UART_CH_INPUT_t</ref>. <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46acaf414b76fa9b98df96b90edbf3edc3d" kindref="member">XMC_UART_CH_INPUT_RXD</ref> (for DX0), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a66212b93204c18de9680a5b45d41e327" kindref="member">XMC_UART_CH_INPUT_RXD1</ref> (for DX3), <ref refid="group___u_a_r_t_1gga7358da2d90633473ae9de4636ddb3a46a1dbf3656536ec612da6a63ecd25e67d4" kindref="member">XMC_UART_CH_INPUT_RXD2</ref> (for DX5). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input source select for the input stage. The table provided below maps the decimal value with the input source. <table rows="8" cols="2"><row>
+<entry thead="no"><para>0</para>
+</entry><entry thead="no"><para>DXnA</para>
+</entry></row>
+<row>
+<entry thead="no"><para>1</para>
+</entry><entry thead="no"><para>DXnB</para>
+</entry></row>
+<row>
+<entry thead="no"><para>2</para>
+</entry><entry thead="no"><para>DXnC</para>
+</entry></row>
+<row>
+<entry thead="no"><para>3</para>
+</entry><entry thead="no"><para>DXnD </para>
+</entry></row>
+<row>
+<entry thead="no"><para>4</para>
+</entry><entry thead="no"><para>DXnE</para>
+</entry></row>
+<row>
+<entry thead="no"><para>5</para>
+</entry><entry thead="no"><para>DXnF</para>
+</entry></row>
+<row>
+<entry thead="no"><para>6</para>
+</entry><entry thead="no"><para>DXnG</para>
+</entry></row>
+<row>
+<entry thead="no"><para>7</para>
+</entry><entry thead="no"><para>Always 1 </para>
+</entry></row>
+</table>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets input soource for the UART communication.<linebreak/>
+<linebreak/>
+It is used for configuring the input stage for data reception. Selects the input data signal source among DXnA, DXnB.. DXnG for the input stage. The API can be used for the input stages DX0, DX3 and DX5.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga95acf430dde4497f55838626ec22b808" kindref="member">XMC_UART_CH_EnableInputInversion()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="649" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="649" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gaa013e09337b1c9c05b41eac29b2518ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetInterruptNodePointer</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t service_request)</argsstring>
+        <name>XMC_UART_CH_SetInterruptNodePointer</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>service_request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request number for generating protocol interrupts.<linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the interrupt node for UART channel protocol events.<linebreak/>
+<linebreak/>
+For all the protocol events enlisted in the enumeration XMC_UART_CH_EVENT_t, one common interrupt gets generated. The service request connects the interrupt node to the UART protocol events. Note: NVIC node should be separately enabled to generate the interrupt.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gaf511dd60e7f23bc40bad0207ff9bd266" kindref="member">XMC_UART_CH_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="529" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="529" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga12f39dca3684261d4e35aeb7af9c82a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetPulseLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t pulse_length)</argsstring>
+        <name>XMC_UART_CH_SetPulseLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pulse_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pulse_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of the zero pulse in number of time quanta. <linebreak/>
+ <bold>Range:</bold> 0 to 7. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the length of zero pulse in number of time quanta. Value 0 indicates one time quanta.<linebreak/>
+<linebreak/>
+Maximum possible is 8 time quanta with the value configured as 7.<linebreak/>
+The value is set to PCR_ASCMode register. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga95acf430dde4497f55838626ec22b808" kindref="member">XMC_UART_CH_EnableInputInversion()</ref>, <ref refid="group___u_a_r_t_1gacabdceef217f1be937dc494ce9140765" kindref="member">XMC_UART_CH_SetSamplePoint()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="670" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="670" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1gacabdceef217f1be937dc494ce9140765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetSamplePoint</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t sample_point)</argsstring>
+        <name>XMC_UART_CH_SetSamplePoint</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>sample_point</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sample_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample point among the number of samples. <linebreak/>
+ <bold>Range:</bold> minimum= 0, maximum= <emphasis>oversampling</emphasis> (DCTQ). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the sample point among the multiple samples for each UART symbol.<linebreak/>
+<linebreak/>
+The sample point is the one sample among number of samples set as oversampling. The value should be less than the oversampling value. <ref refid="group___u_a_r_t_1ga719ad21f9ccaf9585dd0b473b4daef7e" kindref="member">XMC_UART_CH_Init()</ref> sets the sample point to the sample at the centre. For example if the oversampling is 16, then the sample point is set to 9. </para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga95acf430dde4497f55838626ec22b808" kindref="member">XMC_UART_CH_EnableInputInversion()</ref>, <ref refid="group___u_a_r_t_1gacabdceef217f1be937dc494ce9140765" kindref="member">XMC_UART_CH_SetSamplePoint()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="724" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="724" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga6b12b3bdebda3d3a6c28d5c79a12735b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_SetWordLength</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint8_t word_length)</argsstring>
+        <name>XMC_UART_CH_SetWordLength</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>word_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>word_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data word length. <linebreak/>
+ <bold>Range:</bold> minimum= 1, maximum= 16. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the data word length in number of bits.<linebreak/>
+<linebreak/>
+Word length can range from 1 to 16. It indicates the number of data bits in a data word. The value of <emphasis>word_length</emphasis> will be decremented by 1 before setting the value to <emphasis>SCTR</emphasis> register. If the UART data bits is more than 16, then the frame length should be set to the actual number of bits and word length should be configured with the number of bits expected in each transaction. For example, if number of data bits for UART communication is 20 bits, then the frame length should be set as 20. Word length can be set based on the transmit and receive handling. If data is stored as 8bit array, then the word length can be set to 8. In this case, a full message of UART data should be transmitted/ received as 3 data words.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga9f6eb4a3265729b4b7cf7e3d198130d6" kindref="member">XMC_UART_CH_SetFrameLength()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="448" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="448" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga786385b5527c6c6405d7e9e3626e0587" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_Start</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_Start</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Sets the USIC channel operation mode to UART mode.<linebreak/>
+<linebreak/>
+CCR register bitfield <emphasis>Mode</emphasis> is set to 2(UART mode). This API should be called after configuring the USIC channel. Transmission and reception can happen only when the UART mode is set. This is an inline function.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga083e4d7b2be613994d61ebc9841f7ebd" kindref="member">XMC_UART_CH_Stop()</ref>, <ref refid="group___u_a_r_t_1ga3a9b41f5d74a0dde43d9b19166ffa7c6" kindref="member">XMC_UART_CH_Transmit()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="316" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="316" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga083e4d7b2be613994d61ebc9841f7ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___u_a_r_t_1gadd220ce3211af8111e0af876a0619788" kindref="member">XMC_UART_CH_STATUS_t</ref></type>
+        <definition>XMC_UART_CH_STATUS_t XMC_UART_CH_Stop</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel)</argsstring>
+        <name>XMC_UART_CH_Stop</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<simplesect kind="return"><para>XMC_UART_CH_STATUS_t Status to indicate if the communication channel is stopped successfully.<linebreak/>
+ <ref refid="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a1d4d4ea36dc6c0ceb6599efed42f0559" kindref="member">XMC_UART_CH_STATUS_OK</ref> if the communication channel is stopped. <ref refid="group___u_a_r_t_1ggadd220ce3211af8111e0af876a0619788a410817c31e098fd03c04f4d5ecb76ef1" kindref="member">XMC_UART_CH_STATUS_BUSY</ref> if the communication channel is busy.</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Stops the UART communication.<linebreak/>
+<linebreak/>
+CCR register bitfield <emphasis>Mode</emphasis> is reset. This disables the communication. Before starting the communication again, the channel has to be reconfigured.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga719ad21f9ccaf9585dd0b473b4daef7e" kindref="member">XMC_UART_CH_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="336" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga3a9b41f5d74a0dde43d9b19166ffa7c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_Transmit</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint16_t data)</argsstring>
+        <name>XMC_UART_CH_Transmit</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constant pointer to USIC channel handle of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data to be transmitted. <linebreak/>
+ <bold>Range:</bold> 16 bit unsigned data within the range 0 to 65535. Actual size of data transmitted depends on the configured number of bits for the UART protocol in the register SCTR. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Transmits data over serial communication channel using UART protocol.<linebreak/>
+<linebreak/>
+Based on the channel configuration, data is either put to the transmit FIFO or to TBUF register. Before putting data to TBUF, the API waits for TBUF to finish shifting its contents to shift register. So user can continuously execute the API without checking for TBUF busy status. Based on the number of data bits configured, the lower significant bits will be extracted for transmission.</para>
+</simplesect>
+Note: When FIFO is not configured, the API waits for the TBUF to be available. This makes the execution a blocking call.</para>
+<para><simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1ga578c15fc0df2e8ea7a265c92c0a26536" kindref="member">XMC_UART_CH_GetReceivedData()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="410" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___u_a_r_t_1ga3a3d22e4821ed95b364793b3a7e711c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_UART_CH_TriggerServiceRequest</definition>
+        <argsstring>(XMC_USIC_CH_t *const channel, const uint32_t service_request_line)</argsstring>
+        <name>XMC_UART_CH_TriggerServiceRequest</name>
+        <param>
+          <type><ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> *const</type>
+          <declname>channel</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>service_request_line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to USIC channel handler of type <ref refid="struct_x_m_c___u_s_i_c___c_h__t" kindref="compound">XMC_USIC_CH_t</ref> <linebreak/>
+ <bold>Range:</bold> <ref refid="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" kindref="member">XMC_UART0_CH0</ref>, <ref refid="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" kindref="member">XMC_UART0_CH1</ref>,<ref refid="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" kindref="member">XMC_UART1_CH0</ref>,<ref refid="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" kindref="member">XMC_UART1_CH1</ref>,<ref refid="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" kindref="member">XMC_UART2_CH0</ref>,<ref refid="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" kindref="member">XMC_UART2_CH1</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Availability of UART1 and UART2 depends on device selection </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service_request_line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>service request number of the event to be triggered. <linebreak/>
+ <bold>Range:</bold> 0 to 5. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>None</para>
+</simplesect>
+<simplesect kind="par"><title>Description</title><para>Trigger a UART interrupt service request.<linebreak/>
+<linebreak/>
+When the UART service request is triggered, the NVIC interrupt associated with it will be generated if enabled.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___u_a_r_t_1gadd72632ef25d7f44d8518141fde99a2c" kindref="member">XMC_UART_CH_SelectInterruptNodePointer()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="578" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="578" bodyend="581"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___u_a_r_t_1ga3dc31990cf98c3e7cf5743793187bd01" prot="public" static="no">
+        <name>XMC_UART0_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1ga28dd6da4b742e7336b12ae6fa8de5e9f" kindref="member">XMC_USIC0_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC0 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="113" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_a_r_t_1gaa04c64ad7fa9ae5db3dd9b8b7999ef49" prot="public" static="no">
+        <name>XMC_UART0_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1gab7c9a3765e7d637114fc67951cf20c5b" kindref="member">XMC_USIC0_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC0 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="114" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_a_r_t_1gad784f4e853952a3d0be9f260a0f1c3c6" prot="public" static="no">
+        <name>XMC_UART1_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab3012ea0f6b1dddc5b1c05425e15c4a1" kindref="member">XMC_USIC1_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC1 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="118" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_a_r_t_1ga8a09c318f27492e33d0d3e341ae0703e" prot="public" static="no">
+        <name>XMC_UART1_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga8892cec48c6246ff3e470178e4273f99" kindref="member">XMC_USIC1_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC1 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="119" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_a_r_t_1gaeb94319572f1e75648bcf89a98da324a" prot="public" static="no">
+        <name>XMC_UART2_CH0</name>
+        <initializer><ref refid="group___u_s_i_c_1gab79d676f4efb3235bd3d8c977b83b1cf" kindref="member">XMC_USIC2_CH0</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC2 channel 0 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="123" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group___u_a_r_t_1gaa231ac5218c378cfa8801ae63ca8ee79" prot="public" static="no">
+        <name>XMC_UART2_CH1</name>
+        <initializer><ref refid="group___u_s_i_c_1ga6f71692f25917f0dcd77bb77e5518313" kindref="member">XMC_USIC2_CH1</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>USIC2 channel 1 base address </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="124" column="9" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Universal Asynchronous Receiver/Transmitter (UART) driver for XMC microcontroller family. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The UART driver uses Universal Serial Interface Channel(USIC) module to implement UART protocol. It provides APIs to configure USIC channel for UART communication. The driver enables the user in getting the status of UART protocol events, configuring interrupt service requests, protocol related parameter configuration etc.</para>
+<para>UART driver features:<orderedlist>
+<listitem><para>Configuration structure <ref refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" kindref="compound">XMC_UART_CH_CONFIG_t</ref> and initialization function <ref refid="group___u_a_r_t_1ga719ad21f9ccaf9585dd0b473b4daef7e" kindref="member">XMC_UART_CH_Init()</ref></para>
+</listitem><listitem><para>Enumeration of events with their bit masks <ref refid="group___u_a_r_t_1ga122d0cf7042ea6cb81ccdb50df5f62b6" kindref="member">XMC_UART_CH_EVENT_t</ref>, <ref refid="group___u_a_r_t_1ga802a057f335dc7bc1465ae11b19d09af" kindref="member">XMC_UART_CH_STATUS_FLAG_t</ref></para>
+</listitem><listitem><para>Allows the selection of input source for the DX0 input stage using the API <ref refid="group___u_a_r_t_1ga1f6aded563def78ca10e8638889bd898" kindref="member">XMC_UART_CH_SetInputSource()</ref></para>
+</listitem><listitem><para>Allows configuration of baudrate using <ref refid="group___u_a_r_t_1ga0f757d62a86fc8944cf7188137490b62" kindref="member">XMC_UART_CH_SetBaudrate()</ref> and configuration of data length using <ref refid="group___u_a_r_t_1ga6b12b3bdebda3d3a6c28d5c79a12735b" kindref="member">XMC_UART_CH_SetWordLength()</ref> and <ref refid="group___u_a_r_t_1ga9f6eb4a3265729b4b7cf7e3d198130d6" kindref="member">XMC_UART_CH_SetFrameLength()</ref></para>
+</listitem><listitem><para>Provides the status of UART protocol events, <ref refid="group___u_a_r_t_1ga5578bae41ea73c00dd704924c63f7370" kindref="member">XMC_UART_CH_GetStatusFlag()</ref></para>
+</listitem><listitem><para>Allows transmission of data using <ref refid="group___u_a_r_t_1ga3a9b41f5d74a0dde43d9b19166ffa7c6" kindref="member">XMC_UART_CH_Transmit()</ref> and gets received data using <ref refid="group___u_a_r_t_1ga578c15fc0df2e8ea7a265c92c0a26536" kindref="member">XMC_UART_CH_GetReceivedData()</ref> </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

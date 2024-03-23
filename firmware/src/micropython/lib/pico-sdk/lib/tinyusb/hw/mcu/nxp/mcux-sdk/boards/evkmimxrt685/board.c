@@ -40,6 +40,8 @@
 static status_t flexspi_hyper_ram_write_mcr(FLEXSPI_Type *base, uint8_t regAddr, uint32_t *mrVal);
 static status_t flexspi_hyper_ram_get_mcr(FLEXSPI_Type *base, uint8_t regAddr, uint32_t *mrVal);
 static status_t flexspi_hyper_ram_reset(FLEXSPI_Type *base);
+AT_QUICKACCESS_SECTION_DATA(static uint32_t s_ispPin[3]);
+AT_QUICKACCESS_SECTION_DATA(static uint32_t s_flexspiPin[10]);
 /*******************************************************************************
  * Code
  ******************************************************************************/
@@ -51,6 +53,10 @@ void BOARD_InitDebugConsole(void)
     /* attach FRG0 clock to FLEXCOMM0 (debug console) */
     CLOCK_SetFRGClock(BOARD_DEBUG_UART_FRG_CLK);
     CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+
+    /* attach FRG0 clock to FLEXCOMM4*/
+    CLOCK_SetFRGClock(BOARD_BT_UART_FRG_CLK);
+    CLOCK_AttachClk(BOARD_BT_UART_CLK_ATTACH);
 
     uartClkSrcFreq = BOARD_DEBUG_UART_CLK_FREQ;
 
@@ -225,7 +231,9 @@ status_t BOARD_InitPsRam(void)
     config.ahbConfig.buffer[0].priority       = 0;
     /* All other masters use last buffer with 512B bytes. */
     config.ahbConfig.buffer[FSL_FEATURE_FLEXSPI_AHB_BUFFER_COUNT - 1].bufferSize = 512;
-    config.enableCombination                                                     = true;
+#if !(defined(FSL_FEATURE_FLEXSPI_HAS_NO_MCR0_COMBINATIONEN) && FSL_FEATURE_FLEXSPI_HAS_NO_MCR0_COMBINATIONEN)
+    config.enableCombination = true;
+#endif
     FLEXSPI_Init(BOARD_FLEXSPI_PSRAM, &config);
 
     /* Configure flash settings according to serial flash feature. */
@@ -392,7 +400,78 @@ void BOARD_FlexspiClockSafeConfig(void)
     /* Move FLEXSPI clock source from main clock to FFRO to avoid instruction/data fetch issue in XIP when
      * updating PLL and main clock.
      */
-    BOARD_SetFlexspiClock(3U, 1);
+    BOARD_SetFlexspiClock(3U, 1U);
+}
+
+void BOARD_SetDeepSleepPinConfig(void)
+{
+    /* Backup Pin configuration. */
+    s_ispPin[0]     = IOPCTL->PIO[1][15];
+    s_ispPin[1]     = IOPCTL->PIO[1][16];
+    s_ispPin[2]     = IOPCTL->PIO[1][17];
+    s_flexspiPin[0] = IOPCTL->PIO[1][29];
+    s_flexspiPin[1] = IOPCTL->PIO[2][19];
+    s_flexspiPin[2] = IOPCTL->PIO[1][11];
+    s_flexspiPin[3] = IOPCTL->PIO[1][12];
+    s_flexspiPin[4] = IOPCTL->PIO[1][13];
+    s_flexspiPin[5] = IOPCTL->PIO[1][14];
+    s_flexspiPin[6] = IOPCTL->PIO[2][17];
+    s_flexspiPin[7] = IOPCTL->PIO[2][18];
+    s_flexspiPin[8] = IOPCTL->PIO[2][22];
+    s_flexspiPin[9] = IOPCTL->PIO[2][23];
+
+    /* Disable ISP Pin pull-ups and input buffers to avoid current leakage */
+    IOPCTL->PIO[1][15] = 0;
+    IOPCTL->PIO[1][16] = 0;
+    IOPCTL->PIO[1][17] = 0;
+
+    /* Disable unnecessary input buffers */
+    IOPCTL->PIO[1][29] &= ~IOPCTL_PIO_IBENA_MASK;
+    IOPCTL->PIO[2][19] &= ~IOPCTL_PIO_IBENA_MASK;
+
+    /* Enable pull-ups floating FlexSPI0 pins */
+    IOPCTL->PIO[1][11] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[1][12] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[1][13] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[1][14] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[2][17] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[2][18] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[2][22] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+    IOPCTL->PIO[2][23] |= IOPCTL_PIO_PUPDENA_MASK | IOPCTL_PIO_PUPDSEL_MASK;
+}
+
+void BOARD_RestoreDeepSleepPinConfig(void)
+{
+    /* Restore the Pin configuration. */
+    IOPCTL->PIO[1][15] = s_ispPin[0];
+    IOPCTL->PIO[1][16] = s_ispPin[1];
+    IOPCTL->PIO[1][17] = s_ispPin[2];
+
+    IOPCTL->PIO[1][29] = s_flexspiPin[0];
+    IOPCTL->PIO[2][19] = s_flexspiPin[1];
+    IOPCTL->PIO[1][11] = s_flexspiPin[2];
+    IOPCTL->PIO[1][12] = s_flexspiPin[3];
+    IOPCTL->PIO[1][13] = s_flexspiPin[4];
+    IOPCTL->PIO[1][14] = s_flexspiPin[5];
+    IOPCTL->PIO[2][17] = s_flexspiPin[6];
+    IOPCTL->PIO[2][18] = s_flexspiPin[7];
+    IOPCTL->PIO[2][22] = s_flexspiPin[8];
+    IOPCTL->PIO[2][23] = s_flexspiPin[9];
+}
+
+void BOARD_EnterDeepSleep(const uint32_t exclude_from_pd[4])
+{
+    BOARD_SetDeepSleepPinConfig();
+    POWER_EnterDeepSleep(exclude_from_pd);
+    BOARD_RestoreDeepSleepPinConfig();
+}
+
+void BOARD_EnterDeepPowerDown(const uint32_t exclude_from_pd[4])
+{
+    BOARD_SetDeepSleepPinConfig();
+    POWER_EnterDeepPowerDown(exclude_from_pd);
+    /* After deep power down wakeup, the code will restart and cannot reach here. */
+    BOARD_RestoreDeepSleepPinConfig();
 }
 
 #if defined(SDK_I2C_BASED_COMPONENT_USED) && SDK_I2C_BASED_COMPONENT_USED

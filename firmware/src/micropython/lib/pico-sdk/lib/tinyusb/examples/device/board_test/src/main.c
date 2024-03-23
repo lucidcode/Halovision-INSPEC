@@ -47,6 +47,7 @@ enum  {
 int main(void)
 {
   board_init();
+  board_led_write(true);
 
   uint32_t start_ms = 0;
   bool led_state = false;
@@ -55,7 +56,7 @@ int main(void)
   {
     uint32_t interval_ms = board_button_read() ? BLINK_PRESSED : BLINK_UNPRESSED;
 
-    // Blink every interval ms
+    // Blink and print every interval ms
     if ( !(board_millis() - start_ms < interval_ms) )
     {
       board_uart_write(HELLO_STR, strlen(HELLO_STR));
@@ -64,6 +65,13 @@ int main(void)
 
       board_led_write(led_state);
       led_state = 1 - led_state; // toggle
+    }
+
+    // echo
+    uint8_t ch;
+    if ( board_uart_read(&ch, 1) > 0 )
+    {
+      board_uart_write(&ch, 1);
     }
   }
 

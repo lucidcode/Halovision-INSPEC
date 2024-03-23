@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_UART_CH_CONFIG_t</compoundname>
+    <includes local="no">xmc_uart.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t baudrate</definition>
+        <argsstring></argsstring>
+        <name>baudrate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Desired baudrate. <bold>Range:</bold> minimum= 100, maximum= (fPERIPH * 1023)/(1024 * oversampling) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="230" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1a6ad5ab806aecadd6cc55918f18742678" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t data_bits</definition>
+        <argsstring></argsstring>
+        <name>data_bits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bits for the data field. Value configured as USIC channel word length. <linebreak/>
+<bold>Range:</bold> minimum= 1, maximum= 16 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="232" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1a717fcb304647e963182027a1aab38256" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t frame_length</definition>
+        <argsstring></argsstring>
+        <name>frame_length</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Indicates nmber of bits in a frame. Configured as USIC channel frame length. <linebreak/>
+<bold>Range:</bold> minimum= 1, maximum= 63 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="234" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool normal_divider_mode</definition>
+        <argsstring></argsstring>
+        <name>normal_divider_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter at cost of frequency selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="231" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1af2dbbcca6b251d4672d04aa68ecdcdbd" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t oversampling</definition>
+        <argsstring></argsstring>
+        <name>oversampling</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of samples for a symbol(DCTQ).<bold>Range:</bold> minimum= 1, maximum= 32 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="237" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1ac82f6bed1d4d170d2ba0ec02d4895150" prot="public" static="no" mutable="no">
+        <type><ref refid="group___u_s_i_c_1ga0a55c03c810078ffc9fa8b512dc57e37" kindref="member">XMC_USIC_CH_PARITY_MODE_t</ref></type>
+        <definition>XMC_USIC_CH_PARITY_MODE_t parity_mode</definition>
+        <argsstring></argsstring>
+        <name>parity_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parity mode. <bold>Range:</bold> <ref refid="group___u_s_i_c_1gga0a55c03c810078ffc9fa8b512dc57e37a41914c3176bcc9f17327bd7195dd39b6" kindref="member">XMC_USIC_CH_PARITY_MODE_NONE</ref>, <ref refid="group___u_s_i_c_1gga0a55c03c810078ffc9fa8b512dc57e37a1680b6d1bae664e1479de091cf8c61ea" kindref="member">XMC_USIC_CH_PARITY_MODE_EVEN</ref>, <linebreak/>
+<ref refid="group___u_s_i_c_1gga0a55c03c810078ffc9fa8b512dc57e37a59e6188e4d02d8d1ac50e8ade251093e" kindref="member">XMC_USIC_CH_PARITY_MODE_ODD</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="238" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1ae847d8b7e1095e0ae8d6eb1e4a281585" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t stop_bits</definition>
+        <argsstring></argsstring>
+        <name>stop_bits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of stop bits. <bold>Range:</bold> minimum= 1, maximum= 2 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="236" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>UART initialization structure </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" line="229" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_uart.h" bodystart="228" bodyend="240"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>baudrate</name></member>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1a6ad5ab806aecadd6cc55918f18742678" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>data_bits</name></member>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1a717fcb304647e963182027a1aab38256" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>frame_length</name></member>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>normal_divider_mode</name></member>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1af2dbbcca6b251d4672d04aa68ecdcdbd" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>oversampling</name></member>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1ac82f6bed1d4d170d2ba0ec02d4895150" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>parity_mode</name></member>
+      <member refid="struct_x_m_c___u_a_r_t___c_h___c_o_n_f_i_g__t_1ae847d8b7e1095e0ae8d6eb1e4a281585" prot="public" virt="non-virtual"><scope>XMC_UART_CH_CONFIG_t</scope><name>stop_bits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

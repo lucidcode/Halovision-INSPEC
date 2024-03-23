@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SDMMC_CONFIG_t</compoundname>
+    <includes local="no">xmc_sdmmc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t_1aeee0d227b46878e64ce8a05f584a53f2" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t bus_width</definition>
+        <argsstring></argsstring>
+        <name>bus_width</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC bus width </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="631" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t_1a986ceee828afde3518a8b371b240303a" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_d_m_m_c_1ga2e7b8636a941b0dacb74364b80c6e0b3" kindref="member">XMC_SDMMC_SDCLK_FREQ_SEL_t</ref></type>
+        <definition>XMC_SDMMC_SDCLK_FREQ_SEL_t clock_divider</definition>
+        <argsstring></argsstring>
+        <name>clock_divider</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SDMMC clock divider </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="632" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="632" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>SDMMC configuration data structure <linebreak/>
+</para>
+<para>The structure is used to configure the bus width and the clock divider. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="630" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="629" bodyend="633"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t_1aeee0d227b46878e64ce8a05f584a53f2" prot="public" virt="non-virtual"><scope>XMC_SDMMC_CONFIG_t</scope><name>bus_width</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___c_o_n_f_i_g__t_1a986ceee828afde3518a8b371b240303a" prot="public" virt="non-virtual"><scope>XMC_SDMMC_CONFIG_t</scope><name>clock_divider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

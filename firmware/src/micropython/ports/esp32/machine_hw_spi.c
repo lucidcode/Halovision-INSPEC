@@ -31,31 +31,53 @@
 #include "py/runtime.h"
 #include "py/stream.h"
 #include "py/mphal.h"
-#include "extmod/machine_spi.h"
-#include "modmachine.h"
+#include "extmod/modmachine.h"
 
 #include "driver/spi_master.h"
+#include "soc/gpio_sig_map.h"
+#include "soc/spi_pins.h"
 
-// Default pins for SPI(1), can be overridden by a board
-#ifndef MICROPY_HW_SPI1_SCK
-#define MICROPY_HW_SPI1_SCK (14)
-#define MICROPY_HW_SPI1_MOSI (13)
-#define MICROPY_HW_SPI1_MISO (12)
+// SPI mappings by device, naming used by IDF old/new
+// upython   | ESP32     | ESP32S2   | ESP32S3 | ESP32C3
+// ----------+-----------+-----------+---------+---------
+// SPI(id=1) | HSPI/SPI2 | FSPI/SPI2 | SPI2    | SPI2
+// SPI(id=2) | VSPI/SPI3 | HSPI/SPI3 | SPI3    | err
+
+// Number of available hardware SPI peripherals.
+#if SOC_SPI_PERIPH_NUM > 2
+#define MICROPY_HW_SPI_MAX (2)
+#else
+#define MICROPY_HW_SPI_MAX (1)
 #endif
 
-// Default pins for SPI(2), can be overridden by a board
+// Default pins for SPI(id=1) aka IDF SPI2, can be overridden by a board
+#ifndef MICROPY_HW_SPI1_SCK
+// Use IO_MUX pins by default.
+// If SPI lines are routed to other pins through GPIO matrix
+// routing adds some delay and lower limit applies to SPI clk freq
+#define MICROPY_HW_SPI1_SCK SPI2_IOMUX_PIN_NUM_CLK
+#define MICROPY_HW_SPI1_MOSI SPI2_IOMUX_PIN_NUM_MOSI
+#define MICROPY_HW_SPI1_MISO SPI2_IOMUX_PIN_NUM_MISO
+#endif
+
+// Default pins for SPI(id=2) aka IDF SPI3, can be overridden by a board
 #ifndef MICROPY_HW_SPI2_SCK
-#define MICROPY_HW_SPI2_SCK (18)
-#define MICROPY_HW_SPI2_MOSI (23)
-#define MICROPY_HW_SPI2_MISO (19)
+#if CONFIG_IDF_TARGET_ESP32
+// ESP32 has IO_MUX pins for VSPI/SPI3 lines, use them as defaults
+#define MICROPY_HW_SPI2_SCK SPI3_IOMUX_PIN_NUM_CLK      // pin 18
+#define MICROPY_HW_SPI2_MOSI SPI3_IOMUX_PIN_NUM_MOSI    // pin 23
+#define MICROPY_HW_SPI2_MISO SPI3_IOMUX_PIN_NUM_MISO    // pin 19
+#elif CONFIG_IDF_TARGET_ESP32S2 || CONFIG_IDF_TARGET_ESP32S3
+// ESP32S2 and S3 uses GPIO matrix for SPI3 pins, no IO_MUX possible
+// Set defaults to the pins used by SPI2 in Octal mode
+#define MICROPY_HW_SPI2_SCK (36)
+#define MICROPY_HW_SPI2_MOSI (35)
+#define MICROPY_HW_SPI2_MISO (37)
+#endif
 #endif
 
 #define MP_HW_SPI_MAX_XFER_BYTES (4092)
 #define MP_HW_SPI_MAX_XFER_BITS (MP_HW_SPI_MAX_XFER_BYTES * 8) // Has to be an even multiple of 8
-
-#if CONFIG_IDF_TARGET_ESP32C3
-#define HSPI_HOST SPI2_HOST
-#endif
 
 typedef struct _machine_hw_spi_default_pins_t {
     int8_t sck;
@@ -83,13 +105,15 @@ typedef struct _machine_hw_spi_obj_t {
 } machine_hw_spi_obj_t;
 
 // Default pin mappings for the hardware SPI instances
-STATIC const machine_hw_spi_default_pins_t machine_hw_spi_default_pins[2] = {
+STATIC const machine_hw_spi_default_pins_t machine_hw_spi_default_pins[MICROPY_HW_SPI_MAX] = {
     { .sck = MICROPY_HW_SPI1_SCK, .mosi = MICROPY_HW_SPI1_MOSI, .miso = MICROPY_HW_SPI1_MISO },
+    #ifdef MICROPY_HW_SPI2_SCK
     { .sck = MICROPY_HW_SPI2_SCK, .mosi = MICROPY_HW_SPI2_MOSI, .miso = MICROPY_HW_SPI2_MISO },
+    #endif
 };
 
-// Static objects mapping to HSPI and VSPI hardware peripherals
-STATIC machine_hw_spi_obj_t machine_hw_spi_obj[2];
+// Static objects mapping to SPI2 (and SPI3 if available) hardware peripherals.
+STATIC machine_hw_spi_obj_t machine_hw_spi_obj[MICROPY_HW_SPI_MAX];
 
 STATIC void machine_hw_spi_deinit_internal(machine_hw_spi_obj_t *self) {
     switch (spi_bus_remove_device(self->spi)) {
@@ -116,8 +140,8 @@ STATIC void machine_hw_spi_deinit_internal(machine_hw_spi_obj_t *self) {
 
     for (int i = 0; i < 3; i++) {
         if (pins[i] != -1) {
-            gpio_pad_select_gpio(pins[i]);
-            gpio_matrix_out(pins[i], SIG_GPIO_OUT_IDX, false, false);
+            esp_rom_gpio_pad_select_gpio(pins[i]);
+            esp_rom_gpio_connect_out_signal(pins[i], SIG_GPIO_OUT_IDX, false, false);
             gpio_set_direction(pins[i], GPIO_MODE_INPUT);
         }
     }
@@ -192,14 +216,6 @@ STATIC void machine_hw_spi_init_internal(
         changed = true;
     }
 
-    if (self->host != HSPI_HOST
-        #ifdef VSPI_HOST
-        && self->host != VSPI_HOST
-        #endif
-        ) {
-        mp_raise_msg_varg(&mp_type_ValueError, MP_ERROR_TEXT("SPI(%d) doesn't exist"), self->host);
-    }
-
     if (changed) {
         if (self->state == MACHINE_HW_SPI_STATE_INIT) {
             self->state = MACHINE_HW_SPI_STATE_DEINIT;
@@ -230,13 +246,15 @@ STATIC void machine_hw_spi_init_internal(
 
     // Select DMA channel based on the hardware SPI host
     int dma_chan = 0;
-    if (self->host == HSPI_HOST) {
+    #if CONFIG_IDF_TARGET_ESP32S2 || CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32C3
+    dma_chan = SPI_DMA_CH_AUTO;
+    #else
+    if (self->host == SPI2_HOST) {
         dma_chan = 1;
-    #ifdef VSPI_HOST
-    } else if (self->host == VSPI_HOST) {
+    } else {
         dma_chan = 2;
-    #endif
     }
+    #endif
 
     ret = spi_bus_initialize(self->host, &buscfg, dma_chan);
     switch (ret) {
@@ -444,14 +462,15 @@ mp_obj_t machine_hw_spi_make_new(const mp_obj_type_t *type, size_t n_args, size_
 
     machine_hw_spi_obj_t *self;
     const machine_hw_spi_default_pins_t *default_pins;
-    if (args[ARG_id].u_int == HSPI_HOST) {
-        self = &machine_hw_spi_obj[0];
-        default_pins = &machine_hw_spi_default_pins[0];
+    mp_int_t spi_id = args[ARG_id].u_int;
+    if (1 <= spi_id && spi_id <= MICROPY_HW_SPI_MAX) {
+        self = &machine_hw_spi_obj[spi_id - 1];
+        default_pins = &machine_hw_spi_default_pins[spi_id - 1];
     } else {
-        self = &machine_hw_spi_obj[1];
-        default_pins = &machine_hw_spi_default_pins[1];
+        mp_raise_msg_varg(&mp_type_ValueError, MP_ERROR_TEXT("SPI(%d) doesn't exist"), spi_id);
     }
-    self->base.type = &machine_hw_spi_type;
+
+    self->base.type = &machine_spi_type;
 
     int8_t sck, mosi, miso;
 
@@ -494,17 +513,26 @@ mp_obj_t machine_hw_spi_make_new(const mp_obj_type_t *type, size_t n_args, size_
     return MP_OBJ_FROM_PTR(self);
 }
 
+spi_host_device_t machine_hw_spi_get_host(mp_obj_t in) {
+    if (mp_obj_get_type(in) != &machine_spi_type) {
+        mp_raise_ValueError(MP_ERROR_TEXT("expecting a SPI object"));
+    }
+    machine_hw_spi_obj_t *self = (machine_hw_spi_obj_t *)in;
+    return self->host;
+}
+
 STATIC const mp_machine_spi_p_t machine_hw_spi_p = {
     .init = machine_hw_spi_init,
     .deinit = machine_hw_spi_deinit,
     .transfer = machine_hw_spi_transfer,
 };
 
-const mp_obj_type_t machine_hw_spi_type = {
-    { &mp_type_type },
-    .name = MP_QSTR_SPI,
-    .print = machine_hw_spi_print,
-    .make_new = machine_hw_spi_make_new,
-    .protocol = &machine_hw_spi_p,
-    .locals_dict = (mp_obj_dict_t *)&mp_machine_spi_locals_dict,
-};
+MP_DEFINE_CONST_OBJ_TYPE(
+    machine_spi_type,
+    MP_QSTR_SPI,
+    MP_TYPE_FLAG_NONE,
+    make_new, machine_hw_spi_make_new,
+    print, machine_hw_spi_print,
+    protocol, &machine_hw_spi_p,
+    locals_dict, &mp_machine_spi_locals_dict
+    );

@@ -11,6 +11,7 @@
 #include <string.h>
 #include "py/runtime.h"
 #include "py/mphal.h"
+#include "boardctrl.h"
 #include "pin.h"
 #include "pin_static_af.h"
 #include "mpu.h"
@@ -49,12 +50,10 @@
 
 #ifdef FMC_SDRAM_BANK
 
-static SDRAM_HandleTypeDef hsdram;
-extern void __fatal_error(const char *msg);
 static void sdram_init_seq(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *command);
 
-bool sdram_init(void)
-{
+bool sdram_init(void) {
+    SDRAM_HandleTypeDef hsdram;
     FMC_SDRAM_TimingTypeDef SDRAM_Timing;
     FMC_SDRAM_CommandTypeDef command;
 
@@ -74,7 +73,9 @@ bool sdram_init(void)
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_SDNRAS, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_SDNRAS);
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_SDNWE, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_SDNWE);
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_BA0, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_BA0);
+    #ifdef MICROPY_HW_FMC_BA1
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_BA1, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_BA1);
+    #endif
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_NBL0, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_NBL0);
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_NBL1, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_NBL1);
     #ifdef MICROPY_HW_FMC_NBL2
@@ -92,7 +93,9 @@ bool sdram_init(void)
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_A8, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_A8);
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_A9, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_A9);
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_A10, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_A10);
+    #ifdef MICROPY_HW_FMC_A11
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_A11, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_A11);
+    #endif
     #ifdef MICROPY_HW_FMC_A12
     mp_hal_pin_config_alt_static_speed(MICROPY_HW_FMC_A12, MP_HAL_PIN_MODE_ALT, MP_HAL_PIN_PULL_UP, MP_HAL_PIN_SPEED_VERY_HIGH, STATIC_AF_FMC_A12);
     #endif
@@ -169,22 +172,19 @@ bool sdram_init(void)
     }
 
     sdram_init_seq(&hsdram, &command);
-
     return true;
 }
 
-void *sdram_start(void)
-{
+void *sdram_start(void) {
     return (void *)SDRAM_START_ADDRESS;
 }
 
-void *sdram_end(void)
-{
+void *sdram_end(void) {
     return (void *)(SDRAM_START_ADDRESS + MICROPY_HW_SDRAM_SIZE);
 }
 
-static void sdram_init_seq(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *command)
-{
+static void sdram_init_seq(SDRAM_HandleTypeDef
+    *hsdram, FMC_SDRAM_CommandTypeDef *command) {
     /* Program the SDRAM external device */
     __IO uint32_t tmpmrd = 0;
 
@@ -197,8 +197,8 @@ static void sdram_init_seq(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef
     /* Send the command */
     HAL_SDRAM_SendCommand(hsdram, command, 0xFFFF);
 
-    /* Step 4: Insert 100 us delay */
-    HAL_Delay(1);
+    /* Step 4: Insert 100 ms delay */
+    HAL_Delay(100);
 
     /* Step 5: Configure a PALL (precharge all) command */
     command->CommandMode = FMC_SDRAM_CMD_PALL;
@@ -224,6 +224,7 @@ static void sdram_init_seq(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef
         FMC_INIT(SDRAM_MODEREG_CAS_LATENCY, MICROPY_HW_SDRAM_CAS_LATENCY) |
         SDRAM_MODEREG_OPERATING_MODE_STANDARD |
         SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
+
     command->CommandMode = FMC_SDRAM_CMD_LOAD_MODE;
     command->CommandTarget = FMC_SDRAM_CMD_TARGET_BANK;
     command->AutoRefreshNumber = 1;
@@ -256,34 +257,31 @@ static void sdram_init_seq(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef
     #endif
 }
 
-void sdram_enter_low_power()
-{
-    FMC_SDRAM_CommandTypeDef command;
-    command.CommandMode = FMC_SDRAM_CMD_SELFREFRESH_MODE;
-    command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK;
-    command.AutoRefreshNumber = 1;
-    command.ModeRegisterDefinition = 0;
-    HAL_SDRAM_SendCommand(&hsdram, &command, 0xFFFF);
+void sdram_enter_low_power(void) {
+    // Enter self-refresh mode.
+    // In self-refresh mode the SDRAM retains data without external clocking.
+    FMC_SDRAM_DEVICE->SDCMR |= (FMC_SDRAM_CMD_SELFREFRESH_MODE |     // Command Mode
+        FMC_SDRAM_CMD_TARGET_BANK |                                  // Command Target
+        (0 << 5U) |                                                  // Auto Refresh Number -1
+        (0 << 9U));                                                  // Mode Register Definition
 }
 
-void sdram_leave_low_power()
-{
-    FMC_SDRAM_CommandTypeDef command;
-    command.CommandMode = FMC_SDRAM_CMD_NORMAL_MODE;
-    command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK;
-    command.AutoRefreshNumber = 1;
-    command.ModeRegisterDefinition = 0;
-    HAL_SDRAM_SendCommand(&hsdram, &command, 0xFFFF);
+void sdram_leave_low_power() {
+    // Exit self-refresh mode.
+    // Self-refresh mode is exited when the device is accessed or the mode bits are
+    // set to Normal mode, so technically it's not necessary to call this functions.
+    FMC_SDRAM_DEVICE->SDCMR |= (FMC_SDRAM_CMD_NORMAL_MODE |          // Command Mode
+        FMC_SDRAM_CMD_TARGET_BANK |                                  // Command Target
+        (0 << 5U) |                                                  // Auto Refresh Number - 1
+        (0 << 9U));                                                  // Mode Register Definition
 }
 
-void sdram_powerdown()
-{
-    FMC_SDRAM_CommandTypeDef command;
-    command.CommandMode = FMC_SDRAM_CMD_POWERDOWN_MODE;
-    command.CommandTarget = FMC_SDRAM_CMD_TARGET_BANK;
-    command.AutoRefreshNumber = 1;
-    command.ModeRegisterDefinition = 0;
-    HAL_SDRAM_SendCommand(&hsdram, &command, 0xFFFF);
+void sdram_enter_power_down(void) {
+    // Enter power-down mode.
+    FMC_SDRAM_DEVICE->SDCMR |= (FMC_SDRAM_CMD_POWERDOWN_MODE |       // Command Mode
+        FMC_SDRAM_CMD_TARGET_BANK |                                  // Command Target
+        (0 << 5U) |                                                  // Auto Refresh Number -1
+        (0 << 9U));                                                  // Mode Register Definition
 }
 
 #if __GNUC__ >= 11
@@ -327,7 +325,7 @@ bool __attribute__((optimize("Os"))) sdram_test(bool exhaustive) {
             snprintf(error_buffer, sizeof(error_buffer),
                 "Data bus test failed at 0x%p expected 0x%x found 0x%lx",
                 &mem_base[0], (1 << i), ((volatile uint32_t *)mem_base)[0]);
-            __fatal_error(error_buffer);
+            MICROPY_BOARD_FATAL_ERROR(error_buffer);
             #endif
             return false;
         }
@@ -342,13 +340,13 @@ bool __attribute__((optimize("Os"))) sdram_test(bool exhaustive) {
             snprintf(error_buffer, sizeof(error_buffer),
                 "Address bus test failed at 0x%p expected 0x%x found 0x%x",
                 &mem_base[i], pattern, mem_base[i]);
-            __fatal_error(error_buffer);
+            MICROPY_BOARD_FATAL_ERROR(error_buffer);
             #endif
             return false;
         }
     }
 
-    // Check for aliasing (overlaping addresses)
+    // Check for aliasing (overlapping addresses)
     mem_base[0] = antipattern;
     __DSB();
     for (uint32_t i = 1; i < MICROPY_HW_SDRAM_SIZE; i <<= 1) {
@@ -357,7 +355,7 @@ bool __attribute__((optimize("Os"))) sdram_test(bool exhaustive) {
             snprintf(error_buffer, sizeof(error_buffer),
                 "Address bus overlap at 0x%p expected 0x%x found 0x%x",
                 &mem_base[i], pattern, mem_base[i]);
-            __fatal_error(error_buffer);
+            MICROPY_BOARD_FATAL_ERROR(error_buffer);
             #endif
             return false;
         }
@@ -378,7 +376,7 @@ bool __attribute__((optimize("Os"))) sdram_test(bool exhaustive) {
                 snprintf(error_buffer, sizeof(error_buffer),
                     "Address bus slow test failed at 0x%p expected 0x%x found 0x%x",
                     &mem_base[i], ((i % 2) ? pattern : antipattern), mem_base[i]);
-                __fatal_error(error_buffer);
+                MICROPY_BOARD_FATAL_ERROR(error_buffer);
                 #endif
                 return false;
             }

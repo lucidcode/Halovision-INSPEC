@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_ETH_MAC_DMA_DESC_t</compoundname>
+    <includes local="no">xmc_eth_mac.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a457828e16cd02e6193af5a4ead1f3724" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t buffer1</definition>
+        <argsstring></argsstring>
+        <name>buffer1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Buffer 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="368" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a52d10c47bbc622bdaf7bfdf8793b2ea6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t buffer2</definition>
+        <argsstring></argsstring>
+        <name>buffer2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Buffer 2 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="369" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a09e2225b0929efc27e0fcc87d6772c1b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t extended_status</definition>
+        <argsstring></argsstring>
+        <name>extended_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extended status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="370" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1aa22e7675f77b1f89a273f53b2707fc8b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Descriptor length </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="367" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1aa9198b8c21cac96dcfda570ca7630201" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t reserved</definition>
+        <argsstring></argsstring>
+        <name>reserved</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="371" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a9d5ec73a70e8d3f1e4e13411f24f4135" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DMA descriptor status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="366" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1aa1f39ed5069f44d7bf7c880618c8dd4e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t time_stamp_nanoseconds</definition>
+        <argsstring></argsstring>
+        <name>time_stamp_nanoseconds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time stamp low </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="372" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a4b6bd2ea7d3a54d1fee81022ecea7693" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>volatile uint32_t time_stamp_seconds</definition>
+        <argsstring></argsstring>
+        <name>time_stamp_seconds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time stamp high </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="373" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ETH MAC DMA descriptor </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" line="365" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_eth_mac.h" bodystart="364" bodyend="374"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a457828e16cd02e6193af5a4ead1f3724" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>buffer1</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a52d10c47bbc622bdaf7bfdf8793b2ea6" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>buffer2</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a09e2225b0929efc27e0fcc87d6772c1b" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>extended_status</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1aa22e7675f77b1f89a273f53b2707fc8b" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>length</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1aa9198b8c21cac96dcfda570ca7630201" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>reserved</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a9d5ec73a70e8d3f1e4e13411f24f4135" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>status</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1aa1f39ed5069f44d7bf7c880618c8dd4e" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>time_stamp_nanoseconds</name></member>
+      <member refid="struct_x_m_c___e_t_h___m_a_c___d_m_a___d_e_s_c__t_1a4b6bd2ea7d3a54d1fee81022ecea7693" prot="public" virt="non-virtual"><scope>XMC_ETH_MAC_DMA_DESC_t</scope><name>time_stamp_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

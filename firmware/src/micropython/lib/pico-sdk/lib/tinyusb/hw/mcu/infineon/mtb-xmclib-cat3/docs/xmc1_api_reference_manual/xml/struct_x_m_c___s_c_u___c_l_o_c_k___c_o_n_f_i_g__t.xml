@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SCU_CLOCK_CONFIG_t</compoundname>
+    <includes local="no">xmc1_scu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a288d38ff38b98378588d388001ce11fb" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1gaa23b0a26e39703fa5dd32dc275fb4f12" kindref="member">XMC_SCU_CLOCK_DCLKSRC_t</ref></type>
+        <definition>XMC_SCU_CLOCK_DCLKSRC_t dclk_src</definition>
+        <argsstring></argsstring>
+        <name>dclk_src</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DCLK clock source selection. <simplesect kind="note"><para>Only available in XMC1400 series </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="793" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="793" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a56d5e9c66b60b852ddece43ae9ac27b7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t fdiv</definition>
+        <argsstring></argsstring>
+        <name>fdiv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fractional clock divider (FDIV). <bold>Range:</bold> 0 to 255. <simplesect kind="note"><para>XMC1400 series extends the range to 1023 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="789" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="789" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a723255b637b1aeef47c608069ba8d305" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t idiv</definition>
+        <argsstring></argsstring>
+        <name>idiv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Integer clock divider (IDIV). <bold>Range:</bold> 0 to 255. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="791" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="791" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a34806d74a74164289f956e42ef1f11d5" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1ga48301d5a516ffd248e062d8f98bb8148" kindref="member">XMC_SCU_CLOCK_OSCHP_MODE_t</ref></type>
+        <definition>XMC_SCU_CLOCK_OSCHP_MODE_t oschp_mode</definition>
+        <argsstring></argsstring>
+        <name>oschp_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>OSCHP mode. <simplesect kind="note"><para>Only available in XMC1400 series </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="794" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="794" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a4cf50086c9809130fd1944fb0d23ece2" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1gad5bf98e9ea7d145180ad029ea3560d8d" kindref="member">XMC_SCU_CLOCK_OSCLP_MODE_t</ref></type>
+        <definition>XMC_SCU_CLOCK_OSCLP_MODE_t osclp_mode</definition>
+        <argsstring></argsstring>
+        <name>osclp_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>OSCLP mode. <simplesect kind="note"><para>Only available in XMC1400 series </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="795" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="795" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ab793c988fbe08339157206048c904983" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1gad4ef17eaabe7b13c5c159ba6b24c6a2c" kindref="member">XMC_SCU_CLOCK_PCLKSRC_t</ref></type>
+        <definition>XMC_SCU_CLOCK_PCLKSRC_t pclk_src</definition>
+        <argsstring></argsstring>
+        <name>pclk_src</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source of PCLK Clock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="797" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="797" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a9aa593056224d4f9cf314ba1ca971f24" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_c_u_1ga6cf5c338f64adfc26ef8c49e826cd752" kindref="member">XMC_SCU_CLOCK_RTCCLKSRC_t</ref></type>
+        <definition>XMC_SCU_CLOCK_RTCCLKSRC_t rtc_src</definition>
+        <argsstring></argsstring>
+        <name>rtc_src</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Source of RTC Clock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="798" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="798" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines a data structure for initializing the data of the clock functional block. Clock functional block configures clock dividers, peripheral and RTC clock source by configuring corresponding bits in <emphasis>CLKCR</emphasis> clock control register. Use type <emphasis><ref refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t" kindref="compound">XMC_SCU_CLOCK_CONFIG_t</ref></emphasis> for accessing these structure parameters. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="785" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="784" bodyend="799"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a288d38ff38b98378588d388001ce11fb" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>dclk_src</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a56d5e9c66b60b852ddece43ae9ac27b7" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>fdiv</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a723255b637b1aeef47c608069ba8d305" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>idiv</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a34806d74a74164289f956e42ef1f11d5" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>oschp_mode</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a4cf50086c9809130fd1944fb0d23ece2" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>osclp_mode</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1ab793c988fbe08339157206048c904983" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>pclk_src</name></member>
+      <member refid="struct_x_m_c___s_c_u___c_l_o_c_k___c_o_n_f_i_g__t_1a9aa593056224d4f9cf314ba1ca971f24" prot="public" virt="non-virtual"><scope>XMC_SCU_CLOCK_CONFIG_t</scope><name>rtc_src</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

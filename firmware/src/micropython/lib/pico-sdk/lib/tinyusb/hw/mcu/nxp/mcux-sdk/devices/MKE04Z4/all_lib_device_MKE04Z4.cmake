@@ -1,6 +1,8 @@
 list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_LIST_DIR}/.
-    ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/Include
+    ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/Core/Include
+    ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/Driver/Include
+    ${CMAKE_CURRENT_LIST_DIR}/../../cmsis_drivers/uart
     ${CMAKE_CURRENT_LIST_DIR}/../../components/lists
     ${CMAKE_CURRENT_LIST_DIR}/../../components/uart
     ${CMAKE_CURRENT_LIST_DIR}/../../drivers/acmp_1
@@ -26,31 +28,32 @@ list(APPEND CMAKE_MODULE_PATH
 
 
 # Copy the cmake components into projects
-#    include(CMSIS_Include_dsp)
 #    include(driver_i2c)
 #    include(driver_pwt_1)
 #    include(component_lists)
 #    include(device_system)
 #    include(driver_tpm)
 #    include(device_startup)
-#    include(driver_clock)
+#    include(CMSIS_Driver_Include_USART)
 #    include(driver_wdog8)
 #    include(utility_debug_console_lite)
 #    include(driver_acmp_1)
 #    include(driver_kbi)
 #    include(driver_ftm)
 #    include(driver_gpio_1)
-#    include(CMSIS_Include_core_cm0plus)
+#    include(utility_assert_lite)
 #    include(driver_port_ke04)
 #    include(driver_spi)
 #    include(component_uart_adapter)
+#    include(driver_clock)
 #    include(device_CMSIS)
 #    include(driver_uart)
+#    include(CMSIS_Driver_Include_Common)
 #    include(utilities_misc_utilities)
-#    include(CMSIS_Include_common)
 #    include(driver_common)
-#    include(driver_irq)
-#    include(utility_assert_lite)
-#    include(driver_pit)
-#    include(driver_adc_5v12b_ll18_015)
 #    include(driver_flash_ftmr)
+#    include(driver_irq)
+#    include(driver_pit)
+#    include(CMSIS_Include_core_cm)
+#    include(driver_adc_5v12b_ll18_015)
+#    include(driver_cmsis_uart)

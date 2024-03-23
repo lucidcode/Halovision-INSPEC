@@ -26,7 +26,7 @@
 
 #include "tusb_option.h"
 
-#if TUSB_OPT_DEVICE_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_MM32F327X )
+#if CFG_TUD_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_MM32F327X )
 
 #include "reg_usb_otg_fs.h"
 #include "mm32_device.h"
@@ -110,7 +110,7 @@ typedef struct
 // INTERNAL OBJECT & FUNCTION DECLARATION
 //--------------------------------------------------------------------+
 // BDT(Buffer Descriptor Table) must be 256-byte aligned
-CFG_TUSB_MEM_SECTION TU_ATTR_ALIGNED(512) static dcd_data_t _dcd;
+CFG_TUD_MEM_SECTION TU_ATTR_ALIGNED(512) static dcd_data_t _dcd;
 
 TU_VERIFY_STATIC( sizeof(_dcd.bdt) == 512, "size is not correct" );
 
@@ -305,6 +305,14 @@ void dcd_disconnect(uint8_t rhport)
   USB_OTG_FS->CTL      = 0;
 }
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
+
 //--------------------------------------------------------------------+
 // Endpoint API
 //--------------------------------------------------------------------+
@@ -323,7 +331,7 @@ bool dcd_edpt_open(uint8_t rhport, tusb_desc_endpoint_t const * ep_desc)
   /* No support for control transfer */
   TU_ASSERT(epn && (xfer != TUSB_XFER_CONTROL));
 
-  ep->max_packet_size = ep_desc->wMaxPacketSize.size;
+  ep->max_packet_size = tu_edpt_packet_size(ep_desc);
   unsigned val = USB_ENDPT_EPCTLDIS_MASK;
   val |= (xfer != TUSB_XFER_ISOCHRONOUS) ? USB_ENDPT_EPHSHK_MASK: 0;
   val |= dir ? USB_ENDPT_EPTXEN_MASK : USB_ENDPT_EPRXEN_MASK;

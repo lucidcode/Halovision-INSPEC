@@ -22,6 +22,13 @@ def foo(a, b):
     return f'{x}{y}{a}{b}'
 print(foo(7, 8))
 
+# ':' character within {...} that should not be interpreted as format specifiers.
+print(f"a{[0,1,2][0:2]}")
+print(f"a{[0,15,2][0:2][-1]:04x}")
+
+# Nested '{' and '}' characters.
+print(f"a{ {0,1,2}}")
+
 # PEP-0498 specifies that '\\' and '#' must be disallowed explicitly, whereas
 # MicroPython relies on the syntax error as a result of the substitution.
 
@@ -49,3 +56,27 @@ try:
 except (ValueError, SyntaxError):
     # MicroPython incorrectly raises ValueError here.
     print('SyntaxError')
+
+# Allow literal tuples
+print(f"a {1,} b")
+print(f"a {x,y,} b")
+print(f"a {x,1} b")
+
+# f-strings with conversion specifiers (only support !r and !s).
+a = "123"
+print(f"{a!r}")
+print(f"{a!s}")
+try:
+    eval('print(f"{a!x}")')
+except (ValueError, SyntaxError):
+    # CPython detects this at compile time, MicroPython fails with ValueError
+    # when the str.format is executed.
+    print("ValueError")
+
+# Mixing conversion specifiers with formatting.
+print(f"{a!r:8s}")
+print(f"{a!s:8s}")
+
+# Still allow ! in expressions.
+print(f"{'1' if a != '456' else '0'!r:8s}")
+print(f"{'1' if a != '456' else '0'!s:8s}")

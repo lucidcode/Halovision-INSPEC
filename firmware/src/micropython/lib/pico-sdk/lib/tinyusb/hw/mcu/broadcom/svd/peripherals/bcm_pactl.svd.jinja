@@ -1,0 +1,69 @@
+{% macro peripheral(name, base_address, interrupt_offset=0) -%}
+        <peripheral>
+            <name>{{ name }}</name>
+            <description>Interrupt status of new peripherals</description>
+            <baseAddress>{{ "0x{:x}".format(base_address) }}</baseAddress>
+            <addressBlock>
+                <offset>0</offset>
+                <size>0x40</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <interrupt>
+                <name>I2C</name>
+                <description>OR of all I2C interrupts</description>
+                <value>{{ interrupt_offset + 53 }}</value>
+            </interrupt>
+            <interrupt>
+                <name>SPI</name>
+                <description>OR of all SPI interrupts except 1 and 2</description>
+                <value>{{ interrupt_offset + 54 }}</value>
+            </interrupt>
+            <interrupt>
+                <name>UART</name>
+                <description>OR of all UART interrupts except 1</description>
+                <value>{{ interrupt_offset + 57 }}</value>
+            </interrupt>
+            <registers>
+                <register>
+                  <name>CS</name>
+                  <description>Interrupt status</description>
+                  <addressOffset>0x00</addressOffset>
+                  <size>32</size>
+                  <access>read-write</access>
+                  <resetValue>0x00000000</resetValue>
+                  <fields>
+                    {% for i in range(7) %}
+                    <field>
+                        <name>SPI_{{ i }}</name>
+                        <description>SPI{{ i }} interrupt active</description>
+                        <bitOffset>{{ i }}</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    {% endfor %}
+                    {% for i in range(8) %}
+                    <field>
+                        <name>I2C_{{ i }}</name>
+                        <description>I2C{{ i }} interrupt active</description>
+                        <bitOffset>{{ i + 8 }}</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    {% endfor %}
+                    {% for i in range(4) %}
+                    <field>
+                        <name>UART_{{ 5 - i }}</name>
+                        <description>UART{{ 5 - i }} interrupt active</description>
+                        <bitOffset>{{ i + 16 }}</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                    {% endfor %}
+                    <field>
+                        <name>UART_0</name>
+                        <description>UART0 interrupt active</description>
+                        <bitOffset>20</bitOffset>
+                        <bitWidth>1</bitWidth>
+                    </field>
+                </fields>
+                </register>
+            </registers>
+        </peripheral>
+{% endmacro %}

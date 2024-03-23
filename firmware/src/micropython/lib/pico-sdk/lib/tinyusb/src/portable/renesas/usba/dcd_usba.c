@@ -31,7 +31,7 @@
 // We disable SOF for now until needed later on
 #define USE_SOF     0
 
-#if TUSB_OPT_DEVICE_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_RX63X || \
+#if CFG_TUD_ENABLED && ( CFG_TUSB_MCU == OPT_MCU_RX63X || \
                                  CFG_TUSB_MCU == OPT_MCU_RX65X || \
                                  CFG_TUSB_MCU == OPT_MCU_RX72N )
 #include "device/dcd.h"
@@ -259,7 +259,7 @@ static inline void pipe_wait_for_ready(unsigned num)
 
 static void pipe_write_packet(void *buf, volatile void *fifo, unsigned len)
 {
-  hw_fifo_t *reg = (hw_fifo_t*)fifo;
+  volatile hw_fifo_t *reg = (volatile hw_fifo_t*) fifo;
   uintptr_t addr = (uintptr_t)buf;
   while (len >= 2) {
     reg->u16 = *(const uint16_t *)addr;
@@ -275,7 +275,7 @@ static void pipe_write_packet(void *buf, volatile void *fifo, unsigned len)
 static void pipe_read_packet(void *buf, volatile void *fifo, unsigned len)
 {
   uint8_t *p   = (uint8_t*)buf;
-  uint8_t *reg = (uint8_t*)fifo;  /* byte access is always at base register address */
+  volatile uint8_t *reg = (volatile uint8_t*)fifo;  /* byte access is always at base register address */
   while (len--) *p++ = *reg;
 }
 
@@ -494,7 +494,11 @@ static bool process_pipe_xfer(int buffer_type, uint8_t ep_addr, void* buffer, ui
       while (USB0.D0FIFOSEL.BIT.CURPIPE) ; /* if CURPIPE bits changes, check written value */
     }
   } else {
+#if defined(__CCRX__)
+    __evenaccess volatile reg_pipetre_t *pt = get_pipetre(num);
+#else
     volatile reg_pipetre_t *pt = get_pipetre(num);
+#endif
     if (pt) {
       const unsigned     mps = edpt_max_packet_size(num);
       volatile uint16_t *ctr = get_pipectr(num);
@@ -683,6 +687,14 @@ void dcd_disconnect(uint8_t rhport)
   USB0.SYSCFG.BIT.DPRPU = 0;
 }
 
+void dcd_sof_enable(uint8_t rhport, bool en)
+{
+  (void) rhport;
+  (void) en;
+
+  // TODO implement later
+}
+
 //--------------------------------------------------------------------+
 // Endpoint API
 //--------------------------------------------------------------------+
@@ -695,7 +707,7 @@ bool dcd_edpt_open(uint8_t rhport, tusb_desc_endpoint_t const * ep_desc)
   const unsigned dir     = tu_edpt_dir(ep_addr);
   const unsigned xfer    = ep_desc->bmAttributes.xfer;
 
-  const unsigned mps = tu_le16toh(ep_desc->wMaxPacketSize.size);
+  const unsigned mps = tu_edpt_packet_size(ep_desc);
   if (xfer == TUSB_XFER_ISOCHRONOUS && mps > 256) {
     /* USBa supports up to 256 bytes */
     return false;
@@ -715,11 +727,11 @@ bool dcd_edpt_open(uint8_t rhport, tusb_desc_endpoint_t const * ep_desc)
   *ctr = 0;
   unsigned cfg = (dir << 4) | epn;
   if (xfer == TUSB_XFER_BULK) {
-    cfg |= USB_PIPECFG_BULK | USB_PIPECFG_SHTNAK | USB_PIPECFG_DBLB;
+    cfg |= (USB_PIPECFG_BULK | USB_PIPECFG_SHTNAK | USB_PIPECFG_DBLB);
   } else if (xfer == TUSB_XFER_INTERRUPT) {
     cfg |= USB_PIPECFG_INT;
   } else {
-    cfg |= USB_PIPECFG_ISO | USB_PIPECFG_DBLB;
+    cfg |= (USB_PIPECFG_ISO | USB_PIPECFG_DBLB);
   }
   USB0.PIPECFG.WORD  = cfg;
   USB0.BRDYSTS.WORD  = 0x1FFu ^ TU_BIT(num);

@@ -23,19 +23,19 @@ Example usage::
 Functions
 ---------
 
-.. function:: sensor.reset()
+.. function:: reset()
 
    Initializes the camera sensor.
 
-.. function:: sensor.sleep(enable)
+.. function:: sleep(enable)
 
    Puts the camera to sleep if enable is True. Otherwise, wakes it back up.
 
-.. function:: sensor.shutdown(enable)
+.. function:: shutdown(enable)
 
    Puts the camera into a lower power mode than sleep (but the camera must be reset on being woken up).
 
-.. function:: sensor.flush()
+.. function:: flush()
 
    Copies whatever was in the frame buffer to the IDE. You should call this
    method to display the last image your OpenMV Cam takes if it's not running
@@ -43,7 +43,7 @@ Functions
    of about a second after your script finishes for the IDE to grab the image
    from your camera. Otherwise, this method will have no effect.
 
-.. function:: sensor.snapshot()
+.. function:: snapshot()
 
    Takes a picture using the camera and returns an ``image`` object.
 
@@ -69,7 +69,7 @@ Functions
       RAM the pixformat, framesize, windowing, and framebuffers. The cropping parameters will be applied
       to maintain the aspect ratio and will stay until `sensor.set_framesize()` or `sensor.set_windowing()` are called.
 
-.. function:: sensor.skip_frames([n, time])
+.. function:: skip_frames([n, time])
 
    Takes ``n`` number of snapshots to let the camera image stabilize after
    changing camera settings. ``n`` is passed as normal argument, e.g.
@@ -92,21 +92,21 @@ Functions
       RAM given the pixformat, framesize, windowing, and framebuffers. The cropping parameters will be applied
       to maintain the aspect ratio and will stay until `sensor.set_framesize()` or `sensor.set_windowing()` are called.
 
-.. function:: sensor.width()
+.. function:: width()
 
    Returns the sensor resolution width.
 
-.. function:: sensor.height()
+.. function:: height()
 
    Returns the sensor resolution height.
 
-.. function:: sensor.get_fb()
+.. function:: get_fb()
 
    (Get Frame Buffer) Returns the image object returned by a previous call of
    `sensor.snapshot()`. If `sensor.snapshot()` had not been called before
    then ``None`` is returned.
 
-.. function:: sensor.get_id()
+.. function:: get_id()
 
    Returns the camera module ID.
 
@@ -120,8 +120,9 @@ Functions
       * `sensor.LEPTON`: Lepton1/2/3 sensor module.
       * `sensor.HM01B0`: Arduino Portenta H7 sensor module.
       * `sensor.GC2145`: Arduino Nicla Vision H7 sensor module.
+      * `sensor.PAJ6100`: PixArt Imaging sensor Module.
 
-.. function:: sensor.alloc_extra_fb(width, height, pixformat)
+.. function:: alloc_extra_fb(width, height, pixformat)
 
    Allocates another frame buffer for image storage from the frame buffer stack
    and returns an ``image`` object of ``width``, ``height``, and ``pixformat``.
@@ -130,7 +131,7 @@ Functions
    memory available to allocate any number of extra frame buffers.
 
    If ``pixformat`` is a number >= 4 then this will allocate a JPEG image. You
-   can then do `image.bytearray()` to get byte level read/write access to the JPEG image.
+   can then do `Image.bytearray()` to get byte level read/write access to the JPEG image.
 
    .. note::
 
@@ -141,9 +142,9 @@ Functions
       by taking space away from our frame buffer stack memory which we use for
       computer vision algorithms. That said, this also means you'll run out of
       memory more easily if you try to execute more memory intensive machine
-      vision algorithms like `image.find_apriltags`.
+      vision algorithms like `Image.find_apriltags()`.
 
-.. function:: sensor.dealloc_extra_fb()
+.. function:: dealloc_extra_fb()
 
    Deallocates the last previously allocated extra frame buffer. Extra frame
    buffers are stored in a stack like structure.
@@ -160,24 +161,25 @@ Functions
       left over. This memory allocation method is extremely efficent for computer
       vision on microcontrollers.
 
-.. function:: sensor.set_pixformat(pixformat)
+.. function:: set_pixformat(pixformat)
 
    Sets the pixel format for the camera module.
 
       * `sensor.GRAYSCALE`: 8-bits per pixel.
       * `sensor.RGB565`: 16-bits per pixel.
       * `sensor.BAYER`: 8-bits per pixel bayer pattern.
+      * `sensor.YUV422`: 16-bits per pixel (8-bits Y1, 8-bits U, 8-bits Y2, 8-bits V, etc.)
       * `sensor.JPEG`: Compressed JPEG data. Only for the OV2640/OV5640.
 
    If you are trying to take JPEG images with the OV2640 or OV5640 camera modules at high
    resolutions you should set the pixformat to `sensor.JPEG`. You can control the image
    quality then with `sensor.set_quality()`.
 
-.. function:: sensor.get_pixformat()
+.. function:: get_pixformat()
 
    Returns the pixformat for the camera module.
 
-.. function:: sensor.set_framesize(framesize)
+.. function:: set_framesize(framesize)
 
    Sets the frame size for the camera module.
 
@@ -192,13 +194,16 @@ Functions
       * `sensor.QQVGA`: 160x120
       * `sensor.QVGA`: 320x240
       * `sensor.VGA`: 640x480
+      * `sensor.HQQQQVGA`: 30x20
       * `sensor.HQQQVGA`: 60x40
       * `sensor.HQQVGA`: 120x80
       * `sensor.HQVGA`: 240x160
-      * `sensor.B64X32`: 64x32 (for use with `image.find_displacement()`)
-      * `sensor.B64X64`: 64x64 (for use with `image.find_displacement()`)
-      * `sensor.B128X64`: 128x64 (for use with `image.find_displacement()`)
-      * `sensor.B128X128`: 128x128 (for use with `image.find_displacement()`)
+      * `sensor.HVGA`: 480x320
+      * `sensor.B64X32`: 64x32 (for use with `Image.find_displacement()`)
+      * `sensor.B64X64`: 64x64 (for use with `Image.find_displacement()`)
+      * `sensor.B128X64`: 128x64 (for use with `Image.find_displacement()`)
+      * `sensor.B128X128`: 128x128 (for use with `Image.find_displacement()`)
+      * `sensor.B160X160`: 160x160 (for the HM01B0)
       * `sensor.B320X320`: 320x320 (for the HM01B0)
       * `sensor.LCD`: 128x160 (for use with the lcd shield)
       * `sensor.QQVGA2`: 128x160 (for use with the lcd shield)
@@ -206,7 +211,9 @@ Functions
       * `sensor.WVGA2`:752x480 (for the MT9V034)
       * `sensor.SVGA`: 800x600 (only for the OV2640/OV5640 sensor)
       * `sensor.XGA`: 1024x768 (only for the OV2640/OV5640 sensor)
+      * `sensor.WXGA`: 1280x768 (for the MT9M114)
       * `sensor.SXGA`: 1280x1024 (only for the OV2640/OV5640 sensor)
+      * `sensor.SXGAM`: 1280x960 (for the MT9M114)
       * `sensor.UXGA`: 1600x1200 (only for the OV2640/OV5640 sensor)
       * `sensor.HD`: 1280x720 (only for the OV2640/OV5640 sensor)
       * `sensor.FHD`: 1920x1080 (only for the OV5640 sensor)
@@ -215,19 +222,27 @@ Functions
       * `sensor.WQXGA`: 2560x1600 (only for the OV5640 sensor)
       * `sensor.WQXGA2`: 2592x1944 (only for the OV5640 sensor)
 
-.. function:: sensor.get_framesize()
+.. function:: get_framesize()
 
    Returns the frame size for the camera module.
 
-.. function:: sensor.set_framerate(rate)
+.. function:: set_framerate(rate)
 
-   Sets the frame rate in hz on the HM01B0. May be 15, 30, 60, or 120 Hz.
+   Sets the frame rate in hz for the camera module.
 
-.. function:: sensor.get_framerate()
+   .. note::
 
-   Returns the frame rate in hz on the HM01B0.
+      `set_framerate` works by dropping frames received by the camera module to keep the frame rate
+      equal to (or below) the rate you specify. By default the camera will run at the maximum frame
+      rate. If implemented for the particular camera sensor then `set_framerate` will also reduce
+      the camera sensor frame rate internally to save power and improve image quality by increasing
+      the sensor exposure. `set_framerate` may conflict with `set_auto_exposure` on some cameras.
 
-.. function:: sensor.set_windowing(roi)
+.. function:: get_framerate()
+
+   Returns the frame rate in hz for the camera module.
+
+.. function:: set_windowing(roi)
 
    Sets the resolution of the camera to a sub resolution inside of the current
    resolution. For example, setting the resolution to `sensor.VGA` and then
@@ -241,27 +256,27 @@ Functions
 
    This function will automatically handle cropping the passed roi to the framesize.
 
-.. function:: sensor.get_windowing()
+.. function:: get_windowing()
 
    Returns the ``roi`` tuple (x, y, w, h) previously set with `sensor.set_windowing()`.
 
-.. function:: sensor.set_gainceiling(gainceiling)
+.. function:: set_gainceiling(gainceiling)
 
    Set the camera image gainceiling. 2, 4, 8, 16, 32, 64, or 128.
 
-.. function:: sensor.set_contrast(constrast)
+.. function:: set_contrast(constrast)
 
    Set the camera image contrast. -3 to +3.
 
-.. function:: sensor.set_brightness(brightness)
+.. function:: set_brightness(brightness)
 
    Set the camera image brightness. -3 to +3.
 
-.. function:: sensor.set_saturation(saturation)
+.. function:: set_saturation(saturation)
 
    Set the camera image saturation. -3 to +3.
 
-.. function:: sensor.set_quality(quality)
+.. function:: set_quality(quality)
 
    Set the camera image JPEG compression quality. 0 - 100.
 
@@ -269,11 +284,11 @@ Functions
 
       Only for the OV2640/OV5640 cameras.
 
-.. function:: sensor.set_colorbar(enable)
+.. function:: set_colorbar(enable)
 
    Turns color bar mode on (True) or off (False). Defaults to off.
 
-.. function:: sensor.set_auto_gain(enable, [gain_db=-1, [gain_db_ceiling]])
+.. function:: set_auto_gain(enable, [gain_db=-1, [gain_db_ceiling]])
 
    ``enable`` turns auto gain control on (True) or off (False).
    The camera will startup with auto gain control on.
@@ -287,11 +302,11 @@ Functions
 
       You need to turn off white balance too if you want to track colors.
 
-.. function:: sensor.get_gain_db()
+.. function:: get_gain_db()
 
    Returns the current camera gain value in decibels (float).
 
-.. function:: sensor.set_auto_exposure(enable, [exposure_us])
+.. function:: set_auto_exposure(enable, [exposure_us])
 
    ``enable`` turns auto exposure control on (True) or off (False).
    The camera will startup with auto exposure control on.
@@ -306,11 +321,11 @@ Functions
       exposure value by much. Instead, they change the gain value alot of deal
       with changing lighting.
 
-.. function:: sensor.get_exposure_us()
+.. function:: get_exposure_us()
 
    Returns the current camera exposure value in microseconds (int).
 
-.. function:: sensor.set_auto_whitebal(enable, [rgb_gain_db])
+.. function:: set_auto_whitebal(enable, [rgb_gain_db])
 
    ``enable`` turns auto white balance on (True) or off (False).
    The camera will startup with auto white balance on.
@@ -322,28 +337,41 @@ Functions
 
       You need to turn off gain control too if you want to track colors.
 
-.. function:: sensor.get_rgb_gain_db()
+.. function:: get_rgb_gain_db()
 
    Returns a tuple with the current camera red, green, and blue gain values in
    decibels ((float, float, float)).
 
-.. function:: sensor.set_hmirror(enable)
+.. function:: set_auto_blc([enable, [regs]])
+
+   Sets the auto black line calibration (blc) control on the camera.
+
+   ``enable`` pass `True` or `False` to turn BLC on or off. You typically always want this on.
+
+   ``regs`` if disabled then you can manually set the blc register values via the values you
+   got previously from `get_blc_regs()`.
+
+.. function:: get_blc_regs()
+
+   Returns the sensor blc registers as an opaque tuple of integers. For use with `set_auto_blc`.
+
+.. function:: set_hmirror(enable)
 
    Turns horizontal mirror mode on (True) or off (False). Defaults to off.
 
-.. function:: sensor.get_hmirror()
+.. function:: get_hmirror()
 
    Returns if horizontal mirror mode is enabled.
 
-.. function:: sensor.set_vflip(enable)
+.. function:: set_vflip(enable)
 
    Turns vertical flip mode on (True) or off (False). Defaults to off.
 
-.. function:: sensor.get_vflip()
+.. function:: get_vflip()
 
    Returns if vertical flip mode is enabled.
 
-.. function:: sensor.set_transpose(enable)
+.. function:: set_transpose(enable)
 
    Turns transpose mode on (True) or off (False). Defaults to off.
 
@@ -352,11 +380,11 @@ Functions
       * vflip=True,  hmirror=True,  transpose=False -> 180 degree rotation
       * vflip=False, hmirror=True,  transpose=True  -> 270 degree rotation
 
-.. function:: sensor.get_transpose()
+.. function:: get_transpose()
 
    Returns if transpose mode is enabled.
 
-.. function:: sensor.set_auto_rotation(enable)
+.. function:: set_auto_rotation(enable)
 
    Turns auto rotation mode on (True) or off (False). Defaults to off.
 
@@ -364,7 +392,7 @@ Functions
 
       This function only works when the OpenMV Cam has an `imu` installed and is enabled automatically.
 
-.. function:: sensor.get_auto_rotation()
+.. function:: get_auto_rotation()
 
    Returns if auto rotation mode is enabled.
 
@@ -372,7 +400,7 @@ Functions
 
       This function only works when the OpenMV Cam has an `imu` installed and is enabled automatically.
 
-.. function:: sensor.set_framebuffers(count)
+.. function:: set_framebuffers(count)
 
    Sets the number of frame buffers used to receive image data. By default your OpenMV Cam will
    automatically try to allocate the maximum number of frame buffers it can possibly allocate
@@ -424,30 +452,56 @@ Functions
       frames and not frames from long ago.
 
    Fun fact, you can pass a value of 100 or so on OpenMV Cam's with SDRAM for a huge video fifo. If
-   you then call snapshot slower than the camera frame rate (by adding `pyb.delay()`) you'll get
+   you then call snapshot slower than the camera frame rate (by adding `machine.sleep()`) you'll get
    slow-mo effects in OpenMV IDE. However, you will also see the above policy effect of resetting
    the frame buffer on a frame drop to ensure that frames do not get too old. If you want to record
    slow-mo video just record video normally to the SD card and then play the video back on a desktop
    machine slower than it was recorded.
 
-.. function:: sensor.get_framebuffers()
+.. function:: get_framebuffers()
 
    Returns the current number of frame buffers allocated.
 
-.. function:: sensor.set_lens_correction(enable, radi, coef)
+.. function:: disable_delays([disable])
+
+   If ``disable`` is ``True`` then disable all settling time delays in the sensor module.
+   Whenever you reset the camera module, change modes, etc. the sensor driver delays to prevent
+   you can from calling `snapshot` to quickly afterwards and receiving corrupt frames from the
+   camera module. By disabling delays you can quickly update the camera module settings in bulk
+   via multiple function calls before delaying at the end and calling `snapshot`.
+
+   If this function is called with no arguments it returns if delays are disabled.
+
+.. function:: disable_full_flush([disable])
+
+   If ``disable`` is ``True`` then automatic framebuffer flushing mentioned in `set_framebuffers`
+   is disabled. This removes any time limit on frames in the frame buffer fifo. For example, if
+   you set the number of frame buffers to 30 and set the frame rate to 30 you can now precisely
+   record 1 second of video from the camera without risk of frame loss.
+
+   If this function is called with no arguments it returns if automatic flushing is disabled. By
+   default automatic flushing on frame drop is enabled to clear out stale frames.
+
+   .. note::
+
+      `snapshot` starts the frame capture process which will continue to capture frames until
+      there is no space to hold a frame at which point the frame capture process stops. The
+      process always stops when there is no space to hold the next frame.
+
+.. function:: set_lens_correction(enable, radi, coef)
 
    ``enable`` True to enable and False to disable (bool).
    ``radi`` integer radius of pixels to correct (int).
    ``coef`` power of correction (int).
 
-.. function:: sensor.set_vsync_callback(cb)
+.. function:: set_vsync_callback(cb)
 
    Registers callback ``cb`` to be executed (in interrupt context) whenever the camera module
    generates a new frame (but, before the frame is received).
 
    ``cb`` takes one argument and is passed the current state of the vsync pin after changing.
 
-.. function:: sensor.set_frame_callback(cb)
+.. function:: set_frame_callback(cb)
 
    Registers callback ``cb`` to be executed (in interrupt context) whenever the camera module
    generates a new frame and the frame is ready to be read via `sensor.snapshot()`.
@@ -456,11 +510,11 @@ Functions
 
    Use this to get an interrupt to schedule reading a frame later with `micropython.schedule()`.
 
-.. function:: sensor.get_frame_available()
+.. function:: get_frame_available()
 
    Returns True if a frame is available to read by calling `sensor.snapshot()`.
 
-.. function:: sensor.ioctl(...)
+.. function:: ioctl(...)
 
    Executes a sensor specific method:
 
@@ -472,10 +526,14 @@ Functions
    * `sensor.IOCTL_GET_READOUT_WINDOW` - Pass this enum for `sensor.ioctl` to return the current readout window rect tuple (x, y, w, h). By default this is (0, 0, maximum_camera_sensor_pixel_width, maximum_camera_sensor_pixel_height).
    * `sensor.IOCTL_SET_TRIGGERED_MODE` - Pass this enum followed by True or False set triggered mode for the MT9V034 sensor.
    * `sensor.IOCTL_GET_TRIGGERED_MODE` - Pass this enum for `sensor.ioctl` to return the current triggered mode state.
+   * `sensor.IOCTL_SET_FOV_WIDE` - Pass this enum followed by True or False enable `sensor.set_framesize()` to optimize for the field-of-view over FPS.
+   * `sensor.IOCTL_GET_FOV_WIDE` - Pass this enum for `sensor.ioctl` to return the current field-of-view over fps optimization state.
    * `sensor.IOCTL_TRIGGER_AUTO_FOCUS` - Pass this enum for `sensor.ioctl` to trigger auto focus on the OV5640 FPC camera module.
    * `sensor.IOCTL_PAUSE_AUTO_FOCUS` - Pass this enum for `sensor.ioctl` to pause auto focus (after triggering) on the OV5640 FPC camera module.
    * `sensor.IOCTL_RESET_AUTO_FOCUS` - Pass this enum for `sensor.ioctl` to reset auto focus (after triggering) on the OV5640 FPC camera module.
    * `sensor.IOCTL_WAIT_ON_AUTO_FOCUS` - Pass this enum for `sensor.ioctl` to wait for auto focus (after triggering) to finish on the OV5640 FPC camera module. You may pass a second argument of the timeout in milliseconds. The default is 5000 ms.
+   * `sensor.IOCTL_SET_NIGHT_MODE` - Pass this enum followed by True or False set nightmode the OV7725 and OV5640 sensors.
+   * `sensor.IOCTL_GET_NIGHT_MODE` - Pass this enum for `sensor.ioctl` to return the current night mode state.
    * `sensor.IOCTL_LEPTON_GET_WIDTH` - Pass this enum to get the FLIR Lepton image width in pixels.
    * `sensor.IOCTL_LEPTON_GET_HEIGHT` - Pass this enum to get the FLIR Lepton image height in pixels.
    * `sensor.IOCTL_LEPTON_GET_RADIOMETRY` - Pass this enum to get the FLIR Lepton type (radiometric or not).
@@ -484,39 +542,39 @@ Functions
    * `sensor.IOCTL_LEPTON_RUN_COMMAND` - Pass this enum to execute a FLIR Lepton SDK command. You need to pass an additional 16-bit value after the enum as the command to execute.
    * `sensor.IOCTL_LEPTON_SET_ATTRIBUTE` - Pass this enum to set a FLIR Lepton SDK attribute.
       * The first argument is the 16-bit attribute ID to set (set the FLIR Lepton SDK).
-      * The second argument is a MicroPython byte array of bytes to write (should be a multiple of 16-bits). Create the byte array using `struct` following the FLIR Lepton SDK.
+      * The second argument is a MicroPython byte array of bytes to write (should be a multiple of 16-bits). Create the byte array using ``struct`` following the FLIR Lepton SDK.
    * `sensor.IOCTL_LEPTON_GET_ATTRIBUTE` - Pass this enum to get a FLIR Lepton SDK attribute.
       * The first argument is the 16-bit attribute ID to set (set the FLIR Lepton SDK).
-      * Returns a MicroPython byte array of the attribute. Use `struct` to deserialize the byte array following the FLIR Lepton SDK.
+      * Returns a MicroPython byte array of the attribute. Use ``struct`` to deserialize the byte array following the FLIR Lepton SDK.
    * `sensor.IOCTL_LEPTON_GET_FPA_TEMPERATURE` - Pass this enum to get the FLIR Lepton FPA Temp in celsius.
    * `sensor.IOCTL_LEPTON_GET_AUX_TEMPERATURE` - Pass this enum to get the FLIR Lepton AUX Temp in celsius.
-   * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE` - Pass this followed by True or False to turn off automatic gain control on the FLIR Lepton and force it to output an image where each pixel value represents an exact temperature value in celsius.
-   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE` - Pass this to get if measurment mode is enabled or not.
+   * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE` - Pass this followed by True or False to turn off automatic gain control on the FLIR Lepton and force it to output an image where each pixel value represents an exact temperature value in celsius. A second True enables high temperature mode enabling measurements up to 500C on the Lepton 3.5, False is the default low temperature mode.
+   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE` - Pass this to get a tuple for (measurement-mode-enabled, high-temp-enabled).
    * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_RANGE` - Pass this when measurement mode is enabled to set the temperature range in celsius for the mapping operation. The temperature image returned by the FLIR Lepton will then be clamped between these min and max values and then scaled to values between 0 to 255. To map a pixel value back to a temperature (on a grayscale image) do: ((pixel * (max_temp_in_celsius - min_temp_in_celsius)) / 255.0) + min_temp_in_celsius.
       * The first arugment should be the min temperature in celsius.
       * The second argument should be the max temperature in celsius. If the arguments are reversed the library will automatically swap them for you.
-   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_RANGE` - Pass this to return the sorted (min, max) 2 value temperature range tuple. The default is -17.7778C to 37.7778C (0F to 100F) if not set yet.
+   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_RANGE` - Pass this to return the sorted (min, max) 2 value temperature range tuple. The default is -10C to 40C if not set yet.
    * `sensor.IOCTL_HIMAX_MD_ENABLE` - Pass this enum followed by ``True``/``False`` to enable/disable motion detection on the HM01B0. You should also enable the I/O pin (PC15 on the Arduino Portenta) attached the HM01B0 motion detection line to receive an interrupt.
    * `sensor.IOCTL_HIMAX_MD_CLEAR` - Pass this enum to clear the motion detection interrupt on the HM01B0.
    * `sensor.IOCTL_HIMAX_MD_WINDOW` - Pass this enum followed by (x1, y1, x2, y2) to set the motion detection window on the HM01B0.
    * `sensor.IOCTL_HIMAX_MD_THRESHOLD` - Pass this enum followed by a threshold value (0-255) to set the motion detection threshold on the HM01B0.
    * `sensor.IOCTL_HIMAX_OSC_ENABLE` - Pass this enum followed by ``True``/``False`` to enable/disable the oscillator HM01B0 to save power.
 
-.. function:: sensor.set_color_palette(palette)
+.. function:: set_color_palette(palette)
 
    Sets the color palette to use for FLIR Lepton grayscale to RGB565 conversion.
 
-.. function:: sensor.get_color_palette()
+.. function:: get_color_palette()
 
-   Returns the current color palette setting. Defaults to `sensor.PALETTE_RAINBOW`.
+   Returns the current color palette setting. Defaults to `image.PALETTE_RAINBOW`.
 
-.. function:: sensor.__write_reg(address, value)
+.. function:: __write_reg(address, value)
 
    Write ``value`` (int) to camera register at ``address`` (int).
 
    .. note:: See the camera data sheet for register info.
 
-.. function:: sensor.__read_reg(address)
+.. function:: __read_reg(address)
 
    Read camera register at ``address`` (int).
 
@@ -525,21 +583,21 @@ Functions
 Constants
 ---------
 
-.. data:: sensor.BINARY
+.. data:: BINARY
 
    BINARY (bitmap) pixel format. Each pixel is 1-bit.
 
    This format is usful for mask storage. Can be used with `image.Image()` and
    `sensor.alloc_extra_fb()`.
 
-.. data:: sensor.GRAYSCALE
+.. data:: GRAYSCALE
 
    GRAYSCALE pixel format (Y from YUV422). Each pixel is 8-bits, 1-byte.
 
    All of our computer vision algorithms run faster on grayscale images than
    RGB565 images.
 
-.. data:: sensor.RGB565
+.. data:: RGB565
 
    RGB565 pixel format. Each pixel is 16-bits, 2-bytes. 5-bits are used for red,
    6-bits are used for green, and 5-bits are used for blue.
@@ -547,327 +605,386 @@ Constants
    All of our computer vision algorithms run slower on RGB565 images than
    grayscale images.
 
-.. data:: sensor.BAYER
+.. data:: BAYER
 
    RAW BAYER image pixel format. If you try to make the frame size too big
    to fit in the frame buffer your OpenMV Cam will set the pixel format
-   to BAYER so that you can capture images but no image processing methods
+   to BAYER so that you can capture images but only some image processing methods
    will be operational.
 
-.. data:: sensor.JPEG
+.. data:: YUV422
+
+   A pixel format that is very easy to jpeg compress. Each pixel is stored as a grayscale
+   8-bit Y value followed by alternating 8-bit U/V color values that are shared between two
+   Y values (8-bits Y1, 8-bits U, 8-bits Y2, 8-bits V, etc.). Only some image processing
+   methods work with YUV422.
+
+.. data:: JPEG
 
    JPEG mode. The camera module outputs compressed jpeg images.
    Use `sensor.set_quality()` to control the jpeg quality.
    Only works for the OV2640/OV5640 cameras.
 
-.. data:: sensor.OV2640
+.. data:: OV2640
 
    `sensor.get_id()` returns this for the OV2640 camera.
 
-.. data:: sensor.OV5640
+.. data:: OV5640
 
    `sensor.get_id()` returns this for the OV5640 camera.
 
-.. data:: sensor.OV7690
+.. data:: OV7690
 
    `sensor.get_id()` returns this for the OV7690 camera.
 
-.. data:: sensor.OV7725
+.. data:: OV7725
 
    `sensor.get_id()` returns this for the OV7725 camera.
 
-.. data:: sensor.OV9650
+.. data:: OV9650
 
    `sensor.get_id()` returns this for the OV9650 camera.
 
-.. data:: sensor.MT9M114
+.. data:: MT9V022
 
-   `sensor.get_id()` returns this for the MT9M114 camera.
+   `sensor.get_id()` returns this for the MT9V022 camera.
 
-.. data:: sensor.MT9V034
+.. data:: MT9V024
+
+   `sensor.get_id()` returns this for the MT9V024 camera.
+
+.. data:: MT9V032
+
+   `sensor.get_id()` returns this for the MT9V032 camera.
+
+.. data:: MT9V034
 
    `sensor.get_id()` returns this for the MT9V034 camera.
 
-.. data:: sensor.LEPTON
+.. data:: MT9M114
+
+   `sensor.get_id()` returns this for the MT9M114 camera.
+
+.. data:: LEPTON
 
    `sensor.get_id()` returns this for the LEPTON1/2/3 cameras.
 
-.. data:: sensor.HM01B0
+.. data:: HM01B0
 
    `sensor.get_id()` returns this for the HM01B0 camera.
 
-.. data:: sensor.GC2145
+.. data:: HM0360
+
+   `sensor.get_id()` returns this for the HM01B0 camera.
+
+.. data:: GC2145
 
    `sensor.get_id()` returns this for the GC2145 camera.
 
-.. data:: sensor.QQCIF
+.. data:: PAJ6100
+
+   `sensor.get_id()` returns this for the PAJ6100 camera.
+
+.. data:: FROGEYE2020
+
+   `sensor.get_id()` returns this for the FROGEYE2020 camera.
+
+.. data:: QQCIF
 
    88x72 resolution for the camera sensor.
 
-.. data:: sensor.QCIF
+.. data:: QCIF
 
    176x144 resolution for the camera sensor.
 
-.. data:: sensor.CIF
+.. data:: CIF
 
    352x288 resolution for the camera sensor.
 
-.. data:: sensor.QQSIF
+.. data:: QQSIF
 
    88x60 resolution for the camera sensor.
 
-.. data:: sensor.QSIF
+.. data:: QSIF
 
    176x120 resolution for the camera sensor.
 
-.. data:: sensor.SIF
+.. data:: SIF
 
    352x240 resolution for the camera sensor.
 
-.. data:: sensor.QQQQVGA
+.. data:: QQQQVGA
 
    40x30 resolution for the camera sensor.
 
-.. data:: sensor.QQQVGA
+.. data:: QQQVGA
 
    80x60 resolution for the camera sensor.
 
-.. data:: sensor.QQVGA
+.. data:: QQVGA
 
    160x120 resolution for the camera sensor.
 
-.. data:: sensor.QVGA
+.. data:: QVGA
 
    320x240 resolution for the camera sensor.
 
-.. data:: sensor.VGA
+.. data:: VGA
 
    640x480 resolution for the camera sensor.
 
-.. data:: sensor.HQQQVGA
+.. data:: HQQQQVGA
+
+   30x20 resolution for the camera sensor.
+
+.. data:: HQQQVGA
 
    60x40 resolution for the camera sensor.
 
-.. data:: sensor.HQQVGA
+.. data:: HQQVGA
 
    120x80 resolution for the camera sensor.
 
-.. data:: sensor.HQVGA
+.. data:: HQVGA
 
    240x160 resolution for the camera sensor.
 
-.. data:: sensor.B64X32
+.. data:: HVGA
+
+   480x320 resolution for the camera sensor.
+
+.. data:: B64X32
 
    64x32 resolution for the camera sensor.
 
-   For use with `image.find_displacement()` and any other FFT based algorithm.
+   For use with `Image.find_displacement()` and any other FFT based algorithm.
 
-.. data:: sensor.B64X64
+.. data:: B64X64
 
    64x64 resolution for the camera sensor.
 
-   For use with `image.find_displacement()` and any other FFT based algorithm.
+   For use with `Image.find_displacement()` and any other FFT based algorithm.
 
-.. data:: sensor.B128X64
+.. data:: B128X64
 
    128x64 resolution for the camera sensor.
 
-   For use with `image.find_displacement()` and any other FFT based algorithm.
+   For use with `Image.find_displacement()` and any other FFT based algorithm.
 
-.. data:: sensor.B128X128
+.. data:: B128X128
 
    128x128 resolution for the camera sensor.
 
-   For use with `image.find_displacement()` and any other FFT based algorithm.
+   For use with `Image.find_displacement()` and any other FFT based algorithm.
 
-.. data:: sensor.B320X320
+.. data:: B160X160
+
+   160x160 resolution for the HM01B0 camera sensor.
+
+.. data:: B320X320
 
    320x320 resolution for the HM01B0 camera sensor.
 
-.. data:: sensor.LCD
+.. data:: LCD
 
    128x160 resolution for the camera sensor (for use with the lcd shield).
 
-.. data:: sensor.QQVGA2
+.. data:: QQVGA2
 
    128x160 resolution for the camera sensor (for use with the lcd shield).
 
-.. data:: sensor.WVGA
+.. data:: WVGA
 
    720x480 resolution for the MT9V034 camera sensor.
 
-.. data:: sensor.WVGA2
+.. data:: WVGA2
 
    752x480 resolution for the MT9V034 camera sensor.
 
-.. data:: sensor.SVGA
+.. data:: SVGA
 
-   800x600 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+   800x600 resolution for the camera sensor.
 
-.. data:: sensor.XGA
+.. data:: XGA
 
-   1024x768 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+   1024x768 resolution for the camera sensor.
 
-.. data:: sensor.SXGA
+.. data:: WXGA
+
+   1280x768 resolution for the MT9M114 camera sensor.
+
+.. data:: SXGA
 
    1280x1024 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
 
-.. data:: sensor.UXGA
+.. data:: SXGAM
+
+   1280x960 resolution for the MT9M114 camera sensor.
+
+.. data:: UXGA
 
    1600x1200 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
 
-.. data:: sensor.HD
+.. data:: HD
 
-   1280x720 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+   1280x720 resolution for the camera sensor.
 
-.. data:: sensor.FHD
+.. data:: FHD
 
    1920x1080 resolution for the camera sensor. Only works for the OV5640 camera.
 
-.. data:: sensor.QHD
+.. data:: QHD
 
    2560x1440 resolution for the camera sensor. Only works for the OV5640 camera.
 
-.. data:: sensor.QXGA
+.. data:: QXGA
 
    2048x1536 resolution for the camera sensor. Only works for the OV5640 camera.
 
-.. data:: sensor.WQXGA
+.. data:: WQXGA
 
    2560x1600 resolution for the camera sensor. Only works for the OV5640 camera.
 
-.. data:: sensor.WQXGA2
+.. data:: WQXGA2
 
    2592x1944 resolution for the camera sensor. Only works for the OV5640 camera.
 
-.. data:: sensor.PALETTE_RAINBOW
-
-   Default OpenMV Cam color palette for thermal images using a smooth color wheel.
-
-.. data:: sensor.PALETTE_IRONBOW
-
-   Makes images look like the FLIR Lepton thermal images using a very non-linear color palette.
-
-.. data:: sensor.IOCTL_SET_READOUT_WINDOW
+.. data:: IOCTL_SET_READOUT_WINDOW
 
    Lets you set the readout window for the OV5640.
 
-.. data:: sensor.IOCTL_GET_READOUT_WINDOW
+.. data:: IOCTL_GET_READOUT_WINDOW
 
    Lets you get the readout window for the OV5640.
 
-.. data:: sensor.IOCTL_SET_TRIGGERED_MODE
+.. data:: IOCTL_SET_TRIGGERED_MODE
 
    Lets you set the triggered mode for the MT9V034.
 
-.. data:: sensor.IOCTL_GET_TRIGGERED_MODE
+.. data:: IOCTL_GET_TRIGGERED_MODE
 
    Lets you get the triggered mode for the MT9V034.
 
-.. data:: sensor.IOCTL_TRIGGER_AUTO_FOCUS
+.. data:: IOCTL_SET_FOV_WIDE
+
+   Enable `sensor.set_framesize()` to optimize for the field-of-view over FPS.
+
+.. data:: IOCTL_GET_FOV_WIDE
+
+   Return if `sensor.set_framesize()` is optimizing for field-of-view over FPS.
+
+.. data:: IOCTL_TRIGGER_AUTO_FOCUS
 
    Used to trigger auto focus for the OV5640 FPC camera module.
 
-.. data:: sensor.IOCTL_PAUSE_AUTO_FOCUS
+.. data:: IOCTL_PAUSE_AUTO_FOCUS
 
    Used to pause auto focus (while running) for the OV5640 FPC camera module.
 
-.. data:: sensor.IOCTL_RESET_AUTO_FOCUS
+.. data:: IOCTL_RESET_AUTO_FOCUS
 
    Used to reset auto focus back to the default for the OV5640 FPC camera module.
 
-.. data:: sensor.IOCTL_WAIT_ON_AUTO_FOCUS
+.. data:: IOCTL_WAIT_ON_AUTO_FOCUS
 
    Used to wait on auto focus to finish after being triggered for the OV5640 FPC camera module.
 
-.. data:: sensor.IOCTL_LEPTON_GET_WIDTH
+.. data:: IOCTL_SET_NIGHT_MODE
+
+   Used to turn night mode on or off on a sensor. Nightmode reduces the frame rate to increase exposure dynamically.
+
+.. data:: IOCTL_GET_NIGHT_MODE
+
+   Gets the current value of if night mode is enabled or disabled for your sensor.
+
+.. data:: IOCTL_LEPTON_GET_WIDTH
 
    Lets you get the FLIR Lepton image resolution width in pixels.
 
-.. data:: sensor.IOCTL_LEPTON_GET_HEIGHT
+.. data:: IOCTL_LEPTON_GET_HEIGHT
 
    Lets you get the FLIR Lepton image resolution height in pixels.
 
-.. data:: sensor.IOCTL_LEPTON_GET_RADIOMETRY
+.. data:: IOCTL_LEPTON_GET_RADIOMETRY
 
    Lets you get the FLIR Lepton type (radiometric or not).
 
-.. data:: sensor.IOCTL_LEPTON_GET_REFRESH
+.. data:: IOCTL_LEPTON_GET_REFRESH
 
    Lets you get the FLIR Lepton refresh rate in hertz.
 
-.. data:: sensor.IOCTL_LEPTON_GET_RESOLUTION
+.. data:: IOCTL_LEPTON_GET_RESOLUTION
 
    Lets you get the FLIR Lepton ADC resolution in bits.
 
-.. data:: sensor.IOCTL_LEPTON_RUN_COMMAND
+.. data:: IOCTL_LEPTON_RUN_COMMAND
 
    Executes a 16-bit command given the FLIR Lepton SDK.
 
-.. data:: sensor.IOCTL_LEPTON_SET_ATTRIBUTE
+.. data:: IOCTL_LEPTON_SET_ATTRIBUTE
 
    Sets a FLIR Lepton Attribute given the FLIR Lepton SDK.
 
-.. data:: sensor.IOCTL_LEPTON_GET_ATTRIBUTE
+.. data:: IOCTL_LEPTON_GET_ATTRIBUTE
 
    Gets a FLIR Lepton Attribute given the FLIR Lepton SDK.
 
-.. data:: sensor.IOCTL_LEPTON_GET_FPA_TEMPERATURE
+.. data:: IOCTL_LEPTON_GET_FPA_TEMPERATURE
 
    Gets the FLIR Lepton FPA temp in celsius.
 
-.. data:: sensor.IOCTL_LEPTON_GET_AUX_TEMPERATURE
+.. data:: IOCTL_LEPTON_GET_AUX_TEMPERATURE
 
    Gets the FLIR Lepton AUX temp in celsius.
 
-.. data:: sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE
+.. data:: IOCTL_LEPTON_SET_MEASUREMENT_MODE
 
    Lets you set the FLIR Lepton driver into a mode where you can get a valid temperature value per pixel. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE
+.. data:: IOCTL_LEPTON_GET_MEASUREMENT_MODE
 
    Lets you get if measurement mode is enabled or not for the FLIR Lepton sensor. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_LEPTON_SET_MEASUREMENT_RANGE
+.. data:: IOCTL_LEPTON_SET_MEASUREMENT_RANGE
 
    Lets you set the temperature range you want to map pixels in the image to when in measurement mode. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_LEPTON_GET_MEASUREMENT_RANGE
+.. data:: IOCTL_LEPTON_GET_MEASUREMENT_RANGE
 
    Lets you get the temperature range used for measurement mode. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_HIMAX_MD_ENABLE
+.. data:: IOCTL_HIMAX_MD_ENABLE
 
    Lets you control the motion detection interrupt on the HM01B0. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_HIMAX_MD_CLEAR
+.. data:: IOCTL_HIMAX_MD_CLEAR
 
    Lets you control the motion detection interrupt on the HM01B0. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_HIMAX_MD_WINDOW
+.. data:: IOCTL_HIMAX_MD_WINDOW
 
    Lets you control the motion detection interrupt on the HM01B0. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_HIMAX_MD_THRESHOLD
+.. data:: IOCTL_HIMAX_MD_THRESHOLD
 
    Lets you control the motion detection interrupt on the HM01B0. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.IOCTL_HIMAX_OSC_ENABLE
+.. data:: IOCTL_HIMAX_OSC_ENABLE
 
    Lets you control the internal oscillator on the HM01B0. See `sensor.ioctl()` for more information.
 
-.. data:: sensor.SINGLE_BUFFER
+.. data:: SINGLE_BUFFER
 
    Pass to `sensor.set_framebuffers()` to set single buffer mode (1 buffer).
 
-.. data:: sensor.DOUBLE_BUFFER
+.. data:: DOUBLE_BUFFER
 
    Pass to `sensor.set_framebuffers()` to set double buffer mode (2 buffers).
 
-.. data:: sensor.TRIPLE_BUFFER
+.. data:: TRIPLE_BUFFER
 
    Pass to `sensor.set_framebuffers()` to set triple buffer mode (3 buffers).
 
-.. data:: sensor.VIDEO_FIFO
+.. data:: VIDEO_FIFO
 
    Pass to `sensor.set_framebuffers()` to set video FIFO mode (4 buffers).

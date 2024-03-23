@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_LEDTS_TS_CONFIG_ADVANCED_t</compoundname>
+    <includes local="no">xmc_ledts.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1addbee74c39c76eadc91e7e3781925549" prot="public" static="no" mutable="no">
+        <type>union XMC_LEDTS_TS_CONFIG_ADVANCED_t::@217</type>
+        <definition>union XMC_LEDTS_TS_CONFIG_ADVANCED_t::@217 @218</definition>
+        <argsstring></argsstring>
+        <name>@218</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="598" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1aab2fd5bf5f1f33cd2c4475903e47a6a4" prot="public" static="no" mutable="no">
+        <type>union XMC_LEDTS_TS_CONFIG_ADVANCED_t::@219</type>
+        <definition>union XMC_LEDTS_TS_CONFIG_ADVANCED_t::@219 @220</definition>
+        <argsstring></argsstring>
+        <name>@220</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="618" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 9</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="586" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="586" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="594" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad2__</definition>
+        <argsstring></argsstring>
+        <name>__pad2__</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="595" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="595" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a4ecf672a443e50cb8e13785cb3e85852" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t external_pullup</definition>
+        <argsstring></argsstring>
+        <name>external_pullup</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable or enable external pull-up on touch pin(EPULL). Refer <ref refid="group___l_e_d_t_s_1ga0d6c8bd0b23f7f8b0ffe450ec3647294" kindref="member">XMC_LEDTS_EXT_PULLUP_COLA_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="610" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="610" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a43600c55af897c04e7c484c3a43dddcd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t first_pad_turn</definition>
+        <argsstring></argsstring>
+        <name>first_pad_turn</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This bit-field denotes TSIN[x] pin on which oscillations are measured currently/next(PADT). Refer <ref refid="group___l_e_d_t_s_1ga2bc495035dd53915dd671fb9c735d8dc" kindref="member">XMC_LEDTS_PAD_TURN_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="603" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a23372f31fd2f929735982d51122e9a3c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fnctl</definition>
+        <argsstring></argsstring>
+        <name>fnctl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="617" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a8720a6b2ac119f4fb0d03d8f54c044e3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t globctl</definition>
+        <argsstring></argsstring>
+        <name>globctl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="597" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="597" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a21745882de048d760b5270c931fcdf22" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pad_turn_control</definition>
+        <argsstring></argsstring>
+        <name>pad_turn_control</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Control pad turn via HW or SW(PADTSW). Refer <ref refid="group___l_e_d_t_s_1gaa9a68449a595a869cf79a47e4a600c7b" kindref="member">XMC_LEDTS_PAD_TURN_SW_CONTROL_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="607" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="607" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a923bcdf7c4641328222a46ca518f7926" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t pin_low_extend</definition>
+        <argsstring></argsstring>
+        <name>pin_low_extend</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This bit extends touch-sense output for pin-low-level configuration for adjustment of oscillation per user system. Refer <ref refid="group___l_e_d_t_s_1ga62322f7ddfbe6ec34c5bfa85e9e9de08" kindref="member">XMC_LEDTS_EXTEND_TS_OUTPUT_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="613" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1aeeba4a11cbea4293c492038832323685" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t time_frame_validation</definition>
+        <argsstring></argsstring>
+        <name>time_frame_validation</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable or enable (extended) time frame validation(FENVAL). when validation fails time frame interrupt is not triggered. Refer <ref refid="group___l_e_d_t_s_1gabfd7f98d1b62614b7355b0599c0fe8a7" kindref="member">XMC_LEDTS_TF_VALIDATION_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="591" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a5bd3cf0f504daa6082ff0a632b124698" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t validation_mask</definition>
+        <argsstring></argsstring>
+        <name>validation_mask</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This bit-field defines number of LSB bits to mask for TS counter and shadow TS counter comparison when Time Frame validation is enabled(MASKVAL). Refer <ref refid="group___l_e_d_t_s_1gab40e573bf46a17f3a412571e8eb66d16" kindref="member">XMC_LEDTS_TS_COUNTER_MASK_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="587" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="587" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Data structure for advanced Touch-Sense function initialization. Use type <ref refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t" kindref="compound">XMC_LEDTS_TS_CONFIG_ADVANCED_t</ref> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="581" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="580" bodyend="619"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a9ce12a63de64ef64ae2d59d128251cae" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>__pad2__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a4ecf672a443e50cb8e13785cb3e85852" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>external_pullup</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a43600c55af897c04e7c484c3a43dddcd" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>first_pad_turn</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a23372f31fd2f929735982d51122e9a3c" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>fnctl</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a8720a6b2ac119f4fb0d03d8f54c044e3" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>globctl</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a21745882de048d760b5270c931fcdf22" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>pad_turn_control</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a923bcdf7c4641328222a46ca518f7926" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>pin_low_extend</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1aeeba4a11cbea4293c492038832323685" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>time_frame_validation</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___a_d_v_a_n_c_e_d__t_1a5bd3cf0f504daa6082ff0a632b124698" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_ADVANCED_t</scope><name>validation_mask</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_LEDTS_GLOBAL_CONFIG_t</compoundname>
+    <includes local="no">xmc_ledts.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a5cc8a38d8bd1825e3be0f3b2048494dd" prot="public" static="no" mutable="no">
+        <type>union XMC_LEDTS_GLOBAL_CONFIG_t::@97</type>
+        <definition>union XMC_LEDTS_GLOBAL_CONFIG_t::@97 @98</definition>
+        <argsstring></argsstring>
+        <name>@98</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="518" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="506" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="513" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1abb6d71ecc8375e01bfb440af42bc6b59" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t autoscan_synchronization</definition>
+        <argsstring></argsstring>
+        <name>autoscan_synchronization</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set this bit to synchronize start of autoscan time period with master kernel(ENSYNC). Refer <ref refid="group___l_e_d_t_s_1ga33523bf78200c44534fc265673ae83b3" kindref="member">XMC_LEDTS_TP_SYNC_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="511" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a8c294e20330b193a6d75ebf8c7e49647" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t clock_generation</definition>
+        <argsstring></argsstring>
+        <name>clock_generation</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When this bit is set LEDTS counter takes its clock from another master kernel. Kernel generates its own clock when this bit is not set (CMTR). Refer <ref refid="group___l_e_d_t_s_1ga967f751b4633502e6dacadb856d46ddd" kindref="member">XMC_LEDTS_CLOCK_TYPE_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="507" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a8720a6b2ac119f4fb0d03d8f54c044e3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t globctl</definition>
+        <argsstring></argsstring>
+        <name>globctl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="517" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1adabbf8f3d4ef1f9327f6d456afe465d1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t suspend_response</definition>
+        <argsstring></argsstring>
+        <name>suspend_response</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Suspend request configuration(SUSCFG). Refer <ref refid="group___l_e_d_t_s_1gaa37d5e785ea82f13d81317c36eb03671" kindref="member">XMC_LEDTS_SUSPEND_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="514" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Data structure for initialization of global features common to LED and touch-sense function. Use type <ref refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t" kindref="compound">XMC_LEDTS_GLOBAL_CONFIG_t</ref> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="501" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="500" bodyend="519"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_CONFIG_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_CONFIG_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1abb6d71ecc8375e01bfb440af42bc6b59" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_CONFIG_t</scope><name>autoscan_synchronization</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a8c294e20330b193a6d75ebf8c7e49647" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_CONFIG_t</scope><name>clock_generation</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1a8720a6b2ac119f4fb0d03d8f54c044e3" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_CONFIG_t</scope><name>globctl</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___g_l_o_b_a_l___c_o_n_f_i_g__t_1adabbf8f3d4ef1f9327f6d456afe465d1" prot="public" virt="non-virtual"><scope>XMC_LEDTS_GLOBAL_CONFIG_t</scope><name>suspend_response</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

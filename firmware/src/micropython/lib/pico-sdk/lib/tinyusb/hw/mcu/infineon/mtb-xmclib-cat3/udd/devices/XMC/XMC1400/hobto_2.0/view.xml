@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Files xml_version="1" xmlns="http://cypress.com/xsd/cyhobtoviewdie_v1">
+  <Cores>
+    <Core type="CortexM0" count="1" />
+  </Cores>
+  <Interrupts file="interrupts" />
+  <IPs file="ipblocks" />
+  <Pins file="pins" />
+</Files>

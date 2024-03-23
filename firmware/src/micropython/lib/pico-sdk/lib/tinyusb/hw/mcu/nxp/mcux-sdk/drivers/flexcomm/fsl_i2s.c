@@ -26,7 +26,10 @@
 #define I2S_FIFOCFG_PACK48_MASK   (0x8U)
 #define I2S_FIFOCFG_PACK48_SHIFT  (3U)
 #define I2S_FIFOCFG_PACK48(x)     (((uint32_t)(((uint32_t)(x)) << I2S_FIFOCFG_PACK48_SHIFT)) & I2S_FIFOCFG_PACK48_MASK)
-
+/*! @brief i2s empty tx fifo timeout value */
+#define I2S_FIFO_DEPTH                   (8U)
+#define I2S_TX_ONE_SAMPLE_MAX_TIMEOUT    (125U) /* 8K/8bit one sample need 125us*/
+#define I2S_TX_FIFO_EMPTY_TIMEOUT(count) (count) * I2S_TX_ONE_SAMPLE_MAX_TIMEOUT
 /*! @brief _i2s_state I2S states. */
 enum
 {
@@ -51,7 +54,7 @@ static status_t I2S_ValidateBuffer(i2s_handle_t *handle, i2s_transfer_t *transfe
  ******************************************************************************/
 
 /*! @brief Array to map i2c instance number to base address. */
-static const uint32_t s_i2sBaseAddrs[FSL_FEATURE_SOC_I2S_COUNT] = I2S_BASE_ADDRS;
+static const uint32_t s_i2sBaseAddrs[] = I2S_BASE_ADDRS;
 
 /*! @brief IRQ name array */
 static const IRQn_Type s_i2sIRQ[] = I2S_IRQS;
@@ -71,7 +74,7 @@ static const IRQn_Type s_i2sIRQ[] = I2S_IRQS;
 static uint32_t I2S_GetInstance(I2S_Type *base)
 {
     uint32_t i;
-    for (i = 0; i < (uint32_t)FSL_FEATURE_SOC_I2S_COUNT; i++)
+    for (i = 0; i < (uint32_t)ARRAY_SIZE(s_i2sBaseAddrs); i++)
     {
         if ((uint32_t)base == s_i2sBaseAddrs[i])
         {
@@ -167,6 +170,35 @@ void I2S_RxInit(I2S_Type *base, const i2s_config_t *config)
 
     base->FIFOCFG  = cfg;
     base->FIFOTRIG = trig;
+}
+
+/*!
+ * brief Flush the valid data in TX fifo.
+ *
+ * param base I2S base pointer.
+ * return kStatus_Fail empty TX fifo failed, kStatus_Success empty tx fifo success.
+ */
+status_t I2S_EmptyTxFifo(I2S_Type *base)
+{
+    uint32_t timeout = I2S_TX_FIFO_EMPTY_TIMEOUT(I2S_FIFO_DEPTH);
+
+    while (((base->FIFOSTAT & I2S_FIFOSTAT_TXEMPTY_MASK) == 0U) && (timeout != 0U))
+    {
+        timeout -= I2S_TX_ONE_SAMPLE_MAX_TIMEOUT;
+        SDK_DelayAtLeastUs(I2S_TX_ONE_SAMPLE_MAX_TIMEOUT, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
+    }
+
+    /* The last piece of valid data can be still being transmitted from I2S at this moment */
+    timeout = I2S_TX_ONE_SAMPLE_MAX_TIMEOUT;
+    /* Write additional data to FIFO */
+    base->FIFOWR = 0U;
+    while (((base->FIFOSTAT & I2S_FIFOSTAT_TXEMPTY_MASK) == 0U) && (timeout != 0U))
+    {
+        timeout -= I2S_TX_ONE_SAMPLE_MAX_TIMEOUT;
+        SDK_DelayAtLeastUs(I2S_TX_ONE_SAMPLE_MAX_TIMEOUT, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
+    }
+
+    return ((base->FIFOSTAT & I2S_FIFOSTAT_TXEMPTY_MASK) == 0U) ? kStatus_Fail : kStatus_Success;
 }
 
 /*!

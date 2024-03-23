@@ -1,0 +1,2298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="group___p_o_s_i_f" kind="group">
+    <compoundname>POSIF</compoundname>
+    <title>Position Interface Unit (POSIF)</title>
+    <innerclass refid="struct_x_m_c___p_o_s_i_f___c_o_n_f_i_g__t" prot="public">XMC_POSIF_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___p_o_s_i_f___h_s_c___c_o_n_f_i_g__t" prot="public">XMC_POSIF_HSC_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t" prot="public">XMC_POSIF_MCM_CONFIG_t</innerclass>
+    <innerclass refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t" prot="public">XMC_POSIF_QD_CONFIG_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___p_o_s_i_f_1gafa5c70ea2a0e7b945f5f5e9e434432fa" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_FILTER_t</name>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faafe0123eba980b86b152be2580205b1de" prot="public">
+          <name>XMC_POSIF_FILTER_DISABLED</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No filtering </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faa6e4fa5485d663105fbae44651ac95b01" prot="public">
+          <name>XMC_POSIF_FILTER_1_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 1 Clock Cycle </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faa6aa2d62d8a9e33dee44381d819d34f53" prot="public">
+          <name>XMC_POSIF_FILTER_2_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 2 Clock Cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faaa846e9915b7202e59a29b8aac7bdd5fc" prot="public">
+          <name>XMC_POSIF_FILTER_4_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 4 Clock Cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faa857c9ad93a318538bad7d054618a8446" prot="public">
+          <name>XMC_POSIF_FILTER_8_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 8 Clock Cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faaaddbed0d21c510f034abc17943da8878" prot="public">
+          <name>XMC_POSIF_FILTER_16_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 16 Clock Cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faab16eb1d3739eeabfaad2e0db540958d2" prot="public">
+          <name>XMC_POSIF_FILTER_32_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 32 Clock Cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafa5c70ea2a0e7b945f5f5e9e434432faa5f05e10af9fe79ab4f3c5cbfe48e1e3a" prot="public">
+          <name>XMC_POSIF_FILTER_64_CLOCK_CYCLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Filter of 64 Clock Cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines POSIF input debounce filter configuration.POSIF inputs are connected to low pass filter and this enum is used to configure low pass filters cut off frequency. Use type <ref refid="group___p_o_s_i_f_1gafa5c70ea2a0e7b945f5f5e9e434432fa" kindref="member">XMC_POSIF_FILTER_t</ref> for this enum. The member defines the low pass filter configuration(LPC) bitfield of <emphasis>PCONF</emphasis> register. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="187" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="186" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1gafab3ca2f74089eefc898245dd1b41aee" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_HSC_TRIGGER_EDGE_t</name>
+        <enumvalue id="group___p_o_s_i_f_1ggafab3ca2f74089eefc898245dd1b41aeea85402928d2002e2d4e6ec23b4948522c" prot="public">
+          <name>XMC_POSIF_HSC_TRIGGER_EDGE_RISING</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Rising edge </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggafab3ca2f74089eefc898245dd1b41aeea61578695d36d3c9187137d7b90df3d6e" prot="public">
+          <name>XMC_POSIF_HSC_TRIGGER_EDGE_FALLING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Falling edge </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines trigger edge in hall sensor mode.Use type <ref refid="group___p_o_s_i_f_1gafab3ca2f74089eefc898245dd1b41aee" kindref="member">XMC_POSIF_HSC_TRIGGER_EDGE_t</ref> for this enum. It can be used to configure <emphasis>PCONF</emphasis> register&apos;s <emphasis>SPES</emphasis> and <emphasis>MSES</emphasis> bit fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="264" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="263" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1ga24b949250df8357e78f4fbfcc0517574" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_INPUT_ACTIVE_LEVEL_t</name>
+        <enumvalue id="group___p_o_s_i_f_1gga24b949250df8357e78f4fbfcc0517574a9f9fbc5b09ed07777d5ac0d9be40a63e" prot="public">
+          <name>XMC_POSIF_INPUT_ACTIVE_LEVEL_HIGH</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Input - Active High </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga24b949250df8357e78f4fbfcc0517574a64b611525e96c88611d6f17e9d910d09" prot="public">
+          <name>XMC_POSIF_INPUT_ACTIVE_LEVEL_LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Input - Active Low </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines active level of an input signal.Use type <ref refid="group___p_o_s_i_f_1ga24b949250df8357e78f4fbfcc0517574" kindref="member">XMC_POSIF_INPUT_ACTIVE_LEVEL_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="175" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="174" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1ga82e681363bd293e7190e2542d5d28974" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_INPUT_PORT_t</name>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974a378c17e2840c012e6de7520ca77e6302" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_A</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-A </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974a99e6e69011d5ae7de1237f8dda289585" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_B</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-B </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974a7091851556dfcfc1ddf4ec97429b3573" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_C</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-C </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974a4be06bcbbcdcc6d48f8684c392035b21" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_D</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-D </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974ab968611f59360d66391fe160f270aba9" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_E</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-E </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974ae5c56528d7d0a7017c87c59e6679fe22" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_F</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-F </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974ad2d39a2b526c898bb1b4459484df3634" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_G</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-G </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga82e681363bd293e7190e2542d5d28974a6eb241e7c149edf38ce0aed37e3846b3" prot="public">
+          <name>XMC_POSIF_INPUT_PORT_H</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>INPUT-H </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines POSIF configurable input ports.Use type <ref refid="group___p_o_s_i_f_1ga82e681363bd293e7190e2542d5d28974" kindref="member">XMC_POSIF_INPUT_PORT_t</ref> for this enum. The member defines the respective input selector(INSELX) bitfields of <emphasis>PCONF</emphasis> register. It selects, which input is used for the phase or Hall input function (depending on the module is set for Quadrature Decoder or Hall Sensor Mode). Same enum can be used to configure pattern update signal select by configuring <emphasis>PCONF</emphasis> register&apos;s <emphasis>MSETS</emphasis> bit field. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="160" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="159" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_IRQ_EVENT_t</name>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91a3d036aa958d389465b7faff4b36b869a" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_CHE</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hall Mode : Correct Hall Event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91ae9b12aa8206b610d03bf53ffd3e47ec1" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_WHE</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hall Mode : Wrong Hall Event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91a66ca78799ff6d8391e2055d71e7de166" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_HALL_INPUT</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hall Mode : Hall Input update </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91ab4a4ee8210831a0b8cb293cea0e67a97" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_MCP_SHADOW_TRANSFER</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hall Mode + MCM Mode : MC Pattern shadow transfer </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91a2f9e6139483b543776d60c4d62d22ad8" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_INDX</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Mode : Index event detection </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91ac85dccb77d17768b82610649c0351117" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_ERR</name>
+          <initializer>= 9U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Mode : Quadrature Phase Error </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91ad0bd7f4cb8dcf66ca8f055fc48ecb16c" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_CNT</name>
+          <initializer>= 10U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Mode : Quadrature Clock event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91a59991133e8da04fe37b0d8b7d9358ff0" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_DIR</name>
+          <initializer>= 11U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Mode : Quadrature Direction change event </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggae28e01e5a0d72d7066361aa424a3cd91ac06ea8dd7e7799e718f15aade3b5a348" prot="public">
+          <name>XMC_POSIF_IRQ_EVENT_PCLK</name>
+          <initializer>= 12U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Mode : Quadrature period clock generation event </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines POSIF events.Use type <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref> for this enum. The member defines available event sources.It is used to configure which event to be used for interrupt generation using <emphasis>PFLGE</emphasis> register. [ PFLG,SPFLG,RPFLG] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="204" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="203" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1ga6599bce3683031aac9f154c47776b4f9" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_MODE_t</name>
+        <enumvalue id="group___p_o_s_i_f_1gga6599bce3683031aac9f154c47776b4f9a37fa07a8cb02f07cd05010722726b607" prot="public">
+          <name>XMC_POSIF_MODE_HALL_SENSOR</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Hall sensor mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga6599bce3683031aac9f154c47776b4f9a14e2f27658009e34d4a75356586008eb" prot="public">
+          <name>XMC_POSIF_MODE_QD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Decoder mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga6599bce3683031aac9f154c47776b4f9a793ac15c988cf3e4c9fe6daa79810088" prot="public">
+          <name>XMC_POSIF_MODE_MCM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Standalone Multichannel mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga6599bce3683031aac9f154c47776b4f9a38e8e3afd68f4369320975866a8e7941" prot="public">
+          <name>XMC_POSIF_MODE_MCM_QD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Quadrature Decoder + Standalone Multichannel mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines POSIF configurable modes.Use type <ref refid="group___p_o_s_i_f_1ga6599bce3683031aac9f154c47776b4f9" kindref="member">XMC_POSIF_MODE_t</ref> for this enum. The members defines the function selector(FSEL) bitfields of <emphasis>PCONF</emphasis> register. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="145" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1gac618e628284af3b28c89eb9c09402757" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_QD_DIR_t</name>
+        <enumvalue id="group___p_o_s_i_f_1ggac618e628284af3b28c89eb9c09402757a0a28836133863486735bbf75dd63608c" prot="public">
+          <name>XMC_POSIF_QD_DIR_COUNTERCLOCKWISE</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Counter Clockwise </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggac618e628284af3b28c89eb9c09402757a128d9b0e6a79eb3d00b7ddf8656e2357" prot="public">
+          <name>XMC_POSIF_QD_DIR_CLOCKWISE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Clockwise </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines motor rotation direction.Use type <ref refid="group___p_o_s_i_f_1gac618e628284af3b28c89eb9c09402757" kindref="member">XMC_POSIF_QD_DIR_t</ref> for this enum. The member defines the direction in quadrature mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="243" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="242" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1ga157c3e8c0476b8fcf6474ec5bd903091" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_QD_INDEX_GENERATION_t</name>
+        <enumvalue id="group___p_o_s_i_f_1gga157c3e8c0476b8fcf6474ec5bd903091a0da1ed86e8bf90845c3ce75819c28834" prot="public">
+          <name>XMC_POSIF_QD_INDEX_GENERATION_NEVER</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Never generate the index marker signal </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga157c3e8c0476b8fcf6474ec5bd903091a11a4ca8dfe7ffa68263e32681117a93a" prot="public">
+          <name>XMC_POSIF_QD_INDEX_GENERATION_ONCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Generate only once after the first revolution </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga157c3e8c0476b8fcf6474ec5bd903091a9641b3e373f866bae79a623e0aa84247" prot="public">
+          <name>XMC_POSIF_QD_INDEX_GENERATION_ALWAYS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Index marker generated upon every revolution </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines frequency of index signal generation.Use type <ref refid="group___p_o_s_i_f_1ga157c3e8c0476b8fcf6474ec5bd903091" kindref="member">XMC_POSIF_QD_INDEX_GENERATION_t</ref> for this enum. Member represents available configuration for index marker generation using <emphasis>ICM</emphasis> bit field in <emphasis>QDC</emphasis> register. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="253" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="252" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1ga69cbdac80d1da6a266a58eebd5deec6a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_QD_MODE_t</name>
+        <enumvalue id="group___p_o_s_i_f_1gga69cbdac80d1da6a266a58eebd5deec6aae3009825ad366f042cacb96f41bff7ad" prot="public">
+          <name>XMC_POSIF_QD_MODE_QUADRATURE</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Standard Quadrature Mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga69cbdac80d1da6a266a58eebd5deec6aad77e51fed33e05ad6d351e1e3010e3cb" prot="public">
+          <name>XMC_POSIF_QD_MODE_DIRECTION_COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Direction Count Mode </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines position decoder mode selection.Use type <ref refid="group___p_o_s_i_f_1ga69cbdac80d1da6a266a58eebd5deec6a" kindref="member">XMC_POSIF_QD_MODE_t</ref> for this enum. The member defines configuration for the operation of the quadrature decoder mode. It used to configure <emphasis>QDC</emphasis> register. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="233" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="232" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1ga820b4259541019151685f25c6adf92a6" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_SR_ID_t</name>
+        <enumvalue id="group___p_o_s_i_f_1gga820b4259541019151685f25c6adf92a6af7695b0e3e72c649106979c6a7e7225b" prot="public">
+          <name>XMC_POSIF_SR_ID_0</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SR-0 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1gga820b4259541019151685f25c6adf92a6a7d0d4e0e8400f54c19a63e2a3aa348da" prot="public">
+          <name>XMC_POSIF_SR_ID_1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>SR-1 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines POSIF service request lines.Use type <ref refid="group___p_o_s_i_f_1ga820b4259541019151685f25c6adf92a6" kindref="member">XMC_POSIF_SR_ID_t</ref> for this enum. It used to connect POSIF event to required service request line. in <emphasis>PFLGE</emphasis> register for interrupt generation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="222" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="221" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="enum" id="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" prot="public" static="no" strong="no">
+        <type></type>
+        <name>XMC_POSIF_STATUS_t</name>
+        <enumvalue id="group___p_o_s_i_f_1ggac32d7e3b6084cd4eedda80839fb967e8ad1ce9a38bd7d50c26e3d837463ec346c" prot="public">
+          <name>XMC_POSIF_STATUS_OK</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>API fulfills request </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___p_o_s_i_f_1ggac32d7e3b6084cd4eedda80839fb967e8a6cfd0f0fa6b85decac1ada2538a6c908" prot="public">
+          <name>XMC_POSIF_STATUS_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>API cannot fulfill request </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the return status, to verify the POSIF related API calls. Use type <ref refid="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" kindref="member">XMC_POSIF_STATUS_t</ref> for this enum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="135" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="134" bodyend="138"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" prot="public" static="no">
+        <type>POSIF_GLOBAL_TypeDef</type>
+        <definition>typedef POSIF_GLOBAL_TypeDef XMC_POSIF_t</definition>
+        <argsstring></argsstring>
+        <name>XMC_POSIF_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines POSIF peripheral register structure.Use type <ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> for this data structure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="285" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga3974fa2a4c956f50aa852ea6e4922496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_ClearEvent</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_IRQ_EVENT_t event)</argsstring>
+        <name>XMC_POSIF_ClearEvent</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event to be acknowledged </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Clears <emphasis>event</emphasis> by acknowledgment of <emphasis>peripheral</emphasis>. <linebreak/>
+Acknowledges an IRQ event by configuring 1 to <emphasis>RPFLG</emphasis> register&apos;s <emphasis>event</emphasis> bit field.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga66d0aad06c04b7194ebaab41a215479d" kindref="member">XMC_POSIF_SetEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="996" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="996" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga9d646eb531a8c2c131a41e8aade65fbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_Disable</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_Disable</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module of type <ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Asserts the POSIF module into reset and disables the clock.<linebreak/>
+If running on other than XMC45 device then in addition it will gate the peripheral clock. Configures <emphasis>PRCLR0</emphasis> register&apos;s <emphasis>POSIF0RS</emphasis> or <emphasis>POSIF1RS</emphasis> bitfield depends upon <emphasis>peripheral</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gabca21164a5b988003bb5b700ae51fd02" kindref="member">XMC_POSIF_Enable()</ref><linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="427" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga3fea81c719ef59667d0e538d2e3306be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_DisableEvent</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_IRQ_EVENT_t event)</argsstring>
+        <name>XMC_POSIF_DisableEvent</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Disables an IRQ generation capable event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event to be disabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Disables <emphasis>event</emphasis> generation of <emphasis>peripheral</emphasis>.<linebreak/>
+Disables an IRQ generation capable <emphasis>event</emphasis> by configuring 0 to <emphasis>PFLGE</emphasis> register&apos;s <emphasis>event</emphasis> bit field.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gaaba72942f2b0e32777ded8d502109231" kindref="member">XMC_POSIF_EnableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="962" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="962" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gabca21164a5b988003bb5b700ae51fd02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_Enable</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_Enable</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module of type <ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>De-asserts the POSIF module from reset and enables the clock.<linebreak/>
+Configures <emphasis>PRCLR0</emphasis> register&apos;s <emphasis>POSIF0RS</emphasis> or <emphasis>POSIF1RS</emphasis> bit field depends upon <emphasis>peripheral</emphasis>. If running on other than XMC45 device then it will ungate the peripheral clock.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is the first API which application must invoke to configure POSIF. It is internally called by <ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga9d646eb531a8c2c131a41e8aade65fbc" kindref="member">XMC_POSIF_Disable()</ref>,<ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="413" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gaaba72942f2b0e32777ded8d502109231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_EnableEvent</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_IRQ_EVENT_t event)</argsstring>
+        <name>XMC_POSIF_EnableEvent</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event to be enabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Enables <emphasis>event</emphasis> generation of <emphasis>peripheral</emphasis>. <linebreak/>
+Enables an IRQ generation capable <emphasis>event</emphasis> by configuring 1 to <emphasis>PFLGE</emphasis> register&apos;s <emphasis>event</emphasis> bit field.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga3fea81c719ef59667d0e538d2e3306be" kindref="member">XMC_POSIF_DisableEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="944" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="944" bodyend="947"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga9e51f7a14b723e1d174d61903e31b0d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_GetEventStatus</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_IRQ_EVENT_t event)</argsstring>
+        <name>XMC_POSIF_GetEventStatus</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event ID to be checked for status </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns event status</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns <emphasis>event</emphasis> status of <emphasis>peripheral</emphasis>. <linebreak/>
+Determines if IRQ event is asserted by retrieving data from <emphasis>PFLG</emphasis> register&apos;s <emphasis>event</emphasis> bit field.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga66d0aad06c04b7194ebaab41a215479d" kindref="member">XMC_POSIF_SetEvent()</ref>,<ref refid="group___p_o_s_i_f_1ga3974fa2a4c956f50aa852ea6e4922496" kindref="member">XMC_POSIF_ClearEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="1013" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="1013" bodyend="1016"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga8a83d184367379f4bcba2907b747fab0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_HSC_GetCurrentPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_HSC_GetCurrentPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns current hall sensor pattern. Range : [0-7]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns current sampled hall sensor pattern of <emphasis>peripheral</emphasis>.<linebreak/>
+Retrieves the current hall sensor pattern from <emphasis>HALP</emphasis> register&apos;s <emphasis>HCP</emphasis> bit field of <emphasis>peripheral</emphasis>. Applications can at any point in time retrieve the current hall sensor pattern by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the hall sensor mode of operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga0580b2e5c7384e350f27e2ce6cfd5e6c" kindref="member">XMC_POSIF_HSC_GetLastSampledPattern()</ref>,<ref refid="group___p_o_s_i_f_1ga62c408b349e2f9d9a849dfafde1e0a52" kindref="member">XMC_POSIF_HSC_GetExpectedPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="634" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="634" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga62c408b349e2f9d9a849dfafde1e0a52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_HSC_GetExpectedPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_HSC_GetExpectedPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns expected hall sensor pattern. Range : [0-7]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns expected hall sensor pattern of <emphasis>peripheral</emphasis>.<linebreak/>
+Retrieves the expected hall sensor pattern from <emphasis>HALP</emphasis> register&apos;s <emphasis>HEP</emphasis> bit field of <emphasis>peripheral</emphasis>. Applications can at any point in time retrieve the expected hall sensor pattern by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the hall sensor mode of operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga0580b2e5c7384e350f27e2ce6cfd5e6c" kindref="member">XMC_POSIF_HSC_GetLastSampledPattern()</ref>,<ref refid="group___p_o_s_i_f_1ga8a83d184367379f4bcba2907b747fab0" kindref="member">XMC_POSIF_HSC_GetCurrentPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="654" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="654" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga0580b2e5c7384e350f27e2ce6cfd5e6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_HSC_GetLastSampledPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_HSC_GetLastSampledPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns last sampled hall sensor pattern. Range : [0-7]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns last sampled hall sensor pattern of <emphasis>peripheral</emphasis>.<linebreak/>
+Retrieves the last sampled hall sensor pattern from <emphasis>PDBG</emphasis> register&apos;s <emphasis>HSP</emphasis> bit field of <emphasis>peripheral</emphasis>. Applications can at any point in time retrieve the last sampled hall sensor pattern by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the hall sensor mode of operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga8a83d184367379f4bcba2907b747fab0" kindref="member">XMC_POSIF_HSC_GetCurrentPattern()</ref>,<ref refid="group___p_o_s_i_f_1ga62c408b349e2f9d9a849dfafde1e0a52" kindref="member">XMC_POSIF_HSC_GetExpectedPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="614" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="614" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gab5b17abbb7be807820b0e461aee90316" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" kindref="member">XMC_POSIF_STATUS_t</ref></type>
+        <definition>XMC_POSIF_STATUS_t XMC_POSIF_HSC_Init</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_HSC_CONFIG_t *const config)</argsstring>
+        <name>XMC_POSIF_HSC_Init</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___p_o_s_i_f___h_s_c___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_HSC_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to hall sensor control initialization data of type <ref refid="struct_x_m_c___p_o_s_i_f___h_s_c___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_HSC_CONFIG_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>XMC_POSIF_STATUS_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns <ref refid="group___p_o_s_i_f_1ggac32d7e3b6084cd4eedda80839fb967e8ad1ce9a38bd7d50c26e3d837463ec346c" kindref="member">XMC_POSIF_STATUS_OK</ref> if configured in Hall Sensor Mode else return <ref refid="group___p_o_s_i_f_1ggac32d7e3b6084cd4eedda80839fb967e8a6cfd0f0fa6b85decac1ada2538a6c908" kindref="member">XMC_POSIF_STATUS_ERROR</ref>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Initializes hall sensor control mode.<linebreak/>
+Configures <emphasis>PCONF</emphasis> register with which POSIF input trigger to be used for sampling hall pattern.Configures <emphasis>PCONF</emphasis> register for idle signal generation for wrong hall event.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>It is necessary to have called XMC_POSIF_Init first with Hall sensor mode before invocation of this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="462" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gaa169510e9851ed8e08dcb0c5a16bf73f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_HSC_SetCurrentPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const uint8_t pattern)</argsstring>
+        <name>XMC_POSIF_HSC_SetCurrentPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hall sensor pattern to be programmed into current pattern [0-7] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures current Hall sensor <emphasis>pattern</emphasis> of <emphasis>peripheral</emphasis>.<linebreak/>
+Configures the Current hall sensor pattern on <emphasis>HALPS</emphasis> shadow register&apos;s <emphasis>HCPS</emphasis> bit field of <emphasis>peripheral</emphasis>. Applications can set at any point in time program the current hall sensor pattern by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the hall sensor mode of operation. It may be noted that the pattern is merely written to the shadow register. Transfer from the shadow register is based on a hardware transfer trigger or software trigger through API <ref refid="group___p_o_s_i_f_1gab76773ff47ea38c55f7791e8088f2dd2" kindref="member">XMC_POSIF_HSC_UpdateHallPattern()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga8a83d184367379f4bcba2907b747fab0" kindref="member">XMC_POSIF_HSC_GetCurrentPattern()</ref>,<ref refid="group___p_o_s_i_f_1gaae07138cb9aaf5060f1320454fb0048c" kindref="member">XMC_POSIF_HSC_SetExpectedPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="677" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="677" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gaae07138cb9aaf5060f1320454fb0048c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_HSC_SetExpectedPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const uint8_t pattern)</argsstring>
+        <name>XMC_POSIF_HSC_SetExpectedPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hall sensor pattern to be programmed into expected pattern [0-7] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures the expected hall sensor <emphasis>pattern</emphasis> of <emphasis>peripheral</emphasis>.<linebreak/>
+Applications can set at any point in time program the hall sensor expected patterns by invoking this API. Configures the expected hall sensor pattern on <emphasis>HALPS</emphasis> shadow register&apos;s <emphasis>HEPS</emphasis> bit field of <emphasis>peripheral</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the hall sensor mode of operation.It may be noted that the pattern is merely written to the shadow register. Transfer from the shadow register is based on a hardware transfer trigger or software trigger through API <ref refid="group___p_o_s_i_f_1gab76773ff47ea38c55f7791e8088f2dd2" kindref="member">XMC_POSIF_HSC_UpdateHallPattern()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga62c408b349e2f9d9a849dfafde1e0a52" kindref="member">XMC_POSIF_HSC_GetExpectedPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="701" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="701" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga179b8bfe9f625637ca876ac81f2f709c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_HSC_SetHallPatterns</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const uint8_t pattern_mask)</argsstring>
+        <name>XMC_POSIF_HSC_SetHallPatterns</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>pattern_mask</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pattern_mask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hall sensor pattern mask [0-63] Format of mask: (expected_pattern &lt;&lt; 3) | (current_pattern) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures current and expected hall pattern of <emphasis>peripheral</emphasis>. <linebreak/>
+Configures <emphasis>HALPS</emphasis> register with the Current and Expected hall sensor patterns in one operation. Applications can at any point in time program the current and expected hall sensor pattern by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the hall sensor mode of operation. It may be noted that the pattern is merely written to the shadow register. Transfer from the shadow register is based on a hardware transfer trigger or software trigger through API <ref refid="group___p_o_s_i_f_1gab76773ff47ea38c55f7791e8088f2dd2" kindref="member">XMC_POSIF_HSC_UpdateHallPattern()</ref>.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gaae07138cb9aaf5060f1320454fb0048c" kindref="member">XMC_POSIF_HSC_SetExpectedPattern()</ref>,<ref refid="group___p_o_s_i_f_1gaa169510e9851ed8e08dcb0c5a16bf73f" kindref="member">XMC_POSIF_HSC_SetCurrentPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="725" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="725" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gab76773ff47ea38c55f7791e8088f2dd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_HSC_UpdateHallPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_HSC_UpdateHallPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Manually performs shadow transfer of hall sensor patterns.<linebreak/>
+Configures <emphasis>MCMS</emphasis> register&apos;s <emphasis>STHR</emphasis> bit field with 1. Setting this bit to 1 leads to an immediate update of the fields <emphasis>HALP.HCP(Current pattern)</emphasis> and <emphasis>HALP.HEP(Expected pattern)</emphasis>.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>The transfer of hall sensor pattern shadow registers content to the sensor pattern register happens under two conditions. A hardware trigger starts the shadow transfer. Alternatively, the shadow transfer can be initiated by application software by means of invocation of this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga179b8bfe9f625637ca876ac81f2f709c" kindref="member">XMC_POSIF_HSC_SetHallPatterns()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="747" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="747" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_Init</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_CONFIG_t *const config)</argsstring>
+        <name>XMC_POSIF_Init</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___p_o_s_i_f___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module of type <ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to POSIF configuration data(operation mode,input selection and filter configuration) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Initialize POSIF module with <emphasis>config</emphasis>.<linebreak/>
+Configures POSIF global registers.This is the first API which application must invoke to configure POSIF. It sets up parameters common to all the POSIF modes - hall sensor,quadrature decoder and multi-channel modes of operation. Configures <emphasis>PCONF</emphasis> register with mode of operation,input selection and filter configuration.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gab5b17abbb7be807820b0e461aee90316" kindref="member">XMC_POSIF_HSC_Init()</ref>,<ref refid="group___p_o_s_i_f_1ga9f62fc42da425bdde66a80d8b91cbb7d" kindref="member">XMC_POSIF_QD_Init()</ref>,<ref refid="group___p_o_s_i_f_1gab1dd19ec5244e17df1135649adc42f38" kindref="member">XMC_POSIF_MCM_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="443" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga72cbe17a89d8c19da40f8455ef501c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool XMC_POSIF_IsRunning</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_IsRunning</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns false: IDLE, true:RUNNING</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns the status of POSIF module - Running or IDLE.<linebreak/>
+Retrieves the status from <emphasis>PRUN</emphasis> register&apos;s <emphasis>SRB</emphasis> bit.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga6c9e910c0b761228ff094906cac6cd89" kindref="member">XMC_POSIF_Start()</ref>,<ref refid="group___p_o_s_i_f_1gaac3933935f9aa846f25a3d1fc97fdee2" kindref="member">XMC_POSIF_Stop()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="594" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="594" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gadf26511d0c3635258b526189bd69129b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_MCM_EnableMultiChannelPatternUpdate</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_MCM_EnableMultiChannelPatternUpdate</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Enables update of the Multi-Channel Pattern by software in standalone multi-channel mode.<linebreak/>
+Enabling update of multi-channel pattern happens under two conditions. A hardware trigger enables this update. Alternatively, this can be enabled by software by means of invocation of this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>The update is not done immediately due to the fact that the trigger that synchronizes the update with the PWM is still needed.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga16386a78c7a3461f8eb1ee1c305c5359" kindref="member">XMC_POSIF_MCM_UpdateMultiChannelPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="848" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="848" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gacadec87d69599848bdb3c9c64f3e3fc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_POSIF_MCM_GetMultiChannelPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_MCM_GetMultiChannelPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint16_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns configured multi channel pattern</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns configured multi channel pattern of <emphasis>peripheral</emphasis>. <linebreak/>
+Retrieves the Multi-Channel Pattern from <emphasis>MCM</emphasis> register&apos;s MCMP bit field of <emphasis>peripheral</emphasis> Applications can at any point in time retrieve the multi-channel pattern by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga6fac0260f2e87935b17496fa49249f47" kindref="member">XMC_POSIF_MCM_SetMultiChannelPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="787" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="787" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga32143cfdd99b2887cb1a23bc82d26d01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t XMC_POSIF_MCM_GetShadowMultiChannelPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_MCM_GetShadowMultiChannelPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint16_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns configured multi channel pattern present in shadow transfer register</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns configured multi channel pattern in shadow register of <emphasis>peripheral</emphasis>. <linebreak/>
+Retrieves the Multi-Channel Pattern from <emphasis>MCSM</emphasis> shadow register&apos;s <emphasis>MCMPS</emphasis> bit field. Applications can at any point in time retrieve the multi-channel pattern by invoking this API.</para>
+</simplesect>
+It can be used when MCM is enabled.</para>
+<para><simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga6fac0260f2e87935b17496fa49249f47" kindref="member">XMC_POSIF_MCM_SetMultiChannelPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="806" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="806" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gab1dd19ec5244e17df1135649adc42f38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" kindref="member">XMC_POSIF_STATUS_t</ref></type>
+        <definition>XMC_POSIF_STATUS_t XMC_POSIF_MCM_Init</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_MCM_CONFIG_t *const config)</argsstring>
+        <name>XMC_POSIF_MCM_Init</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_MCM_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to quadrature decoder initialization data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>XMC_POSIF_STATUS_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns multi channel pattern initialization status of type <ref refid="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" kindref="member">XMC_POSIF_STATUS_t</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Initializes multi channel mode in Hall mode, standalone multi-channel mode and quadrature with multi-channel mode.<linebreak/>
+Configures <emphasis>PCONF</emphasis> register with multi channel mode using <ref refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_MCM_CONFIG_t</ref> data structure.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>It is necessary to call XMC_POSIF_Init first before invocation of this API. For XMC_POSIF_MODE_HALL_SENSOR, it is necessary to have called XMC_POSIF_HSC_Init before invocation of this API. For XMC_POSIF_MODE_MCM_QD, it is necessary to have called XMC_POSIF_QD_Init before invocation of this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref>,<ref refid="group___p_o_s_i_f_1gab5b17abbb7be807820b0e461aee90316" kindref="member">XMC_POSIF_HSC_Init()</ref>,<ref refid="group___p_o_s_i_f_1ga9f62fc42da425bdde66a80d8b91cbb7d" kindref="member">XMC_POSIF_QD_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="499" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga6fac0260f2e87935b17496fa49249f47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_MCM_SetMultiChannelPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const uint16_t pattern)</argsstring>
+        <name>XMC_POSIF_MCM_SetMultiChannelPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The 16b multi-channel pattern [0-65535] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures <emphasis>MCSM</emphasis> register with Multi-Channel Pattern.<linebreak/>
+This 16b multi-channel pattern which controls the 16 outputs of all slices of a CCU8 module. Transfer from the shadow register is based on a hardware transfer trigger or software trigger through API <ref refid="group___p_o_s_i_f_1ga16386a78c7a3461f8eb1ee1c305c5359" kindref="member">XMC_POSIF_MCM_UpdateMultiChannelPattern()</ref>. Every time that a Multi-Channel pattern transfer is triggered, this value is passed into the field <emphasis>MCM.MCMP</emphasis> of <emphasis>peripheral</emphasis> </para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>It may be noted that the pattern is merely written to the shadow register.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gacadec87d69599848bdb3c9c64f3e3fc3" kindref="member">XMC_POSIF_MCM_GetMultiChannelPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="770" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="770" bodyend="773"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga16386a78c7a3461f8eb1ee1c305c5359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_MCM_UpdateMultiChannelPattern</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_MCM_UpdateMultiChannelPattern</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Performs shadow transfer of the Multi-Channel Pattern register by configuring <emphasis>MCMS</emphasis> register&apos;s <emphasis>STMR</emphasis> bit field.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>Transfer multi-channel pattern shadow registers content to the actual pattern register of <emphasis>peripheral</emphasis>. <linebreak/>
+The transfer of multi-channel pattern shadow registers content to the actual pattern register happens under two conditions. A hardware trigger starts the shadow transfer. Alternatively, the shadow transfer can be initiated by application software by means of invocation of this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga6fac0260f2e87935b17496fa49249f47" kindref="member">XMC_POSIF_MCM_SetMultiChannelPattern()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="827" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="827" bodyend="830"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gae7e5b7046b7421bcc2f00197c585ef88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_QD_GetCurrentIndexValue</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_QD_GetCurrentIndexValue</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns the index value.[1 - New rotation started, 0 - In-between]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns the current index value in quadrature decoder mode of <emphasis>peripheral</emphasis>. <linebreak/>
+Retrieves current index signal value of the quadrature decoder from <emphasis>PDBG</emphasis> register&apos;s <emphasis>IVAL</emphasis> bit field. Applications can at any point in time retrieve the current index signal value of the quadrature decoder by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the quadrature decoder mode of operation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="927" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="927" bodyend="930"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga60b2c2b1658746ec5f98e8a04eca32d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_QD_GetCurrentState</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_QD_GetCurrentState</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns current state of quadrature decoder[Phase B,Phase A]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns the current state of phase signals in quadrature decoder mode of <emphasis>peripheral</emphasis>. <linebreak/>
+Retrieves current state of the quadrature decoder from <emphasis>PDBG</emphasis> register&apos;s <emphasis>QCSV</emphasis> bit fields. Applications can at any point in time retrieve the current state of Phase A and Phase B signals by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the quadrature decoder mode of operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga8e86b8f572f48582cb6460df1a05f065" kindref="member">XMC_POSIF_QD_GetPreviousState()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="887" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="887" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga04f9fb976e304266122d683b66dc4134" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___p_o_s_i_f_1gac618e628284af3b28c89eb9c09402757" kindref="member">XMC_POSIF_QD_DIR_t</ref></type>
+        <definition>XMC_POSIF_QD_DIR_t XMC_POSIF_QD_GetDirection</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_QD_GetDirection</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>XMC_POSIF_QD_DIR_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Return direction of revolution of the motor of type <ref refid="group___p_o_s_i_f_1gac618e628284af3b28c89eb9c09402757" kindref="member">XMC_POSIF_QD_DIR_t</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns the direction of revolution of the motor.<linebreak/>
+Retrieves direction from <emphasis>QDC</emphasis> register&apos;s <emphasis>DVAL</emphasis> bit field in quadrature mode. Applications can at any point in time retrieve the direction of rotation by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the quadrature decoder mode of operation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="866" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="866" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga8e86b8f572f48582cb6460df1a05f065" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t XMC_POSIF_QD_GetPreviousState</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_QD_GetPreviousState</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns previous state of quadrature decoder[Phase B,Phase A]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Returns the previous state of phase signals in quadrature decoder mode of <emphasis>peripheral</emphasis>. <linebreak/>
+Retrieves previous state of the quadrature decoder from <emphasis>PDBG</emphasis> register&apos;s <emphasis>QPSV</emphasis> bit fields. Applications can at any point in time retrieve the previous state of Phase A and Phase B signals by invoking this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>This is applicable only to the quadrature decoder mode of operation.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga60b2c2b1658746ec5f98e8a04eca32d5" kindref="member">XMC_POSIF_QD_GetCurrentState()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="908" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="908" bodyend="911"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga9f62fc42da425bdde66a80d8b91cbb7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" kindref="member">XMC_POSIF_STATUS_t</ref></type>
+        <definition>XMC_POSIF_STATUS_t XMC_POSIF_QD_Init</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_QD_CONFIG_t *const config)</argsstring>
+        <name>XMC_POSIF_QD_Init</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_QD_CONFIG_t</ref> *const</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to quadrature decoder initialization data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>XMC_POSIF_STATUS_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns quadrature mode initialization status of type <ref refid="group___p_o_s_i_f_1gac32d7e3b6084cd4eedda80839fb967e8" kindref="member">XMC_POSIF_STATUS_t</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Initializes quadrature decoder control mode.<linebreak/>
+Configures <emphasis>PCONF</emphasis> register with quadrature mode using <ref refid="group___p_o_s_i_f_1ga69cbdac80d1da6a266a58eebd5deec6a" kindref="member">XMC_POSIF_QD_MODE_t</ref> data structure. Initializes <emphasis>QDC</emphasis> register with quadrature mode configuration using <ref refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_QD_CONFIG_t</ref> structure.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>It is necessary to have called XMC_POSIF_Init first with Quadrature decoder mode before invocation of this API.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="480" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gadef0d9284b73f37e918d2d91b012a3c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_SelectInputSource</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_INPUT_PORT_t input0, const XMC_POSIF_INPUT_PORT_t input1, const XMC_POSIF_INPUT_PORT_t input2)</argsstring>
+        <name>XMC_POSIF_SelectInputSource</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1ga82e681363bd293e7190e2542d5d28974" kindref="member">XMC_POSIF_INPUT_PORT_t</ref></type>
+          <declname>input0</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1ga82e681363bd293e7190e2542d5d28974" kindref="member">XMC_POSIF_INPUT_PORT_t</ref></type>
+          <declname>input1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1ga82e681363bd293e7190e2542d5d28974" kindref="member">XMC_POSIF_INPUT_PORT_t</ref></type>
+          <declname>input2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Choice of input for input 0 [0-3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Choice of input for input 1 [0-3] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Choice of input for input 2 [0-3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures which input to be connected to POSIF module. <linebreak/>
+Configures <emphasis>PCONF</emphasis> register&apos;s INSEL0,INSEL1,INSEL2 bit fields with source for the input connection for <emphasis>input0</emphasis> <emphasis>input1</emphasis>, <emphasis>input2</emphasis> respectively.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>Configures which input is used for the Phase X or Hall input X function depending upon the module is set for Quadrature Decoder or Hall Sensor Mode.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="542" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga66d0aad06c04b7194ebaab41a215479d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_SetEvent</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_IRQ_EVENT_t event)</argsstring>
+        <name>XMC_POSIF_SetEvent</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event to be manually asserted </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Manually generates <emphasis>event</emphasis> of <emphasis>peripheral</emphasis>. <linebreak/>
+ Manually asserts an IRQ generation capable event by configuring 1 to <emphasis>SPFLG</emphasis> register&apos;s <emphasis>event</emphasis> bit field.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga3974fa2a4c956f50aa852ea6e4922496" kindref="member">XMC_POSIF_ClearEvent()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="979" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="979" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga78be0ab9757a871f0265de3933efa8a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_SetInterruptNode</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_IRQ_EVENT_t event, const XMC_POSIF_SR_ID_t sr)</argsstring>
+        <name>XMC_POSIF_SetInterruptNode</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref></type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1ga820b4259541019151685f25c6adf92a6" kindref="member">XMC_POSIF_SR_ID_t</ref></type>
+          <declname>sr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event to be acknowledged of type <ref refid="group___p_o_s_i_f_1gae28e01e5a0d72d7066361aa424a3cd91" kindref="member">XMC_POSIF_IRQ_EVENT_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Service request line of type <ref refid="group___p_o_s_i_f_1ga820b4259541019151685f25c6adf92a6" kindref="member">XMC_POSIF_SR_ID_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures <emphasis>event</emphasis> to generate <emphasis>sr</emphasis> (service request) of <emphasis>peripheral</emphasis>. <linebreak/>
+Binds an IRQ event to a service request line by configuring <emphasis>PFLGE</emphasis> register&apos;s <emphasis>event</emphasis> bit field. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="1028" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga049ad08ad799a4fbcc36a672ae82a42b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_SetMode</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral, const XMC_POSIF_MODE_t mode)</argsstring>
+        <name>XMC_POSIF_SetMode</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <param>
+          <type>const <ref refid="group___p_o_s_i_f_1ga6599bce3683031aac9f154c47776b4f9" kindref="member">XMC_POSIF_MODE_t</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>POSIF operating mode of type <ref refid="group___p_o_s_i_f_1ga6599bce3683031aac9f154c47776b4f9" kindref="member">XMC_POSIF_MODE_t</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Configures POSIF module for <emphasis>mode</emphasis>.<linebreak/>
+Configures <emphasis>PCONF</emphasis> register&apos;s a\ FSEL bitfield with <emphasis>mode</emphasis>. Refer <ref refid="group___p_o_s_i_f_1ga6599bce3683031aac9f154c47776b4f9" kindref="member">XMC_POSIF_MODE_t</ref> for available options.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>POSIF module should be in stopped state while changing the operating mode.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gaac3933935f9aa846f25a3d1fc97fdee2" kindref="member">XMC_POSIF_Stop()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="517" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="517" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1ga6c9e910c0b761228ff094906cac6cd89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_Start</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_Start</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Starts POSIF <emphasis>peripheral</emphasis> functional state machine.<linebreak/>
+Starts POSIF state machine for <emphasis>peripheral.Configures</emphasis> <emphasis>PRUNS</emphasis> register&apos;s <emphasis>SRB</emphasis> bit field with 1.</para>
+</simplesect>
+<simplesect kind="par"><title>Note</title><para>Global properties of POSIF along with mode specific properties should have been initialized before starting of POSIF FSM.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1gaac3933935f9aa846f25a3d1fc97fdee2" kindref="member">XMC_POSIF_Stop()</ref>,<ref refid="group___p_o_s_i_f_1ga72cbe17a89d8c19da40f8455ef501c85" kindref="member">XMC_POSIF_IsRunning()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="561" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="561" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="group___p_o_s_i_f_1gaac3933935f9aa846f25a3d1fc97fdee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void XMC_POSIF_Stop</definition>
+        <argsstring>(XMC_POSIF_t *const peripheral)</argsstring>
+        <name>XMC_POSIF_Stop</name>
+        <param>
+          <type><ref refid="group___p_o_s_i_f_1ga3af5891077413eced5cf11a71fccca19" kindref="member">XMC_POSIF_t</ref> *const</type>
+          <declname>peripheral</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peripheral</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an instance of POSIF module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>None</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="par"><title>Description</title><para>Stops POSIF <emphasis>peripheral</emphasis> functional state machine.<linebreak/>
+Stop POSIF functional state machine and clears current internal status of the <emphasis>peripheral</emphasis>. Configures <emphasis>PRUNC</emphasis> register&apos;s <emphasis>CRB</emphasis> bit field with 1.</para>
+</simplesect>
+<simplesect kind="par"><title>Related APIs:</title><para><ref refid="group___p_o_s_i_f_1ga6c9e910c0b761228ff094906cac6cd89" kindref="member">XMC_POSIF_Start()</ref>,<ref refid="group___p_o_s_i_f_1ga72cbe17a89d8c19da40f8455ef501c85" kindref="member">XMC_POSIF_IsRunning()</ref> <linebreak/>
+<linebreak/>
+<linebreak/>
+</para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="578" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="578" bodyend="581"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group___p_o_s_i_f_1ga0312dde29dc2fb22d1ea971f4a20b6fa" prot="public" static="no">
+        <name>XMC_POSIF_CHECK_MODULE_PTR</name>
+        <param><defname>PTR</defname></param>
+        <initializer>( ((PTR)== POSIF0))  /*&lt; Check for valid module pointer */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" line="125" column="10" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_posif.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Position Interface Unit (POSIF) driver for the XMC microcontroller family <linebreak/>
+ </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The POSIF unit is a flexible and powerful component for motor control systems that use rotary encoders or hall sensors as feedback loop. It provides interface for motor position and velocity measurement. POSIF unit works with CCU4 and CCU8 to enable position and velocity measurement and to control PWM outputs using multi channel pattern.<linebreak/>
+</para>
+<para>Driver is divided in three POSIF functional blocks - Hall Sensor Control (POSIF_HSC), Quadrature Decoder (POSIF_QD) and MultiChannel Mode (POSIF_MCM). <linebreak/>
+</para>
+<para>POSIF driver features:<orderedlist>
+<listitem><para>Configuration structure <ref refid="struct_x_m_c___p_o_s_i_f___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_CONFIG_t</ref> and initialization function <ref refid="group___p_o_s_i_f_1ga96f90c0115bcc24f0230a6cdfb41e876" kindref="member">XMC_POSIF_Init()</ref> to configure global settings</para>
+</listitem><listitem><para>Allows to change the operating mode using <ref refid="group___p_o_s_i_f_1ga049ad08ad799a4fbcc36a672ae82a42b" kindref="member">XMC_POSIF_SetMode()</ref></para>
+</listitem><listitem><para>Allows the selection of one of the four inputs (A, B, C or D) using <ref refid="group___p_o_s_i_f_1gadef0d9284b73f37e918d2d91b012a3c4" kindref="member">XMC_POSIF_SelectInputSource()</ref>. In hall sensor control, inputs are hall0, hall1 and hall2 signals. For quadrature decoder mode, inputs are phase A, phase B and index signals.</para>
+</listitem><listitem><para>Hall Sensor Control (APIs prefixed with XMC_POSIF_HSC_) <linebreak/>
+<itemizedlist>
+<listitem><para>Configuration structure <ref refid="struct_x_m_c___p_o_s_i_f___h_s_c___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_HSC_CONFIG_t</ref> and initialization function <ref refid="group___p_o_s_i_f_1gab5b17abbb7be807820b0e461aee90316" kindref="member">XMC_POSIF_HSC_Init()</ref></para>
+</listitem><listitem><para>Update current and expected hall pattern in shadow register using <ref refid="group___p_o_s_i_f_1ga179b8bfe9f625637ca876ac81f2f709c" kindref="member">XMC_POSIF_HSC_SetHallPatterns()</ref></para>
+</listitem><listitem><para>Allows immediate shadow transfer using <ref refid="group___p_o_s_i_f_1gab76773ff47ea38c55f7791e8088f2dd2" kindref="member">XMC_POSIF_HSC_UpdateHallPattern()</ref></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Quadrature Decoder (APIs prefixed with XMC_POSIF_QD_) <linebreak/>
+<itemizedlist>
+<listitem><para>Configuration structure <ref refid="struct_x_m_c___p_o_s_i_f___q_d___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_QD_CONFIG_t</ref> and initialization function <ref refid="group___p_o_s_i_f_1ga9f62fc42da425bdde66a80d8b91cbb7d" kindref="member">XMC_POSIF_QD_Init()</ref></para>
+</listitem><listitem><para>Get direction of rotation using <ref refid="group___p_o_s_i_f_1ga04f9fb976e304266122d683b66dc4134" kindref="member">XMC_POSIF_QD_GetDirection()</ref></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>MultiChannel Mode (APIs prefixed with XMC_POSIF_MCM_) <linebreak/>
+<itemizedlist>
+<listitem><para>Configuration structure <ref refid="struct_x_m_c___p_o_s_i_f___m_c_m___c_o_n_f_i_g__t" kindref="compound">XMC_POSIF_MCM_CONFIG_t</ref> and initialization function <ref refid="group___p_o_s_i_f_1gab1dd19ec5244e17df1135649adc42f38" kindref="member">XMC_POSIF_MCM_Init()</ref></para>
+</listitem><listitem><para>Update multichannel pattern in shadow register using <ref refid="group___p_o_s_i_f_1ga6fac0260f2e87935b17496fa49249f47" kindref="member">XMC_POSIF_MCM_SetMultiChannelPattern()</ref></para>
+</listitem><listitem><para>Allows immediate shadow transfer using <ref refid="group___p_o_s_i_f_1ga16386a78c7a3461f8eb1ee1c305c5359" kindref="member">XMC_POSIF_MCM_UpdateMultiChannelPattern()</ref></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>User need to call respective init functions to configure POSIF operating mode. e.g to configure POSIF in hall sensor control with multichannel mode call both <ref refid="group___p_o_s_i_f_1gab5b17abbb7be807820b0e461aee90316" kindref="member">XMC_POSIF_HSC_Init()</ref> and <ref refid="group___p_o_s_i_f_1gab1dd19ec5244e17df1135649adc42f38" kindref="member">XMC_POSIF_MCM_Init()</ref>.</para>
+</listitem><listitem><para>Allows to enable and disable interrupt sources and assign to service request node using <ref refid="group___p_o_s_i_f_1gaaba72942f2b0e32777ded8d502109231" kindref="member">XMC_POSIF_EnableEvent()</ref>, <ref refid="group___p_o_s_i_f_1ga3fea81c719ef59667d0e538d2e3306be" kindref="member">XMC_POSIF_DisableEvent()</ref> and <ref refid="group___p_o_s_i_f_1ga78be0ab9757a871f0265de3933efa8a9" kindref="member">XMC_POSIF_SetInterruptNode()</ref></para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="note"><para>POSIF is not available on XMC11 and XMC12 devices </para>
+</simplesect>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

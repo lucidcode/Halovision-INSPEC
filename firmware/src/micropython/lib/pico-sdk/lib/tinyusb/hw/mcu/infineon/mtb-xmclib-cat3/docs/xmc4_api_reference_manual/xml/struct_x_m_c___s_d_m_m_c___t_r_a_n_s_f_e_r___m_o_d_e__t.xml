@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SDMMC_TRANSFER_MODE_t</compoundname>
+    <includes local="no">xmc_sdmmc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1ac7e52fd7fa40fb2976a13c413a33c938" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_d_m_m_c_1ga1eb010e1d7b827836ae6d5b6cce5f21e" kindref="member">XMC_SDMMC_TRANSFER_MODE_AUTO_CMD_t</ref></type>
+        <definition>XMC_SDMMC_TRANSFER_MODE_AUTO_CMD_t auto_cmd</definition>
+        <argsstring></argsstring>
+        <name>auto_cmd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="577" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="577" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a9e3fb1e50a1c71b2337df296222d9553" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="574" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="574" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a5ea30a44e7155f50ee41d98c6d7325cb" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_d_m_m_c_1gaca28cba8c96000149ce2ea93fe28822d" kindref="member">XMC_SDMMC_DATA_TRANSFER_DIR_t</ref></type>
+        <definition>XMC_SDMMC_DATA_TRANSFER_DIR_t direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="578" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="578" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a4f3082976948d4834b6928985faca106" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t num_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_blocks</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="575" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a56be370e0f08bb6931e4222afac0daff" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_d_m_m_c_1gaa2da138dd3a8f0860265ee85f706bbbd" kindref="member">XMC_SDMMC_TRANSFER_MODE_TYPE_t</ref></type>
+        <definition>XMC_SDMMC_TRANSFER_MODE_TYPE_t type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="576" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="576" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>SDMMC transfer mode configuration </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" line="573" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_sdmmc.h" bodystart="572" bodyend="579"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1ac7e52fd7fa40fb2976a13c413a33c938" prot="public" virt="non-virtual"><scope>XMC_SDMMC_TRANSFER_MODE_t</scope><name>auto_cmd</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a9e3fb1e50a1c71b2337df296222d9553" prot="public" virt="non-virtual"><scope>XMC_SDMMC_TRANSFER_MODE_t</scope><name>block_size</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a5ea30a44e7155f50ee41d98c6d7325cb" prot="public" virt="non-virtual"><scope>XMC_SDMMC_TRANSFER_MODE_t</scope><name>direction</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a4f3082976948d4834b6928985faca106" prot="public" virt="non-virtual"><scope>XMC_SDMMC_TRANSFER_MODE_t</scope><name>num_blocks</name></member>
+      <member refid="struct_x_m_c___s_d_m_m_c___t_r_a_n_s_f_e_r___m_o_d_e__t_1a56be370e0f08bb6931e4222afac0daff" prot="public" virt="non-virtual"><scope>XMC_SDMMC_TRANSFER_MODE_t</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

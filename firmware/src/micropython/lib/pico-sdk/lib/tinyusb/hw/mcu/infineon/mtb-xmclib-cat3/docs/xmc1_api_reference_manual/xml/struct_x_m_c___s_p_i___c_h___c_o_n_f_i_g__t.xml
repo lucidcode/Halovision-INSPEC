@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SPI_CH_CONFIG_t</compoundname>
+    <includes local="no">xmc_spi.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t baudrate</definition>
+        <argsstring></argsstring>
+        <name>baudrate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Module baud rate for communication </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="351" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1a2de71bb03e089719e03814340d4cf51d" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_p_i_1gaaf40703e598cf0bd196246cc048dda10" kindref="member">XMC_SPI_CH_BUS_MODE_t</ref></type>
+        <definition>XMC_SPI_CH_BUS_MODE_t bus_mode</definition>
+        <argsstring></argsstring>
+        <name>bus_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bus mode: Master/Slave </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="353" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool normal_divider_mode</definition>
+        <argsstring></argsstring>
+        <name>normal_divider_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects normal divider mode for baudrate generator instead of default fractional divider decreasing jitter at cost of frequency selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="352" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1ac82f6bed1d4d170d2ba0ec02d4895150" prot="public" static="no" mutable="no">
+        <type><ref refid="group___u_s_i_c_1ga0a55c03c810078ffc9fa8b512dc57e37" kindref="member">XMC_USIC_CH_PARITY_MODE_t</ref></type>
+        <definition>XMC_USIC_CH_PARITY_MODE_t parity_mode</definition>
+        <argsstring></argsstring>
+        <name>parity_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable parity check for transmit and received data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="356" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1a2c5361b916777631c6e9b719879db0a1" prot="public" static="no" mutable="no">
+        <type><ref refid="group___s_p_i_1ga01a43390cf6218a5f16976f0b6027096" kindref="member">XMC_SPI_CH_SLAVE_SEL_MSLS_INV_t</ref></type>
+        <definition>XMC_SPI_CH_SLAVE_SEL_MSLS_INV_t selo_inversion</definition>
+        <argsstring></argsstring>
+        <name>selo_inversion</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable inversion of Slave select signal relative to the internal MSLS signal </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="354" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Structure for initializing SPI channel. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" line="350" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_spi.h" bodystart="349" bodyend="357"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1ac4f06ea26ed6bd7ae83b92d64ac10b78" prot="public" virt="non-virtual"><scope>XMC_SPI_CH_CONFIG_t</scope><name>baudrate</name></member>
+      <member refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1a2de71bb03e089719e03814340d4cf51d" prot="public" virt="non-virtual"><scope>XMC_SPI_CH_CONFIG_t</scope><name>bus_mode</name></member>
+      <member refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1a6f7bf88acfbc472b56107dd8c3d02e46" prot="public" virt="non-virtual"><scope>XMC_SPI_CH_CONFIG_t</scope><name>normal_divider_mode</name></member>
+      <member refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1ac82f6bed1d4d170d2ba0ec02d4895150" prot="public" virt="non-virtual"><scope>XMC_SPI_CH_CONFIG_t</scope><name>parity_mode</name></member>
+      <member refid="struct_x_m_c___s_p_i___c_h___c_o_n_f_i_g__t_1a2c5361b916777631c6e9b719879db0a1" prot="public" virt="non-virtual"><scope>XMC_SPI_CH_CONFIG_t</scope><name>selo_inversion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

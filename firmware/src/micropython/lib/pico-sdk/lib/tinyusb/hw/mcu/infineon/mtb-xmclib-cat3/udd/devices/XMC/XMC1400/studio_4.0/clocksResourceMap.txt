@@ -1,0 +1,8 @@
+DCO1 0 scu[0].clock[0].dco1[0]
+DCO2 0 scu[0].clock[0].dco2[0]
+OSCHP 0 scu[0].clock[0].osc_hp[0]
+OSCLP 0 scu[0].clock[0].osc_lp[0]
+MCLK 0 scu[0].clock[0].periclk[0]
+PCLK 0 scu[0].clock[0].ccuclk[0]
+FDIVCLK 0 scu[0].clock[0].fdivclk[0]
+RTCCLK 0 scu[0].clock[0].rtcclk[0]

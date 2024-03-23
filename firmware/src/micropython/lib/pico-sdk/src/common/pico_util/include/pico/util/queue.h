@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _UTIL_QUEUE_H
-#define _UTIL_QUEUE_H
+#ifndef _PICO_UTIL_QUEUE_H
+#define _PICO_UTIL_QUEUE_H
 
 #include "pico.h"
 #include "hardware/sync.h"
@@ -59,7 +59,7 @@ void queue_init_with_spinlock(queue_t *q, uint element_size, uint element_count,
  * \param element_count Maximum number of entries in the queue
  */
 static inline void queue_init(queue_t *q, uint element_size, uint element_count) {
-    return queue_init_with_spinlock(q, element_size, element_count, next_striped_spin_lock_num());
+    queue_init_with_spinlock(q, element_size, element_count, next_striped_spin_lock_num());
 }
 
 /*! \brief Destroy the specified queue.
@@ -101,6 +101,7 @@ static inline uint queue_get_level(queue_t *q) {
     return level;
 }
 
+#if PICO_QUEUE_MAX_LEVEL
 /*! \brief Returns the highest level reached by the specified queue since it was created
  *         or since the max level was reset
  *  \ingroup queue
@@ -108,18 +109,17 @@ static inline uint queue_get_level(queue_t *q) {
  * \param q Pointer to a queue_t structure, used as a handle
  * \return Maximum level of the queue
  */
-#if PICO_QUEUE_MAX_LEVEL
 static inline uint queue_get_max_level(queue_t *q) {
     return q->max_level;
 }
 #endif
 
+#if PICO_QUEUE_MAX_LEVEL
 /*! \brief Reset the highest level reached of the specified queue.
  *  \ingroup queue
  *
  * \param q Pointer to a queue_t structure, used as a handle
  */
-#if PICO_QUEUE_MAX_LEVEL
 static inline void queue_reset_max_level(queue_t *q) {
     uint32_t save = spin_lock_blocking(q->core.spin_lock);
     q->max_level = queue_get_level_unsafe(q);

@@ -16,8 +16,7 @@
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
 
-static mp_obj_t py_omv_version_string()
-{
+static mp_obj_t py_omv_version_string() {
     char str[12];
     snprintf(str, 12, "%d.%d.%d",
              FIRMWARE_VERSION_MAJOR,
@@ -27,33 +26,29 @@ static mp_obj_t py_omv_version_string()
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_omv_version_string_obj, py_omv_version_string);
 
-static mp_obj_t py_omv_arch()
-{
-    char *str = OMV_ARCH_STR;
+static mp_obj_t py_omv_arch() {
+    char *str = OMV_BOARD_ARCH;
     return mp_obj_new_str(str, strlen(str));
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_omv_arch_obj, py_omv_arch);
 
-static mp_obj_t py_omv_board_type()
-{
+static mp_obj_t py_omv_board_type() {
     char *str = OMV_BOARD_TYPE;
     return mp_obj_new_str(str, strlen(str));
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_omv_board_type_obj, py_omv_board_type);
 
-static mp_obj_t py_omv_board_id()
-{
+static mp_obj_t py_omv_board_id() {
     char str[25];
     snprintf(str, 25, "%08X%08X%08X",
-             *((unsigned int *) (OMV_UNIQUE_ID_ADDR + 8)),
-             *((unsigned int *) (OMV_UNIQUE_ID_ADDR + 4)),
-             *((unsigned int *) (OMV_UNIQUE_ID_ADDR + 0)));
+             *((unsigned int *) (OMV_BOARD_UID_ADDR + 8)),
+             *((unsigned int *) (OMV_BOARD_UID_ADDR + 4)),
+             *((unsigned int *) (OMV_BOARD_UID_ADDR + 0)));
     return mp_obj_new_str(str, strlen(str));
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(py_omv_board_id_obj, py_omv_board_id);
 
-static mp_obj_t py_omv_disable_fb(uint n_args, const mp_obj_t *args)
-{
+static mp_obj_t py_omv_disable_fb(uint n_args, const mp_obj_t *args) {
     if (!n_args) {
         return mp_obj_new_bool(!fb_get_streaming_enabled());
     }
@@ -81,4 +76,4 @@ const mp_obj_module_t omv_module = {
     .globals = (mp_obj_t) &globals_dict,
 };
 
-MP_REGISTER_MODULE(MP_QSTR_omv, omv_module, 1);
+MP_REGISTER_MODULE(MP_QSTR_omv, omv_module);

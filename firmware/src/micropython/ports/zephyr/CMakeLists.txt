@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.13.1)
+cmake_minimum_required(VERSION 3.20.0)
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(micropython)
@@ -40,12 +40,8 @@ set(MICROPY_SOURCE_PORT
     machine_i2c.c
     machine_spi.c
     machine_pin.c
-    machine_uart.c
     modbluetooth_zephyr.c
-    modmachine.c
-    moduos.c
-    modusocket.c
-    modutime.c
+    modsocket.c
     modzephyr.c
     modzsensor.c
     mphalport.c

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_LEDTS_TS_CONFIG_BASIC_t</compoundname>
+    <includes local="no">xmc_ledts.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1aa215a9c2fd1b05aae983d0a07ceb07e5" prot="public" static="no" mutable="no">
+        <type>union XMC_LEDTS_TS_CONFIG_BASIC_t::@105</type>
+        <definition>union XMC_LEDTS_TS_CONFIG_BASIC_t::@105 @106</definition>
+        <argsstring></argsstring>
+        <name>@106</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="573" column="1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad0__</definition>
+        <argsstring></argsstring>
+        <name>__pad0__</name>
+        <bitfield> 16</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="552" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="552" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t __pad1__</definition>
+        <argsstring></argsstring>
+        <name>__pad1__</name>
+        <bitfield> 2</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="560" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a7b1d262848a3edc7349c6a6ea9bf1bbf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t common_compare</definition>
+        <argsstring></argsstring>
+        <name>common_compare</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When this bit is set it enables common compare for all touch sense inputs. Disables common compare when not set(TSCCMP). Refer <ref refid="group___l_e_d_t_s_1ga2a633062e076501430b536a105f0648d" kindref="member">XMC_LEDTS_COMMON_COMPARE_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="557" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1ac01ebf7c0690a60b95103972b38d7448" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t counter_auto_reset</definition>
+        <argsstring></argsstring>
+        <name>counter_auto_reset</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When this bit is set TS-counter is automatically reset to 00H on first pad turn of a new touch-sense pin(TSCTRR). Refer <ref refid="group___l_e_d_t_s_1gab79326a0cc977fbeca41e03815a0a552" kindref="member">XMC_LEDTS_TS_COUNTER_AUTO_RESET_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="561" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="561" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1ac375c0d797e07b40c7b972f3134deee2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t counter_saturation</definition>
+        <argsstring></argsstring>
+        <name>counter_saturation</name>
+        <bitfield> 1</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When this bit is set TS-counter stops counting in the touch-sense time slice of the same frame when it reaches FFH (TSCTRSAT). Refer <ref refid="group___l_e_d_t_s_1gafa430fa9c0531f42edfae6c9ce8b1305" kindref="member">XMC_LEDTS_TS_COUNTER_SATURATION_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="565" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a23372f31fd2f929735982d51122e9a3c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t fnctl</definition>
+        <argsstring></argsstring>
+        <name>fnctl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="572" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a2c63bf4a4d5c59bae76d09107351b3b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t no_of_accumulation</definition>
+        <argsstring></argsstring>
+        <name>no_of_accumulation</name>
+        <bitfield> 4</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines number of times touch-sense input pin is enabled in touch-sense time slice of consecutive frames(ACCCNT). Range 0 - 15. Refer <ref refid="group___l_e_d_t_s_1gaede9b9ad8e3bcf69f5285a8882f5a7da" kindref="member">XMC_LEDTS_ACCUMULATION_COUNT_t</ref> enum type for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="553" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a3439cdca77b8ebed3f5381265501bd60" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t no_of_touch_inputs</definition>
+        <argsstring></argsstring>
+        <name>no_of_touch_inputs</name>
+        <bitfield> 3</bitfield>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines number of touch-sense inputs (NR_TSIN). Range 0 - 7. Refer <ref refid="group___l_e_d_t_s_1ga3f1408f0d3328cb645a6e252ea1d2455" kindref="member">XMC_LEDTS_NUMBER_TS_INPUT_t</ref> enum for possible values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="569" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Data structure for basic Touch-Sense function initialization. Use type <ref refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t" kindref="compound">XMC_LEDTS_TS_CONFIG_BASIC_t</ref> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" line="547" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_ledts.h" bodystart="546" bodyend="574"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a3e57c2ef1c3ffb36722f000cc1156824" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>__pad0__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a6712ba6dd1d5b43d2d56ff8ac4e275a7" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>__pad1__</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a7b1d262848a3edc7349c6a6ea9bf1bbf" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>common_compare</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1ac01ebf7c0690a60b95103972b38d7448" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>counter_auto_reset</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1ac375c0d797e07b40c7b972f3134deee2" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>counter_saturation</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a23372f31fd2f929735982d51122e9a3c" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>fnctl</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a2c63bf4a4d5c59bae76d09107351b3b3" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>no_of_accumulation</name></member>
+      <member refid="struct_x_m_c___l_e_d_t_s___t_s___c_o_n_f_i_g___b_a_s_i_c__t_1a3439cdca77b8ebed3f5381265501bd60" prot="public" virt="non-virtual"><scope>XMC_LEDTS_TS_CONFIG_BASIC_t</scope><name>no_of_touch_inputs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

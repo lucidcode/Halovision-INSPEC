@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_CAN_GATEWAY_CONFIG_t</compoundname>
+    <includes local="no">xmc_can.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1afb35b14689f60f44435fcc7084598cd5" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gateway_base</definition>
+        <argsstring></argsstring>
+        <name>gateway_base</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>points to the actual target object within a FIFO/Gateway structure. Range :0-63 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="504" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1afb3a4bf33be4ba75c4512f616e848c12" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gateway_bottom</definition>
+        <argsstring></argsstring>
+        <name>gateway_bottom</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>points to the first element(gateway destination object) in a FIFO structure. Range :0-63 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="502" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1ad1654f547ee54be2c153a301f7b8af25" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gateway_data_copy</definition>
+        <argsstring></argsstring>
+        <name>gateway_data_copy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data fields in registers MODATALn and MODATAHn of the gateway source object (after storing the received frame in the source) are copied to the gateway destination. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="512" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a0752e9d3b804fd7fe116e210167a06e7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gateway_data_frame_send</definition>
+        <argsstring></argsstring>
+        <name>gateway_data_frame_send</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXRQ updated in the gateway destination object after the internal transfer from the gateway source to the gateway destination object </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="505" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a30e2966699975f108bde7c6c47238a72" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gateway_data_length_code_copy</definition>
+        <argsstring></argsstring>
+        <name>gateway_data_length_code_copy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data length code of the gateway source object (after storing the received frame in the source) is copied to the gateway destination object </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="510" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a88e3712856b2d25b15ea9fbd41dfdb1e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gateway_identifier_copy</definition>
+        <argsstring></argsstring>
+        <name>gateway_identifier_copy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The identifier of the gateway source object (after storing the received frame in the source) is copied to the gateway destination object. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="507" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a858646848f96f6fb58f648811cb45fbd" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gateway_top</definition>
+        <argsstring></argsstring>
+        <name>gateway_top</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>points to the last element(gateway destination object) in a FIFO structure. Range :0-63 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="503" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines CAN Gateway FIFO structure and provides additional options for gateway destination object. Use type <emphasis><ref refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t" kindref="compound">XMC_CAN_GATEWAY_CONFIG_t</ref></emphasis> for this structure. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" line="501" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc_can.h" bodystart="500" bodyend="515"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1afb35b14689f60f44435fcc7084598cd5" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_base</name></member>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1afb3a4bf33be4ba75c4512f616e848c12" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_bottom</name></member>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1ad1654f547ee54be2c153a301f7b8af25" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_data_copy</name></member>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a0752e9d3b804fd7fe116e210167a06e7" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_data_frame_send</name></member>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a30e2966699975f108bde7c6c47238a72" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_data_length_code_copy</name></member>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a88e3712856b2d25b15ea9fbd41dfdb1e" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_identifier_copy</name></member>
+      <member refid="struct_x_m_c___c_a_n___g_a_t_e_w_a_y___c_o_n_f_i_g__t_1a858646848f96f6fb58f648811cb45fbd" prot="public" virt="non-virtual"><scope>XMC_CAN_GATEWAY_CONFIG_t</scope><name>gateway_top</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

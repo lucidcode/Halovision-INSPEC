@@ -8,8 +8,8 @@ To do this we must first edit the ``boot.py`` file to change the USB
 configuration.  If you have not yet touched your ``boot.py`` file then it
 will look something like this::
 
-    # boot.py -- run on boot-up
-    # can run arbitrary Python, but best to keep it minimal
+    # boot.py -- run on boot to configure USB and filesystem
+    # Put app code in main.py
 
     import pyb
     #pyb.main('main.py') # main script to run after this one
@@ -120,7 +120,7 @@ minus sign in front of the y-coordinate in the ``hid.send()`` line above.
 Restoring your pyboard to normal
 --------------------------------
 
-If you leave your pyboard as-is, it'll behave as a mouse everytime you plug
+If you leave your pyboard as-is, it'll behave as a mouse every time you plug
 it in.  You probably want to change it back to normal.  To do this you need
 to first enter safe mode (see above), and then edit the ``boot.py`` file.
 In the ``boot.py`` file, comment out (put a # in front of) the line with the

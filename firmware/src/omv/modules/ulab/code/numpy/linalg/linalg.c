@@ -22,32 +22,21 @@
 
 #include "../../ulab.h"
 #include "../../ulab_tools.h"
+#include "../carray/carray_tools.h"
 #include "linalg.h"
 
 #if ULAB_NUMPY_HAS_LINALG_MODULE
+//|
+//| import ulab.numpy
+//|
 //| """Linear algebra functions"""
 //|
 
 #if ULAB_MAX_DIMS > 1
-static ndarray_obj_t *linalg_object_is_square(mp_obj_t obj) {
-    // Returns an ndarray, if the object is a square ndarray,
-    // raises the appropriate exception otherwise
-    if(!MP_OBJ_IS_TYPE(obj, &ulab_ndarray_type)) {
-        mp_raise_TypeError(translate("size is defined for ndarrays only"));
-    }
-    ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(obj);
-    if((ndarray->shape[ULAB_MAX_DIMS - 1] != ndarray->shape[ULAB_MAX_DIMS - 2]) || (ndarray->ndim != 2)) {
-        mp_raise_ValueError(translate("input must be square matrix"));
-    }
-    return ndarray;
-}
-#endif
-
-#if ULAB_MAX_DIMS > 1
-//| def cholesky(A: ulab.array) -> ulab.array:
+//| def cholesky(A: ulab.numpy.ndarray) -> ulab.numpy.ndarray:
 //|     """
-//|     :param ~ulab.array A: a positive definite, symmetric square matrix
-//|     :return ~ulab.array L: a square root matrix in the lower triangular form
+//|     :param ~ulab.numpy.ndarray A: a positive definite, symmetric square matrix
+//|     :return ~ulab.numpy.ndarray L: a square root matrix in the lower triangular form
 //|     :raises ValueError: If the input does not fulfill the necessary conditions
 //|
 //|     The returned matrix satisfies the equation m=LL*"""
@@ -55,7 +44,8 @@ static ndarray_obj_t *linalg_object_is_square(mp_obj_t obj) {
 //|
 
 static mp_obj_t linalg_cholesky(mp_obj_t oin) {
-    ndarray_obj_t *ndarray = linalg_object_is_square(oin);
+    ndarray_obj_t *ndarray = tools_object_is_square(oin);
+    COMPLEX_DTYPE_NOT_IMPLEMENTED(ndarray->dtype)
     ndarray_obj_t *L = ndarray_new_dense_ndarray(2, ndarray_shape_vector(0, 0, ndarray->shape[ULAB_MAX_DIMS - 1], ndarray->shape[ULAB_MAX_DIMS - 1]), NDARRAY_FLOAT);
     mp_float_t *Larray = (mp_float_t *)L->array;
 
@@ -111,7 +101,7 @@ static mp_obj_t linalg_cholesky(mp_obj_t oin) {
 
 MP_DEFINE_CONST_FUN_OBJ_1(linalg_cholesky_obj, linalg_cholesky);
 
-//| def det(m: ulab.array) -> float:
+//| def det(m: ulab.numpy.ndarray) -> float:
 //|     """
 //|     :param: m, a square matrix
 //|     :return float: The determinant of the matrix
@@ -121,7 +111,8 @@ MP_DEFINE_CONST_FUN_OBJ_1(linalg_cholesky_obj, linalg_cholesky);
 //|
 
 static mp_obj_t linalg_det(mp_obj_t oin) {
-    ndarray_obj_t *ndarray = linalg_object_is_square(oin);
+    ndarray_obj_t *ndarray = tools_object_is_square(oin);
+    COMPLEX_DTYPE_NOT_IMPLEMENTED(ndarray->dtype)
     uint8_t *array = (uint8_t *)ndarray->array;
     size_t N = ndarray->shape[ULAB_MAX_DIMS - 1];
     mp_float_t *tmp = m_new(mp_float_t, N * N);
@@ -182,72 +173,8 @@ MP_DEFINE_CONST_FUN_OBJ_1(linalg_det_obj, linalg_det);
 
 #endif
 
-//| def dot(m1: ulab.array, m2: ulab.array) -> Union[ulab.array, float]:
-//|    """
-//|    :param ~ulab.array m1: a matrix, or a vector
-//|    :param ~ulab.array m2: a matrix, or a vector
-//|
-//|    Computes the product of two matrices, or two vectors. In the letter case, the inner product is returned."""
-//|    ...
-//|
-
-static mp_obj_t linalg_dot(mp_obj_t _m1, mp_obj_t _m2) {
-    // TODO: should the results be upcast?
-    // This implements 2D operations only!
-    if(!MP_OBJ_IS_TYPE(_m1, &ulab_ndarray_type) || !MP_OBJ_IS_TYPE(_m2, &ulab_ndarray_type)) {
-        mp_raise_TypeError(translate("arguments must be ndarrays"));
-    }
-    ndarray_obj_t *m1 = MP_OBJ_TO_PTR(_m1);
-    ndarray_obj_t *m2 = MP_OBJ_TO_PTR(_m2);
-
-    #if ULAB_MAX_DIMS > 1
-    if ((m1->ndim == 1) && (m2->ndim == 1)) {
-    #endif
-        // 2 vectors
-        if (m1->len != m2->len) {
-            mp_raise_ValueError(translate("vectors must have same lengths"));
-        }
-        mp_float_t dot = 0.0;
-        uint8_t *array1 = (uint8_t *)m1->array;
-        uint8_t *array2 = (uint8_t *)m2->array;
-        for (size_t i=0; i < m1->len; i++) {
-            dot += ndarray_get_float_value(array1, m1->dtype)*ndarray_get_float_value(array2, m2->dtype);
-            array1 += m1->strides[ULAB_MAX_DIMS - 1];
-            array2 += m2->strides[ULAB_MAX_DIMS - 1];
-        }
-        return mp_obj_new_float(dot);
-    #if ULAB_MAX_DIMS > 1
-    } else {
-        // 2 matrices
-        if(m1->shape[ULAB_MAX_DIMS - 1] != m2->shape[ULAB_MAX_DIMS - 2]) {
-            mp_raise_ValueError(translate("matrix dimensions do not match"));
-        }
-        size_t *shape = ndarray_shape_vector(0, 0, m1->shape[ULAB_MAX_DIMS - 2], m2->shape[ULAB_MAX_DIMS - 1]);
-        ndarray_obj_t *out = ndarray_new_dense_ndarray(2, shape, NDARRAY_FLOAT);
-        mp_float_t *outdata = (mp_float_t *)out->array;
-        for(size_t i=0; i < m1->shape[ULAB_MAX_DIMS - 2]; i++) { // rows of m1
-            for(size_t j=0; j < m2->shape[ULAB_MAX_DIMS - 1]; j++) { // columns of m2
-                mp_float_t sum = 0.0, v1, v2;
-                for(size_t k=0; k < m2->shape[ULAB_MAX_DIMS - 2]; k++) {
-                    // (i, k) * (k, j)
-                    size_t pos1 = i*m1->shape[ULAB_MAX_DIMS - 1]+k;
-                    size_t pos2 = k*m2->shape[ULAB_MAX_DIMS - 1]+j;
-                    v1 = ndarray_get_float_index(m1->array, m1->dtype, pos1);
-                    v2 = ndarray_get_float_index(m2->array, m2->dtype, pos2);
-                    sum += v1 * v2;
-                }
-                *outdata++ = sum;
-            }
-        }
-        return MP_OBJ_FROM_PTR(out);
-    }
-    #endif
-}
-
-MP_DEFINE_CONST_FUN_OBJ_2(linalg_dot_obj, linalg_dot);
-
 #if ULAB_MAX_DIMS > 1
-//| def eig(m: ulab.array) -> Tuple[ulab.array, ulab.array]:
+//| def eig(m: ulab.numpy.ndarray) -> Tuple[ulab.numpy.ndarray, ulab.numpy.ndarray]:
 //|     """
 //|     :param m: a square matrix
 //|     :return tuple (eigenvectors, eigenvalues):
@@ -257,7 +184,8 @@ MP_DEFINE_CONST_FUN_OBJ_2(linalg_dot_obj, linalg_dot);
 //|
 
 static mp_obj_t linalg_eig(mp_obj_t oin) {
-    ndarray_obj_t *in = linalg_object_is_square(oin);
+    ndarray_obj_t *in = tools_object_is_square(oin);
+    COMPLEX_DTYPE_NOT_IMPLEMENTED(in->dtype)
     uint8_t *iarray = (uint8_t *)in->array;
     size_t S = in->shape[ULAB_MAX_DIMS - 1];
     mp_float_t *array = m_new(mp_float_t, S*S);
@@ -303,14 +231,14 @@ static mp_obj_t linalg_eig(mp_obj_t oin) {
     mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(mp_obj_new_tuple(2, NULL));
     tuple->items[0] = MP_OBJ_FROM_PTR(eigenvalues);
     tuple->items[1] = MP_OBJ_FROM_PTR(eigenvectors);
-    return tuple;
+    return MP_OBJ_FROM_PTR(tuple);
 }
 
 MP_DEFINE_CONST_FUN_OBJ_1(linalg_eig_obj, linalg_eig);
 
-//| def inv(m: ulab.array) -> ulab.array:
+//| def inv(m: ulab.numpy.ndarray) -> ulab.numpy.ndarray:
 //|     """
-//|     :param ~ulab.array m: a square matrix
+//|     :param ~ulab.numpy.ndarray m: a square matrix
 //|     :return: The inverse of the matrix, if it exists
 //|     :raises ValueError: if the matrix is not invertible
 //|
@@ -318,7 +246,8 @@ MP_DEFINE_CONST_FUN_OBJ_1(linalg_eig_obj, linalg_eig);
 //|     ...
 //|
 static mp_obj_t linalg_inv(mp_obj_t o_in) {
-    ndarray_obj_t *ndarray = linalg_object_is_square(o_in);
+    ndarray_obj_t *ndarray = tools_object_is_square(o_in);
+    COMPLEX_DTYPE_NOT_IMPLEMENTED(ndarray->dtype)
     uint8_t *array = (uint8_t *)ndarray->array;
     size_t N = ndarray->shape[ULAB_MAX_DIMS - 1];
     ndarray_obj_t *inverted = ndarray_new_dense_ndarray(2, ndarray_shape_vector(0, 0, N, N), NDARRAY_FLOAT);
@@ -346,105 +275,272 @@ static mp_obj_t linalg_inv(mp_obj_t o_in) {
 MP_DEFINE_CONST_FUN_OBJ_1(linalg_inv_obj, linalg_inv);
 #endif
 
-//| def norm(x: ulab.array) -> float:
+//| def norm(x: ulab.numpy.ndarray) -> float:
 //|    """
-//|    :param ~ulab.array x: a vector or a matrix
+//|    :param ~ulab.numpy.ndarray x: a vector or a matrix
 //|
 //|    Computes the 2-norm of a vector or a matrix, i.e., ``sqrt(sum(x*x))``, however, without the RAM overhead."""
 //|    ...
 //|
 
-static mp_obj_t linalg_norm(mp_obj_t _x) {
-    if (!MP_OBJ_IS_TYPE(_x, &ulab_ndarray_type)) {
-        mp_raise_TypeError(translate("argument must be ndarray"));
-    }
-    ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(_x);
-    if((ndarray->ndim != 1) && (ndarray->ndim != 2)) {
-        mp_raise_ValueError(translate("norm is defined for 1D and 2D arrays"));
-    }
-    mp_float_t dot = 0.0;
-    uint8_t *array = (uint8_t *)ndarray->array;
+static mp_obj_t linalg_norm(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+    static const mp_arg_t allowed_args[] = {
+        { MP_QSTR_, MP_ARG_REQUIRED | MP_ARG_OBJ, { .u_rom_obj = MP_ROM_NONE} } ,
+        { MP_QSTR_axis, MP_ARG_OBJ, { .u_rom_obj = MP_ROM_NONE } },
+    };
 
-    mp_float_t (*func)(void *) = ndarray_get_float_function(ndarray->dtype);
+    mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
+    mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
-    size_t k = 0;
-    do {
-        size_t l = 0;
+    mp_obj_t x = args[0].u_obj;
+    mp_obj_t axis = args[1].u_obj;
+
+    mp_float_t dot = 0.0, value;
+    size_t count = 1;
+
+    if(mp_obj_is_type(x, &mp_type_tuple) || mp_obj_is_type(x, &mp_type_list) || mp_obj_is_type(x, &mp_type_range)) {
+        mp_obj_iter_buf_t iter_buf;
+        mp_obj_t item, iterable = mp_getiter(x, &iter_buf);
+        while((item = mp_iternext(iterable)) != MP_OBJ_STOP_ITERATION) {
+            value = mp_obj_get_float(item);
+            // we could simply take the sum of value ** 2,
+            // but this method is numerically stable
+            dot = dot + (value * value - dot) / count++;
+        }
+        return mp_obj_new_float(MICROPY_FLOAT_C_FUN(sqrt)(dot * (count - 1)));
+    } else if(mp_obj_is_type(x, &ulab_ndarray_type)) {
+        ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(x);
+        COMPLEX_DTYPE_NOT_IMPLEMENTED(ndarray->dtype)
+        uint8_t *array = (uint8_t *)ndarray->array;
+        // always get a float, so that we don't have to resolve the dtype later
+        mp_float_t (*func)(void *) = ndarray_get_float_function(ndarray->dtype);
+        shape_strides _shape_strides = tools_reduce_axes(ndarray, axis);
+        ndarray_obj_t *results = ndarray_new_dense_ndarray(_shape_strides.ndim, _shape_strides.shape, NDARRAY_FLOAT);
+        mp_float_t *rarray = (mp_float_t *)results->array;
+
+        #if ULAB_MAX_DIMS > 3
+        size_t i = 0;
         do {
-            mp_float_t v = func(array);
-            array += ndarray->strides[ULAB_MAX_DIMS - 1];
-            dot += v*v;
-            l++;
-        } while(l < ndarray->shape[ULAB_MAX_DIMS - 1]);
-        array -= ndarray->strides[ULAB_MAX_DIMS - 1] * ndarray->shape[ULAB_MAX_DIMS - 1];
-        array += ndarray->strides[ULAB_MAX_DIMS - 2];
-        k++;
-    } while(k < ndarray->shape[ULAB_MAX_DIMS - 2]);
-    return mp_obj_new_float(MICROPY_FLOAT_C_FUN(sqrt)(dot));
+        #endif
+            #if ULAB_MAX_DIMS > 2
+            size_t j = 0;
+            do {
+            #endif
+                #if ULAB_MAX_DIMS > 1
+                size_t k = 0;
+                do {
+                #endif
+                    size_t l = 0;
+                    if(axis != mp_const_none) {
+                        count = 1;
+                        dot = 0.0;
+                    }
+                    do {
+                        value = func(array);
+                        dot = dot + (value * value - dot) / count++;
+                        array += _shape_strides.strides[0];
+                        l++;
+                    } while(l < _shape_strides.shape[0]);
+                    *rarray = MICROPY_FLOAT_C_FUN(sqrt)(dot * (count - 1));
+                #if ULAB_MAX_DIMS > 1
+                    rarray += _shape_strides.increment;
+                    array -= _shape_strides.strides[0] * _shape_strides.shape[0];
+                    array += _shape_strides.strides[ULAB_MAX_DIMS - 1];
+                    k++;
+                } while(k < _shape_strides.shape[ULAB_MAX_DIMS - 1]);
+                #endif
+            #if ULAB_MAX_DIMS > 2
+                array -= _shape_strides.strides[ULAB_MAX_DIMS - 1] * _shape_strides.shape[ULAB_MAX_DIMS - 1];
+                array += _shape_strides.strides[ULAB_MAX_DIMS - 2];
+                j++;
+            } while(j < _shape_strides.shape[ULAB_MAX_DIMS - 2]);
+            #endif
+        #if ULAB_MAX_DIMS > 3
+            array -= _shape_strides.strides[ULAB_MAX_DIMS - 2] * _shape_strides.shape[ULAB_MAX_DIMS - 2];
+            array += _shape_strides.strides[ULAB_MAX_DIMS - 3];
+            i++;
+        } while(i < _shape_strides.shape[ULAB_MAX_DIMS - 3]);
+        #endif
+        if(results->ndim == 0) {
+            return mp_obj_new_float(*rarray);
+        }
+        return MP_OBJ_FROM_PTR(results);
+    }
+    return mp_const_none; // we should never reach this point
 }
 
-MP_DEFINE_CONST_FUN_OBJ_1(linalg_norm_obj, linalg_norm);
+MP_DEFINE_CONST_FUN_OBJ_KW(linalg_norm_obj, 1, linalg_norm);
 
 #if ULAB_MAX_DIMS > 1
-#if ULAB_LINALG_HAS_TRACE
-
-//| def trace(m: ulab.array) -> float:
+//| def qr(m: ulab.numpy.ndarray) -> Tuple[ulab.numpy.ndarray, ulab.numpy.ndarray]:
 //|     """
-//|     :param m: a square matrix
+//|     :param m: a matrix
+//|     :return tuple (Q, R):
 //|
-//|     Compute the trace of the matrix, the sum of its diagonal elements."""
+//|     Factor the matrix a as QR, where Q is orthonormal and R is upper-triangular.
+//|     """
 //|     ...
 //|
 
-static mp_obj_t linalg_trace(mp_obj_t oin) {
-    ndarray_obj_t *ndarray = linalg_object_is_square(oin);
-    mp_float_t trace = 0.0;
-    for(size_t i=0; i < ndarray->shape[ULAB_MAX_DIMS - 1]; i++) {
-        int32_t pos = i * (ndarray->strides[ULAB_MAX_DIMS - 1] + ndarray->strides[ULAB_MAX_DIMS - 2]);
-        trace += ndarray_get_float_index(ndarray->array, ndarray->dtype, pos/ndarray->itemsize);
+static mp_obj_t linalg_qr(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+    static const mp_arg_t allowed_args[] = {
+        { MP_QSTR_, MP_ARG_REQUIRED | MP_ARG_OBJ, { .u_rom_obj = MP_ROM_NONE } },
+        { MP_QSTR_mode, MP_ARG_OBJ, { .u_rom_obj = MP_ROM_QSTR(MP_QSTR_reduced) } },
+    };
+
+    mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
+    mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
+
+
+    if(!mp_obj_is_type(args[0].u_obj, &ulab_ndarray_type)) {
+        mp_raise_TypeError(translate("operation is defined for ndarrays only"));
     }
-    if(ndarray->dtype == NDARRAY_FLOAT) {
-        return mp_obj_new_float(trace);
+    ndarray_obj_t *source = MP_OBJ_TO_PTR(args[0].u_obj);
+    if(source->ndim != 2) {
+        mp_raise_ValueError(translate("operation is defined for 2D arrays only"));
     }
-    return mp_obj_new_int_from_float(trace);
+
+    size_t m = source->shape[ULAB_MAX_DIMS - 2]; // rows
+    size_t n = source->shape[ULAB_MAX_DIMS - 1]; // columns
+
+    ndarray_obj_t *Q = ndarray_new_dense_ndarray(2, ndarray_shape_vector(0, 0, m, m), NDARRAY_FLOAT);
+    ndarray_obj_t *R = ndarray_new_dense_ndarray(2, source->shape, NDARRAY_FLOAT);
+
+    mp_float_t *qarray = (mp_float_t *)Q->array;
+    mp_float_t *rarray = (mp_float_t *)R->array;
+
+    // simply copy the entries of source to a float array
+    mp_float_t (*func)(void *) = ndarray_get_float_function(source->dtype);
+    uint8_t *sarray = (uint8_t *)source->array;
+
+    for(size_t i = 0; i < m; i++) {
+        for(size_t j = 0; j < n; j++) {
+            *rarray++ = func(sarray);
+            sarray += source->strides[ULAB_MAX_DIMS - 1];
+        }
+        sarray -= n * source->strides[ULAB_MAX_DIMS - 1];
+        sarray += source->strides[ULAB_MAX_DIMS - 2];
+    }
+    rarray -= m * n;
+
+    // start with the unit matrix
+    for(size_t i = 0; i < m; i++) {
+        qarray[i * (m + 1)] = 1.0;
+    }
+
+    for(size_t j = 0; j < n; j++) { // columns
+        for(size_t i = m - 1; i > j; i--) { // rows
+            mp_float_t c, s;
+            // Givens matrix: note that numpy uses a strange form of the rotation
+            // [[c  s],
+            //  [s -c]]
+            if(MICROPY_FLOAT_C_FUN(fabs)(rarray[i * n + j]) < LINALG_EPSILON) { // r[i, j]
+                c = (rarray[(i - 1) * n + j] >= MICROPY_FLOAT_CONST(0.0)) ? MICROPY_FLOAT_CONST(1.0) : MICROPY_FLOAT_CONST(-1.0); // r[i-1, j]
+                s = 0.0;
+            } else if(MICROPY_FLOAT_C_FUN(fabs)(rarray[(i - 1) * n + j]) < LINALG_EPSILON) { // r[i-1, j]
+                c = 0.0;
+                s = (rarray[i * n + j] >= MICROPY_FLOAT_CONST(0.0)) ? MICROPY_FLOAT_CONST(-1.0) : MICROPY_FLOAT_CONST(1.0); // r[i, j]
+            } else {
+                mp_float_t t, u;
+                if(MICROPY_FLOAT_C_FUN(fabs)(rarray[(i - 1) * n + j]) > MICROPY_FLOAT_C_FUN(fabs)(rarray[i * n + j])) { // r[i-1, j], r[i, j]
+                    t = rarray[i * n + j] / rarray[(i - 1) * n + j]; // r[i, j]/r[i-1, j]
+                    u = MICROPY_FLOAT_C_FUN(sqrt)(1 + t * t);
+                    c = MICROPY_FLOAT_CONST(-1.0) / u;
+                    s = c * t;
+                } else {
+                    t = rarray[(i - 1) * n + j] / rarray[i * n + j]; // r[i-1, j]/r[i, j]
+                    u = MICROPY_FLOAT_C_FUN(sqrt)(1 + t * t);
+                    s = MICROPY_FLOAT_CONST(-1.0) / u;
+                    c = s * t;
+                }
+            }
+
+            mp_float_t r1, r2;
+            // update R: multiply with the rotation matrix from the left
+            for(size_t k = 0; k < n; k++) {
+                r1 = rarray[(i - 1) * n + k]; // r[i-1, k]
+                r2 = rarray[i * n + k]; // r[i, k]
+                rarray[(i - 1) * n + k] = c * r1 + s * r2; // r[i-1, k]
+                rarray[i * n + k] = s * r1 - c * r2; // r[i, k]
+            }
+
+            // update Q: multiply with the transpose of the rotation matrix from the right
+            for(size_t k = 0; k < m; k++) {
+                r1 = qarray[k * m + (i - 1)];
+                r2 = qarray[k * m + i];
+                qarray[k * m + (i - 1)] = c * r1 + s * r2;
+                qarray[k * m + i] = s * r1 - c * r2;
+            }
+        }
+    }
+
+    mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(mp_obj_new_tuple(2, NULL));
+    GET_STR_DATA_LEN(args[1].u_obj, mode, len);
+    if(memcmp(mode, "complete", 8) == 0) {
+        tuple->items[0] = MP_OBJ_FROM_PTR(Q);
+        tuple->items[1] = MP_OBJ_FROM_PTR(R);
+    } else if(memcmp(mode, "reduced", 7) == 0) {
+        size_t k = MAX(m, n) - MIN(m, n);
+        ndarray_obj_t *q = ndarray_new_dense_ndarray(2, ndarray_shape_vector(0, 0, m, m - k), NDARRAY_FLOAT);
+        ndarray_obj_t *r = ndarray_new_dense_ndarray(2, ndarray_shape_vector(0, 0, m - k, n), NDARRAY_FLOAT);
+        mp_float_t *qa = (mp_float_t *)q->array;
+        mp_float_t *ra = (mp_float_t *)r->array;
+        for(size_t i = 0; i < m; i++) {
+            memcpy(qa, qarray, (m - k) * q->itemsize);
+            qa += (m - k);
+            qarray += m;
+        }
+        for(size_t i = 0; i < m - k; i++) {
+            memcpy(ra, rarray, n * r->itemsize);
+            ra += n;
+            rarray += n;
+        }
+        tuple->items[0] = MP_OBJ_FROM_PTR(q);
+        tuple->items[1] = MP_OBJ_FROM_PTR(r);
+    } else {
+        mp_raise_ValueError(translate("mode must be complete, or reduced"));
+    }
+    return MP_OBJ_FROM_PTR(tuple);
 }
 
-MP_DEFINE_CONST_FUN_OBJ_1(linalg_trace_obj, linalg_trace);
-#endif
+MP_DEFINE_CONST_FUN_OBJ_KW(linalg_qr_obj, 1, linalg_qr);
 #endif
 
 STATIC const mp_rom_map_elem_t ulab_linalg_globals_table[] = {
-    { MP_OBJ_NEW_QSTR(MP_QSTR___name__), MP_OBJ_NEW_QSTR(MP_QSTR_linalg) },
+    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_linalg) },
     #if ULAB_MAX_DIMS > 1
-    #if ULAB_LINALG_HAS_CHOLESKY
-    { MP_ROM_QSTR(MP_QSTR_cholesky), (mp_obj_t)&linalg_cholesky_obj },
-    #endif
-    #if ULAB_LINALG_HAS_DET
-    { MP_ROM_QSTR(MP_QSTR_det), (mp_obj_t)&linalg_det_obj },
-    #endif
-    #if ULAB_LINALG_HAS_EIG
-    { MP_ROM_QSTR(MP_QSTR_eig), (mp_obj_t)&linalg_eig_obj },
-    #endif
-    #if ULAB_LINALG_HAS_INV
-    { MP_ROM_QSTR(MP_QSTR_inv), (mp_obj_t)&linalg_inv_obj },
-    #endif
-    #if ULAB_LINALG_HAS_TRACE
-    { MP_ROM_QSTR(MP_QSTR_trace), (mp_obj_t)&linalg_trace_obj },
-    #endif
-    #endif
-    #if ULAB_LINALG_HAS_DOT
-    { MP_ROM_QSTR(MP_QSTR_dot), (mp_obj_t)&linalg_dot_obj },
+        #if ULAB_LINALG_HAS_CHOLESKY
+        { MP_ROM_QSTR(MP_QSTR_cholesky), MP_ROM_PTR(&linalg_cholesky_obj) },
+        #endif
+        #if ULAB_LINALG_HAS_DET
+        { MP_ROM_QSTR(MP_QSTR_det), MP_ROM_PTR(&linalg_det_obj) },
+        #endif
+        #if ULAB_LINALG_HAS_EIG
+        { MP_ROM_QSTR(MP_QSTR_eig), MP_ROM_PTR(&linalg_eig_obj) },
+        #endif
+        #if ULAB_LINALG_HAS_INV
+        { MP_ROM_QSTR(MP_QSTR_inv), MP_ROM_PTR(&linalg_inv_obj) },
+        #endif
+        #if ULAB_LINALG_HAS_QR
+        { MP_ROM_QSTR(MP_QSTR_qr), MP_ROM_PTR(&linalg_qr_obj) },
+        #endif
     #endif
     #if ULAB_LINALG_HAS_NORM
-    { MP_ROM_QSTR(MP_QSTR_norm), (mp_obj_t)&linalg_norm_obj },
+    { MP_ROM_QSTR(MP_QSTR_norm), MP_ROM_PTR(&linalg_norm_obj) },
     #endif
 };
 
 STATIC MP_DEFINE_CONST_DICT(mp_module_ulab_linalg_globals, ulab_linalg_globals_table);
 
-mp_obj_module_t ulab_linalg_module = {
+const mp_obj_module_t ulab_linalg_module = {
     .base = { &mp_type_module },
     .globals = (mp_obj_dict_t*)&mp_module_ulab_linalg_globals,
 };
-
+#if CIRCUITPY_ULAB
+#if !defined(MICROPY_VERSION) || MICROPY_VERSION <= 70144
+MP_REGISTER_MODULE(MP_QSTR_ulab_dot_numpy_dot_linalg, ulab_linalg_module, MODULE_ULAB_ENABLED);
+#else
+MP_REGISTER_MODULE(MP_QSTR_ulab_dot_numpy_dot_linalg, ulab_linalg_module);
+#endif
+#endif
 #endif

@@ -6,6 +6,9 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <sys/time.h>
+#include <sys/times.h>
+#include <unistd.h>
 #include "pico.h"
 
 #include "hardware/regs/m0plus.h"
@@ -54,7 +57,7 @@ void runtime_install_stack_guard(void *stack_bottom) {
     // mask is 1 bit per 32 bytes of the 256 byte range... clear the bit for the segment we want
     uint32_t subregion_select = 0xffu ^ (1u << ((addr >> 5u) & 7u));
     mpu_hw->ctrl = 5; // enable mpu with background default map
-    mpu_hw->rbar = (addr & (uint)~0xff) | 0x8 | 0;
+    mpu_hw->rbar = (addr & (uint)~0xff) | M0PLUS_MPU_RBAR_VALID_BITS | 0;
     mpu_hw->rasr = 1 // enable region
                    | (0x7 << 1) // size 2^(7 + 1) = 256
                    | (subregion_select << 8)
@@ -111,8 +114,9 @@ void runtime_init(void) {
 
 #if !PICO_IE_26_29_UNCHANGED_ON_RESET
     // after resetting BANK0 we should disable IE on 26-29
-    hw_clear_alias(padsbank0_hw)->io[26] = hw_clear_alias(padsbank0_hw)->io[27] =
-            hw_clear_alias(padsbank0_hw)->io[28] = hw_clear_alias(padsbank0_hw)->io[29] = PADS_BANK0_GPIO0_IE_BITS;
+    padsbank0_hw_t *padsbank0_hw_clear = (padsbank0_hw_t *)hw_clear_alias_untyped(padsbank0_hw);
+    padsbank0_hw_clear->io[26] = padsbank0_hw_clear->io[27] =
+            padsbank0_hw_clear->io[28] = padsbank0_hw_clear->io[29] = PADS_BANK0_GPIO0_IE_BITS;
 #endif
 
     // this is an array of either mutex_t or recursive_mutex_t (i.e. not necessarily the same size)
@@ -147,7 +151,7 @@ void runtime_init(void) {
 #ifndef NDEBUG
     if (__get_current_exception()) {
         // crap; started in exception handler
-        __asm ("bkpt #0");
+        __breakpoint();
     }
 #endif
 
@@ -175,7 +179,7 @@ void runtime_init(void) {
 
 }
 
-void _exit(__unused int status) {
+void __attribute__((noreturn)) __attribute__((weak)) _exit(__unused int status) {
 #if PICO_ENTER_USB_BOOT_ON_EXIT
     reset_usb_boot(0,0);
 #else
@@ -185,7 +189,7 @@ void _exit(__unused int status) {
 #endif
 }
 
-void *_sbrk(int incr) {
+__attribute__((weak)) void *_sbrk(int incr) {
     extern char end; /* Set by linker.  */
     static char *heap_end;
     char *prev_heap_end;
@@ -212,14 +216,53 @@ void *_sbrk(int incr) {
     return (void *) prev_heap_end;
 }
 
+static int64_t epoch_time_us_since_boot;
+
+__attribute__((weak)) int _gettimeofday (struct timeval *__restrict tv, __unused void *__restrict tz) {
+    if (tv) {
+        int64_t us_since_epoch = ((int64_t)to_us_since_boot(get_absolute_time())) - epoch_time_us_since_boot;
+        tv->tv_sec = (time_t)(us_since_epoch / 1000000);
+        tv->tv_usec = (suseconds_t)(us_since_epoch % 1000000);
+    }
+    return 0;
+}
+
+__attribute((weak)) int settimeofday(__unused const struct timeval *tv, __unused const struct timezone *tz) {
+    if (tv) {
+        int64_t us_since_epoch = tv->tv_sec * 1000000 + tv->tv_usec;
+        epoch_time_us_since_boot = (int64_t)to_us_since_boot(get_absolute_time()) - us_since_epoch;
+    }
+    return 0;
+}
+
+__attribute((weak)) int _times(struct tms *tms) {
+#if CLOCKS_PER_SEC >= 1000000
+    tms->tms_utime = (clock_t)(to_us_since_boot(get_absolute_time()) * (CLOCKS_PER_SEC / 1000000));
+#else
+    tms->tms_utime = (clock_t)(to_us_since_boot(get_absolute_time()) / (1000000 / CLOCKS_PER_SEC));
+#endif
+    tms->tms_stime = 0;
+    tms->tms_cutime = 0;
+    tms->tms_cstime = 0;
+    return 0;
+}
+
+__attribute((weak)) pid_t _getpid(void) {
+    return 0;
+}
+
+__attribute((weak)) int _kill(__unused pid_t pid, __unused int sig) {
+    return -1;
+}
+
 // exit is not useful... no desire to pull in __call_exitprocs
 void exit(int status) {
     _exit(status);
 }
 
 // incorrect warning from GCC 6
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsuggest-attribute=format"
+GCC_Pragma("GCC diagnostic push")
+GCC_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=format\"")
 void __assert_func(const char *file, int line, const char *func, const char *failedexpr) {
     weak_raw_printf("assertion \"%s\" failed: file \"%s\", line %d%s%s\n",
            failedexpr, file, line, func ? ", function: " : "",
@@ -227,10 +270,9 @@ void __assert_func(const char *file, int line, const char *func, const char *fai
 
     _exit(1);
 }
+GCC_Pragma("GCC diagnostic pop")
 
-#pragma GCC diagnostic pop
-
-void __attribute__((noreturn)) panic_unsupported() {
+void __attribute__((noreturn)) panic_unsupported(void) {
     panic("not supported");
 }
 
@@ -244,7 +286,7 @@ extern void __attribute__((noreturn)) __printflike(1, 0) PICO_PANIC_FUNCTION(__u
 // Use a forwarding method here as it is a little simpler than renaming the symbol as it is used from assembler
 void __attribute__((naked, noreturn)) __printflike(1, 0) panic(__unused const char *fmt, ...) {
     // if you get an undefined reference here, you didn't define your PICO_PANIC_FUNCTION!
-    __asm (
+    pico_default_asm (
             "push {lr}\n"
 #if !PICO_PANIC_FUNCTION_EMPTY
             "bl " __XSTRING(PICO_PANIC_FUNCTION) "\n"

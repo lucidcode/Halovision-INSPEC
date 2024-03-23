@@ -63,6 +63,7 @@ int usb_vcp_recv_byte(uint8_t *c); // if a byte is available, return 1 and put t
 void usb_vcp_send_strn(const char* str, int len);
 uint32_t usb_cdc_buf_len();
 uint32_t usb_cdc_get_buf(uint8_t *buf, uint32_t len);
+void usb_cdc_reset_buffers();
 int usb_cdc_debug_mode_enabled();
 void usb_vcp_attach_to_repl(const pyb_usb_vcp_obj_t *self, bool attached);
 

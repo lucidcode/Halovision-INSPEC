@@ -2,6 +2,12 @@
 #define MICROPY_HW_MCU_NAME         "STM32F407"
 #define MICROPY_PY_SYS_PLATFORM     "OpenMV1"
 
+#define MICROPY_OBJ_REPR            (MICROPY_OBJ_REPR_C)
+#define UINT_FMT                    "%u"
+#define INT_FMT                     "%d"
+typedef int mp_int_t;               // must be pointer size
+typedef unsigned int mp_uint_t;     // must be pointer size
+
 #define MICROPY_HW_HAS_SWITCH       (0)
 #define MICROPY_HW_HAS_MMA7660      (0)
 #define MICROPY_HW_HAS_LIS3DSH      (0)
@@ -16,8 +22,6 @@
 #define MICROPY_HW_ENABLE_SPI1      (0)
 #define MICROPY_HW_ENABLE_SPI2      (0)
 #define MICROPY_HW_ENABLE_SPI3      (1)
-// Reserved DMA streams
-#define MICROPY_HW_DMA2S1_IS_RESERVED
 #define MICROPY_HW_TIM_IS_RESERVED(id) (id == 1 || id == 6)
 
 #define MICROPY_HW_CLK_PLLM (12)
@@ -79,3 +83,13 @@
 
 // Servos
 #define PYB_SERVO_NUM (2)
+
+#if MICROPY_PY_WINC1500
+extern const struct _mp_obj_type_t mod_network_nic_type_winc;
+#define MICROPY_PY_USOCKET_EXTENDED_STATE   (1)
+#define MICROPY_BOARD_NETWORK_INTERFACES \
+    { MP_ROM_QSTR(MP_QSTR_WINC), MP_ROM_PTR(&mod_network_nic_type_winc) },\
+    { MP_ROM_QSTR(MP_QSTR_WLAN), MP_ROM_PTR(&mod_network_nic_type_winc) },
+#else
+#define MICROPY_BOARD_NETWORK_INTERFACES
+#endif

@@ -1,0 +1,65 @@
+name: Build artifacts
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build-artifacts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Python
+      uses: actions/setup-python@v2
+
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ env.pythonLocation }}
+        key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
+        
+    - name: Install requirements
+      run: |
+        pip install --upgrade --upgrade-strategy eager -r requirements.txt
+
+    - name: Checkout submodules
+      run: git submodule update --init .
+
+    - name: Download SVDConv
+      run: |
+        wget https://github.com/ARM-software/CMSIS_5/raw/develop/CMSIS/Utilities/Linux64/SVDConv
+        chmod +x SVDConv
+
+    - name: Build SVD files
+      run: |
+        mkdir svd/gen
+        python3 gen_svd.py
+        ./SVDConv svd/gen/bcm2711_lpa.svd -o broadcom/gen/ --generate=header --fields=struct --fields=macro --fields=enum --debug-headerfile -x INFO
+        ./SVDConv svd/gen/bcm2837_lpa.svd -o broadcom/gen/ --generate=header --fields=struct --fields=macro --fields=enum --debug-headerfile -x INFO
+        ./SVDConv svd/gen/bcm2835_lpa.svd -o broadcom/gen/ --generate=header --fields=struct --fields=macro --fields=enum --debug-headerfile -x INFO
+        
+    - name: Build headers
+      run: |
+        python3 gen_vcmailbox_headers.py
+
+    - name: Build interrupt handlers
+      run: |
+        python3 gen_interrupt_handlers.py
+
+    - name: Commit artifacts
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        git config user.email "github-actions@adafruit.com"
+        git config user.name "GitHub Actions"
+        git add broadcom/gen svd/gen
+        git stash
+        git fetch --unshallow origin
+        rm SVDConv
+        git checkout origin/main-build
+        git merge --no-commit --no-ff origin/main
+        git checkout stash -- .
+        git add broadcom/gen svd/gen
+        git commit -m "Artifacts for ${GITHUB_REF} at ${GITHUB_SHA}"
+        git push origin HEAD:${GITHUB_REF}-build

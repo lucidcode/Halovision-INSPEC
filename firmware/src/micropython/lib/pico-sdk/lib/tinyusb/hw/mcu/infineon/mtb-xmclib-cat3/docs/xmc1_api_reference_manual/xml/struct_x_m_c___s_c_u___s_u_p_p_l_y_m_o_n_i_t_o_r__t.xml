@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.15">
+  <compounddef id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t" kind="struct" language="C++" prot="public">
+    <compoundname>XMC_SCU_SUPPLYMONITOR_t</compoundname>
+    <includes local="no">xmc1_scu.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a7527332248afdf628e313a270d03ffd9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_at_init</definition>
+        <argsstring></argsstring>
+        <name>enable_at_init</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether the monitor has to be enabled (VDEL unit Enable) after initialization.<linebreak/>
+<bold>Range:</bold> <itemizedlist>
+<listitem>
+<para><emphasis>true</emphasis> to enable after initialization. </para>
+</listitem>
+<listitem>
+<para><emphasis>false</emphasis> to enable after initialization. </para>
+</listitem>
+</itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="770" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="770" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a34f89856b91999c1744f46ef34b8ab10" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_prewarning_int</definition>
+        <argsstring></argsstring>
+        <name>enable_prewarning_int</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure pre-warning interrupt generation.<linebreak/>
+<bold>Range:</bold> <itemizedlist>
+<listitem>
+<para><emphasis>true</emphasis> to enable the interrupt. </para>
+</listitem>
+<listitem>
+<para><emphasis>false</emphasis> to disable the interrupt. </para>
+</listitem>
+</itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="752" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="752" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a30363557da6af98e0a8aea45a3b35b68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_vclip_int</definition>
+        <argsstring></argsstring>
+        <name>enable_vclip_int</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure VCLIP interrupt.<linebreak/>
+<bold>Range:</bold> <itemizedlist>
+<listitem>
+<para><emphasis>true</emphasis> to enable the interrupt. </para>
+</listitem>
+<listitem>
+<para><emphasis>false</emphasis> to disable the interrupt. </para>
+</listitem>
+</itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="764" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="764" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a0a00859e263e24e8f033bb43805eb3df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool enable_vdrop_int</definition>
+        <argsstring></argsstring>
+        <name>enable_vdrop_int</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure VDROP interrupt generation.<linebreak/>
+<bold>Range:</bold> <itemizedlist>
+<listitem>
+<para><emphasis>true</emphasis> to enable the interrupt. </para>
+</listitem>
+<listitem>
+<para><emphasis>false</emphasis> to disable the interrupt. </para>
+</listitem>
+</itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="758" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="758" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1ade34644944c9af522c8ae0e3d76befa9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ext_supply_monitor_speed</definition>
+        <argsstring></argsstring>
+        <name>ext_supply_monitor_speed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Speed of the voltage monitor(VDEL Timing Setting).<linebreak/>
+<bold>Range:</bold> <itemizedlist>
+<listitem>
+<para>00B sets monitor speed typ 1us - slowest response time </para>
+</listitem>
+<listitem>
+<para>01B sets monitor speed typ 500n </para>
+</listitem>
+<listitem>
+<para>10B sets monitor speed typ 250n </para>
+</listitem>
+<listitem>
+<para>11B sets monitor speed with no delay - fastest response time. </para>
+</listitem>
+</itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="744" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="744" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a1ed591909c0653b904e5bfc10432890d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ext_supply_threshold</definition>
+        <argsstring></argsstring>
+        <name>ext_supply_threshold</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>External supply range (VDEL Range Select).<linebreak/>
+<bold>Range:</bold> <itemizedlist>
+<listitem>
+<para>00B sets threshold value to 2.25V </para>
+</listitem>
+<listitem>
+<para>01B sets threshold value to 3.0V </para>
+</listitem>
+<listitem>
+<para>10B sets threshold value to 4.4V </para>
+</listitem>
+</itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="737" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines a data structure for initializing the data of the supply voltage monitoring block. Supply voltage monitoring block consists of 2 detectors namely External voltage detector (VDEL) and External brownout detector (BDE) in the EVR that are used to monitor the VDDP. <emphasis>VDEL</emphasis> detector compares the supply voltage against a pre-warning threshold voltage. Use type <emphasis><ref refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t" kindref="compound">XMC_SCU_SUPPLYMONITOR_t</ref></emphasis> for accessing these structure parameters. </para>
+    </detaileddescription>
+    <location file="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" line="736" column="1" bodyfile="/var/tmp/gitlab-runner1/builds/xyH-6YS9/0/repo/mtb-xmclib-cat3/XMCLib/inc/xmc1_scu.h" bodystart="735" bodyend="776"/>
+    <listofallmembers>
+      <member refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a7527332248afdf628e313a270d03ffd9" prot="public" virt="non-virtual"><scope>XMC_SCU_SUPPLYMONITOR_t</scope><name>enable_at_init</name></member>
+      <member refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a34f89856b91999c1744f46ef34b8ab10" prot="public" virt="non-virtual"><scope>XMC_SCU_SUPPLYMONITOR_t</scope><name>enable_prewarning_int</name></member>
+      <member refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a30363557da6af98e0a8aea45a3b35b68" prot="public" virt="non-virtual"><scope>XMC_SCU_SUPPLYMONITOR_t</scope><name>enable_vclip_int</name></member>
+      <member refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a0a00859e263e24e8f033bb43805eb3df" prot="public" virt="non-virtual"><scope>XMC_SCU_SUPPLYMONITOR_t</scope><name>enable_vdrop_int</name></member>
+      <member refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1ade34644944c9af522c8ae0e3d76befa9" prot="public" virt="non-virtual"><scope>XMC_SCU_SUPPLYMONITOR_t</scope><name>ext_supply_monitor_speed</name></member>
+      <member refid="struct_x_m_c___s_c_u___s_u_p_p_l_y_m_o_n_i_t_o_r__t_1a1ed591909c0653b904e5bfc10432890d" prot="public" virt="non-virtual"><scope>XMC_SCU_SUPPLYMONITOR_t</scope><name>ext_supply_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

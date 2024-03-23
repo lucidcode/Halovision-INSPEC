@@ -354,9 +354,9 @@ static void MEM_Reports_memStatis(void)
     MEM_DBG_LOG("Small buffers:             %d\r\n", s_memStatis.nb_small_buffer);
     MEM_DBG_LOG("Medium buffers:            %d\r\n", s_memStatis.nb_medium_buffer);
     MEM_DBG_LOG("Large buffers:             %d\r\n", s_memStatis.nb_large_buffer);
-    MEM_DBG_LOG("Peak small:                %d\r\n ", s_memStatis.peak_small_buffer);
-    MEM_DBG_LOG("Peak medium:               %d\r\n ", s_memStatis.peak_medium_buffer);
-    MEM_DBG_LOG("Peak large:                %d\r\n ", s_memStatis.peak_large_buffer);
+    MEM_DBG_LOG("Peak small:                %d\r\n", s_memStatis.peak_small_buffer);
+    MEM_DBG_LOG("Peak medium:               %d\r\n", s_memStatis.peak_medium_buffer);
+    MEM_DBG_LOG("Peak large:                %d\r\n", s_memStatis.peak_large_buffer);
     MEM_DBG_LOG("Current RAM allocated:     %d bytes\r\n", s_memStatis.ram_allocated);
     MEM_DBG_LOG("Peak RAM allocated:        %d bytes\r\n", s_memStatis.peak_ram_allocated);
     MEM_DBG_LOG("Current RAM lost:          %d bytes\r\n", s_memStatis.ram_lost);
@@ -375,9 +375,10 @@ static void MEM_Reports_memStatis(void)
 }
 #endif /* MEM_STATISTICS_INTERNAL */
 
+static bool initialized = false;
+
 mem_status_t MEM_Init(void)
 {
-    static bool initialized = false;
     if (initialized == false)
     {
         initialized = true;
@@ -417,6 +418,13 @@ mem_status_t MEM_Init(void)
 }
 static void *MEM_BufferAllocate(uint32_t numBytes, uint8_t poolId)
 {
+    if (initialized == false)
+    {
+        MEM_Init();
+    }
+
+    uint32_t regPrimask = DisableGlobalIRQ();
+
     blockHeader_t *FreeBlockHdr     = FreeBlockHdrList.head;
     blockHeader_t *NextFreeBlockHdr = FreeBlockHdr->next_free;
     blockHeader_t *PrevFreeBlockHdr = FreeBlockHdr->prev_free;
@@ -426,8 +434,6 @@ static void *MEM_BufferAllocate(uint32_t numBytes, uint8_t poolId)
     blockHeader_t *UsableBlockHdr = NULL;
 #endif
     void *buffer = NULL;
-
-    uint32_t regPrimask = DisableGlobalIRQ();
 
 #ifdef MEM_MANAGER_BENCH
     uint32_t START_TIME = 0U, STOP_TIME = 0U, ALLOC_TIME = 0U;
@@ -811,6 +817,24 @@ void *MEM_BufferRealloc(void *buffer, uint32_t new_size)
     }
 
     return realloc_buffer;
+}
+
+uint32_t MEM_GetFreeHeapSize(void)
+{
+    uint32_t free_size          = 0U;
+    blockHeader_t *freeBlockHdr = FreeBlockHdrList.head;
+
+    /* Count every free block in the free space */
+    while (freeBlockHdr != FreeBlockHdrList.tail)
+    {
+        free_size += ((uint32_t)freeBlockHdr->next - (uint32_t)freeBlockHdr - BLOCK_HDR_SIZE);
+        freeBlockHdr = freeBlockHdr->next_free;
+    }
+
+    /* Add remaining free space in the heap */
+    free_size += memHeapEnd - (uint32_t)FreeBlockHdrList.tail - BLOCK_HDR_SIZE;
+
+    return free_size;
 }
 
 #if 0 /* MISRA C-2012 Rule 8.4 */

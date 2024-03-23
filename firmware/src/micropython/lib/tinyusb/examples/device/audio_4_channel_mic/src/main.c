@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2020 Reinhard Panhuber
@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "bsp/board.h"
+#include "bsp/board_api.h"
 #include "tusb.h"
 
 //--------------------------------------------------------------------+
@@ -81,7 +81,12 @@ int main(void)
 {
   board_init();
 
-  tusb_init();
+  // init device stack on configured roothub port
+  tud_init(BOARD_TUD_RHPORT);
+
+  if (board_init_after_tusb) {
+    board_init_after_tusb();
+  }
 
   // Init values
   sampFreq = AUDIO_SAMPLE_RATE;
@@ -98,9 +103,6 @@ int main(void)
     led_blinking_task();
     audio_task();
   }
-
-
-  return 0;
 }
 
 //--------------------------------------------------------------------+
@@ -131,7 +133,7 @@ void tud_suspend_cb(bool remote_wakeup_en)
 // Invoked when usb bus is resumed
 void tud_resume_cb(void)
 {
-  blink_interval_ms = BLINK_MOUNTED;
+  blink_interval_ms = tud_mounted() ? BLINK_MOUNTED : BLINK_NOT_MOUNTED;
 }
 
 //--------------------------------------------------------------------+
@@ -141,7 +143,7 @@ void tud_resume_cb(void)
 void audio_task(void)
 {
   // Yet to be filled - e.g. put meas data into TX FIFOs etc.
-  asm("nop");
+  // asm("nop");
 }
 
 //--------------------------------------------------------------------+
@@ -220,7 +222,7 @@ bool tud_audio_set_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
         // Request uses format layout 2
         TU_VERIFY(p_request->wLength == sizeof(audio_control_cur_2_t));
 
-        volume[channelNum] = ((audio_control_cur_2_t*) pBuff)->bCur;
+        volume[channelNum] = (uint16_t) ((audio_control_cur_2_t*) pBuff)->bCur;
 
         TU_LOG2("    Set Volume: %d dB of channel: %u\r\n", volume[channelNum], channelNum);
       return true;
@@ -289,7 +291,7 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
 
         // Those are dummy values for now
         ret.bNrChannels = 1;
-        ret.bmChannelConfig = 0;
+        ret.bmChannelConfig = (audio_channel_config_t) 0;
         ret.iChannelNames = 0;
 
         TU_LOG2("    Get terminal connector\r\n");

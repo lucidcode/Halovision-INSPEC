@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<baseview>
+  <mcu>CortexM0</mcu>
+  <vendor>Infineon</vendor>
+  <flash>32768</flash>
+  <ram>16384</ram>
+  <package>VQFN-48</package>
+  <minvoltage>1800</minvoltage>
+  <maxvoltage>5500</maxvoltage>
+  <description>The XMC1402-Q048x0032 device.</description>
+</baseview>

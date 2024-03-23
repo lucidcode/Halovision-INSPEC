@@ -3,7 +3,7 @@ It is based on Unix port, and expected to remain so.
 The port requires additional testing, debugging, and patches. Please
 consider to contribute.
 
-All gcc-based builds use the gcc compiler from [Mingw-w64](mingw-w64.org),
+All gcc-based builds use the gcc compiler from [Mingw-w64](https://www.mingw-w64.org/),
 which is the advancement of the original mingw project. The latter is
 getting obsolete and is not actively supported by MicroPython.
 
@@ -25,8 +25,7 @@ Install Cygwin, then install following packages using Cygwin's setup.exe:
 * mingw64-i686-gcc-core
 * mingw64-x86_64-gcc-core
 * make
-
-Also install the python3 package, or install Python globally for Windows (see below).
+* python3
 
 Build using:
 
@@ -72,6 +71,26 @@ To build from the command line:
     msbuild ../../mpy-cross/mpy-cross.vcxproj
     msbuild micropython.vcxproj
 
+__Variants__
+
+The msvc port supports variants (like the unix and windows mingw ports) and the one which gets built is
+controlled by the `PyVariant` msbuild property. It defaults to `standard`.
+The other variants can be built like:
+
+    msbuild micropython.vcxproj /p:PyVariant=dev
+
+Or by adding a file [Directory.build.props](https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build#directorybuildprops-and-directorybuildtargets) in this directory or a parent directory:
+
+```xml
+<Project>
+  <PropertyGroup>
+    <PyVariant>dev</PyVariant>
+  </PropertyGroup>
+</Project>
+```
+
+See [paths.props](msvc/paths.props) for other related variables like build and variant directories.
+
 __Stack usage__
 
 The msvc compiler is quite stack-hungry which might result in a "maximum recursion depth exceeded"
@@ -109,10 +128,20 @@ functions and thus should be ran using the `wineconsole` tool. Depending
 on the Wine build configuration, you may also want to select the curses
 backend which has the look&feel of a standard Unix console:
 
-    wineconsole --backend=curses ./micropython.exe
+    wineconsole --backend=curses ./build-standard/micropython.exe
 
 For more info, see https://www.winehq.org/docs/wineusr-guide/cui-programs .
 
 If built without line editing and history capabilities
 (MICROPY_USE_READLINE=0), the resulting binary can be run using the standard
 `wine` tool.
+
+
+Generating the icon file
+------------------------
+The windows builds use a .ico file for the executable logo.
+To generate such file from a .png file use ImageMagick, as was done for the icons in the logo/ directory:
+
+    magick convert vector-logo-2.png -define icon:auto-resize="256,128,96,64,48,32,16" vector-logo-2.ico
+
+Note that for versions prior to 7.0 the command is `convert` instead of `magick convert`.

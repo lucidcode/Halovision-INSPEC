@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file xmc4_usbclk-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* USB clock personality description file for XMC4000 family.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="xmc4_usbclk" name="USBCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
+  <Dependencies>
+    <IpBlock name="xmc4_scu" />
+    <Resource name="scu\.clock\.usbclk" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="frequency" paramId="fUSB" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- Internal -->
+    <ParamString id="source_resource" name="Source Resource" group="Internal"
+      default="scu[0].clock[0].usbdiv[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="source_enabled" name="Source Enabled" group="Internal"
+      default="`${isBlockUsed(source_resource)}`" visible="false" editable="false" desc="" />
+    <ParamString id="fUSB" name="Frequency (Hz)" group="Internal"
+      default="`${source_enabled ? getExposedMember(source_resource, &quot;frequency&quot;) : 0.0 }`"
+      visible="false" editable="false" desc="" />
+
+    <!-- General -->
+    <ParamString id="clock_source_info" name="Source Clock" group="General"
+      default="`${source_enabled ? getExposedMember(source_resource, &quot;sourceClockDisplayName&quot;) : &quot;N/A&quot;}`"
+      visible="true" editable="false"
+      desc="The display name of the currently selected clock source." />
+    <ParamString id="frequency_info" name="Frequency" group="General"
+      default="`${formatFrequency(fUSB)}`" visible="true" editable="false"
+      desc="Actual USB clock frequency." />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="USB clock divider is not enabled" condition="`${!source_enabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${source_resource}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigDefine name="CLOCK_USBCLK_ENABLED" value="1U" public="false" include="true" />
+  </ConfigFirmware>
+</Personality>

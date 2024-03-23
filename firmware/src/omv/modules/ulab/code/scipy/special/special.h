@@ -13,9 +13,9 @@
 #ifndef _SCIPY_SPECIAL_
 #define _SCIPY_SPECIAL_
 
-#include "ulab.h"
-#include "ndarray.h"
+#include "../../ulab.h"
+#include "../../ndarray.h"
 
-extern mp_obj_module_t ulab_scipy_special_module;
+extern const mp_obj_module_t ulab_scipy_special_module;
 
 #endif /* _SCIPY_SPECIAL_ */

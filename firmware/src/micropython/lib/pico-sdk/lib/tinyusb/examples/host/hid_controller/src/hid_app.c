@@ -138,6 +138,8 @@ void hid_app_task(void)
 // therefore report_desc = NULL, desc_len = 0
 void tuh_hid_mount_cb(uint8_t dev_addr, uint8_t instance, uint8_t const* desc_report, uint16_t desc_len)
 {
+  (void)desc_report;
+  (void)desc_len;
   uint16_t vid, pid;
   tuh_vid_pid_get(dev_addr, &vid, &pid);
 
@@ -160,7 +162,6 @@ void tuh_hid_mount_cb(uint8_t dev_addr, uint8_t instance, uint8_t const* desc_re
 void tuh_hid_umount_cb(uint8_t dev_addr, uint8_t instance)
 {
   printf("HID device address = %d, instance = %d is unmounted\r\n", dev_addr, instance);
-
 }
 
 // check if different than 2
