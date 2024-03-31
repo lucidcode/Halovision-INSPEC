@@ -42,15 +42,17 @@ class inspec_comms:
         RX_UUID = '13370002-763c-4507-99fb-100f72f2300a'
         TX_UUID = '13370003-763c-4507-99fb-100f72f2300a'
         IMG_UUID = '13370004-763c-4507-99fb-100f72f2300a'
+        TRIGGER_UUID = '13370005-763c-4507-99fb-100f72f2300a'
 
         BLE_NUS = bluetooth.UUID(BLE_UUID)
         BLE_RX = (bluetooth.UUID(RX_UUID), bluetooth.FLAG_WRITE)
         BLE_TX = (bluetooth.UUID(TX_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
         BLE_TX_IMG = (bluetooth.UUID(IMG_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
+        BLE_TX_TRIGGER = (bluetooth.UUID(TRIGGER_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
 
-        BLE_UART = (BLE_NUS, (BLE_TX, BLE_RX, BLE_TX_IMG,))
-        SERVICES = (BLE_UART, )
-        ((self.tx, self.rx, self.tx_img), ) = self.ble.gatts_register_services(SERVICES)
+        BLE_UART = (BLE_NUS, (BLE_TX, BLE_RX, BLE_TX_IMG, BLE_TX_TRIGGER,))
+        SERVICES = (BLE_UART,)
+        ((self.tx, self.rx, self.tx_img, self.tx_trigger),) = self.ble.gatts_register_services(SERVICES)
 
     def irq(self, event, data):
         if event == _IRQ_CENTRAL_CONNECT:
@@ -97,6 +99,18 @@ class inspec_comms:
                 try:
                     self.ble.gatts_write(self.tx, data)
                     self.ble.gatts_notify(conn_handle, self.tx)
+                except:
+                    print("BLE write error")
+                    self.connected = False
+
+    def send_trigger(self, data):
+        if self.sending_image:
+            return
+        if self.connected:
+            for conn_handle in self._connections:                
+                try:
+                    self.ble.gatts_write(self.tx_trigger, data)
+                    self.ble.gatts_notify(conn_handle, self.tx_trigger)
                 except:
                     print("BLE write error")
                     self.connected = False

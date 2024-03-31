@@ -6,7 +6,7 @@ def inspec_config():
     config['PixelThreshold'] = 32
     config['TriggerThreshold'] = 20
     config['TossThreshold'] = 800
-    config['TimeBetweenFlashes'] = 1000 * 60 * 32
+    config['TimeBetweenTriggers'] = 1000 * 60 * 1
     config['TimeBetweenTosses'] = 1000 * 60 * 5
     config['Year'] = 2024
     config['Month'] = 1
@@ -21,6 +21,7 @@ def inspec_config():
     config['Brightness'] = -3
     config['FrameSize'] = 'VGA'
     config['Researcher'] = 'Researcher'
+    config['Algorithm'] = 'Motion Detection'
 
     config_exists = False
     entries = os.listdir()

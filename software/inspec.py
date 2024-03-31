@@ -4,24 +4,29 @@ import ujson
 import machine
 import utime
 from lsd import lucid_scribe_data
+from config import inspec_config
+from ble import inspec_comms
 
 class inspec_sensor:
-    def __init__(self, config):
+    def __init__(self):
         sensor.reset()
 
-        if config['Brightness']:
-            sensor.set_brightness(config['Brightness'])
+        self.comms = inspec_comms()
+        self.config = inspec_config()
 
-        if config['FrameSize'] == 'VGA':
+        if self.config['Brightness']:
+            sensor.set_brightness(self.config['Brightness'])
+
+        if self.config['FrameSize'] == 'VGA':
             sensor.set_framesize(sensor.VGA)
-        elif config['FrameSize'] == 'QVGA':
+        elif self.config['FrameSize'] == 'QVGA':
             sensor.set_framesize(sensor.QVGA)
-        elif config['FrameSize'] == 'QQVGA':
+        elif self.config['FrameSize'] == 'QQVGA':
             sensor.set_framesize(sensor.QQVGA)
         else:
             sensor.set_framesize(sensor.QVGA)
 
-        if config['Color']:
+        if self.config['Color']:
             sensor.set_pixformat(sensor.RGB565)
             print("Color")
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.RGB565)
@@ -30,17 +35,15 @@ class inspec_sensor:
             print("GRAYSCALE")
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
 
-        if config['AutoGain']:
+        if self.config['AutoGain']:
             sensor.set_auto_gain(True)
         else:
             sensor.set_auto_gain(False)
 
-        if config['AutoExposure']:
+        if self.config['AutoExposure']:
             sensor.set_auto_exposure(True)
         else:
             sensor.set_auto_exposure(False)
-
-        self.config = config
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
@@ -49,14 +52,37 @@ class inspec_sensor:
         machine.RTC().datetime((self.config['Year'], self.config['Month'], self.config['Day'], 0, 0, 0, 0, 0))
         
         self.lsd = lucid_scribe_data(self.config)
+        self.last_trigger = utime.ticks_ms() - self.config['TimeBetweenTriggers']
 
     def snapshot(self):
         self.img = sensor.snapshot()
         return self.img
 
-    def variance(self):
-        diff = self.img.variance(self.extra_fb, 128) / 100000
+    def monitor(self):
+        self.snapshot()
+        self.diff = self.img.variance(self.extra_fb, 128) / 100000
         self.extra_fb.replace(self.img)
-        self.lsd.log(int(diff))
-        return diff
+        self.lsd.log(int(self.diff))
+
+        self.comms.send_diff(str(self.diff))
+
+        if self.comms.requested_image:
+            self.comms.send_image(self.img)
+
+        if self.comms.sending_image:
+            self.comms.process_image()
+
+        self.detect()
         
+    def detect(self):
+        if self.config['Algorithm'] == "Motion Detection":
+            if self.diff > self.config['TriggerThreshold']:
+                self.trigger()
+        
+    def trigger(self):
+        now = utime.ticks_ms()
+        if (now - self.last_trigger > self.config['TimeBetweenTriggers']):
+            self.comms.send_trigger(str(self.diff))
+            self.comms.send_image(self.img)
+            self.last_trigger = now
+            print("trigger")
