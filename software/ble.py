@@ -93,9 +93,13 @@ class inspec_comms:
                         data = "0.00001"
 
                 self.last_value = data
-                print("message", self.messages_sent, data)
-                self.ble.gatts_write(self.tx, data)
-                self.ble.gatts_notify(conn_handle, self.tx)
+                
+                try:
+                    self.ble.gatts_write(self.tx, data)
+                    self.ble.gatts_notify(conn_handle, self.tx)
+                except:
+                    print("BLE write error")
+                    self.connected = False
 
     def send_image(self, image):
         if self.sending_image:
