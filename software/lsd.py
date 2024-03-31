@@ -69,22 +69,22 @@ class lucid_scribe_data:
         self.minute_values = f'{self.minute_values},{str(diff)}'
 
     def write_log(self):
-            self.lsd_file = open(self.session_file, 'a')
-            self.lsd_file.write(self.minute_values)
-            self.lsd_file.write("\r\n" + self.format_time() + " - ")
-            self.lsd_file.close()            
-            print(self.format_time() + " - " + str(len(self.minute_values)))
+        self.lsd_file = open(self.session_file, 'a')
+        self.lsd_file.write(self.minute_values)
+        self.lsd_file.write("\r\n" + self.format_time() + " - ")
+        self.lsd_file.close()            
+        print(self.format_time() + " - " + str(len(self.minute_values)))
 
     def format_time(self):
-            minute_string = str(self.lsd_minute)
-            if self.lsd_minute < 10:
-                minute_string = "0" + minute_string
-                
-            hour_string = str(self.lsd_hour)
-            if self.lsd_hour < 10:
-                hour_string = "0" + hour_string
+        minute_string = str(self.lsd_minute)
+        if self.lsd_minute < 10:
+            minute_string = "0" + minute_string
+            
+        hour_string = str(self.lsd_hour)
+        if self.lsd_hour < 10:
+            hour_string = "0" + hour_string
 
-            return hour_string + ":" + minute_string
+        return hour_string + ":" + minute_string
 
 
 
