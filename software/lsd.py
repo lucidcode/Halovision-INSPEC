@@ -75,6 +75,18 @@ class lucid_scribe_data:
         self.lsd_file.close()            
         print(self.format_time() + " - " + str(len(self.minute_values)))
 
+    def list_directories(self):
+        entries = os.listdir("visions")
+        directories = ""
+        for entry in entries:
+            if ("vision_" in entry):
+                if directories == "":
+                    directories = entry.replace("vision_", "")
+                else:
+                    directories = f'{directories},{entry.replace("vision_", "")}'
+
+        return directories
+
     def format_time(self):
         minute_string = str(self.lsd_minute)
         if self.lsd_minute < 10:

@@ -3,6 +3,7 @@ import os
 import ujson
 import machine
 import utime
+import time
 from lsd import lucid_scribe_data
 from config import inspec_config
 from ble import inspec_comms
@@ -64,7 +65,12 @@ class inspec_sensor:
         self.extra_fb.replace(self.img)
         self.lsd.log(int(self.diff))
 
-        self.comms.send_diff(str(self.diff))
+        if self.comms.requested_directories:
+            self.comms.requested_directories = False
+            self.comms.send_data("directories", self.lsd.list_directories())
+            return
+
+        self.comms.send_data("metrics", str(self.diff))
 
         if self.comms.requested_image:
             self.comms.send_image(self.img)
@@ -74,6 +80,8 @@ class inspec_sensor:
 
         self.detect()
         
+        time.sleep_ms(128)
+        
     def detect(self):
         if self.config['Algorithm'] == "Motion Detection":
             if self.diff > self.config['TriggerThreshold']:
@@ -82,7 +90,7 @@ class inspec_sensor:
     def trigger(self):
         now = utime.ticks_ms()
         if (now - self.last_trigger > self.config['TimeBetweenTriggers']):
-            self.comms.send_trigger(str(self.diff))
+            self.comms.send_data("trigger", str(self.diff))
             self.comms.send_image(self.img)
             self.last_trigger = now
             print("trigger")
