@@ -22,6 +22,7 @@ def inspec_config():
     config['FrameSize'] = 'VGA'
     config['Researcher'] = 'Researcher'
     config['Algorithm'] = 'Motion Detection'
+    config['Mode'] = 'Research'
 
     config_exists = False
     entries = os.listdir()
