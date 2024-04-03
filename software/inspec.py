@@ -7,6 +7,7 @@ import time
 from lsd import lucid_scribe_data
 from config import inspec_config
 from ble import inspec_comms
+from wifi import inspec_stream
 
 class inspec_sensor:
     def __init__(self):
@@ -55,6 +56,9 @@ class inspec_sensor:
         self.lsd = lucid_scribe_data(self.config)
         self.last_trigger = utime.ticks_ms() - self.config['TimeBetweenTriggers']
 
+        if self.config['Mode'] == "Research":
+            self.stream = inspec_stream()
+
     def snapshot(self):
         self.img = sensor.snapshot()
         return self.img
@@ -64,6 +68,9 @@ class inspec_sensor:
         self.diff = self.img.variance(self.extra_fb, 128) / 100000
         self.extra_fb.replace(self.img)
         self.lsd.log(int(self.diff))
+
+        if self.config['Mode'] == "Research":
+            self.stream.send_image(self.img)
 
         if self.comms.requested_directories:
             self.comms.requested_directories = False
