@@ -23,6 +23,7 @@ def inspec_config():
     config['Researcher'] = 'Researcher'
     config['Algorithm'] = 'Motion Detection'
     config['Mode'] = 'Research'
+    config['CreateLogs'] = 1
 
     config_exists = False
     entries = os.listdir()

@@ -5,7 +5,9 @@ import os
 class lucid_scribe_data:
     def __init__(self, config):
         self.config = config
-        self.create_lsd()
+        
+        if self.config['CreateLogs']:
+            self.create_lsd()
 
     def create_lsd(self):
         self.lsd_hour = 0
@@ -48,6 +50,9 @@ class lucid_scribe_data:
         self.minute_values = "0"
 
     def log(self, diff):
+        if self.config['CreateLogs'] != 1:
+            return
+
         now = utime.ticks_ms()
 
         if (now - self.lsd_start > 1000 * 60 * 60):
