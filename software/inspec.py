@@ -8,13 +8,15 @@ from lsd import lucid_scribe_data
 from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
+from machine import LED
 
 class inspec_sensor:
     def __init__(self):
         sensor.reset()
 
-        self.comms = inspec_comms()
         self.config = inspec_config()
+        self.comms = inspec_comms()
+        self.comms.message_received = self.ble_message_received
 
         if self.config['Brightness']:
             sensor.set_brightness(self.config['Brightness'])
@@ -72,15 +74,7 @@ class inspec_sensor:
         if self.config['Mode'] == "Research":
             self.stream.send_image(self.img)
 
-        if self.comms.requested_directories:
-            self.comms.requested_directories = False
-            self.comms.send_data("directories", self.lsd.list_directories())
-            return
-
         self.comms.send_data("metrics", str(self.diff))
-
-        if self.comms.requested_image:
-            self.comms.send_image(self.img)
 
         if self.comms.sending_image:
             self.comms.process_image()
@@ -88,6 +82,17 @@ class inspec_sensor:
         self.detect()
         
         time.sleep_ms(128)
+
+    def ble_message_received(self, message):
+        print("ble message", message)
+
+        if message == "request.image":
+            self.comms.send_image(self.img)
+
+        if message == "request.directories":
+            directories = self.lsd.list_directories()
+            self.comms.send_data("directories", directories)
+
         
     def detect(self):
         if self.config['Algorithm'] == "Motion Detection":
