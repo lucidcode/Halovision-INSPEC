@@ -6,7 +6,7 @@ class lucid_scribe_data:
     def __init__(self, config):
         self.config = config
         
-        if self.config['CreateLogs']:
+        if self.config.config['CreateLogs']:
             self.create_lsd()
 
     def create_lsd(self):
@@ -44,13 +44,13 @@ class lucid_scribe_data:
         self.session_file = self.session_directory + "/session_" + str(vision_index) + ".LSD"
         self.lsd_file = open(self.session_file, 'w')
         self.lsd_file.write("INSPEC")
-        self.lsd_file.write("\r\n" + "Researcher:" + self.config['Researcher'])
+        self.lsd_file.write("\r\n" + "Researcher:" + self.config.config['Researcher'])
         self.lsd_file.write("\r\n" + self.format_time() + " - ")
         self.lsd_file.close()
         self.minute_values = "0"
 
     def log(self, diff):
-        if self.config['CreateLogs'] != 1:
+        if self.config.config['CreateLogs'] != 1:
             return
 
         now = utime.ticks_ms()
