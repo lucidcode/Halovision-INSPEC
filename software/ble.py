@@ -49,6 +49,7 @@ class inspec_comms:
         BLE_UART = (BLE_NUS, (BLE_TX, BLE_RX, BLE_TX_IMG,))
         SERVICES = (BLE_UART,)
         ((self.tx, self.rx, self.tx_img),) = self.ble.gatts_register_services(SERVICES)
+        self.ble.gatts_set_buffer(self.rx, 256, True)
 
     def irq(self, event, data):
         if event == _IRQ_CENTRAL_CONNECT:
@@ -96,7 +97,6 @@ class inspec_comms:
                     self.last_value = data
                 else:
                     data = f'{type}:{data}'
-
                 
                 try:
                     self.ble.gatts_write(self.tx, data)
