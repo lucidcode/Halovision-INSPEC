@@ -4,6 +4,13 @@ import os
 class inspec_config:
     def __init__(self):
         self.config = {}
+        self.config['Algorithm'] = 'Motion Detection'
+        self.config['AccessPoint'] = False
+        self.config['PixelFormat'] = 'RGB565'
+        self.config['Brightness'] = 0
+        self.config['Contrast'] = 0
+        self.config['Saturation'] = 0
+        self.config['FrameSize'] = 'VGA'
         self.config['PixelThreshold'] = 32
         self.config['TriggerThreshold'] = 20
         self.config['TossThreshold'] = 800
@@ -13,17 +20,12 @@ class inspec_config:
         self.config['Month'] = 1
         self.config['Day'] = 1
         self.config['CreateGifs'] = 1
-        self.config['PixelFormat'] = 'RGB565'
         self.config['TrackFace'] = 0
         self.config['FaceFeatures'] = 12
         self.config['BlinkCount'] = 8
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0
-        self.config['Brightness'] = 0
-        self.config['FrameSize'] = 'VGA'
         self.config['Researcher'] = 'Researcher'
-        self.config['Algorithm'] = 'Motion Detection'
-        self.config['Mode'] = 'Research'
         self.config['CreateLogs'] = 1
 
         config_exists = False
@@ -46,7 +48,17 @@ class inspec_config:
         return self.config[setting]
 
     def set(self, setting, value):
+        string_settings = ["PixelFormat", "FrameSize", "Researcher", "Algorithm", "Mode"]
+        if setting not in string_settings:
+            value = int(value)
+        
         self.config[setting] = value
+
+    def is_sensor_setting(self, setting):
+        sensor_settings = ["PixelFormat", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure"]
+        if setting in sensor_settings:
+            return True
+        return False
 
     def save(self):
         config_file = open('config.txt', 'w')

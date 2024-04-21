@@ -10,6 +10,8 @@ class inspec_stream:
         key = "1234567890"
         self.wlan.config(ssid=name, key=key, channel=2)
         self.wlan.active(True)
+        self.ip = self.wlan.ifconfig()[0]
+
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
 
@@ -23,7 +25,7 @@ class inspec_stream:
 
     def start_server(self):
         try:
-            print("Waiting for connection..")
+            print("Waiting for connection on " + self.ip)
             self.client, self.addr = self.server.accept()
         except OSError as e:
             self.connected = False
