@@ -5,7 +5,7 @@ import os
 class lucid_scribe_data:
     def __init__(self, config):
         self.config = config
-        
+
         if self.config.config['CreateLogs']:
             self.create_lsd()
 
@@ -40,7 +40,7 @@ class lucid_scribe_data:
         config_file = open(self.session_directory + '/config.txt', 'w')
         config_file.write(ujson.dumps(self.config))
         config_file.close()
-        
+
         self.session_file = self.session_directory + "/session_" + str(vision_index) + ".LSD"
         self.lsd_file = open(self.session_file, 'w')
         self.lsd_file.write("INSPEC")
@@ -77,7 +77,7 @@ class lucid_scribe_data:
         self.lsd_file = open(self.session_file, 'a')
         self.lsd_file.write(self.minute_values)
         self.lsd_file.write("\r\n" + self.format_time() + " - ")
-        self.lsd_file.close()            
+        self.lsd_file.close()
         print(self.format_time() + " - " + str(len(self.minute_values)))
 
     def list_directories(self):
@@ -92,17 +92,20 @@ class lucid_scribe_data:
 
         return directories
 
+    def get_config(self, vision):
+        file_name = "visions/vision_" + vision + "/config.txt"
+
+        with open(file_name, mode='rb') as file:
+            content = bytearray(file.read())
+            return content
+
     def format_time(self):
         minute_string = str(self.lsd_minute)
         if self.lsd_minute < 10:
             minute_string = "0" + minute_string
-            
+
         hour_string = str(self.lsd_hour)
         if self.lsd_hour < 10:
             hour_string = "0" + hour_string
 
         return hour_string + ":" + minute_string
-
-
-
-        

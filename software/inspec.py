@@ -91,8 +91,8 @@ class inspec_sensor:
 
         self.comms.send_data("metrics", str(self.diff))
 
-        if self.comms.sending_image:
-            self.comms.process_image()
+        if self.comms.sending_image or self.comms.sending_file:
+            self.comms.process_file()
 
         self.detect()
         
@@ -108,8 +108,13 @@ class inspec_sensor:
             directories = self.lsd.list_directories()
             self.comms.send_data("directories", directories)
 
+        if message.startswith("request.directory"):
+            request, directory = message.split(':')
+            config = self.lsd.get_config(directory)
+            self.comms.send_config(directory, config)
+
         if message.startswith("update.setting."):
-            message = message.replace('update.setting.', '')
+            message = message.replace("update.setting.", "")
             setting, value = message.split(':')
 
             if setting == "AccessPoint" and value == "1" and self.stream == None:

@@ -18,6 +18,7 @@ class inspec_comms:
     def __init__(self, name="INSPEC"):
         self._connections = set()
         self.sending_image = False
+        self.sending_file = False
 
         self.connected = False
 
@@ -40,15 +41,17 @@ class inspec_comms:
         RX_UUID = '13370002-763c-4507-99fb-100f72f2300a'
         TX_UUID = '13370003-763c-4507-99fb-100f72f2300a'
         IMG_UUID = '13370004-763c-4507-99fb-100f72f2300a'
+        FILE_UUID = '13370005-763c-4507-99fb-100f72f2300a'
 
         BLE_NUS = bluetooth.UUID(BLE_UUID)
         BLE_RX = (bluetooth.UUID(RX_UUID), bluetooth.FLAG_WRITE)
         BLE_TX = (bluetooth.UUID(TX_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
         BLE_TX_IMG = (bluetooth.UUID(IMG_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
+        BLE_TX_FILE = (bluetooth.UUID(FILE_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
 
-        BLE_UART = (BLE_NUS, (BLE_TX, BLE_RX, BLE_TX_IMG,))
+        BLE_UART = (BLE_NUS, (BLE_TX, BLE_RX, BLE_TX_IMG, BLE_TX_FILE))
         SERVICES = (BLE_UART,)
-        ((self.tx, self.rx, self.tx_img),) = self.ble.gatts_register_services(SERVICES)
+        ((self.tx, self.rx, self.tx_img, self.tx_file),) = self.ble.gatts_register_services(SERVICES)
         self.ble.gatts_set_buffer(self.rx, 256, True)
 
     def irq(self, event, data):
@@ -119,7 +122,23 @@ class inspec_comms:
         self.chunks_sent = 0
         self.sending_image = True
 
-    def process_image(self):
+    def send_config(self, directory, config):
+        if self.sending_file:
+            return
+        if self.sending_image:
+            return
+
+        self.send_data("config", str(directory))
+
+        gc.collect()
+
+        self.cframe = bytearray(len(config))
+        self.cframe[:] = config
+
+        self.chunks_sent = 0
+        self.sending_file = True
+
+    def process_file(self):
         if self.wait > 0:
             self.wait -= 1
             return
@@ -128,12 +147,21 @@ class inspec_comms:
         for chunk in range(self.chunks_sent * 200, len(self.cframe), 200):
             self.chunks_sent += 1
             part = self.cframe[chunk:chunk + 200]
-            self.ble.gatts_write(self.tx_img, part)
 
+            if self.sending_file:
+                self.ble.gatts_write(self.tx_file, part)
+
+            if self.sending_image:
+                self.ble.gatts_write(self.tx_img, part)
+            
             for conn_handle in self._connections:
-                self.ble.gatts_notify(conn_handle, self.tx_img)
+                if self.sending_file:
+                    self.ble.gatts_notify(conn_handle, self.tx_file)
+                if self.sending_image:
+                    self.ble.gatts_notify(conn_handle, self.tx_img)
 
             if len(part) + ((self.chunks_sent - 1) * 200) == len(self.cframe):
+                self.sending_file = False
                 self.sending_image = False
 
             iterations += 1

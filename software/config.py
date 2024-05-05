@@ -11,6 +11,7 @@ class inspec_config:
         self.config['Contrast'] = 0
         self.config['Saturation'] = 0
         self.config['FrameSize'] = 'VGA'
+        self.config['CreateLogs'] = 1
         self.config['PixelThreshold'] = 32
         self.config['TriggerThreshold'] = 20
         self.config['TossThreshold'] = 800
@@ -26,7 +27,6 @@ class inspec_config:
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0
         self.config['Researcher'] = 'Researcher'
-        self.config['CreateLogs'] = 1
 
         config_exists = False
         entries = os.listdir()
