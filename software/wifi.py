@@ -3,14 +3,17 @@ import socket
 
 class inspec_stream:
 
-    def __init__(self, name="INSPEC"):
+    def __init__(self, interface, ssid, password):
         self.connected = False
-        self.wlan = network.WLAN(network.AP_IF)
-        
-        key = "1234567890"
-        self.wlan.config(ssid=name, key=key, channel=2)
-        self.wlan.active(True)
+
+        if interface == "AccessPoint":
+            self.start_access_point(ssid, password)
+
+        if interface == "Station":
+            self.connect_network(ssid, password)
+
         self.ip = self.wlan.ifconfig()[0]
+        print("IP", self.ip)
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
@@ -22,6 +25,21 @@ class inspec_stream:
         self.server.setblocking(True)
 
         self.start_server()
+
+    def start_access_point(self, ssid, password):
+        self.wlan = network.WLAN(network.AP_IF)
+        
+        self.wlan.config(ssid=ssid, key=password, channel=2)
+        self.wlan.active(True)
+
+    def connect_network(self, ssid, password):
+        self.wlan = network.WLAN(network.STA_IF)
+        self.wlan.active(True)
+        self.wlan.connect(ssid=ssid, key=password)
+        
+        while not wlan.isconnected():
+            print("Connecting to " + ssid)
+            time.sleep_ms(1000)
 
     def start_server(self):
         try:

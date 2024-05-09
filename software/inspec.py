@@ -31,7 +31,10 @@ class inspec_sensor:
 
         self.stream = None
         if self.config.config['AccessPoint']:
-            self.stream = inspec_stream()
+            self.stream = inspec_stream("AccessPoint", self.config.config['AccessPointName'], self.config.config['AccessPointPassword'])
+            
+        if self.config.config['WiFi']:
+            self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
 
     def configure_sensor(self):
         if self.config.config['Brightness']:
@@ -89,6 +92,9 @@ class inspec_sensor:
         if self.config.config['AccessPoint']:
             self.stream.send_image(self.img)
 
+        if self.config.config['Wifi']:
+            self.stream.send_image(self.img)
+
         self.comms.send_data("metrics", str(self.diff))
 
         if self.comms.sending_image or self.comms.sending_file:
@@ -118,7 +124,12 @@ class inspec_sensor:
             setting, value = message.split(':')
 
             if setting == "AccessPoint" and value == "1" and self.stream == None:
-                self.stream = inspec_stream()
+                self.stream = inspec_stream("AccessPoint", self.config.config['AccessPointName'], self.config.config['AccessPointPassword'])
+                self.comms.send_data("ip", self.stream.ip)
+
+            if setting == "WiFi" and value == "1" and self.stream == None:
+                self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
+                self.comms.send_data("ip", self.stream.ip)
 
             self.config.set(setting, value)
             self.config.save()
