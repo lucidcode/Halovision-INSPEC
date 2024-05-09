@@ -6,6 +6,11 @@ class inspec_config:
         self.config = {}
         self.config['Algorithm'] = 'Motion Detection'
         self.config['AccessPoint'] = False
+        self.config['AccessPointName'] = "INSPEC"
+        self.config['AccessPointPassword'] = "1234567890"
+        self.config['WiFi'] = False
+        self.config['WiFiNetworkName'] = "INSPEC"
+        self.config['WiFiKey'] = "1234567890"
         self.config['PixelFormat'] = 'RGB565'
         self.config['Brightness'] = 0
         self.config['Contrast'] = 0
