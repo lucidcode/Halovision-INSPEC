@@ -1,5 +1,7 @@
 import network
 import socket
+import time
+import uselect as select
 
 class inspec_stream:
 
@@ -21,9 +23,9 @@ class inspec_stream:
         host = ""
         port = 8080
         self.server.bind([host, port])
-        self.server.listen(5)
-        self.server.setblocking(True)
+        self.server.listen(1)
 
+        print("Waiting for connection on " + self.ip)
         self.start_server()
 
     def start_access_point(self, ssid, password):
@@ -37,29 +39,32 @@ class inspec_stream:
         self.wlan.active(True)
         self.wlan.connect(ssid=ssid, key=password)
         
-        while not wlan.isconnected():
+        while not self.wlan.isconnected():
             print("Connecting to " + ssid)
             time.sleep_ms(1000)
 
     def start_server(self):
         try:
-            print("Waiting for connection on " + self.ip)
-            self.client, self.addr = self.server.accept()
+            sockets, w, err = select.select((self.server,), (), (), 0)
+            if sockets:
+                for socket in sockets:
+                    self.client, self.addr = self.server.accept()
+
+                    try:
+                        self.client.settimeout(5.0)
+                        print("Connected to " + self.addr[0] + ":" + str(self.addr[1]))
+                        self.start_streaming()
+                    except OSError as e:
+                        self.connected = False
+                        self.client.close()
+                        print("client socket error:", e)
+                        self.start_server()
+
         except OSError as e:
             self.connected = False
             self.server.close()
             self.server = None
             print("server socket error:", e)
-            self.start_server()
-
-        try:
-            self.client.settimeout(5.0)
-            print("Connected to " + self.addr[0] + ":" + str(self.addr[1]))
-            self.start_streaming()
-        except OSError as e:
-            self.connected = False
-            self.client.close()
-            print("client socket error:", e)
             self.start_server()
 
     def start_streaming(self):

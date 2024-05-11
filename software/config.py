@@ -53,7 +53,7 @@ class inspec_config:
         return self.config[setting]
 
     def set(self, setting, value):
-        string_settings = ["PixelFormat", "FrameSize", "Researcher", "Algorithm", "Mode"]
+        string_settings = ["PixelFormat", "FrameSize", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]
         if setting not in string_settings:
             value = int(value)
         

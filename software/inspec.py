@@ -89,11 +89,11 @@ class inspec_sensor:
         self.extra_fb.replace(self.img)
         self.lsd.log(int(self.diff))
 
-        if self.config.config['AccessPoint']:
-            self.stream.send_image(self.img)
-
-        if self.config.config['Wifi']:
-            self.stream.send_image(self.img)
+        if self.config.config['AccessPoint'] or self.config.config['WiFi']:
+            if not self.stream.connected:
+                self.stream.start_server()
+            else:
+                self.stream.send_image(self.img)
 
         self.comms.send_data("metrics", str(self.diff))
 
