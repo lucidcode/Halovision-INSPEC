@@ -7,6 +7,7 @@ class inspec_stream:
 
     def __init__(self, interface, ssid, password):
         self.connected = False
+        self.error = None
 
         if interface == "AccessPoint":
             self.start_access_point(ssid, password)
@@ -94,6 +95,6 @@ class inspec_stream:
             self.client.sendall(cframe)
         except OSError as e:
             self.connected = False
-            self.client.close()
             self.start_server()
+            self.error = e
             print("client socket error:", e)

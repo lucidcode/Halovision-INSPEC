@@ -92,6 +92,9 @@ class inspec_sensor:
         if self.config.config['AccessPoint'] or self.config.config['WiFi']:
             if not self.stream.connected:
                 self.stream.start_server()
+                if self.stream.error:
+                    self.stream.error = None
+                    self.comms.send_data("ip", self.stream.ip)
             else:
                 self.stream.send_image(self.img)
 
@@ -118,6 +121,9 @@ class inspec_sensor:
             request, directory = message.split(':')
             config = self.lsd.get_config(directory)
             self.comms.send_config(directory, config)
+
+        if message == "request.ip" and not self.stream == None:
+            self.comms.send_data("ip", self.stream.ip)
 
         if message.startswith("update.setting."):
             message = message.replace("update.setting.", "")
