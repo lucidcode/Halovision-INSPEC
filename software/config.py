@@ -54,10 +54,10 @@ class inspec_config:
 
     def set(self, setting, value):
         string_settings = ["PixelFormat", "FrameSize", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]
-        if setting not in string_settings:
-            value = int(value)
-        
-        self.config[setting] = value
+        if setting in string_settings:
+            self.config[setting] = value
+        else:
+            self.config[setting] = int(value)
 
     def is_sensor_setting(self, setting):
         sensor_settings = ["PixelFormat", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure"]
