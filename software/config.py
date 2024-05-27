@@ -60,7 +60,7 @@ class inspec_config:
             self.config[setting] = int(value)
 
     def is_sensor_setting(self, setting):
-        sensor_settings = ["PixelFormat", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure"]
+        sensor_settings = ["PixelFormat", "PixelThreshold", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure"]
         if setting in sensor_settings:
             return True
         return False

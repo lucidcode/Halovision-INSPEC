@@ -69,6 +69,8 @@ class inspec_sensor:
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
 
+        self.pixelThreshold = self.config.config['PixelThreshold']
+
         if self.config.config['AutoGain']:
             sensor.set_auto_gain(True)
         else:
@@ -85,20 +87,14 @@ class inspec_sensor:
 
     def monitor(self):
         self.snapshot()
-        self.diff = self.img.variance(self.extra_fb, 128) / 100000
+        self.diff = self.img.variance(self.extra_fb, self.pixelThreshold) / 100000
         self.extra_fb.replace(self.img)
         self.lsd.log(int(self.diff))
 
-        if self.config.config['AccessPoint'] or self.config.config['WiFi']:
-            if not self.stream.connected:
-                self.stream.start_server()
-                if self.stream.error:
-                    self.stream.error = None
-                    self.comms.send_data("ip", self.stream.ip)
-            else:
-                self.stream.send_image(self.img)
-
         self.comms.send_data("metrics", str(self.diff))
+        
+        if self.config.config['AccessPoint'] or self.config.config['WiFi']:
+            self.manage_stream()
 
         if self.comms.sending_image or self.comms.sending_file:
             self.comms.process_file()
@@ -106,6 +102,16 @@ class inspec_sensor:
         self.detect()
         
         time.sleep_ms(128)
+
+    def manage_stream(self):
+        if not self.stream.connected:
+            self.stream.start_server()
+            if self.stream.error:
+                self.stream.error = None
+                self.comms.send_data("ip", self.stream.ip)
+        else:
+            self.stream.send_image(self.img)
+
 
     def ble_message_received(self, message):
         print("ble message", message)
