@@ -2348,33 +2348,43 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
     image_t *arg_msk =
         py_helper_keyword_to_image(n_args, args, 1, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_mask), NULL);
 
-
     fb_alloc_mark();
 
     int differences = 0;
 
-    for (int y = 0, yy = arg_img->h; y < yy; y++) {
-        uint8_t *row_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_img, y);
-        uint8_t *row_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_msk, y);
-        for (int x = 0, xx = arg_img->w; x < xx; x++) {
-            int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, x);
-            int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, x);
+    switch(arg_img->pixfmt) {
+        case PIXFORMAT_GRAYSCALE: {
+            for (int y = 0, yy = arg_img->h; y < yy; y++) {
+                uint8_t *row_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_img, y);
+                uint8_t *row_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_msk, y);
+                for (int x = 0, xx = arg_img->w; x < xx; x++) {
+                    int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, x);
+                    int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, x);
+                    int pixelDiff = abs(pixel1 - pixel2);
 
-            int pixelDiff = 0;
-
-            pixelDiff = abs(pixel1 - pixel2);
-
-            if (pixel1 >= 32) {
-                //differences++;
+                    if (pixelDiff >= pixelThreshold) {
+                        differences = differences + pixelDiff;
+                    }
+                }
             }
+            break;
+        }
+        case PIXFORMAT_RGB565: {
+            for (int y = 0, yy = arg_img->h; y < yy; y++) {
+                uint16_t *row_ptr1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_img, y);
+                uint16_t *row_ptr2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_msk, y);
+                for (int x = 0, xx = arg_img->w; x < xx; x++) {
+                    int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, x);
+                    int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, x);
+                    int pixelDiff = abs(pixel1 - pixel2);
 
-            if (pixelDiff >= pixelThreshold) {
-                differences = differences + pixelDiff;
+                    if (pixelDiff >= pixelThreshold) {
+                        differences = differences + pixelDiff;
+                    }
+                }
             }
-
-            //IMAGE_PUT_RGB565_PIXEL_FAST(out_row_ptr, x,
-            //    imlib_yuv_to_rgb(IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr, x), 0, 0));
-        };
+            break;
+        }
     }
 
     fb_alloc_free_till_mark();
