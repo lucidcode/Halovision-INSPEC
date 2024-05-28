@@ -2338,10 +2338,91 @@ STATIC mp_obj_t py_image_difference(uint n_args, const mp_obj_t *args, mp_map_t 
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_difference_obj, 2, py_image_difference);
 
+static bool pixels_differ(int pixel1, int pixel2, int pixel_threshold) {
+    if (abs(pixel1 - pixel2) >= pixel_threshold) {
+        return true;
+    }
+    return false;
+}
+
+static bool grayscale_pixels_differ(uint8_t *row_ptr1, uint8_t *row_ptr2, int pixel, int width, int neighbors, int pixel_threshold) {
+    int pixels = 0;
+
+    for (int x = 1; x <= neighbors; x++) {
+        bool left_changed = false;
+        int left_pixel = pixel - x;
+        if (left_pixel >= 0) { 
+            int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, left_pixel);
+            int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, left_pixel);
+            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
+                pixels++;
+                left_changed = true;
+            }
+        }
+
+        bool right_changed = false;
+        int right_pixel = pixel + x;
+        if (right_pixel <= width) {
+            int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, right_pixel);
+            int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, right_pixel);
+            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
+                pixels++;
+                right_changed = true;
+            }
+        }
+
+        if (pixels >= neighbors) {
+            return true;
+        }
+
+        if (!left_changed && !right_changed) {
+            break;
+        }
+    }
+
+    return false;
+}
+
+static bool rgb565_pixels_differ(uint16_t *row_ptr1, uint16_t *row_ptr2, int pixel, int width, int neighbors, int pixel_threshold) {
+    int pixels = 0;
+
+    for (int x = 1; x <= neighbors; x++) {
+        bool left_changed = false;
+        int left_pixel = pixel - x;
+        if (left_pixel >= 0) { 
+            int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, left_pixel);
+            int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, left_pixel);
+            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
+                pixels++;
+                left_changed = true;
+            }
+        }
+
+        bool right_changed = false;
+        int right_pixel = pixel + x;
+        if (right_pixel <= width) {
+            int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, right_pixel);
+            int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, right_pixel);
+            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
+                pixels++;
+                right_changed = true;
+            }
+        }
+
+        if (pixels >= neighbors) {
+            return true;
+        }
+
+        if (!left_changed && !right_changed) {
+            break;
+        }
+    }
+
+    return false;
+}
+
 static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
 {
-    int pixelThreshold = mp_obj_get_int(args[2]);
-    
     image_t *arg_img =
         py_helper_arg_to_image(args[0], ARG_IMAGE_MUTABLE);
 
@@ -2350,20 +2431,19 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
 
     fb_alloc_mark();
 
-    int differences = 0;
+    int pixel_threshold = mp_obj_get_int(args[2]);
+    int neighbors = mp_obj_get_int(args[3]);
+    int variances = 0;
 
     switch(arg_img->pixfmt) {
         case PIXFORMAT_GRAYSCALE: {
             for (int y = 0, yy = arg_img->h; y < yy; y++) {
                 uint8_t *row_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_img, y);
                 uint8_t *row_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_msk, y);
+                
                 for (int x = 0, xx = arg_img->w; x < xx; x++) {
-                    int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, x);
-                    int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, x);
-                    int pixelDiff = abs(pixel1 - pixel2);
-
-                    if (pixelDiff >= pixelThreshold) {
-                        differences = differences + pixelDiff;
+                    if (grayscale_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
+                        variances++;
                     }
                 }
             }
@@ -2373,14 +2453,11 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
             for (int y = 0, yy = arg_img->h; y < yy; y++) {
                 uint16_t *row_ptr1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_img, y);
                 uint16_t *row_ptr2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_msk, y);
-                for (int x = 0, xx = arg_img->w; x < xx; x++) {
-                    int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, x);
-                    int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, x);
-                    int pixelDiff = abs(pixel1 - pixel2);
 
-                    if (pixelDiff >= pixelThreshold) {
-                        differences = differences + pixelDiff;
-                    }
+                for (int x = 0, xx = arg_img->w; x < xx; x++) {
+                    if (rgb565_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
+                        variances++;
+                    }                    
                 }
             }
             break;
@@ -2389,9 +2466,10 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
 
     fb_alloc_free_till_mark();
 
-    return mp_obj_new_int(differences);
+    return mp_obj_new_int(variances);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_variance_obj, 2, py_image_variance);
+
+STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_variance_obj, 3, py_image_variance);
 
 STATIC mp_obj_t py_image_blend(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     image_t *arg_img =
