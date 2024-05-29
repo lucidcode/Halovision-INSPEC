@@ -22,7 +22,6 @@ class inspec_sensor:
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
-        diff = self.img.variance(self.extra_fb, 128) / 100000
         
         machine.RTC().datetime((self.config.config['Year'], self.config.config['Month'], self.config.config['Day'], 0, 0, 0, 0, 0))
         
@@ -70,6 +69,7 @@ class inspec_sensor:
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
 
         self.pixelThreshold = self.config.config['PixelThreshold']
+        self.pixelRange = self.config.config['PixelRange']
 
         if self.config.config['AutoGain']:
             sensor.set_auto_gain(True)
@@ -87,7 +87,7 @@ class inspec_sensor:
 
     def monitor(self):
         self.snapshot()
-        self.diff = self.img.variance(self.extra_fb, self.pixelThreshold) / 100000
+        self.diff = self.img.variance(self.extra_fb, self.pixelThreshold, self.pixelRange)
         self.extra_fb.replace(self.img)
         self.lsd.log(int(self.diff))
 

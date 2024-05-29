@@ -91,11 +91,11 @@ class inspec_comms:
                 self.messages_sent = self.messages_sent + 1
 
                 if type == "metrics":
-                    if data == "0.0":
-                        if self.last_value == "0.001":
-                            data = "0.002"
+                    if data == "0":
+                        if self.last_value == "0.01":
+                            data = "0.02"
                         else:
-                            data = "0.001"
+                            data = "0.01"
 
                     self.last_value = data
                 else:
