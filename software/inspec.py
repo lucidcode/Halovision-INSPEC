@@ -5,6 +5,7 @@ import machine
 import utime
 import time
 from lsd import lucid_scribe_data
+from rem import rapid_eye_movement
 from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
@@ -26,6 +27,8 @@ class inspec_sensor:
         machine.RTC().datetime((self.config.config['Year'], self.config.config['Month'], self.config.config['Day'], 0, 0, 0, 0, 0))
         
         self.lsd = lucid_scribe_data(self.config)
+        self.rem = rapid_eye_movement(self.config)
+        self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.config['TimeBetweenTriggers']
 
         self.stream = None
@@ -68,8 +71,10 @@ class inspec_sensor:
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
 
-        self.pixelThreshold = self.config.config['PixelThreshold']
-        self.pixelRange = self.config.config['PixelRange']
+        self.pixel_threshold = self.config.config['PixelThreshold']
+        self.trigger_threshold = self.config.config['TriggerThreshold']
+        self.toss_threshold = self.config.config['TossThreshold']
+        self.pixel_range = self.config.config['PixelRange']
 
         if self.config.config['AutoGain']:
             sensor.set_auto_gain(True)
@@ -87,11 +92,11 @@ class inspec_sensor:
 
     def monitor(self):
         self.snapshot()
-        self.diff = self.img.variance(self.extra_fb, self.pixelThreshold, self.pixelRange)
+        self.variance = self.img.variance(self.extra_fb, self.pixel_threshold, self.pixel_range)
         self.extra_fb.replace(self.img)
-        self.lsd.log(int(self.diff))
+        self.lsd.log(int(self.variance))
 
-        self.comms.send_data("metrics", str(self.diff))
+        self.comms.send_data("variance", str(self.variance))
         
         if self.config.config['AccessPoint'] or self.config.config['WiFi']:
             self.manage_stream()
@@ -151,13 +156,23 @@ class inspec_sensor:
         
     def detect(self):
         if self.config.config['Algorithm'] == "Motion Detection":
-            if self.diff > self.config.config['TriggerThreshold']:
+            if self.variance > self.trigger_threshold:
                 self.trigger()
+
+        if self.config.config['Algorithm'] == "REM Detection":
+            eye_movements = self.rem.dreaming(self.variance, self.trigger_threshold, self.toss_threshold)
+            if self.eye_movements != eye_movements:
+                self.eye_movements = eye_movements
+                self.comms.send_data("rem", str(eye_movements))
+
+                if self.eye_movements >= 8:
+                    self.trigger()
+
         
     def trigger(self):
         now = utime.ticks_ms()
         if (now - self.last_trigger > self.config.config['TimeBetweenTriggers']):
-            self.comms.send_data("trigger", str(self.diff))
+            self.comms.send_data("trigger", str(self.variance))
             self.comms.send_image(self.img)
             self.last_trigger = now
             print("trigger")
