@@ -90,7 +90,7 @@ class inspec_comms:
             for conn_handle in self._connections:
                 self.messages_sent = self.messages_sent + 1
 
-                if type == "metrics":
+                if type == "variance":
                     if data == "0":
                         if self.last_value == "0.01":
                             data = "0.02"

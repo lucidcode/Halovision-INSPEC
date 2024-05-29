@@ -18,9 +18,9 @@ class inspec_config:
         self.config['Contrast'] = 0
         self.config['Saturation'] = 0
         self.config['FrameSize'] = 'VGA'
-        self.config['CreateLogs'] = 1
+        self.config['CreateLogs'] = 0
         self.config['TriggerThreshold'] = 20
-        self.config['TossThreshold'] = 800
+        self.config['TossThreshold'] = 8000
         self.config['TimeBetweenTriggers'] = 1000 * 60 * 1
         self.config['TimeBetweenTosses'] = 1000 * 60 * 5
         self.config['Year'] = 2024
@@ -61,7 +61,7 @@ class inspec_config:
             self.config[setting] = int(value)
 
     def is_sensor_setting(self, setting):
-        sensor_settings = ["PixelFormat", "PixelThreshold", "PixelRange", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure"]
+        sensor_settings = ["PixelFormat", "PixelThreshold", "TriggerThreshold", "TossThreshold", "PixelRange", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure"]
         if setting in sensor_settings:
             return True
         return False
