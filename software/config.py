@@ -4,7 +4,11 @@ import os
 class inspec_config:
     def __init__(self):
         self.config = {}
-        self.config['Algorithm'] = 'Motion Detection'
+        self.config['Researcher'] = 'Researcher'
+        self.config['Algorithm'] = 'REM Detection'
+        self.config['LEDs'] = 'RGB'
+        self.config['LEDInterval'] = 500
+        self.config['LEDFlashes'] = 5
         self.config['AccessPoint'] = False
         self.config['AccessPointName'] = "INSPEC"
         self.config['AccessPointPassword'] = "1234567890"
@@ -32,7 +36,6 @@ class inspec_config:
         self.config['BlinkCount'] = 8
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0
-        self.config['Researcher'] = 'Researcher'
 
         config_exists = False
         entries = os.listdir()
