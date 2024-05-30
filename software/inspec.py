@@ -4,6 +4,7 @@ import ujson
 import machine
 import utime
 import time
+from led import lights
 from lsd import lucid_scribe_data
 from rem import rapid_eye_movement
 from config import inspec_config
@@ -26,6 +27,7 @@ class inspec_sensor:
         
         machine.RTC().datetime((self.config.config['Year'], self.config.config['Month'], self.config.config['Day'], 0, 0, 0, 0, 0))
         
+        self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
         self.rem = rapid_eye_movement(self.config)
         self.eye_movements = 0
@@ -178,7 +180,11 @@ class inspec_sensor:
     def trigger(self):
         now = utime.ticks_ms()
         if (now - self.last_trigger > self.config.config['TimeBetweenTriggers']):
-            self.comms.send_data("trigger", str(self.variance))
-            self.comms.send_image(self.img)
-            self.last_trigger = now
             print(f'{utime.time()} trigger')
+            self.last_trigger = now
+            self.led.blink()
+
+            self.comms.send_data("trigger", str(self.variance))
+
+            if not self.stream.connected:
+                self.comms.send_image(self.img)
