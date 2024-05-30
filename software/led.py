@@ -1,42 +1,63 @@
 from machine import LED
-import time
+import utime
 
 class lights:
     def __init__(self, config):
         self.config = config
         self.led_red = LED("LED_RED")
-        self.led_green = LED("LED_GREEN")
-        self.led_blue = LED("LED_BLUE")
         self.led_red.off()
+        self.led_green = LED("LED_GREEN")
         self.led_green.off()
+        self.led_blue = LED("LED_BLUE")
         self.led_blue.off()
+        self.processing = False
 
     def blink(self):
-        leds = self.config.config['LEDs']
-        if leds == "":
+        self.leds = self.config.config['LEDs']
+        
+        if self.leds == "":
             return
         
-        flashes = self.config.config['LEDFlashes']
-        if flashes == 0:
+        self.flashes = self.config.config['LEDFlashes']
+        if self.flashes == 0:
             return
 
-        interval = self.config.config['LEDInterval']
+        self.interval = self.config.config['LEDInterval']
+        self.iterations = 0
+        self.state = 0
+        self.last_flash = utime.ticks_ms() - self.interval
+        self.processing = True
 
-        for i in range(flashes):
-            if "R" in leds:
+    def process(self):
+        if not self.processing:
+            return
+
+        now = utime.ticks_ms()
+
+        if (now - self.last_flash < self.interval):
+            return
+
+        if not self.state:
+            self.state = True
+            self.iterations = self.iterations + 1
+
+            if "R" in self.leds:
                 self.led_red.on()
-            if "G" in leds:
+            if "G" in self.leds:
                 self.led_green.on()
-            if "B" in leds:
+            if "B" in self.leds:
                 self.led_blue.on()
+        else:
+            self.state = False
 
-            time.sleep_ms(interval)
-
-            if "R" in leds:
+            if "R" in self.leds:
                 self.led_red.off()
-            if "G" in leds:
+            if "G" in self.leds:
                 self.led_green.off()
-            if "B" in leds:
+            if "B" in self.leds:
                 self.led_blue.off()
 
-            time.sleep_ms(interval)
+            if self.iterations >= self.flashes :
+                self.processing = False
+
+        self.last_flash = now
