@@ -94,7 +94,6 @@ class inspec_sensor:
         self.snapshot()
         self.variance = self.img.variance(self.extra_fb, self.pixel_threshold, self.pixel_range)
         self.extra_fb.replace(self.img)
-        self.lsd.log(int(self.variance))
 
         self.comms.send_data("variance", str(self.variance))
         
@@ -156,11 +155,18 @@ class inspec_sensor:
         
     def detect(self):
         if self.config.config['Algorithm'] == "Motion Detection":
+            motion = 0
+
             if self.variance > self.trigger_threshold:
+                motion = 8
                 self.trigger()
+
+            self.lsd.log(self.variance, motion)
 
         if self.config.config['Algorithm'] == "REM Detection":
             eye_movements = self.rem.dreaming(self.variance, self.trigger_threshold, self.toss_threshold)
+            self.lsd.log(self.variance, eye_movements)
+
             if self.eye_movements != eye_movements:
                 self.eye_movements = eye_movements
                 self.comms.send_data("rem", str(eye_movements))
@@ -175,4 +181,4 @@ class inspec_sensor:
             self.comms.send_data("trigger", str(self.variance))
             self.comms.send_image(self.img)
             self.last_trigger = now
-            print("trigger")
+            print(f'{utime.time()} trigger')

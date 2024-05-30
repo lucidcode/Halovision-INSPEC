@@ -45,11 +45,11 @@ class lucid_scribe_data:
         self.lsd_file = open(self.session_file, 'w')
         self.lsd_file.write("INSPEC")
         self.lsd_file.write("\r\n" + "Researcher:" + self.config.config['Researcher'])
-        self.lsd_file.write("\r\n" + self.format_time() + " - ")
         self.lsd_file.close()
-        self.minute_values = "0"
+        self.lsd_values = "0"
+        self.rem_values = "0"
 
-    def log(self, diff):
+    def log(self, variance, rem):
         if self.config.config['CreateLogs'] != 1:
             return
 
@@ -61,24 +61,27 @@ class lucid_scribe_data:
             self.lsd_hour = self.lsd_hour + 1
             self.lsd_minute = 0
             self.write_log()
-            self.minute_values = str(diff)
+            self.lsd_values = str(variance)
+            self.rem_values = str(rem)
             return
 
         if (now - self.lsd_minute_start >= 1000 * 60):
             self.lsd_minute_start = now
             self.lsd_minute = self.lsd_minute + 1
             self.write_log()
-            self.minute_values = str(diff)
+            self.lsd_values = str(variance)
+            self.rem_values = str(rem)
             return
 
-        self.minute_values = f'{self.minute_values},{str(diff)}'
+        self.lsd_values = f'{self.lsd_values},{str(variance)}'
+        self.rem_values = f'{self.rem_values},{str(rem)}'
 
     def write_log(self):
         self.lsd_file = open(self.session_file, 'a')
-        self.lsd_file.write(self.minute_values)
-        self.lsd_file.write("\r\n" + self.format_time() + " - ")
+        formatted_time = self.format_time()
+        self.lsd_file.write(f'\r\n{formatted_time}:lsd - {self.lsd_values}')
+        self.lsd_file.write(f'\r\n{formatted_time}:rem - {self.rem_values}')
         self.lsd_file.close()
-        print(self.format_time() + " - " + str(len(self.minute_values)))
 
     def list_directories(self):
         entries = os.listdir("visions")
