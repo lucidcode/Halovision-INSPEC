@@ -106,6 +106,7 @@ class inspec_sensor:
             self.comms.process_file()
 
         self.detect()
+        self.led.process()
         
         time.sleep_ms(128)
 
