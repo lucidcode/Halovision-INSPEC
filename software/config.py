@@ -57,7 +57,7 @@ class inspec_config:
         return self.config[setting]
 
     def set(self, setting, value):
-        string_settings = ["PixelFormat", "FrameSize", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]
+        string_settings = ["PixelFormat", "FrameSize", "LEDs", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]
         if setting in string_settings:
             self.config[setting] = value
         else:
