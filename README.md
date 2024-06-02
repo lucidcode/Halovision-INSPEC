@@ -18,9 +18,20 @@ A night-vision smart camera that detects eye movements during REM sleep and trig
 
 ![Lucid Scribe Android](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/lucid_scribe_android.gif?raw=true "Lucid Scribe Android")
 
+![Lucid Scribe Setting](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/lucid_scribe_settings.gif?raw=true "Lucid Scribe Setting")
+
+## Documentation
+
+[Settings](https://github.com/lucidcode/Halovision-INSPEC/wiki/Settings%E2%80%90en)
+
 ## Firmware build
+
 `cd firmware/src`
+
 `cd micropython/mpy-cross`
+
 `make`
+
 `cd ../..`
+
 `make TARGET=INSPEC`
