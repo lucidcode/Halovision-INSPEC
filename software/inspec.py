@@ -155,6 +155,9 @@ class inspec_sensor:
 
             if self.config.is_sensor_setting(setting):
                 self.configure_sensor()
+
+        if message == "disconnect":
+            self.comms.disconnect()
         
     def detect(self):
         if self.config.config['Algorithm'] == "Motion Detection":

@@ -168,3 +168,13 @@ class inspec_comms:
             if iterations > 10:
                 self.wait = 5
                 break
+
+    def disconnect(self):
+        if self.connected:
+            for conn_handle in self._connections:
+                try:
+                    self.ble.gap_disconnect(conn_handle)
+                except:
+                    print("BLE disconnect error")
+                    self.connected = False
+        self.advertise()
