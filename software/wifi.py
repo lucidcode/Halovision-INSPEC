@@ -73,6 +73,7 @@ class inspec_stream:
         self.client.send(
             "HTTP/1.1 200 OK\r\n"
             "Server: INSPEC\r\n"
+            "Access-Control-Allow-Origin: *\r\n"
             "Content-Type: multipart/x-mixed-replace;boundary=inspec\r\n"
             "Cache-Control: no-cache\r\n"
             "Pragma: no-cache\r\n\r\n"
