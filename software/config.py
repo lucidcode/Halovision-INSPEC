@@ -19,7 +19,7 @@ class inspec_config:
         self.config['PixelThreshold'] = 32
         self.config['PixelRange'] = 8
         self.config['Brightness'] = 0
-        self.config['Contrast'] = 0
+        self.config['Contrast'] = 3
         self.config['Saturation'] = 0
         self.config['FrameSize'] = 'VGA'
         self.config['CreateLogs'] = 0
@@ -32,10 +32,11 @@ class inspec_config:
         self.config['Day'] = 1
         self.config['CreateGifs'] = 1
         self.config['TrackFace'] = 0
-        self.config['FaceFeatures'] = 12
+        self.config['FaceFeatures'] = 16
         self.config['BlinkCount'] = 8
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0
+        self.config['GainCeiling'] = 16
 
         config_exists = False
         entries = os.listdir()
