@@ -1,4 +1,4 @@
-import inspec_sensor
+from inspec import inspec_sensor
 
 inspec = inspec_sensor()
 inspec.monitor()
