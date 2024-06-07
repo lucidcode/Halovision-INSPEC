@@ -11,7 +11,7 @@ class face_detection:
         if not self.config.config['TrackFace']:
             return
 
-        face_objects = img.find_features(self.face_cascade, threshold=0.5, scale_factor=1.25)
+        face_objects = img.find_features(self.face_cascade, threshold=0.9, scale_factor=1.5)
         
         has_face = False
         if face_objects:
