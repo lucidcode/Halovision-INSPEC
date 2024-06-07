@@ -21,4 +21,5 @@ class face_detection:
 
         if self.has_face != has_face:
             self.has_face = has_face
-            self.comms.send_data("face", self.has_face)
+
+            self.comms.send_data("face", "1" if self.has_face else "0")

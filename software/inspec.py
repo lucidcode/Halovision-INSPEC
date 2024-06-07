@@ -30,8 +30,8 @@ class inspec_sensor:
         
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
-        self.rem = rapid_eye_movement(self.config)
         self.face = face_detection(self.config, self.comms)
+        self.rem = rapid_eye_movement(self.config, self.face)
 
         self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.config['TimeBetweenTriggers']
@@ -52,6 +52,8 @@ class inspec_sensor:
             sensor.set_framesize(sensor.QVGA)
         elif self.config.config['FrameSize'] == 'QQVGA':
             sensor.set_framesize(sensor.QQVGA)
+        elif self.config.config['FrameSize'] == 'HQVGA':
+            sensor.set_framesize(sensor.HQVGA)
         else:
             sensor.set_framesize(sensor.QVGA)
 
@@ -188,9 +190,6 @@ class inspec_sensor:
             self.lsd.log(self.variance, motion)
 
         if self.config.config['Algorithm'] == "REM Detection":
-            if self.config.config['TrackFace'] and not self.face.has_face:
-                return
-
             eye_movements = self.rem.dreaming(self.variance, self.trigger_threshold, self.toss_threshold)
             self.lsd.log(self.variance, eye_movements)
 
