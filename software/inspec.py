@@ -7,6 +7,7 @@ import time
 from led import lights
 from lsd import lucid_scribe_data
 from rem import rapid_eye_movement
+from face import face_detection
 from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
@@ -30,6 +31,8 @@ class inspec_sensor:
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
         self.rem = rapid_eye_movement(self.config)
+        self.face = face_detection(self.config, self.comms)
+
         self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.config['TimeBetweenTriggers']
 
@@ -39,15 +42,10 @@ class inspec_sensor:
             
         if self.config.config['WiFi']:
             self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
+            
+        self.has_face = False
 
     def configure_sensor(self):
-        if self.config.config['Brightness']:
-            sensor.set_brightness(self.config.config['Brightness'])
-        if self.config.config['Contrast']:
-            sensor.set_brightness(self.config.config['Contrast'])
-        if self.config.config['Saturation']:
-            sensor.set_brightness(self.config.config['Saturation'])
-
         if self.config.config['FrameSize'] == 'VGA':
             sensor.set_framesize(sensor.VGA)
         elif self.config.config['FrameSize'] == 'QVGA':
@@ -78,11 +76,25 @@ class inspec_sensor:
         self.toss_threshold = self.config.config['TossThreshold']
         self.pixel_range = self.config.config['PixelRange']
 
+        if self.config.config['TrackFace']:
+            sensor.set_contrast(3)
+            sensor.set_gainceiling(16)
+            return
+        
+        if self.config.config['Brightness']:
+            sensor.set_brightness(self.config.config['Brightness'])
+        if self.config.config['Contrast']:
+            sensor.set_contrast(self.config.config['Contrast'])
+        if self.config.config['Saturation']:
+            sensor.set_brightness(self.config.config['Saturation'])
+        if self.config.config['GainCeiling']:
+            sensor.set_gainceiling(self.config.config['GainCeiling'])
+        
         if self.config.config['AutoGain']:
             sensor.set_auto_gain(True)
         else:
             sensor.set_auto_gain(False)
-
+#
         if self.config.config['AutoExposure']:
             sensor.set_auto_exposure(True)
         else:
@@ -98,6 +110,8 @@ class inspec_sensor:
         self.extra_fb.replace(self.img)
 
         self.comms.send_data("variance", str(self.variance))
+
+        self.face.detect(self.img)
         
         if self.config.config['AccessPoint'] or self.config.config['WiFi']:
             self.manage_stream()
@@ -170,6 +184,9 @@ class inspec_sensor:
             self.lsd.log(self.variance, motion)
 
         if self.config.config['Algorithm'] == "REM Detection":
+            if self.config.config['TrackFace'] and not self.face.has_face:
+                return
+
             eye_movements = self.rem.dreaming(self.variance, self.trigger_threshold, self.toss_threshold)
             self.lsd.log(self.variance, eye_movements)
 
@@ -180,14 +197,12 @@ class inspec_sensor:
                 if self.eye_movements >= 8:
                     self.trigger()
 
-        
     def trigger(self):
         now = utime.ticks_ms()
         if (now - self.last_trigger > self.config.config['TimeBetweenTriggers']):
             print(f'{utime.time()} trigger')
             self.last_trigger = now
             self.led.blink()
-
             self.comms.send_data("trigger", str(self.variance))
 
             if not self.stream.connected:

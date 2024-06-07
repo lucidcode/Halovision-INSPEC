@@ -18,23 +18,23 @@ class lucid_scribe_data:
         root_dir_exists = False
         entries = os.listdir()
         for entry in entries:
-            if entry == "visions":
+            if entry == "sessions":
                 root_dir_exists = True
 
         if not root_dir_exists:
-            print("creating visions")
-            os.mkdir("visions")
+            print("creating sessions")
+            os.mkdir("sessions")
 
         vision_index = 0
-        entries = os.listdir("visions")
+        entries = os.listdir("sessions")
         for entry in entries:
-            if ("vision_" in entry):
-                directory_index = entry.replace("vision_", "")
+            if ("session_" in entry):
+                directory_index = entry.replace("session_", "")
                 if int(directory_index) >= vision_index:
                     vision_index = int(directory_index) + 1
 
-        self.session_directory = "visions/" + "vision_" + str(vision_index)
-        print("creating vision " + str(vision_index))
+        self.session_directory = "sessions/" + "session_" + str(vision_index)
+        print("creating session " + str(vision_index))
         os.mkdir(self.session_directory)
 
         config_file = open(self.session_directory + '/config.txt', 'w')
@@ -84,19 +84,19 @@ class lucid_scribe_data:
         self.lsd_file.close()
 
     def list_directories(self):
-        entries = os.listdir("visions")
+        entries = os.listdir("sessions")
         directories = ""
         for entry in entries:
             if ("vision_" in entry):
                 if directories == "":
-                    directories = entry.replace("vision_", "")
+                    directories = entry.replace("session_", "")
                 else:
-                    directories = f'{directories},{entry.replace("vision_", "")}'
+                    directories = f'{directories},{entry.replace("session_", "")}'
 
         return directories
 
     def get_config(self, vision):
-        file_name = "visions/vision_" + vision + "/config.txt"
+        file_name = "sessions/session_" + vision + "/config.txt"
 
         with open(file_name, mode='rb') as file:
             content = bytearray(file.read())
