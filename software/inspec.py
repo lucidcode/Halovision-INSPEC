@@ -105,24 +105,28 @@ class inspec_sensor:
         return self.img
 
     def monitor(self):
-        self.snapshot()
-        self.variance = self.img.variance(self.extra_fb, self.pixel_threshold, self.pixel_range)
-        self.extra_fb.replace(self.img)
+        while True:
+            try:
+                self.snapshot()
+                self.variance = self.img.variance(self.extra_fb, self.pixel_threshold, self.pixel_range)
+                self.extra_fb.replace(self.img)
 
-        self.comms.send_data("variance", str(self.variance))
+                self.comms.send_data("variance", str(self.variance))
 
-        self.face.detect(self.img)
-        
-        if self.config.config['AccessPoint'] or self.config.config['WiFi']:
-            self.manage_stream()
+                self.face.detect(self.img)
+                
+                if self.config.config['AccessPoint'] or self.config.config['WiFi']:
+                    self.manage_stream()
 
-        if self.comms.sending_image or self.comms.sending_file:
-            self.comms.process_file()
+                if self.comms.sending_image or self.comms.sending_file:
+                    self.comms.process_file()
 
-        self.detect()
-        self.led.process()
-        
-        time.sleep_ms(128)
+                self.detect()
+                self.led.process()
+                
+                time.sleep_ms(128)
+            except Exception as e:
+                print(e)
 
     def manage_stream(self):
         if not self.stream.connected:
