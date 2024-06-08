@@ -5,9 +5,7 @@ class rapid_eye_movement:
         self.config = config
         self.face = face
         self.eye_movements = 0
-
-        now = utime.ticks_ms()
-        self.last_eye_movement = now
+        self.last_eye_movement = utime.ticks_ms()
 
     def detect(self, variance):
         if variance >= self.config.config['TossThreshold']:
