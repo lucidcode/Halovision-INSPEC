@@ -5,12 +5,10 @@ class rapid_eye_movement:
         self.config = config
         self.face = face
         self.eye_movements = 0
+        self.last_eye_movement = utime.ticks_ms()
 
-        now = utime.ticks_ms()
-        self.last_eye_movement = now
-
-    def dreaming(self, variance, trigger_threshold, toss_threshold):
-        if variance >= toss_threshold:
+    def detect(self, variance):
+        if variance >= self.config.config['TossThreshold']:
             self.eye_movements = 0
             print("eye_movement", self.eye_movements)
 
@@ -23,11 +21,11 @@ class rapid_eye_movement:
         if self.config.config['TrackFace'] and not self.face.has_face:
             return self.eye_movements
 
-        if variance >= trigger_threshold:
+        if variance >= self.config.config['TriggerThreshold']:
             if now - self.last_eye_movement > 1000:
                 if self.eye_movements < 8:
                     self.eye_movements = self.eye_movements + 1
                     self.last_eye_movement = now
-                    print("eye_movement", self.eye_movements)
+                    print("eye_movement", self.eye_movements, "face", self.face.has_face)
 
         return self.eye_movements

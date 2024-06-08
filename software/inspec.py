@@ -43,8 +43,6 @@ class inspec_sensor:
         if self.config.config['WiFi']:
             self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
             
-        self.has_face = False
-
     def configure_sensor(self):
         if self.config.config['FrameSize'] == 'VGA':
             sensor.set_framesize(sensor.VGA)
@@ -72,11 +70,6 @@ class inspec_sensor:
         if self.config.config['PixelFormat'] == 'JPEG':
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
-
-        self.pixel_threshold = self.config.config['PixelThreshold']
-        self.trigger_threshold = self.config.config['TriggerThreshold']
-        self.toss_threshold = self.config.config['TossThreshold']
-        self.pixel_range = self.config.config['PixelRange']
 
         if self.config.config['TrackFace']:
             sensor.set_contrast(3)
@@ -110,7 +103,7 @@ class inspec_sensor:
         while True:
             try:
                 self.snapshot()
-                self.variance = self.img.variance(self.extra_fb, self.pixel_threshold, self.pixel_range)
+                self.variance = self.img.variance(self.extra_fb, self.config.config['PixelThreshold'], self.config.config['PixelRange'])
                 self.extra_fb.replace(self.img)
 
                 self.comms.send_data("variance", str(self.variance))
@@ -129,6 +122,8 @@ class inspec_sensor:
                 time.sleep_ms(128)
             except Exception as e:
                 print(e)
+                if str(e) == "IDE interrupt":
+                    break
 
     def manage_stream(self):
         if not self.stream.connected:
@@ -183,14 +178,14 @@ class inspec_sensor:
         if self.config.config['Algorithm'] == "Motion Detection":
             motion = 0
 
-            if self.variance > self.trigger_threshold:
+            if self.variance > self.config.config['TriggerThreshold']:
                 motion = 8
                 self.trigger()
 
             self.lsd.log(self.variance, motion)
 
         if self.config.config['Algorithm'] == "REM Detection":
-            eye_movements = self.rem.dreaming(self.variance, self.trigger_threshold, self.toss_threshold)
+            eye_movements = self.rem.detect(self.variance)
             self.lsd.log(self.variance, eye_movements)
 
             if self.eye_movements != eye_movements:
