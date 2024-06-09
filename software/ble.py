@@ -32,7 +32,6 @@ class inspec_comms:
 
         self.wait = 0
         self.messages_sent = 0
-        self.last_value = "0.0"
 
         self.message_received = None
 
@@ -90,15 +89,9 @@ class inspec_comms:
             for conn_handle in self._connections:
                 self.messages_sent = self.messages_sent + 1
 
-                if type == "variance":
-                    if data == "0":
-                        if self.last_value == "0.01":
-                            data = "0.02"
-                        else:
-                            data = "0.01"
+                if type != "variance":
+                   
 
-                    self.last_value = data
-                else:
                     data = f'{type}:{data}'
                 
                 try:
