@@ -35,6 +35,7 @@ class inspec_sensor:
 
         self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.config['TimeBetweenTriggers']
+        self.last_update = utime.ticks_ms()
 
         self.stream = None
         if self.config.config['AccessPoint']:
@@ -118,8 +119,12 @@ class inspec_sensor:
 
                 self.detect()
                 self.led.process()
+
+                while (utime.ticks_ms() - self.last_update < 256):
+                    time.sleep_ms(8)
+                    
+                self.last_update = utime.ticks_ms()
                 
-                time.sleep_ms(128)
             except Exception as e:
                 print(e)
                 if str(e) == "IDE interrupt":
@@ -152,6 +157,7 @@ class inspec_sensor:
 
         if message == "request.ip" and not self.stream == None:
             self.comms.send_data("ip", self.stream.ip)
+            self.comms.send_data("face", "1" if self.face.has_face else "0")
 
         if message.startswith("update.setting."):
             message = message.replace("update.setting.", "")
