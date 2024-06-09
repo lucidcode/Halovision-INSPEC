@@ -23,7 +23,7 @@ class inspec_config:
         self.config['Saturation'] = 0
         self.config['FrameSize'] = 'VGA'
         self.config['CreateLogs'] = 0
-        self.config['TriggerThreshold'] = 80
+        self.config['TriggerThreshold'] = 32
         self.config['TossThreshold'] = 8000
         self.config['TimeBetweenTriggers'] = 1000 * 60 * 1
         self.config['TimeBetweenTosses'] = 1000 * 60 * 5
