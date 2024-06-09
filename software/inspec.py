@@ -25,6 +25,8 @@ class inspec_sensor:
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
+        self.total_variances = 0
+        self.variances = 0
         
         machine.RTC().datetime((self.config.config['Year'], self.config.config['Month'], self.config.config['Day'], 0, 0, 0, 0, 0))
         
@@ -105,9 +107,10 @@ class inspec_sensor:
             try:
                 self.snapshot()
                 self.variance = self.img.variance(self.extra_fb, self.config.config['PixelThreshold'], self.config.config['PixelRange'])
+                if self.variance > 0:
+                    self.total_variances = self.total_variances + self.variance
+                    self.variances = self.variances + 1
                 self.extra_fb.replace(self.img)
-
-                self.comms.send_data("variance", str(self.variance))
 
                 self.face.detect(self.img)
                 
@@ -120,10 +123,15 @@ class inspec_sensor:
                 self.detect()
                 self.led.process()
 
-                while (utime.ticks_ms() - self.last_update < 256):
-                    time.sleep_ms(8)
-                    
-                self.last_update = utime.ticks_ms()
+                if (utime.ticks_ms() - self.last_update > 256):
+                    average = 0
+                    if self.variances > 0:
+                        average = int(self.total_variances / self.variances)
+
+                    self.comms.send_data("variance", str(average))
+                    self.total_variances = 0
+                    self.variances = 0
+                    self.last_update = utime.ticks_ms()
                 
             except Exception as e:
                 print(e)
