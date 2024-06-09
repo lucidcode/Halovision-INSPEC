@@ -13,11 +13,14 @@ class face_detection:
         if not self.config.config['TrackFace']:
             return
 
+        has_face = False
         face_objects = img.find_features(self.face_cascade, threshold=0.9, scale_factor=1.5)
-        has_face = True if face_objects else False
+        if face_objects:
+            has_face = True 
+            self.last_change = now
 
         now = utime.ticks_ms()
-        if now - self.last_change > 1000:
+        if now - self.last_change > 2000:
             if self.has_face != has_face:
                 self.has_face = has_face
                 self.last_change = now
