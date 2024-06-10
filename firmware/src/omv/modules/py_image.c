@@ -2434,14 +2434,17 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
     int pixel_threshold = mp_obj_get_int(args[2]);
     int neighbors = mp_obj_get_int(args[3]);
     int variances = 0;
-
+    
+    rectangle_t roi;
+    py_helper_keyword_rectangle_roi(arg_img, n_args, args, 4, kw_args, &roi);
+    
     switch(arg_img->pixfmt) {
         case PIXFORMAT_GRAYSCALE: {
-            for (int y = 0, yy = arg_img->h; y < yy; y++) {
+            for (int y = roi.y, yy = roi.y + roi.h; y < yy; y++) {
                 uint8_t *row_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_img, y);
                 uint8_t *row_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_msk, y);
                 
-                for (int x = 0, xx = arg_img->w; x < xx; x++) {
+                for (int x = roi.x, xx = roi.x + roi.w; x < xx; x++) {
                     if (grayscale_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
                         variances++;
                     }
@@ -2450,11 +2453,11 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
             break;
         }
         case PIXFORMAT_RGB565: {
-            for (int y = 0, yy = arg_img->h; y < yy; y++) {
+            for (int y = roi.y, yy = roi.y + roi.h; y < yy; y++) {
                 uint16_t *row_ptr1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_img, y);
                 uint16_t *row_ptr2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_msk, y);
 
-                for (int x = 0, xx = arg_img->w; x < xx; x++) {
+                for (int x = roi.x, xx = roi.x + roi.w; x < xx; x++) {
                     if (rgb565_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
                         variances++;
                     }                    
@@ -2469,7 +2472,7 @@ static mp_obj_t py_image_variance(uint n_args, const mp_obj_t *args, mp_map_t *k
     return mp_obj_new_int(variances);
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_variance_obj, 3, py_image_variance);
+STATIC MP_DEFINE_CONST_FUN_OBJ_KW(py_image_variance_obj, 4, py_image_variance);
 
 STATIC mp_obj_t py_image_blend(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     image_t *arg_img =

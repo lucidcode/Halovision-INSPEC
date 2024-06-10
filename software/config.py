@@ -33,6 +33,7 @@ class inspec_config:
         self.config['CreateGifs'] = 1
         self.config['TrackFace'] = 0
         self.config['FaceFeatures'] = 16
+        self.config['DrawFace'] = 0
         self.config['BlinkCount'] = 8
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0
@@ -55,7 +56,10 @@ class inspec_config:
         print(self.config)
 
     def get(self, setting):
-        return self.config[setting]
+        try:
+            return self.config[setting]
+        except Exception:
+            return ""
 
     def set(self, setting, value):
         string_settings = ["PixelFormat", "FrameSize", "LEDs", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]

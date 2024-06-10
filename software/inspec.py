@@ -106,7 +106,7 @@ class inspec_sensor:
         while True:
             try:
                 self.snapshot()
-                self.variance = self.img.variance(self.extra_fb, self.config.config['PixelThreshold'], self.config.config['PixelRange'])
+                self.variance = self.img.variance(self.extra_fb, self.config.config['PixelThreshold'], self.config.config['PixelRange'], self.face.face_object)
                 if self.variance > 0:
                     self.total_variances = self.total_variances + self.variance
                     self.variances = self.variances + 1
