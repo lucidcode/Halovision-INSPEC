@@ -90,8 +90,6 @@ class inspec_comms:
                 self.messages_sent = self.messages_sent + 1
 
                 if type != "variance":
-                   
-
                     data = f'{type}:{data}'
                 
                 try:

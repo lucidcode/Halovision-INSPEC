@@ -123,7 +123,7 @@ class inspec_sensor:
                 self.detect()
                 self.led.process()
 
-                if (utime.ticks_ms() - self.last_update > 256):
+                if (utime.ticks_ms() - self.last_update > 128):
                     average = 0
                     if self.variances > 0:
                         average = int(self.total_variances / self.variances)
