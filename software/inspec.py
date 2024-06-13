@@ -123,7 +123,7 @@ class inspec_sensor:
                 self.detect()
                 self.led.process()
 
-                if (utime.ticks_ms() - self.last_update > 256):
+                if (utime.ticks_ms() - self.last_update > 128):
                     average = 0
                     if self.variances > 0:
                         average = int(self.total_variances / self.variances)
@@ -152,6 +152,7 @@ class inspec_sensor:
         print("ble message", message)
 
         if message == "request.image":
+            self.comms.send_data("face", "1" if self.face.has_face else "0")
             self.comms.send_image(self.img)
 
         if message == "request.directories":
@@ -190,24 +191,40 @@ class inspec_sensor:
         
     def detect(self):
         if self.config.config['Algorithm'] == "Motion Detection":
-            motion = 0
+            self.detect_motion()
 
-            if self.variance > self.config.config['TriggerThreshold']:
-                motion = 8
-                self.trigger()
-
-            self.lsd.log(self.variance, motion)
+        if self.config.config['Algorithm'] == "Face Detection":
+            self.detect_face()
 
         if self.config.config['Algorithm'] == "REM Detection":
-            eye_movements = self.rem.detect(self.variance)
-            self.lsd.log(self.variance, eye_movements)
+            self.detect_rem()
 
-            if self.eye_movements != eye_movements:
-                self.eye_movements = eye_movements
-                self.comms.send_data("rem", str(eye_movements))
+    def detect_motion(self):
+        motion = 0
+        if self.variance > self.config.config['TriggerThreshold']:
+            motion = 8
+            self.trigger()
 
-                if self.eye_movements >= 8:
-                    self.trigger()
+        self.lsd.log(self.variance, motion)
+
+    def detect_face(self):
+        motion = 0
+        if self.face.has_face:
+            motion = 8
+            self.trigger()
+
+        self.lsd.log(self.variance, motion)
+        
+    def detect_rem(self):
+        eye_movements = self.rem.detect(self.variance)
+        self.lsd.log(self.variance, eye_movements)
+
+        if self.eye_movements != eye_movements:
+            self.eye_movements = eye_movements
+            self.comms.send_data("rem", str(eye_movements))
+
+            if self.eye_movements >= 8:
+                self.trigger()
 
     def trigger(self):
         now = utime.ticks_ms()
