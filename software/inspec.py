@@ -117,9 +117,6 @@ class inspec_sensor:
                 if self.config.config['AccessPoint'] or self.config.config['WiFi']:
                     self.manage_stream()
 
-                if self.comms.sending_image or self.comms.sending_file:
-                    self.comms.process_file()
-
                 self.detect()
                 self.led.process()
 
@@ -132,6 +129,9 @@ class inspec_sensor:
                     self.total_variances = 0
                     self.variances = 0
                     self.last_update = utime.ticks_ms()
+
+                    if self.comms.sending_image or self.comms.sending_file:
+                        self.comms.process_file()
                 
             except Exception as e:
                 print(e)
