@@ -234,5 +234,5 @@ class inspec_sensor:
             self.led.blink()
             self.comms.send_data("trigger", str(self.variance))
 
-            if not self.stream.connected:
+            if self.stream == None or not self.stream.connected:
                 self.comms.send_image(self.img)
