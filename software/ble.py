@@ -15,14 +15,13 @@ class inspec_comms:
     _IRQ_GATTS_WRITE = const(3)
     _IRQ_GATTS_INDICATE_DONE = const(20)
 
-    def __init__(self, name="INSPEC"):
+    def __init__(self):
         self._connections = set()
         self.sending_image = False
         self.sending_file = False
 
         self.connected = False
 
-        self.name = name
         self.ble = bluetooth.BLE()
         self.ble.active(True)
 
@@ -74,9 +73,8 @@ class inspec_comms:
                 self.message_received(message)
 
     def advertise(self):
-        name = bytes(self.name, 'UTF-8')
         self.payload = advertising_payload(
-            name=self.name,
+            name="INSPEC",
             services=[bluetooth.UUID(0x181A)],
             appearance=_APPEARANCE_HUMAN_INTERFACE_DEVICE,
         )
@@ -104,8 +102,11 @@ class inspec_comms:
             return
 
         gc.collect()
-        self.image = image.scale(x_scale=0.3, y_scale=0.3)
-        self.compressed = self.image.compress(quality=70).bytearray()
+        
+        while image.width() >= 240:
+            image = image.scale(x_scale=0.5, y_scale=0.5)
+
+        self.compressed = image.compress(quality=70).bytearray()
 
         self.cframe = bytearray(len(self.compressed))
         self.cframe[:] = self.compressed
