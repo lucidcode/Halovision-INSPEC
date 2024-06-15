@@ -4,6 +4,7 @@ import ujson
 import machine
 import utime
 import time
+import image
 from led import lights
 from lsd import lucid_scribe_data
 from rem import rapid_eye_movement
@@ -21,19 +22,18 @@ class inspec_sensor:
         self.comms = inspec_comms()
         self.comms.message_received = self.ble_message_received
 
-        self.configure_sensor()
+        self.led = lights(self.config)
+        self.lsd = lucid_scribe_data(self.config)
+        self.face = face_detection(self.config, self.comms)
+        self.rem = rapid_eye_movement(self.config, self.face)
 
+        self.configure_sensor()
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
         self.total_variances = 0
         self.variances = 0
         
         machine.RTC().datetime((self.config.config['Year'], self.config.config['Month'], self.config.config['Day'], 0, 0, 0, 0, 0))
-        
-        self.led = lights(self.config)
-        self.lsd = lucid_scribe_data(self.config)
-        self.face = face_detection(self.config, self.comms)
-        self.rem = rapid_eye_movement(self.config, self.face)
 
         self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.config['TimeBetweenTriggers']
@@ -73,6 +73,8 @@ class inspec_sensor:
         if self.config.config['PixelFormat'] == 'JPEG':
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
+
+        self.face.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceStages'])
 
         if self.config.config['TrackFace']:
             sensor.set_contrast(3)
