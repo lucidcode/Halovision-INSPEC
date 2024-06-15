@@ -6,7 +6,7 @@ class face_detection:
         self.config = config
         self.comms = comms
         self.has_face = False
-        self.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceFeatures'])
+        self.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceStages'])
         self.last_change = utime.ticks_ms() - 1000
         self.face_object = [0, 0, 1, 1]
 
@@ -16,7 +16,7 @@ class face_detection:
 
         now = utime.ticks_ms()
         has_face = False
-        face_objects = img.find_features(self.face_cascade, threshold=0.9, scale_factor=1.5)
+        face_objects = img.find_features(self.face_cascade, threshold=self.config.config['FaceThreshold'], scale_factor=self.config.config['FaceScaleFactor'])
         if face_objects:
             self.face_object = face_objects[0]
             has_face = True 
@@ -25,9 +25,12 @@ class face_detection:
                 self.has_face = has_face
                 self.comms.send_data("face", "1")
         
-        if self.config.get('DrawFace'):
+        if self.config.get('DrawFaceRegion'):
             if self.face_object[2] != img.width():
-                img.draw_rectangle(self.face_object, color=(70, 130, 180))
+                if self.config.config['PixelFormat'] == 'RGB565':
+                    img.draw_rectangle(self.face_object, color=(70, 130, 180))
+                else:
+                    img.draw_rectangle(self.face_object)
 
         if now - self.last_change > 1000:
             if not self.has_face:
