@@ -85,5 +85,9 @@ class inspec_config:
 
     def save(self):
         config_file = open('config.txt', 'w')
-        config_file.write(ujson.dumps(self.config))
+        json = ujson.dumps(self.config)
+        json = json.replace("{", "{\r\n  ")
+        json = json.replace(", ", ",\r\n  ")
+        json = json.replace("}", "\r\n}")
+        config_file.write(json)
         config_file.close()
