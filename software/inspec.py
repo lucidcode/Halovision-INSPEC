@@ -47,6 +47,8 @@ class inspec_sensor:
             self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
             
     def configure_sensor(self):
+        sensor.set_hmirror(True)
+
         if self.config.config['FrameSize'] == 'VGA':
             sensor.set_framesize(sensor.VGA)
         elif self.config.config['FrameSize'] == 'QVGA':
@@ -205,6 +207,7 @@ class inspec_sensor:
         motion = 0
         if self.variance > self.config.config['TriggerThreshold']:
             motion = 8
+            self.lsd.add_image(self.img, motion)
             self.trigger()
 
         self.lsd.log(self.variance, motion)
@@ -213,6 +216,7 @@ class inspec_sensor:
         motion = 0
         if self.face.has_face:
             motion = 8
+            self.lsd.add_image(self.img, motion)
             self.trigger()
 
         self.lsd.log(self.variance, motion)
@@ -227,6 +231,9 @@ class inspec_sensor:
 
             if self.eye_movements >= 8:
                 self.trigger()
+
+            if self.eye_movements >= 5:
+                self.lsd.add_image(self.img, self.eye_movements)
 
     def trigger(self):
         now = utime.ticks_ms()

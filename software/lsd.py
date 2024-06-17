@@ -1,5 +1,6 @@
 import ujson
 import utime
+import time
 import os
 
 class lucid_scribe_data:
@@ -82,6 +83,14 @@ class lucid_scribe_data:
         self.lsd_file.write(f'\r\n{formatted_time}:lsd - {self.lsd_values}')
         self.lsd_file.write(f'\r\n{formatted_time}:rem - {self.rem_values}')
         self.lsd_file.close()
+        
+    def add_image(self, image, eye_movements):        
+        now = utime.ticks_ms()
+        second = time.localtime()[5]
+        formatted_time = f'{self.format_time()}:{second}:{eye_movements}'
+        formatted_time = formatted_time.replace(":", "-")
+        file_name = self.session_directory + "/image_" + formatted_time + ".JPG"
+        image.save(file_name)
 
     def list_directories(self):
         entries = os.listdir("sessions")
@@ -103,12 +112,12 @@ class lucid_scribe_data:
             return content
 
     def format_time(self):
-        minute_string = str(self.lsd_minute)
-        if self.lsd_minute < 10:
-            minute_string = "0" + minute_string
-
         hour_string = str(self.lsd_hour)
         if self.lsd_hour < 10:
             hour_string = "0" + hour_string
+
+        minute_string = str(self.lsd_minute)
+        if self.lsd_minute < 10:
+            minute_string = "0" + minute_string
 
         return hour_string + ":" + minute_string
