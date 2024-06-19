@@ -46,9 +46,10 @@ class inspec_sensor:
         if self.config.config['WiFi']:
             self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
             
-    def configure_sensor(self):
-        sensor.set_hmirror(True)
-
+    def configure_sensor(self):        
+        sensor.set_hmirror(True if self.config.get('HorizontalMirror') else False)
+        sensor.set_vflip(True if self.config.get('VerticalFlip') else False)
+            
         if self.config.config['FrameSize'] == 'VGA':
             sensor.set_framesize(sensor.VGA)
         elif self.config.config['FrameSize'] == 'QVGA':
