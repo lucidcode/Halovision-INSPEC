@@ -31,7 +31,7 @@ class inspec_config:
         self.config['Month'] = 1
         self.config['Day'] = 1
         self.config['CreateGifs'] = 1
-        self.config['TrackFace'] = 0
+        self.config['TrackFace'] = 1
         self.config['FaceFeatures'] = 16
         self.config['DrawFaceRegion'] = 0
         self.config['FaceStages'] = 25
