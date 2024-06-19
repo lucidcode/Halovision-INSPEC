@@ -41,6 +41,8 @@ class inspec_config:
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0
         self.config['GainCeiling'] = 16
+        self.config['HorizontalMirror'] = 1
+        self.config['VerticalFlip'] = 0
 
         config_exists = False
         entries = os.listdir()
@@ -78,7 +80,7 @@ class inspec_config:
         self.config[setting] = int(value)
 
     def is_sensor_setting(self, setting):
-        sensor_settings = ["PixelFormat", "PixelThreshold", "TriggerThreshold", "TossThreshold", "PixelRange", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure", "FaceStages"]
+        sensor_settings = ["PixelFormat", "PixelThreshold", "TriggerThreshold", "TossThreshold", "PixelRange", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure", "FaceStages", "HorizontalMirror", "VerticalFlip"]
         if setting in sensor_settings:
             return True
         return False
