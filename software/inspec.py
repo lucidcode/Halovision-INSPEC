@@ -17,6 +17,8 @@ from machine import LED
 class inspec_sensor:
     def __init__(self):
         self.config = inspec_config()
+        self.configure_sensor()
+
         self.comms = inspec_comms()
         self.comms.message_received = self.ble_message_received
 
@@ -25,7 +27,6 @@ class inspec_sensor:
         self.face = face_detection(self.config, self.comms)
         self.rem = rapid_eye_movement(self.config, self.face)
 
-        self.configure_sensor()
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
         self.total_variances = 0
@@ -78,8 +79,6 @@ class inspec_sensor:
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
 
-        self.face.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceStages'])
-
         if self.config.config['TrackFace']:
             sensor.set_contrast(3)
             sensor.set_gainceiling(16)
@@ -108,7 +107,7 @@ class inspec_sensor:
         while True:
             try:
                 self.img = sensor.snapshot()
-                
+
                 if self.config.config['TrackFace']:
                     self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
 

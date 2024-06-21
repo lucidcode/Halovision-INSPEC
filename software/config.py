@@ -37,6 +37,7 @@ class inspec_config:
         self.config['FaceStages'] = 25
         self.config['FaceThreshold'] = 0.75
         self.config['FaceScaleFactor'] = 1.25
+        self.config['FaceAngles'] = [-15, 15, -30, 30]
         self.config['BlinkCount'] = 8
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0

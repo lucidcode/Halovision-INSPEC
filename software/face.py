@@ -1,3 +1,4 @@
+import sensor
 import image
 import utime
 
@@ -9,6 +10,8 @@ class face_detection:
         self.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceStages'])
         self.last_change = utime.ticks_ms() - 1000
         self.face_object = [0, 0, 1, 1]
+        
+        self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
 
     def detect(self, img):
         if not self.config.config['TrackFace']:
@@ -17,6 +20,15 @@ class face_detection:
         now = utime.ticks_ms()
         has_face = False
         face_objects = img.find_features(self.face_cascade, threshold=self.config.config['FaceThreshold'], scale_factor=self.config.config['FaceScaleFactor'])
+
+        if len(face_objects) == 0 and self.config.config['FaceAngles']:
+            for angle in self.config.config['FaceAngles']:
+                self.extra_fb.replace(img)
+                self.extra_fb.rotation_corr(x_rotation=0.0, y_rotation=0.0, z_rotation=angle)
+                face_objects = self.extra_fb.find_features(self.face_cascade, threshold=self.config.config['FaceThreshold'], scale_factor=self.config.config['FaceScaleFactor'])
+                if face_objects:
+                    break
+
         if face_objects:
             self.face_object = face_objects[0]
             has_face = True 
