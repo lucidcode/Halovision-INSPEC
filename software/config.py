@@ -31,12 +31,13 @@ class inspec_config:
         self.config['Month'] = 1
         self.config['Day'] = 1
         self.config['CreateGifs'] = 1
-        self.config['TrackFace'] = 0
+        self.config['TrackFace'] = 1
         self.config['FaceFeatures'] = 16
         self.config['DrawFaceRegion'] = 0
         self.config['FaceStages'] = 25
         self.config['FaceThreshold'] = 0.75
         self.config['FaceScaleFactor'] = 1.25
+        self.config['FaceAngles'] = [-15, 15, -30, 30]
         self.config['BlinkCount'] = 8
         self.config['AutoGain'] = 0
         self.config['AutoExposure'] = 0

@@ -6,13 +6,13 @@ class lights:
     def __init__(self, config):
         self.config = config
         self.led_red = LED("LED_RED")
-        time.sleep_ms(64)
+        time.sleep_ms(256)
         self.led_red.off()
         self.led_green = LED("LED_GREEN")
-        time.sleep_ms(64)
+        time.sleep_ms(256)
         self.led_green.off()
         self.led_blue = LED("LED_BLUE")
-        time.sleep_ms(64)
+        time.sleep_ms(256)
         self.led_blue.off()
         self.processing = False
 

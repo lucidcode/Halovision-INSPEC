@@ -84,7 +84,10 @@ class lucid_scribe_data:
         self.lsd_file.write(f'\r\n{formatted_time}:rem - {self.rem_values}')
         self.lsd_file.close()
         
-    def add_image(self, image, eye_movements):        
+    def add_image(self, image, eye_movements):
+        if self.config.config['CreateLogs'] != 1:
+            return
+            
         now = utime.ticks_ms()
         second = time.localtime()[5]
         formatted_time = f'{self.format_time()}:{second}:{eye_movements}'

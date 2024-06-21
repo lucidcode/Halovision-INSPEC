@@ -16,9 +16,9 @@ from machine import LED
 
 class inspec_sensor:
     def __init__(self):
-        sensor.reset()
-
         self.config = inspec_config()
+        self.configure_sensor()
+
         self.comms = inspec_comms()
         self.comms.message_received = self.ble_message_received
 
@@ -27,7 +27,6 @@ class inspec_sensor:
         self.face = face_detection(self.config, self.comms)
         self.rem = rapid_eye_movement(self.config, self.face)
 
-        self.configure_sensor()
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
         self.total_variances = 0
@@ -46,11 +45,14 @@ class inspec_sensor:
         if self.config.config['WiFi']:
             self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
             
-    def configure_sensor(self):        
+    def configure_sensor(self):
+        sensor.reset()
         sensor.set_hmirror(True if self.config.get('HorizontalMirror') else False)
         sensor.set_vflip(True if self.config.get('VerticalFlip') else False)
-            
-        if self.config.config['FrameSize'] == 'VGA':
+        
+        if self.config.config['TrackFace']:
+            sensor.set_framesize(sensor.HQVGA)
+        elif self.config.config['FrameSize'] == 'VGA':
             sensor.set_framesize(sensor.VGA)
         elif self.config.config['FrameSize'] == 'QVGA':
             sensor.set_framesize(sensor.QVGA)
@@ -77,8 +79,6 @@ class inspec_sensor:
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
 
-        self.face.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceStages'])
-
         if self.config.config['TrackFace']:
             sensor.set_contrast(3)
             sensor.set_gainceiling(16)
@@ -103,14 +103,14 @@ class inspec_sensor:
         else:
             sensor.set_auto_exposure(False)
 
-    def snapshot(self):
-        self.img = sensor.snapshot()
-        return self.img
-
     def monitor(self):
         while True:
             try:
-                self.snapshot()
+                self.img = sensor.snapshot()
+
+                if self.config.config['TrackFace']:
+                    self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
+
                 self.variance = self.img.variance(self.extra_fb, self.config.config['PixelThreshold'], self.config.config['PixelRange'], self.face.face_object)
                 if self.variance > 0:
                     self.total_variances = self.total_variances + self.variance
