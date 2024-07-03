@@ -3,47 +3,47 @@ import os
 
 class inspec_config:
     def __init__(self):
-        self.config = {}
-        self.config['Researcher'] = 'Researcher'
-        self.config['Algorithm'] = 'REM Detection'
-        self.config['LEDs'] = 'RGB'
-        self.config['LEDInterval'] = 500
-        self.config['LEDFlashes'] = 5
-        self.config['AccessPoint'] = False
-        self.config['AccessPointName'] = "INSPEC"
-        self.config['AccessPointPassword'] = "1234567890"
-        self.config['WiFi'] = False
-        self.config['WiFiNetworkName'] = "INSPEC"
-        self.config['WiFiKey'] = "1234567890"
-        self.config['PixelFormat'] = 'Grayscale'
-        self.config['PixelThreshold'] = 32
-        self.config['PixelRange'] = 8
-        self.config['Brightness'] = 0
-        self.config['Contrast'] = 3
-        self.config['Saturation'] = 0
-        self.config['FrameSize'] = 'VGA'
-        self.config['CreateLogs'] = 0
-        self.config['TriggerThreshold'] = 32
-        self.config['TossThreshold'] = 8000
-        self.config['TimeBetweenTriggers'] = 1000 * 60 * 1
-        self.config['TimeBetweenTosses'] = 1000 * 60 * 5
-        self.config['Year'] = 2024
-        self.config['Month'] = 1
-        self.config['Day'] = 1
-        self.config['CreateGifs'] = 1
-        self.config['TrackFace'] = 1
-        self.config['FaceFeatures'] = 16
-        self.config['DrawFaceRegion'] = 0
-        self.config['FaceStages'] = 25
-        self.config['FaceThreshold'] = 0.75
-        self.config['FaceScaleFactor'] = 1.25
-        self.config['FaceAngles'] = [-15, 15, -30, 30]
-        self.config['BlinkCount'] = 8
-        self.config['AutoGain'] = 0
-        self.config['AutoExposure'] = 0
-        self.config['GainCeiling'] = 16
-        self.config['HorizontalMirror'] = 1
-        self.config['VerticalFlip'] = 0
+        self.default = {}
+        self.default['Researcher'] = 'Researcher'
+        self.default['Algorithm'] = 'REM Detection'
+        self.default['LEDs'] = 'RGB'
+        self.default['LEDInterval'] = 500
+        self.default['LEDFlashes'] = 5
+        self.default['AccessPoint'] = False
+        self.default['AccessPointName'] = "INSPEC"
+        self.default['AccessPointPassword'] = "1234567890"
+        self.default['WiFi'] = False
+        self.default['WiFiNetworkName'] = "INSPEC"
+        self.default['WiFiKey'] = "1234567890"
+        self.default['PixelFormat'] = 'Grayscale'
+        self.default['PixelThreshold'] = 32
+        self.default['PixelRange'] = 8
+        self.default['Brightness'] = 0
+        self.default['Contrast'] = 3
+        self.default['Saturation'] = 0
+        self.default['FrameSize'] = 'VGA'
+        self.default['CreateLogs'] = 0
+        self.default['TriggerThreshold'] = 32
+        self.default['TossThreshold'] = 8000
+        self.default['TimeBetweenTriggers'] = 1000 * 60 * 1
+        self.default['TimeBetweenTosses'] = 1000 * 60 * 5
+        self.default['Year'] = 2024
+        self.default['Month'] = 1
+        self.default['Day'] = 1
+        self.default['CreateGifs'] = 1
+        self.default['TrackFace'] = 1
+        self.default['FaceFeatures'] = 16
+        self.default['DrawFaceRegion'] = 0
+        self.default['FaceStages'] = 25
+        self.default['FaceThreshold'] = 0.75
+        self.default['FaceScaleFactor'] = 1.25
+        self.default['FaceAngles'] = [-15, 15, -30, 30]
+        self.default['BlinkCount'] = 8
+        self.default['AutoGain'] = 0
+        self.default['AutoExposure'] = 0
+        self.default['GainCeiling'] = 16
+        self.default['HorizontalMirror'] = 1
+        self.default['VerticalFlip'] = 0
 
         config_exists = False
         entries = os.listdir()
@@ -57,15 +57,19 @@ class inspec_config:
             self.config = ujson.loads(text)
             config_file.close()
         else:
+            self.config = self.default
             self.save()
 
         print(self.config)
 
     def get(self, setting):
-        try:
+        if self.config[setting] != None:
             return self.config[setting]
-        except Exception:
-            return ""
+
+        if self.default[setting] != None:
+            return self.default[setting]
+
+        return ""
 
     def set(self, setting, value):
         string_settings = ["PixelFormat", "FrameSize", "LEDs", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]

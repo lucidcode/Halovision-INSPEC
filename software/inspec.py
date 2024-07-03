@@ -32,10 +32,10 @@ class inspec_sensor:
         self.total_variances = 0
         self.variances = 0
         
-        machine.RTC().datetime((self.config.config['Year'], self.config.config['Month'], self.config.config['Day'], 0, 0, 0, 0, 0))
+        machine.RTC().datetime((self.config.get('Year'), self.config.get('Month'), self.config.get('Day'), 0, 0, 0, 0, 0))
 
         self.eye_movements = 0
-        self.last_trigger = utime.ticks_ms() - self.config.config['TimeBetweenTriggers']
+        self.last_trigger = utime.ticks_ms() - self.config.get('TimeBetweenTriggers')
         self.last_update = utime.ticks_ms()
 
         self.init_stream()
@@ -45,55 +45,55 @@ class inspec_sensor:
         sensor.set_hmirror(True if self.config.get('HorizontalMirror') else False)
         sensor.set_vflip(True if self.config.get('VerticalFlip') else False)
         
-        if self.config.config['TrackFace']:
+        if self.config.get('TrackFace'):
             sensor.set_framesize(sensor.HQVGA)
-        elif self.config.config['FrameSize'] == 'VGA':
+        elif self.config.get('FrameSize') == 'VGA':
             sensor.set_framesize(sensor.VGA)
-        elif self.config.config['FrameSize'] == 'QVGA':
+        elif self.config.get('FrameSize') == 'QVGA':
             sensor.set_framesize(sensor.QVGA)
-        elif self.config.config['FrameSize'] == 'QQVGA':
+        elif self.config.get('FrameSize') == 'QQVGA':
             sensor.set_framesize(sensor.QQVGA)
-        elif self.config.config['FrameSize'] == 'HQVGA':
+        elif self.config.get('FrameSize') == 'HQVGA':
             sensor.set_framesize(sensor.HQVGA)
         else:
             sensor.set_framesize(sensor.QVGA)
 
-        if self.config.config['PixelFormat'] == 'RGB565':
+        if self.config.get('PixelFormat') == 'RGB565':
             sensor.set_pixformat(sensor.RGB565)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.RGB565)
-        if self.config.config['PixelFormat'] == 'Grayscale':
+        if self.config.get('PixelFormat') == 'Grayscale':
             sensor.set_pixformat(sensor.GRAYSCALE)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
-        if self.config.config['PixelFormat'] == 'BAYER':
+        if self.config.get('PixelFormat') == 'BAYER':
             sensor.set_pixformat(sensor.BAYER)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.BAYER)
-        if self.config.config['PixelFormat'] == 'YUV422':
+        if self.config.get('PixelFormat') == 'YUV422':
             sensor.set_pixformat(sensor.YUV422)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.YUV422)
-        if self.config.config['PixelFormat'] == 'JPEG':
+        if self.config.get('PixelFormat') == 'JPEG':
             sensor.set_pixformat(sensor.JPEG)
             self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
 
-        if self.config.config['TrackFace']:
+        if self.config.get('TrackFace'):
             sensor.set_contrast(3)
             sensor.set_gainceiling(16)
             return
         
-        if self.config.config['Brightness']:
-            sensor.set_brightness(self.config.config['Brightness'])
-        if self.config.config['Contrast']:
-            sensor.set_contrast(self.config.config['Contrast'])
-        if self.config.config['Saturation']:
-            sensor.set_brightness(self.config.config['Saturation'])
-        if self.config.config['GainCeiling']:
-            sensor.set_gainceiling(self.config.config['GainCeiling'])
+        if self.config.get('Brightness'):
+            sensor.set_brightness(self.config.get('Brightness'))
+        if self.config.get('Contrast'):
+            sensor.set_contrast(self.config.get('Contrast'))
+        if self.config.get('Saturation'):
+            sensor.set_brightness(self.config.get('Saturation'))
+        if self.config.get('GainCeiling'):
+            sensor.set_gainceiling(self.config.get('GainCeiling'))
         
-        if self.config.config['AutoGain']:
+        if self.config.get('AutoGain'):
             sensor.set_auto_gain(True)
         else:
             sensor.set_auto_gain(False)
 #
-        if self.config.config['AutoExposure']:
+        if self.config.get('AutoExposure'):
             sensor.set_auto_exposure(True)
         else:
             sensor.set_auto_exposure(False)
@@ -103,10 +103,10 @@ class inspec_sensor:
             #try:
             self.img = sensor.snapshot()
 
-            if self.config.config['TrackFace']:
+            if self.config.get('TrackFace'):
                 self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
 
-            self.variance = self.img.variance(self.extra_fb, self.config.config['PixelThreshold'], self.config.config['PixelRange'], self.face.face_object)
+            self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
             if self.variance > 0:
                 self.total_variances = self.total_variances + self.variance
                 self.variances = self.variances + 1
@@ -114,7 +114,7 @@ class inspec_sensor:
 
             self.face.detect(self.img)
             
-            if self.config.config['AccessPoint'] or self.config.config['WiFi']:
+            if self.config.get('AccessPoint') or self.config.get('WiFi'):
                 self.manage_stream()
 
             self.detect()
@@ -179,18 +179,18 @@ class inspec_sensor:
             self.comms.disconnect()
         
     def detect(self):
-        if self.config.config['Algorithm'] == "Motion Detection":
+        if self.config.get('Algorithm') == "Motion Detection":
             self.detect_motion()
 
-        if self.config.config['Algorithm'] == "Face Detection":
+        if self.config.get('Algorithm') == "Face Detection":
             self.detect_face()
 
-        if self.config.config['Algorithm'] == "REM Detection":
+        if self.config.get('Algorithm') == "REM Detection":
             self.detect_rem()
 
     def detect_motion(self):
         motion = 0
-        if self.variance > self.config.config['TriggerThreshold']:
+        if self.variance > self.config.get('TriggerThreshold'):
             motion = 8
             self.lsd.add_image(self.img, motion)
             self.trigger()
@@ -222,7 +222,7 @@ class inspec_sensor:
 
     def trigger(self):
         now = utime.ticks_ms()
-        if (now - self.last_trigger > self.config.config['TimeBetweenTriggers']):
+        if (now - self.last_trigger > self.config.get('TimeBetweenTriggers')):
             print(f'{utime.time()} trigger')
             self.last_trigger = now
             self.led.blink()
@@ -236,14 +236,14 @@ class inspec_sensor:
         print("init stream")
 
         try:
-            if self.config.config['AccessPoint']:
+            if self.config.get('AccessPoint'):
                 print("init AP")
-                self.stream = inspec_stream("AccessPoint", self.config.config['AccessPointName'], self.config.config['AccessPointPassword'])
+                self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
 
-            print("WiFi", self.config.config['WiFi']) 
-            if self.config.config['WiFi']:
+            print("WiFi", self.config.get('WiFi')) 
+            if self.config.get('WiFi'):
                 print("init WiFi")
-                self.stream = inspec_stream("Station", self.config.config['WiFiNetworkName'], self.config.config['WiFiKey'])
+                self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
             else:
                 print("not wifi")
             print("inited stream")

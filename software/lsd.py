@@ -7,7 +7,7 @@ class lucid_scribe_data:
     def __init__(self, config):
         self.config = config
 
-        if self.config.config['CreateLogs']:
+        if self.config.get('CreateLogs'):
             self.create_lsd()
 
     def create_lsd(self):
@@ -45,13 +45,13 @@ class lucid_scribe_data:
         self.session_file = self.session_directory + "/session_" + str(vision_index) + ".LSD"
         self.lsd_file = open(self.session_file, 'w')
         self.lsd_file.write("INSPEC")
-        self.lsd_file.write("\r\n" + "Researcher:" + self.config.config['Researcher'])
+        self.lsd_file.write("\r\n" + "Researcher:" + self.config.get('Researcher'))
         self.lsd_file.close()
         self.lsd_values = "0"
         self.rem_values = "0"
 
     def log(self, variance, rem):
-        if self.config.config['CreateLogs'] != 1:
+        if self.config.get('CreateLogs') != 1:
             return
 
         now = utime.ticks_ms()
@@ -85,7 +85,7 @@ class lucid_scribe_data:
         self.lsd_file.close()
         
     def add_image(self, image, eye_movements):
-        if self.config.config['CreateLogs'] != 1:
+        if self.config.get('CreateLogs') != 1:
             return
             
         now = utime.ticks_ms()

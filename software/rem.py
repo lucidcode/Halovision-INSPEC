@@ -8,7 +8,7 @@ class rapid_eye_movement:
         self.last_eye_movement = utime.ticks_ms()
 
     def detect(self, variance):
-        if variance >= self.config.config['TossThreshold']:
+        if variance >= self.config.get('TossThreshold'):
             self.eye_movements = 0
             print("eye_movement", self.eye_movements)
 
@@ -18,10 +18,10 @@ class rapid_eye_movement:
                 self.eye_movements = self.eye_movements - 1
                 print("eye_movement", self.eye_movements)
 
-        if self.config.config['TrackFace'] and not self.face.has_face:
+        if self.config.get('TrackFace') and not self.face.has_face:
             return self.eye_movements
 
-        if variance >= self.config.config['TriggerThreshold']:
+        if variance >= self.config.get('TriggerThreshold'):
             if now - self.last_eye_movement > 1000:
                 if self.eye_movements < 8:
                     self.eye_movements = self.eye_movements + 1
