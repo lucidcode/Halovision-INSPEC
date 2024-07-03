@@ -17,16 +17,16 @@ class lights:
         self.processing = False
 
     def blink(self):
-        self.leds = self.config.config['LEDs']
+        self.leds = self.config.get('LEDs')
         
         if self.leds == "":
             return
         
-        self.flashes = self.config.config['LEDFlashes']
+        self.flashes = self.config.get('LEDFlashes')
         if self.flashes == 0:
             return
 
-        self.interval = self.config.config['LEDInterval']
+        self.interval = self.config.get('LEDInterval')
         self.iterations = 0
         self.state = 0
         self.last_flash = utime.ticks_ms() - self.interval
