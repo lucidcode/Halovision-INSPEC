@@ -7,25 +7,25 @@ class face_detection:
         self.config = config
         self.comms = comms
         self.has_face = False
-        self.face_cascade = image.HaarCascade("frontalface", stages=self.config.config['FaceStages'])
+        self.face_cascade = image.HaarCascade("frontalface", stages=self.config.get('FaceStages'))
         self.last_change = utime.ticks_ms() - 1000
         self.face_object = [0, 0, 1, 1]
         
         self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
 
     def detect(self, img):
-        if not self.config.config['TrackFace']:
+        if not self.config.get('TrackFace'):
             return
 
         now = utime.ticks_ms()
         has_face = False
-        face_objects = img.find_features(self.face_cascade, threshold=self.config.config['FaceThreshold'], scale_factor=self.config.config['FaceScaleFactor'])
+        face_objects = img.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale_factor=self.config.get('FaceScaleFactor'))
 
-        if len(face_objects) == 0 and self.config.config['FaceAngles']:
-            for angle in self.config.config['FaceAngles']:
+        if len(face_objects) == 0 and self.config.get('FaceAngles'):
+            for angle in self.config.get('FaceAngles'):
                 self.extra_fb.replace(img)
                 self.extra_fb.rotation_corr(x_rotation=0.0, y_rotation=0.0, z_rotation=angle)
-                face_objects = self.extra_fb.find_features(self.face_cascade, threshold=self.config.config['FaceThreshold'], scale_factor=self.config.config['FaceScaleFactor'])
+                face_objects = self.extra_fb.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale_factor=self.config.get('FaceScaleFactor'))
                 if face_objects:
                     break
 
@@ -39,7 +39,7 @@ class face_detection:
         
         if self.config.get('DrawFaceRegion'):
             if self.face_object[2] != img.width():
-                if self.config.config['PixelFormat'] == 'RGB565':
+                if self.config.get('PixelFormat') == 'RGB565':
                     img.draw_rectangle(self.face_object, color=(70, 130, 180))
                 else:
                     img.draw_rectangle(self.face_object)
