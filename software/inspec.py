@@ -100,43 +100,40 @@ class inspec_sensor:
 
     def monitor(self):
         while True:
-            #try:
-            self.img = sensor.snapshot()
+            try:
+                self.img = sensor.snapshot()
 
-            if self.config.get('TrackFace'):
-                self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
+                if self.config.get('TrackFace'):
+                    self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
 
-            self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
-            if self.variance > 0:
-                self.total_variances = self.total_variances + self.variance
-                self.variances = self.variances + 1
-            self.extra_fb.replace(self.img)
+                self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
+                if self.variance > 0:
+                    self.total_variances = self.total_variances + self.variance
+                    self.variances = self.variances + 1
+                self.extra_fb.replace(self.img)
 
-            self.face.detect(self.img)
-            
-            if self.config.get('AccessPoint') or self.config.get('WiFi'):
-                self.manage_stream()
+                self.face.detect(self.img)
+                self.detect()
+                self.send_stream()
+                self.led.process()
 
-            self.detect()
-            self.led.process()
+                if (utime.ticks_ms() - self.last_update > 128):
+                    average = 0
+                    if self.variances > 0:
+                        average = int(self.total_variances / self.variances)
 
-            if (utime.ticks_ms() - self.last_update > 128):
-                average = 0
-                if self.variances > 0:
-                    average = int(self.total_variances / self.variances)
+                    self.comms.send_data("variance", str(average))
+                    self.total_variances = 0
+                    self.variances = 0
+                    self.last_update = utime.ticks_ms()
 
-                self.comms.send_data("variance", str(average))
-                self.total_variances = 0
-                self.variances = 0
-                self.last_update = utime.ticks_ms()
-
-                if self.comms.sending_image or self.comms.sending_file:
-                    self.comms.process_file()
+                    if self.comms.sending_image or self.comms.sending_file:
+                        self.comms.process_file()
                 
-            #except Exception as e:
-            #    print(e)
-            #    if str(e) == "IDE interrupt":
-            #        break
+            except Exception as e:
+                print(e)
+                if str(e) == "IDE interrupt":
+                    break
 
     def ble_message_received(self, message):
         print("ble message", message)
@@ -162,15 +159,13 @@ class inspec_sensor:
             message = message.replace("update.setting.", "")
             setting, value = message.split(':')
 
-            if (setting == "AccessPoint" or setting == "WiFi") and value == "1" and self.stream == None:
-                self.init_stream()
-                print("self.stream", self.stream)
-                if self.stream != None:
-                    print("send ip", self.stream.ip)
-                    self.comms.send_data("ip", self.stream.ip)
-
             self.config.set(setting, value)
             self.config.save()
+
+            if (setting == "AccessPoint" or setting == "WiFi") and value == "1" and self.stream == None:
+                self.init_stream()
+                if self.stream != None:
+                    self.comms.send_data("ip", self.stream.ip)
 
             if self.config.is_sensor_setting(setting):
                 self.configure_sensor()
@@ -232,28 +227,22 @@ class inspec_sensor:
                 self.comms.send_image(self.img)
                 
     def init_stream(self):
-        self.stream = None
-        print("init stream")
-
         try:
             if self.config.get('AccessPoint'):
-                print("init AP")
                 self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
 
-            print("WiFi", self.config.get('WiFi')) 
             if self.config.get('WiFi'):
-                print("init WiFi")
                 self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
-            else:
-                print("not wifi")
-            print("inited stream")
                 
         except Exception as e:
-            print("init_stream error: " + str(e))
+            print("init_stream error: ", str(e))
             self.stream = None
 
-    def manage_stream(self):
+    def send_stream(self):
         if self.stream == None:
+            return
+
+        if not self.config.get('AccessPoint') and not self.config.get('WiFi'):
             return
 
         if not self.stream.connected:
