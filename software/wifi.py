@@ -40,9 +40,13 @@ class inspec_stream:
         self.wlan.active(True)
         self.wlan.connect(ssid=ssid, key=password)
         
+        attempts = 0
         while not self.wlan.isconnected():
             print("Connecting to " + ssid)
             time.sleep_ms(1000)
+            attempts = attempts + 1
+            if attempts > 10:
+                raise Exception("Failed to connect to " + ssid)
 
     def start_server(self):
         try:

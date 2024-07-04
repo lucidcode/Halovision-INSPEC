@@ -38,13 +38,8 @@ class inspec_sensor:
         self.last_trigger = utime.ticks_ms() - self.config.get('TimeBetweenTriggers')
         self.last_update = utime.ticks_ms()
 
-        self.stream = None
-        if self.config.get('AccessPoint'):
-            self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
-            
-        if self.config.get('WiFi'):
-            self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
-            
+        self.init_stream()
+
     def configure_sensor(self):
         sensor.reset()
         sensor.set_hmirror(True if self.config.get('HorizontalMirror') else False)
@@ -118,11 +113,8 @@ class inspec_sensor:
                 self.extra_fb.replace(self.img)
 
                 self.face.detect(self.img)
-                
-                if self.config.get('AccessPoint') or self.config.get('WiFi'):
-                    self.manage_stream()
-
                 self.detect()
+                self.send_stream()
                 self.led.process()
 
                 if (utime.ticks_ms() - self.last_update > 128):
@@ -142,16 +134,6 @@ class inspec_sensor:
                 print(e)
                 if str(e) == "IDE interrupt":
                     break
-
-    def manage_stream(self):
-        if not self.stream.connected:
-            self.stream.start_server()
-            if self.stream.error:
-                self.stream.error = None
-                self.comms.send_data("ip", self.stream.ip)
-        else:
-            self.stream.send_image(self.img)
-
 
     def ble_message_received(self, message):
         print("ble message", message)
@@ -177,16 +159,13 @@ class inspec_sensor:
             message = message.replace("update.setting.", "")
             setting, value = message.split(':')
 
-            if setting == "AccessPoint" and value == "1" and self.stream == None:
-                self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
-                self.comms.send_data("ip", self.stream.ip)
-
-            if setting == "WiFi" and value == "1" and self.stream == None:
-                self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
-                self.comms.send_data("ip", self.stream.ip)
-
             self.config.set(setting, value)
             self.config.save()
+
+            if (setting == "AccessPoint" or setting == "WiFi") and value == "1" and self.stream == None:
+                self.init_stream()
+                if self.stream != None:
+                    self.comms.send_data("ip", self.stream.ip)
 
             if self.config.is_sensor_setting(setting):
                 self.configure_sensor()
@@ -246,3 +225,30 @@ class inspec_sensor:
 
             if self.stream == None or not self.stream.connected:
                 self.comms.send_image(self.img)
+                
+    def init_stream(self):
+        try:
+            if self.config.get('AccessPoint'):
+                self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
+
+            if self.config.get('WiFi'):
+                self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
+                
+        except Exception as e:
+            print("init_stream error: ", str(e))
+            self.stream = None
+
+    def send_stream(self):
+        if self.stream == None:
+            return
+
+        if not self.config.get('AccessPoint') and not self.config.get('WiFi'):
+            return
+
+        if not self.stream.connected:
+            self.stream.start_server()
+            if self.stream.error:
+                self.stream.error = None
+                self.comms.send_data("ip", self.stream.ip)
+        else:
+            self.stream.send_image(self.img)
