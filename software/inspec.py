@@ -122,7 +122,9 @@ class inspec_sensor:
                     if self.variances > 0:
                         average = int(self.total_variances / self.variances)
 
-                    self.comms.send_data("variance", str(average))
+                    face = "1" if self.face.has_face else "0"
+                    data = f'{str(average)};{self.eye_movements};{face}'
+                    self.comms.send_data(data)
                     self.total_variances = 0
                     self.variances = 0
                     self.last_update = utime.ticks_ms()
@@ -139,12 +141,11 @@ class inspec_sensor:
         print("ble message", message)
 
         if message == "request.image":
-            self.comms.send_data("face", "1" if self.face.has_face else "0")
             self.comms.send_image(self.img)
 
         if message == "request.directories":
             directories = self.lsd.list_directories()
-            self.comms.send_data("directories", directories)
+            self.comms.send_data(f'directories:{directories}')
 
         if message.startswith("request.directory"):
             request, directory = message.split(':')
@@ -152,8 +153,7 @@ class inspec_sensor:
             self.comms.send_config(directory, config)
 
         if message == "request.ip" and not self.stream == None:
-            self.comms.send_data("ip", self.stream.ip)
-            self.comms.send_data("face", "1" if self.face.has_face else "0")
+            self.comms.send_data(f'ip:{self.stream.ip}')
 
         if message.startswith("update.setting."):
             message = message.replace("update.setting.", "")
@@ -165,7 +165,7 @@ class inspec_sensor:
             if (setting == "AccessPoint" or setting == "WiFi") and value == "1" and self.stream == None:
                 self.init_stream()
                 if self.stream != None:
-                    self.comms.send_data("ip", self.stream.ip)
+                    self.comms.send_data(f'ip:{self.stream.ip}')
 
             if self.config.is_sensor_setting(setting):
                 self.configure_sensor()
@@ -207,7 +207,6 @@ class inspec_sensor:
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements
-            self.comms.send_data("rem", str(eye_movements))
 
             if self.eye_movements >= 8:
                 self.trigger()
@@ -221,7 +220,7 @@ class inspec_sensor:
             print(f'{utime.time()} trigger')
             self.last_trigger = now
             self.led.blink()
-            self.comms.send_data("trigger", str(self.variance))
+            self.comms.send_data(f'trigger:{str(self.variance)}')
 
             if self.stream == None or not self.stream.connected:
                 self.comms.send_image(self.img)
@@ -249,6 +248,6 @@ class inspec_sensor:
             self.stream.start_server()
             if self.stream.error:
                 self.stream.error = None
-                self.comms.send_data("ip", self.stream.ip)
+                self.comms.send_data(f'ip:{self.stream.ip}')
         else:
             self.stream.send_image(self.img)

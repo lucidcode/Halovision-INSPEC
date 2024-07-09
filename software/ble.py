@@ -30,8 +30,6 @@ class inspec_comms:
         self.advertise()
 
         self.wait = 0
-        self.messages_sent = 0
-
         self.message_received = None
 
     def register(self):
@@ -80,16 +78,11 @@ class inspec_comms:
         )
         self.ble.gap_advertise(100, adv_data=self.payload)
 
-    def send_data(self, type, data):
+    def send_data(self, data):
         if self.sending_image:
             return
         if self.connected:
             for conn_handle in self._connections:
-                self.messages_sent = self.messages_sent + 1
-
-                if type != "variance":
-                    data = f'{type}:{data}'
-                
                 try:
                     self.ble.gatts_write(self.tx, data)
                     self.ble.gatts_notify(conn_handle, self.tx)
