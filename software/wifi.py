@@ -50,7 +50,7 @@ class inspec_stream:
             self.server.bind([host, port])
             self.server.listen(1)
 
-            print("Waiting for connection on " + self.ip)
+            print(f'Waiting for connection on {self.ip}:{port}')
 
         try:
             sockets, w, err = select.select((self.server,), (), (), 0)
