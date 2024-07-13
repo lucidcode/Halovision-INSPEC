@@ -18,20 +18,12 @@ class inspec_stream:
         self.ip = self.wlan.ifconfig()[0]
         print("IP", self.ip)
 
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+        self.server = None
 
-        host = ""
-        port = 8080
-        self.server.bind([host, port])
-        self.server.listen(1)
-
-        print("Waiting for connection on " + self.ip)
         self.start_server()
 
     def start_access_point(self, ssid, password):
         self.wlan = network.WLAN(network.AP_IF)
-        
         self.wlan.config(ssid=ssid, key=password, channel=2)
         self.wlan.active(True)
 
@@ -49,10 +41,21 @@ class inspec_stream:
                 raise Exception("Failed to connect to " + ssid)
 
     def start_server(self):
+        if self.server == None:
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+
+            host = ""
+            port = 8080
+            self.server.bind([host, port])
+            self.server.listen(1)
+
+            print(f'Waiting for connection on {self.ip}:{port}')
+
         try:
             sockets, w, err = select.select((self.server,), (), (), 0)
             if sockets:
-                for socket in sockets:
+                for entry in sockets:
                     self.client, self.addr = self.server.accept()
 
                     try:
