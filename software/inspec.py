@@ -36,6 +36,7 @@ class inspec_sensor:
 
         self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.get('TimeBetweenTriggers')
+        self.trigger_time = utime.ticks_ms() * 2
         self.last_update = utime.ticks_ms()
 
         self.init_stream()
@@ -116,6 +117,7 @@ class inspec_sensor:
                 self.detect()
                 self.send_stream()
                 self.led.process()
+                self.process_trigger()
 
                 if (utime.ticks_ms() - self.last_update > 128):
                     average = 0
@@ -216,14 +218,19 @@ class inspec_sensor:
 
     def trigger(self):
         now = utime.ticks_ms()
-        if (now - self.last_trigger > self.config.get('TimeBetweenTriggers')):
-            print(f'{utime.time()} trigger')
+        if now - self.last_trigger > self.config.get('TimeBetweenTriggers'):
             self.last_trigger = now
+            self.trigger_time = now + self.config.get('TriggerDelay')
+
+    def process_trigger(self):
+        now = utime.ticks_ms()
+        if self.trigger_time - now < 0:
+            self.trigger_time = utime.ticks_ms() * 2
             self.led.blink()
             self.comms.send_data(f'trigger:{str(self.variance)}')
 
             if self.stream == None or not self.stream.connected:
-                self.comms.send_image(self.img)
+                self.comms.send_image(self.img)        
                 
     def init_stream(self):
         try:
