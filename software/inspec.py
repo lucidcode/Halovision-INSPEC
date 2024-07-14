@@ -1,5 +1,6 @@
 import sensor
 import os
+import sys
 import ujson
 import machine
 import utime
@@ -36,7 +37,7 @@ class inspec_sensor:
 
         self.eye_movements = 0
         self.last_trigger = utime.ticks_ms() - self.config.get('TimeBetweenTriggers')
-        self.trigger_time = utime.ticks_ms() * 2
+        self.trigger_time = sys.maxsize
         self.last_update = utime.ticks_ms()
 
         self.init_stream()
@@ -225,7 +226,7 @@ class inspec_sensor:
     def process_trigger(self):
         now = utime.ticks_ms()
         if self.trigger_time - now < 0:
-            self.trigger_time = utime.ticks_ms() * 2
+            self.trigger_time = sys.maxsize
             self.led.blink()
             self.comms.send_data(f'trigger:{str(self.variance)}')
 
