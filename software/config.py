@@ -64,8 +64,11 @@ class inspec_config:
         print(self.config)
 
     def get(self, setting):
-        if self.config[setting] != None:
-            return self.config[setting]
+        try:
+            if self.config[setting] != None:
+                return self.config[setting]
+        except Exception as e:
+            print(str(e))
 
         if self.default[setting] != None:
             return self.default[setting]
