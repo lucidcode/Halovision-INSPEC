@@ -36,7 +36,7 @@ class inspec_sensor:
         machine.RTC().datetime((self.config.get('Year'), self.config.get('Month'), self.config.get('Day'), 0, 0, 0, 0, 0))
 
         self.eye_movements = 0
-        self.last_trigger = utime.ticks_ms() - self.config.get('TimeBetweenTriggers')
+        self.last_trigger = utime.ticks_ms() - self.config.get('TriggerInterval')
         self.trigger_time = sys.maxsize
         self.last_update = utime.ticks_ms()
 
@@ -219,7 +219,7 @@ class inspec_sensor:
 
     def trigger(self):
         now = utime.ticks_ms()
-        if now - self.last_trigger > self.config.get('TimeBetweenTriggers'):
+        if now - self.last_trigger > self.config.get('TriggerInterval'):
             self.last_trigger = now
             self.trigger_time = now + self.config.get('TriggerDelay')
 
