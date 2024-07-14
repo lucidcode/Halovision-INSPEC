@@ -25,6 +25,7 @@ class inspec_config:
         self.default['CreateLogs'] = 0
         self.default['TriggerThreshold'] = 32
         self.default['TossThreshold'] = 8000
+        self.default['TriggerDelay'] = 0
         self.default['TimeBetweenTriggers'] = 1000 * 60 * 1
         self.default['TimeBetweenTosses'] = 1000 * 60 * 5
         self.default['Year'] = 2024
