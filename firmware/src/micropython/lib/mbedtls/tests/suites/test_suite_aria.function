@@ -16,18 +16,10 @@
  * END_DEPENDENCIES
  */
 
-/* BEGIN_CASE */
-void aria_valid_param()
-{
-    TEST_VALID_PARAM(mbedtls_aria_free(NULL));
-}
-/* END_CASE */
-
-/* BEGIN_CASE depends_on:MBEDTLS_CHECK_PARAMS:!MBEDTLS_PARAM_FAILED_ALT */
+/* BEGIN_CASE depends_on:NOT_DEFINED */
 void aria_invalid_param()
 {
     mbedtls_aria_context ctx;
-    unsigned char key[128 / 8] = { 0 };
     unsigned char input[MBEDTLS_ARIA_BLOCKSIZE] = { 0 };
     unsigned char output[MBEDTLS_ARIA_BLOCKSIZE] = { 0 };
     unsigned char iv[MBEDTLS_ARIA_BLOCKSIZE] = { 0 };
@@ -35,169 +27,30 @@ void aria_invalid_param()
 
     ((void) iv_off);
     ((void) iv);
-
-    TEST_INVALID_PARAM(mbedtls_aria_init(NULL));
-
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_setkey_enc(NULL, key,
-                                                   sizeof(key)));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_setkey_enc(&ctx, NULL,
-                                                   sizeof(key)));
-
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_setkey_dec(NULL, key,
-                                                   sizeof(key)));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_setkey_dec(&ctx, NULL,
-                                                   sizeof(key)));
-
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ecb(NULL, input, output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ecb(&ctx, NULL, output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ecb(&ctx, input, NULL));
+    ((void) ctx);
+    ((void) input);
+    ((void) output);
 
 #if defined(MBEDTLS_CIPHER_MODE_CBC)
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cbc(NULL,
-                                                  MBEDTLS_ARIA_ENCRYPT,
-                                                  sizeof(input),
-                                                  iv,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cbc(&ctx,
-                                                  42 /* invalid mode */,
-                                                  sizeof(input),
-                                                  iv,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cbc(&ctx,
-                                                  MBEDTLS_ARIA_ENCRYPT,
-                                                  sizeof(input),
-                                                  NULL,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cbc(&ctx,
-                                                  MBEDTLS_ARIA_ENCRYPT,
-                                                  sizeof(input),
-                                                  iv,
-                                                  NULL,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cbc(&ctx,
-                                                  MBEDTLS_ARIA_ENCRYPT,
-                                                  sizeof(input),
-                                                  iv,
-                                                  input,
-                                                  NULL));
+    TEST_EQUAL(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
+               mbedtls_aria_crypt_cbc(&ctx,
+                                      42 /* invalid mode */,
+                                      sizeof(input),
+                                      iv,
+                                      input,
+                                      output));
 #endif /* MBEDTLS_CIPHER_MODE_CBC */
 
 #if defined(MBEDTLS_CIPHER_MODE_CFB)
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cfb128(NULL,
-                                                     MBEDTLS_ARIA_ENCRYPT,
-                                                     sizeof(input),
-                                                     &iv_off,
-                                                     iv,
-                                                     input,
-                                                     output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cfb128(&ctx,
-                                                     42, /* invalid mode */
-                                                     sizeof(input),
-                                                     &iv_off,
-                                                     iv,
-                                                     input,
-                                                     output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cfb128(&ctx,
-                                                     MBEDTLS_ARIA_ENCRYPT,
-                                                     sizeof(input),
-                                                     NULL,
-                                                     iv,
-                                                     input,
-                                                     output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cfb128(&ctx,
-                                                     MBEDTLS_ARIA_ENCRYPT,
-                                                     sizeof(input),
-                                                     &iv_off,
-                                                     NULL,
-                                                     input,
-                                                     output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cfb128(&ctx,
-                                                     MBEDTLS_ARIA_ENCRYPT,
-                                                     sizeof(input),
-                                                     &iv_off,
-                                                     iv,
-                                                     NULL,
-                                                     output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_cfb128(&ctx,
-                                                     MBEDTLS_ARIA_ENCRYPT,
-                                                     sizeof(input),
-                                                     &iv_off,
-                                                     iv,
-                                                     input,
-                                                     NULL));
+    TEST_EQUAL(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
+               mbedtls_aria_crypt_cfb128(&ctx,
+                                         42,            /* invalid mode */
+                                         sizeof(input),
+                                         &iv_off,
+                                         iv,
+                                         input,
+                                         output));
 #endif /* MBEDTLS_CIPHER_MODE_CFB */
-
-#if defined(MBEDTLS_CIPHER_MODE_CTR)
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ctr(NULL,
-                                                  sizeof(input),
-                                                  &iv_off,
-                                                  iv,
-                                                  iv,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ctr(&ctx,
-                                                  sizeof(input),
-                                                  NULL,
-                                                  iv,
-                                                  iv,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ctr(&ctx,
-                                                  sizeof(input),
-                                                  &iv_off,
-                                                  NULL,
-                                                  iv,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ctr(&ctx,
-                                                  sizeof(input),
-                                                  &iv_off,
-                                                  iv,
-                                                  NULL,
-                                                  input,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ctr(&ctx,
-                                                  sizeof(input),
-                                                  &iv_off,
-                                                  iv,
-                                                  iv,
-                                                  NULL,
-                                                  output));
-    TEST_INVALID_PARAM_RET(MBEDTLS_ERR_ARIA_BAD_INPUT_DATA,
-                           mbedtls_aria_crypt_ctr(&ctx,
-                                                  sizeof(input),
-                                                  &iv_off,
-                                                  iv,
-                                                  iv,
-                                                  input,
-                                                  NULL));
-#endif /* MBEDTLS_CIPHER_MODE_CTR */
 
 exit:
     return;
@@ -224,8 +77,8 @@ void aria_encrypt_ecb(data_t *key_str, data_t *src_str,
                                                output + i) == 0);
         }
 
-        ASSERT_COMPARE(output, expected_output->len,
-                       expected_output->x, expected_output->len);
+        TEST_MEMORY_COMPARE(output, expected_output->len,
+                            expected_output->x, expected_output->len);
     }
 
 exit:
@@ -252,8 +105,8 @@ void aria_decrypt_ecb(data_t *key_str, data_t *src_str,
                                                output + i) == 0);
         }
 
-        ASSERT_COMPARE(output, expected_output->len,
-                       expected_output->x, expected_output->len);
+        TEST_MEMORY_COMPARE(output, expected_output->len,
+                            expected_output->x, expected_output->len);
     }
 
 exit:
@@ -277,8 +130,8 @@ void aria_encrypt_cbc(data_t *key_str, data_t *iv_str,
                                        src_str->len, iv_str->x, src_str->x,
                                        output) == cbc_result);
     if (cbc_result == 0) {
-        ASSERT_COMPARE(output, expected_output->len,
-                       expected_output->x, expected_output->len);
+        TEST_MEMORY_COMPARE(output, expected_output->len,
+                            expected_output->x, expected_output->len);
     }
 
 exit:
@@ -302,8 +155,8 @@ void aria_decrypt_cbc(data_t *key_str, data_t *iv_str,
                                        src_str->len, iv_str->x, src_str->x,
                                        output) == cbc_result);
     if (cbc_result == 0) {
-        ASSERT_COMPARE(output, expected_output->len,
-                       expected_output->x, expected_output->len);
+        TEST_MEMORY_COMPARE(output, expected_output->len,
+                            expected_output->x, expected_output->len);
     }
 
 exit:
@@ -329,8 +182,8 @@ void aria_encrypt_cfb128(data_t *key_str, data_t *iv_str,
                                           iv_str->x, src_str->x, output)
                 == result);
 
-    ASSERT_COMPARE(output, expected_output->len,
-                   expected_output->x, expected_output->len);
+    TEST_MEMORY_COMPARE(output, expected_output->len,
+                        expected_output->x, expected_output->len);
 
 exit:
     mbedtls_aria_free(&ctx);
@@ -355,8 +208,8 @@ void aria_decrypt_cfb128(data_t *key_str, data_t *iv_str,
                                           iv_str->x, src_str->x, output)
                 == result);
 
-    ASSERT_COMPARE(output, expected_output->len,
-                   expected_output->x, expected_output->len);
+    TEST_MEMORY_COMPARE(output, expected_output->len,
+                        expected_output->x, expected_output->len);
 
 exit:
     mbedtls_aria_free(&ctx);
@@ -381,8 +234,8 @@ void aria_encrypt_ctr(data_t *key_str, data_t *iv_str,
                                        iv_str->x, blk, src_str->x, output)
                 == result);
 
-    ASSERT_COMPARE(output, expected_output->len,
-                   expected_output->x, expected_output->len);
+    TEST_MEMORY_COMPARE(output, expected_output->len,
+                        expected_output->x, expected_output->len);
 
 exit:
     mbedtls_aria_free(&ctx);
@@ -407,8 +260,8 @@ void aria_decrypt_ctr(data_t *key_str, data_t *iv_str,
                                        iv_str->x, blk, src_str->x, output)
                 == result);
 
-    ASSERT_COMPARE(output, expected_output->len,
-                   expected_output->x, expected_output->len);
+    TEST_MEMORY_COMPARE(output, expected_output->len,
+                        expected_output->x, expected_output->len);
 
 exit:
     mbedtls_aria_free(&ctx);

@@ -2,13 +2,13 @@
 SYSTEM    ?= nrf/system_nrf52840
 STARTUP   ?= nrf/startup_$(shell echo $(MCU) | tr '[:upper:]' '[:lower:]')
 LDSCRIPT  ?= nrf52xxx
-SD_DIR     = $(TOP_DIR)/drivers/nrf
+export SD_DIR = $(TOP_DIR)/drivers/nrf
 
 # Compiler Flags
 CFLAGS += -std=gnu99 -Wall -Werror -Warray-bounds -mthumb -nostartfiles -fdata-sections -ffunction-sections
-CFLAGS += -D$(MCU) -D$(CFLAGS_MCU) -D$(ARM_MATH) -DARM_NN_TRUNCATE -D__FPU_PRESENT=1 -D__VFP_FP__ -D$(TARGET)\
+CFLAGS += -D$(MCU) -D$(CFLAGS_MCU) -DARM_NN_TRUNCATE -D__FPU_PRESENT=1 -D__VFP_FP__ -D$(TARGET)\
           -fsingle-precision-constant -Wdouble-promotion -mcpu=$(CPU) -mtune=$(CPU) -mfpu=$(FPU) -mfloat-abi=hard\
-          -DCMSIS_MCU_H=$(CMSIS_MCU_H)
+          -DCMSIS_MCU_H=$(CMSIS_MCU_H) -DMP_PORT_NO_SOFTTIMER
 CFLAGS += $(OMV_BOARD_EXTRA_CFLAGS)
 
 # Disable LTO and set the SD
@@ -63,12 +63,21 @@ OMV_CFLAGS += -I$(TOP_DIR)/$(LIBPDM_DIR)/
 CFLAGS += $(HAL_CFLAGS) $(MPY_CFLAGS) $(OMV_CFLAGS)
 
 # Linker Flags
-LDFLAGS = -mcpu=$(CPU) -mabi=aapcs-linux -mthumb -mfpu=$(FPU) -mfloat-abi=hard\
-          -nostdlib -Wl,--gc-sections -Wl,-T$(BUILD)/$(LDSCRIPT).lds \
-          -Wl,--wrap=tud_cdc_rx_cb -Wl,--wrap=mp_hal_stdout_tx_strn
-
-#------------- Libraries ----------------#
-LIBS += $(TOP_DIR)/$(TENSORFLOW_DIR)/$(CPU)/libtf*.a
+LDFLAGS = -mcpu=$(CPU) \
+          -mabi=aapcs-linux \
+          -mthumb \
+          -mfpu=$(FPU) \
+          -mfloat-abi=hard \
+          -nostdlib \
+          -Wl,--gc-sections \
+          -Wl,--print-memory-usage \
+          -Wl,--wrap=mp_usbd_task \
+          -Wl,--wrap=tud_cdc_rx_cb \
+          -Wl,--wrap=mp_hal_stdio_poll \
+          -Wl,--wrap=mp_hal_stdout_tx_strn \
+          -Wl,--no-warn-rwx-segment \
+          -Wl,-Map=$(BUILD)/$(FIRMWARE).map \
+          -Wl,-T$(BUILD)/$(LDSCRIPT).lds
 
 #------------- Firmware Objects ----------------#
 FIRM_OBJ += $(wildcard $(BUILD)/$(CMSIS_DIR)/src/dsp/CommonTables/*.o)
@@ -110,7 +119,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	usbdbg.o                    \
 	tinyusb_debug.o             \
 	file_utils.o                \
-	boot_utils.o                \
+	mp_utils.o                  \
 	sensor_utils.o              \
    )
 
@@ -169,7 +178,6 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/imlib/, \
 	orb.o                       \
 	phasecorrelation.o          \
 	point.o                     \
-	pool.o                      \
 	ppm.o                       \
 	qrcode.o                    \
 	qsort.o                     \
@@ -232,7 +240,8 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/extmod/,\
 	modheapq.o          \
 	modbinascii.o       \
 	modrandom.o         \
-	modtime.o           \
+    modtime.o           \
+	modvfs.o            \
 	os_dupterm.o        \
 	modmachine.o        \
 	modos.o             \
@@ -324,62 +333,42 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/modules/,\
 	)
 
 ifeq ($(MICROPY_PY_ULAB), 1)
-FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/modules/ulab/,\
-	code/ndarray.o                      \
-	code/ndarray_operators.o            \
-	code/ndarray_properties.o           \
-	code/numpy/approx.o                 \
-	code/numpy/carray/carray.o          \
-	code/numpy/carray/carray_tools.o    \
-	code/numpy/compare.o                \
-	code/numpy/create.o                 \
-	code/numpy/fft/fft.o                \
-	code/numpy/fft/fft_tools.o          \
-	code/numpy/filter.o                 \
-	code/numpy/io/io.o                  \
-	code/numpy/linalg/linalg.o          \
-	code/numpy/linalg/linalg_tools.o    \
-	code/numpy/ndarray/ndarray_iter.o   \
-	code/numpy/numerical.o              \
-	code/numpy/numpy.o                  \
-	code/numpy/poly.o                   \
-	code/numpy/stats.o                  \
-	code/numpy/transform.o              \
-	code/numpy/vector.o                 \
-	code/scipy/linalg/linalg.o          \
-	code/scipy/optimize/optimize.o      \
-	code/scipy/scipy.o                  \
-	code/scipy/signal/signal.o          \
-	code/scipy/special/special.o        \
-	code/ulab.o                         \
-	code/ulab_tools.o                   \
-	code/user/user.o                    \
-	code/utils/utils.o                  \
+FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/modules/ulab/code/,\
+	ndarray.o                       \
+	ndarray_operators.o             \
+	ndarray_properties.o            \
+	numpy/approx.o                  \
+	numpy/bitwise.o                 \
+	numpy/carray/carray.o           \
+	numpy/carray/carray_tools.o     \
+	numpy/compare.o                 \
+	numpy/create.o                  \
+	numpy/fft/fft.o                 \
+	numpy/fft/fft_tools.o           \
+	numpy/filter.o                  \
+	numpy/io/io.o                   \
+	numpy/linalg/linalg.o           \
+	numpy/linalg/linalg_tools.o     \
+	numpy/ndarray/ndarray_iter.o    \
+	numpy/numerical.o               \
+	numpy/numpy.o                   \
+	numpy/poly.o                    \
+	numpy/random/random.o           \
+	numpy/stats.o                   \
+	numpy/transform.o               \
+	numpy/vector.o                  \
+	scipy/linalg/linalg.o           \
+	scipy/optimize/optimize.o       \
+	scipy/scipy.o                   \
+	scipy/signal/signal.o           \
+	scipy/special/special.o         \
+	ulab.o                          \
+	ulab_tools.o                    \
+	user/user.o                     \
+	utils/utils.o                   \
 	)
 endif
 
-###################################################
-#Export Variables
-export Q
-export CC
-export AS
-export LD
-export AR
-export SIZE
-export OBJCOPY
-export OBJDUMP
-export MKDIR
-export ECHO
-export CFLAGS
-export LDFLAGS
-export TOP_DIR
-export BUILD
-export TARGET
-export STARTUP
-export SYSTEM
-export FROZEN_MANIFEST
-export PORT
-export SD_DIR
 ###################################################
 all: $(OPENMV)
 
@@ -399,7 +388,8 @@ FIRMWARE_OBJS: | $(BUILD) $(FW_DIR)
 	$(MAKE)  -C $(OMV_DIR)                   BUILD=$(BUILD)/$(OMV_DIR)      CFLAGS="$(CFLAGS) -MMD"
 
 $(FIRMWARE): FIRMWARE_OBJS
-	$(CPP) -P -E -I$(OMV_BOARD_CONFIG_DIR) $(OMV_DIR)/ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
+	$(CPP) -P -E -I$(OMV_COMMON_DIR) -I$(OMV_BOARD_CONFIG_DIR) \
+                   $(OMV_DIR)/ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
 	$(CC) $(LDFLAGS) $(FIRM_OBJ) -o $(FW_DIR)/$(FIRMWARE).elf $(LIBS) -lgcc
 	$(OBJCOPY) -Oihex   $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).hex
 	$(OBJCOPY) -Obinary $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).bin

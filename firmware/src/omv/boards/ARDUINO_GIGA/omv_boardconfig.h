@@ -36,6 +36,12 @@
 #define OMV_OV7670_CLKRC                    (0)
 
 #define OMV_GC2145_ENABLE                   (1)
+#define OMV_GC2145_ROTATE                   (1)
+
+#define OMV_HM01B0_ENABLE                   (1)
+#define OMV_HM0360_ENABLE                   (1)
+#define OMV_HM0360_XCLK_FREQ                (24000000)
+#define OMV_HM0360_PLL1_CONFIG              (0x04)
 
 // FIR sensor drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE             (1)
@@ -103,27 +109,33 @@
 // Linker script constants (see the linker script template stm32fxxx.ld.S).
 // Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
 // The maximum available fb_alloc memory = FB_ALLOC_SIZE + FB_SIZE - (w*h*bpp).
-#define OMV_MAIN_MEMORY                     SRAM1    // data, bss and heap
+#define OMV_MAIN_MEMORY                     AXI_SRAM // Data, BSS memory.
 #define OMV_STACK_MEMORY                    DTCM    // stack memory
-#define OMV_DMA_MEMORY                      SRAM3    // DMA buffers memory.
-#define OMV_FB_MEMORY                       DRAM    // Framebuffer, fb_alloc
-#define OMV_JPEG_MEMORY                     DRAM    // JPEG buffer memory buffer.
-#define OMV_JPEG_MEMORY_OFFSET              (7M)    // JPEG buffer is placed after FB/fballoc memory.
-#define OMV_VOSPI_MEMORY                    SRAM4    // VoSPI buffer memory.
-#define OMV_VOSPI_MEMORY_OFFSET             (20K) // SRAM4 reserves 16K for CM4 + 4K D3 DMA buffers.
-#define OMV_FB_OVERLAY_MEMORY               AXI_SRAM    // Fast fb_alloc memory.
-
-#define OMV_FB_SIZE                         (4M)    // FB memory: header + VGA/GS image
-#define OMV_FB_ALLOC_SIZE                   (3M)    // minimum fb alloc size
-#define OMV_FB_OVERLAY_SIZE                 (480 * 1024)    // Fast fb_alloc memory size.
 #define OMV_STACK_SIZE                      (64K)
-#define OMV_HEAP_SIZE                       (199K)
-#define OMV_SDRAM_SIZE                      (8 * 1024 * 1024)    // This needs to be here for UVC firmware.
-
-#define OMV_LINE_BUF_SIZE                   (11 * 1024)    // Image line buffer round(2592 * 2BPP * 2 buffers).
+#define OMV_FB_MEMORY                       DRAM    // Framebuffer, fb_alloc
+#define OMV_FB_SIZE                         (3M)    // FB memory: header + VGA/GS image
+#define OMV_FB_ALLOC_SIZE                   (1M)    // minimum fb alloc size
+#define OMV_FB_OVERLAY_MEMORY               AXI_SRAM    // Fast fb_alloc memory.
+#define OMV_FB_OVERLAY_SIZE                 (450K)  // Fast fb_alloc memory size.
+#define OMV_JPEG_MEMORY                     DRAM    // JPEG buffer memory buffer.
+#define OMV_JPEG_SIZE                       (1024 * 1024)    // IDE JPEG buffer (header + data).
+#define OMV_VOSPI_MEMORY                    DTCM    // VoSPI buffer memory.
+#define OMV_VOSPI_SIZE                      (38K)
+#define OMV_DMA_MEMORY                      SRAM3   // Misc DMA buffers memory.
+#define OMV_DMA_MEMORY_D1                   AXI_SRAM // Domain 1 DMA buffers.
+#define OMV_DMA_MEMORY_D2                   SRAM3   // Domain 2 DMA buffers.
+#define OMV_OPENAMP_MEMORY                  SRAM4
+#define OMV_OPENAMP_SIZE                    (64K)
+#define OMV_CORE1_MEMORY                    DRAM
+#define OMV_CORE1_SIZE                      (512K)
+#define OMV_GC_BLOCK0_MEMORY                SRAM1   // Main GC block.
+#define OMV_GC_BLOCK0_SIZE                  (256K)
+#define OMV_GC_BLOCK1_MEMORY                DRAM    // Extra GC block 1.
+#define OMV_GC_BLOCK1_SIZE                  (2560K)
 #define OMV_MSC_BUF_SIZE                    (2K)    // USB MSC bot data
 #define OMV_VFS_BUF_SIZE                    (1K)    // VFS struct + FATFS file buffer (624 bytes)
-#define OMV_JPEG_BUF_SIZE                   (1024 * 1024)    // IDE JPEG buffer (header + data).
+#define OMV_SDRAM_SIZE                      (8 * 1024 * 1024)   // This needs to be here for UVC firmware.
+#define OMV_LINE_BUF_SIZE                   (11 * 1024) // Image line buffer round(2592 * 2BPP * 2 buffers).
 
 // Memory map.
 #define OMV_FLASH_ORIGIN                    0x08000000
@@ -140,8 +152,6 @@
 #define OMV_AXI_SRAM_LENGTH                 512K
 #define OMV_DRAM_ORIGIN                     0xC0000000
 #define OMV_DRAM_LENGTH                     8M
-#define OMV_CM4_RAM_ORIGIN                  0x38000000 // Cortex-M4 memory @SRAM4.
-#define OMV_CM4_RAM_LENGTH                  16K
 
 // Flash configuration.
 #define OMV_FLASH_FFS_ORIGIN                0x08020000
@@ -150,26 +160,6 @@
 #define OMV_FLASH_TXT_LENGTH                1792K
 #define OMV_FLASH_EXT_ORIGIN                0x90000000
 #define OMV_FLASH_EXT_LENGTH                16M
-#define OMV_CM4_FLASH_ORIGIN                0x08020000
-#define OMV_CM4_FLASH_LENGTH                128K
-
-// Domain 1 DMA buffers region.
-#define OMV_DMA_MEMORY_D1                   AXI_SRAM
-#define OMV_DMA_MEMORY_D1_SIZE              (8 * 1024)    // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D1_BASE              (OMV_AXI_SRAM_ORIGIN + OMV_FB_OVERLAY_SIZE)
-#define OMV_DMA_REGION_D1_SIZE              MPU_REGION_SIZE_32KB
-
-// Domain 2 DMA buffers region.
-#define OMV_DMA_MEMORY_D2                   SRAM3
-#define OMV_DMA_MEMORY_D2_SIZE              (4 * 1024)    // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D2_BASE              (OMV_SRAM3_ORIGIN + (0 * 1024))
-#define OMV_DMA_REGION_D2_SIZE              MPU_REGION_SIZE_32KB
-
-// Domain 3 DMA buffers region.
-#define OMV_DMA_MEMORY_D3                   SRAM4
-#define OMV_DMA_MEMORY_D3_SIZE              (4 * 1024)    // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D3_BASE              (OMV_SRAM4_ORIGIN + (16 * 1024))
-#define OMV_DMA_REGION_D3_SIZE              MPU_REGION_SIZE_4KB
 
 // MDMA configuration
 #define OMV_MDMA_CHANNEL_DCMI_0             (0)
@@ -221,7 +211,7 @@
 #define OMV_CSI_HSYNC_PIN                   (&omv_pin_H8_DCMI)
 #define OMV_CSI_VSYNC_PIN                   (&omv_pin_I5_DCMI)
 #define OMV_CSI_PXCLK_PIN                   (&omv_pin_A6_DCMI)
-//#define OMV_CSI_RESET_PIN                   (&omv_pin_A1_GPIO)
+#define OMV_CSI_RESET_PIN                   (&omv_pin_A1_GPIO)
 #define OMV_CSI_POWER_PIN                   (&omv_pin_D4_GPIO)
 
 // Physical I2C buses.

@@ -3,34 +3,22 @@
  * \brief PSA crypto random generator implementation abstraction.
  *
  * The definitions here need to be consistent with the declarations
- * in include/mbedtls/psa_util.h. This file contains some redundant
+ * in include/psa_util_internal.h. This file contains some redundant
  * declarations to increase the chance that a compiler will detect
  * inconsistencies if one file is changed without updating the other,
  * but not all potential inconsistencies can be enforced, so make sure
  * to check the public declarations and contracts in
- * include/mbedtls/psa_util.h if you modify this file.
+ * include/psa_util_internal.h if you modify this file.
  */
 /*
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
 #ifndef PSA_CRYPTO_RANDOM_IMPL_H
 #define PSA_CRYPTO_RANDOM_IMPL_H
 
-#include <mbedtls/psa_util.h>
+#include "psa_util_internal.h"
 
 #if defined(MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG)
 
@@ -62,7 +50,7 @@ int mbedtls_psa_get_random(void *p_rng,
 #elif defined(MBEDTLS_HMAC_DRBG_C)
 
 #include "mbedtls/hmac_drbg.h"
-#if defined(MBEDTLS_SHA512_C) && defined(MBEDTLS_SHA256_C)
+#if defined(MBEDTLS_MD_CAN_SHA512) && defined(MBEDTLS_MD_CAN_SHA256)
 #include <limits.h>
 #if SIZE_MAX > 0xffffffff
 /* Looks like a 64-bit system, so prefer SHA-512. */
@@ -71,9 +59,9 @@ int mbedtls_psa_get_random(void *p_rng,
 /* Looks like a 32-bit system, so prefer SHA-256. */
 #define MBEDTLS_PSA_HMAC_DRBG_MD_TYPE MBEDTLS_MD_SHA256
 #endif
-#elif defined(MBEDTLS_SHA512_C)
+#elif defined(MBEDTLS_MD_CAN_SHA512)
 #define MBEDTLS_PSA_HMAC_DRBG_MD_TYPE MBEDTLS_MD_SHA512
-#elif defined(MBEDTLS_SHA256_C)
+#elif defined(MBEDTLS_MD_CAN_SHA256)
 #define MBEDTLS_PSA_HMAC_DRBG_MD_TYPE MBEDTLS_MD_SHA256
 #else
 #error "No hash algorithm available for HMAC_DBRG."
@@ -123,7 +111,7 @@ typedef struct {
     mbedtls_psa_drbg_context_t drbg;
 } mbedtls_psa_random_context_t;
 
-/* Defined in include/mbedtls/psa_util.h so that it's visible to
+/* Defined in include/psa_util_internal.h so that it's visible to
  * application code. The declaration here is redundant, but included
  * as a safety net to make it more likely that a future change that
  * accidentally causes the implementation to diverge from the interface
@@ -154,7 +142,7 @@ static mbedtls_f_rng_t *const mbedtls_psa_get_random;
 /* psa_crypto.c sets this variable to a pointer to the DRBG state in the
  * global PSA crypto state. */
 /* The type `mbedtls_psa_drbg_context_t` is defined in
- * include/mbedtls/psa_util.h so that `mbedtls_psa_random_state` can be
+ * include/psa_util_internal.h so that `mbedtls_psa_random_state` can be
  * declared there and be visible to application code. */
 extern mbedtls_psa_drbg_context_t *const mbedtls_psa_random_state;
 

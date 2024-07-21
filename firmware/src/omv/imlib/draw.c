@@ -89,21 +89,28 @@ static void point_fill(image_t *img, int cx, int cy, int r0, int r1, int c) {
 }
 
 static void imlib_set_pixel_aa(image_t *img, int x, int y, int err, int c) {
-    // float alpha = 1 - err / 256.0;
-    void *row_ptr = imlib_compute_row_ptr(img, y);
-    int old_c = imlib_get_pixel_fast(img, row_ptr, x);
-    int new_c;
+    if (!((0 <= x) && (x < img->w) && (0 <= y) && (y < img->h))) {
+        return;
+    }
 
     switch (img->pixfmt) {
         case PIXFORMAT_BINARY: {
-            new_c = c;
+            uint32_t *ptr = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(img, y);
+            int old_c = IMAGE_GET_BINARY_PIXEL_FAST(ptr, x);
+            int new_c = (((old_c - c) * err) >> 8) + c;
+            IMAGE_PUT_BINARY_PIXEL_FAST(ptr, x, new_c);
             break;
         }
         case PIXFORMAT_GRAYSCALE: {
-            new_c = (((old_c - c) * err) >> 8) + c;
+            uint8_t *ptr = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(img, y);
+            int old_c = IMAGE_GET_GRAYSCALE_PIXEL_FAST(ptr, x);
+            int new_c = (((old_c - c) * err) >> 8) + c;
+            IMAGE_PUT_GRAYSCALE_PIXEL_FAST(ptr, x, new_c);
             break;
         }
         case PIXFORMAT_RGB565: {
+            uint16_t *ptr = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(img, y);
+            int old_c = IMAGE_GET_RGB565_PIXEL_FAST(ptr, x);
             int old_r8 = COLOR_RGB565_TO_R8(old_c);
             int old_g8 = COLOR_RGB565_TO_G8(old_c);
             int old_b8 = COLOR_RGB565_TO_B8(old_c);
@@ -116,15 +123,14 @@ static void imlib_set_pixel_aa(image_t *img, int x, int y, int err, int c) {
             int new_g8 = (((old_g8 - g8) * err) >> 8) + g8;
             int new_b8 = (((old_b8 - b8) * err) >> 8) + b8;
 
-            new_c = COLOR_R8_G8_B8_TO_RGB565(new_r8, new_g8, new_b8);
+            int new_c = COLOR_R8_G8_B8_TO_RGB565(new_r8, new_g8, new_b8);
+            IMAGE_PUT_RGB565_PIXEL_FAST(ptr, x, new_c);
             break;
         }
         default: {
-            // This shouldn't happen, at least we return a valid memory block
-            return;
+            break;
         }
     }
-    imlib_set_pixel(img, x, y, new_c);
 }
 
 // https://gist.github.com/randvoorhies/807ce6e20840ab5314eb7c547899de68#file-bresenham-js-L381
@@ -135,7 +141,7 @@ static void imlib_draw_thin_line(image_t *img, int x0, int y0, int x1, int y1, i
     const int sy = y0 < y1 ? 1 : -1;
     int err = dx - dy;
     int e2, x2; // error value e_xy
-    int ed = dx + dy == 0 ? 1 : fast_sqrtf(dx * dx + dy * dy);
+    int ed = dx + dy == 0 ? 1 : fast_floorf(fast_sqrtf(dx * dx + dy * dy));
 
     for (;;) {
         // pixel loop
@@ -169,7 +175,6 @@ static void imlib_draw_thin_line(image_t *img, int x0, int y0, int x1, int y1, i
 
 // https://gist.github.com/randvoorhies/807ce6e20840ab5314eb7c547899de68#file-bresenham-js-L813
 void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th) {
-
     line_t line = {x0, y0, x1, y1};
     if (!lb_clip_line(&line, 0, 0, img->w, img->h)) {
         return;
@@ -180,20 +185,17 @@ void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th
     x1 = line.x2;
     y1 = line.y2;
 
-    int r = th / 2;
-    point_fill(img, x0, y0, -r, r, c); // add round at start
-    point_fill(img, x1, y1, -r, r, c); // add round at end
-
     // plot an anti-aliased line of width th pixel
     const int ex = abs(x1 - x0);
     const int sx = x0 < x1 ? 1 : -1;
     const int ey = abs(y1 - y0);
     const int sy = y0 < y1 ? 1 : -1;
-    int e2 = fast_sqrtf(ex * ex + ey * ey); // length
+    int e2 = fast_floorf(fast_sqrtf(ex * ex + ey * ey)); // length
 
     if (th <= 1 || e2 == 0) {
         return imlib_draw_thin_line(img, x0, y0, x1, y1, c); // assert
     }
+
     int dx = ex * 256 / e2;
     int dy = ey * 256 / e2;
     th = 256 * (th - 1); // scale values
@@ -201,7 +203,7 @@ void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th
     if (dx < dy) {
         // steep line
         x1 = (e2 + th / 2) / dy; // start offset
-        int err = x1 * dy - th / 2;   // shift error value to offset width
+        int err = x1 * dy - th / 2; // shift error value to offset width
         for (x0 -= x1 * sx;; y0 += sy) {
             x1 = x0;
             imlib_set_pixel_aa(img, x1, y0, err, c); // aliasing pre-pixel
@@ -222,7 +224,7 @@ void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th
     } else {
         // flat line
         y1 = (e2 + th / 2) / dx; // start offset
-        int err = y1 * dx - th / 2;   // shift error value to offset width
+        int err = y1 * dx - th / 2; // shift error value to offset width
         for (y0 -= y1 * sy;; x0 += sx) {
             y1 = y0;
             imlib_set_pixel_aa(img, x0, y1, err, c); // aliasing pre-pixel
@@ -280,11 +282,69 @@ void imlib_draw_rectangle(image_t *img, int rx, int ry, int rw, int rh, int c, i
     }
 }
 
+// https://gist.github.com/randvoorhies/807ce6e20840ab5314eb7c547899de68#file-bresenham-js-L404
+static void imlib_draw_circle_thin(image_t *img, int cx, int cy, int r, int c, bool fill) {
+    int x = r;
+    int y = 0; // II. quadrant from bottom left to top right
+    int err = 2 - (2 * r); // error of 1.step
+    r = 1 - err;
+    for (;;) {
+        int i = 256 * abs(err + (2 * (x + y)) - 2) / r; // get blend value of pixel
+        imlib_set_pixel_aa(img, cx + x, cy - y, i, c); // I. Quadrant
+        imlib_set_pixel_aa(img, cx + y, cy + x, i, c); // II. Quadrant
+        imlib_set_pixel_aa(img, cx - x, cy + y, i, c); // III. Quadrant
+        imlib_set_pixel_aa(img, cx - y, cy - x, i, c); // IV. Quadrant
+        if (fill) {
+            xLine(img, cx,         cx + x - 1, cy - y,     c);
+            yLine(img, cx + y,     cy,         cy + x - 1, c);
+            xLine(img, cx - x + 1, cx,         cy + y,     c);
+            yLine(img, cx - y,     cy - x + 1, cy,         c);
+        }
+        if (x == 0) {
+            break;
+        }
+        int e2 = err;
+        int x2 = x; // remember values
+        if (err > y) {
+            // x step
+            i = 256 * (err + (2 * x) - 1) / r; // outward pixel
+            if (i < 256) {
+                imlib_set_pixel_aa(img, cx + x,     cy - y + 1, i, c);
+                imlib_set_pixel_aa(img, cx + y - 1, cy + x,     i, c);
+                imlib_set_pixel_aa(img, cx - x,     cy + y - 1, i, c);
+                imlib_set_pixel_aa(img, cx - y + 1, cy - x,     i, c);
+            }
+            err -= (--x * 2) - 1;
+        }
+        if (e2 <= x2--) {
+            // y step
+            if (!fill) {
+                i = 256 * (1 - (2 * y) - e2) / r; // inward pixel
+                if (i < 256) {
+                    imlib_set_pixel_aa(img, cx + x2, cy - y,      i, c);
+                    imlib_set_pixel_aa(img, cx + y,  cy + x2, i, c);
+                    imlib_set_pixel_aa(img, cx - x2, cy + y,      i, c);
+                    imlib_set_pixel_aa(img, cx - y,  cy - x2, i, c);
+                }
+            }
+            err -= (--y * 2) - 1;
+        }
+    }
+}
+
 // https://stackoverflow.com/questions/27755514/circle-with-thickness-drawing-algorithm
 void imlib_draw_circle(image_t *img, int cx, int cy, int r, int c, int thickness, bool fill) {
-    if (fill) {
-        point_fill(img, cx, cy, -r, r, c);
-    } else if (thickness > 0) {
+    if ((r == 0) && (fill || (thickness > 0))) {
+        imlib_set_pixel(img, cx, cy, c);
+    }
+
+    if ((r <= 0) || ((!fill) && (thickness <= 0))) {
+        return;
+    }
+
+    if (thickness == 1 || fill) {
+        imlib_draw_circle_thin(img, cx, cy, r + (IM_MAX(thickness, 0) / 2), c, fill);
+    } else {
         int thickness0 = (thickness - 0) / 2;
         int thickness1 = (thickness - 1) / 2;
 
@@ -325,6 +385,10 @@ void imlib_draw_circle(image_t *img, int cx, int cy, int r, int c, int thickness
                 }
             }
         }
+
+        // Anti-alias the outer and inner edges.
+        imlib_draw_circle_thin(img, cx, cy, r + thickness0, c, false);
+        imlib_draw_circle_thin(img, cx, cy, xi_tmp, c, false);
     }
 }
 
@@ -737,7 +801,7 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
                 cfg.pCLUT = clut;
                 cfg.CLUTColorMode = DMA2D_CCM_ARGB8888;
                 cfg.Size = 255;
-                #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
+                #if __DCACHE_PRESENT
                 SCB_CleanDCache_by_Addr(clut, 256 * sizeof(uint32_t));
                 #endif
                 HAL_DMA2D_CLUTLoad(&data->dma2d, cfg, 1);
@@ -764,6 +828,10 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
         data->dma2d.LayerCfg[1].ChromaSubSampling = DMA2D_NO_CSS;
         #endif
         HAL_DMA2D_ConfigLayer(&data->dma2d, 1);
+        #if __DCACHE_PRESENT
+        // SCB_InvalidateDCache_by_Addr does nothing if dsize is 0.
+        data->dma2d_invalidate_dsize = 0;
+        #endif
     } else {
         data->row_buffer[1] = data->row_buffer[0];
     }
@@ -802,6 +870,10 @@ void imlib_draw_row_teardown(imlib_draw_row_data_t *data) {
     if (data->dma2d_initialized) {
         if (!data->callback) {
             HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
+            #if __DCACHE_PRESENT
+            // Ensures any cached reads to dst16 are dropped.
+            SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr, data->dma2d_invalidate_dsize);
+            #endif
         }
         HAL_DMA2D_DeInit(&data->dma2d);
         if (data->src_img_pixfmt == PIXFORMAT_GRAYSCALE) {
@@ -2315,15 +2387,24 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                     if (data->dma2d_enabled) {
                         if (!data->callback) {
                             HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
+                            #if __DCACHE_PRESENT
+                            // Ensures any cached reads to dst16 are dropped.
+                            SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr,
+                                                         data->dma2d_invalidate_dsize);
+                            #endif
                         }
-                        #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
+                        #if __DCACHE_PRESENT
                         // Memory referenced by src8 between (x_end - x_start) may or may not be
                         // cache algined. However, after being flushed it shouldn't change again
                         // so DMA2D can safety read the line of pixels.
                         SCB_CleanDCache_by_Addr((uint32_t *) src8, (x_end - x_start) * sizeof(uint8_t));
                         // DMA2D will overwrite this area. dst16 (x_end - x_start) must be cache
                         // aligned or the line of pixels will be corrutped.
-                        SCB_InvalidateDCache_by_Addr((uint32_t *) dst16, (x_end - x_start) * sizeof(uint16_t));
+                        // Ensures any cached writes to dst16 are dropped.
+                        data->dma2d_invalidate_addr = (uint32_t *) dst16;
+                        data->dma2d_invalidate_dsize = (x_end - x_start) * sizeof(uint16_t);
+                        SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr,
+                                                     data->dma2d_invalidate_dsize);
                         #endif
                         HAL_DMA2D_BlendingStart(&data->dma2d,
                                                 (uint32_t) src8,
@@ -2333,6 +2414,11 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                                 1);
                         if (data->callback) {
                             HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
+                            #if __DCACHE_PRESENT
+                            // Ensures any cached reads to dst16 are dropped.
+                            SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr,
+                                                         data->dma2d_invalidate_dsize);
+                            #endif
                         }
                     } else if (data->smuad_alpha_palette) {
                     #else
@@ -2486,15 +2572,24 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 if (data->dma2d_enabled) {
                                     if (!data->callback) {
                                         HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
+                                        #if __DCACHE_PRESENT
+                                        // Ensures any cached reads to dst16 are dropped.
+                                        SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr,
+                                                                     data->dma2d_invalidate_dsize);
+                                        #endif
                                     }
-                                    #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
+                                    #if __DCACHE_PRESENT
                                     // Memory referenced by src16 between (x_end - x_start) may or may not be
                                     // cache algined. However, after being flushed it shouldn't change again
                                     // so DMA2D can safety read the line of pixels.
                                     SCB_CleanDCache_by_Addr((uint32_t *) src16, (x_end - x_start) * sizeof(uint16_t));
                                     // DMA2D will overwrite this area. dst16 (x_end - x_start) must be cache
                                     // aligned or the line of pixels will be corrutped.
-                                    SCB_InvalidateDCache_by_Addr((uint32_t *) dst16, (x_end - x_start) * sizeof(uint16_t));
+                                    // Ensures any cached writes to dst16 are dropped.
+                                    data->dma2d_invalidate_addr = (uint32_t *) dst16;
+                                    data->dma2d_invalidate_dsize = (x_end - x_start) * sizeof(uint16_t);
+                                    SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr,
+                                                                 data->dma2d_invalidate_dsize);
                                     #endif
                                     HAL_DMA2D_BlendingStart(&data->dma2d,
                                                             (uint32_t) src16,
@@ -2504,6 +2599,11 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                                             1);
                                     if (data->callback) {
                                         HAL_DMA2D_PollForTransfer(&data->dma2d, 1000);
+                                        #if __DCACHE_PRESENT
+                                        // Ensures any cached reads to dst16 are dropped.
+                                        SCB_InvalidateDCache_by_Addr(data->dma2d_invalidate_addr,
+                                                                     data->dma2d_invalidate_dsize);
+                                        #endif
                                     }
                                 } else if (!data->black_background) {
                                 #else
@@ -3203,7 +3303,7 @@ void imlib_draw_image(image_t *dst_img,
                                  (color_palette ? PIXFORMAT_GRAYSCALE :
                                   dst_img->pixfmt);
 
-    bool no_scaling_nearest_neighbor = (dst_delta_x == 1)
+    bool no_scaling_nearest_neighbor = (dst_delta_x == 1) && (dst_delta_y == 1)
                                        && (dst_x_start == 0) && (src_x_start == 0)
                                        && (src_x_frac == 65536) && (src_y_frac == 65536);
 

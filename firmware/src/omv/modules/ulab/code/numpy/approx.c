@@ -47,7 +47,7 @@ ULAB_DEFINE_FLOAT_CONST(approx_trapz_dx, MICROPY_FLOAT_CONST(1.0), 0x3f800000UL,
 //|     ...
 //|
 
-STATIC mp_obj_t approx_interp(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t approx_interp(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_, MP_ARG_REQUIRED | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE } },
         { MP_QSTR_, MP_ARG_REQUIRED | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE } },
@@ -65,7 +65,7 @@ STATIC mp_obj_t approx_interp(size_t n_args, const mp_obj_t *pos_args, mp_map_t 
     COMPLEX_DTYPE_NOT_IMPLEMENTED(xp->dtype)
     COMPLEX_DTYPE_NOT_IMPLEMENTED(fp->dtype)
     if((xp->ndim != 1) || (fp->ndim != 1) || (xp->len < 2) || (fp->len < 2) || (xp->len != fp->len)) {
-        mp_raise_ValueError(translate("interp is defined for 1D iterables of equal length"));
+        mp_raise_ValueError(MP_ERROR_TEXT("interp is defined for 1D iterables of equal length"));
     }
 
     ndarray_obj_t *y = ndarray_new_linear_array(x->len, NDARRAY_FLOAT);
@@ -151,7 +151,7 @@ MP_DEFINE_CONST_FUN_OBJ_KW(approx_interp_obj, 2, approx_interp);
 //|     ...
 //|
 
-STATIC mp_obj_t approx_trapz(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t approx_trapz(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_, MP_ARG_REQUIRED | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE } },
         { MP_QSTR_x, MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE } },
@@ -168,7 +168,7 @@ STATIC mp_obj_t approx_trapz(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
         return mp_obj_new_float(mean);
     }
     if((y->ndim != 1)) {
-        mp_raise_ValueError(translate("trapz is defined for 1D iterables"));
+        mp_raise_ValueError(MP_ERROR_TEXT("trapz is defined for 1D iterables"));
     }
 
     mp_float_t (*funcy)(void *) = ndarray_get_float_function(y->dtype);
@@ -181,7 +181,7 @@ STATIC mp_obj_t approx_trapz(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
         x = ndarray_from_mp_obj(args[1].u_obj, 0); // x must hold an increasing sequence of independent values
         COMPLEX_DTYPE_NOT_IMPLEMENTED(x->dtype)
         if((x->ndim != 1) || (y->len != x->len)) {
-            mp_raise_ValueError(translate("trapz is defined for 1D arrays of equal length"));
+            mp_raise_ValueError(MP_ERROR_TEXT("trapz is defined for 1D arrays of equal length"));
         }
 
         mp_float_t (*funcx)(void *) = ndarray_get_float_function(x->dtype);

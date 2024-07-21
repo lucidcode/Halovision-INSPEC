@@ -2,19 +2,8 @@
 """
 
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 #
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import os
 import platform
@@ -126,7 +115,7 @@ def get_c_expression_values(
         caller=__name__, file_label='',
         header='', include_path=None,
         keep_c=False,
-): # pylint: disable=too-many-arguments
+): # pylint: disable=too-many-arguments, too-many-locals
     """Generate and run a program to print out numerical values for expressions.
 
     * ``cast_to``: a C type.
@@ -139,12 +128,17 @@ def get_c_expression_values(
     * ``keep_c``: if true, keep the temporary C file (presumably for debugging
       purposes).
 
+    Use the C compiler specified by the ``CC`` environment variable, defaulting
+    to ``cc``. If ``CC`` looks like MSVC, use its command line syntax,
+    otherwise assume the compiler supports Unix traditional ``-I`` and ``-o``.
+
     Return the list of values of the ``expressions``.
     """
     if include_path is None:
         include_path = []
     c_name = None
     exe_name = None
+    obj_name = None
     try:
         c_file, c_name, exe_name = create_c_file(file_label)
         generate_c_file(
@@ -165,3 +159,4 @@ def get_c_expression_values(
         return output.decode('ascii').strip().split('\n')
     finally:
         remove_file_if_exists(exe_name)
+        remove_file_if_exists(obj_name)

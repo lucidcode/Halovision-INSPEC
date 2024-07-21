@@ -23,12 +23,6 @@
 // Enable YUV LUT
 //#define IMLIB_ENABLE_YUV_LUT
 
-// Enable mean pooling
-#define IMLIB_ENABLE_MEAN_POOLING
-
-// Enable midpoint pooling
-#define IMLIB_ENABLE_MIDPOINT_POOLING
-
 // Enable ISP ops
 #define IMLIB_ENABLE_ISP_OPS
 
@@ -118,7 +112,7 @@
 //#define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
 
 // Enable Tensor Flow
-//#define IMLIB_ENABLE_TF
+//#define IMLIB_ENABLE_TFLM
 
 // Enable FAST (20+ KBs).
 //#define IMLIB_ENABLE_FAST

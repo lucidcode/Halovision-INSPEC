@@ -18,6 +18,7 @@
 
 #include "numpy.h"
 #include "approx.h"
+#include "bitwise.h"
 #include "carray/carray.h"
 #include "compare.h"
 #include "create.h"
@@ -26,6 +27,7 @@
 #include "io/io.h"
 #include "linalg/linalg.h"
 #include "numerical.h"
+#include "random/random.h"
 #include "stats.h"
 #include "transform.h"
 #include "poly.h"
@@ -109,6 +111,9 @@ static const mp_rom_map_elem_t ulab_numpy_globals_table[] = {
     #if ULAB_NUMPY_HAS_LINALG_MODULE
         { MP_ROM_QSTR(MP_QSTR_linalg), MP_ROM_PTR(&ulab_linalg_module) },
     #endif
+    #if ULAB_NUMPY_HAS_RANDOM_MODULE
+        { MP_ROM_QSTR(MP_QSTR_random), MP_ROM_PTR(&ulab_numpy_random_module) },
+    #endif
     #if ULAB_HAS_PRINTOPTIONS
         { MP_ROM_QSTR(MP_QSTR_set_printoptions), MP_ROM_PTR(&ndarray_set_printoptions_obj) },
         { MP_ROM_QSTR(MP_QSTR_get_printoptions), MP_ROM_PTR(&ndarray_get_printoptions_obj) },
@@ -164,7 +169,6 @@ static const mp_rom_map_elem_t ulab_numpy_globals_table[] = {
     #if ULAB_NUMPY_HAS_ZEROS
         { MP_ROM_QSTR(MP_QSTR_zeros), MP_ROM_PTR(&create_zeros_obj) },
     #endif
-    // functions of the compare sub-module
     #if ULAB_NUMPY_HAS_CLIP
         { MP_ROM_QSTR(MP_QSTR_clip), MP_ROM_PTR(&compare_clip_obj) },
     #endif
@@ -189,9 +193,24 @@ static const mp_rom_map_elem_t ulab_numpy_globals_table[] = {
     #if ULAB_NUMPY_HAS_NONZERO
         { MP_ROM_QSTR(MP_QSTR_nonzero), MP_ROM_PTR(&compare_nonzero_obj) },
     #endif
-
     #if ULAB_NUMPY_HAS_WHERE
         { MP_ROM_QSTR(MP_QSTR_where), MP_ROM_PTR(&compare_where_obj) },
+    #endif
+    // bitwise operators
+    #if ULAB_NUMPY_HAS_BITWISE_AND
+        { MP_ROM_QSTR(MP_QSTR_bitwise_and), MP_ROM_PTR(&bitwise_bitwise_and_obj) },
+    #endif
+    #if ULAB_NUMPY_HAS_BITWISE_OR
+        { MP_ROM_QSTR(MP_QSTR_bitwise_or), MP_ROM_PTR(&bitwise_bitwise_or_obj) },
+    #endif
+    #if ULAB_NUMPY_HAS_BITWISE_XOR
+        { MP_ROM_QSTR(MP_QSTR_bitwise_xor), MP_ROM_PTR(&bitwise_bitwise_xor_obj) },
+    #endif
+    #if ULAB_NUMPY_HAS_LEFT_SHIFT
+        { MP_ROM_QSTR(MP_QSTR_left_shift), MP_ROM_PTR(&left_shift_obj) },
+    #endif
+    #if ULAB_NUMPY_HAS_RIGHT_SHIFT
+        { MP_ROM_QSTR(MP_QSTR_right_shift), MP_ROM_PTR(&right_shift_obj) },
     #endif
     // functions of the filter sub-module
     #if ULAB_NUMPY_HAS_CONVOLVE
@@ -340,6 +359,9 @@ static const mp_rom_map_elem_t ulab_numpy_globals_table[] = {
     #if ULAB_NUMPY_HAS_SIN
     { MP_ROM_QSTR(MP_QSTR_sin), MP_ROM_PTR(&vector_sin_obj) },
     #endif
+    #if ULAB_NUMPY_HAS_SINC
+    { MP_ROM_QSTR(MP_QSTR_sinc), MP_ROM_PTR(&vector_sinc_obj) },
+    #endif
     #if ULAB_NUMPY_HAS_SINH
     { MP_ROM_QSTR(MP_QSTR_sinh), MP_ROM_PTR(&vector_sinh_obj) },
     #endif
@@ -379,9 +401,5 @@ const mp_obj_module_t ulab_numpy_module = {
 };
 
 #if CIRCUITPY_ULAB
-#if !defined(MICROPY_VERSION) || MICROPY_VERSION <= 70144
-MP_REGISTER_MODULE(MP_QSTR_ulab_dot_numpy, ulab_numpy_module, MODULE_ULAB_ENABLED);
-#else
 MP_REGISTER_MODULE(MP_QSTR_ulab_dot_numpy, ulab_numpy_module);
-#endif
 #endif

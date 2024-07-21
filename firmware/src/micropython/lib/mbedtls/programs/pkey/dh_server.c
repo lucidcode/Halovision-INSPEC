@@ -2,34 +2,20 @@
  *  Diffie-Hellman-Merkle key exchange (server side)
  *
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
-#if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
-#else
-#include MBEDTLS_CONFIG_FILE
-#endif
+#include "mbedtls/build_info.h"
 
 #include "mbedtls/platform.h"
+/* md.h is included this early since MD_CAN_XXX macros are defined there. */
+#include "mbedtls/md.h"
 
 #if defined(MBEDTLS_AES_C) && defined(MBEDTLS_DHM_C) && \
     defined(MBEDTLS_ENTROPY_C) && defined(MBEDTLS_NET_C) && \
-    defined(MBEDTLS_RSA_C) && defined(MBEDTLS_SHA256_C) && \
+    defined(MBEDTLS_RSA_C) && defined(MBEDTLS_MD_CAN_SHA256) && \
     defined(MBEDTLS_FS_IO) && defined(MBEDTLS_CTR_DRBG_C) && \
-    defined(MBEDTLS_SHA1_C)
+    defined(MBEDTLS_MD_CAN_SHA1)
 #include "mbedtls/net_sockets.h"
 #include "mbedtls/aes.h"
 #include "mbedtls/dhm.h"
@@ -47,15 +33,15 @@
 
 #if !defined(MBEDTLS_AES_C) || !defined(MBEDTLS_DHM_C) ||     \
     !defined(MBEDTLS_ENTROPY_C) || !defined(MBEDTLS_NET_C) ||  \
-    !defined(MBEDTLS_RSA_C) || !defined(MBEDTLS_SHA256_C) ||    \
+    !defined(MBEDTLS_RSA_C) || !defined(MBEDTLS_MD_CAN_SHA256) ||    \
     !defined(MBEDTLS_FS_IO) || !defined(MBEDTLS_CTR_DRBG_C) || \
     !defined(MBEDTLS_SHA1_C)
 int main(void)
 {
     mbedtls_printf("MBEDTLS_AES_C and/or MBEDTLS_DHM_C and/or MBEDTLS_ENTROPY_C "
                    "and/or MBEDTLS_NET_C and/or MBEDTLS_RSA_C and/or "
-                   "MBEDTLS_SHA256_C and/or MBEDTLS_FS_IO and/or "
-                   "MBEDTLS_CTR_DRBG_C not defined.\n");
+                   "MBEDTLS_MD_CAN_SHA256 and/or MBEDTLS_FS_IO and/or "
+                   "MBEDTLS_CTR_DRBG_C and/or MBEDTLS_SHA1_C not defined.\n");
     mbedtls_exit(0);
 }
 #else
@@ -85,7 +71,6 @@ int main(void)
 
     mbedtls_net_init(&listen_fd);
     mbedtls_net_init(&client_fd);
-    mbedtls_rsa_init(&rsa, MBEDTLS_RSA_PKCS_V15, MBEDTLS_MD_SHA256);
     mbedtls_dhm_init(&dhm);
     mbedtls_aes_init(&aes);
     mbedtls_ctr_drbg_init(&ctr_drbg);
@@ -119,7 +104,7 @@ int main(void)
         goto exit;
     }
 
-    mbedtls_rsa_init(&rsa, MBEDTLS_RSA_PKCS_V15, 0);
+    mbedtls_rsa_init(&rsa);
 
     if ((ret = mbedtls_mpi_read_file(&N, 16, f)) != 0 ||
         (ret = mbedtls_mpi_read_file(&E, 16, f)) != 0 ||
@@ -157,8 +142,8 @@ int main(void)
         goto exit;
     }
 
-    if (mbedtls_mpi_read_file(&dhm.P, 16, f) != 0 ||
-        mbedtls_mpi_read_file(&dhm.G, 16, f) != 0) {
+    if (mbedtls_mpi_read_file(&dhm.MBEDTLS_PRIVATE(P), 16, f) != 0 ||
+        mbedtls_mpi_read_file(&dhm.MBEDTLS_PRIVATE(G), 16, f) != 0) {
         mbedtls_printf(" failed\n  ! Invalid DH parameter file\n\n");
         fclose(f);
         goto exit;
@@ -191,8 +176,9 @@ int main(void)
 
     memset(buf, 0, sizeof(buf));
 
-    if ((ret = mbedtls_dhm_make_params(&dhm, (int) mbedtls_mpi_size(&dhm.P), buf, &n,
-                                       mbedtls_ctr_drbg_random, &ctr_drbg)) != 0) {
+    if ((ret =
+             mbedtls_dhm_make_params(&dhm, (int) mbedtls_mpi_size(&dhm.MBEDTLS_PRIVATE(P)), buf, &n,
+                                     mbedtls_ctr_drbg_random, &ctr_drbg)) != 0) {
         mbedtls_printf(" failed\n  ! mbedtls_dhm_make_params returned %d\n\n", ret);
         goto exit;
     }
@@ -200,21 +186,21 @@ int main(void)
     /*
      * 5. Sign the parameters and send them
      */
-    if ((ret = mbedtls_sha1_ret(buf, n, hash)) != 0) {
-        mbedtls_printf(" failed\n  ! mbedtls_sha1_ret returned %d\n\n", ret);
+    if ((ret = mbedtls_sha1(buf, n, hash)) != 0) {
+        mbedtls_printf(" failed\n  ! mbedtls_sha1 returned %d\n\n", ret);
         goto exit;
     }
 
-    buf[n] = (unsigned char) (rsa.len >> 8);
-    buf[n + 1] = (unsigned char) (rsa.len);
+    buf[n] = (unsigned char) (rsa.MBEDTLS_PRIVATE(len) >> 8);
+    buf[n + 1] = (unsigned char) (rsa.MBEDTLS_PRIVATE(len));
 
-    if ((ret = mbedtls_rsa_pkcs1_sign(&rsa, NULL, NULL, MBEDTLS_RSA_PRIVATE, MBEDTLS_MD_SHA256,
-                                      0, hash, buf + n + 2)) != 0) {
+    if ((ret = mbedtls_rsa_pkcs1_sign(&rsa, NULL, NULL, MBEDTLS_MD_SHA256,
+                                      32, hash, buf + n + 2)) != 0) {
         mbedtls_printf(" failed\n  ! mbedtls_rsa_pkcs1_sign returned %d\n\n", ret);
         goto exit;
     }
 
-    buflen = n + 2 + rsa.len;
+    buflen = n + 2 + rsa.MBEDTLS_PRIVATE(len);
     buf2[0] = (unsigned char) (buflen >> 8);
     buf2[1] = (unsigned char) (buflen);
 
@@ -232,13 +218,13 @@ int main(void)
 
     memset(buf, 0, sizeof(buf));
 
-    n = dhm.len;
+    n = mbedtls_dhm_get_len(&dhm);
     if ((ret = mbedtls_net_recv(&client_fd, buf, n)) != (int) n) {
         mbedtls_printf(" failed\n  ! mbedtls_net_recv returned %d\n\n", ret);
         goto exit;
     }
 
-    if ((ret = mbedtls_dhm_read_public(&dhm, buf, dhm.len)) != 0) {
+    if ((ret = mbedtls_dhm_read_public(&dhm, buf, n)) != 0) {
         mbedtls_printf(" failed\n  ! mbedtls_dhm_read_public returned %d\n\n", ret);
         goto exit;
     }
@@ -303,13 +289,8 @@ exit:
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_entropy_free(&entropy);
 
-#if defined(_WIN32)
-    mbedtls_printf("  + Press Enter to exit this program.\n");
-    fflush(stdout); getchar();
-#endif
-
     mbedtls_exit(exit_code);
 }
 #endif /* MBEDTLS_AES_C && MBEDTLS_DHM_C && MBEDTLS_ENTROPY_C &&
-          MBEDTLS_NET_C && MBEDTLS_RSA_C && MBEDTLS_SHA256_C &&
+          MBEDTLS_NET_C && MBEDTLS_RSA_C && MBEDTLS_MD_CAN_SHA256 &&
           MBEDTLS_FS_IO && MBEDTLS_CTR_DRBG_C */

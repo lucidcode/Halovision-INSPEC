@@ -107,7 +107,7 @@ void do_str(const char *src, mp_parse_input_kind_t input_kind) {
 extern uint32_t _heap_start;
 extern uint32_t _heap_end;
 
-int main(int argc, char **argv) {
+void NORETURN _start(void) {
     // Hook for a board to run code at start up, for example check if a
     // bootloader should be entered instead of the main application.
     MICROPY_BOARD_STARTUP();
@@ -261,14 +261,16 @@ soft_reset:
 
     led_state(1, 0);
 
+    #if MICROPY_VFS || MICROPY_MBFS || MICROPY_MODULE_FROZEN
+    ret_code = pyexec_file_if_exists("boot.py");
+    #endif
+
     #if MICROPY_HW_USB_CDC
     usb_cdc_init();
     #endif
 
     #if MICROPY_VFS || MICROPY_MBFS || MICROPY_MODULE_FROZEN
-    // run boot.py and main.py if they exist.
-    ret = pyexec_file_if_exists("boot.py");
-    if (pyexec_mode_kind == PYEXEC_MODE_FRIENDLY_REPL && ret != 0) {
+    if (pyexec_mode_kind == PYEXEC_MODE_FRIENDLY_REPL && ret_code != 0) {
         pyexec_file_if_exists("main.py");
     }
     #endif
@@ -299,8 +301,6 @@ soft_reset:
     #endif
 
     goto soft_reset;
-
-    return 0;
 }
 
 #if !MICROPY_VFS
@@ -368,8 +368,4 @@ void nlr_jump_fail(void *val) {
 void MP_WEAK __assert_func(const char *file, int line, const char *func, const char *expr) {
     printf("Assertion '%s' failed, at file %s:%d\n", expr, file, line);
     __fatal_error("Assertion failed");
-}
-
-void _start(void) {
-    main(0, NULL);
 }

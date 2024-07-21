@@ -81,6 +81,11 @@ static void jpeg_compress_get_data(JPEG_HandleTypeDef *hjpeg, uint32_t NbDecoded
 }
 
 static void jpeg_compress_data_ready(JPEG_HandleTypeDef *hjpeg, uint8_t *pDataOut, uint32_t OutDataLength) {
+    if ((!(((uint32_t) pDataOut) % __SCB_DCACHE_LINE_SIZE)) && (OutDataLength == JPEG_OUTPUT_CHUNK_SIZE)) {
+        // Ensure any cached reads are dropped.
+        SCB_InvalidateDCache_by_Addr((uint32_t *) pDataOut, JPEG_OUTPUT_CHUNK_SIZE);
+    }
+
     // We have received this much data.
     JPEG_state.out_data_len += OutDataLength;
 
@@ -96,7 +101,7 @@ static void jpeg_compress_data_ready(JPEG_HandleTypeDef *hjpeg, uint8_t *pDataOu
         // image in randomly aligned chunks. We only want to invalidate the cache of the output
         // buffer for the initial DMA chunks. So, this code below will do that and then only
         // invalidate aligned regions when the processor is moving the final parts of the image.
-        if (!(((uint32_t) new_pDataOut) % __SCB_DCACHE_LINE_SIZE)) {
+        if ((!(((uint32_t) new_pDataOut) % __SCB_DCACHE_LINE_SIZE)) && (OutDataLength == JPEG_OUTPUT_CHUNK_SIZE)) {
             SCB_InvalidateDCache_by_Addr((uint32_t *) new_pDataOut, JPEG_OUTPUT_CHUNK_SIZE);
         }
 
@@ -105,7 +110,7 @@ static void jpeg_compress_data_ready(JPEG_HandleTypeDef *hjpeg, uint8_t *pDataOu
     }
 }
 
-bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
+bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_subsampling_t subsampling) {
     #if (TIME_JPEG == 1)
     mp_uint_t start = mp_hal_ticks_ms();
     #endif
@@ -132,6 +137,18 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
             mcu_size = JPEG_444_YCBCR_MCU_SIZE;
             JPEG_Info.ColorSpace = JPEG_YCBCR_COLORSPACE;
             JPEG_Info.ChromaSubsampling = JPEG_444_SUBSAMPLING;
+            if (subsampling == JPEG_SUBSAMPLING_AUTO) {
+                if (quality < 60) {
+                    mcu_size = JPEG_422_YCBCR_MCU_SIZE;
+                    JPEG_Info.ChromaSubsampling = JPEG_422_SUBSAMPLING;
+                }
+            } else if (subsampling == JPEG_SUBSAMPLING_422) {
+                mcu_size = JPEG_422_YCBCR_MCU_SIZE;
+                JPEG_Info.ChromaSubsampling = JPEG_422_SUBSAMPLING;
+            } else if (subsampling == JPEG_SUBSAMPLING_420) {
+                // not supported
+                return true;
+            }
             break;
         default:
             break;
@@ -141,7 +158,8 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
         HAL_JPEG_ConfigEncoding(&JPEG_state.jpeg_descr, &JPEG_Info);
     }
 
-    int src_w_mcus = (src->w + JPEG_MCU_W - 1) / JPEG_MCU_W;
+    int mcu_w = (JPEG_Info.ChromaSubsampling == JPEG_444_SUBSAMPLING) ? JPEG_MCU_W : (JPEG_MCU_W * 2);
+    int src_w_mcus = (src->w + mcu_w - 1) / mcu_w;
     int src_w_mcus_bytes = src_w_mcus * mcu_size;
     int src_w_mcus_bytes_2 = src_w_mcus_bytes * 2;
 
@@ -195,14 +213,89 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
         uint8_t *mcu_row_buffer_ptr = mcu_row_buffer + (src_w_mcus_bytes * ((y_offset / JPEG_MCU_H) % 2));
         int dy = IM_MIN(JPEG_MCU_H, src->h - y_offset);
 
-        for (int x_offset = 0; x_offset < src->w; x_offset += JPEG_MCU_W) {
-            int8_t *Y0 = (int8_t *) (mcu_row_buffer_ptr + (mcu_size * (x_offset / JPEG_MCU_W)));
-            int8_t *CB = Y0 + JPEG_444_GS_MCU_SIZE;
-            int8_t *CR = CB + JPEG_444_GS_MCU_SIZE;
-            int dx = IM_MIN(JPEG_MCU_W, src->w - x_offset);
+        if (JPEG_Info.ChromaSubsampling == JPEG_444_SUBSAMPLING) {
+            for (int x_offset = 0; x_offset < src->w; x_offset += JPEG_MCU_W) {
+                int8_t *Y0 = (int8_t *) (mcu_row_buffer_ptr + (mcu_size * (x_offset / JPEG_MCU_W)));
+                int8_t *CB = Y0 + JPEG_444_GS_MCU_SIZE;
+                int8_t *CR = CB + JPEG_444_GS_MCU_SIZE;
+                int dx = IM_MIN(JPEG_MCU_W, src->w - x_offset);
 
-            // Copy 8x8 MCUs.
-            jpeg_get_mcu(src, x_offset, y_offset, dx, dy, Y0, CB, CR);
+                // Copy 8x8 MCUs.
+                jpeg_get_mcu(src, x_offset, y_offset, dx, dy, Y0, CB, CR);
+            }
+        } else if (JPEG_Info.ChromaSubsampling == JPEG_422_SUBSAMPLING) {
+            // color only
+            int8_t CB[JPEG_444_GS_MCU_SIZE * 2];
+            int8_t CR[JPEG_444_GS_MCU_SIZE * 2];
+
+            for (int x_offset = 0; x_offset < src->w; ) {
+                int8_t *Y0 = (int8_t *) (mcu_row_buffer_ptr + (mcu_size * (x_offset / (JPEG_MCU_W * 2))));
+                int8_t *Y1 = Y0 + JPEG_444_GS_MCU_SIZE;
+                int8_t *CB_avg = Y1 + JPEG_444_GS_MCU_SIZE;
+                int8_t *CR_avg = CB_avg + JPEG_444_GS_MCU_SIZE;
+
+                for (int i = 0; i < (JPEG_444_GS_MCU_SIZE * 2);
+                     i += JPEG_444_GS_MCU_SIZE, x_offset += JPEG_MCU_W) {
+                    int dx = IM_MIN(JPEG_MCU_W, src->w - x_offset);
+
+                    if (dx > 0) {
+                        // Copy 8x8 MCUs.
+                        jpeg_get_mcu(src, x_offset, y_offset, dx, dy, Y0 + i, CB + i, CR + i);
+                    } else {
+                        memset(Y0 + i, 0, JPEG_444_GS_MCU_SIZE);
+                        memset(CB + i, 0, JPEG_444_GS_MCU_SIZE);
+                        memset(CR + i, 0, JPEG_444_GS_MCU_SIZE);
+                    }
+                }
+
+                // horizontal subsampling of U & V
+                uint32_t mask = 0x80808080;
+                uint32_t *CBp0 = (uint32_t *) CB;
+                uint32_t *CRp0 = (uint32_t *) CR;
+                uint32_t *CBp1 = (uint32_t *) (CB + JPEG_444_GS_MCU_SIZE);
+                uint32_t *CRp1 = (uint32_t *) (CR + JPEG_444_GS_MCU_SIZE);
+                for (int j = 0; j < JPEG_444_GS_MCU_SIZE; j += JPEG_MCU_W) {
+                    uint32_t CBp0_3210 = *CBp0++ ^ mask;
+                    uint32_t CBp0_avg_32_10 = __SHADD8(CBp0_3210, __UXTB16_RORn(CBp0_3210, 8)) ^ mask;
+                    CB_avg[j] = CBp0_avg_32_10;
+                    CB_avg[j + 1] = CBp0_avg_32_10 >> 16;
+
+                    uint32_t CBp0_7654 = *CBp0++ ^ mask;
+                    uint32_t CBp0_avg_76_54 = __SHADD8(CBp0_7654, __UXTB16_RORn(CBp0_7654, 8)) ^ mask;
+                    CB_avg[j + 2] = CBp0_avg_76_54;
+                    CB_avg[j + 3] = CBp0_avg_76_54 >> 16;
+
+                    uint32_t CBp1_3210 = *CBp1++ ^ mask;
+                    uint32_t CBp1_avg_32_10 = __SHADD8(CBp1_3210, __UXTB16_RORn(CBp1_3210, 8)) ^ mask;
+                    CB_avg[j + 4] = CBp1_avg_32_10;
+                    CB_avg[j + 5] = CBp1_avg_32_10 >> 16;
+
+                    uint32_t CBp1_7654 = *CBp1++ ^ mask;
+                    uint32_t CBp1_avg_76_54 = __SHADD8(CBp1_7654, __UXTB16_RORn(CBp1_7654, 8)) ^ mask;
+                    CB_avg[j + 6] = CBp1_avg_76_54;
+                    CB_avg[j + 7] = CBp1_avg_76_54 >> 16;
+
+                    uint32_t CRp0_3210 = *CRp0++ ^ mask;
+                    uint32_t CRp0_avg_32_10 = __SHADD8(CRp0_3210, __UXTB16_RORn(CRp0_3210, 8)) ^ mask;
+                    CR_avg[j] = CRp0_avg_32_10;
+                    CR_avg[j + 1] = CRp0_avg_32_10 >> 16;
+
+                    uint32_t CRp0_7654 = *CRp0++ ^ mask;
+                    uint32_t CRp0_avg_76_54 = __SHADD8(CRp0_7654, __UXTB16_RORn(CRp0_7654, 8)) ^ mask;
+                    CR_avg[j + 2] = CRp0_avg_76_54;
+                    CR_avg[j + 3] = CRp0_avg_76_54 >> 16;
+
+                    uint32_t CRp1_3210 = *CRp1++ ^ mask;
+                    uint32_t CRp1_avg_32_10 = __SHADD8(CRp1_3210, __UXTB16_RORn(CRp1_3210, 8)) ^ mask;
+                    CR_avg[j + 4] = CRp1_avg_32_10;
+                    CR_avg[j + 5] = CRp1_avg_32_10 >> 16;
+
+                    uint32_t CRp1_7654 = *CRp1++ ^ mask;
+                    uint32_t CRp1_avg_76_54 = __SHADD8(CRp1_7654, __UXTB16_RORn(CRp1_7654, 8)) ^ mask;
+                    CR_avg[j + 6] = CRp1_avg_76_54;
+                    CR_avg[j + 7] = CRp1_avg_76_54 >> 16;
+                }
+            }
         }
 
         // Flush the MCU row for DMA...
@@ -418,7 +511,7 @@ void jpeg_decompress(image_t *dst, image_t *src) {
             HAL_DMA2D_Init(&DMA2D_Handle);
             HAL_DMA2D_ConfigLayer(&DMA2D_Handle, 1);
 
-            // Invalidate the dst image for DMA2D.
+            // Ensure any cached writes are dropped.
             SCB_InvalidateDCache_by_Addr((uint32_t *) dst->data, image_size(dst));
         }
     } else if (JPEG_state.jpeg_descr.Conf.ColorSpace == JPEG_CMYK_COLORSPACE) {
@@ -476,6 +569,9 @@ void jpeg_decompress(image_t *dst, image_t *src) {
                                         next_mcu_row_buffer_ptr, IM_MIN(dst_w_mcus_bytes, JPEG_MAX_MDMA_BLOCK_SIZE));
             HAL_JPEG_Resume(&JPEG_state.jpeg_descr, JPEG_PAUSE_RESUME_OUTPUT);
         }
+
+        // Ensure any cached reads are dropped.
+        SCB_InvalidateDCache_by_Addr((uint32_t *) this_mcu_row_buffer_ptr, dst_w_mcus_bytes);
 
         if (JPEG_state.jpeg_descr.Conf.ColorSpace == JPEG_GRAYSCALE_COLORSPACE) {
             for (int x_offset = 0; x_offset < src->w; x_offset += JPEG_MCU_W) {
@@ -621,9 +717,21 @@ void jpeg_decompress(image_t *dst, image_t *src) {
                 }
                 case PIXFORMAT_RGB565: {
                     uint16_t *rp = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(dst, y_offset);
-                    SCB_InvalidateDCache_by_Addr((uint32_t *) rp, dst->w * dy * sizeof(uint16_t));
                     HAL_DMA2D_Start(&DMA2D_Handle, (uint32_t) this_mcu_row_buffer_ptr, (uint32_t) rp, dst->w, dy);
+
+                    // Invalidate any cached reads for the previous line that was just written.
+                    if ((y_offset - mcu_h) >= 0) {
+                        uint16_t *previous_rp = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(dst, (y_offset - mcu_h));
+                        SCB_InvalidateDCache_by_Addr((uint32_t *) previous_rp, dst->w * mcu_h * sizeof(uint16_t));
+                    }
+
                     HAL_DMA2D_PollForTransfer(&DMA2D_Handle, JPEG_CODEC_TIMEOUT);
+
+                    // For the last row invalidate any cached reads for the line that was just written.
+                    if ((y_offset + mcu_h) >= src->h) {
+                        SCB_InvalidateDCache_by_Addr((uint32_t *) rp, dst->w * mcu_h * sizeof(uint16_t));
+                    }
+
                     break;
                 }
             }

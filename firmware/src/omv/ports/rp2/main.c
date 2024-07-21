@@ -70,11 +70,11 @@
 #include "extmod/vfs.h"
 #include "extmod/vfs_fat.h"
 #endif
-#include "boot_utils.h"
+#include "mp_utils.h"
 
 extern void pendsv_init(void);
 extern uint8_t __StackTop, __StackBottom;
-static char OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(gc_heap[OMV_HEAP_SIZE], 4), ".heap");
+static char OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(gc_heap[OMV_GC_BLOCK0_SIZE], 4), ".heap");
 
 uint8_t *OMV_BOARD_UID_ADDR;
 static pico_unique_board_id_t OMV_ATTR_ALIGNED(pico_unique_id, 4);
@@ -146,9 +146,7 @@ int main(int argc, char **argv) {
 
 soft_reset:
     // Initialise stack extents and GC heap.
-    mp_stack_set_top(&__StackTop);
-    mp_stack_set_limit(&__StackTop - &__StackBottom - 256);
-    gc_init(&gc_heap[0], &gc_heap[MP_ARRAY_SIZE(gc_heap)]);
+    mp_init_gc_stack(&__StackBottom, &__StackTop, &gc_heap[0], &gc_heap[MP_ARRAY_SIZE(gc_heap)], 256);
 
     // Initialise MicroPython runtime.
     mp_init();
@@ -182,17 +180,9 @@ soft_reset:
     }
     #endif
 
+    // Execute _boot.py to set up the filesystem.
     #if MICROPY_VFS_FAT && MICROPY_HW_USB_MSC
-    // Mount or create a fresh filesystem.
-    mp_obj_t mount_point = MP_OBJ_NEW_QSTR(MP_QSTR__slash_);
-    mp_obj_t bdev = MP_OBJ_TYPE_GET_SLOT(&rp2_flash_type, make_new) (&rp2_flash_type, 0, 0, NULL);
-    if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == -MP_ENODEV) {
-        // Create a fresh filesystem.
-        fs_user_mount_t *vfs = MP_OBJ_TYPE_GET_SLOT(&mp_fat_vfs_type, make_new) (&mp_fat_vfs_type, 1, 0, &bdev);
-        if (bootutils_init_filesystem(vfs) == 0) {
-            mp_vfs_mount_and_chdir_protected(bdev, mount_point);
-        }
-    }
+    pyexec_frozen_module("_boot_fat.py", false);
     #else
     pyexec_frozen_module("_boot.py", false);
     #endif
@@ -211,11 +201,11 @@ soft_reset:
     }
 
     // Run boot.py script.
-    bool interrupted = bootutils_exec_bootscript("boot.py", true, false);
+    bool interrupted = mp_exec_bootscript("boot.py", true, false);
 
     // Run main.py script on first soft-reset.
     if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
-        bootutils_exec_bootscript("main.py", true, false);
+        mp_exec_bootscript("main.py", true, false);
         goto soft_reset_exit;
     }
 
@@ -255,16 +245,6 @@ soft_reset:
         } else {
             mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
         }
-
-        if (usbdbg_is_busy() && nlr_push(&nlr) == 0) {
-            // Enable IDE interrupt
-            usbdbg_set_irq_enabled(true);
-            // Wait for the current command to finish.
-            usbdbg_wait_for_command(1000);
-            // Disable IDE interrupts
-            usbdbg_set_irq_enabled(false);
-            nlr_pop();
-        }
     }
 
 soft_reset_exit:
@@ -287,15 +267,6 @@ soft_reset_exit:
     first_soft_reset = false;
     goto soft_reset;
     return 0;
-}
-
-void gc_collect(void) {
-    gc_collect_start();
-    gc_helper_collect_regs_and_stack();
-    #if MICROPY_PY_THREAD
-    mp_thread_gc_others();
-    #endif
-    gc_collect_end();
 }
 
 void nlr_jump_fail(void *val) {

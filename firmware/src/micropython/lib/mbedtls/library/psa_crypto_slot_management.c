@@ -3,19 +3,7 @@
  */
 /*
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
 #include "common.h"
@@ -25,7 +13,7 @@
 #include "psa/crypto.h"
 
 #include "psa_crypto_core.h"
-#include "psa_crypto_driver_wrappers.h"
+#include "psa_crypto_driver_wrappers_no_static.h"
 #include "psa_crypto_slot_management.h"
 #include "psa_crypto_storage.h"
 #if defined(MBEDTLS_PSA_CRYPTO_SE_C)
@@ -36,11 +24,9 @@
 #include <string.h>
 #include "mbedtls/platform.h"
 
-#define ARRAY_LENGTH(array) (sizeof(array) / sizeof(*(array)))
-
 typedef struct {
     psa_key_slot_t key_slots[MBEDTLS_PSA_KEY_SLOT_COUNT];
-    unsigned key_slots_initialized : 1;
+    uint8_t key_slots_initialized;
 } psa_global_data_t;
 
 static psa_global_data_t global_data;
@@ -411,15 +397,13 @@ psa_status_t psa_unlock_key_slot(psa_key_slot_t *slot)
 
     /*
      * As the return error code may not be handled in case of multiple errors,
-     * do our best to report if the lock counter is equal to zero: if
-     * available call MBEDTLS_PARAM_FAILED that may terminate execution (if
-     * called as part of the execution of a unit test suite this will stop the
-     * test suite execution).
+     * do our best to report if the lock counter is equal to zero. Assert with
+     * MBEDTLS_TEST_HOOK_TEST_ASSERT that the lock counter is strictly greater
+     * than zero: if the MBEDTLS_TEST_HOOKS configuration option is enabled and
+     * the function is called as part of the execution of a test suite, the
+     * execution of the test suite is stopped in error if the assertion fails.
      */
-#ifdef MBEDTLS_CHECK_PARAMS
-    MBEDTLS_PARAM_FAILED(slot->lock_count > 0);
-#endif
-
+    MBEDTLS_TEST_HOOK_TEST_ASSERT(slot->lock_count > 0);
     return PSA_ERROR_CORRUPTION_DETECTED;
 }
 
@@ -440,14 +424,8 @@ psa_status_t psa_validate_key_location(psa_key_lifetime_t lifetime,
         (void) p_drv;
 #endif /* MBEDTLS_PSA_CRYPTO_SE_C */
 
-#if defined(MBEDTLS_PSA_CRYPTO_DRIVERS)
         /* Key location for external keys gets checked by the wrapper */
         return PSA_SUCCESS;
-#else /* MBEDTLS_PSA_CRYPTO_DRIVERS */
-        /* No support for external lifetimes at all, or dynamic interface
-         * did not find driver for requested lifetime. */
-        return PSA_ERROR_INVALID_ARGUMENT;
-#endif /* MBEDTLS_PSA_CRYPTO_DRIVERS */
     } else {
         /* Local/internal keys are always valid */
         return PSA_SUCCESS;

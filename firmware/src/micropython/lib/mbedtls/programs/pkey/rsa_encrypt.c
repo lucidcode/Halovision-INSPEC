@@ -2,26 +2,10 @@
  *  RSA simple data encryption program
  *
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
-#if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
-#else
-#include MBEDTLS_CONFIG_FILE
-#endif
+#include "mbedtls/build_info.h"
 
 #include "mbedtls/platform.h"
 
@@ -76,7 +60,7 @@ int main(int argc, char *argv[])
     fflush(stdout);
 
     mbedtls_mpi_init(&N); mbedtls_mpi_init(&E);
-    mbedtls_rsa_init(&rsa, MBEDTLS_RSA_PKCS_V15, 0);
+    mbedtls_rsa_init(&rsa);
     mbedtls_ctr_drbg_init(&ctr_drbg);
     mbedtls_entropy_init(&entropy);
 
@@ -127,8 +111,7 @@ int main(int argc, char *argv[])
     fflush(stdout);
 
     ret = mbedtls_rsa_pkcs1_encrypt(&rsa, mbedtls_ctr_drbg_random,
-                                    &ctr_drbg, MBEDTLS_RSA_PUBLIC,
-                                    strlen(argv[1]), input, buf);
+                                    &ctr_drbg, strlen(argv[1]), input, buf);
     if (ret != 0) {
         mbedtls_printf(" failed\n  ! mbedtls_rsa_pkcs1_encrypt returned %d\n\n",
                        ret);
@@ -143,7 +126,7 @@ int main(int argc, char *argv[])
         goto exit;
     }
 
-    for (i = 0; i < rsa.len; i++) {
+    for (i = 0; i < rsa.MBEDTLS_PRIVATE(len); i++) {
         mbedtls_fprintf(f, "%02X%s", buf[i],
                         (i + 1) % 16 == 0 ? "\r\n" : " ");
     }
@@ -159,11 +142,6 @@ exit:
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_entropy_free(&entropy);
     mbedtls_rsa_free(&rsa);
-
-#if defined(_WIN32)
-    mbedtls_printf("  + Press Enter to exit this program.\n");
-    fflush(stdout); getchar();
-#endif
 
     mbedtls_exit(exit_code);
 }

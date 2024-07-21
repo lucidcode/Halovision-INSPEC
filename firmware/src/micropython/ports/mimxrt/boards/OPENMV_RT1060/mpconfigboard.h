@@ -9,7 +9,7 @@
  * Board config for OpenMV-RT60.
  */
 
-#define MICROPY_HW_BOARD_NAME   "lucidcode INSPEC"
+#define MICROPY_HW_BOARD_NAME   "OpenMV IMXRT1060"
 #define MICROPY_HW_MCU_NAME     "MIMXRT1062DVJ6A"
 
 extern void mimxrt_hal_bootloader(void);

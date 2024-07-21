@@ -3,19 +3,7 @@
 """
 
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 
 import argparse
 import os
@@ -44,8 +32,9 @@ class Requirements:
         """Adjust a requirement to the minimum specified version."""
         # allow inheritance #pylint: disable=no-self-use
         # If a requirement specifies a minimum version, impose that version.
-        req = re.sub(r'>=|~=', r'==', req)
-        return req
+        split_req = req.split(';', 1)
+        split_req[0] = re.sub(r'>=|~=', r'==', split_req[0])
+        return ';'.join(split_req)
 
     def add_file(self, filename: str) -> None:
         """Add requirements from the specified file.
@@ -56,19 +45,18 @@ class Requirements:
         * Comments (``#`` at the beginning of the line or after whitespace).
         * ``-r FILENAME`` to include another file.
         """
-        with open(filename) as fd:
-            for line in fd:
-                line = line.strip()
-                line = re.sub(r'(\A|\s+)#.*', r'', line)
-                if not line:
-                    continue
-                m = re.match(r'-r\s+', line)
-                if m:
-                    nested_file = os.path.join(os.path.dirname(filename),
-                                               line[m.end(0):])
-                    self.add_file(nested_file)
-                    continue
-                self.requirements.append(self.adjust_requirement(line))
+        for line in open(filename):
+            line = line.strip()
+            line = re.sub(r'(\A|\s+)#.*', r'', line)
+            if not line:
+                continue
+            m = re.match(r'-r\s+', line)
+            if m:
+                nested_file = os.path.join(os.path.dirname(filename),
+                                           line[m.end(0):])
+                self.add_file(nested_file)
+                continue
+            self.requirements.append(self.adjust_requirement(line))
 
     def write(self, out: typing_util.Writable) -> None:
         """List the gathered requirements."""

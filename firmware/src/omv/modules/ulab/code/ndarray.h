@@ -40,7 +40,7 @@
 // Constant float objects are a struct in ROM and are referenced via their pointer.
 
 // Use ULAB_DEFINE_FLOAT_CONST to define a constant float object.
-// id is the name of the constant, num is it's floating point value.
+// id is the name of the constant, num is its floating point value.
 // hex32 is computed as: hex(int.from_bytes(array.array('f', [num]), 'little'))
 // hex64 is computed as: hex(int.from_bytes(array.array('d', [num]), 'little'))
 
@@ -111,13 +111,7 @@ typedef struct _mp_obj_slice_t {
 #endif
 #endif
 
-#if !CIRCUITPY
-#define translate(x) MP_ERROR_TEXT(x)
 #define ndarray_set_value(a, b, c, d) mp_binary_set_val_array(a, b, c, d)
-#else
-void ndarray_set_value(char , void *, size_t , mp_obj_t );
-#endif
-
 void ndarray_set_complex_value(void *, size_t , mp_obj_t );
 
 #define NDARRAY_NUMERIC   0

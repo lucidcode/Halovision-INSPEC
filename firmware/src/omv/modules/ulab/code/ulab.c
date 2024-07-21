@@ -33,7 +33,7 @@
 #include "user/user.h"
 #include "utils/utils.h"
 
-#define ULAB_VERSION 6.0.12
+#define ULAB_VERSION 6.5.2
 #define xstr(s) str(s)
 #define str(s) #s
 
@@ -43,13 +43,13 @@
 #define ULAB_VERSION_STRING xstr(ULAB_VERSION) xstr(-) xstr(ULAB_MAX_DIMS) xstr(D)
 #endif
 
-STATIC MP_DEFINE_STR_OBJ(ulab_version_obj, ULAB_VERSION_STRING);
+static MP_DEFINE_STR_OBJ(ulab_version_obj, ULAB_VERSION_STRING);
 
 #ifdef ULAB_HASH
-STATIC MP_DEFINE_STR_OBJ(ulab_sha_obj, xstr(ULAB_HASH));
+static MP_DEFINE_STR_OBJ(ulab_sha_obj, xstr(ULAB_HASH));
 #endif
 
-STATIC const mp_rom_map_elem_t ulab_ndarray_locals_dict_table[] = {
+static const mp_rom_map_elem_t ulab_ndarray_locals_dict_table[] = {
     #if ULAB_MAX_DIMS > 1
         #if NDARRAY_HAS_RESHAPE
             { MP_ROM_QSTR(MP_QSTR_reshape), MP_ROM_PTR(&ndarray_reshape_obj) },
@@ -76,29 +76,9 @@ STATIC const mp_rom_map_elem_t ulab_ndarray_locals_dict_table[] = {
     #if NDARRAY_HAS_SORT
         { MP_ROM_QSTR(MP_QSTR_sort), MP_ROM_PTR(&numerical_sort_inplace_obj) },
     #endif
-    #ifdef CIRCUITPY
-        #if NDARRAY_HAS_DTYPE
-            { MP_ROM_QSTR(MP_QSTR_dtype), MP_ROM_PTR(&ndarray_dtype_obj) },
-        #endif
-        #if NDARRAY_HAS_FLATITER
-            { MP_ROM_QSTR(MP_QSTR_flat), MP_ROM_PTR(&ndarray_flat_obj) },
-        #endif
-        #if NDARRAY_HAS_ITEMSIZE
-            { MP_ROM_QSTR(MP_QSTR_itemsize), MP_ROM_PTR(&ndarray_itemsize_obj) },
-        #endif
-        #if NDARRAY_HAS_SHAPE
-            { MP_ROM_QSTR(MP_QSTR_shape), MP_ROM_PTR(&ndarray_shape_obj) },
-        #endif
-        #if NDARRAY_HAS_SIZE
-            { MP_ROM_QSTR(MP_QSTR_size), MP_ROM_PTR(&ndarray_size_obj) },
-        #endif
-        #if NDARRAY_HAS_STRIDES
-            { MP_ROM_QSTR(MP_QSTR_strides), MP_ROM_PTR(&ndarray_strides_obj) },
-        #endif
-    #endif /* CIRCUITPY */
 };
 
-STATIC MP_DEFINE_CONST_DICT(ulab_ndarray_locals_dict, ulab_ndarray_locals_dict_table);
+static MP_DEFINE_CONST_DICT(ulab_ndarray_locals_dict, ulab_ndarray_locals_dict_table);
 
 #if defined(MP_DEFINE_CONST_OBJ_TYPE)
 // MicroPython after-b41aaaa (Sept 19 2022).
@@ -167,9 +147,7 @@ const mp_obj_type_t ulab_ndarray_type = {
     #if NDARRAY_HAS_BINARY_OPS
     .binary_op = ndarray_binary_op,
     #endif
-    #ifndef CIRCUITPY
     .attr = ndarray_properties_attr,
-    #endif
     .buffer_p = { .get_buffer = ndarray_get_buffer, },
     )
 };
@@ -214,7 +192,7 @@ const mp_obj_type_t ndarray_flatiter_type = {
 #endif
 #endif
 
-STATIC const mp_rom_map_elem_t ulab_globals_table[] = {
+static const mp_rom_map_elem_t ulab_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_ulab) },
     { MP_ROM_QSTR(MP_QSTR___version__), MP_ROM_PTR(&ulab_version_obj) },
     #ifdef ULAB_HASH
@@ -239,7 +217,7 @@ STATIC const mp_rom_map_elem_t ulab_globals_table[] = {
     #endif
 };
 
-STATIC MP_DEFINE_CONST_DICT (
+static MP_DEFINE_CONST_DICT (
     mp_module_ulab_globals,
     ulab_globals_table
 );
@@ -253,10 +231,4 @@ const mp_obj_module_t ulab_user_cmodule = {
     .globals = (mp_obj_dict_t*)&mp_module_ulab_globals,
 };
 
-// Use old three-argument MP_REGISTER_MODULE for
-// MicroPython <= v1.18.0: (1 << 16) | (18 << 8) | 0
-#if !defined(MICROPY_VERSION) || MICROPY_VERSION <= 70144
-MP_REGISTER_MODULE(MP_QSTR_ulab, ulab_user_cmodule, MODULE_ULAB_ENABLED);
-#else
 MP_REGISTER_MODULE(MP_QSTR_ulab, ulab_user_cmodule);
-#endif

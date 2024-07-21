@@ -93,7 +93,7 @@
 
 #include "extmod/vfs.h"
 #include "extmod/vfs_fat.h"
-#include "boot_utils.h"
+#include "mp_utils.h"
 
 int errno;
 extern char _vfs_buf[];
@@ -273,18 +273,8 @@ soft_reset:
     mp_thread_init();
     #endif
 
-    // Stack limit should be less than real stack size, so we have a
-    // chance to recover from limit hit. (Limit is measured in bytes)
-    mp_stack_set_top(&_estack);
-    mp_stack_set_limit((char *) &_estack - (char *) &_sstack - 1024);
-
-    // GC init
-    gc_init(&_heap_start, &_heap_end);
-
-    #if MICROPY_ENABLE_PYSTACK
-    static mp_obj_t pystack[384];
-    mp_pystack_init(pystack, &pystack[384]);
-    #endif
+    // Initialize the stack and GC memory.
+    mp_init_gc_stack(&_sstack, &_estack, &_heap_start, &_heap_end, 1024);
 
     // Micro Python init
     mp_init();
@@ -326,9 +316,8 @@ soft_reset:
     #endif
     rtc_init_start(false);
     #if MICROPY_PY_LWIP
-    // lwIP doesn't allow to reinitialise itself by subsequent calls to this function
-    // because the system timeout list (next_timeout) is only ever reset by BSS clearing.
-    // So for now we only init the lwIP stack once on power-up.
+    // lwIP can only be initialized once, because the system timeout
+    // list (next_timeout), is only ever reset by BSS clearing.
     if (first_soft_reset) {
         lwip_init();
         #if LWIP_MDNS_RESPONDER
@@ -337,20 +326,19 @@ soft_reset:
     }
     systick_enable_dispatch(SYSTICK_DISPATCH_LWIP, mod_network_lwip_poll_wrapper);
     #endif
+
     #if MICROPY_PY_BLUETOOTH
     mp_bluetooth_hci_init();
     #endif
 
     #if MICROPY_PY_NETWORK_CYW43
-    if (first_soft_reset) {
-        cyw43_init(&cyw43_state);
-        uint8_t buf[8];
-        memcpy(&buf[0], "PYBD", 4);
-        mp_hal_get_mac_ascii(MP_HAL_MAC_WLAN0, 8, 4, (char *) &buf[4]);
-        cyw43_wifi_ap_set_ssid(&cyw43_state, 8, buf);
-        cyw43_wifi_ap_set_auth(&cyw43_state, CYW43_AUTH_WPA2_AES_PSK);
-        cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *) "pybd0123");
-    }
+    cyw43_init(&cyw43_state);
+    uint8_t buf[8];
+    memcpy(&buf[0], "PYBD", 4);
+    mp_hal_get_mac_ascii(MP_HAL_MAC_WLAN0, 8, 4, (char *) &buf[4]);
+    cyw43_wifi_ap_set_ssid(&cyw43_state, 8, buf);
+    cyw43_wifi_ap_set_auth(&cyw43_state, CYW43_AUTH_WPA2_AES_PSK);
+    cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *) "pybd0123");
     #endif
 
     pyb_usb_init0();
@@ -366,10 +354,9 @@ soft_reset:
     py_imu_init();
     #endif // MICROPY_PY_IMU
 
+    #if MICROPY_PY_NETWORK
     mod_network_init();
-
-    // Remove the BASEPRI masking (if any)
-    irq_set_base_priority(0);
+    #endif
 
     #if MICROPY_HW_ENABLE_SDCARD
     // Initialize storage
@@ -405,7 +392,7 @@ soft_reset:
     if (res == FR_NO_FILESYSTEM) {
         // Create a fresh filesystem.
         led_state(LED_RED, 1);
-        bootutils_init_filesystem(vfs_fat);
+        mp_init_filesystem(vfs_fat);
         led_state(LED_RED, 0);
         // Flush storage
         storage_flush();
@@ -467,9 +454,7 @@ else {
     // report if SDRAM failed
     #if MICROPY_HW_SDRAM_SIZE
     if (first_soft_reset && (!sdram_ok)) {
-        char buf[512];
-        snprintf(buf, sizeof(buf), "Failed to init sdram!");
-        __fatal_error(buf);
+        __fatal_error("Failed to init sdram!");
     }
     #endif
 
@@ -480,11 +465,11 @@ else {
 
 
     // Run boot.py script.
-    bool interrupted = bootutils_exec_bootscript("boot.py", true, false);
+    bool interrupted = mp_exec_bootscript("boot.py", true, false);
 
     // Run main.py script on first soft-reset.
     if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
-        bootutils_exec_bootscript("main.py", true, openmv_config.wifidbg);
+        mp_exec_bootscript("main.py", true, openmv_config.wifidbg);
         goto soft_reset_exit;
     }
 
@@ -537,20 +522,7 @@ else {
                 usbdbg_set_irq_enabled(false);
                 nlr_pop();
             } else {
-                mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
-            }
-
-            if (usbdbg_is_busy() && nlr_push(&nlr) == 0) {
-                // Enable IDE interrupt
-                usbdbg_set_irq_enabled(true);
-                #if OMV_WIFIDBG_ENABLE && MICROPY_PY_WINC1500
-                wifidbg_set_irq_enabled(openmv_config.wifidbg);
-                #endif
-                // Wait for the current command to finish.
-                usbdbg_wait_for_command(1000);
-                // Disable IDE interrupts
-                usbdbg_set_irq_enabled(false);
-                nlr_pop();
+                mp_obj_print_exception(MP_PYTHON_PRINTER, (mp_obj_t) nlr.ret_val);
             }
         }
 
@@ -558,18 +530,10 @@ else {
 
 soft_reset_exit:
     // soft reset
-    mp_printf(&mp_plat_print, "MPY: soft reboot\n");
+    mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
 
     // Flush filesystem storage.
     storage_flush();
-
-    // Call GC sweep first, before deinitializing networking drivers
-    // such as WINC/CYW43 which need to be active to close sockets
-    // when their finalizers are called by GC.
-    gc_sweep_all();
-
-    // Disable all other IRQs except Systick
-    irq_set_base_priority(IRQ_PRI_SYSTICK + 1);
 
     #if MICROPY_PY_LWIP
     systick_disable_dispatch(SYSTICK_DISPATCH_LWIP);
@@ -579,6 +543,9 @@ soft_reset_exit:
     #endif
     #if MICROPY_PY_NETWORK
     mod_network_deinit();
+    #endif
+    #if MICROPY_PY_NETWORK_CYW43
+    cyw43_deinit(&cyw43_state);
     #endif
     timer_deinit();
     i2c_deinit_all();
@@ -594,9 +561,8 @@ soft_reset_exit:
     py_audio_deinit();
     #endif
     imlib_deinit_all();
-
+    gc_sweep_all();
     mp_deinit();
-
     first_soft_reset = false;
     goto soft_reset;
 }

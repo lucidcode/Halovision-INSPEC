@@ -2,19 +2,8 @@
 """
 
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 #
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import itertools
 import re
@@ -102,6 +91,7 @@ class PSAMacroEnumerator:
         self.mac_algorithms = set() #type: Set[str]
         self.ka_algorithms = set() #type: Set[str]
         self.kdf_algorithms = set() #type: Set[str]
+        self.pake_algorithms = set() #type: Set[str]
         self.aead_algorithms = set() #type: Set[str]
         self.sign_algorithms = set() #type: Set[str]
         # macro name -> list of argument names
@@ -395,6 +385,7 @@ enumerate
             'asymmetric_signature_algorithm': [self.sign_algorithms],
             'asymmetric_signature_wildcard': [self.algorithms],
             'asymmetric_encryption_algorithm': [],
+            'pake_algorithm': [self.pake_algorithms],
             'other_algorithm': [],
             'lifetime': [self.lifetimes],
         } #type: Dict[str, List[Set[str]]]
@@ -437,6 +428,7 @@ enumerate
         self.mac_algorithms.add('0x03007fff')
         self.ka_algorithms.add('0x09fc0000')
         self.kdf_algorithms.add('0x080000ff')
+        self.pake_algorithms.add('0x0a0000ff')
         # For AEAD algorithms, the only variability is over the tag length,
         # and this only applies to known algorithms, so don't test an
         # unknown algorithm.

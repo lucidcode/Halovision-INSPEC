@@ -103,10 +103,12 @@ the following libraries.
    micropython.rst
    neopixel.rst
    network.rst
+   openamp.rst
    uctypes.rst
    mutex.rst
    uping.rst
    urequests.rst
+   vfs.rst
 
 Libraries specific to the OpenMV Cam
 ------------------------------------

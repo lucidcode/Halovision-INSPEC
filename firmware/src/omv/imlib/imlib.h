@@ -145,12 +145,22 @@ typedef struct rectangle {
     int16_t h;
 } rectangle_t;
 
+typedef struct bounding_box_lnk_data {
+    rectangle_t rect;
+    float score;
+    int label_index;
+} bounding_box_lnk_data_t;
+
 void rectangle_init(rectangle_t *ptr, int x, int y, int w, int h);
 void rectangle_copy(rectangle_t *dst, rectangle_t *src);
 bool rectangle_equal_fast(rectangle_t *ptr0, rectangle_t *ptr1);
 bool rectangle_overlap(rectangle_t *ptr0, rectangle_t *ptr1);
 void rectangle_intersected(rectangle_t *dst, rectangle_t *src);
 void rectangle_united(rectangle_t *dst, rectangle_t *src);
+float rectangle_iou(rectangle_t *r1, rectangle_t *r2);
+void rectangle_nms_add_bounding_box(list_t *bounding_boxes, bounding_box_lnk_data_t *box);
+int rectangle_nms_get_bounding_boxes(list_t *bounding_boxes, float threshold, float sigma);
+void rectangle_map_bounding_boxes(list_t *bounding_boxes, int window_w, int window_h, rectangle_t *roi);
 
 /////////////////
 // Color Stuff //
@@ -753,6 +763,13 @@ bool image_get_mask_pixel(image_t *ptr, int x, int y);
 #define JPEG_422_YCBCR_MCU_SIZE    ((JPEG_444_GS_MCU_SIZE) * 4)
 #define JPEG_420_YCBCR_MCU_SIZE    ((JPEG_444_GS_MCU_SIZE) * 6)
 
+typedef enum jpeg_subsampling {
+    JPEG_SUBSAMPLING_AUTO = 0,
+    JPEG_SUBSAMPLING_444  = 0x11, // Chroma subsampling 4:4:4 (No subsampling)
+    JPEG_SUBSAMPLING_422  = 0x21, // Chroma subsampling 4:2:2
+    JPEG_SUBSAMPLING_420  = 0x22, // Chroma subsampling 4:2:0
+} jpeg_subsampling_t;
+
 // Old Image Macros - Will be refactor and removed. But, only after making sure through testing new macros work.
 
 // Image kernels
@@ -964,12 +981,6 @@ typedef enum template_match {
     SEARCH_DS,  // Diamond search
 } template_match_t;
 
-typedef enum  jpeg_subsample {
-    JPEG_SUBSAMPLE_1x1 = 0x11,  // 1x1 chroma subsampling (No subsampling)
-    JPEG_SUBSAMPLE_2x1 = 0x21,  // 2x2 chroma subsampling
-    JPEG_SUBSAMPLE_2x2 = 0x22,  // 2x2 chroma subsampling
-} jpeg_subsample_t;
-
 typedef enum corner_detector_type {
     CORNER_FAST,
     CORNER_AGAST
@@ -1132,6 +1143,10 @@ typedef struct imlib_draw_row_data {
     bool dma2d_enabled; // private
     bool dma2d_initialized; // private
     DMA2D_HandleTypeDef dma2d; // private
+    #if __DCACHE_PRESENT
+    void *dma2d_invalidate_addr; // private
+    int32_t dma2d_invalidate_dsize; // private
+    #endif
     #endif
     long smuad_alpha; // private
     uint32_t *smuad_alpha_palette; // private
@@ -1180,7 +1195,7 @@ void imlib_hardware_jpeg_deinit();
 void jpeg_get_mcu(image_t *src, int x_offset, int y_offset, int dx, int dy,
                   int8_t *Y0, int8_t *CB, int8_t *CR);
 void jpeg_decompress(image_t *dst, image_t *src);
-bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc);
+bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_subsampling_t subsampling);
 bool jpeg_is_valid(image_t *img);
 int jpeg_clean_trailing_bytes(int bpp, uint8_t *data);
 void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settings_t *rs);
@@ -1370,6 +1385,8 @@ void imlib_awb(image_t *img, uint32_t r_out, uint32_t g_out, uint32_t b_out);
 void imlib_ccm(image_t *img, float *ccm, bool offset);
 void imlib_gamma(image_t *img, float gamma, float scale, float offset);
 // Binary Functions
+void imlib_zero_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_mask_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
 void imlib_binary(image_t *out, image_t *img, list_t *thresholds, bool invert, bool zero, image_t *mask);
 void imlib_invert(image_t *img);
 void imlib_b_and_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
@@ -1437,9 +1454,18 @@ void imlib_rotation_corr(image_t *img, float x_rotation, float y_rotation,
                          float zoom, float fov, float *corners);
 // Statistics
 void imlib_get_similarity(image_t *img,
-                          const char *path,
                           image_t *other,
-                          int scalar,
+                          int x_start,
+                          int y_start,
+                          float x_scale,
+                          float y_scale,
+                          rectangle_t *roi,
+                          int rgb_channel,
+                          int alpha,
+                          const uint16_t *color_palette,
+                          const uint8_t *alpha_palette,
+                          image_hint_t hint,
+                          bool dssim,
                           float *avg,
                           float *std,
                           float *min,

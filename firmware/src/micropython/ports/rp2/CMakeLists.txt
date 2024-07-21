@@ -41,7 +41,7 @@ endif()
 set(MICROPY_USER_FROZEN_MANIFEST ${MICROPY_FROZEN_MANIFEST})
 
 # Include board config, it may override MICROPY_FROZEN_MANIFEST
-include(${MICROPY_BOARD_DIR}/mpconfigboard.cmake) 
+include(${MICROPY_BOARD_DIR}/mpconfigboard.cmake)
 
 # Set the PICO_BOARD if it's not already set (allow a board to override it).
 if(NOT PICO_BOARD)
@@ -108,6 +108,7 @@ set(MICROPY_SOURCE_LIB
     ${MICROPY_DIR}/shared/tinyusb/mp_cdc_common.c
     ${MICROPY_DIR}/shared/tinyusb/mp_usbd.c
     ${MICROPY_DIR}/shared/tinyusb/mp_usbd_descriptor.c
+    ${MICROPY_DIR}/shared/tinyusb/mp_usbd_runtime.c
 )
 
 set(MICROPY_SOURCE_DRIVERS
@@ -128,6 +129,8 @@ set(MICROPY_SOURCE_PORT
     mphalport.c
     mpnetworkport.c
     mpthreadport.c
+    mutex_extra.c
+    pendsv.c
     rp2_flash.c
     rp2_pio.c
     rp2_dma.c
@@ -143,6 +146,7 @@ set(MICROPY_SOURCE_QSTR
     ${MICROPY_DIR}/shared/readline/readline.c
     ${MICROPY_DIR}/shared/runtime/mpirq.c
     ${MICROPY_DIR}/shared/runtime/sys_stdio_mphal.c
+    ${MICROPY_DIR}/shared/tinyusb/mp_usbd_runtime.c
     ${MICROPY_PORT_DIR}/machine_adc.c
     ${MICROPY_PORT_DIR}/machine_i2c.c
     ${MICROPY_PORT_DIR}/machine_pin.c
@@ -451,6 +455,15 @@ target_link_options(${MICROPY_TARGET} PRIVATE
     -Wl,--wrap=dcd_event_handler
 )
 
+# Apply optimisations to performance-critical source code.
+set_source_files_properties(
+    ${MICROPY_PY_DIR}/map.c
+    ${MICROPY_PY_DIR}/mpz.c
+    ${MICROPY_PY_DIR}/vm.c
+    PROPERTIES
+    COMPILE_OPTIONS "-O2"
+)
+
 set_source_files_properties(
     ${PICO_SDK_PATH}/src/rp2_common/pico_double/double_math.c
     ${PICO_SDK_PATH}/src/rp2_common/pico_float/float_math.c
@@ -472,6 +485,7 @@ target_compile_definitions(${MICROPY_TARGET} PRIVATE
     PICO_FLOAT_PROPAGATE_NANS=1
     PICO_STACK_SIZE=0x2000
     PICO_CORE1_STACK_SIZE=0
+    PICO_MAX_SHARED_IRQ_HANDLERS=8 # we need more than the default
     PICO_PROGRAM_NAME="MicroPython"
     PICO_NO_PROGRAM_VERSION_STRING=1 # do it ourselves in main.c
     MICROPY_BUILD_TYPE="${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION} ${CMAKE_BUILD_TYPE}"

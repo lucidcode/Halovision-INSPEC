@@ -1,12 +1,14 @@
+#define MBEDTLS_ALLOW_PRIVATE_ACCESS
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include "common.h"
 #include "mbedtls/ssl.h"
+#include "test/certs.h"
 #if defined(MBEDTLS_SSL_PROTO_DTLS)
 #include "mbedtls/entropy.h"
 #include "mbedtls/ctr_drbg.h"
-#include "mbedtls/certs.h"
 #include "mbedtls/timing.h"
 #include "mbedtls/ssl_cookie.h"
 
@@ -14,8 +16,8 @@
     defined(MBEDTLS_ENTROPY_C) && \
     defined(MBEDTLS_CTR_DRBG_C) && \
     defined(MBEDTLS_TIMING_C) && \
-    (defined(MBEDTLS_SHA256_C) || \
-    (defined(MBEDTLS_SHA512_C) && !defined(MBEDTLS_SHA512_NO_SHA384)))
+    (defined(MBEDTLS_MD_CAN_SHA384) || \
+    defined(MBEDTLS_MD_CAN_SHA256))
 const char *pers = "fuzz_dtlsserver";
 const unsigned char client_ip[4] = { 0x7F, 0, 0, 1 };
 static int initialized = 0;
@@ -33,8 +35,8 @@ int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
     defined(MBEDTLS_ENTROPY_C) && \
     defined(MBEDTLS_CTR_DRBG_C) && \
     defined(MBEDTLS_TIMING_C) && \
-    (defined(MBEDTLS_SHA256_C) || \
-    (defined(MBEDTLS_SHA512_C) && !defined(MBEDTLS_SHA512_NO_SHA384)))
+    (defined(MBEDTLS_MD_CAN_SHA384) || \
+    defined(MBEDTLS_MD_CAN_SHA256))
     int ret;
     size_t len;
     mbedtls_ssl_context ssl;
@@ -46,11 +48,31 @@ int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
     unsigned char buf[4096];
     fuzzBufferOffset_t biomemfuzz;
 
+    mbedtls_ctr_drbg_init(&ctr_drbg);
+    mbedtls_entropy_init(&entropy);
+#if defined(MBEDTLS_X509_CRT_PARSE_C) && defined(MBEDTLS_PEM_PARSE_C)
+    mbedtls_x509_crt_init(&srvcert);
+    mbedtls_pk_init(&pkey);
+#endif
+    mbedtls_ssl_init(&ssl);
+    mbedtls_ssl_config_init(&conf);
+    mbedtls_ssl_cookie_init(&cookie_ctx);
+
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    psa_status_t status = psa_crypto_init();
+    if (status != PSA_SUCCESS) {
+        goto exit;
+    }
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
+
+    if (mbedtls_ctr_drbg_seed(&ctr_drbg, dummy_entropy, &entropy,
+                              (const unsigned char *) pers, strlen(pers)) != 0) {
+        goto exit;
+    }
+
     if (initialized == 0) {
-#if defined(MBEDTLS_X509_CRT_PARSE_C) && defined(MBEDTLS_PEM_PARSE_C) && \
-        defined(MBEDTLS_CERTS_C)
-        mbedtls_x509_crt_init(&srvcert);
-        mbedtls_pk_init(&pkey);
+#if defined(MBEDTLS_X509_CRT_PARSE_C) && defined(MBEDTLS_PEM_PARSE_C)
+
         if (mbedtls_x509_crt_parse(&srvcert, (const unsigned char *) mbedtls_test_srv_crt,
                                    mbedtls_test_srv_crt_len) != 0) {
             return 1;
@@ -60,7 +82,8 @@ int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
             return 1;
         }
         if (mbedtls_pk_parse_key(&pkey, (const unsigned char *) mbedtls_test_srv_key,
-                                 mbedtls_test_srv_key_len, NULL, 0) != 0) {
+                                 mbedtls_test_srv_key_len, NULL, 0,
+                                 dummy_random, &ctr_drbg) != 0) {
             return 1;
         }
 #endif
@@ -68,17 +91,6 @@ int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
 
         initialized = 1;
     }
-    mbedtls_ssl_init(&ssl);
-    mbedtls_ssl_config_init(&conf);
-    mbedtls_ctr_drbg_init(&ctr_drbg);
-    mbedtls_entropy_init(&entropy);
-    mbedtls_ssl_cookie_init(&cookie_ctx);
-
-    if (mbedtls_ctr_drbg_seed(&ctr_drbg, dummy_entropy, &entropy,
-                              (const unsigned char *) pers, strlen(pers)) != 0) {
-        goto exit;
-    }
-
 
     if (mbedtls_ssl_config_defaults(&conf,
                                     MBEDTLS_SSL_IS_SERVER,
@@ -152,9 +164,16 @@ int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
 exit:
     mbedtls_ssl_cookie_free(&cookie_ctx);
     mbedtls_entropy_free(&entropy);
+#if defined(MBEDTLS_X509_CRT_PARSE_C) && defined(MBEDTLS_PEM_PARSE_C)
+    mbedtls_pk_free(&pkey);
+    mbedtls_x509_crt_free(&srvcert);
+#endif
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_ssl_config_free(&conf);
     mbedtls_ssl_free(&ssl);
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    mbedtls_psa_crypto_free();
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
 #else
     (void) Data;

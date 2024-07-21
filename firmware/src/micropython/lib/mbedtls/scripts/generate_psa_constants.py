@@ -12,23 +12,12 @@ file is written:
 """
 
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 
 import os
 import sys
 
+from mbedtls_dev import build_tree
 from mbedtls_dev import macro_collector
 
 OUTPUT_TEMPLATE = '''\
@@ -335,8 +324,7 @@ def generate_psa_constants(header_file_names, output_file_name):
     os.replace(temp_file_name, output_file_name)
 
 if __name__ == '__main__':
-    if not os.path.isdir('programs') and os.path.isdir('../programs'):
-        os.chdir('..')
+    build_tree.chdir_to_root()
     # Allow to change the directory where psa_constant_names_generated.c is written to.
     OUTPUT_FILE_DIR = sys.argv[1] if len(sys.argv) == 2 else "programs/psa"
     generate_psa_constants(['include/psa/crypto_values.h',

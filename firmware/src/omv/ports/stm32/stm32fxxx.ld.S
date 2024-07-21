@@ -44,31 +44,10 @@ MEMORY
   #if defined(OMV_FLASH_EXT_ORIGIN)
   FLASH_EXT (rx)    : ORIGIN = OMV_FLASH_EXT_ORIGIN, LENGTH = OMV_FLASH_EXT_LENGTH
   #endif
-  #if defined(OMV_CM4_RAM_ORIGIN)
-  CM4_SRAM (xrw)    : ORIGIN = OMV_CM4_RAM_ORIGIN,     LENGTH = OMV_CM4_RAM_LENGTH
-  #endif
 }
 
-_heap_size  = OMV_HEAP_SIZE;    /* required amount of heap */
-_stack_size = OMV_STACK_SIZE;   /* minimum amount of stack */
+_ram_start  = ORIGIN(OMV_MAIN_MEMORY);
 _ram_end    = ORIGIN(OMV_MAIN_MEMORY) + LENGTH(OMV_MAIN_MEMORY);
-#if defined(OMV_CM4_RAM_ORIGIN)
-_cm4_ram_start = ORIGIN(CM4_SRAM);
-#endif
-
-#if defined(OMV_JPEG_MEMORY)
-#if !defined(OMV_JPEG_MEMORY_OFFSET)
-#define OMV_JPEG_MEMORY_OFFSET          (0)
-#endif
-_jpeg_buf           = ORIGIN(OMV_JPEG_MEMORY) + OMV_JPEG_MEMORY_OFFSET;
-#endif
-
-#if defined(OMV_VOSPI_MEMORY)
-#if !defined(OMV_VOSPI_MEMORY_OFFSET)
-#define OMV_VOSPI_MEMORY_OFFSET         (0)
-#endif
-_vospi_buf          = ORIGIN(OMV_VOSPI_MEMORY) + OMV_VOSPI_MEMORY_OFFSET;
-#endif
 
 // Location of filesystem flash storage
 _micropy_hw_internal_flash_storage_start = ORIGIN(FLASH_FFS);
@@ -87,9 +66,8 @@ _micropy_hw_internal_flash_storage_ram_cache_end = LENGTH(OMV_FFS_MEMORY);
 SECTIONS
 {
   /* The program code and other data goes into FLASH */
-  .text :
+  .text : ALIGN(4)
   {
-    . = ALIGN(4);
     KEEP(*(.isr_vector))// ISR table
     . = ALIGN(4);
     *(.text)            // .text sections (code)
@@ -100,151 +78,49 @@ SECTIONS
     . = ALIGN(4);
     *(.rodata*)         // .rodata* sections (constants, strings, etc.)
     . = ALIGN(4);
-    _etext = .;         // define a global symbols at end of code
   } >FLASH_TEXT
 
-  .ARM.exidx :
-  {
-      *(.ARM.exidx*)
-  } > FLASH_TEXT
-
-  /* used by the startup to initialize data */
+  /* The address used as the source for copying the initialized data section. */
   _sidata = LOADADDR(.data);
 
-  /* Main framebuffer memory */
-  .fb_memory (NOLOAD) :
-  {
-    . = ALIGN(4);
-    _fb_base = .;
-    . += OMV_FB_SIZE;
-
-    _fb_end = .;
-    . += OMV_FB_ALLOC_SIZE;
-
-    . = ALIGN(4);
-    _fballoc = .;
-    . = ALIGN(4);
-  } >OMV_FB_MEMORY
-
-  #if defined(OMV_FB_OVERLAY_MEMORY)
-  .fb_overlay_memory (NOLOAD) :
-  {
-    . = ALIGN(4);
-    _fballoc_overlay_start = .;
-    . = . + OMV_FB_OVERLAY_SIZE;
-    _fballoc_overlay_end = .;
-  } >OMV_FB_OVERLAY_MEMORY
-  #endif
-
-  /* Misc DMA buffers section */
-  .dma_memory (NOLOAD) :
-  {
-    . = ALIGN(16);
-    _line_buf = .;      // Image line buffer.
-    . = . + OMV_LINE_BUF_SIZE;
-
-    . = ALIGN(16);
-    _msc_buf  = .;      // USB MSC bot data (2K)
-    . = . + OMV_MSC_BUF_SIZE;
-
-    . = ALIGN(16);
-    _vfs_buf  = .;      // VFS struct + FATFS file buffer  (around 624 bytes)
-    . = . + OMV_VFS_BUF_SIZE;
-
-    #if defined(OMV_FFS_BUF_SIZE)
-    . = ALIGN(16);
-    _micropy_hw_internal_flash_storage_ram_cache_start = .;
-    . = . + OMV_FFS_BUF_SIZE;
-    _micropy_hw_internal_flash_storage_ram_cache_end = .;
-    #endif
-
-    #if !defined(OMV_JPEG_MEMORY)
-    . = ALIGN(16);
-    _jpeg_buf = .;      // IDE JPEG buffer
-    . = . + OMV_JPEG_BUF_SIZE;
-    #endif
-
-   . = ALIGN(16);
-    *(.dma_buffer)
-  } >OMV_DMA_MEMORY
-
-  /* Domain 1 DMA buffers. */
-  #if defined(OMV_DMA_MEMORY_D1)
-  .d1_dma_memory (NOLOAD) :
-  {
-   . = ALIGN(16);
-    *(.d1_dma_buffer)
-  } >OMV_DMA_MEMORY_D1
-  #endif
-
-  /* Domain 2 DMA buffers. */
-  #if defined(OMV_DMA_MEMORY_D2)
-  .d2_dma_memory (NOLOAD) :
-  {
-   . = ALIGN(16);
-    *(.d2_dma_buffer)
-  } >OMV_DMA_MEMORY_D2
-  #endif
-
-  /* Domain 3 DMA buffers. */
-  #if defined(OMV_DMA_MEMORY_D3)
-  .d3_dma_memory (NOLOAD) :
-  {
-   . = ALIGN(16);
-    *(.d3_dma_buffer)
-  } >OMV_DMA_MEMORY_D3
-  #endif
-
   /* Initialized data sections */
-  .data :
+  .data : ALIGN(4)
   {
-    . = ALIGN(4);
-    _sdata = .;         // Create a global symbol at data start
-    _ram_start = .;
+    _sdata = .;         // Used by the startup to initialize the data section
     *(.data)            // .data sections
-
     . = ALIGN(4);
     *(.data*)           // .data* sections
-
     . = ALIGN(4);
-    _edata = .;         // define a global symbol at data end
+    _edata = .;         // Define a global symbol at data end
   } >OMV_MAIN_MEMORY AT> FLASH_TEXT
 
   /* Uninitialized data section */
-  . = ALIGN(4);
-  .bss (NOLOAD) :
+  .bss (NOLOAD) : ALIGN(4)
   {
-    . = ALIGN(4);
     _sbss = .;          // Used by the startup to initialize the .bss section
     . = ALIGN(4);
     *(.bss*)
     . = ALIGN(4);
     *(COMMON)
     . = ALIGN(4);
-    _ebss = .;          // define a global symbol at bss end
+    _ebss = .;          // Define a global symbol at bss end
   } >OMV_MAIN_MEMORY
 
-  ._heap (NOLOAD) :
+  /* CM4 boot memory */
+  #if defined(OMV_CM4_BOOT_MEMORY)
+  .cm4_boot_memory (NOLOAD) : ALIGN(4)
   {
+    _cm4_ram_start = .;
+    . = . + OMV_CM4_BOOT_SIZE;
     . = ALIGN(4);
-    _heap_start = .;
-    . = . + _heap_size;
+    _cm4_ram_start = .;
+  } >OMV_CM4_BOOT_MEMORY
+  #endif
 
-    . = ALIGN(4);
-    _heap_end  = .;
+  #include "common.ld.S"
 
-  } >OMV_MAIN_MEMORY
-
-  /* Make sure there is enough ram for the stack */
-  ._stack (NOLOAD) :
+  .mp_etext :
   {
-    . = ALIGN(8);
-    _sstack  = .;
-    . = . + _stack_size;
-
-    . = ALIGN(8);
-    _estack  = .;
-  } >OMV_STACK_MEMORY
-
-  .ARM.attributes 0 : { *(.ARM.attributes) }
+    _etext = .;         // This is for stm modmachine, and not used for anything else.
+  } > FLASH_TEXT
 }

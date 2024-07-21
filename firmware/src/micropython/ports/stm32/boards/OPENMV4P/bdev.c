@@ -2,7 +2,7 @@
 #include "storage.h"
 
 // Shared cache for first and second SPI block devices
-STATIC mp_spiflash_cache_t spi_bdev_cache;
+static mp_spiflash_cache_t spi_bdev_cache;
 
 const mp_spiflash_config_t spiflash_config = {
     .bus_kind = MP_SPIFLASH_BUS_QSPI,

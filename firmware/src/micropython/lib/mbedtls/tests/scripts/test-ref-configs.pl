@@ -3,19 +3,7 @@
 # test-ref-configs.pl
 #
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 #
 # Purpose
 #
@@ -36,14 +24,6 @@ my %configs = (
         'compat' => '-m dtls12 -f \'^TLS-PSK-WITH-AES-...-CCM-8\'',
         'opt' => ' ',
         'opt_needs_debug' => 1,
-        'test_again_with_use_psa' => 1
-    },
-    'config-mini-tls1_1.h' => {
-        'compat' => '-m tls1_1 -f \'^DES-CBC3-SHA$\|^TLS-RSA-WITH-3DES-EDE-CBC-SHA$\'', #',
-        ## Skip ssl-opt testing for now because ssl-opt.sh is missing a lot
-        ## of requires_xxx so it would try to run tests that don't apply.
-        # 'opt' => ' ',
-        # 'opt_needs_debug' => 1,
         'test_again_with_use_psa' => 1
     },
     'config-no-entropy.h' => {
@@ -77,7 +57,7 @@ if ($#ARGV >= 0) {
 
 -d 'library' && -d 'include' && -d 'tests' or die "Must be run from root\n";
 
-my $config_h = 'include/mbedtls/config.h';
+my $config_h = 'include/mbedtls/mbedtls_config.h';
 
 system( "cp $config_h $config_h.bak" ) and die;
 sub abort {
