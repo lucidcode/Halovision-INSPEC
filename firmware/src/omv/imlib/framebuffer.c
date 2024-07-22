@@ -15,7 +15,7 @@
 
 #define FB_ALIGN_SIZE_ROUND_DOWN(x)    (((x) / FRAMEBUFFER_ALIGNMENT) * FRAMEBUFFER_ALIGNMENT)
 #define FB_ALIGN_SIZE_ROUND_UP(x)      FB_ALIGN_SIZE_ROUND_DOWN(((x) + FRAMEBUFFER_ALIGNMENT - 1))
-#define CONSERVATIVE_JPEG_BUF_SIZE     (OMV_JPEG_BUF_SIZE - 64)
+#define CONSERVATIVE_JPEG_BUF_SIZE     (OMV_JPEG_SIZE - 64)
 
 extern char _fb_base;
 extern char _fb_end;
@@ -166,7 +166,7 @@ void framebuffer_update_jpeg_buffer() {
                     .pixels = jpeg_framebuffer->pixels
                 };
                 // Note: lower quality saves USB bandwidth and results in a faster IDE FPS.
-                bool overflow = jpeg_compress(src, &dst, jpeg_framebuffer->quality, false);
+                bool overflow = jpeg_compress(src, &dst, jpeg_framebuffer->quality, false, JPEG_SUBSAMPLING_AUTO);
 
                 if (overflow) {
                     // JPEG buffer overflowed, reduce JPEG quality for the next frame
@@ -342,6 +342,7 @@ void framebuffer_auto_adjust_buffers() {
 
 void framebuffer_free_current_buffer() {
     vbuffer_t *buffer = framebuffer_get_buffer(framebuffer->head);
+
     #ifdef __DCACHE_PRESENT
     // Make sure all cached CPU writes are discarded before returning the buffer.
     SCB_InvalidateDCache_by_Addr(buffer->data, framebuffer_get_buffer_size());
@@ -400,7 +401,16 @@ vbuffer_t *framebuffer_get_head(framebuffer_flags_t flags) {
         framebuffer->head = new_head;
     }
 
-    return framebuffer_get_buffer(new_head);
+    vbuffer_t *buffer = framebuffer_get_buffer(new_head);
+
+    #ifdef __DCACHE_PRESENT
+    if (flags & FB_INVALIDATE) {
+        // Make sure any cached CPU reads are dropped before returning the buffer.
+        SCB_InvalidateDCache_by_Addr(buffer->data, framebuffer_get_buffer_size());
+    }
+    #endif
+
+    return buffer;
 }
 
 vbuffer_t *framebuffer_get_tail(framebuffer_flags_t flags) {

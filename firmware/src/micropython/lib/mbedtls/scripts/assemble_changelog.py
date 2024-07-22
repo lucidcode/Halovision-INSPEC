@@ -19,19 +19,7 @@ You must run this program from within a git working directory.
 """
 
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 
 import argparse
 from collections import OrderedDict, namedtuple
@@ -407,17 +395,15 @@ def check_output(generated_output_file, main_input_file, merged_files):
     is also present in an output file. This is not perfect but good enough
     for now.
     """
-    with open(generated_output_file, 'r', encoding='utf-8') as out_fd:
-        generated_output = set(out_fd)
-        with open(main_input_file, 'r', encoding='utf-8') as in_fd:
-            for line in in_fd:
-                if line not in generated_output:
-                    raise LostContent('original file', line)
+    with open(generated_output_file, 'r', encoding='utf-8') as fd:
+        generated_output = set(fd)
+        for line in open(main_input_file, 'r', encoding='utf-8'):
+            if line not in generated_output:
+                raise LostContent('original file', line)
         for merged_file in merged_files:
-            with open(merged_file, 'r', encoding='utf-8') as in_fd:
-                for line in in_fd:
-                    if line not in generated_output:
-                        raise LostContent(merged_file, line)
+            for line in open(merged_file, 'r', encoding='utf-8'):
+                if line not in generated_output:
+                    raise LostContent(merged_file, line)
 
 def finish_output(changelog, output_file, input_file, merged_files):
     """Write the changelog to the output file.

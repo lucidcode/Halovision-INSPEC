@@ -23,13 +23,12 @@ DLEXT ?= so
 EXEXT=
 SHARED_SUFFIX=
 
-# Zlib shared library extensions:
-ifdef ZLIB
-LOCAL_LDFLAGS += -lz
-endif
-
 ifdef FUZZINGENGINE
 LOCAL_LDFLAGS += -lFuzzingEngine
+endif
+
+ifdef WINDOWS_BUILD
+LOCAL_LDFLAGS += -lbcrypt
 endif
 
 # A test application is built for each suites/test_suite_*.data file.

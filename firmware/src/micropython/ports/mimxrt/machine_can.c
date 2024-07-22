@@ -90,15 +90,15 @@ typedef struct _iomux_table_t {
     uint32_t configRegister;
 } iomux_table_t;
 
-STATIC const uint8_t can_index_table[] = MICROPY_HW_CAN_INDEX;
+static const uint8_t can_index_table[] = MICROPY_HW_CAN_INDEX;
 #ifdef MIMXRT117x_SERIES
-STATIC const uint32_t can_clock_index_table[] = {
+static const uint32_t can_clock_index_table[] = {
     BOARD_BOOTCLOCKRUN_CAN1_CLK_ROOT,
     BOARD_BOOTCLOCKRUN_CAN2_CLK_ROOT,
     BOARD_BOOTCLOCKRUN_CAN3_CLK_ROOT
 };
 #endif
-STATIC CAN_Type *can_base_ptr_table[] = CAN_BASE_PTRS;
+static CAN_Type *can_base_ptr_table[] = CAN_BASE_PTRS;
 static const iomux_table_t iomux_table[] = {
     IOMUX_TABLE_CAN
 };
@@ -224,7 +224,7 @@ void machine_can_irq_deinit(void) {
     }
 }
 
-STATIC void machine_can_print(const mp_print_t *print, mp_obj_t self_in, mp_print_kind_t kind) {
+static void machine_can_print(const mp_print_t *print, mp_obj_t self_in, mp_print_kind_t kind) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     if (!self->is_enabled) {
         mp_printf(print, "CAN(%u)", self->can_id);
@@ -247,7 +247,7 @@ STATIC void machine_can_print(const mp_print_t *print, mp_obj_t self_in, mp_prin
     }
 }
 
-STATIC mp_obj_t machine_can_init_helper(machine_can_obj_t *self, size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t machine_can_init_helper(machine_can_obj_t *self, size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_mode, ARG_auto_restart, ARG_baudrate };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_mode,         MP_ARG_REQUIRED | MP_ARG_INT,   {.u_int = CAN_NORMAL_MODE} },
@@ -376,21 +376,21 @@ mp_obj_t machine_can_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
 }
 
 // can.init(mode, [kwargs])
-STATIC mp_obj_t machine_can_init(size_t n_args, const mp_obj_t *args, mp_map_t *kw_args) {
+static mp_obj_t machine_can_init(size_t n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     return machine_can_init_helper(args[0], n_args - 1, args + 1, kw_args);
 }
 MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_init_obj, 1, machine_can_init);
 
 // deinit()
-STATIC mp_obj_t machine_can_deinit(mp_obj_t self_in) {
+static mp_obj_t machine_can_deinit(mp_obj_t self_in) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     machine_flexcan_deinit(self);
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(machine_can_deinit_obj, machine_can_deinit);
+static MP_DEFINE_CONST_FUN_OBJ_1(machine_can_deinit_obj, machine_can_deinit);
 
 // Force a software restart of the controller, to allow transmission after a bus error
-STATIC mp_obj_t machine_can_restart(mp_obj_t self_in) {
+static mp_obj_t machine_can_restart(mp_obj_t self_in) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     if (!self->is_enabled) {
         mp_raise_ValueError(MP_ERROR_TEXT("CAN bus not enabled"));
@@ -406,10 +406,10 @@ STATIC mp_obj_t machine_can_restart(mp_obj_t self_in) {
     }
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(machine_can_restart_obj, machine_can_restart);
+static MP_DEFINE_CONST_FUN_OBJ_1(machine_can_restart_obj, machine_can_restart);
 
 // Get the state of the controller
-STATIC mp_obj_t machine_can_state(mp_obj_t self_in) {
+static mp_obj_t machine_can_state(mp_obj_t self_in) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     if (self->is_enabled) {
         uint32_t result = FLEXCAN_GetStatusFlags(self->can_inst);
@@ -428,7 +428,7 @@ STATIC mp_obj_t machine_can_state(mp_obj_t self_in) {
     }
     return MP_OBJ_NEW_SMALL_INT(CAN_STATE_STOPPED);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(machine_can_state_obj, machine_can_state);
+static MP_DEFINE_CONST_FUN_OBJ_1(machine_can_state_obj, machine_can_state);
 
 static mp_uint_t can_count_txmb_pending(machine_can_obj_t *self) {
     mp_uint_t count = 0;
@@ -442,7 +442,7 @@ static mp_uint_t can_count_txmb_pending(machine_can_obj_t *self) {
 }
 
 // Get info about error states and TX/RX buffers
-STATIC mp_obj_t machine_can_info(size_t n_args, const mp_obj_t *args) {
+static mp_obj_t machine_can_info(size_t n_args, const mp_obj_t *args) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(args[0]);
     if (!self->is_enabled) {
         mp_raise_ValueError(MP_ERROR_TEXT("CAN bus not enabled"));
@@ -474,10 +474,10 @@ STATIC mp_obj_t machine_can_info(size_t n_args, const mp_obj_t *args) {
 
     return MP_OBJ_FROM_PTR(list);
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(machine_can_info_obj, 1, 2, machine_can_info);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(machine_can_info_obj, 1, 2, machine_can_info);
 
 // any(fifo) - return `True` if any message waiting on the FIFO, else `False`
-STATIC mp_obj_t machine_can_any(mp_obj_t self_in, mp_obj_t fifo_in) {
+static mp_obj_t machine_can_any(mp_obj_t self_in, mp_obj_t fifo_in) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     if (!self->is_enabled) {
         mp_raise_ValueError(MP_ERROR_TEXT("CAN bus not enabled"));
@@ -491,7 +491,7 @@ STATIC mp_obj_t machine_can_any(mp_obj_t self_in, mp_obj_t fifo_in) {
     }
     return mp_const_false;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_2(machine_can_any_obj, machine_can_any);
+static MP_DEFINE_CONST_FUN_OBJ_2(machine_can_any_obj, machine_can_any);
 
 static mp_uint_t can_find_txmb(machine_can_obj_t *self, flexcan_frame_t *frame) {
     // See if this frame id has been used before. If so, re-use the same mailbox to keep message ordering.
@@ -517,7 +517,7 @@ static mp_uint_t can_find_txmb(machine_can_obj_t *self, flexcan_frame_t *frame) 
     return 0;
 }
 
-STATIC mp_obj_t machine_can_send(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t machine_can_send(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_data, ARG_id, ARG_timeout, ARG_rtr, ARG_extframe };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_data,     MP_ARG_REQUIRED | MP_ARG_OBJ,   {.u_obj = MP_OBJ_NULL} },
@@ -613,10 +613,10 @@ STATIC mp_obj_t machine_can_send(size_t n_args, const mp_obj_t *pos_args, mp_map
 
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_send_obj, 1, machine_can_send);
+static MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_send_obj, 1, machine_can_send);
 
 // recv(fifo, list=None, *, timeout=5000)
-STATIC mp_obj_t machine_can_recv(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t machine_can_recv(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_fifo, ARG_list, ARG_timeout, ARG_fdf };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_fifo,    MP_ARG_REQUIRED | MP_ARG_INT, {.u_int = 0} },
@@ -733,9 +733,9 @@ STATIC mp_obj_t machine_can_recv(size_t n_args, const mp_obj_t *pos_args, mp_map
     // Return the result
     return ret_obj;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_recv_obj, 1, machine_can_recv);
+static MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_recv_obj, 1, machine_can_recv);
 
-STATIC mp_obj_t machine_can_clearfilter(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t machine_can_clearfilter(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_extframe };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_extframe, MP_ARG_BOOL, {.u_bool = false} },
@@ -762,10 +762,10 @@ STATIC mp_obj_t machine_can_clearfilter(size_t n_args, const mp_obj_t *pos_args,
 
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_clearfilter_obj, 2, machine_can_clearfilter);
+static MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_clearfilter_obj, 2, machine_can_clearfilter);
 
 // setfilter(bank, mode, fifo, params, *, rtr)
-STATIC mp_obj_t machine_can_setfilter(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t machine_can_setfilter(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_bank, ARG_mode, ARG_fifo, ARG_params, ARG_rtr, ARG_extframe };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_bank,     MP_ARG_REQUIRED | MP_ARG_INT, {.u_int = 0} },
@@ -838,9 +838,9 @@ STATIC mp_obj_t machine_can_setfilter(size_t n_args, const mp_obj_t *pos_args, m
 error:
     mp_raise_ValueError(MP_ERROR_TEXT("CAN filter parameter error"));
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_setfilter_obj, 1, machine_can_setfilter);
+static MP_DEFINE_CONST_FUN_OBJ_KW(machine_can_setfilter_obj, 1, machine_can_setfilter);
 
-STATIC mp_obj_t machine_can_rxcallback(mp_obj_t self_in, mp_obj_t fifo_in, mp_obj_t callback_in) {
+static mp_obj_t machine_can_rxcallback(mp_obj_t self_in, mp_obj_t fifo_in, mp_obj_t callback_in) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     if (!self->is_enabled) {
         mp_raise_ValueError(MP_ERROR_TEXT("CAN bus not enabled"));
@@ -852,9 +852,9 @@ STATIC mp_obj_t machine_can_rxcallback(mp_obj_t self_in, mp_obj_t fifo_in, mp_ob
     self->callback = callback_in;
     return mp_const_none;
 }
-STATIC MP_DEFINE_CONST_FUN_OBJ_3(machine_can_rxcallback_obj, machine_can_rxcallback);
+static MP_DEFINE_CONST_FUN_OBJ_3(machine_can_rxcallback_obj, machine_can_rxcallback);
 
-STATIC const mp_rom_map_elem_t machine_can_locals_dict_table[] = {
+static const mp_rom_map_elem_t machine_can_locals_dict_table[] = {
     // instance methods
     { MP_ROM_QSTR(MP_QSTR_init), MP_ROM_PTR(&machine_can_init_obj) },
     { MP_ROM_QSTR(MP_QSTR_deinit), MP_ROM_PTR(&machine_can_deinit_obj) },
@@ -883,9 +883,9 @@ STATIC const mp_rom_map_elem_t machine_can_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_ERROR_PASSIVE), MP_ROM_INT(CAN_STATE_ERROR_PASSIVE) },
     { MP_ROM_QSTR(MP_QSTR_BUS_OFF), MP_ROM_INT(CAN_STATE_BUS_OFF) },
 };
-STATIC MP_DEFINE_CONST_DICT(machine_can_locals_dict, machine_can_locals_dict_table);
+static MP_DEFINE_CONST_DICT(machine_can_locals_dict, machine_can_locals_dict_table);
 
-STATIC mp_uint_t can_ioctl(mp_obj_t self_in, mp_uint_t request, uintptr_t arg, int *errcode) {
+static mp_uint_t can_ioctl(mp_obj_t self_in, mp_uint_t request, uintptr_t arg, int *errcode) {
     machine_can_obj_t *self = MP_OBJ_TO_PTR(self_in);
     mp_uint_t ret;
     if (self->is_enabled && request == MP_STREAM_POLL) {
@@ -908,7 +908,7 @@ STATIC mp_uint_t can_ioctl(mp_obj_t self_in, mp_uint_t request, uintptr_t arg, i
     return ret;
 }
 
-STATIC const mp_stream_p_t can_stream_p = {
+static const mp_stream_p_t can_stream_p = {
     .ioctl = can_ioctl,
     .is_text = false,
 };

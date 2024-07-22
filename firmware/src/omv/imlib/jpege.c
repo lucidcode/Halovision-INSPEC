@@ -16,6 +16,7 @@
 #define TIME_JPEG                  (0)
 #if (TIME_JPEG == 1)
 #include <stdio.h>
+#include "py/mphal.h"
 #endif
 
 // Expand 4 bits to 32 for binary to grayscale - process 4 pixels at a time
@@ -1509,7 +1510,7 @@ static void jpeg_init(int quality) {
     }
 }
 
-static void jpeg_write_headers(jpeg_buf_t *jpeg_buf, int w, int h, int bpp, jpeg_subsample_t jpeg_subsample) {
+static void jpeg_write_headers(jpeg_buf_t *jpeg_buf, int w, int h, int bpp, jpeg_subsampling_t subsampling) {
     // Number of components (1 or 3)
     uint8_t nr_comp = (bpp == 1)? 1 : 3;
 
@@ -1574,7 +1575,7 @@ static void jpeg_write_headers(jpeg_buf_t *jpeg_buf, int w, int h, int bpp, jpeg
     jpeg_put_bytes(jpeg_buf, m_sof0, sizeof(m_sof0));
     for (int i = 0; i < nr_comp; i++) {
         // Component ID, HV sampling, q table idx
-        jpeg_put_bytes(jpeg_buf, (uint8_t [3]) {i + 1, (i == 0 && bpp == 2)? jpeg_subsample:0x11, (i > 0)}, 3);
+        jpeg_put_bytes(jpeg_buf, (uint8_t [3]) {i + 1, (i == 0 && bpp == 2)? subsampling:0x11, (i > 0)}, 3);
 
     }
 
@@ -1613,7 +1614,7 @@ static void jpeg_write_headers(jpeg_buf_t *jpeg_buf, int w, int h, int bpp, jpeg
     jpeg_put_bytes(jpeg_buf, (uint8_t [3]) {0x00, 0x3F, 0x0}, 3);
 }
 
-bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
+bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_subsampling_t subsampling) {
     #if (TIME_JPEG == 1)
     mp_uint_t start = mp_hal_ticks_ms();
     #endif
@@ -1642,22 +1643,30 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
     // Initialize quantization tables
     jpeg_init(quality);
 
-    jpeg_subsample_t jpeg_subsample = JPEG_SUBSAMPLE_1x1;
-
     if (src->is_color) {
-        if (quality <= 35) {
-            jpeg_subsample = JPEG_SUBSAMPLE_2x2;
-        } else if (quality < 60) {
-            jpeg_subsample = JPEG_SUBSAMPLE_2x1;
+        if (subsampling == JPEG_SUBSAMPLING_AUTO) {
+            if (quality <= 35) {
+                subsampling = JPEG_SUBSAMPLING_420;
+            } else if (quality < 60) {
+                subsampling = JPEG_SUBSAMPLING_422;
+            } else {
+                subsampling = JPEG_SUBSAMPLING_444;
+            }
         }
+    } else {
+        subsampling = JPEG_SUBSAMPLING_444;
     }
 
-    jpeg_write_headers(&jpeg_buf, src->w, src->h, src->is_color ? 2 : 1, jpeg_subsample);
+    jpeg_write_headers(&jpeg_buf, src->w, src->h, src->is_color ? 2 : 1, subsampling);
 
     int DCY = 0, DCU = 0, DCV = 0;
 
-    switch (jpeg_subsample) {
-        case JPEG_SUBSAMPLE_1x1: {
+    switch (subsampling) {
+        // Quiet GCC compiler warning (this is never reached)
+        case JPEG_SUBSAMPLING_AUTO: {
+            break;
+        }
+        case JPEG_SUBSAMPLING_444: {
             int8_t YDU[JPEG_444_GS_MCU_SIZE];
             int8_t UDU[JPEG_444_GS_MCU_SIZE];
             int8_t VDU[JPEG_444_GS_MCU_SIZE];
@@ -1683,7 +1692,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
             }
             break;
         }
-        case JPEG_SUBSAMPLE_2x1: {
+        case JPEG_SUBSAMPLING_422: {
             // color only
             int8_t YDU[JPEG_444_GS_MCU_SIZE * 2];
             int8_t UDU[JPEG_444_GS_MCU_SIZE * 2];
@@ -1711,11 +1720,59 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
                     }
 
                     // horizontal subsampling of U & V
+                    #if defined(ARM_MATH_DSP)
+                    uint32_t *UDUp0 = (uint32_t *) UDU;
+                    uint32_t *VDUp0 = (uint32_t *) VDU;
+                    uint32_t *UDUp1 = (uint32_t *) (UDU + JPEG_444_GS_MCU_SIZE);
+                    uint32_t *VDUp1 = (uint32_t *) (VDU + JPEG_444_GS_MCU_SIZE);
+                    #else
                     int8_t *UDUp0 = UDU;
                     int8_t *VDUp0 = VDU;
                     int8_t *UDUp1 = UDUp0 + JPEG_444_GS_MCU_SIZE;
                     int8_t *VDUp1 = VDUp0 + JPEG_444_GS_MCU_SIZE;
+                    #endif
                     for (int j = 0; j < JPEG_444_GS_MCU_SIZE; j += JPEG_MCU_W) {
+                        #if defined(ARM_MATH_DSP)
+                        uint32_t UDUp0_3210 = *UDUp0++;
+                        uint32_t UDUp0_avg_32_10 = __SHADD8(UDUp0_3210, __UXTB16_RORn(UDUp0_3210, 8));
+                        UDU_avg[j] = UDUp0_avg_32_10;
+                        UDU_avg[j + 1] = UDUp0_avg_32_10 >> 16;
+
+                        uint32_t UDUp0_7654 = *UDUp0++;
+                        uint32_t UDUp0_avg_76_54 = __SHADD8(UDUp0_7654, __UXTB16_RORn(UDUp0_7654, 8));
+                        UDU_avg[j + 2] = UDUp0_avg_76_54;
+                        UDU_avg[j + 3] = UDUp0_avg_76_54 >> 16;
+
+                        uint32_t UDUp1_3210 = *UDUp1++;
+                        uint32_t UDUp1_avg_32_10 = __SHADD8(UDUp1_3210, __UXTB16_RORn(UDUp1_3210, 8));
+                        UDU_avg[j + 4] = UDUp1_avg_32_10;
+                        UDU_avg[j + 5] = UDUp1_avg_32_10 >> 16;
+
+                        uint32_t UDUp1_7654 = *UDUp1++;
+                        uint32_t UDUp1_avg_76_54 = __SHADD8(UDUp1_7654, __UXTB16_RORn(UDUp1_7654, 8));
+                        UDU_avg[j + 6] = UDUp1_avg_76_54;
+                        UDU_avg[j + 7] = UDUp1_avg_76_54 >> 16;
+
+                        uint32_t VDUp0_3210 = *VDUp0++;
+                        uint32_t VDUp0_avg_32_10 = __SHADD8(VDUp0_3210, __UXTB16_RORn(VDUp0_3210, 8));
+                        VDU_avg[j] = VDUp0_avg_32_10;
+                        VDU_avg[j + 1] = VDUp0_avg_32_10 >> 16;
+
+                        uint32_t VDUp0_7654 = *VDUp0++;
+                        uint32_t VDUp0_avg_76_54 = __SHADD8(VDUp0_7654, __UXTB16_RORn(VDUp0_7654, 8));
+                        VDU_avg[j + 2] = VDUp0_avg_76_54;
+                        VDU_avg[j + 3] = VDUp0_avg_76_54 >> 16;
+
+                        uint32_t VDUp1_3210 = *VDUp1++;
+                        uint32_t VDUp1_avg_32_10 = __SHADD8(VDUp1_3210, __UXTB16_RORn(VDUp1_3210, 8));
+                        VDU_avg[j + 4] = VDUp1_avg_32_10;
+                        VDU_avg[j + 5] = VDUp1_avg_32_10 >> 16;
+
+                        uint32_t VDUp1_7654 = *VDUp1++;
+                        uint32_t VDUp1_avg_76_54 = __SHADD8(VDUp1_7654, __UXTB16_RORn(VDUp1_7654, 8));
+                        VDU_avg[j + 6] = VDUp1_avg_76_54;
+                        VDU_avg[j + 7] = VDUp1_avg_76_54 >> 16;
+                        #else
                         for (int i = 0; i < JPEG_MCU_W; i += 2) {
                             UDU_avg[j + (i / 2)] = (UDUp0[i] + UDUp0[i + 1]) / 2;
                             VDU_avg[j + (i / 2)] = (VDUp0[i] + VDUp0[i + 1]) / 2;
@@ -1726,6 +1783,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
                         VDUp0 += JPEG_MCU_W;
                         UDUp1 += JPEG_MCU_W;
                         VDUp1 += JPEG_MCU_W;
+                        #endif
                     }
 
                     DCU = jpeg_processDU(&jpeg_buf, UDU_avg, fdtbl_UV, DCU, UVDC_HT, UVAC_HT);
@@ -1738,7 +1796,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
             }
             break;
         }
-        case JPEG_SUBSAMPLE_2x2: {
+        case JPEG_SUBSAMPLING_420: {
             // color only
             int8_t YDU[JPEG_444_GS_MCU_SIZE * 4];
             int8_t UDU[JPEG_444_GS_MCU_SIZE * 4];
@@ -1778,6 +1836,10 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
                     y_offset -= (JPEG_MCU_H * 2);
 
                     // horizontal and vertical subsampling of U & V
+                    #if defined(ARM_MATH_DSP)
+                    uint32_t *UDUp = (uint32_t *) UDU;
+                    uint32_t *VDUp = (uint32_t *) VDU;
+                    #else
                     int8_t *UDUp0 = UDU;
                     int8_t *VDUp0 = VDU;
                     int8_t *UDUp1 = UDUp0 + JPEG_444_GS_MCU_SIZE;
@@ -1786,8 +1848,52 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
                     int8_t *VDUp2 = VDUp1 + JPEG_444_GS_MCU_SIZE;
                     int8_t *UDUp3 = UDUp2 + JPEG_444_GS_MCU_SIZE;
                     int8_t *VDUp3 = VDUp2 + JPEG_444_GS_MCU_SIZE;
+                    #endif
                     for (int j = 0, k = JPEG_444_GS_MCU_SIZE / 2; k < JPEG_444_GS_MCU_SIZE;
                          j += JPEG_MCU_W, k += JPEG_MCU_W) {
+                        #if defined(ARM_MATH_DSP)
+                        for (int i = 0; i < 4; i++) {
+                            int index = ((i & 2) ? k : j) + ((i & 1) * 4);
+
+                            uint32_t UDU_r0_3210 = UDUp[i * 16];
+                            uint32_t UDU_r0_avg_32_10 = __SHADD8(UDU_r0_3210, __UXTB16_RORn(UDU_r0_3210, 8));
+                            uint32_t UDU_r0_7654 = UDUp[(i * 16) + 1];
+                            uint32_t UDU_r0_avg_76_54 = __SHADD8(UDU_r0_7654, __UXTB16_RORn(UDU_r0_7654, 8));
+
+                            uint32_t UDU_r1_3210 = UDUp[(i * 16) + 2];
+                            uint32_t UDU_r1_avg_32_10 = __SHADD8(UDU_r1_3210, __UXTB16_RORn(UDU_r1_3210, 8));
+                            uint32_t UDU_r1_7654 = UDUp[(i * 16) + 3];
+                            uint32_t UDU_r1_avg_76_54 = __SHADD8(UDU_r1_7654, __UXTB16_RORn(UDU_r1_7654, 8));
+
+                            uint32_t UDU_r0_r1_avg_32_10 = __SHADD8(UDU_r0_avg_32_10, UDU_r1_avg_32_10);
+                            UDU_avg[index] = UDU_r0_r1_avg_32_10;
+                            UDU_avg[index + 1] = UDU_r0_r1_avg_32_10 >> 16;
+
+                            uint32_t UDU_r0_r1_avg_76_54 = __SHADD8(UDU_r0_avg_76_54, UDU_r1_avg_76_54);
+                            UDU_avg[index + 2] = UDU_r0_r1_avg_76_54;
+                            UDU_avg[index + 3] = UDU_r0_r1_avg_76_54 >> 16;
+
+                            uint32_t VDU_r0_3210 = VDUp[i * 16];
+                            uint32_t VDU_r0_avg_32_10 = __SHADD8(VDU_r0_3210, __UXTB16_RORn(VDU_r0_3210, 8));
+                            uint32_t VDU_r0_7654 = VDUp[(i * 16) + 1];
+                            uint32_t VDU_r0_avg_76_54 = __SHADD8(VDU_r0_7654, __UXTB16_RORn(VDU_r0_7654, 8));
+
+                            uint32_t VDU_r1_3210 = VDUp[(i * 16) + 2];
+                            uint32_t VDU_r1_avg_32_10 = __SHADD8(VDU_r1_3210, __UXTB16_RORn(VDU_r1_3210, 8));
+                            uint32_t VDU_r1_7654 = VDUp[(i * 16) + 3];
+                            uint32_t VDU_r1_avg_76_54 = __SHADD8(VDU_r1_7654, __UXTB16_RORn(VDU_r1_7654, 8));
+
+                            uint32_t VDU_r0_r1_avg_32_10 = __SHADD8(VDU_r0_avg_32_10, VDU_r1_avg_32_10);
+                            VDU_avg[index] = VDU_r0_r1_avg_32_10;
+                            VDU_avg[index + 1] = VDU_r0_r1_avg_32_10 >> 16;
+
+                            uint32_t VDU_r0_r1_avg_76_54 = __SHADD8(VDU_r0_avg_76_54, VDU_r1_avg_76_54);
+                            VDU_avg[index + 2] = VDU_r0_r1_avg_76_54;
+                            VDU_avg[index + 3] = VDU_r0_r1_avg_76_54 >> 16;
+                        }
+                        UDUp += 4;
+                        VDUp += 4;
+                        #else
                         for (int i = 0; i < JPEG_MCU_W; i += 2) {
                             UDU_avg[j + (i / 2)] =
                                 (UDUp0[i] + UDUp0[i + 1] + UDUp0[i + JPEG_MCU_W] + UDUp0[i + 1 + JPEG_MCU_W]) / 4;
@@ -1814,6 +1920,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
                         VDUp2 += JPEG_MCU_W * 2;
                         UDUp3 += JPEG_MCU_W * 2;
                         VDUp3 += JPEG_MCU_W * 2;
+                        #endif
                     }
 
                     DCU = jpeg_processDU(&jpeg_buf, UDU_avg, fdtbl_UV, DCU, UVDC_HT, UVAC_HT);
@@ -1843,7 +1950,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc) {
     dst->data = jpeg_buf.buf;
 
     #if (TIME_JPEG == 1)
-    printf("time: %lums\n", mp_hal_ticks_ms() - start);
+    printf("compress time: %u ms\n", mp_hal_ticks_ms() - start);
     #endif
 
     return false;
@@ -1972,7 +2079,7 @@ void jpeg_write(image_t *img, const char *path, int quality) {
         // When jpeg_compress needs more memory than in currently allocated it
         // will try to realloc. MP will detect that the pointer is outside of
         // the heap and return NULL which will cause an out of memory error.
-        jpeg_compress(img, &out, quality, false);
+        jpeg_compress(img, &out, quality, false, JPEG_SUBSAMPLING_AUTO);
         file_write(&fp, out.pixels, out.size);
         fb_free(); // frees alloc in jpeg_compress()
     }

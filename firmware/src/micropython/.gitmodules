@@ -1,6 +1,6 @@
 [submodule "lib/berkeley-db-1.xx"]
 	path = lib/berkeley-db-1.xx
-	url = https://github.com/pfalcon/berkeley-db-1.xx
+	url = https://github.com/micropython/berkeley-db-1.xx
 [submodule "lib/mbedtls"]
 	path = lib/mbedtls
 	url = https://github.com/ARMmbed/mbedtls.git
@@ -25,3 +25,12 @@
 [submodule "lib/protobuf-c"]
 	path = lib/protobuf-c
 	url = https://github.com/protobuf-c/protobuf-c.git
+[submodule "lib/open-amp"]
+	path = lib/open-amp
+	url = https://github.com/OpenAMP/open-amp.git
+[submodule "lib/libmetal"]
+	path = lib/libmetal
+	url = https://github.com/OpenAMP/libmetal.git
+[submodule "lib/arduino-lib"]
+	path = lib/arduino-lib
+	url = https://github.com/arduino/arduino-lib-mpy.git

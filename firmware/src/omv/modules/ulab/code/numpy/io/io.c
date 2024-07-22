@@ -46,13 +46,13 @@ static void io_read_(mp_obj_t stream, const mp_stream_p_t *stream_p, char *buffe
     }
     if(fail) {
         stream_p->ioctl(stream, MP_STREAM_CLOSE, 0, error);
-        mp_raise_msg(&mp_type_RuntimeError, translate("corrupted file"));
+        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("corrupted file"));
     }
 }
 
 static mp_obj_t io_load(mp_obj_t file) {
     if(!mp_obj_is_str(file)) {
-        mp_raise_TypeError(translate("wrong input type"));
+        mp_raise_TypeError(MP_ERROR_TEXT("wrong input type"));
     }
 
     int error;
@@ -126,7 +126,7 @@ static mp_obj_t io_load(mp_obj_t file) {
     #endif /* ULAB_SUPPORT_COPMLEX */
     else {
         stream_p->ioctl(stream, MP_STREAM_CLOSE, 0, &error);
-        mp_raise_TypeError(translate("wrong dtype"));
+        mp_raise_TypeError(MP_ERROR_TEXT("wrong dtype"));
     }
 
     io_read_(stream, stream_p, buffer, "', 'fortran_order': False, 'shape': (", 37, &error);
@@ -169,7 +169,7 @@ static mp_obj_t io_load(mp_obj_t file) {
             }
             else {
                 stream_p->ioctl(stream, MP_STREAM_CLOSE, 0, &error);
-                mp_raise_msg(&mp_type_RuntimeError, translate("corrupted file"));
+                mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("corrupted file"));
             }
             needle++;
         }
@@ -188,7 +188,7 @@ static mp_obj_t io_load(mp_obj_t file) {
     size_t read = stream_p->read(stream, array, ndarray->len * ndarray->itemsize, &error);
     if(read != ndarray->len * ndarray->itemsize) {
         stream_p->ioctl(stream, MP_STREAM_CLOSE, 0, &error);
-        mp_raise_msg(&mp_type_RuntimeError, translate("corrupted file"));
+        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("corrupted file"));
     }
 
     stream_p->ioctl(stream, MP_STREAM_CLOSE, 0, &error);
@@ -239,7 +239,11 @@ MP_DEFINE_CONST_FUN_OBJ_1(io_load_obj, io_load);
 
 #if ULAB_NUMPY_HAS_LOADTXT
 static void io_assign_value(const char *clipboard, uint8_t len, ndarray_obj_t *ndarray, size_t *idx, uint8_t dtype) {
+    #if MICROPY_PY_BUILTINS_COMPLEX
     mp_obj_t value = mp_parse_num_decimal(clipboard, len, false, false, NULL);
+    #else
+    mp_obj_t value = mp_parse_num_float(clipboard, len, false, NULL);
+    #endif
     if(dtype != NDARRAY_FLOAT) {
         mp_float_t _value = mp_obj_get_float(value);
         value = mp_obj_new_int((int32_t)MICROPY_FLOAT_C_FUN(round)(_value));
@@ -303,7 +307,7 @@ static mp_obj_t io_loadtxt(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
             cols[0] = (uint16_t)mp_obj_get_int(args[4].u_obj);
         } else {
             #if ULAB_MAX_DIMS == 1
-            mp_raise_ValueError(translate("usecols keyword must be specified"));
+            mp_raise_ValueError(MP_ERROR_TEXT("usecols keyword must be specified"));
             #else
             // assume that the argument is an iterable
             used_columns = (uint16_t)mp_obj_get_int(mp_obj_len(args[4].u_obj));
@@ -379,12 +383,12 @@ static mp_obj_t io_loadtxt(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
     } while((read > 0) && (all_rows < max_rows));
 
     if(rows == 0) {
-        mp_raise_ValueError(translate("empty file"));
+        mp_raise_ValueError(MP_ERROR_TEXT("empty file"));
     }
     uint16_t columns = items / rows;
 
     if(columns < used_columns) {
-        mp_raise_ValueError(translate("usecols is too high"));
+        mp_raise_ValueError(MP_ERROR_TEXT("usecols is too high"));
     }
 
     size_t *shape = m_new0(size_t, ULAB_MAX_DIMS);
@@ -526,7 +530,7 @@ static uint8_t io_sprintf(char *buffer, const char *comma, size_t x) {
 
 static mp_obj_t io_save(mp_obj_t file, mp_obj_t ndarray_) {
     if(!mp_obj_is_str(file) || !mp_obj_is_type(ndarray_, &ulab_ndarray_type)) {
-        mp_raise_TypeError(translate("wrong input type"));
+        mp_raise_TypeError(MP_ERROR_TEXT("wrong input type"));
     }
 
     ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(ndarray_);
@@ -725,14 +729,14 @@ static mp_obj_t io_savetxt(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
     mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
     if(!mp_obj_is_str(args[0].u_obj) || !mp_obj_is_type(args[1].u_obj, &ulab_ndarray_type)) {
-        mp_raise_TypeError(translate("wrong input type"));
+        mp_raise_TypeError(MP_ERROR_TEXT("wrong input type"));
     }
 
     ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(args[1].u_obj);
 
     #if ULAB_MAX_DIMS > 2
     if(ndarray->ndim > 2) {
-        mp_raise_ValueError(translate("array has too many dimensions"));
+        mp_raise_ValueError(MP_ERROR_TEXT("array has too many dimensions"));
     }
     #endif
 

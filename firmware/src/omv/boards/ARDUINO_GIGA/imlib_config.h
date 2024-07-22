@@ -23,12 +23,6 @@
 // Enable YUV LUT
 //#define IMLIB_ENABLE_YUV_LUT
 
-// Enable mean pooling
-#define IMLIB_ENABLE_MEAN_POOLING
-
-// Enable midpoint pooling
-#define IMLIB_ENABLE_MIDPOINT_POOLING
-
 // Enable ISP ops
 #define IMLIB_ENABLE_ISP_OPS
 
@@ -39,7 +33,7 @@
 #define IMLIB_ENABLE_MATH_OPS
 
 // Enable flood_fill()
-#define IMLIB_ENABLE_FLOOD_FILL
+// #define IMLIB_ENABLE_FLOOD_FILL
 
 // Enable mean()
 #define IMLIB_ENABLE_MEAN
@@ -48,10 +42,10 @@
 #define IMLIB_ENABLE_MEDIAN
 
 // Enable mode()
-#define IMLIB_ENABLE_MODE
+// #define IMLIB_ENABLE_MODE
 
 // Enable midpoint()
-#define IMLIB_ENABLE_MIDPOINT
+// #define IMLIB_ENABLE_MIDPOINT
 
 // Enable morph()
 #define IMLIB_ENABLE_MORPH
@@ -117,17 +111,15 @@
 
 // Enable find_features() and built-in Haar cascades. (75KBs)
 #define IMLIB_ENABLE_FEATURES
-#define IMLIB_ENABLE_FEATURES_BUILTIN_FACE_CASCADE
-#define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
-
-// Enable CMSIS NN
-// #if !defined(CUBEAI)
-// #define IMLIB_ENABLE_CNN
-// #endif
+//#define IMLIB_ENABLE_FEATURES_BUILTIN_FACE_CASCADE
+//#define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
 
 // Enable Tensor Flow
 #if !defined(CUBEAI)
-#define IMLIB_ENABLE_TF (IMLIB_TF_DEFAULT)
+#define IMLIB_ENABLE_TFLM
+#define IMLIB_ENABLE_TFLM_BUILTIN_MICRO_SPEECH
+#define IMLIB_ENABLE_TFLM_BUILTIN_AUDIO_PREPROCESSOR
+#define IMLIB_ENABLE_TFLM_BUILTIN_FOMO_FACE_DETECTION
 #endif
 
 // Enable FAST (20+ KBs).

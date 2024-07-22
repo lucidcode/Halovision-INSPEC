@@ -3,19 +3,7 @@
 # basic-build-test.sh
 #
 # Copyright The Mbed TLS Contributors
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
 #
 # Purpose
 #
@@ -30,7 +18,7 @@
 #
 # The tests focus on functionality and do not consider performance.
 #
-# Note the tests self-adapt due to configurations in include/mbedtls/config.h
+# Note the tests self-adapt due to configurations in include/mbedtls/mbedtls_config.h
 # which can lead to some tests being skipped, and can cause the number of
 # available tests to fluctuate.
 #
@@ -43,7 +31,7 @@
 set -eu
 
 if [ -d library -a -d include -a -d tests ]; then :; else
-    echo "Must be run from mbed TLS root" >&2
+    echo "Must be run from Mbed TLS root" >&2
     exit 1
 fi
 
@@ -73,7 +61,7 @@ export OPENSSL="$OPENSSL"
 export GNUTLS_CLI="$GNUTLS_CLI"
 export GNUTLS_SERV="$GNUTLS_SERV"
 
-CONFIG_H='include/mbedtls/config.h'
+CONFIG_H='include/mbedtls/mbedtls_config.h'
 CONFIG_BAK="$CONFIG_H.bak"
 
 # Step 0 - print build environment info
@@ -121,17 +109,13 @@ echo
 echo '################ compat.sh ################'
 {
     echo '#### compat.sh: Default versions'
-    sh compat.sh -m 'tls1 tls1_1 tls12 dtls1 dtls12'
+    sh compat.sh
     echo
 
-    echo '#### compat.sh: legacy (SSLv3)'
-    OPENSSL="$OPENSSL_LEGACY" sh compat.sh -m 'ssl3'
-    echo
-
-    echo '#### compat.sh: legacy (null, DES, RC4)'
+    echo '#### compat.sh: legacy (null)'
     OPENSSL="$OPENSSL_LEGACY" \
     GNUTLS_CLI="$GNUTLS_LEGACY_CLI" GNUTLS_SERV="$GNUTLS_LEGACY_SERV" \
-    sh compat.sh -e '^$' -f 'NULL\|DES\|RC4\|ARCFOUR'
+    sh compat.sh -e '^$' -f 'NULL'
     echo
 
     echo '#### compat.sh: next (ARIA, ChaCha)'

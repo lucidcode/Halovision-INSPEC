@@ -59,6 +59,9 @@ uint32_t trng_random_u32(void);
 #define MICROPY_ENABLE_GC                   (1)
 #define MICROPY_ENABLE_EMERGENCY_EXCEPTION_BUF  (1)
 #define MICROPY_LONGINT_IMPL                (MICROPY_LONGINT_IMPL_MPZ)
+#ifndef MICROPY_FLOAT_IMPL // can be configured by each board via mpconfigboard.mk
+#define MICROPY_FLOAT_IMPL                  (MICROPY_FLOAT_IMPL_FLOAT)
+#endif
 #define MICROPY_SCHEDULER_DEPTH             (8)
 #define MICROPY_SCHEDULER_STATIC_NODES      (1)
 #define MICROPY_VFS                         (1)
@@ -82,6 +85,7 @@ uint32_t trng_random_u32(void);
 #define MICROPY_PY_RANDOM_SEED_INIT_FUNC    (trng_random_u32())
 #define MICROPY_PY_MACHINE                  (1)
 #define MICROPY_PY_MACHINE_INCLUDEFILE      "ports/mimxrt/modmachine.c"
+#define MICROPY_PY_MACHINE_RESET            (1)
 #define MICROPY_PY_MACHINE_BARE_METAL_FUNCS (1)
 #define MICROPY_PY_MACHINE_BOOTLOADER       (1)
 #define MICROPY_PY_MACHINE_DISABLE_IRQ_ENABLE_IRQ (1)
@@ -163,6 +167,8 @@ uint32_t trng_random_u32(void);
 #ifndef MICROPY_PY_NETWORK_HOSTNAME_DEFAULT
 #define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "mpy-mimxrt"
 #endif
+
+#define MICROPY_HW_ENABLE_USBDEV            (1)
 
 // Hooks to add builtins
 

@@ -1,0 +1,38 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: '🔎 Python Linter'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: '⏳ Checkout repository'
+      uses: actions/checkout@v3
+
+    - name: '🐍 Set up Python'
+      uses: actions/setup-python@v4
+      with:
+        cache: 'pip'
+        python-version: "3.10"
+
+    - name: '🛠 Install dependencies'
+      run: |
+        pip install -r .github/workflows/requirements.txt
+        flake8 --version
+        pytest --version
+
+    - name: '😾 Lint with flake8'
+      run: |
+        flake8 --count --ignore=C901 --select=E9,F63,F7,F82 --exclude=manifest.py --show-source --statistics lib/
+        flake8 --count --ignore=C901 --max-complexity=15 --max-line-length=120 --exclude=manifest.py --statistics lib/

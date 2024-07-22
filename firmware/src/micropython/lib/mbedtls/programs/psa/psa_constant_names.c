@@ -1,18 +1,6 @@
 /*
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
 #include <errno.h>
@@ -51,12 +39,6 @@ int snprintf(char *s, size_t n, const char *fmt, ...)
     return ret;
 }
 #endif
-
-/* There are different GET_HASH macros for different kinds of algorithms
- * built from hashes, but the values are all constructed on the
- * same model. */
-#define PSA_ALG_GET_HASH(alg)                                   \
-    (((alg) & PSA_ALG_HASH_MASK) | PSA_ALG_CATEGORY_HASH)
 
 static void append(char **buffer, size_t buffer_size,
                    size_t *required_size,

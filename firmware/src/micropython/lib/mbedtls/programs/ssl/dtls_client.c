@@ -2,26 +2,10 @@
  *  Simple DTLS client demonstration program
  *
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
-#if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
-#else
-#include MBEDTLS_CONFIG_FILE
-#endif
+#include "mbedtls/build_info.h"
 
 #include "mbedtls/platform.h"
 
@@ -29,14 +13,14 @@
     !defined(MBEDTLS_NET_C)  || !defined(MBEDTLS_TIMING_C) ||             \
     !defined(MBEDTLS_ENTROPY_C) || !defined(MBEDTLS_CTR_DRBG_C) ||        \
     !defined(MBEDTLS_X509_CRT_PARSE_C) || !defined(MBEDTLS_RSA_C) ||      \
-    !defined(MBEDTLS_CERTS_C) || !defined(MBEDTLS_PEM_PARSE_C)
+    !defined(MBEDTLS_PEM_PARSE_C)
 int main(void)
 {
     mbedtls_printf("MBEDTLS_SSL_CLI_C and/or MBEDTLS_SSL_PROTO_DTLS and/or "
                    "MBEDTLS_NET_C and/or MBEDTLS_TIMING_C and/or "
                    "MBEDTLS_ENTROPY_C and/or MBEDTLS_CTR_DRBG_C and/or "
                    "MBEDTLS_X509_CRT_PARSE_C and/or MBEDTLS_RSA_C and/or "
-                   "MBEDTLS_CERTS_C and/or MBEDTLS_PEM_PARSE_C not defined.\n");
+                   "MBEDTLS_PEM_PARSE_C not defined.\n");
     mbedtls_exit(0);
 }
 #else
@@ -49,8 +33,8 @@ int main(void)
 #include "mbedtls/entropy.h"
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/error.h"
-#include "mbedtls/certs.h"
 #include "mbedtls/timing.h"
+#include "test/certs.h"
 
 /* Uncomment out the following line to default to IPv4 and disable IPv6 */
 //#define FORCE_IPV4
@@ -113,11 +97,21 @@ int main(int argc, char *argv[])
     mbedtls_ssl_config_init(&conf);
     mbedtls_x509_crt_init(&cacert);
     mbedtls_ctr_drbg_init(&ctr_drbg);
+    mbedtls_entropy_init(&entropy);
+
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    psa_status_t status = psa_crypto_init();
+    if (status != PSA_SUCCESS) {
+        mbedtls_fprintf(stderr, "Failed to initialize PSA Crypto implementation: %d\n",
+                        (int) status);
+        ret = MBEDTLS_ERR_SSL_HW_ACCEL_FAILED;
+        goto exit;
+    }
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
     mbedtls_printf("\n  . Seeding the random number generator...");
     fflush(stdout);
 
-    mbedtls_entropy_init(&entropy);
     if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
                                      (const unsigned char *) pers,
                                      strlen(pers))) != 0) {
@@ -226,13 +220,17 @@ int main(int argc, char *argv[])
      * handshake would not succeed if the peer's cert is bad.  Even if we used
      * MBEDTLS_SSL_VERIFY_OPTIONAL, we would bail out here if ret != 0 */
     if ((flags = mbedtls_ssl_get_verify_result(&ssl)) != 0) {
+#if !defined(MBEDTLS_X509_REMOVE_INFO)
         char vrfy_buf[512];
+#endif
 
         mbedtls_printf(" failed\n");
 
+#if !defined(MBEDTLS_X509_REMOVE_INFO)
         mbedtls_x509_crt_verify_info(vrfy_buf, sizeof(vrfy_buf), "  ! ", flags);
 
         mbedtls_printf("%s\n", vrfy_buf);
+#endif
     } else {
         mbedtls_printf(" ok\n");
     }
@@ -284,7 +282,6 @@ send_request:
 
             case MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY:
                 mbedtls_printf(" connection was closed gracefully\n");
-                ret = 0;
                 goto close_notify;
 
             default:
@@ -324,17 +321,14 @@ exit:
 #endif
 
     mbedtls_net_free(&server_fd);
-
     mbedtls_x509_crt_free(&cacert);
     mbedtls_ssl_free(&ssl);
     mbedtls_ssl_config_free(&conf);
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_entropy_free(&entropy);
-
-#if defined(_WIN32)
-    mbedtls_printf("  + Press Enter to exit this program.\n");
-    fflush(stdout); getchar();
-#endif
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    mbedtls_psa_crypto_free();
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
     /* Shell can not handle large exit numbers -> 1 for errors */
     if (ret < 0) {
@@ -345,5 +339,4 @@ exit:
 }
 #endif /* MBEDTLS_SSL_CLI_C && MBEDTLS_SSL_PROTO_DTLS && MBEDTLS_NET_C &&
           MBEDTLS_TIMING_C && MBEDTLS_ENTROPY_C && MBEDTLS_CTR_DRBG_C &&
-          MBEDTLS_X509_CRT_PARSE_C && MBEDTLS_RSA_C && MBEDTLS_CERTS_C &&
-          MBEDTLS_PEM_PARSE_C */
+          MBEDTLS_X509_CRT_PARSE_C && MBEDTLS_RSA_C && MBEDTLS_PEM_PARSE_C */

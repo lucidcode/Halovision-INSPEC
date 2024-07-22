@@ -59,10 +59,8 @@
 #include "fb_alloc.h"
 #include "dma_alloc.h"
 #include "file_utils.h"
-#include "boot_utils.h"
+#include "mp_utils.h"
 #include "mimxrt_hal.h"
-
-extern uint8_t _sstack, _estack, _heap_start, _heap_end;
 
 int main(void) {
     bool sdcard_detected = false;
@@ -77,10 +75,9 @@ int main(void) {
 soft_reset:
     led_init();
 
-    // Initialise stack extents and GC heap.
-    mp_stack_set_top(&_estack);
-    mp_stack_set_limit(&_estack - &_sstack - 1024);
-    gc_init(&_heap_start, &_heap_end);
+    // Initialize the stack and GC memory.
+    extern uint8_t _sstack, _estack, _heap_start, _heap_end;
+    mp_init_gc_stack(&_sstack, &_estack, &_heap_start, &_heap_end, 1024);
 
     // Initialise MicroPython runtime.
     mp_init();
@@ -113,9 +110,8 @@ soft_reset:
     machine_rtc_start();
 
     #if MICROPY_PY_LWIP
-    // lwIP doesn't allow to reinitialise itself by subsequent calls to this function
-    // because the system timeout list (next_timeout) is only ever reset by BSS clearing.
-    // So for now we only init the lwIP stack once on power-up.
+    // lwIP can only be initialized once, because the system timeout
+    // list (next_timeout), is only ever reset by BSS clearing.
     if (first_soft_reset) {
         lwip_init();
         #if LWIP_MDNS_RESPONDER
@@ -124,20 +120,19 @@ soft_reset:
     }
     systick_enable_dispatch(SYSTICK_DISPATCH_LWIP, mod_network_lwip_poll_wrapper);
     #endif
+
     #if MICROPY_PY_BLUETOOTH
     mp_bluetooth_hci_init();
     #endif
 
     #if MICROPY_PY_NETWORK_CYW43
-    if (first_soft_reset) {
-        cyw43_init(&cyw43_state);
-        uint8_t buf[8];
-        memcpy(&buf[0], "PYBD", 4);
-        mp_hal_get_mac_ascii(MP_HAL_MAC_WLAN0, 8, 4, (char *) &buf[4]);
-        cyw43_wifi_ap_set_ssid(&cyw43_state, 8, buf);
-        cyw43_wifi_ap_set_auth(&cyw43_state, CYW43_AUTH_WPA2_AES_PSK);
-        cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *) "pybd0123");
-    }
+    cyw43_init(&cyw43_state);
+    uint8_t buf[8];
+    memcpy(&buf[0], "PYBD", 4);
+    mp_hal_get_mac_ascii(MP_HAL_MAC_WLAN0, 8, 4, (char *) &buf[4]);
+    cyw43_wifi_ap_set_ssid(&cyw43_state, 8, buf);
+    cyw43_wifi_ap_set_auth(&cyw43_state, CYW43_AUTH_WPA2_AES_PSK);
+    cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *) "pybd0123");
     #endif
 
     #if MICROPY_PY_NETWORK
@@ -177,7 +172,7 @@ soft_reset:
         } else {
             // Create a fresh filesystem.
             fs_user_mount_t *vfs = MP_OBJ_TYPE_GET_SLOT(&mp_fat_vfs_type, make_new) (&mp_fat_vfs_type, 1, 0, &bdev);
-            if (bootutils_init_filesystem(vfs) == 0) {
+            if (mp_init_filesystem(vfs) == 0) {
                 if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == 0) {
                     mimxrt_msc_medium = &mimxrt_flash_type;
                 }
@@ -194,11 +189,11 @@ soft_reset:
     }
 
     // Run boot.py script.
-    bool interrupted = bootutils_exec_bootscript("boot.py", true, false);
+    bool interrupted = mp_exec_bootscript("boot.py", true, false);
 
     // Run main.py script on first soft-reset.
     if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
-        bootutils_exec_bootscript("main.py", true, false);
+        mp_exec_bootscript("main.py", true, false);
         goto soft_reset_exit;
     }
 
@@ -235,16 +230,6 @@ soft_reset:
         } else {
             mp_obj_print_exception(&mp_plat_print, (mp_obj_t) nlr.ret_val);
         }
-
-        if (usbdbg_is_busy() && nlr_push(&nlr) == 0) {
-            // Enable IDE interrupt
-            usbdbg_set_irq_enabled(true);
-            // Wait for the current command to finish.
-            usbdbg_wait_for_command(1000);
-            // Disable IDE interrupts
-            usbdbg_set_irq_enabled(false);
-            nlr_pop();
-        }
     }
 
 soft_reset_exit:
@@ -263,6 +248,9 @@ soft_reset_exit:
     #if MICROPY_PY_NETWORK
     mod_network_deinit();
     #endif
+    #if MICROPY_PY_NETWORK_CYW43
+    cyw43_deinit(&cyw43_state);
+    #endif
     #if MICROPY_PY_MACHINE_I2S
     machine_i2s_deinit_all();
     #endif
@@ -272,12 +260,6 @@ soft_reset_exit:
     mp_deinit();
     first_soft_reset = false;
     goto soft_reset;
-}
-
-void gc_collect(void) {
-    gc_collect_start();
-    gc_helper_collect_regs_and_stack();
-    gc_collect_end();
 }
 
 void nlr_jump_fail(void *val) {

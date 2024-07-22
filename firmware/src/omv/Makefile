@@ -26,7 +26,7 @@ SRCS += $(addprefix common/,    \
 	usbdbg.c                    \
 	tinyusb_debug.c             \
 	file_utils.c                \
-	boot_utils.c                \
+	mp_utils.c                  \
 	sensor_utils.c              \
    )
 
@@ -43,6 +43,7 @@ SRCS += $(addprefix sensors/,   \
 	hm01b0.c                    \
 	hm0360.c                    \
 	gc2145.c                    \
+	pag7920.c                   \
 	paj6100.c                   \
 	frogeye2020.c               \
    )
@@ -89,7 +90,6 @@ SRCS += $(addprefix imlib/,     \
 	orb.c                       \
 	phasecorrelation.c          \
 	point.c                     \
-	pool.c                      \
 	ppm.c                       \
 	qrcode.c                    \
 	qsort.c                     \

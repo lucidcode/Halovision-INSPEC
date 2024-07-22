@@ -2,19 +2,7 @@
  *  Platform-specific and custom entropy polling functions
  *
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
 #if defined(__linux__) && !defined(_GNU_SOURCE)
@@ -29,14 +17,11 @@
 #if defined(MBEDTLS_ENTROPY_C)
 
 #include "mbedtls/entropy.h"
-#include "mbedtls/entropy_poll.h"
+#include "entropy_poll.h"
 #include "mbedtls/error.h"
 
 #if defined(MBEDTLS_TIMING_C)
 #include "mbedtls/timing.h"
-#endif
-#if defined(MBEDTLS_HAVEGE_C)
-#include "mbedtls/havege.h"
 #endif
 #include "mbedtls/platform.h"
 
@@ -46,36 +31,38 @@
     !defined(__APPLE__) && !defined(_WIN32) && !defined(__QNXNTO__) && \
     !defined(__HAIKU__) && !defined(__midipix__)
 #error \
-    "Platform entropy sources only work on Unix and Windows, see MBEDTLS_NO_PLATFORM_ENTROPY in config.h"
+    "Platform entropy sources only work on Unix and Windows, see MBEDTLS_NO_PLATFORM_ENTROPY in mbedtls_config.h"
 #endif
 
 #if defined(_WIN32) && !defined(EFIX64) && !defined(EFI32)
 
-#if !defined(_WIN32_WINNT)
-#define _WIN32_WINNT 0x0400
-#endif
 #include <windows.h>
-#include <wincrypt.h>
+#include <bcrypt.h>
+#include <intsafe.h>
 
 int mbedtls_platform_entropy_poll(void *data, unsigned char *output, size_t len,
                                   size_t *olen)
 {
-    HCRYPTPROV provider;
     ((void) data);
     *olen = 0;
 
-    if (CryptAcquireContext(&provider, NULL, NULL,
-                            PROV_RSA_FULL, CRYPT_VERIFYCONTEXT) == FALSE) {
-        return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
-    }
+    /*
+     * BCryptGenRandom takes ULONG for size, which is smaller than size_t on
+     * 64-bit Windows platforms. Extract entropy in chunks of len (dependent
+     * on ULONG_MAX) size.
+     */
+    while (len != 0) {
+        unsigned long ulong_bytes =
+            (len > ULONG_MAX) ? ULONG_MAX : (unsigned long) len;
 
-    if (CryptGenRandom(provider, (DWORD) len, output) == FALSE) {
-        CryptReleaseContext(provider, 0);
-        return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
-    }
+        if (!BCRYPT_SUCCESS(BCryptGenRandom(NULL, output, ulong_bytes,
+                                            BCRYPT_USE_SYSTEM_PREFERRED_RNG))) {
+            return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
+        }
 
-    CryptReleaseContext(provider, 0);
-    *olen = len;
+        *olen += ulong_bytes;
+        len -= ulong_bytes;
+    }
 
     return 0;
 }
@@ -196,6 +183,9 @@ int mbedtls_platform_entropy_poll(void *data,
         return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
     }
 
+    /* Ensure no stdio buffering of secrets, as such buffers cannot be wiped. */
+    mbedtls_setbuf(file, NULL);
+
     read_len = fread(output, 1, len, file);
     if (read_len != len) {
         fclose(file);
@@ -210,60 +200,6 @@ int mbedtls_platform_entropy_poll(void *data,
 }
 #endif /* _WIN32 && !EFIX64 && !EFI32 */
 #endif /* !MBEDTLS_NO_PLATFORM_ENTROPY */
-
-#if defined(MBEDTLS_TEST_NULL_ENTROPY)
-int mbedtls_null_entropy_poll(void *data,
-                              unsigned char *output, size_t len, size_t *olen)
-{
-    ((void) data);
-    ((void) output);
-
-    *olen = 0;
-    if (len < sizeof(unsigned char)) {
-        return 0;
-    }
-
-    output[0] = 0;
-    *olen = sizeof(unsigned char);
-    return 0;
-}
-#endif
-
-#if defined(MBEDTLS_TIMING_C)
-int mbedtls_hardclock_poll(void *data,
-                           unsigned char *output, size_t len, size_t *olen)
-{
-    unsigned long timer = mbedtls_timing_hardclock();
-    ((void) data);
-    *olen = 0;
-
-    if (len < sizeof(unsigned long)) {
-        return 0;
-    }
-
-    memcpy(output, &timer, sizeof(unsigned long));
-    *olen = sizeof(unsigned long);
-
-    return 0;
-}
-#endif /* MBEDTLS_TIMING_C */
-
-#if defined(MBEDTLS_HAVEGE_C)
-int mbedtls_havege_poll(void *data,
-                        unsigned char *output, size_t len, size_t *olen)
-{
-    mbedtls_havege_state *hs = (mbedtls_havege_state *) data;
-    *olen = 0;
-
-    if (mbedtls_havege_random(hs, output, len) != 0) {
-        return MBEDTLS_ERR_ENTROPY_SOURCE_FAILED;
-    }
-
-    *olen = len;
-
-    return 0;
-}
-#endif /* MBEDTLS_HAVEGE_C */
 
 #if defined(MBEDTLS_ENTROPY_NV_SEED)
 int mbedtls_nv_seed_poll(void *data,

@@ -16,7 +16,6 @@
 #include "py/obj.h"
 #include "py/objstr.h"
 #include "py/runtime.h"
-#include "pendsv.h"
 
 #include "imlib.h"
 #if MICROPY_PY_SENSOR
@@ -37,17 +36,10 @@ static volatile bool script_running;
 static volatile bool irq_enabled;
 static vstr_t script_buf;
 
-static mp_obj_exception_t ide_exception;
-static const MP_DEFINE_STR_OBJ(ide_exception_msg, "IDE interrupt");
-static const mp_rom_obj_tuple_t ide_exception_args_obj = {
-    {&mp_type_tuple}, 1, {MP_ROM_PTR(&ide_exception_msg)}
-};
-
-extern void pendsv_nlr_jump(void *val);
-
 // These functions must be implemented in MicroPython CDC driver.
 extern uint32_t usb_cdc_buf_len();
 extern uint32_t usb_cdc_get_buf(uint8_t *buf, uint32_t len);
+
 void __attribute__((weak)) usb_cdc_reset_buffers() {
 
 }
@@ -59,20 +51,6 @@ void usbdbg_init() {
     irq_enabled = false;
 
     vstr_init(&script_buf, 32);
-
-    // Initialize the IDE exception object.
-    ide_exception.base.type = &mp_type_Exception;
-    ide_exception.traceback_alloc = 0;
-    ide_exception.traceback_len = 0;
-    ide_exception.traceback_data = NULL;
-    ide_exception.args = (mp_obj_tuple_t *) &ide_exception_args_obj;
-}
-
-void usbdbg_wait_for_command(uint32_t timeout) {
-    for (mp_uint_t ticks = mp_hal_ticks_ms();
-         irq_enabled && ((mp_hal_ticks_ms() - ticks) < timeout) && (cmd != USBDBG_NONE); ) {
-        ;
-    }
 }
 
 bool usbdbg_script_ready() {
@@ -108,21 +86,14 @@ static void usbdbg_interrupt_vm(bool ready) {
     // Set script running flag
     script_running = ready;
 
-    // Disable IDE IRQ (re-enabled by pyexec or main).
+    // Disable IDE IRQ (re-enabled by pyexec or in main).
     usbdbg_set_irq_enabled(false);
 
-    // Clear interrupt traceback
-    mp_obj_exception_clear_traceback(&ide_exception);
+    // Abort the VM.
+    mp_sched_vm_abort();
 
-    #if (__ARM_ARCH >= 7)
-    // Remove the BASEPRI masking (if any)
-    __set_BASEPRI(0);
-    #endif
-
-    // Interrupt running REPL
-    // Note: setting pendsv explicitly here because the VM is probably
-    // waiting in REPL and the soft interrupt flag will not be checked.
-    pendsv_nlr_jump(&ide_exception);
+    // When the VM runs again it will raise a KeyboardInterrupt.
+    mp_sched_keyboard_interrupt();
 }
 
 bool usbdbg_get_irq_enabled() {
@@ -220,6 +191,50 @@ void usbdbg_data_in(void *buffer, int length) {
             cmd = USBDBG_NONE;
             break;
         }
+
+        case USBDBG_GET_STATE:
+            // Clear flags
+            ((uint32_t *) buffer)[0] = 0;
+
+            // Set script running flag
+            if (script_running) {
+                ((uint32_t *) buffer)[0] |= USBDBG_STATE_FLAGS_SCRIPT;
+            }
+
+            // Set text buf valid flag.
+            uint32_t tx_buf_len = usb_cdc_buf_len();
+            if (tx_buf_len) {
+                ((uint32_t *) buffer)[0] |= USBDBG_STATE_FLAGS_TEXT;
+            }
+
+            // Try to lock FB. If header size == 0 frame is not ready
+            if (mutex_try_lock_alternate(&JPEG_FB()->lock, MUTEX_TID_IDE)) {
+                // If header size == 0 frame is not ready
+                if (JPEG_FB()->size == 0) {
+                    // unlock FB
+                    mutex_unlock(&JPEG_FB()->lock, MUTEX_TID_IDE);
+                } else {
+                    // Set frame width, height and size/bpp
+                    ((uint32_t *) buffer)[1] = JPEG_FB()->w;
+                    ((uint32_t *) buffer)[2] = JPEG_FB()->h;
+                    ((uint32_t *) buffer)[3] = JPEG_FB()->size;
+
+                    // Set valid frame flag.
+                    ((uint32_t *) buffer)[0] |= USBDBG_STATE_FLAGS_FRAME;
+                }
+            }
+
+            // The rest of this packet is packed with text buffer.
+            if (tx_buf_len) {
+                const uint32_t hdr = 16;
+                tx_buf_len = OMV_MIN(tx_buf_len, (64 - hdr - 1));
+                usb_cdc_get_buf((uint8_t *) buffer + hdr, tx_buf_len);
+                ((uint8_t *) buffer)[hdr + tx_buf_len] = 0; // Null-terminate
+            }
+
+            cmd = USBDBG_NONE;
+            break;
+
         default: /* error */
             break;
     }
@@ -456,6 +471,11 @@ void usbdbg_control(void *buffer, uint8_t request, uint32_t length) {
             break;
 
         case USBDBG_TX_INPUT:
+            xfer_bytes = 0;
+            xfer_length = length;
+            break;
+
+        case USBDBG_GET_STATE:
             xfer_bytes = 0;
             xfer_length = length;
             break;

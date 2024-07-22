@@ -3,6 +3,7 @@
 # Note: the flash requires the programming size to be aligned to 256 bytes.
 
 import os
+import vfs
 import sys
 import mimxrt
 from machine import Pin
@@ -27,24 +28,24 @@ bdev = mimxrt.Flash()
 # Create a FAT FS if needed
 if hasattr(mimxrt, "MSC"):
     try:
-        vfs = os.VfsFat(bdev)
-        os.mount(vfs, "/flash")
+        vfs = vfs.VfsFat(bdev)
+        vfs.mount(vfs, "/flash")
     except:
-        os.VfsFat.mkfs(bdev)
-        vfs = os.VfsFat(bdev)
-        os.mount(vfs, "/flash")
+        vfs.VfsFat.mkfs(bdev)
+        vfs = vfs.VfsFat(bdev)
+        vfs.mount(vfs, "/flash")
 # otherwise analyze the boot sector an mount accordingly
 # without a valid boot sector create a LFS file system
 else:
     fs = fs_type(bdev)
     if fs == FS_LITTLEFS:
-        vfs = os.VfsLfs2(bdev, progsize=256)
+        vfs = vfs.VfsLfs2(bdev, progsize=256)
     elif fs == FS_FAT:
-        vfs = os.VfsFat(bdev)
+        vfs = vfs.VfsFat(bdev)
     else:
-        os.VfsLfs2.mkfs(bdev, progsize=256)
-        vfs = os.VfsLfs2(bdev, progsize=256)
-    os.mount(vfs, "/flash")
+        vfs.VfsLfs2.mkfs(bdev, progsize=256)
+        vfs = vfs.VfsLfs2(bdev, progsize=256)
+    vfs.mount(vfs, "/flash")
 
 os.chdir("/flash")
 sys.path.append("/flash")
@@ -59,8 +60,8 @@ except:
 
         sdcard = SDCard(1)
 
-        fat = os.VfsFat(sdcard)
-        os.mount(fat, "/sdcard")
+        fat = vfs.VfsFat(sdcard)
+        vfs.mount(fat, "/sdcard")
         os.chdir("/sdcard")
         sys.path.append("/sdcard")
     except:

@@ -36,11 +36,11 @@ static int test_written_key(const psa_key_attributes_t *attributes,
     /* Check that the key is represented as expected. */
     PSA_ASSERT(psa_its_get_info(uid, &storage_info));
     TEST_EQUAL(storage_info.size, expected_representation->len);
-    ASSERT_ALLOC(actual_representation, storage_info.size);
+    TEST_CALLOC(actual_representation, storage_info.size);
     PSA_ASSERT(psa_its_get(uid, 0, storage_info.size,
                            actual_representation, &length));
-    ASSERT_COMPARE(expected_representation->x, expected_representation->len,
-                   actual_representation, length);
+    TEST_MEMORY_COMPARE(expected_representation->x, expected_representation->len,
+                        actual_representation, length);
 
     ok = 1;
 
@@ -88,20 +88,21 @@ static int is_accelerated_rsa(psa_algorithm_t alg)
  * also be built-in. */
 static int is_builtin_calling_md(psa_algorithm_t alg)
 {
-#if defined(MBEDTLS_PSA_BUILTIN_ALG_RSA_PKCS1V15_SIGN)
-    if (PSA_ALG_IS_RSA_PKCS1V15_SIGN(alg)) {
-        return 1;
-    }
-#endif
 #if defined(MBEDTLS_PSA_BUILTIN_ALG_RSA_PSS)
-    if (PSA_ALG_IS_RSA_PSS(alg)) {
-        return 1;
-    }
+    if (PSA_ALG_IS_RSA_PSS(alg))
+#if defined(MBEDTLS_MD_C)
+    { return 1; }
+#else
+    { return 0; }
+#endif
 #endif
 #if defined(MBEDTLS_PSA_BUILTIN_ALG_RSA_OAEP)
-    if (PSA_ALG_IS_RSA_OAEP(alg)) {
-        return 1;
-    }
+    if (PSA_ALG_IS_RSA_OAEP(alg))
+#if defined(MBEDTLS_MD_C)
+    { return 1; }
+#else
+    { return 0; }
+#endif
 #endif
 #if defined(MBEDTLS_PSA_BUILTIN_ALG_DETERMINISTIC_ECDSA)
     if (PSA_ALG_IS_DETERMINISTIC_ECDSA(alg)) {
@@ -114,16 +115,6 @@ static int is_builtin_calling_md(psa_algorithm_t alg)
 
 static int has_builtin_hash(psa_algorithm_t alg)
 {
-#if !defined(MBEDTLS_MD2_C)
-    if (alg == PSA_ALG_MD2) {
-        return 0;
-    }
-#endif
-#if !defined(MBEDTLS_MD4_C)
-    if (alg == PSA_ALG_MD4) {
-        return 0;
-    }
-#endif
 #if !defined(MBEDTLS_MD5_C)
     if (alg == PSA_ALG_MD5) {
         return 0;
@@ -268,12 +259,12 @@ static int test_read_key(const psa_key_attributes_t *expected_attributes,
     TEST_EQUAL(psa_get_key_enrollment_algorithm(expected_attributes),
                psa_get_key_enrollment_algorithm(&actual_attributes));
     if (can_export(expected_attributes)) {
-        ASSERT_ALLOC(exported_material, expected_material->len);
+        TEST_CALLOC(exported_material, expected_material->len);
         PSA_ASSERT(psa_export_key(key_id,
                                   exported_material, expected_material->len,
                                   &length));
-        ASSERT_COMPARE(expected_material->x, expected_material->len,
-                       exported_material, length);
+        TEST_MEMORY_COMPARE(expected_material->x, expected_material->len,
+                            exported_material, length);
     }
 
     if ((flags & TEST_FLAG_EXERCISE) && can_exercise(&actual_attributes)) {

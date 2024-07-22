@@ -1,7 +1,7 @@
 # This file is part of the OpenMV project.
 #
-# Copyright (c) 2013-2019 Ibrahim Abdelkader <iabdalkader@openmv.io>
-# Copyright (c) 2013-2019 Kwabena W. Agyeman <kwagyeman@openmv.io>
+# Copyright (c) 2013-2024 Ibrahim Abdelkader <iabdalkader@openmv.io>
+# Copyright (c) 2013-2024 Kwabena W. Agyeman <kwagyeman@openmv.io>
 #
 # This work is licensed under the MIT license, see the file LICENSE for details.
 #
@@ -48,7 +48,6 @@ TOOLS=$(TOP_DIR)/../tools
 FW_DIR=$(BUILD)/bin
 OMV_DIR=omv
 UVC_DIR=uvc
-CM4_DIR=cm4
 BOOTLDR_DIR=bootloader
 CUBEAI_DIR=stm32cubeai
 CMSIS_DIR=hal/cmsis
@@ -64,7 +63,8 @@ VL53L5CX_DIR=drivers/vl53l5cx
 PIXART_DIR=drivers/pixart
 DISPLAY_DIR=drivers/display
 LIBPDM_DIR=lib/libpdm
-TENSORFLOW_DIR=lib/libtf
+TENSORFLOW_DIR=lib/tflm
+CYW4343_FW_DIR=drivers/cyw4343/firmware/
 OMV_BOARD_CONFIG_DIR=$(TOP_DIR)/$(OMV_DIR)/boards/$(TARGET)/
 OMV_PORT_DIR=$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)
 MP_BOARD_CONFIG_DIR=$(TOP_DIR)/$(MICROPY_DIR)/ports/$(PORT)/boards/$(TARGET)/
@@ -169,11 +169,6 @@ MPY_CFLAGS += -DMICROPY_PY_AUDIO=1
 MICROPY_ARGS += MICROPY_PY_AUDIO=1
 endif
 
-ifeq ($(MICROPY_PY_MICRO_SPEECH), 1)
-MPY_CFLAGS += -DMICROPY_PY_MICRO_SPEECH=1
-MICROPY_ARGS += MICROPY_PY_MICRO_SPEECH=1
-endif
-
 ifeq ($(MICROPY_PY_DISPLAY), 1)
 MPY_CFLAGS += -DMICROPY_PY_DISPLAY=1
 MICROPY_ARGS += MICROPY_PY_DISPLAY=1
@@ -200,6 +195,9 @@ MPY_CFLAGS += -DMP_CONFIGFILE=\<$(OMV_PORT_DIR)/omv_mpconfigport.h\>
 
 # Include the port Makefile.
 include $(OMV_PORT_DIR)/omv_portconfig.mk
+
+# Export all common variables
+include $(OMV_COMMON_DIR)/export.mk
 
 clean:
 	$(RM) -fr $(BUILD)

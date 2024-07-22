@@ -2,26 +2,10 @@
  *  Key generation application
  *
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
-#if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
-#else
-#include MBEDTLS_CONFIG_FILE
-#endif
+#include "mbedtls/build_info.h"
 
 #include "mbedtls/platform.h"
 
@@ -184,7 +168,9 @@ int main(int argc, char *argv[])
     char buf[1024];
     int i;
     char *p, *q;
+#if defined(MBEDTLS_RSA_C)
     mbedtls_mpi N, P, Q, D, E, DP, DQ, QP;
+#endif /* MBEDTLS_RSA_C */
     mbedtls_entropy_context entropy;
     mbedtls_ctr_drbg_context ctr_drbg;
     const char *pers = "gen_key";
@@ -195,14 +181,24 @@ int main(int argc, char *argv[])
     /*
      * Set to sane values
      */
-
+#if defined(MBEDTLS_RSA_C)
     mbedtls_mpi_init(&N); mbedtls_mpi_init(&P); mbedtls_mpi_init(&Q);
     mbedtls_mpi_init(&D); mbedtls_mpi_init(&E); mbedtls_mpi_init(&DP);
     mbedtls_mpi_init(&DQ); mbedtls_mpi_init(&QP);
+#endif /* MBEDTLS_RSA_C */
 
     mbedtls_pk_init(&key);
     mbedtls_ctr_drbg_init(&ctr_drbg);
     memset(buf, 0, sizeof(buf));
+
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    psa_status_t status = psa_crypto_init();
+    if (status != PSA_SUCCESS) {
+        mbedtls_fprintf(stderr, "Failed to initialize PSA Crypto implementation: %d\n",
+                        (int) status);
+        goto exit;
+    }
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
     if (argc < 2) {
 usage:
@@ -371,10 +367,10 @@ usage:
     if (mbedtls_pk_get_type(&key) == MBEDTLS_PK_ECKEY) {
         mbedtls_ecp_keypair *ecp = mbedtls_pk_ec(key);
         mbedtls_printf("curve: %s\n",
-                       mbedtls_ecp_curve_info_from_grp_id(ecp->grp.id)->name);
-        mbedtls_mpi_write_file("X_Q:   ", &ecp->Q.X, 16, NULL);
-        mbedtls_mpi_write_file("Y_Q:   ", &ecp->Q.Y, 16, NULL);
-        mbedtls_mpi_write_file("D:     ", &ecp->d, 16, NULL);
+                       mbedtls_ecp_curve_info_from_grp_id(ecp->MBEDTLS_PRIVATE(grp).id)->name);
+        mbedtls_mpi_write_file("X_Q:   ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(X), 16, NULL);
+        mbedtls_mpi_write_file("Y_Q:   ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(Y), 16, NULL);
+        mbedtls_mpi_write_file("D:     ", &ecp->MBEDTLS_PRIVATE(d), 16, NULL);
     } else
 #endif
     mbedtls_printf("  ! key type not supported\n");
@@ -404,18 +400,18 @@ exit:
 #endif
     }
 
+#if defined(MBEDTLS_RSA_C)
     mbedtls_mpi_free(&N); mbedtls_mpi_free(&P); mbedtls_mpi_free(&Q);
     mbedtls_mpi_free(&D); mbedtls_mpi_free(&E); mbedtls_mpi_free(&DP);
     mbedtls_mpi_free(&DQ); mbedtls_mpi_free(&QP);
+#endif /* MBEDTLS_RSA_C */
 
     mbedtls_pk_free(&key);
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_entropy_free(&entropy);
-
-#if defined(_WIN32)
-    mbedtls_printf("  + Press Enter to exit this program.\n");
-    fflush(stdout); getchar();
-#endif
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    mbedtls_psa_crypto_free();
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
     mbedtls_exit(exit_code);
 }

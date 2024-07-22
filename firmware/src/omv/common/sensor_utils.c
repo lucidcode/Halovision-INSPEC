@@ -26,6 +26,7 @@
 #include "lepton.h"
 #include "hm01b0.h"
 #include "hm0360.h"
+#include "pag7920.h"
 #include "paj6100.h"
 #include "frogeye2020.h"
 #include "gc2145.h"
@@ -35,8 +36,16 @@
 #include "omv_gpio.h"
 #include "omv_i2c.h"
 
-#ifndef OMV_ISC_MAX_DEVICES
-#define OMV_ISC_MAX_DEVICES (5)
+#ifndef OMV_CSI_MAX_DEVICES
+#define OMV_CSI_MAX_DEVICES (5)
+#endif
+
+#ifndef OMV_CSI_RESET_DELAY
+#define OMV_CSI_RESET_DELAY (10)
+#endif
+
+#ifndef OMV_CSI_POWER_DELAY
+#define OMV_CSI_POWER_DELAY (10)
 #endif
 
 #ifndef __weak
@@ -155,7 +164,7 @@ __weak int sensor_reset() {
     }
     #endif
 
-    mp_hal_delay_ms(20);
+    mp_hal_delay_ms(OMV_CSI_RESET_DELAY);
 
     // Re-enable the bus.
     omv_i2c_enable(&sensor.i2c_bus, true);
@@ -173,10 +182,10 @@ __weak int sensor_reset() {
 }
 
 static int sensor_detect() {
-    uint8_t devs_list[OMV_ISC_MAX_DEVICES];
+    uint8_t devs_list[OMV_CSI_MAX_DEVICES];
     int n_devs = omv_i2c_scan(&sensor.i2c_bus, devs_list, OMV_ARRAY_SIZE(devs_list));
 
-    for (int i = 0; i < OMV_MIN(n_devs, OMV_ISC_MAX_DEVICES); i++) {
+    for (int i = 0; i < OMV_MIN(n_devs, OMV_CSI_MAX_DEVICES); i++) {
         uint8_t slv_addr = devs_list[i];
         switch (slv_addr) {
             #if (OMV_OV2640_ENABLE == 1)
@@ -232,6 +241,13 @@ static int sensor_detect() {
                 sensor.chip_id_w = FROGEYE2020_ID;
                 return slv_addr;
             #endif // (OMV_FROGEYE2020_ENABLE == 1)
+
+            #if (OMV_PAG7920_ENABLE == 1)
+            case PAG7920_SLV_ADDR:
+                omv_i2c_readw(&sensor.i2c_bus, slv_addr, ON_CHIP_ID, &sensor.chip_id_w);
+                sensor.chip_id_w = (sensor.chip_id_w << 8) | (sensor.chip_id_w >> 8);
+                return slv_addr;
+            #endif // (OMV_PAG7920_ENABLE == 1)
         }
     }
 
@@ -248,7 +264,7 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed) {
     mp_hal_delay_ms(10);
 
     omv_gpio_write(OMV_CSI_POWER_PIN, 0);
-    mp_hal_delay_ms(10);
+    mp_hal_delay_ms(OMV_CSI_POWER_DELAY);
     #endif
 
     #if defined(OMV_CSI_RESET_PIN)
@@ -258,7 +274,7 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed) {
     mp_hal_delay_ms(10);
 
     omv_gpio_write(OMV_CSI_RESET_PIN, 0);
-    mp_hal_delay_ms(10);
+    mp_hal_delay_ms(OMV_CSI_RESET_DELAY);
     #endif
 
     // Initialize the camera bus.
@@ -273,21 +289,21 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed) {
         #if defined(OMV_CSI_RESET_PIN)
         sensor.reset_pol = ACTIVE_LOW;
         omv_gpio_write(OMV_CSI_RESET_PIN, 1);
-        mp_hal_delay_ms(10);
+        mp_hal_delay_ms(OMV_CSI_RESET_DELAY);
         #endif
 
         if ((sensor.slv_addr = sensor_detect()) == 0) {
             #if defined(OMV_CSI_POWER_PIN)
             sensor.pwdn_pol = ACTIVE_LOW;
             omv_gpio_write(OMV_CSI_POWER_PIN, 1);
-            mp_hal_delay_ms(10);
+            mp_hal_delay_ms(OMV_CSI_POWER_DELAY);
             #endif
 
             if ((sensor.slv_addr = sensor_detect()) == 0) {
                 #if defined(OMV_CSI_RESET_PIN)
                 sensor.reset_pol = ACTIVE_HIGH;
                 omv_gpio_write(OMV_CSI_RESET_PIN, 0);
-                mp_hal_delay_ms(10);
+                mp_hal_delay_ms(OMV_CSI_RESET_DELAY);
                 #endif
                 sensor.slv_addr = sensor_detect();
             }
@@ -425,6 +441,15 @@ int sensor_probe_init(uint32_t bus_id, uint32_t bus_speed) {
             init_ret = gc2145_init(&sensor);
             break;
         #endif //(OMV_GC2145_ENABLE == 1)
+
+        #if (OMV_PAG7920_ENABLE == 1)
+        case PAG7920_ID:
+            if (sensor_set_xclk_frequency(OMV_PAG7920_XCLK_FREQ) != 0) {
+                return SENSOR_ERROR_TIM_INIT_FAILED;
+            }
+            init_ret = pag7920_init(&sensor);
+            break;
+        #endif // (OMV_PAG7920_ENABLE == 1)
 
         #if (OMV_PAJ6100_ENABLE == 1)
         case PAJ6100_ID:

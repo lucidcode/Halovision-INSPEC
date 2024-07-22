@@ -1,0 +1,156 @@
+name: '🔥 Build TFLM'
+
+on:
+  push:
+    branches:    
+      - 'main'
+    paths:
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.json'
+      - '!**/README.md'
+
+  pull_request:
+    branches:    
+      - 'main'
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+    paths:
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.json'
+      - '!**/README.md'
+
+jobs:
+  build-tflm:
+    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        target:
+          - {name: cortex-m0plus, arch: cortex-m0plus, kernel: cmsis_nn, coproc: '', args: ''}
+          - {name: cortex-m4+fp, arch: cortex-m4+fp, kernel: cmsis_nn, coproc: '', args: ''}
+          - {name: cortex-m7+fp, arch: cortex-m7+fp, kernel: cmsis_nn, coproc: '', args: ''}
+          - {name: cortex-m55, arch: cortex-m55, kernel: cmsis_nn, coproc: '', args: ''}
+          - {name: cortex-m55-u55, arch: cortex-m55, kernel: ethos_u, coproc: ethos_u, args: "ETHOSU_ARCH=u55"}
+        build: [release] #, debug]
+      fail-fast: true
+
+    steps:
+    - name: '⏳ Checkout main'
+      uses: actions/checkout@v4
+      with:
+        submodules: false
+
+    - name: '⏳ Checkout TFLM'
+      uses: actions/checkout@v4
+      with:
+        submodules: false
+        path: tflite-micro
+        repository: tensorflow/tflite-micro
+        ref: 7a0249686f412551634a5058ddd6d2ec3f224203
+
+    - name: '🩹 Apply patches'
+      run: |
+        git apply --verbose --directory=tflite-micro ${GITHUB_WORKSPACE}/patches/tflite_micro.patch
+
+    - name: '♻ Caching dependencies'
+      uses: actions/cache@v4.0.2
+      id: cache
+      with:
+        path: ~/cache/gcc
+        key: 'arm-gnu-toolchain-13.2.rel1'
+
+    - name: '🛠 Install toolchain '
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: source tools/ci.sh && ci_install_arm_gcc
+
+    - name: '🐍 Set up Python'
+      uses: actions/setup-python@v5
+      with:
+        cache: 'pip'
+        python-version: "3.12.4"
+
+    - name: '🛠 Install dependencies'
+      run: |
+        python -m pip install --break-system-packages --upgrade pip -r requirements.txt
+
+    - name: '🏗 Build TFLM'
+      run: |
+        source tools/ci.sh
+        ci_build_target ${{ matrix.target.name }} \
+                        ${{ matrix.target.arch }} \
+                        "${{ matrix.target.kernel }}" \
+                        "${{ matrix.target.coproc }}" \
+                        "${{ matrix.target.args }}" \
+                        ${{ matrix.build }}
+
+    - name: '⬆ Upload library'
+      uses: actions/upload-artifact@v4
+      with:
+        name: libtflm-${{ matrix.target.name }}-${{ matrix.build }}
+        path: libtflm-${{ matrix.target.name }}-${{ matrix.build }}.a
+        retention-days: 1
+        if-no-files-found: error
+
+    - name: '🏗 Build headers'
+      if: matrix.build == 'release'
+      run: |
+        source tools/ci.sh
+        ci_build_headers ${{ matrix.target.name }} \
+                        ${{ matrix.target.arch }} \
+                        "${{ matrix.target.kernel }}" \
+                        "${{ matrix.target.coproc }}" \
+                        "${{ matrix.target.args }}" \
+                        ${{ matrix.build }}
+
+    - name: '⬆ Upload headers'
+      if: matrix.build == 'release'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.target.name }}-headers
+        path: ${{ matrix.target.name }}-headers
+        retention-days: 1
+        if-no-files-found: error
+
+  push-artifacts:
+    runs-on: ubuntu-20.04
+    needs: [build-tflm]
+    if: github.event_name == 'push'
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - name: '⏳ Checkout repository'
+      uses: actions/checkout@v4
+      with:
+        submodules: false
+
+    - name: '⬇ Download artifacts'
+      uses: actions/download-artifact@v4
+      with:
+        path: lib/
+        pattern: 'libtflm-*'
+        merge-multiple: true
+
+    - name: '⬇ Download artifacts'
+      uses: actions/download-artifact@v4
+      with:
+        pattern: '*-headers'
+
+    - name: '🔄 Update headers'
+      run: |
+        rsync -av --delete --include='*/' --include='LICENSE' --include='COPYING' --include='*.h' --exclude='*' --delete *-headers/ include
+        rm -fr *-headers
+
+    - name: '🔀 Create Pull Request'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        base: main
+        branch: update_tflm
+        title: Update tflm libraries and headers.
+        commit-message: Update tflm libraries and headers.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

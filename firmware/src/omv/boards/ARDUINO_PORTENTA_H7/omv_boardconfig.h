@@ -37,6 +37,9 @@
 
 #define OMV_HM01B0_ENABLE                   (1)
 #define OMV_HM0360_ENABLE                   (1)
+// This sensor uses an internal oscillator on the Arduino Portenta H7.
+#define OMV_HM0360_XCLK_FREQ                (0)
+#define OMV_HM0360_PLL1_CONFIG              (0x08)
 
 // FIR sensor drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE             (1)
@@ -108,26 +111,34 @@
 // Linker script constants (see the linker script template stm32fxxx.ld.S).
 // Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
 // The maximum available fb_alloc memory = FB_ALLOC_SIZE + FB_SIZE - (w*h*bpp).
-#define OMV_MAIN_MEMORY                     SRAM1    // data, bss and heap
+#define OMV_MAIN_MEMORY                     DTCM    // Data/BSS memory
 #define OMV_STACK_MEMORY                    DTCM    // stack memory
-#define OMV_DMA_MEMORY                      SRAM3    // DMA buffers memory.
+#define OMV_STACK_SIZE                      (32K)
 #define OMV_FB_MEMORY                       DRAM    // Framebuffer, fb_alloc
-#define OMV_JPEG_MEMORY                     DRAM    // JPEG buffer memory buffer.
-#define OMV_JPEG_MEMORY_OFFSET              (7M)    // JPEG buffer is placed after FB/fballoc memory.
-#define OMV_VOSPI_MEMORY                    SRAM4    // VoSPI buffer memory.
+#define OMV_FB_SIZE                         (3M)    // FB memory: header + VGA/GS image
+#define OMV_FB_ALLOC_SIZE                   (1M)    // minimum fb alloc size
 #define OMV_FB_OVERLAY_MEMORY               AXI_SRAM    // Fast fb_alloc memory.
-
-#define OMV_FB_SIZE                         (4M)    // FB memory: header + VGA/GS image
-#define OMV_FB_ALLOC_SIZE                   (3M)    // minimum fb alloc size
-#define OMV_FB_OVERLAY_SIZE                 (480 * 1024)    // Fast fb_alloc memory size.
-#define OMV_STACK_SIZE                      (64K)
-#define OMV_HEAP_SIZE                       (160K)
-#define OMV_SDRAM_SIZE                      (8 * 1024 * 1024)    // This needs to be here for UVC firmware.
-
-#define OMV_LINE_BUF_SIZE                   (11 * 1024)    // Image line buffer round(2592 * 2BPP * 2 buffers).
+#define OMV_FB_OVERLAY_SIZE                 (480K)  // Fast fb_alloc memory size.
+#define OMV_JPEG_MEMORY                     DRAM    // JPEG buffer memory buffer.
+#define OMV_JPEG_SIZE                       (1024 * 1024)    // IDE JPEG buffer (header + data).
+#define OMV_VOSPI_MEMORY                    SRAM4   // VoSPI buffer memory.
+#define OMV_VOSPI_SIZE                      (38K)
+#define OMV_DMA_MEMORY                      SRAM3   // Misc DMA buffers memory.
+#define OMV_DMA_MEMORY_D1                   AXI_SRAM // Domain 1 DMA buffers.
+#define OMV_DMA_MEMORY_D2                   SRAM3   // Domain 2 DMA buffers.
+#define OMV_DMA_MEMORY_D3                   SRAM4   // Domain 3 DMA buffers.
+#define OMV_OPENAMP_MEMORY                  SRAM1
+#define OMV_OPENAMP_SIZE                    (64K)
+#define OMV_CORE1_MEMORY                    DRAM
+#define OMV_CORE1_SIZE                      (512K)
+#define OMV_GC_BLOCK0_MEMORY                SRAM1   // Main GC block.
+#define OMV_GC_BLOCK0_SIZE                  (192K)
+#define OMV_GC_BLOCK1_MEMORY                DRAM    // Extra GC block 1.
+#define OMV_GC_BLOCK1_SIZE                  (2560K)
 #define OMV_MSC_BUF_SIZE                    (2K)    // USB MSC bot data
 #define OMV_VFS_BUF_SIZE                    (1K)    // VFS struct + FATFS file buffer (624 bytes)
-#define OMV_JPEG_BUF_SIZE                   (1024 * 1024)    // IDE JPEG buffer (header + data).
+#define OMV_SDRAM_SIZE                      (8 * 1024 * 1024)    // This needs to be here for UVC firmware.
+#define OMV_LINE_BUF_SIZE                   (11 * 1024)    // Image line buffer round(2592 * 2BPP * 2 buffers).
 
 // Memory map.
 #define OMV_FLASH_ORIGIN                    0x08000000
@@ -135,7 +146,7 @@
 #define OMV_DTCM_ORIGIN                     0x20000000    // Note accessible by CPU and MDMA only.
 #define OMV_DTCM_LENGTH                     128K
 #define OMV_SRAM1_ORIGIN                    0x30000000
-#define OMV_SRAM1_LENGTH                    256K    // SRAM1 + SRAM2
+#define OMV_SRAM1_LENGTH                    256K          // SRAM1 + SRAM2
 #define OMV_SRAM3_ORIGIN                    0x30040000    // Second half of SRAM3 reserved for M4.
 #define OMV_SRAM3_LENGTH                    16K
 #define OMV_SRAM4_ORIGIN                    0x38000000
@@ -144,10 +155,6 @@
 #define OMV_AXI_SRAM_LENGTH                 512K
 #define OMV_DRAM_ORIGIN                     0xC0000000
 #define OMV_DRAM_LENGTH                     8M
-#define OMV_CM4_RAM_ORIGIN                  0x30044000    // Cortex-M4 memory.
-#define OMV_CM4_RAM_LENGTH                  16K
-#define OMV_CM4_FLASH_ORIGIN                0x08020000
-#define OMV_CM4_FLASH_LENGTH                128K
 
 // Flash configuration.
 #define OMV_FLASH_FFS_ORIGIN                0x08020000
@@ -156,24 +163,6 @@
 #define OMV_FLASH_TXT_LENGTH                1792K
 #define OMV_FLASH_EXT_ORIGIN                0x90000000
 #define OMV_FLASH_EXT_LENGTH                16M
-
-// Domain 1 DMA buffers region.
-#define OMV_DMA_MEMORY_D1                   AXI_SRAM
-#define OMV_DMA_MEMORY_D1_SIZE              (16 * 1024)    // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D1_BASE              (OMV_AXI_SRAM_ORIGIN + OMV_FB_OVERLAY_SIZE)
-#define OMV_DMA_REGION_D1_SIZE              MPU_REGION_SIZE_32KB
-
-// Domain 2 DMA buffers region.
-#define OMV_DMA_MEMORY_D2                   SRAM3
-#define OMV_DMA_MEMORY_D2_SIZE              (1 * 1024)    // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D2_BASE              (OMV_SRAM3_ORIGIN + (0 * 1024))
-#define OMV_DMA_REGION_D2_SIZE              MPU_REGION_SIZE_16KB
-
-// Domain 3 DMA buffers region.
-#define OMV_DMA_MEMORY_D3                   SRAM4
-#define OMV_DMA_MEMORY_D3_SIZE              (32 * 1024)    // Reserved memory for DMA buffers
-#define OMV_DMA_REGION_D3_BASE              (OMV_SRAM4_ORIGIN + (0 * 1024))
-#define OMV_DMA_REGION_D3_SIZE              MPU_REGION_SIZE_64KB
 
 // MDMA configuration
 #define OMV_MDMA_CHANNEL_DCMI_0             (0)
@@ -236,6 +225,7 @@
 // The sensor probing process will detect the right reset or powerdown
 // polarity, so it should be fine to enable it for both boards.
 #define OMV_CSI_RESET_PIN                   (&omv_pin_C13_GPIO)
+#define OMV_CSI_RESET_DELAY                 (100)
 
 // GPIO.1 is connected to the sensor module frame sync pin (OUTPUT) on
 // the Portenta breakout board and to the INT pin (OUTPUT) on the Himax
@@ -246,6 +236,7 @@
 // and to the STROBE pin on the Himax shield, however it's not actually
 // used on the Himax shield and can be safely enable for the two boards.
 #define OMV_CSI_POWER_PIN                   (&omv_pin_D5_GPIO)
+#define OMV_CSI_POWER_DELAY                 (100)
 
 // Physical I2C buses.
 

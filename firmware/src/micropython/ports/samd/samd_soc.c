@@ -38,9 +38,7 @@
 #include "tusb.h"
 #include "mphalport.h"
 
-#if MICROPY_PY_MACHINE_RTC
 extern void machine_rtc_start(bool force);
-#endif
 
 static void usb_init(void) {
     // Init USB clock
@@ -64,8 +62,6 @@ static void usb_init(void) {
     PORT->Group[0].PMUX[12].reg = alt << 4 | alt;
     PORT->Group[0].PINCFG[24].reg = PORT_PINCFG_PMUXEN;
     PORT->Group[0].PINCFG[25].reg = PORT_PINCFG_PMUXEN;
-
-    tusb_init();
 }
 
 // Initialize the µs counter on TC 0/1 or TC4/5
@@ -120,13 +116,10 @@ void samd_init(void) {
     init_clocks(get_cpu_freq());
     init_us_counter();
     usb_init();
-    check_usb_recovery_mode();
     #if defined(MCU_SAMD51)
     mp_hal_ticks_cpu_enable();
     #endif
-    #if MICROPY_PY_MACHINE_RTC
     machine_rtc_start(false);
-    #endif
 }
 
 #if MICROPY_PY_MACHINE_I2C || MICROPY_PY_MACHINE_SPI || MICROPY_PY_MACHINE_UART

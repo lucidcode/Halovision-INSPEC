@@ -29,6 +29,9 @@
 #include "py/runtime.h"
 #include "py/mperrno.h"
 #include "py/mphal.h"
+
+#if MICROPY_PY_MACHINE_PULSE
+
 #include "extmod/modmachine.h"
 #include "drivers/dht/dht.h"
 
@@ -37,7 +40,7 @@
 #define mp_hal_pin_od_high_dht mp_hal_pin_od_high
 #endif
 
-STATIC mp_obj_t dht_readinto(mp_obj_t pin_in, mp_obj_t buf_in) {
+static mp_obj_t dht_readinto(mp_obj_t pin_in, mp_obj_t buf_in) {
     mp_hal_pin_obj_t pin = mp_hal_get_pin_obj(pin_in);
     mp_hal_pin_open_drain(pin);
 
@@ -92,3 +95,5 @@ timeout:
     mp_raise_OSError(MP_ETIMEDOUT);
 }
 MP_DEFINE_CONST_FUN_OBJ_2(dht_readinto_obj, dht_readinto);
+
+#endif // MICROPY_PY_MACHINE_PULSE

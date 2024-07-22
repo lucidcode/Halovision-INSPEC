@@ -13,10 +13,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by the University of
- *	California, Berkeley and its contributors.
+ * 3. <advertising clause removed, see README.Impt.License.Change>
  * 4. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
@@ -65,10 +62,10 @@ static char sccsid[] = "@(#)hash_buf.c	8.5 (Berkeley) 7/15/94";
 #include <assert.h>
 #endif
 
-#include <db.h>
-#include "hash.h"
-#include "page.h"
-#include "extern.h"
+#include "berkeley-db/db.h"
+#include "berkeley-db/hash.h"
+#include "berkeley-db/page.h"
+#include "berkeley-db/hash_extern.h"
 
 static BUFHEAD *newbuf __P((HTAB *, u_int32_t, BUFHEAD *));
 

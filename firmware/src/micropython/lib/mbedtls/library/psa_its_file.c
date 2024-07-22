@@ -3,19 +3,7 @@
  */
 /*
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
 #include "common.h"
@@ -97,6 +85,9 @@ static psa_status_t psa_its_read_file(psa_storage_uid_t uid,
     if (*p_stream == NULL) {
         return PSA_ERROR_DOES_NOT_EXIST;
     }
+
+    /* Ensure no stdio buffering of secrets, as such buffers cannot be wiped. */
+    mbedtls_setbuf(*p_stream, NULL);
 
     n = fread(&header, 1, sizeof(header), *p_stream);
     if (n != sizeof(header)) {
@@ -207,9 +198,13 @@ psa_status_t psa_its_set(psa_storage_uid_t uid,
 
     psa_its_fill_filename(uid, filename);
     stream = fopen(PSA_ITS_STORAGE_TEMP, "wb");
+
     if (stream == NULL) {
         goto exit;
     }
+
+    /* Ensure no stdio buffering of secrets, as such buffers cannot be wiped. */
+    mbedtls_setbuf(stream, NULL);
 
     status = PSA_ERROR_INSUFFICIENT_STORAGE;
     n = fwrite(&header, 1, sizeof(header), stream);

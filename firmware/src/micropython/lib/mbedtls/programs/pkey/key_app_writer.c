@@ -2,33 +2,22 @@
  *  Key writing application
  *
  *  Copyright The Mbed TLS Contributors
- *  SPDX-License-Identifier: Apache-2.0
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
  */
 
-#if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/config.h"
-#else
-#include MBEDTLS_CONFIG_FILE
-#endif
+#include "mbedtls/build_info.h"
 
 #include "mbedtls/platform.h"
 
-#if defined(MBEDTLS_PK_WRITE_C) && defined(MBEDTLS_FS_IO)
+#if defined(MBEDTLS_PK_PARSE_C) && defined(MBEDTLS_PK_WRITE_C) && \
+    defined(MBEDTLS_FS_IO) && \
+    defined(MBEDTLS_ENTROPY_C) && defined(MBEDTLS_CTR_DRBG_C)
 #include "mbedtls/error.h"
 #include "mbedtls/pk.h"
 #include "mbedtls/error.h"
+
+#include "mbedtls/entropy.h"
+#include "mbedtls/ctr_drbg.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -79,11 +68,14 @@
 
 #if !defined(MBEDTLS_PK_PARSE_C) || \
     !defined(MBEDTLS_PK_WRITE_C) || \
-    !defined(MBEDTLS_FS_IO)
+    !defined(MBEDTLS_FS_IO)      || \
+    !defined(MBEDTLS_ENTROPY_C)  || \
+    !defined(MBEDTLS_CTR_DRBG_C)
 int main(void)
 {
-    mbedtls_printf(
-        "MBEDTLS_PK_PARSE_C and/or MBEDTLS_PK_WRITE_C and/or MBEDTLS_FS_IO not defined.\n");
+    mbedtls_printf("MBEDTLS_PK_PARSE_C and/or MBEDTLS_PK_WRITE_C and/or "
+                   "MBEDTLS_ENTROPY_C and/or MBEDTLS_CTR_DRBG_C and/or "
+                   "MBEDTLS_FS_IO not defined.\n");
     mbedtls_exit(0);
 }
 #else
@@ -194,20 +186,40 @@ int main(int argc, char *argv[])
     int i;
     char *p, *q;
 
+    const char *pers = "pkey/key_app";
+    mbedtls_entropy_context entropy;
+    mbedtls_ctr_drbg_context ctr_drbg;
+
     mbedtls_pk_context key;
+#if defined(MBEDTLS_RSA_C)
     mbedtls_mpi N, P, Q, D, E, DP, DQ, QP;
+#endif /* MBEDTLS_RSA_C */
 
     /*
      * Set to sane values
      */
+    mbedtls_entropy_init(&entropy);
+    mbedtls_ctr_drbg_init(&ctr_drbg);
+
     mbedtls_pk_init(&key);
 #if defined(MBEDTLS_ERROR_C)
     memset(buf, 0, sizeof(buf));
 #endif
 
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    psa_status_t status = psa_crypto_init();
+    if (status != PSA_SUCCESS) {
+        mbedtls_fprintf(stderr, "Failed to initialize PSA Crypto implementation: %d\n",
+                        (int) status);
+        goto exit;
+    }
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
+
+#if defined(MBEDTLS_RSA_C)
     mbedtls_mpi_init(&N); mbedtls_mpi_init(&P); mbedtls_mpi_init(&Q);
     mbedtls_mpi_init(&D); mbedtls_mpi_init(&E); mbedtls_mpi_init(&DP);
     mbedtls_mpi_init(&DQ); mbedtls_mpi_init(&QP);
+#endif /* MBEDTLS_RSA_C */
 
     if (argc < 2) {
 usage:
@@ -281,8 +293,16 @@ usage:
         mbedtls_printf("\n  . Loading the private key ...");
         fflush(stdout);
 
-        ret = mbedtls_pk_parse_keyfile(&key, opt.filename, NULL);
+        if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
+                                         (const unsigned char *) pers,
+                                         strlen(pers))) != 0) {
+            mbedtls_printf(" failed\n  !  mbedtls_ctr_drbg_seed returned -0x%04x\n",
+                           (unsigned int) -ret);
+            goto exit;
+        }
 
+        ret = mbedtls_pk_parse_keyfile(&key, opt.filename, NULL,
+                                       mbedtls_ctr_drbg_random, &ctr_drbg);
         if (ret != 0) {
             mbedtls_printf(" failed\n  !  mbedtls_pk_parse_keyfile returned -0x%04x",
                            (unsigned int) -ret);
@@ -319,10 +339,10 @@ usage:
 #if defined(MBEDTLS_ECP_C)
         if (mbedtls_pk_get_type(&key) == MBEDTLS_PK_ECKEY) {
             mbedtls_ecp_keypair *ecp = mbedtls_pk_ec(key);
-            mbedtls_mpi_write_file("Q(X): ", &ecp->Q.X, 16, NULL);
-            mbedtls_mpi_write_file("Q(Y): ", &ecp->Q.Y, 16, NULL);
-            mbedtls_mpi_write_file("Q(Z): ", &ecp->Q.Z, 16, NULL);
-            mbedtls_mpi_write_file("D   : ", &ecp->d, 16, NULL);
+            mbedtls_mpi_write_file("Q(X): ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(X), 16, NULL);
+            mbedtls_mpi_write_file("Q(Y): ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(Y), 16, NULL);
+            mbedtls_mpi_write_file("Q(Z): ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(Z), 16, NULL);
+            mbedtls_mpi_write_file("D   : ", &ecp->MBEDTLS_PRIVATE(d), 16, NULL);
         } else
 #endif
         mbedtls_printf("key type not supported yet\n");
@@ -365,9 +385,9 @@ usage:
 #if defined(MBEDTLS_ECP_C)
         if (mbedtls_pk_get_type(&key) == MBEDTLS_PK_ECKEY) {
             mbedtls_ecp_keypair *ecp = mbedtls_pk_ec(key);
-            mbedtls_mpi_write_file("Q(X): ", &ecp->Q.X, 16, NULL);
-            mbedtls_mpi_write_file("Q(Y): ", &ecp->Q.Y, 16, NULL);
-            mbedtls_mpi_write_file("Q(Z): ", &ecp->Q.Z, 16, NULL);
+            mbedtls_mpi_write_file("Q(X): ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(X), 16, NULL);
+            mbedtls_mpi_write_file("Q(Y): ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(Y), 16, NULL);
+            mbedtls_mpi_write_file("Q(Z): ", &ecp->MBEDTLS_PRIVATE(Q).MBEDTLS_PRIVATE(Z), 16, NULL);
         } else
 #endif
         mbedtls_printf("key type not supported yet\n");
@@ -395,17 +415,21 @@ exit:
 #endif
     }
 
+#if defined(MBEDTLS_RSA_C)
     mbedtls_mpi_free(&N); mbedtls_mpi_free(&P); mbedtls_mpi_free(&Q);
     mbedtls_mpi_free(&D); mbedtls_mpi_free(&E); mbedtls_mpi_free(&DP);
     mbedtls_mpi_free(&DQ); mbedtls_mpi_free(&QP);
+#endif /* MBEDTLS_RSA_C */
 
     mbedtls_pk_free(&key);
 
-#if defined(_WIN32)
-    mbedtls_printf("  + Press Enter to exit this program.\n");
-    fflush(stdout); getchar();
-#endif
+    mbedtls_ctr_drbg_free(&ctr_drbg);
+    mbedtls_entropy_free(&entropy);
+#if defined(MBEDTLS_USE_PSA_CRYPTO)
+    mbedtls_psa_crypto_free();
+#endif /* MBEDTLS_USE_PSA_CRYPTO */
 
     mbedtls_exit(exit_code);
 }
-#endif /* MBEDTLS_PK_PARSE_C && MBEDTLS_PK_WRITE_C && MBEDTLS_FS_IO */
+#endif /* MBEDTLS_PK_PARSE_C && MBEDTLS_PK_WRITE_C && MBEDTLS_FS_IO &&
+          MBEDTLS_ENTROPY_C && MBEDTLS_CTR_DRBG_C */

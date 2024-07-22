@@ -101,7 +101,7 @@ extern TIM_HandleTypeDef TIM5_Handle;
 // More information about decoding the fault registers can be found here:
 // http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0646a/Cihdjcfc.html
 
-STATIC char *fmt_hex(uint32_t val, char *buf) {
+static char *fmt_hex(uint32_t val, char *buf) {
     const char *hexDig = "0123456789abcdef";
 
     buf[0] = hexDig[(val >> 28) & 0x0f];
@@ -117,7 +117,7 @@ STATIC char *fmt_hex(uint32_t val, char *buf) {
     return buf;
 }
 
-STATIC void print_reg(const char *label, uint32_t val) {
+static void print_reg(const char *label, uint32_t val) {
     char hexStr[9];
 
     mp_hal_stdout_tx_str(label);
@@ -125,7 +125,7 @@ STATIC void print_reg(const char *label, uint32_t val) {
     mp_hal_stdout_tx_str("\r\n");
 }
 
-STATIC void print_hex_hex(const char *label, uint32_t val1, uint32_t val2) {
+static void print_hex_hex(const char *label, uint32_t val1, uint32_t val2) {
     char hex_str[9];
     mp_hal_stdout_tx_str(label);
     mp_hal_stdout_tx_str(fmt_hex(val1, hex_str));
@@ -359,7 +359,7 @@ void OTG_HS_IRQHandler(void) {
   * @param  *pcd_handle for FS or HS
   * @retval None
   */
-STATIC void OTG_CMD_WKUP_Handler(PCD_HandleTypeDef *pcd_handle) {
+static void OTG_CMD_WKUP_Handler(PCD_HandleTypeDef *pcd_handle) {
 
     if (pcd_handle->Init.low_power_enable) {
         /* Reset SLEEPDEEP bit of Cortex System Control Register */
