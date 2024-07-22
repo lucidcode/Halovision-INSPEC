@@ -91,7 +91,7 @@ class inspec_stream:
         if self.connected == False:
             return
 
-        cframe = image.compressed(quality=35)
+        cframe = image.to_jpeg(quality=35, copy=True)
         header = (
             "\r\n--inspec\r\n"
             "Content-Type: image/jpeg\r\n"

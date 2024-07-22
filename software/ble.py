@@ -1,7 +1,6 @@
 import bluetooth
 import random
 import struct
-import time
 import ubinascii
 from ble_advertising import advertising_payload
 from micropython import const
@@ -99,7 +98,7 @@ class inspec_comms:
         while image.width() >= 240:
             image = image.scale(x_scale=0.5, y_scale=0.5)
 
-        self.compressed = image.compress(quality=70).bytearray()
+        self.compressed = image.to_jpeg(quality=70).bytearray()
 
         self.cframe = bytearray(len(self.compressed))
         self.cframe[:] = self.compressed
