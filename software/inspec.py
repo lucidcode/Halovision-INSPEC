@@ -116,11 +116,11 @@ class inspec_sensor:
 
                 self.face.detect(self.img)
                 self.detect()
-                self.send_stream()
                 self.led.process()
                 self.process_trigger()
 
                 if (utime.ticks_ms() - self.last_update > 128):
+                    self.send_stream()
                     average = 0
                     if self.variances > 0:
                         average = int(self.total_variances / self.variances)
