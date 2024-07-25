@@ -235,6 +235,7 @@ class inspec_sensor:
                 
     def init_stream(self):
         try:
+            self.stream = None
             if self.config.get('AccessPoint'):
                 self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
 
