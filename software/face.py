@@ -32,6 +32,8 @@ class face_detection:
         if face_objects:
             self.face_object = face_objects[0]
             self.has_face = True
+            if self.config.get('TrackEyes'):
+                self.face_object = [self.face_object[0], self.face_object[1] + int(self.face_object[3] * 1/5), self.face_object[2], int(self.face_object[3] * 2/5)]
         else:
             self.face_object = [0, 0, img.width(), img.height()]
             self.has_face = False
