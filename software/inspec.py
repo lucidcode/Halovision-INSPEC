@@ -108,13 +108,13 @@ class inspec_sensor:
                 if self.config.get('TrackFace'):
                     self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
 
+                self.face.detect(self.img)
                 self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
                 if self.variance > 0:
                     self.total_variances = self.total_variances + self.variance
                     self.variances = self.variances + 1
                 self.extra_fb.replace(self.img)
 
-                self.face.detect(self.img)
                 self.detect()
                 self.led.process()
                 self.process_trigger()

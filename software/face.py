@@ -14,6 +14,8 @@ class face_detection:
 
     def detect(self, img):
         if not self.config.get('TrackFace'):
+            if self.face_object == [0, 0, 1, 1]:
+                self.face_object = [0, 0, img.width(), img.height()]
             return
 
         now = utime.ticks_ms()
