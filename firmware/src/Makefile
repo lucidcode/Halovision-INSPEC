@@ -15,8 +15,12 @@ Q = @
 MAKEFLAGS += --silent
 endif
 
+# Default path to LLVM toolchain.
+LLVM_PATH ?=/opt/LLVM-ET-Arm-18.1.3-Linux-x86_64/bin/
+
 # Commands
 CC      = $(Q)arm-none-eabi-gcc
+CLANG   = $(Q)$(LLVM_PATH)/clang
 CXX     = $(Q)arm-none-eabi-g++
 AS      = $(Q)arm-none-eabi-as
 LD      = $(Q)arm-none-eabi-ld
@@ -47,8 +51,6 @@ BUILD=$(TOP_DIR)/build
 TOOLS=$(TOP_DIR)/../tools
 FW_DIR=$(BUILD)/bin
 OMV_DIR=omv
-UVC_DIR=uvc
-BOOTLDR_DIR=bootloader
 CUBEAI_DIR=stm32cubeai
 CMSIS_DIR=hal/cmsis
 MICROPY_DIR=micropython
@@ -62,6 +64,7 @@ MLX90641_DIR=drivers/mlx90641
 VL53L5CX_DIR=drivers/vl53l5cx
 PIXART_DIR=drivers/pixart
 DISPLAY_DIR=drivers/display
+DAVE2D_DIR=drivers/dave2d
 LIBPDM_DIR=lib/libpdm
 TENSORFLOW_DIR=lib/tflm
 CYW4343_FW_DIR=drivers/cyw4343/firmware/
@@ -75,11 +78,12 @@ OMV_COMMON_DIR=$(TOP_DIR)/$(OMV_DIR)/common
 # Debugging/Optimization
 ifeq ($(DEBUG), 1)
 ROM_TEXT_COMPRESSION = 0
-CFLAGS += -Og -ggdb3 -Wno-maybe-uninitialized
+CFLAGS += -Og -ggdb3
 else
 DEBUG=0
 ROM_TEXT_COMPRESSION = 1
 CFLAGS += -O2 -DNDEBUG
+USERMOD_OPT = -O2
 MPY_CFLAGS += -DMICROPY_ROM_TEXT_COMPRESSION=1
 endif
 
@@ -96,6 +100,11 @@ endif
 # Enable debug printf
 ifeq ($(FB_ALLOC_STATS), 1)
 CFLAGS += -DFB_ALLOC_STATS
+endif
+
+# Enable timing for some functions.
+ifeq ($(PROFILE), 1)
+CFLAGS += -DOMV_PROFILE_ENABLE=1
 endif
 
 # Include OpenMV board config first to set the port.

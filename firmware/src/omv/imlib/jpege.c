@@ -10,14 +10,8 @@
  * Ported from public domain JPEG writer by Jon Olick - http://jonolick.com
  * DCT implementation is based on Arai, Agui, and Nakajima's algorithm for scaled DCT.
  */
-#include "file_utils.h"
 #include "imlib.h"
-
-#define TIME_JPEG                  (0)
-#if (TIME_JPEG == 1)
-#include <stdio.h>
-#include "py/mphal.h"
-#endif
+#include "file_utils.h"
 
 // Expand 4 bits to 32 for binary to grayscale - process 4 pixels at a time
 #if (OMV_JPEG_CODEC_ENABLE == 1)
@@ -301,665 +295,14 @@ void jpeg_get_mcu(image_t *src, int x_offset, int y_offset, int dx, int dy,
                 memset(CR, 0, JPEG_444_GS_MCU_SIZE);
             }
 
-            int src_w = src->w, w_limit = src_w - 1, w_limit_m_1 = w_limit - 1;
-            int src_h = src->h, h_limit = src_h - 1, h_limit_m_1 = h_limit - 1;
-
-            if (x_offset && y_offset && (x_offset < (src_w - JPEG_MCU_W)) && (y_offset < (src_h - JPEG_MCU_H))) {
-                for (int y = y_offset - 1, yy = y + JPEG_MCU_H - 1, index_e = 0, index_o = JPEG_MCU_W; y < yy; y += 2,
-                     index_e += JPEG_MCU_W,
-                     index_o += JPEG_MCU_W) {
-                    uint8_t *rowptr_grgr_0 = src->data + (y * src_w);
-                    uint8_t *rowptr_bgbg_1 = rowptr_grgr_0 + src_w;
-                    uint8_t *rowptr_grgr_2 = rowptr_bgbg_1 + src_w;
-                    uint8_t *rowptr_bgbg_3 = rowptr_grgr_2 + src_w;
-
-                    for (int x = x_offset - 1, xx = x + JPEG_MCU_W - 1; x < xx; x += 2, index_e += 2, index_o += 2) {
-                        uint32_t row_grgr_0 = *((uint32_t *) (rowptr_grgr_0 + x));
-                        uint32_t row_bgbg_1 = *((uint32_t *) (rowptr_bgbg_1 + x));
-                        uint32_t row_grgr_2 = *((uint32_t *) (rowptr_grgr_2 + x));
-                        uint32_t row_bgbg_3 = *((uint32_t *) (rowptr_bgbg_3 + x));
-
-                        int r_pixels_0, g_pixels_0, b_pixels_0;
-
-                        switch (src->pixfmt) {
-                            case PIXFORMAT_BAYER_BGGR: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16(__UHADD8(row_02, __PKHTB(row_02, row_02, 16)));
-                                g_pixels_0 = __UXTB16(__UHADD8(row_1g, __PKHTB(row_1g, row_02, 8)));
-                                b_pixels_0 = __UXTB16_RORn(__UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16)), 8);
-                                #else
-
-                                int r0 = ((row_grgr_0 & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int r2 = (((row_grgr_0 >> 16) & 0xFF) + ((row_grgr_2 >> 16) & 0xFF)) >> 1;
-                                r_pixels_0 = (r2 << 16) | ((r0 + r2) >> 1);
-
-                                int g0 = (row_grgr_0 >> 8) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 8) & 0xFF;
-                                g_pixels_0 = (row_bgbg_1 & 0xFF0000) | ((((g0 + g2) >> 1) + g1) >> 1);
-
-                                int b1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                b_pixels_0 = (b1 << 16) | ((row_bgbg_1 >> 8) & 0xFF);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GBRG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16_RORn(__UHADD8(row_02, __PKHBT(row_02, row_02, 16)), 8);
-                                g_pixels_0 = __UXTB16_RORn(__UHADD8(row_1g, __PKHBT(row_1g, row_02, 8)), 8);
-                                b_pixels_0 = __UXTB16(__UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16)));
-                                #else
-
-                                int r0 = (((row_grgr_0 >> 8) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int r2 = (((row_grgr_0 >> 24) & 0xFF) + ((row_grgr_2 >> 24) & 0xFF)) >> 1;
-                                r_pixels_0 = r0 | (((r0 + r2) >> 1) << 16);
-
-                                int g0 = (row_grgr_0 >> 16) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 16) & 0xFF;
-                                g_pixels_0 = ((row_bgbg_1 >> 8) & 0xFF) | (((((g0 + g2) >> 1) + g1) >> 1) << 16);
-
-                                int b1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                b_pixels_0 = b1 | (row_bgbg_1 & 0xFF0000);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GRBG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16(__UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16)));
-                                g_pixels_0 = __UXTB16_RORn(__UHADD8(row_1g, __PKHBT(row_1g, row_02, 8)), 8);
-                                b_pixels_0 = __UXTB16_RORn(__UHADD8(row_02, __PKHBT(row_02, row_02, 16)), 8);
-                                #else
-
-                                int r1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                r_pixels_0 = r1 | (row_bgbg_1 & 0xFF0000);
-
-                                int g0 = (row_grgr_0 >> 16) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 16) & 0xFF;
-                                g_pixels_0 = ((row_bgbg_1 >> 8) & 0xFF) | (((((g0 + g2) >> 1) + g1) >> 1) << 16);
-
-                                int b0 = (((row_grgr_0 >> 8) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int b2 = (((row_grgr_0 >> 24) & 0xFF) + ((row_grgr_2 >> 24) & 0xFF)) >> 1;
-                                b_pixels_0 = b0 | (((b0 + b2) >> 1) << 16);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_RGGB: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16_RORn(__UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16)), 8);
-                                g_pixels_0 = __UXTB16(__UHADD8(row_1g, __PKHTB(row_1g, row_02, 8)));
-                                b_pixels_0 = __UXTB16(__UHADD8(row_02, __PKHTB(row_02, row_02, 16)));
-                                #else
-
-                                int r1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                r_pixels_0 = (r1 << 16) | ((row_bgbg_1 >> 8) & 0xFF);
-
-                                int g0 = (row_grgr_0 >> 8) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 8) & 0xFF;
-                                g_pixels_0 = (row_bgbg_1 & 0xFF0000) | ((((g0 + g2) >> 1) + g1) >> 1);
-
-                                int b0 = ((row_grgr_0 & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int b2 = (((row_grgr_0 >> 16) & 0xFF) + ((row_grgr_2 >> 16) & 0xFF)) >> 1;
-                                b_pixels_0 = (b2 << 16) | ((b0 + b2) >> 1);
-
-                                #endif
-                                break;
-                            }
-                            default: {
-                                r_pixels_0 = 0;
-                                g_pixels_0 = 0;
-                                b_pixels_0 = 0;
-                                break;
-                            }
-                        }
-
-                        int y0 = ((r_pixels_0 * 38) + (g_pixels_0 * 75) + (b_pixels_0 * 15)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 0)
-                        y0 ^= 0x800080;
-                        #endif
-
-                        Y0[index_e] = y0, Y0[index_e + 1] = y0 >> 16;
-
-                        int u0 = __SSUB16(b_pixels_0 * 64, (r_pixels_0 * 21) + (g_pixels_0 * 43)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        u0 ^= 0x800080;
-                        #endif
-
-                        CB[index_e] = u0, CB[index_e + 1] = u0 >> 16;
-
-                        int v0 = __SSUB16(r_pixels_0 * 64, (g_pixels_0 * 54) + (b_pixels_0 * 10)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        v0 ^= 0x800080;
-                        #endif
-
-                        CR[index_e] = v0, CR[index_e + 1] = v0 >> 16;
-
-                        int r_pixels_1, g_pixels_1, b_pixels_1;
-
-                        switch (src->pixfmt) {
-                            case PIXFORMAT_BAYER_BGGR: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16(__UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16)));
-                                g_pixels_1 = __UXTB16_RORn(__UHADD8(row_2g, __PKHBT(row_2g, row_13, 8)), 8);
-                                b_pixels_1 = __UXTB16_RORn(__UHADD8(row_13, __PKHBT(row_13, row_13, 16)), 8);
-                                #else
-
-                                int r2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                r_pixels_1 = (row_grgr_2 & 0xFF0000) | r2;
-
-                                int g1 = (row_bgbg_1 >> 16) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 16) & 0xFF;
-                                g_pixels_1 = (((((g1 + g3) >> 1) + g2) >> 1) << 16) | ((row_grgr_2 >> 8) & 0xFF);
-
-                                int b1 = (((row_bgbg_1 >> 8) & 0xFF) + ((row_bgbg_3 >> 8) & 0xFF)) >> 1;
-                                int b3 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_3 >> 24) & 0xFF)) >> 1;
-                                b_pixels_1 = (((b1 + b3) >> 1) << 16) | b1;
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GBRG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16_RORn(__UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16)), 8);
-                                g_pixels_1 = __UXTB16(__UHADD8(row_2g, __PKHTB(row_2g, row_13, 8)));
-                                b_pixels_1 = __UXTB16(__UHADD8(row_13, __PKHTB(row_13, row_13, 16)));
-                                #else
-
-                                int r2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                r_pixels_1 = ((row_grgr_2 >> 8) & 0xFF) | (r2 << 16);
-
-                                int g1 = (row_bgbg_1 >> 8) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 8) & 0xFF;
-                                g_pixels_1 = ((((g1 + g3) >> 1) + g2) >> 1) | (row_grgr_2 & 0xFF0000);
-
-                                int b1 = ((row_bgbg_1 & 0xFF) + (row_bgbg_3 & 0xFF)) >> 1;
-                                int b3 = (((row_bgbg_1 >> 16) & 0xFF) + ((row_bgbg_3 >> 16) & 0xFF)) >> 1;
-                                b_pixels_1 = ((b1 + b3) >> 1) | (b3 << 16);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GRBG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16(__UHADD8(row_13, __PKHTB(row_13, row_13, 16)));
-                                g_pixels_1 = __UXTB16(__UHADD8(row_2g, __PKHTB(row_2g, row_13, 8)));
-                                b_pixels_1 = __UXTB16_RORn(__UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16)), 8);
-                                #else
-
-                                int r1 = ((row_bgbg_1 & 0xFF) + (row_bgbg_3 & 0xFF)) >> 1;
-                                int r3 = (((row_bgbg_1 >> 16) & 0xFF) + ((row_bgbg_3 >> 16) & 0xFF)) >> 1;
-                                r_pixels_1 = ((r1 + r3) >> 1) | (r3 << 16);
-
-                                int g1 = (row_bgbg_1 >> 8) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 8) & 0xFF;
-                                g_pixels_1 = ((((g1 + g3) >> 1) + g2) >> 1) | (row_grgr_2 & 0xFF0000);
-
-                                int b2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                b_pixels_1 = ((row_grgr_2 >> 8) & 0xFF) | (b2 << 16);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_RGGB: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16_RORn(__UHADD8(row_13, __PKHBT(row_13, row_13, 16)), 8);
-                                g_pixels_1 = __UXTB16_RORn(__UHADD8(row_2g, __PKHBT(row_2g, row_13, 8)), 8);
-                                b_pixels_1 = __UXTB16(__UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16)));
-                                #else
-
-                                int r1 = (((row_bgbg_1 >> 8) & 0xFF) + ((row_bgbg_3 >> 8) & 0xFF)) >> 1;
-                                int r3 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_3 >> 24) & 0xFF)) >> 1;
-                                r_pixels_1 = (((r1 + r3) >> 1) << 16) | r1;
-
-                                int g1 = (row_bgbg_1 >> 16) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 16) & 0xFF;
-                                g_pixels_1 = (((((g1 + g3) >> 1) + g2) >> 1) << 16) | ((row_grgr_2 >> 8) & 0xFF);
-
-                                int b2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                b_pixels_1 = (row_grgr_2 & 0xFF0000) | b2;
-
-                                #endif
-                                break;
-                            }
-                            default: {
-                                r_pixels_1 = 0;
-                                g_pixels_1 = 0;
-                                b_pixels_1 = 0;
-                                break;
-                            }
-                        }
-
-                        int y1 = ((r_pixels_1 * 38) + (g_pixels_1 * 75) + (b_pixels_1 * 15)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 0)
-                        y1 ^= 0x800080;
-                        #endif
-
-                        Y0[index_o] = y1, Y0[index_o + 1] = y1 >> 16;
-
-                        int u1 = __SSUB16(b_pixels_1 * 64, (r_pixels_1 * 21) + (g_pixels_1 * 43)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        u1 ^= 0x800080;
-                        #endif
-
-                        CB[index_o] = u1, CB[index_o + 1] = u1 >> 16;
-
-                        int v1 = __SSUB16(r_pixels_1 * 64, (g_pixels_1 * 54) + (b_pixels_1 * 10)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        v1 ^= 0x800080;
-                        #endif
-
-                        CR[index_o] = v1, CR[index_o + 1] = v1 >> 16;
-                    }
-                }
-            } else {
-                // If dy is odd this loop will produce 1 extra boundary row in the MCU.
-                // This is okay given the boundary checking code below.
-                for (int y = y_offset, yy = y + dy, index_e = 0, index_o = JPEG_MCU_W; y < yy; y += 2) {
-                    uint8_t *rowptr_grgr_0, *rowptr_bgbg_1, *rowptr_grgr_2, *rowptr_bgbg_3;
-
-                    // keep row pointers in bounds
-                    if (y == 0) {
-                        rowptr_bgbg_1 = src->data;
-                        rowptr_grgr_2 = rowptr_bgbg_1 + ((src_h >= 2) ? src_w : 0);
-                        rowptr_bgbg_3 = rowptr_bgbg_1 + ((src_h >= 3) ? (src_w * 2) : 0);
-                        rowptr_grgr_0 = rowptr_grgr_2;
-                    } else if (y == h_limit_m_1) {
-                        rowptr_grgr_0 = src->data + ((y - 1) * src_w);
-                        rowptr_bgbg_1 = rowptr_grgr_0 + src_w;
-                        rowptr_grgr_2 = rowptr_bgbg_1 + src_w;
-                        rowptr_bgbg_3 = rowptr_bgbg_1;
-                    } else if (y >= h_limit) {
-                        rowptr_grgr_0 = src->data + ((y - 1) * src_w);
-                        rowptr_bgbg_1 = rowptr_grgr_0 + src_w;
-                        rowptr_grgr_2 = rowptr_grgr_0;
-                        rowptr_bgbg_3 = rowptr_bgbg_1;
-                    } else {
-                        // get 4 neighboring rows
-                        rowptr_grgr_0 = src->data + ((y - 1) * src_w);
-                        rowptr_bgbg_1 = rowptr_grgr_0 + src_w;
-                        rowptr_grgr_2 = rowptr_bgbg_1 + src_w;
-                        rowptr_bgbg_3 = rowptr_grgr_2 + src_w;
-                    }
-
-                    // If dx is odd this loop will produce 1 extra boundary column in the MCU.
-                    // This is okay given the boundary checking code below.
-                    for (int x = x_offset, xx = x + dx; x < xx; x += 2, index_e += 2, index_o += 2) {
-                        uint32_t row_grgr_0, row_bgbg_1, row_grgr_2, row_bgbg_3;
-
-                        // keep pixels in bounds
-                        if (x == 0) {
-                            if (src_w >= 4) {
-                                row_grgr_0 = *((uint32_t *) rowptr_grgr_0);
-                                row_bgbg_1 = *((uint32_t *) rowptr_bgbg_1);
-                                row_grgr_2 = *((uint32_t *) rowptr_grgr_2);
-                                row_bgbg_3 = *((uint32_t *) rowptr_bgbg_3);
-                            } else if (src_w >= 3) {
-                                row_grgr_0 = *((uint16_t *) rowptr_grgr_0) | (*(rowptr_grgr_0 + 2) << 16);
-                                row_bgbg_1 = *((uint16_t *) rowptr_bgbg_1) | (*(rowptr_bgbg_1 + 2) << 16);
-                                row_grgr_2 = *((uint16_t *) rowptr_grgr_2) | (*(rowptr_grgr_2 + 2) << 16);
-                                row_bgbg_3 = *((uint16_t *) rowptr_bgbg_3) | (*(rowptr_bgbg_3 + 2) << 16);
-                            } else if (src_w >= 2) {
-                                row_grgr_0 = *((uint16_t *) rowptr_grgr_0);
-                                row_grgr_0 = (row_grgr_0 << 16) | row_grgr_0;
-                                row_bgbg_1 = *((uint16_t *) rowptr_bgbg_1);
-                                row_bgbg_1 = (row_bgbg_1 << 16) | row_bgbg_1;
-                                row_grgr_2 = *((uint16_t *) rowptr_grgr_2);
-                                row_grgr_2 = (row_grgr_2 << 16) | row_grgr_2;
-                                row_bgbg_3 = *((uint16_t *) rowptr_bgbg_3);
-                                row_bgbg_3 = (row_bgbg_3 << 16) | row_bgbg_3;
-                            } else {
-                                row_grgr_0 = *(rowptr_grgr_0) * 0x01010101;
-                                row_bgbg_1 = *(rowptr_bgbg_1) * 0x01010101;
-                                row_grgr_2 = *(rowptr_grgr_2) * 0x01010101;
-                                row_bgbg_3 = *(rowptr_bgbg_3) * 0x01010101;
-                            }
-                            // The starting point needs to be offset by 1. The below patterns are actually
-                            // rgrg, gbgb, rgrg, and gbgb. So, shift left and backfill the missing border pixel.
-                            row_grgr_0 = (row_grgr_0 << 8) | __UXTB_RORn(row_grgr_0, 8);
-                            row_bgbg_1 = (row_bgbg_1 << 8) | __UXTB_RORn(row_bgbg_1, 8);
-                            row_grgr_2 = (row_grgr_2 << 8) | __UXTB_RORn(row_grgr_2, 8);
-                            row_bgbg_3 = (row_bgbg_3 << 8) | __UXTB_RORn(row_bgbg_3, 8);
-                        } else if (x == w_limit_m_1) {
-                            row_grgr_0 = *((uint32_t *) (rowptr_grgr_0 + x - 2));
-                            row_grgr_0 = (row_grgr_0 >> 8) | ((row_grgr_0 << 8) & 0xff000000);
-                            row_bgbg_1 = *((uint32_t *) (rowptr_bgbg_1 + x - 2));
-                            row_bgbg_1 = (row_bgbg_1 >> 8) | ((row_bgbg_1 << 8) & 0xff000000);
-                            row_grgr_2 = *((uint32_t *) (rowptr_grgr_2 + x - 2));
-                            row_grgr_2 = (row_grgr_2 >> 8) | ((row_grgr_2 << 8) & 0xff000000);
-                            row_bgbg_3 = *((uint32_t *) (rowptr_bgbg_3 + x - 2));
-                            row_bgbg_3 = (row_bgbg_3 >> 8) | ((row_bgbg_1 << 8) & 0xff000000);
-                        } else if (x >= w_limit) {
-                            row_grgr_0 = *((uint16_t *) (rowptr_grgr_0 + x - 1));
-                            row_grgr_0 = (row_grgr_0 << 16) | row_grgr_0;
-                            row_bgbg_1 = *((uint16_t *) (rowptr_bgbg_1 + x - 1));
-                            row_bgbg_1 = (row_bgbg_1 << 16) | row_bgbg_1;
-                            row_grgr_2 = *((uint16_t *) (rowptr_grgr_2 + x - 1));
-                            row_grgr_2 = (row_grgr_2 << 16) | row_grgr_2;
-                            row_bgbg_3 = *((uint16_t *) (rowptr_bgbg_3 + x - 1));
-                            row_bgbg_3 = (row_bgbg_3 << 16) | row_bgbg_3;
-                        } else {
-                            // get 4 neighboring rows
-                            row_grgr_0 = *((uint32_t *) (rowptr_grgr_0 + x - 1));
-                            row_bgbg_1 = *((uint32_t *) (rowptr_bgbg_1 + x - 1));
-                            row_grgr_2 = *((uint32_t *) (rowptr_grgr_2 + x - 1));
-                            row_bgbg_3 = *((uint32_t *) (rowptr_bgbg_3 + x - 1));
-                        }
-
-                        int r_pixels_0, g_pixels_0, b_pixels_0;
-
-                        switch (src->pixfmt) {
-                            case PIXFORMAT_BAYER_BGGR: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16(__UHADD8(row_02, __PKHTB(row_02, row_02, 16)));
-                                g_pixels_0 = __UXTB16(__UHADD8(row_1g, __PKHTB(row_1g, row_02, 8)));
-                                b_pixels_0 = __UXTB16_RORn(__UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16)), 8);
-                                #else
-
-                                int r0 = ((row_grgr_0 & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int r2 = (((row_grgr_0 >> 16) & 0xFF) + ((row_grgr_2 >> 16) & 0xFF)) >> 1;
-                                r_pixels_0 = (r2 << 16) | ((r0 + r2) >> 1);
-
-                                int g0 = (row_grgr_0 >> 8) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 8) & 0xFF;
-                                g_pixels_0 = (row_bgbg_1 & 0xFF0000) | ((((g0 + g2) >> 1) + g1) >> 1);
-
-                                int b1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                b_pixels_0 = (b1 << 16) | ((row_bgbg_1 >> 8) & 0xFF);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GBRG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16_RORn(__UHADD8(row_02, __PKHBT(row_02, row_02, 16)), 8);
-                                g_pixels_0 = __UXTB16_RORn(__UHADD8(row_1g, __PKHBT(row_1g, row_02, 8)), 8);
-                                b_pixels_0 = __UXTB16(__UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16)));
-                                #else
-
-                                int r0 = (((row_grgr_0 >> 8) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int r2 = (((row_grgr_0 >> 24) & 0xFF) + ((row_grgr_2 >> 24) & 0xFF)) >> 1;
-                                r_pixels_0 = r0 | (((r0 + r2) >> 1) << 16);
-
-                                int g0 = (row_grgr_0 >> 16) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 16) & 0xFF;
-                                g_pixels_0 = ((row_bgbg_1 >> 8) & 0xFF) | (((((g0 + g2) >> 1) + g1) >> 1) << 16);
-
-                                int b1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                b_pixels_0 = b1 | (row_bgbg_1 & 0xFF0000);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GRBG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16(__UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16)));
-                                g_pixels_0 = __UXTB16_RORn(__UHADD8(row_1g, __PKHBT(row_1g, row_02, 8)), 8);
-                                b_pixels_0 = __UXTB16_RORn(__UHADD8(row_02, __PKHBT(row_02, row_02, 16)), 8);
-                                #else
-
-                                int r1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                r_pixels_0 = r1 | (row_bgbg_1 & 0xFF0000);
-
-                                int g0 = (row_grgr_0 >> 16) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 16) & 0xFF;
-                                g_pixels_0 = ((row_bgbg_1 >> 8) & 0xFF) | (((((g0 + g2) >> 1) + g1) >> 1) << 16);
-
-                                int b0 = (((row_grgr_0 >> 8) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int b2 = (((row_grgr_0 >> 24) & 0xFF) + ((row_grgr_2 >> 24) & 0xFF)) >> 1;
-                                b_pixels_0 = b0 | (((b0 + b2) >> 1) << 16);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_RGGB: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_02 = __UHADD8(row_grgr_0, row_grgr_2);
-                                int row_1g = __UHADD8(row_bgbg_1, __PKHTB(row_bgbg_1, row_bgbg_1, 16));
-
-                                r_pixels_0 = __UXTB16_RORn(__UHADD8(row_bgbg_1, __PKHBT(row_bgbg_1, row_bgbg_1, 16)), 8);
-                                g_pixels_0 = __UXTB16(__UHADD8(row_1g, __PKHTB(row_1g, row_02, 8)));
-                                b_pixels_0 = __UXTB16(__UHADD8(row_02, __PKHTB(row_02, row_02, 16)));
-                                #else
-
-                                int r1 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_1 >> 8) & 0xFF)) >> 1;
-                                r_pixels_0 = (r1 << 16) | ((row_bgbg_1 >> 8) & 0xFF);
-
-                                int g0 = (row_grgr_0 >> 8) & 0xFF;
-                                int g1 = (((row_bgbg_1 >> 16) & 0xFF) + (row_bgbg_1 & 0xFF)) >> 1;
-                                int g2 = (row_grgr_2 >> 8) & 0xFF;
-                                g_pixels_0 = (row_bgbg_1 & 0xFF0000) | ((((g0 + g2) >> 1) + g1) >> 1);
-
-                                int b0 = ((row_grgr_0 & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int b2 = (((row_grgr_0 >> 16) & 0xFF) + ((row_grgr_2 >> 16) & 0xFF)) >> 1;
-                                b_pixels_0 = (b2 << 16) | ((b0 + b2) >> 1);
-
-                                #endif
-                                break;
-                            }
-                            default: {
-                                r_pixels_0 = 0;
-                                g_pixels_0 = 0;
-                                b_pixels_0 = 0;
-                                break;
-                            }
-                        }
-
-                        int y0 = ((r_pixels_0 * 38) + (g_pixels_0 * 75) + (b_pixels_0 * 15)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 0)
-                        y0 ^= 0x800080;
-                        #endif
-
-                        Y0[index_e] = y0, Y0[index_e + 1] = y0 >> 16;
-
-                        int u0 = __SSUB16(b_pixels_0 * 64, (r_pixels_0 * 21) + (g_pixels_0 * 43)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        u0 ^= 0x800080;
-                        #endif
-
-                        CB[index_e] = u0, CB[index_e + 1] = u0 >> 16;
-
-                        int v0 = __SSUB16(r_pixels_0 * 64, (g_pixels_0 * 54) + (b_pixels_0 * 10)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        v0 ^= 0x800080;
-                        #endif
-
-                        CR[index_e] = v0, CR[index_e + 1] = v0 >> 16;
-
-                        int r_pixels_1, g_pixels_1, b_pixels_1;
-
-                        switch (src->pixfmt) {
-                            case PIXFORMAT_BAYER_BGGR: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16(__UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16)));
-                                g_pixels_1 = __UXTB16_RORn(__UHADD8(row_2g, __PKHBT(row_2g, row_13, 8)), 8);
-                                b_pixels_1 = __UXTB16_RORn(__UHADD8(row_13, __PKHBT(row_13, row_13, 16)), 8);
-                                #else
-
-                                int r2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                r_pixels_1 = (row_grgr_2 & 0xFF0000) | r2;
-
-                                int g1 = (row_bgbg_1 >> 16) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 16) & 0xFF;
-                                g_pixels_1 = (((((g1 + g3) >> 1) + g2) >> 1) << 16) | ((row_grgr_2 >> 8) & 0xFF);
-
-                                int b1 = (((row_bgbg_1 >> 8) & 0xFF) + ((row_bgbg_3 >> 8) & 0xFF)) >> 1;
-                                int b3 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_3 >> 24) & 0xFF)) >> 1;
-                                b_pixels_1 = (((b1 + b3) >> 1) << 16) | b1;
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GBRG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16_RORn(__UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16)), 8);
-                                g_pixels_1 = __UXTB16(__UHADD8(row_2g, __PKHTB(row_2g, row_13, 8)));
-                                b_pixels_1 = __UXTB16(__UHADD8(row_13, __PKHTB(row_13, row_13, 16)));
-                                #else
-
-                                int r2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                r_pixels_1 = ((row_grgr_2 >> 8) & 0xFF) | (r2 << 16);
-
-                                int g1 = (row_bgbg_1 >> 8) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 8) & 0xFF;
-                                g_pixels_1 = ((((g1 + g3) >> 1) + g2) >> 1) | (row_grgr_2 & 0xFF0000);
-
-                                int b1 = ((row_bgbg_1 & 0xFF) + (row_bgbg_3 & 0xFF)) >> 1;
-                                int b3 = (((row_bgbg_1 >> 16) & 0xFF) + ((row_bgbg_3 >> 16) & 0xFF)) >> 1;
-                                b_pixels_1 = ((b1 + b3) >> 1) | (b3 << 16);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_GRBG: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16(__UHADD8(row_13, __PKHTB(row_13, row_13, 16)));
-                                g_pixels_1 = __UXTB16(__UHADD8(row_2g, __PKHTB(row_2g, row_13, 8)));
-                                b_pixels_1 = __UXTB16_RORn(__UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16)), 8);
-                                #else
-
-                                int r1 = ((row_bgbg_1 & 0xFF) + (row_bgbg_3 & 0xFF)) >> 1;
-                                int r3 = (((row_bgbg_1 >> 16) & 0xFF) + ((row_bgbg_3 >> 16) & 0xFF)) >> 1;
-                                r_pixels_1 = ((r1 + r3) >> 1) | (r3 << 16);
-
-                                int g1 = (row_bgbg_1 >> 8) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 8) & 0xFF;
-                                g_pixels_1 = ((((g1 + g3) >> 1) + g2) >> 1) | (row_grgr_2 & 0xFF0000);
-
-                                int b2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                b_pixels_1 = ((row_grgr_2 >> 8) & 0xFF) | (b2 << 16);
-
-                                #endif
-                                break;
-                            }
-                            case PIXFORMAT_BAYER_RGGB: {
-                                #if defined(ARM_MATH_DSP)
-                                int row_13 = __UHADD8(row_bgbg_1, row_bgbg_3);
-                                int row_2g = __UHADD8(row_grgr_2, __PKHBT(row_grgr_2, row_grgr_2, 16));
-
-                                r_pixels_1 = __UXTB16_RORn(__UHADD8(row_13, __PKHBT(row_13, row_13, 16)), 8);
-                                g_pixels_1 = __UXTB16_RORn(__UHADD8(row_2g, __PKHBT(row_2g, row_13, 8)), 8);
-                                b_pixels_1 = __UXTB16(__UHADD8(row_grgr_2, __PKHTB(row_grgr_2, row_grgr_2, 16)));
-                                #else
-
-                                int r1 = (((row_bgbg_1 >> 8) & 0xFF) + ((row_bgbg_3 >> 8) & 0xFF)) >> 1;
-                                int r3 = (((row_bgbg_1 >> 24) & 0xFF) + ((row_bgbg_3 >> 24) & 0xFF)) >> 1;
-                                r_pixels_1 = (((r1 + r3) >> 1) << 16) | r1;
-
-                                int g1 = (row_bgbg_1 >> 16) & 0xFF;
-                                int g2 = (((row_grgr_2 >> 24) & 0xFF) + ((row_grgr_2 >> 8) & 0xFF)) >> 1;
-                                int g3 = (row_bgbg_3 >> 16) & 0xFF;
-                                g_pixels_1 = (((((g1 + g3) >> 1) + g2) >> 1) << 16) | ((row_grgr_2 >> 8) & 0xFF);
-
-                                int b2 = (((row_grgr_2 >> 16) & 0xFF) + (row_grgr_2 & 0xFF)) >> 1;
-                                b_pixels_1 = (row_grgr_2 & 0xFF0000) | b2;
-
-                                #endif
-                                break;
-                            }
-                            default: {
-                                r_pixels_1 = 0;
-                                g_pixels_1 = 0;
-                                b_pixels_1 = 0;
-                                break;
-                            }
-                        }
-
-                        int y1 = ((r_pixels_1 * 38) + (g_pixels_1 * 75) + (b_pixels_1 * 15)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 0)
-                        y1 ^= 0x800080;
-                        #endif
-
-                        Y0[index_o] = y1, Y0[index_o + 1] = y1 >> 16;
-
-                        int u1 = __SSUB16(b_pixels_1 * 64, (r_pixels_1 * 21) + (g_pixels_1 * 43)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        u1 ^= 0x800080;
-                        #endif
-
-                        CB[index_o] = u1, CB[index_o + 1] = u1 >> 16;
-
-                        int v1 = __SSUB16(r_pixels_1 * 64, (g_pixels_1 * 54) + (b_pixels_1 * 10)) >> 7;
-
-                        #if (OMV_JPEG_CODEC_ENABLE == 1)
-                        v1 ^= 0x800080;
-                        #endif
-
-                        CR[index_o] = v1, CR[index_o + 1] = v1 >> 16;
-                    }
-
-                    int inc = (JPEG_MCU_W * 2) - (((dx + 1) / 2) * 2); // Handle boundary column.
-                    index_e += inc;
-                    index_o += inc;
-                }
-            }
+            rectangle_t roi = {
+                .x = x_offset,
+                .y = y_offset,
+                .w = dx,
+                .h = dy
+            };
+
+            imlib_debayer_ycbcr(src, &roi, Y0, CB, CR);
             break;
         }
     }
@@ -980,7 +323,8 @@ typedef struct {
     int idx;
     int length;
     uint8_t *buf;
-    int bitc, bitb;
+    uint32_t bitb;
+    uint32_t bitc;
     bool realloc;
     bool overflow;
 } jpeg_buf_t;
@@ -1223,54 +567,20 @@ static const uint16_t UVAC_HT[256][2] = {
     {0x0000, 0x0000}, {0x0000, 0x0000}, {0x0000, 0x0000}, {0x0000, 0x0000},
 };
 
-// Macro to write variable length codes to the output stream more efficiently
-#define STORECODE(pOut, iLen, ulCode, ulAcc, iNewLen)                                         \
-    if (iLen + iNewLen > 32) { while (iLen >= 8)                                              \
-                               {unsigned char c = (unsigned char) (ulAcc >> 24); *pOut++ = c; \
-                                if (c == 0xff) { *pOut++ = 0;}                                \
-                                ulAcc <<= 8; iLen -= 8; }                                     \
-    }                                                                                         \
-    iLen += iNewLen; ulAcc |= (ulCode << (32 - iLen));
-
-//
-// See if we're close to filling up the output buffer
-// If so, allocate more space now so that we don't have
-// to check on every byte written
-//
-// If we're out of space and the realloc option is not available
-// return true to indicate that encoding has to halt
-//
+// Check if the output buffer is nearly full and allocate more space
+// if needed. If realloc is disabled, return true to halt the encoding.
 static int jpeg_check_highwater(jpeg_buf_t *jpeg_buf) {
     if ((jpeg_buf->idx + 1) >= jpeg_buf->length - 256) {
         if (jpeg_buf->realloc == false) {
             // Can't realloc buffer
             jpeg_buf->overflow = true;
-            return 1; // failure
+            return 1;
         }
         jpeg_buf->length += 1024;
         jpeg_buf->buf = xrealloc(jpeg_buf->buf, jpeg_buf->length);
     }
-    return 0; // ok
-} /* jpeg_check_highwater() */
-
-//
-// Restore buffer pointer variables from local copies
-//
-void jpeg_restore_buf(jpeg_buf_t *jpeg_buf, uint8_t *pOut, int iBitCount, uint32_t ulBits) {
-    uint8_t c;
-    while (iBitCount >= 8) {
-        c = (uint8_t) (ulBits >> 24);
-        *pOut++ = c;
-        if (c == 0xff) {
-            *pOut++ = 0;
-        }
-        ulBits <<= 8; iBitCount -= 8;
-    }
-    jpeg_buf->idx = (int) (pOut - jpeg_buf->buf);
-    jpeg_buf->bitb = ulBits >> 8;
-    jpeg_buf->bitc = iBitCount;
-
-} /* jpeg_restore_buf() */
+    return 0;
+}
 
 static void jpeg_put_char(jpeg_buf_t *jpeg_buf, char c) {
     if ((jpeg_buf->idx + 1) >= jpeg_buf->length) {
@@ -1301,7 +611,7 @@ static void jpeg_put_bytes(jpeg_buf_t *jpeg_buf, const void *data, int size) {
     jpeg_buf->idx += size;
 }
 
-static void jpeg_writeBits(jpeg_buf_t *jpeg_buf, const uint16_t *bs) {
+static inline void jpeg_write_bits(jpeg_buf_t *jpeg_buf, const uint16_t *bs) {
     jpeg_buf->bitc += bs[1];
     jpeg_buf->bitb |= bs[0] << (24 - jpeg_buf->bitc);
 
@@ -1317,7 +627,7 @@ static void jpeg_writeBits(jpeg_buf_t *jpeg_buf, const uint16_t *bs) {
 }
 
 //Huffman-encoded magnitude value
-static void jpeg_calcBits(int val, uint16_t bits[2]) {
+static inline void jpeg_calc_bits(int val, uint16_t bits[2]) {
     int t1 = val;
     if (val < 0) {
         t1 = -val;
@@ -1436,29 +746,21 @@ static int jpeg_processDU(jpeg_buf_t *jpeg_buf, int8_t *CDU, float *fdtbl, int D
         // check if we're getting close to the end of the buffer
         return 0; // stop encoding, we've run out of space
     }
-    // Use local vars to speed up buffer access
-    // and a macro (STORECODE) to manipulate the local vars
-    uint8_t *pOut, iBitCount; // output pointer and bit count
-    uint32_t ulBits; // accumulated bits
-    pOut = &jpeg_buf->buf[jpeg_buf->idx];
-    iBitCount = jpeg_buf->bitc; // current stored bits
-    ulBits = (jpeg_buf->bitb << 8); // bit pattern shifted up to bit 31
 
     // Encode DC
     int diff = DUQ[0] - DC;
     if (diff == 0) {
-        STORECODE(pOut, iBitCount, HTDC[0][0], ulBits, HTDC[0][1])
+        jpeg_write_bits(jpeg_buf, HTDC[0]);
     } else {
         uint16_t bits[2];
-        jpeg_calcBits(diff, bits);
-        STORECODE(pOut, iBitCount, HTDC[bits[1]][0], ulBits, HTDC[bits[1]][1])
-        STORECODE(pOut, iBitCount, bits[0], ulBits, bits[1])
+        jpeg_calc_bits(diff, bits);
+        jpeg_write_bits(jpeg_buf, HTDC[bits[1]]);
+        jpeg_write_bits(jpeg_buf, bits);
     }
 
     // Encode ACs
     if (end0pos == 0) {
-        STORECODE(pOut, iBitCount, EOB[0], ulBits, EOB[1])
-        jpeg_restore_buf(jpeg_buf, pOut, iBitCount, ulBits);
+        jpeg_write_bits(jpeg_buf, EOB);
         return DUQ[0];
     }
 
@@ -1470,19 +772,18 @@ static int jpeg_processDU(jpeg_buf_t *jpeg_buf, int8_t *CDU, float *fdtbl, int D
         if (nrzeroes >= 16) {
             int lng = nrzeroes >> 4;
             for (int nrmarker = 1; nrmarker <= lng; ++nrmarker) {
-                STORECODE(pOut, iBitCount, M16zeroes[0], ulBits, M16zeroes[1])
-            } // for
+                jpeg_write_bits(jpeg_buf, M16zeroes);
+            }
             nrzeroes &= 15;
         }
         uint16_t bits[2];
-        jpeg_calcBits(DUQ[i], bits);
-        STORECODE(pOut, iBitCount, HTAC[(nrzeroes << 4) + bits[1]][0], ulBits, HTAC[(nrzeroes << 4) + bits[1]][1])
-        STORECODE(pOut, iBitCount, bits[0], ulBits, bits[1])
+        jpeg_calc_bits(DUQ[i], bits);
+        jpeg_write_bits(jpeg_buf, HTAC[(nrzeroes << 4) + bits[1]]);
+        jpeg_write_bits(jpeg_buf, bits);
     }
     if (end0pos != 63) {
-        STORECODE(pOut, iBitCount, EOB[0], ulBits, EOB[1])
+        jpeg_write_bits(jpeg_buf, EOB);
     }
-    jpeg_restore_buf(jpeg_buf, pOut, iBitCount, ulBits);
     return DUQ[0];
 }
 
@@ -1615,9 +916,7 @@ static void jpeg_write_headers(jpeg_buf_t *jpeg_buf, int w, int h, int bpp, jpeg
 }
 
 bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_subsampling_t subsampling) {
-    #if (TIME_JPEG == 1)
-    mp_uint_t start = mp_hal_ticks_ms();
-    #endif
+    OMV_PROFILE_START();
 
     if (!dst->data) {
         uint32_t size = 0;
@@ -1939,8 +1238,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_s
     }
 
     // Do the bit alignment of the EOI marker
-    static const uint16_t fillBits[] = {0x7F, 7};
-    jpeg_writeBits(&jpeg_buf, fillBits);
+    jpeg_write_bits(&jpeg_buf, (const uint16_t []) {0x7F, 7});
 
     // EOI
     jpeg_put_char(&jpeg_buf, 0xFF);
@@ -1949,10 +1247,7 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_s
     dst->size = jpeg_buf.idx;
     dst->data = jpeg_buf.buf;
 
-    #if (TIME_JPEG == 1)
-    printf("compress time: %u ms\n", mp_hal_ticks_ms() - start);
-    #endif
-
+    OMV_PROFILE_PRINT();
     return false;
 }
 

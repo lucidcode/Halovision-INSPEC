@@ -193,18 +193,3 @@ The following are functions available in the network module.
     is raised.
 
     The default hostname is typically the name of the board.
-
-.. function:: phy_mode([mode])
-
-    Get or set the PHY mode.
-
-    If the *mode* parameter is provided, the PHY mode will be set to this value.
-    If the function is called without parameters, it returns the current PHY
-    mode.
-
-    The possible modes are defined as constants:
-        * ``MODE_11B`` -- IEEE 802.11b,
-        * ``MODE_11G`` -- IEEE 802.11g,
-        * ``MODE_11N`` -- IEEE 802.11n.
-
-    Availability: ESP8266.

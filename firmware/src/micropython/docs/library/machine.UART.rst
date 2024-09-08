@@ -83,14 +83,6 @@ Methods
      Also do not call ``deinit()`` as it will prevent calling ``init()``
      again.
 
-   .. note::
-     It is possible to call ``init()`` multiple times on the same object in
-     order to reconfigure  UART on the fly. That allows using single UART
-     peripheral to serve different devices attached to different GPIO pins.
-     Only one device can be served at a time in that case.
-     Also do not call ``deinit()`` as it will prevent calling ``init()``
-     again.
-
 .. method:: UART.deinit()
 
    Turn off the UART bus.
@@ -170,12 +162,3 @@ Methods
        added in the calling script.
 
    Availability: rp2, esp32, esp8266, mimxrt, cc3200, stm32, nrf ports, renesas-ra
-
-Constants
----------
-
-.. data:: UART.RX_ANY
-
-    IRQ trigger sources
-
-    Availability: WiPy.

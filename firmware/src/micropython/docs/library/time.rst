@@ -252,31 +252,31 @@ Functions
 Constructors
 ------------
 
-.. class:: clock()
+.. class:: clock() -> clock
 
    Returns a clock object.
 
    Methods
    -------
 
-   .. method:: tick()
+   .. method:: tick() -> None
 
       Starts tracking elapsed time.
 
-   .. method:: fps()
+   .. method:: fps() -> float
 
       Stops tracking the elapsed time and returns the current FPS
       (frames per second).
 
       Always call ``tick`` first before calling this function.
 
-   .. method:: avg()
+   .. method:: avg() -> float
 
       Stops tracking the elapsed time and returns the current average elapsed time
       in milliseconds.
 
       Always call ``tick`` first before calling this function.
 
-   .. method:: reset()
+   .. method:: reset() -> None
 
       Resets the clock object.

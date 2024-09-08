@@ -9,7 +9,7 @@ The `DisplayData` class is used for getting information about the attached Displ
 Constructors
 ------------
 
-.. class:: display.DisplayData([cec=False, [ddc=False, [ddc_addr=0x50]]])
+.. class:: display.DisplayData(cec=False, ddc=False, ddc_addr=0x50)
 
     ``cec`` Pass `True` to enable CEC communication to an external display (if possible).
 
@@ -20,7 +20,7 @@ Constructors
 Methods
 -------
 
-.. method:: display.DisplayData.display_id()
+.. method:: display.DisplayData.display_id() -> int
 
    Returns the external display EDID data as a bytes()
    object. Verifying the EDID headers, checksums, and concatenating all sections into one bytes()

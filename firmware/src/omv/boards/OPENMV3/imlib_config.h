@@ -96,6 +96,7 @@
 
 // Enable find_apriltags() (64 KB)
 #define IMLIB_ENABLE_APRILTAGS
+#define IMLIB_ENABLE_APRILTAGS_TAG36H11
 
 // Enable fine find_apriltags() - (8-way connectivity versus 4-way connectivity)
 // #define IMLIB_ENABLE_FINE_APRILTAGS
@@ -137,9 +138,6 @@
 
 // Enable find_hog()
 // #define IMLIB_ENABLE_HOG
-
-// Enable STM32 DMA2D
-#define IMLIB_ENABLE_DMA2D
 
 // Enable PNG encoder/decoder
 #define IMLIB_ENABLE_PNG_ENCODER

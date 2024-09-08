@@ -34,10 +34,10 @@ size. Once the remote method finishes executing it will return a ``memory_view_o
 can also be up to 2^32-1 bytes in size. Because the argument and response are both generic byte
 containers you can pass anything through the ``rpc`` library and receive any type of response. A simple
 way to pass arguments is to use ``struct.pack()`` to create the argument and ``struct.unpack()`` to
-receieve the argument on the other side. For the response, the other side may send a string
+receive the argument on the other side. For the response, the other side may send a string
 object or json string as the result which the master can then interpret.
 
-As for errors, if you try to execute a non-existant function or method name the
+As for errors, if you try to execute a non-existent function or method name the
 ``rpc_master.call()`` method will return an empty ``bytes()`` object. If the ``rpc`` library failed to communicate with the
 slave the ``rpc`` library will return None.
 
@@ -91,7 +91,7 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: get_bytes(buff, timeout_ms):
+   .. method:: get_bytes(buff, timeout_ms:int)
 
       This method is meant to be reimplemented by specific interface classes of `rpc_master` and `rpc_slave`.
       It should fill the ``buff`` argument which is either a `bytearray` or `memoryview` object of bytes from the
@@ -100,13 +100,13 @@ Constructors
       complete in at least ``timeout_ms`` milliseconds and not faster as the `rpc_master` and `rpc_slave` objects
       will automatically increase the ``timeout_ms`` to synchronize.
 
-   .. method:: put_bytes(data, timeout_ms):
+   .. method:: put_bytes(data, timeout_ms:int)
 
       This method is meant to be reimplemented by specific interface classes of `rpc_master` and `rpc_slave`.
       It should send ``data`` bytes on the interface within ``timeout_ms`` milliseconds. If it completes faster
       than the timeout that is okay. No return value is expected.
 
-   .. method:: stream_reader(call_back, queue_depth=1, read_timeout_ms=5000):
+   .. method:: stream_reader(call_back, queue_depth=1, read_timeout_ms=5000)
 
       This method is meant to be called directly. After synchronization of the master and slave on return
       of a callback ``stream_reader`` may be called to receive data as fast as possible from the master or
@@ -124,7 +124,7 @@ Constructors
       If you need to cancel the ``stream_reader`` just raise an exception in the ``call_back`` and catch it. The
       remote side will automatically timeout.
 
-   .. method:: stream_writer(call_back, write_timeout_ms=5000):
+   .. method:: stream_writer(call_back, write_timeout_ms=5000)
 
       This method is meant to be called directly. After synchronization of the master and slave on return
       of a ``callback`` ``stream_writer`` may be called to send data as fast as possible from the master or slave
@@ -155,16 +155,16 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: call(name, data=bytes(), send_timeout=1000, recv_timeout=1000):
+   .. method:: call(name, data=bytes(), send_timeout=1000, recv_timeout=1000)
 
       Executes a remote call on the slave device. ``name`` is a string name of the remote function or method
       to execute. ``data`` is the ``bytes`` like object that will be sent as the argument of the remote function
-      or method to exeucte. ``send_timeout`` defines how many milliseconds to wait while trying to connect to
+      or method to execute. ``send_timeout`` defines how many milliseconds to wait while trying to connect to
       the slave and get it to execute the remote function or method. Once the master starts sending the
-      argument to the slave deivce ``send_timeout`` does not apply. The library will allow the argument to
+      argument to the slave device ``send_timeout`` does not apply. The library will allow the argument to
       take up to 5 seconds to be sent. ``recv_timeout`` defines how many milliseconds to wait after the slave
-      started executing the remote method to receive the repsonse. Note that once the master starts
-      receiving the repsonse ``recv_timeout`` does not apply. The library will allow the response to take up
+      started executing the remote method to receive the response. Note that once the master starts
+      receiving the response ``recv_timeout`` does not apply. The library will allow the response to take up
       to 5 seconds to be received.
 
       Note that a new packet that includes a copy of ``data`` will be created internally inside the ``rpc``
@@ -187,13 +187,13 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: register_callback(cb):
+   .. method:: register_callback(cb)
 
       Registers a call back that can be executed by the master device. The call back should take one
       argument which will be a ``memoryview`` object and it should return a ``bytes()`` like object as the
       result. The call back should return in less than 1 second if possible.
 
-   .. method:: schedule_callback(cb):
+   .. method:: schedule_callback(cb)
 
       After you execute ``rpc_slave.loop()`` it is not possible to execute long running operations outside of the ``rpc``
       library. ``schedule_callback`` allows you to break out of the ``rpc`` library temporarily after completion
@@ -221,7 +221,7 @@ Constructors
       limits the size of the data moved inside the ``rpc`` library without running out of memory on the
       OpenMV Cam.
 
-   .. method:: setup_loop_callback(cb):
+   .. method:: setup_loop_callback(cb)
 
       The loop call back is called every loop iteration of ``rpc_slave.loop()``. Unlike the ``rpc.schedule_callback()`` call
       back this call back stays registered after being registered once. You can use the loop call back to
@@ -236,7 +236,7 @@ Constructors
       at a fixed frequency. Please see how to Write Interrupt Handlers for more information. Note: The
       `Mutex` library is installed on your OpenMV Cam along with the ``rpc`` library.
 
-   .. method:: loop(recv_timeout=1000, send_timeout=1000):
+   .. method:: loop(recv_timeout=1000, send_timeout=1000)
 
       Starts execution of the ``rpc`` library on the slave to receive data. This method does not return
       (except via an exception from a call back). You should register all call backs first before
@@ -256,7 +256,7 @@ Control another ``rpc`` device over CAN.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc_can_master(message_if=0x7FF, bit_rate=250000, sample_point=75, can_bus=2):
+.. class:: rpc_can_master(message_if=0x7FF, bit_rate=250000, sample_point=75, can_bus=2)
 
    Creates a CAN ``rpc`` master. This interface can move up to 1 Mb/s.
 
@@ -276,7 +276,7 @@ Be controlled by another ``rpc`` device over CAN.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc_can_slave(message_id=0x7FF, bit_rate=250000, sample_point=75, can_bus=2):
+.. class:: rpc_can_slave(message_id=0x7FF, bit_rate=250000, sample_point=75, can_bus=2)
 
    Creates a CAN ``rpc`` slave. This interface can move up to 1 Mb/s.
 
@@ -410,27 +410,3 @@ Be controlled by another ``rpc`` device over a USB Virtual COM Port.
 .. class:: rpc_usb_vcp_slave()
 
    Creates a USB VCP ``rpc`` slave. This interface can move data at the USB speed.
-
-class rpc_network_master - Network Master Interface
----------------------------------------------------
-
-Control another ``rpc`` device over a network.
-
-.. class:: rpc_network_master(network_if, port=0x1DBA)
-
-   Creates a Network ``rpc`` master.
-
-   * network_if - Network interface created from ``network.LAN()``, ``network.WLAN()``, or etc.
-   * port - Port to route traffic to.
-
-class rpc_network_slave - Network Slave Interface
----------------------------------------------------
-
-Be controlled by another ``rpc`` device a network.
-
-.. class:: rpc_network_slave(network_if, port=0x1DBA)
-
-   Creates a Network ``rpc`` slave.
-
-   * network_if - Network interface created from ``network.LAN()``, ``network.WLAN()``, or etc.
-   * port - Port to route traffic to.

@@ -24,6 +24,9 @@
 #define OMV_JPEG_QUALITY_HIGH                 (90)
 #define OMV_JPEG_QUALITY_THRESHOLD            (320 * 240 * 2)
 
+// GPU Configuration
+#define OMV_GPU_ENABLE                        (1)
+
 // Image sensor drivers configuration.
 #define OMV_OV2640_ENABLE                     (1)
 #define OMV_OV5640_ENABLE                     (1)
@@ -122,7 +125,7 @@
 #define OMV_FB_SIZE                           (400K)    // FB memory: header + VGA/GS image
 #define OMV_FB_ALLOC_SIZE                     (80K)     // minimum fb alloc size
 #define OMV_JPEG_MEMORY                       AXI_SRAM  // JPEG buffer memory.
-#define OMV_JPEG_SIZE                         (32 * 1024) // IDE JPEG buffer (header + data).
+#define OMV_JPEG_SIZE                         (32K) // IDE JPEG buffer (header + data).
 #define OMV_VOSPI_MEMORY                      SRAM4 // VoSPI buffer memory.
 #define OMV_VOSPI_SIZE                        (38K)
 #define OMV_DMA_MEMORY                        SRAM2 // Misc DMA buffers memory.
@@ -199,6 +202,7 @@
 #define OMV_CSI_TIM_CLK_DISABLE()             __TIM1_CLK_DISABLE()
 #define OMV_CSI_TIM_PCLK_FREQ()               HAL_RCC_GetPCLK2Freq()
 #define OMV_CSI_DMA_MEMCPY_ENABLE             (1)
+#define OMV_CSI_HW_CROP_ENABLE                (1)
 
 #define OMV_CSI_D0_PIN                        (&omv_pin_C6_DCMI)
 #define OMV_CSI_D1_PIN                        (&omv_pin_C7_DCMI)

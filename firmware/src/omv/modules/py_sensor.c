@@ -535,12 +535,12 @@ static mp_obj_t py_sensor_set_auto_blc(uint n_args, const mp_obj_t *pos_args, mp
     mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
     int enable = args[ARG_enable].u_int;
-    int regs[sensor.hw_flags.blc_size];
+    int regs[sensor.blc_size];
     bool regs_present = args[ARG_regs].u_obj != mp_const_none;
     if (regs_present) {
         mp_obj_t *arg_array;
-        mp_obj_get_array_fixed_n(args[ARG_regs].u_obj, sensor.hw_flags.blc_size, &arg_array);
-        for (uint32_t i = 0; i < sensor.hw_flags.blc_size; i++) {
+        mp_obj_get_array_fixed_n(args[ARG_regs].u_obj, sensor.blc_size, &arg_array);
+        for (uint32_t i = 0; i < sensor.blc_size; i++) {
             regs[i] = mp_obj_get_int(arg_array[i]);
         }
     }
@@ -557,14 +557,14 @@ static mp_obj_t py_sensor_set_auto_blc(uint n_args, const mp_obj_t *pos_args, mp
 static MP_DEFINE_CONST_FUN_OBJ_KW(py_sensor_set_auto_blc_obj, 1,  py_sensor_set_auto_blc);
 
 static mp_obj_t py_sensor_get_blc_regs() {
-    int regs[sensor.hw_flags.blc_size];
+    int regs[sensor.blc_size];
     int error = sensor_get_blc_regs(regs);
     if (error != 0) {
         sensor_raise_error(error);
     }
 
-    mp_obj_list_t *l = mp_obj_new_list(sensor.hw_flags.blc_size, NULL);
-    for (uint32_t i = 0; i < sensor.hw_flags.blc_size; i++) {
+    mp_obj_list_t *l = mp_obj_new_list(sensor.blc_size, NULL);
+    for (uint32_t i = 0; i < sensor.blc_size; i++) {
         l->items[i] = mp_obj_new_int(regs[i]);
     }
     return l;
@@ -1060,6 +1060,7 @@ static const mp_rom_map_elem_t globals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_LEPTON),              MP_ROM_INT(LEPTON_ID)},
     { MP_ROM_QSTR(MP_QSTR_HM01B0),              MP_ROM_INT(HM01B0_ID)},
     { MP_ROM_QSTR(MP_QSTR_GC2145),              MP_ROM_INT(GC2145_ID)},
+    { MP_ROM_QSTR(MP_QSTR_PAG7920),             MP_ROM_INT(PAG7920_ID)},
     { MP_ROM_QSTR(MP_QSTR_PAJ6100),             MP_ROM_INT(PAJ6100_ID)},
     { MP_ROM_QSTR(MP_QSTR_FROGEYE2020),         MP_ROM_INT(FROGEYE2020_ID)},
 

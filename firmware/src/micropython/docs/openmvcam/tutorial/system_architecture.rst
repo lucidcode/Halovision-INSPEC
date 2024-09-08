@@ -16,7 +16,7 @@ revved the OpenMV Cam with a faster and faster main processor the SDR DRAM speed
 also has not kept up with the internal RAM speed. On the STM32H7 for example the
 internal RAM bandwidth is 3.2GB/s versus a maximum SDR RAM bandwidth of 666MB/s
 even if we built the system with an 8-layer board using a 32-bit DRAM bus
-requring 50+ I/O pins for the DRAM.
+requiring 50+ I/O pins for the DRAM.
 
 So, since we're built on the STM32 architecture and limited to using expensive
 and slow SDR DRAM for now we haven't added it as our internal SRAM is way faster.
@@ -28,7 +28,7 @@ Memory Architecture
 
 Given the above memory architecture limitations we built all of our code to run
 inside of the STM32 microcontroller memory. However, the STM32 doesn't have one
-large contigous memory map. It features different segments of RAM for different
+large contiguous memory map. It features different segments of RAM for different
 situations.
 
 First, there's a segment of RAM which contains global variables, the heap, and

@@ -13,7 +13,7 @@ Touch Screen Driver for the OpenMV Pure Thermal.
 Constructors
 ------------
 
-.. class:: ft5x06.FT5X06([i2c_addr=0x38])
+.. class:: ft5x06.FT5X06(i2c_addr=0x38)
 
    Creates a touch screen controller object
 
@@ -87,41 +87,51 @@ Constants
 ---------
 
 .. data:: LCD_GESTURE_MOVE_UP
+   :type: int
 
    Touch screen move up gesture.
 
 .. data:: LCD_GESTURE_MOVE_LEFT
+   :type: int
 
    Touch screen move left gesture.
 
 .. data:: LCD_GESTURE_MOVE_DOWN
+   :type: int
 
    Touch screen move down gesture.
 
 .. data:: LCD_GESTURE_MOVE_RIGHT
+   :type: int
 
    Touch screen move right gesture.
 
 .. data:: LCD_GESTURE_ZOOM_IN
+   :type: int
 
    Touch screen zoom in gesture.
 
 .. data:: LCD_GESTURE_ZOOM_OUT
+   :type: int
 
    Touch screen zoom out gesture.
 
 .. data:: LCD_GESTURE_NONE
+   :type: int
 
    Touch screen no gesture.
 
 .. data:: LCD_FLAG_PRESSED
+   :type: int
 
    Touch point is pressed.
 
 .. data:: LCD_FLAG_RELEASED
+   :type: int
 
    Touch point is released.
 
 .. data:: LCD_FLAG_MOVED
+   :type: int
 
    Touch point is moved.

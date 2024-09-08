@@ -30,7 +30,7 @@ Example usage::
 Functions
 ---------
 
-.. function:: init([type=-1, [refresh, [resolution]]])
+.. function:: init(type=-1, refresh:Optional[int]=None, resolution:Optional[int]=None) -> None
 
    Initializes an attached thermopile shield using I/O pins P4 and P5 (and P0, P1, P2, P3 for `fir.FIR_LEPTON`)
 
@@ -100,11 +100,11 @@ Functions
       FLIR Lepton 3.x. Triple buffering ensures that reading an image with `fir.read_ir()` and
       `fir.snapshot()` never block. For all other sensors the I2C bus is accessed to read the image.
 
-.. function:: deinit()
+.. function:: deinit() -> None
 
    Deinitializes the thermal sensor freeing up resources.
 
-.. function:: width()
+.. function:: width() -> int
 
    Returns the width (horizontal resolution) of the thermal sensor in-use:
 
@@ -116,7 +116,7 @@ Functions
       * `fir.FIR_AMG8833`: 8 pixels.
       * `fir.FIR_LEPTON`: 80 pixels (FLIR Lepton 1.x/2.x) or 160 pixels (FLIR Lepton 3.x).
 
-.. function:: height()
+.. function:: height() -> int
 
    Returns the height (vertical resolution) of the thermal sensor in-use:
 
@@ -128,7 +128,7 @@ Functions
       * `fir.FIR_AMG8833`: 8 pixels.
       * `fir.FIR_LEPTON`: 60 pixels (FLIR Lepton 1.x/2.x) or 120 pixels (FLIR Lepton 3.x).
 
-.. function:: type()
+.. function:: type() -> int
 
    Returns the type of the thermal sensor in-use:
 
@@ -140,21 +140,21 @@ Functions
       * `fir.FIR_AMG8833`
       * `fir.FIR_LEPTON`
 
-.. function:: refresh()
+.. function:: refresh() -> int
 
    Returns the current refresh rate set during `fir.init()` call.
 
-.. function:: resolution()
+.. function:: resolution() -> int
 
    Returns the current resolution set during the `fir.init()` call.
 
-.. function:: radiometric()
+.. function:: radiometric() -> bool
 
    Returns if the thermal sensor reports accurate temperature readings (True or False). If False
    this means that the thermal sensor reports relative temperature readings based on its ambient
    temperature which may not be very accurate.
 
-.. function:: register_vsync_cb(cb)
+.. function:: register_vsync_cb(cb) -> None
 
    For the `fir.FIR_LEPTON` mode only on the OpenMV Cam Pure Thermal.
 
@@ -165,7 +165,7 @@ Functions
 
    ``cb`` takes no arguments.
 
-.. function:: register_frame_cb(cb)
+.. function:: register_frame_cb(cb) -> None
 
    For the `fir.FIR_LEPTON` mode only on the OpenMV Cam Pure Thermal.
 
@@ -178,11 +178,11 @@ Functions
 
    Use this to get an interrupt to schedule reading a frame later with `micropython.schedule()`.
 
-.. function:: get_frame_available()
+.. function:: get_frame_available() -> bool
 
    Returns True if a frame is available to read by calling `fir.read_ir()` or `fir.snapshot()`.
 
-.. function:: trigger_ffc([timeout=-1])
+.. function:: trigger_ffc(timeout=-1) -> None
 
    For the `fir.FIR_LEPTON` mode only.
 
@@ -192,7 +192,7 @@ Functions
 
    ``timeout`` if not -1 then how many milliseconds to wait for FFC to complete.
 
-.. function:: read_ta()
+.. function:: read_ta() -> float
 
    Returns the ambient temperature (i.e. sensor temperature).
 
@@ -202,7 +202,7 @@ Functions
 
    The value returned is a float that represents the temperature in celsius.
 
-.. function:: read_ir([hmirror=False, [vflip=False, [transpose=False, [timeout=-1]]]])
+.. function:: read_ir(hmirror=False, vflip=False, transpose=False, timeout=-1)
 
    Returns a tuple containing the ambient temperature (i.e. sensor temperature),
    the temperature list (width * height), the minimum temperature seen, and
@@ -233,7 +233,7 @@ Functions
 
       ``ir`` is a (width * height) list of floats (4-bytes each).
 
-.. function:: draw_ir(image, ir, [x, [y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=128, [color_palette=image.PALETTE_RAINBOW, [alpha_palette=-1, [hint=0, [scale=(ir_min, ir_max)]]]]]]]]]]])
+.. function:: draw_ir(image:image.Image, ir, x:Optional[int]=None, y:Optional[int]=None, x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=128, color_palette=image.PALETTE_RAINBOW, alpha_palette=-1, hint=0, scale=Optional[Tuple[float, float]]) -> None
 
    Draws an ``ir`` array on ``image`` whose top-left corner starts at location x, y. This method
    automatically handles rendering the image passed into the correct pixel format for the destination
@@ -300,7 +300,7 @@ Functions
       (w, h, ir) as the ``ir`` array instead to use `draw_ir` to draw any floating point array with
       width ``w`` and height ``h``.
 
-.. function:: snapshot([hmirror=False, [vflip=False, [transpose=False, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=128, [color_palette=fir.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [scale=(ir_min, ir_max), [pixformat=image.RGB565, [copy_to_fb=False, [timeout=-1]]]]]]]]]]]]]])
+.. function:: snapshot(hmirror=False, vflip=False, transpose=False, x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=128, color_palette=image.PALETTE_RAINBOW, alpha_palette=None, hint=0, scale:Optional[Tuple[float, float]]=None, pixformat=image.RGB565, copy_to_fb=False, timeout=-1) -> image.Image
 
    Works like `sensor.snapshot()` and returns an `image` object that is either
    `image.GRAYSCALE` (grayscale) or `image.RGB565` (color). If ``copy_to_fb`` is False then
@@ -382,29 +382,36 @@ Constants
 ---------
 
 .. data:: FIR_NONE
+   :type: int
 
    No FIR sensor type.
 
 .. data:: FIR_SHIELD
+   :type: int
 
    The OpenMV Cam Thermopile Shield Type (MLX90621).
 
 .. data:: FIR_MLX90621
+   :type: int
 
    FIR_MLX90621 FIR sensor.
 
 .. data:: FIR_MLX90640
+   :type: int
 
    FIR_MLX90640 FIR sensor.
 
 .. data:: FIR_MLX90641
+   :type: int
 
    FIR_MLX90640 FIR sensor.
 
 .. data:: FIR_AMG8833
+   :type: int
 
    FIR_AMG8833 FIR sensor.
 
 .. data:: FIR_LEPTON
+   :type: int
 
    FIR_LEPTON FIR sensor.

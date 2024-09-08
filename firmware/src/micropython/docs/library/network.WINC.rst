@@ -96,13 +96,13 @@ Constructors
 
    .. method:: connected_sta()
 
-      This method returns a list containing the connected client's IP adress.
+      This method returns a list containing the connected client's IP address.
 
    .. method:: wait_for_sta(timeout)
 
       This method blocks and waits for a client to connect. If timeout is 0
       this will block forever. This method returns a list containing the
-      connected client's IP adress.
+      connected client's IP address.
 
    .. method:: ifconfig([ip_addr, subnet_addr, gateway_addr, dns_addr])
 

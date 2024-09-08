@@ -84,7 +84,7 @@ def read_state():
         text = text_buf.split(b'\0', 1)[0].decode()
 
     if flags & __USBDBG_STATE_FLAGS_FRAME == 0:
-        return 0, 0, None, text
+        return 0, 0, None, 0, text, ""
 
     num_bytes = size if size > 2 else (w * h * size)
 
@@ -93,15 +93,18 @@ def read_state():
     buff = __serial.read(num_bytes)
 
     if size == 1:  # Grayscale
+        fmt = "GRAY"
         y = np.fromstring(buff, dtype=np.uint8)
         buff = np.column_stack((y, y, y))
     elif size == 2: # RGB565
-        arr = np.fromstring(buff, dtype=np.uint16).newbyteorder('S')
+        fmt = "RGB"
+        arr = np.fromstring(buff, dtype=np.uint16)
         r = (((arr & 0xF800) >>11)*255.0/31.0).astype(np.uint8)
         g = (((arr & 0x07E0) >>5) *255.0/63.0).astype(np.uint8)
         b = (((arr & 0x001F) >>0) *255.0/31.0).astype(np.uint8)
         buff = np.column_stack((r,g,b))
     else: # JPEG
+        fmt = "JPEG"
         try:
             buff = np.asarray(Image.frombuffer("RGB", (w, h), buff, "jpeg", "RGB", ""))
         except Exception as e:
@@ -110,7 +113,7 @@ def read_state():
     if (buff.size != (w*h*3)):
         raise ValueError(f"Unexpected frame size. Expected: {w*h*3} received: {buff.size}")
 
-    return w, h, buff.reshape((h, w, 3)), text
+    return w, h, buff.reshape((h, w, 3)), num_bytes, text, fmt
 
 
 def fb_dump():
@@ -133,7 +136,7 @@ def fb_dump():
         y = np.fromstring(buff, dtype=np.uint8)
         buff = np.column_stack((y, y, y))
     elif size[2] == 2: # RGB565
-        arr = np.fromstring(buff, dtype=np.uint16).newbyteorder('S')
+        arr = np.fromstring(buff, dtype=np.uint16)
         r = (((arr & 0xF800) >>11)*255.0/31.0).astype(np.uint8)
         g = (((arr & 0x07E0) >>5) *255.0/63.0).astype(np.uint8)
         b = (((arr & 0x001F) >>0) *255.0/31.0).astype(np.uint8)
@@ -216,7 +219,7 @@ def enable_fb(enable):
 
 def arch_str():
     __serial.write(struct.pack("<BBI", __USBDBG_CMD, __USBDBG_ARCH_STR, 64))
-    return __serial.read(64).split('\0', 1)[0]
+    return __serial.read(64).split(b'\0', 1)[0]
 
 if __name__ == '__main__':
     if len(sys.argv)!= 3:

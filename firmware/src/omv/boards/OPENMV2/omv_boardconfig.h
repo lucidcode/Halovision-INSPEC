@@ -24,6 +24,9 @@
 #define OMV_JPEG_QUALITY_HIGH                 (60)
 #define OMV_JPEG_QUALITY_THRESHOLD            (160 * 120 * 2)
 
+// GPU Configuration
+#define OMV_GPU_ENABLE                        (1)
+
 // Image sensor drivers configuration.
 #define OMV_OV2640_ENABLE                     (1)
 #define OMV_OV7725_ENABLE                     (1)
@@ -71,7 +74,7 @@
 #define OMV_DMA_MEMORY                        SRAM2 // Misc DMA buffers
 #define OMV_GC_BLOCK0_MEMORY                  DTCM  // Main GC block
 #define OMV_GC_BLOCK0_SIZE                    (46K)
-#define OMV_JPEG_SIZE                         (8 * 1024) // IDE JPEG buffer size (header + data).
+#define OMV_JPEG_SIZE                         (8K)  // IDE JPEG buffer size (header + data).
 #define OMV_MSC_BUF_SIZE                      (2K)  // USB MSC bot data
 #define OMV_VFS_BUF_SIZE                      (1K)  // VFS struct + FATFS file buffer (624 bytes)
 #define OMV_FFS_BUF_SIZE                      (16K) // Flash filesystem cache
@@ -122,6 +125,7 @@
 #define OMV_CSI_TIM_CLK_ENABLE()              __TIM1_CLK_ENABLE()
 #define OMV_CSI_TIM_CLK_DISABLE()             __TIM1_CLK_DISABLE()
 #define OMV_CSI_TIM_PCLK_FREQ()               HAL_RCC_GetPCLK2Freq()
+#define OMV_CSI_HW_CROP_ENABLE                (1)
 
 #define OMV_CSI_D0_PIN                        (&omv_pin_C6_DCMI)
 #define OMV_CSI_D1_PIN                        (&omv_pin_C7_DCMI)

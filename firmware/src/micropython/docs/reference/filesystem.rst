@@ -35,7 +35,7 @@ mounted.
 On STM32 / Pyboard, the internal flash is mounted at ``/flash``, and optionally
 the SDCard at ``/sd``. On ESP8266/ESP32, the primary filesystem is mounted at
 ``/``. On the OpenMV Cam the internal flash is mounted at ``/`` unless an SDCard
-is installed which will be moutned at ``/`` instead.
+is installed which will be mounted at ``/`` instead.
 
 Block devices
 -------------

@@ -24,7 +24,7 @@ Example usage for driving the 800x480 MIPI LCD::
 Constructors
 ------------
 
-.. class:: display.DSIDisplay([framesize=display.FWVGA, [refresh=60, [portrait=False, [channel=0, [controller, [backlight]]]]]])
+.. class:: display.DSIDisplay(framesize=FWVGA, refresh=60, portrait=False, channel=0, controller, backlight)
 
     ``framesize`` One of the standard supported resolutions.
 
@@ -43,23 +43,23 @@ Constructors
 Methods
 -------
 
-.. method:: DSIDisplay.deinit()
+.. method:: DSIDisplay.deinit() -> None
 
    Releases the I/O pins and RAM used by the class. This is called automatically on destruction.
 
-.. method:: DSIDisplay.width()
+.. method:: DSIDisplay.width() -> int
 
    Returns the width of the screen.
 
-.. method:: DSIDisplay.height()
+.. method:: DSIDisplay.height() -> int
 
    Returns the height of the screen.
 
-.. method:: DSIDisplay.refresh()
+.. method:: DSIDisplay.refresh() -> int
 
    Returns the refresh rate.
 
-.. method:: DSIDisplay.write(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None]]]]]]]]]])
+.. method:: DSIDisplay.write(image, x=0, y=0, x_scale=1.0, y_scale=1.0, roi=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None) -> None
 
    Displays an ``image`` whose top-left corner starts at location x, y.
 
@@ -112,7 +112,7 @@ Methods
       * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
       * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
-.. method:: DSIDisplay.clear([display_off=False])
+.. method:: DSIDisplay.clear(display_off=False) -> None
 
    Clears the lcd screen to black.
 
@@ -120,7 +120,7 @@ Methods
    frame buffer to black. You should also turn off the backlight too after this to ensure the
    screen goes to black as many displays are white when only the backlight is on.
 
-.. method:: DSIDisplay.backlight([value])
+.. method:: DSIDisplay.backlight(value:Optional[int]=None) -> int
 
    Sets the lcd backlight dimming value. 0 (off) to 100 (on).
 
@@ -129,10 +129,10 @@ Methods
 
    Pass no arguments to get the state of the backlight value.
 
-.. method:: DSIDisplay.bus_write(cmd, [args=None, [dcs=False]])
+.. method:: DSIDisplay.bus_write(cmd:int, args=None, dcs=False) -> None
 
    Send the DSI Display ``cmd`` with ``args``.
 
-.. method:: DSIDisplay.bus_read(cmd, [len, [args=None, [dcs=False]]])
+.. method:: DSIDisplay.bus_read(cmd:int, len:int, args=None, dcs=False) -> bytes
 
    Read ``len`` using ``cmd`` with ``args`` from the DSI Display.

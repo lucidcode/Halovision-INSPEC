@@ -23,6 +23,8 @@ endif
 
 include ../../py/mkenv.mk
 -include mpconfigport.mk
+
+# Include board specific .mk file, and optional board variant .mk file.
 include $(BOARD_DIR)/mpconfigboard.mk
 
 # qstr definitions (must come before including py.mk)
@@ -155,7 +157,10 @@ COPT ?= -Og
 # Disable text compression in debug builds
 MICROPY_ROM_TEXT_COMPRESSION = 0
 else
-COPT ?= -O2 -DNDEBUG
+ifneq ($(LTO), 1)
+CFLAGS += -g  # always include debug info in the ELF, unless LTO is on
+endif
+COPT ?= -Os -DNDEBUG
 endif
 
 # Flags for optional C++ source code
@@ -443,7 +448,23 @@ OBJ += $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(SRC_CXX:.cpp=.o))
 OBJ += $(GEN_PINS_SRC:.c=.o)
 
+# This file contains performance critical functions so turn up the optimisation
+# level.  It doesn't add much to the code size and improves performance a bit.
+# Don't use -O3 with this file because gcc tries to optimise memset in terms of itself.
+$(BUILD)/shared/libc/string0.o: COPT += -O2
+
+# We put several files into the first 16K section with the ISRs.
+# If we compile these using -O0 then it won't fit. So if you really want these
+# to be compiled with -O0, then edit boards/common.ld (in the .isr_vector section)
+# and comment out the following lines.
+$(BUILD)/$(OOFATFS_DIR)/ff.o: COPT += -Os
+$(filter $(PY_BUILD)/../extmod/vfs_fat_%.o, $(PY_O)): COPT += -Os
+$(PY_BUILD)/formatfloat.o: COPT += -Os
+$(PY_BUILD)/parsenum.o: COPT += -Os
+$(PY_BUILD)/mpprint.o: COPT += -Os
+
 all: $(OBJ)
+
 
 define RUN_DFU
 	$(ECHO) "Writing $(1) to the board"

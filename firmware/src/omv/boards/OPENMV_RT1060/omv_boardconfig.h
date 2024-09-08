@@ -55,7 +55,6 @@
 
 // Debugging configuration.
 #define OMV_TUSBDBG_ENABLE              (1)
-#define OMV_TUSBDBG_PACKET              (512)
 #define OMV_TUSBDBG_BUFFER              (2048)
 
 // UMM heap block size
@@ -78,7 +77,7 @@
 #define OMV_STACK_MEMORY                ITCM1   // stack memory
 #define OMV_STACK_SIZE                  (32K)
 #define OMV_JPEG_MEMORY                 DRAM    // JPEG buffer memory buffer.
-#define OMV_JPEG_SIZE                   (1024 * 1024)  // IDE JPEG buffer (header + data).
+#define OMV_JPEG_SIZE                   (1M)    // IDE JPEG buffer (header + data).
 #define OMV_FB_MEMORY                   DRAM    // Framebuffer, fb_alloc
 #define OMV_FB_SIZE                     (13M)   // FB memory: header + VGA/GS image
 #define OMV_FB_ALLOC_SIZE               (10M)   // minimum fb alloc size
@@ -204,6 +203,7 @@
 #define OMV_CSI_XCLK_FREQUENCY          (12000000)
 #define OMV_CSI_DMA_MEMCPY_ENABLE       (1)
 #define OMV_CSI_HW_SWAP_ENABLE          (1)
+#define OMV_CSI_HW_CROP_ENABLE          (1)
 
 #define OMV_CSI_D0_PIN                  (&omv_pin_DCMI_D0)
 #define OMV_CSI_D1_PIN                  (&omv_pin_DCMI_D1)

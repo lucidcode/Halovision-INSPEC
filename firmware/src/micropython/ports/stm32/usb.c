@@ -363,26 +363,6 @@ void usb_vcp_send_strn(const char *str, int len) {
     }
 }
 
-uint32_t usb_cdc_buf_len()
-{
-    return usbd_cdc_buf_len(&usb_device.usbd_cdc_itf[0]);
-}
-
-uint32_t usb_cdc_get_buf(uint8_t *buf, uint32_t len)
-{
-    return usbd_cdc_get_buf(&usb_device.usbd_cdc_itf[0], buf, len);
-}
-
-void usb_cdc_reset_buffers()
-{
-    usbd_cdc_reset_buffers(&usb_device.usbd_cdc_itf[0]);
-}
-
-int usb_cdc_debug_mode_enabled()
-{
-    return usbd_cdc_debug_mode_enabled(&usb_device.usbd_cdc_itf[0]);
-}
-
 usbd_cdc_itf_t *usb_vcp_get(int idx) {
     return &usb_device.usbd_cdc_itf[idx];
 }
@@ -758,7 +738,7 @@ static MP_DEFINE_CONST_FUN_OBJ_1(pyb_usb_vcp_isconnected_obj, pyb_usb_vcp_isconn
 
 static mp_obj_t pyb_usb_vcp_debug_mode_enabled(mp_obj_t self_in) {
     pyb_usb_vcp_obj_t *self = MP_OBJ_TO_PTR(self_in);
-    return mp_obj_new_bool(usbd_cdc_debug_mode_enabled(self->cdc_itf));
+    return mp_obj_new_bool(self->cdc_itf->dbg_mode_enabled);
 }
 static MP_DEFINE_CONST_FUN_OBJ_1(pyb_usb_vcp_debug_mode_enabled_obj, pyb_usb_vcp_debug_mode_enabled);
 

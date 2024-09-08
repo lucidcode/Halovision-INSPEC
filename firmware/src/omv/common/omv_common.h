@@ -9,6 +9,7 @@
  * Common macros.
  */
 #ifndef __OMV_COMMON_H__
+#define __OMV_COMMON_H__
 
 #define OMV_ATTR_ALIGNED(x, a)    x __attribute__((aligned(a)))
 #define OMV_ATTR_SECTION(x, s)    x __attribute__((section(s)))
@@ -45,5 +46,17 @@
     })
 
 #define OMV_ARRAY_SIZE(a)         (sizeof(a) / sizeof(a[0]))
+
+#if OMV_PROFILE_ENABLE
+#include <stdio.h>
+#include "py/mphal.h"
+#define OMV_CONCATENATE_DETAIL(x, y) x##y
+#define OMV_CONCATENATE(x, y)   OMV_CONCATENATE_DETAIL(x, y)
+#define OMV_PROFILE_START(F)    mp_uint_t OMV_CONCATENATE(_ticks_start_, F) = mp_hal_ticks_us()
+#define OMV_PROFILE_PRINT(F)    printf("%s:%s %u us\n", __FUNCTION__, #F, mp_hal_ticks_us() - OMV_CONCATENATE(_ticks_start_, F))
+#else
+#define OMV_PROFILE_START(F)
+#define OMV_PROFILE_PRINT(F)
+#endif
 
 #endif //__OMV_COMMON_H__

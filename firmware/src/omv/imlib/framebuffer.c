@@ -10,19 +10,21 @@
  */
 #include <stdio.h>
 #include "mpprint.h"
+#include "fmath.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
 
-#define FB_ALIGN_SIZE_ROUND_DOWN(x)    (((x) / FRAMEBUFFER_ALIGNMENT) * FRAMEBUFFER_ALIGNMENT)
-#define FB_ALIGN_SIZE_ROUND_UP(x)      FB_ALIGN_SIZE_ROUND_DOWN(((x) + FRAMEBUFFER_ALIGNMENT - 1))
-#define CONSERVATIVE_JPEG_BUF_SIZE     (OMV_JPEG_SIZE - 64)
+#define FB_ALIGN_SIZE_ROUND_DOWN(x) (((x) / FRAMEBUFFER_ALIGNMENT) * FRAMEBUFFER_ALIGNMENT)
+#define FB_ALIGN_SIZE_ROUND_UP(x)   FB_ALIGN_SIZE_ROUND_DOWN(((x) + FRAMEBUFFER_ALIGNMENT - 1))
+#define OMV_JPEG_BUFFER_SIZE_MAX    ((&_jpeg_memory_end - &_jpeg_memory_start) - sizeof(jpegbuffer_t))
 
-extern char _fb_base;
-extern char _fb_end;
-framebuffer_t *framebuffer = (framebuffer_t *) &_fb_base;
+extern char _fb_memory_start;
+extern char _fb_memory_end;
+framebuffer_t *framebuffer = (framebuffer_t *) &_fb_memory_start;
 
-extern char _jpeg_buf;
-jpegbuffer_t *jpeg_framebuffer = (jpegbuffer_t *) &_jpeg_buf;
+extern char _jpeg_memory_start;
+extern char _jpeg_memory_end;
+jpegbuffer_t *jpeg_framebuffer = (jpegbuffer_t *) &_jpeg_memory_start;
 
 void fb_set_streaming_enabled(bool enable) {
     framebuffer->streaming_enabled = enable;
@@ -136,7 +138,7 @@ void framebuffer_update_jpeg_buffer() {
             bool does_not_fit = false;
 
             if (mutex_try_lock_alternate(&jpeg_framebuffer->lock, MUTEX_TID_OMV)) {
-                if (CONSERVATIVE_JPEG_BUF_SIZE < src->size) {
+                if (OMV_JPEG_BUFFER_SIZE_MAX < src->size) {
                     jpegbuffer_init_from_image(NULL);
                     does_not_fit = true;
                 } else {
@@ -162,11 +164,42 @@ void framebuffer_update_jpeg_buffer() {
                     .w = src->w,
                     .h = src->h,
                     .pixfmt = PIXFORMAT_JPEG,
-                    .size = CONSERVATIVE_JPEG_BUF_SIZE,
+                    .size = OMV_JPEG_BUFFER_SIZE_MAX,
                     .pixels = jpeg_framebuffer->pixels
                 };
-                // Note: lower quality saves USB bandwidth and results in a faster IDE FPS.
-                bool overflow = jpeg_compress(src, &dst, jpeg_framebuffer->quality, false, JPEG_SUBSAMPLING_AUTO);
+
+                bool compress = true;
+                bool overflow = false;
+
+                #if OMV_RAW_PREVIEW_ENABLE
+                if (src->is_mutable) {
+                    // Down-scale the frame (if necessary) and send the raw frame.
+                    dst.size = src->bpp;
+                    dst.pixfmt = src->pixfmt;
+                    if (src->w <= OMV_RAW_PREVIEW_WIDTH && src->h <= OMV_RAW_PREVIEW_HEIGHT) {
+                        if (image_size(&dst) <= OMV_JPEG_BUFFER_SIZE_MAX) {
+                            memcpy(dst.pixels, src->pixels, image_size(src));
+                            compress = false;
+                        }
+                    } else {
+                        float x_scale = OMV_RAW_PREVIEW_WIDTH / (float) src->w;
+                        float y_scale = OMV_RAW_PREVIEW_HEIGHT / (float) src->h;
+                        float scale = IM_MIN(x_scale, y_scale);
+                        dst.w = fast_floorf(src->w * scale);
+                        dst.h = fast_floorf(src->h * scale);
+                        if (image_size(&dst) <= OMV_JPEG_BUFFER_SIZE_MAX) {
+                            imlib_draw_image(&dst, src, 0, 0, scale, scale, NULL, -1, 255, NULL, NULL,
+                                             IMAGE_HINT_BILINEAR | IMAGE_HINT_BLACK_BACKGROUND, NULL, NULL, NULL);
+                            compress = false;
+                        }
+                    }
+                }
+                #endif
+
+                if (compress) {
+                    // For all other formats, send a compressed frame.
+                    overflow = jpeg_compress(src, &dst, jpeg_framebuffer->quality, false, JPEG_SUBSAMPLING_AUTO);
+                }
 
                 if (overflow) {
                     // JPEG buffer overflowed, reduce JPEG quality for the next frame
@@ -229,41 +262,28 @@ int32_t framebuffer_get_depth() {
     return framebuffer->bpp;
 }
 
-// Returns the number of bytes the frame buffer could be at the current moment it time.
-static uint32_t framebuffer_raw_buffer_size() {
-    uint32_t size = (uint32_t) (fb_alloc_stack_pointer() - ((char *) framebuffer->data));
-    // We don't want to give all of the frame buffer RAM to the frame buffer. So, we will limit
-    // the maximum amount of RAM we return.
-    uint32_t raw_buf_size = (&_fb_end - &_fb_base);
-    return IM_MIN(size, raw_buf_size);
+// Returns the current frame buffer size, factoring in the space taken by fb_alloc.
+static uint32_t framebuffer_max_buffer_size() {
+    uint32_t fb_total_size = FB_ALIGN_SIZE_ROUND_DOWN(&_fb_memory_end - (char *) framebuffer->data);
+    uint32_t fb_avail_size = FB_ALIGN_SIZE_ROUND_DOWN(fb_alloc_stack_pointer() - (char *) framebuffer->data);
+    return IM_MIN(fb_total_size, fb_avail_size);
 }
 
 uint32_t framebuffer_get_buffer_size() {
     uint32_t size;
 
     if (framebuffer->n_buffers == 1) {
-        // With only 1 vbuffer it's fine to allow the frame buffer size to change given fb_alloc().
-        size = framebuffer_raw_buffer_size();
+        // With only 1 vbuffer the frame buffer size can change given fb_alloc().
+        size = framebuffer_max_buffer_size();
     } else {
-        // Whatever the raw size was when the number of buffers were set is locked in...
-        size = framebuffer->raw_buffer_size;
+        // Whatever the raw size was when the number of buffers were set is locked in.
+        size = framebuffer->buff_size;
     }
 
     // Remove the size of the state header plus alignment padding.
     size -= sizeof(vbuffer_t);
 
-    // Do we have an estimate on the frame size with multiple buffers? If so, we can reduce the
-    // RAM each buffer takes up giving some space back to fb_alloc().
-    if ((framebuffer->n_buffers != 1) && framebuffer->u && framebuffer->v) {
-        // Typically a framebuffer will not need more than u*v*2 bytes.
-        uint32_t size_guess = framebuffer->u * framebuffer->v * 2;
-        // Add in extra bytes to prevent round down from shrinking buffer too small.
-        size_guess += FRAMEBUFFER_ALIGNMENT - 1;
-        // Limit the frame buffer size.
-        size = IM_MIN(size, size_guess);
-    }
-
-    // Needs to be a multiple of FRAMEBUFFER_ALIGNMENT for DMA transfers...
+    // Needs to be a multiple of FRAMEBUFFER_ALIGNMENT for DMA transfers.
     return FB_ALIGN_SIZE_ROUND_DOWN(size);
 }
 
@@ -277,7 +297,7 @@ vbuffer_t *framebuffer_get_buffer(int32_t index) {
 void framebuffer_flush_buffers(bool fifo_flush) {
     if (fifo_flush) {
         // Drop all frame buffers.
-        for (int32_t i = 0; i < framebuffer->n_buffers; i++) {
+        for (uint32_t i = 0; i < framebuffer->n_buffers; i++) {
             memset(framebuffer_get_buffer(i), 0, sizeof(vbuffer_t));
         }
     }
@@ -289,24 +309,21 @@ void framebuffer_flush_buffers(bool fifo_flush) {
 }
 
 int framebuffer_set_buffers(int32_t n_buffers) {
-    uint32_t total_size = framebuffer_raw_buffer_size();
-    uint32_t size = total_size / n_buffers;
+    uint32_t avail_size = FB_ALIGN_SIZE_ROUND_DOWN(framebuffer_max_buffer_size());
+    uint32_t frame_size = FB_ALIGN_SIZE_ROUND_UP(framebuffer->frame_size + sizeof(vbuffer_t));
+    uint32_t vbuff_size = (n_buffers == 1) ? avail_size : frame_size;
+    uint32_t vbuff_count = IM_MIN((avail_size / vbuff_size), (n_buffers == -1) ? 3 : (uint32_t) n_buffers);
 
-    // Error out if frame buffers are smaller than this...
-    if (size < (sizeof(vbuffer_t) + FRAMEBUFFER_ALIGNMENT)) {
+    if (vbuff_count == 0 || vbuff_size < sizeof(vbuffer_t)) {
         return -1;
     }
 
-    // Invalidate frame.
+    framebuffer->head = 0;
+    framebuffer->buff_size = vbuff_size;
+    framebuffer->n_buffers = vbuff_count;
     framebuffer->pixfmt = PIXFORMAT_INVALID;
 
-    // Cache the maximum size we can allocate for the frame buffer when vbuffers are greater than 1.
-    framebuffer->raw_buffer_size = size;
-    framebuffer->n_buffers = n_buffers;
-    framebuffer->head = 0;
-
     framebuffer_flush_buffers(true);
-
     return 0;
 }
 
@@ -320,23 +337,6 @@ static uint32_t framebuffer_total_buffer_size() {
     } else {
         // fb_alloc may only use up to the size of all the virtual buffers...
         return (sizeof(vbuffer_t) + framebuffer_get_buffer_size()) * framebuffer->n_buffers;
-    }
-}
-
-void framebuffer_auto_adjust_buffers() {
-    // Keep same buffer count in video fifo mode but resize buffer sizes.
-    if (framebuffer->n_buffers > 3) {
-        framebuffer_set_buffers(framebuffer->n_buffers);
-        return;
-    }
-
-    for (int i = 3; i > 0; i--) {
-        framebuffer_set_buffers(i);
-
-        // Find a buffering size automatically that doesn't use more than half.
-        if (fb_avail() >= framebuffer_total_buffer_size()) {
-            return;
-        }
     }
 }
 

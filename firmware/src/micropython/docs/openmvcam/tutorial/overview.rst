@@ -27,7 +27,7 @@ happily forever.
 But, if I want to use a 2D sensor like a camera everything changes.
 Since a camera sensor generates tons of data a faster more resourceful computer is
 required to process the sensor data. Now, with this faster more powerful computer
-you can definately do many more things. But, what if my goal were still to just
+you can definitely do many more things. But, what if my goal were still to just
 turn on an LED? Spin a motor? Or open a valve? Could I still get the Arduino
 like experience with a camera sensor?
 

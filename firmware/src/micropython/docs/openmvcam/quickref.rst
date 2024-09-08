@@ -40,7 +40,7 @@ General OpenMV Cams Board Control
 ---------------------------------
 
 All OpenMV Cams can use the `machine` module to control the camera hardware. Please refer to the
-pinout image for which SPI/I2C/UART/CAN/PWM/TIMER channels are avialable on what I/O pins.
+pinout image for which SPI/I2C/UART/CAN/PWM/TIMER channels are available on what I/O pins.
 
 Delay and timing
 ^^^^^^^^^^^^^^^^
