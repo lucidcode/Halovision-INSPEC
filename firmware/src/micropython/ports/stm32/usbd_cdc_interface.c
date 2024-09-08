@@ -47,6 +47,8 @@
 #include "extmod/modmachine.h"
 #include "shared/runtime/interrupt_char.h"
 #include "irq.h"
+#include "usb.h"
+#include "usbdbg.h"
 
 #if MICROPY_HW_ENABLE_USB
 
@@ -73,9 +75,7 @@
 #define IDE_BAUDRATE_SLOW    (921600)
 #define IDE_BAUDRATE_FAST    (12000000)
 
-extern void usbdbg_data_in(void *buffer, int length);
-extern void usbdbg_data_out(void *buffer, int length);
-extern void usbdbg_control(void *buffer, uint8_t brequest, uint32_t wlength);
+void usb_cdc_reset_buffers(void);
 
 // Used to control the connect_state variable when USB host opens the serial port
 static uint8_t usbd_cdc_connect_tx_timer;
@@ -157,7 +157,7 @@ int8_t usbd_cdc_control(usbd_cdc_state_t *cdc_in, uint8_t cmd, uint8_t *pbuf, ui
                 MICROPY_BOARD_ENTER_BOOTLOADER(0, 0);
             }
             #endif
-            usbd_cdc_reset_buffers(cdc);
+            usb_cdc_reset_buffers();
             break;
         }
 
@@ -207,7 +207,7 @@ int8_t usbd_cdc_control(usbd_cdc_state_t *cdc_in, uint8_t cmd, uint8_t *pbuf, ui
     return USBD_OK;
 }
 
-static void send_packet(usbd_cdc_itf_t *cdc);
+static void usbd_cdc_send_packet(usbd_cdc_itf_t *cdc);
 
 static inline uint16_t usbd_cdc_tx_buffer_mask(uint16_t val) {
     return val & (MICROPY_HW_USB_CDC_TX_DATA_SIZE - 1);
@@ -255,10 +255,10 @@ void usbd_cdc_tx_ready(usbd_cdc_state_t *cdc_in) {
 
     if (cdc->dbg_mode_enabled == 1) {
         if (cdc->dbg_xfer_length) {
-            send_packet(cdc);
+            usbd_cdc_send_packet(cdc);
         } else if (cdc->dbg_last_packet == CDC_DATA_MAX_PACKET_SIZE) {
             cdc->dbg_last_packet = 0;
-            USBD_CDC_TransmitPacket(&cdc->base, 0, cdc->dbg_xfer_buffer);
+            USBD_CDC_TransmitPacket(&cdc->base, 0, NULL); // ZLP
         }
         return;
     } 
@@ -339,7 +339,8 @@ void usbd_cdc_rx_check_resume(usbd_cdc_itf_t *cdc) {
     enable_irq(irq_state);
 }
 
-uint32_t usbd_cdc_buf_len(usbd_cdc_itf_t *cdc) {
+uint32_t usb_cdc_buf_len(void) {
+    usbd_cdc_itf_t *cdc = usb_vcp_get(0);
     cdc->tx_buf_ptr_out = cdc->tx_buf_ptr_out_next;
     if (usbd_cdc_tx_buffer_empty(cdc)) {
         return 0;
@@ -347,13 +348,29 @@ uint32_t usbd_cdc_buf_len(usbd_cdc_itf_t *cdc) {
     return usbd_cdc_tx_send_length(cdc);
 }
 
-uint32_t usbd_cdc_get_buf(usbd_cdc_itf_t *cdc, uint8_t *buf, uint32_t len) {
+uint32_t usb_cdc_get_buf(uint8_t *buf, uint32_t len) {
+    usbd_cdc_itf_t *cdc = usb_vcp_get(0);
     cdc->tx_buf_ptr_out = cdc->tx_buf_ptr_out_next;
     memcpy(buf, usbd_cdc_tx_buffer_getp(cdc, len), len);
     return len;
 }
 
-void usbd_cdc_reset_buffers(usbd_cdc_itf_t *cdc) {
+uint32_t usb_cdc_read(void *buf, uint32_t len) {
+    usbd_cdc_itf_t *cdc = usb_vcp_get(0);
+    memcpy(buf, cdc->rx_packet_buf, len);
+    return len;
+}
+
+uint32_t usb_cdc_write(const void *buf, uint32_t len) {
+    usbd_cdc_itf_t *cdc = usb_vcp_get(0);
+    memcpy(cdc->dbg_xfer_buffer, buf, len);
+    USBD_CDC_TransmitPacket(&cdc->base, len, cdc->dbg_xfer_buffer);
+    return len;
+}
+
+void usb_cdc_reset_buffers(void) {
+    usbd_cdc_itf_t *cdc = usb_vcp_get(0);
+
     cdc->tx_buf_ptr_in = 0;
     cdc->tx_buf_ptr_out = 0;
     cdc->tx_buf_ptr_out_next = 0;
@@ -370,12 +387,16 @@ void usbd_cdc_reset_buffers(usbd_cdc_itf_t *cdc) {
     }
 }
 
-static void send_packet(usbd_cdc_itf_t *cdc) {
+int usb_cdc_debug_mode_enabled() {
+    usbd_cdc_itf_t *cdc = usb_vcp_get(0);
+    return cdc->dbg_mode_enabled;
+}
+
+static void usbd_cdc_send_packet(usbd_cdc_itf_t *cdc) {
     int bytes = MIN(cdc->dbg_xfer_length, CDC_DATA_MAX_PACKET_SIZE);
     cdc->dbg_last_packet = bytes;
-    usbdbg_data_in(cdc->dbg_xfer_buffer, bytes);
     cdc->dbg_xfer_length -= bytes;
-    USBD_CDC_TransmitPacket(&cdc->base, bytes, cdc->dbg_xfer_buffer);
+    usbdbg_data_in(bytes, usb_cdc_write);
 }
 
 // Data received over USB OUT endpoint is processed here.
@@ -386,14 +407,14 @@ int8_t usbd_cdc_receive(usbd_cdc_state_t *cdc_in, size_t len) {
 
     if (cdc->dbg_mode_enabled == 1) {
         if (cdc->dbg_xfer_length) {
-            usbdbg_data_out(cdc->rx_packet_buf, len);
+            usbdbg_data_out(len, usb_cdc_read);
             cdc->dbg_xfer_length -= len;
         } else if (cdc->rx_packet_buf[0] == '\x30') { // command
             uint8_t request = cdc->rx_packet_buf[1];
             cdc->dbg_xfer_length = *((uint32_t*)(cdc->rx_packet_buf+2));
             usbdbg_control(cdc->rx_packet_buf+6, request, cdc->dbg_xfer_length);
             if (cdc->dbg_xfer_length && (request & 0x80)) { //request has a device-to-host data phase
-                send_packet(cdc); //prime tx buffer
+                usbd_cdc_send_packet(cdc); //prime tx buffer
             }
         }
     } else {
@@ -456,7 +477,7 @@ int usbd_cdc_tx(usbd_cdc_itf_t *cdc, const uint8_t *buf, uint32_t len, uint32_t 
                 // timeout
                 return i;
             }
-            if (query_irq() == IRQ_STATE_DISABLED) {
+            if ((query_irq() == IRQ_STATE_DISABLED) || (!usbdbg_get_irq_enabled())) {
                 // IRQs disabled so buffer will never be drained; return immediately
                 return i;
             }
@@ -493,7 +514,7 @@ void usbd_cdc_tx_always(usbd_cdc_itf_t *cdc, const uint8_t *buf, uint32_t len) {
                     // The USB is suspended so buffer will never be drained; exit loop
                     break;
                 }
-                if (query_irq() == IRQ_STATE_DISABLED) {
+                if ((query_irq() == IRQ_STATE_DISABLED) || (!usbdbg_get_irq_enabled())) {
                     // IRQs disabled so buffer will never be drained; exit loop
                     break;
                 }
@@ -537,7 +558,7 @@ int usbd_cdc_rx(usbd_cdc_itf_t *cdc, uint8_t *buf, uint32_t len, uint32_t timeou
                 // timeout
                 return i;
             }
-            if (query_irq() == IRQ_STATE_DISABLED) {
+            if ((query_irq() == IRQ_STATE_DISABLED) || (!usbdbg_get_irq_enabled())) {
                 // IRQs disabled so buffer will never be filled; return immediately
                 return i;
             }

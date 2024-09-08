@@ -66,11 +66,11 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: release()
+   .. method:: release() -> None
 
    Unlock the mutex.
 
-   .. method:: test()
+   .. method:: test() -> bool
 
    Try to acquire the mutex in a non-blocking way. Return ``True`` on success and ``False`` on failure.
 

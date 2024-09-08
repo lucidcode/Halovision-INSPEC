@@ -18,11 +18,11 @@ Constructors
 Methods
 -------
 
-.. method:: ST7701.init(display_controller)
+.. method:: ST7701.init(display_controller) -> None
 
    Initializes the display using the display controller which must provide `display.DSIDisplay.bus_write()` and
    `display.DSIDisplay.bus_read()` methods.
 
-.. method:: ST7701.read_id()
+.. method:: ST7701.read_id() -> int
 
    Returns the display id.

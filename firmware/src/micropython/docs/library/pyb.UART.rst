@@ -57,7 +57,7 @@ Constructors
 
      - ``UART(3)``: ``(TX, RX) = (P4, P5) = (PB10, PB11)``
 
-   The physical pins of the UART busses are for the OpenMV Cam M7 and H7:
+   The physical pins of the UART buses are for the OpenMV Cam M7 and H7:
 
      - ``UART(1)``: ``(TX, RX) = (P1, P0) = (PB14, PB15)``
      - ``UART(3)``: ``(TX, RX) = (P4, P5) = (PB10, PB11)``

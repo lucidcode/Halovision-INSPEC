@@ -11,6 +11,7 @@
 # Export Commands
 export Q
 export CC
+export CLANG
 export CXX
 export AS
 export LD
@@ -33,6 +34,7 @@ export CFLAGS
 export AFLAGS
 export LDFLAGS
 export MPY_CFLAGS
+export USERMOD_OPT
 
 # Export variables
 export TARGET
@@ -40,6 +42,7 @@ export FIRMWARE
 export SYSTEM
 export STARTUP
 export MICROPY_ARGS
+export VELA_ARGS
 export FROZEN_MANIFEST
 
 # Export board config variables

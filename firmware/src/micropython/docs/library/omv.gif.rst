@@ -36,7 +36,7 @@ Example usage::
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: Gif(filename, [width, [height, [color, [loop=True]]]])
+.. class:: Gif(filename:str, width:Optional[int]=None, height:Optional[int]=None, color:Optional[bool]=None, loop=True)
 
    Create a Gif object which you can add frames to. ``filename`` is the path to
    save the gif recording to.
@@ -58,27 +58,27 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: width()
+   .. method:: width() -> int
 
       Returns the width (horizontal resolution) for the gif object.
 
-   .. method:: height()
+   .. method:: height() -> int
 
       Returns the height (vertical resolution) for the gif object.
 
-   .. method:: format()
+   .. method:: format() -> int
 
       Returns `sensor.RGB565` if color is True or `sensor.GRAYSCALE` if not.
 
-   .. method:: size()
+   .. method:: size() -> int
 
       Returns the file size of the gif so far. This value is updated after adding frames.
 
-   .. method:: loop()
+   .. method:: loop() -> bool
 
       Returns if the gif object had loop set in its constructor.
 
-   .. method:: add_frame(image, [delay=10])
+   .. method:: add_frame(image:image.Image, delay=10) -> None
 
       Add an image to the gif recording. The image width, height, and color mode,
       must be equal to the same width, height, and color modes used in the constructor
@@ -87,7 +87,7 @@ Constructors
       ``delay`` is the number of centi-seconds to wait before displaying this frame
       after the previous frame (if not the first frame).
 
-   .. method:: close()
+   .. method:: close() -> None
 
       Finalizes the gif recording. This method must be called once the recording
       is complete to make the file viewable.

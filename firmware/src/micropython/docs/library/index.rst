@@ -98,10 +98,8 @@ the following libraries.
    btree.rst
    cryptolib.rst
    deflate.rst
-   framebuf.rst
    machine.rst
    micropython.rst
-   neopixel.rst
    network.rst
    openamp.rst
    uctypes.rst
@@ -122,11 +120,10 @@ The following libraries are specific to the OpenMV Cam.
    stm.rst
    omv.sensor.rst
    omv.image.rst
-   omv.tf.rst
+   omv.ml.rst
    omv.gif.rst
    omv.mjpeg.rst
    omv.audio.rst
-   omv.micro_speech.rst
    omv.display.rst
    omv.fir.rst
    omv.tv.rst
@@ -178,12 +175,6 @@ Examples scripts are located in OpenMV IDE under the ``IMU Shield`` examples fol
    :synopsis: Stepper Motor Driver
 
 Examples scripts are located in OpenMV IDE under the ``Motor Shield`` examples folder.
-
-:mod:`lsm6dsox` --- `lsm6dsox Driver <https://github.com/openmv/openmv/blob/master/scripts/libraries/lsm6dsox.py>`_
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. module:: lsm6dsox
-   :synopsis: lsm6dsox Driver
 
 :mod:`modbus` --- `modbus protocol library <https://github.com/openmv/openmv/blob/master/scripts/libraries/modbus.py>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

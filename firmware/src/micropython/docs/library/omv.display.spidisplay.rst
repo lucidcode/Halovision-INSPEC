@@ -24,7 +24,7 @@ Example usage for driving the 128x160 LCD shield::
 Constructors
 ------------
 
-.. class:: SPIDisplay([width=128, [height=160, [refresh=60, [bgr=False, [byte_swap=False, [triple_buffer, [controller, [backlight]]]]]]]])
+.. class:: SPIDisplay(width=128, height=160, refresh=60, bgr=False, byte_swap=False, triple_buffer, controller, backlight)
 
     ``width`` SPI LCD width. By default this is 128 to match the OpenMV 128x160 LCD shield.
 
@@ -53,35 +53,35 @@ Constructors
 Methods
 -------
 
-.. method:: SPIDisplay.deinit()
+.. method:: SPIDisplay.deinit() -> None
 
    Releases the I/O pins and RAM used by the class. This is called automatically on destruction.
 
-.. method:: SPIDisplay.width()
+.. method:: SPIDisplay.width() -> int
 
    Returns the width of the screen.
 
-.. method:: SPIDisplay.height()
+.. method:: SPIDisplay.height() -> int
 
    Returns the height of the screen.
 
-.. method:: SPIDisplay.refresh()
+.. method:: SPIDisplay.refresh() -> int
 
    Returns the refresh rate.
 
-.. method:: SPIDisplay.bgr()
+.. method:: SPIDisplay.bgr() -> bool
 
    Returns if the red and blue channels are swapped.
 
-.. method:: SPIDisplay.byte_swap()
+.. method:: SPIDisplay.byte_swap() -> bool
 
    Returns if the RGB565 pixels are displayed byte reversed.
 
-.. method:: SPIDisplay.triple_buffer()
+.. method:: SPIDisplay.triple_buffer() -> bool
 
    Returns if triple buffering is enabled.
 
-.. method:: SPIDisplay.write(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]]]]])
+.. method:: SPIDisplay.write(image:image.Image, x=0, y=0, x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0)
 
    Displays an ``image`` whose top-left corner starts at location x, y.
 
@@ -134,7 +134,7 @@ Methods
       * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
       * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
-.. method:: SPIDisplay.clear([display_off=False])
+.. method:: SPIDisplay.clear(display_off=False) -> None
 
    Clears the lcd screen to black.
 
@@ -142,7 +142,7 @@ Methods
    frame buffer to black. You should also turn off the backlight too after this to ensure the
    screen goes to black as many displays are white when only the backlight is on.
 
-.. method:: SPIDisplay.backlight([value])
+.. method:: SPIDisplay.backlight(value:Optional[int]=None) -> int
 
    Sets the lcd backlight dimming value. 0 (off) to 100 (on).
 
@@ -151,6 +151,6 @@ Methods
 
    Pass no arguments to get the state of the backlight value.
 
-.. method:: SPIDisplay.bus_write(cmd, [args=None])
+.. method:: SPIDisplay.bus_write(cmd:int, args=None) -> None
 
    Send the SPI Display ``cmd`` with ``args``.

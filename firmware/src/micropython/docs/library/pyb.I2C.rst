@@ -66,11 +66,11 @@ Constructors
    the bus, if any).  If extra arguments are given, the bus is initialised.
    See ``init`` for parameters of initialisation.
 
-   The physical pins of the I2C busses on the OpenMV Cam are:
+   The physical pins of the I2C buses on the OpenMV Cam are:
 
      - ``I2C(2)`` is on the Y position: ``(SCL, SDA) = (P4, P5) = (PB10, PB11)``
 
-   The physical pins of the I2C busses on the OpenMV Cam M7 are:
+   The physical pins of the I2C buses on the OpenMV Cam M7 are:
 
      - ``I2C(2)`` is on the Y position: ``(SCL, SDA) = (P4, P5) = (PB10, PB11)``
      - ``I2C(4)`` is on the Y position: ``(SCL, SDA) = (P7, P8) = (PD12, PD13)``

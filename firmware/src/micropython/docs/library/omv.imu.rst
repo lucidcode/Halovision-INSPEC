@@ -14,7 +14,7 @@ IMU sensor under the camera sensor.
 Functions
 ---------
 
-.. function:: acceleration_mg()
+.. function:: acceleration_mg() -> Tuple[float, float, float]
 
    Returns the acceleration for (x, y, z) in a float tuple in milli-g's.
 
@@ -24,7 +24,7 @@ Functions
    Y points down below the camera sensor (towards the bottom on the board)
    Z points in the reverse direction of the camera sensor (into the table)
 
-.. function:: angular_rate_mdps()
+.. function:: angular_rate_mdps() -> Tuple[float, float, float]
 
    Returns the angular rate for (x, y, z) in a float tuple in milli-degrees-per-second.
 
@@ -34,20 +34,20 @@ Functions
    Y points down below the camera sensor (towards the bottom on the board)
    Z points in the reverse direction of the camera sensor (into the table)
 
-.. function:: temperature_c()
+.. function:: temperature_c() -> float
 
    Returns the temperature in celsius (float).
 
-.. function:: roll()
+.. function:: roll() -> float
 
    Returns the rotation angle in degrees (float) of the camera module.
 
       * 0 -> Camera is standing up.
-      * 90 -> Camera is roated left.
+      * 90 -> Camera is rotated left.
       * 180 -> Camera is upside down.
       * 270 -> Camera is rotated right.
 
-.. function:: pitch()
+.. function:: pitch() -> float
 
    Returns the rotation angle in degrees (float) of the camera module.
 
@@ -56,14 +56,14 @@ Functions
       * 180 -> Camera is upside down.
       * 270 -> Camera is pointing up.
 
-.. function:: sleep(enable)
+.. function:: sleep(enable:bool) -> None
 
    Pass ``True`` to put the IMU sensor to sleep. ``False`` to wake it back up (the default).
 
-.. function:: __write_reg(addr, val)
+.. function:: __write_reg(addr:int, val:int) -> None
 
    Set 8-bit LSM6DS3 register ``addr`` to 8-bit ``val``.
 
-.. function:: __read_reg(addr)
+.. function:: __read_reg(addr:int) -> int
 
    Get 8-bit LSM6DS3 register ``addr``.

@@ -49,11 +49,7 @@ jobs:
         submodules: false
         path: tflite-micro
         repository: tensorflow/tflite-micro
-        ref: 7a0249686f412551634a5058ddd6d2ec3f224203
-
-    - name: '🩹 Apply patches'
-      run: |
-        git apply --verbose --directory=tflite-micro ${GITHUB_WORKSPACE}/patches/tflite_micro.patch
+        ref: a57349f0bc3bc3ded105238fe2f14c36888d42b0
 
     - name: '♻ Caching dependencies'
       uses: actions/cache@v4.0.2

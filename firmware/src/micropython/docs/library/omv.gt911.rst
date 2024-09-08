@@ -21,22 +21,22 @@ Basic polling mode example usage::
 Constructors
 ------------
 
-.. class:: gt911.GT911(bus, reset_pin, irq_pin, [address=0x5D, [width=800, [height=480, [touch_points=1, [reserve_x=False, [reserve_y=False, [reverse_axis=True, [stio=True, [refresh_rate=240, [touch_callback=None]]]]]]]]]])
+.. class:: gt911.GT911(bus:int, reset_pin, irq_pin, address=0x5D, width=800, height=480, touch_points=1, reserve_x=False, reserve_y=False, reverse_axis=True, stio=True, refresh_rate=240, touch_callback=None)
 
    Creates a touch screen controller object. You should initialize it according to the example above.
 
 Methods
 -------
 
-.. method:: GT911._read_reg(reg, [size=1, [buf=None]])
+.. method:: GT911._read_reg(reg:int, size=1, buf=None)
 
    Reads a register value.
 
-.. method:: GT911._write_reg(reg, val, [size=1])
+.. method:: GT911._write_reg(reg:int, val:int, size=1)
 
    Writes a register value.
 
-.. method:: GT911.read_id()
+.. method:: GT911.read_id() -> int
 
    Returns the ID of the gt911 chip.
 
@@ -46,6 +46,6 @@ Methods
    an x[0], y[1], size[2], and id[3]. x/y are the position on screen. Size is the amount of pressure
    applied. And id is a unique id per point which should correlate to the same point over reads.
 
-.. method:: GT911.reset()
+.. method:: GT911.reset() -> None
 
    Resets the gt911 chip.

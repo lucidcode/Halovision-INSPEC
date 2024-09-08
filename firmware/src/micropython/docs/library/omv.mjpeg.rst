@@ -38,7 +38,7 @@ Example usage::
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: Mjpeg(filename, [width, [height]])
+.. class:: Mjpeg(filename:str, width:Optional[int]=None, height:Optional[int]=None)
 
    Create a Mjpeg object which you can add frames to. ``filename`` is the path to
    save the mjpeg recording to.
@@ -52,27 +52,27 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: is_closed()
+   .. method:: is_closed() -> bool
 
       Return True if the file was closed. You cannot write more data to a closed file.
 
-   .. method:: width()
+   .. method:: width() -> int
 
       Returns the width (horizontal resolution) for the mjpeg file.
 
-   .. method:: height()
+   .. method:: height() -> int
 
       Returns the height (vertical resolution) for the mjpeg file.
 
-   .. method:: count()
+   .. method:: count() -> int
 
       Returns the number of frames in the mjpeg file.
 
-   .. method:: size()
+   .. method:: size() -> int
 
       Returns the file size in bytes of the mjpeg so far. This value is updated after adding frames.
 
-   .. method:: add_frame(image, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [quality=90]]]]]]])
+   .. method:: add_frame(image:image.Image, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, quality=90)
 
       Add an image to the mjpeg recording. The added image is automatically scaled up/down while
       preserving the aspect-ratio to the resolution specified when the mjpeg file was created.
@@ -124,7 +124,7 @@ Constructors
 
       Returns the object.
 
-   .. method:: write(image, [quality=90, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]])
+   .. method:: write(image:image.Image, quality=90, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0)
 
       Alias for `Mjpeg.add_frame()`.
 

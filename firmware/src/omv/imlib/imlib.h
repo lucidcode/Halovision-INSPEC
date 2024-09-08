@@ -29,6 +29,7 @@
 #include "collections.h"
 #include "imlib_config.h"
 #include "omv_boardconfig.h"
+#include "omv_common.h"
 
 // Enables 38 TensorFlow Lite operators.
 #define IMLIB_TF_DEFAULT        (1)
@@ -383,11 +384,22 @@ typedef enum {
 } pixformat_id_t;
 
 // Pixel sub-format IDs.
+// YUV422 matches the YUV pattern of YUYV...
+// YVU422 matches the YUV pattern of YVYU...
+//
+// BGGR matches the bayer pattern of BGBG...
+//                                   GRGR...
+// GBRG matches the bayer pattern of GBGB...
+//                                   RGRG...
+// GRBG matches the bayer pattern of GRGR...
+//                                   BGBG...
+// RGGB matches the bayer pattern of RGRG...
+// Note: The bayer sub-format must not overflow sensor.cfa_format.
 typedef enum {
     SUBFORMAT_ID_GRAY8  = 0,
     SUBFORMAT_ID_GRAY16 = 1,
-    SUBFORMAT_ID_BGGR   = 0,     // !!! Note: Make sure bayer sub-formats don't  !!!
-    SUBFORMAT_ID_GBRG   = 1,     // !!! overflow the sensor.hw_flags.bayer field !!!
+    SUBFORMAT_ID_BGGR   = 0,
+    SUBFORMAT_ID_GBRG   = 1,
     SUBFORMAT_ID_GRBG   = 2,
     SUBFORMAT_ID_RGGB   = 3,
     SUBFORMAT_ID_YUV422 = 0,
@@ -1136,18 +1148,7 @@ typedef struct imlib_draw_row_data {
     void *callback; // user
     void *callback_arg; // user
     void *dst_row_override; // user
-    int toggle; // private
-    void *row_buffer[2]; // private
-    #ifdef IMLIB_ENABLE_DMA2D
-    bool dma2d_request; // user
-    bool dma2d_enabled; // private
-    bool dma2d_initialized; // private
-    DMA2D_HandleTypeDef dma2d; // private
-    #if __DCACHE_PRESENT
-    void *dma2d_invalidate_addr; // private
-    int32_t dma2d_invalidate_dsize; // private
-    #endif
-    #endif
+    void *row_buffer; // private
     long smuad_alpha; // private
     uint32_t *smuad_alpha_palette; // private
 } imlib_draw_row_data_t;
@@ -1164,8 +1165,10 @@ void imlib_fill_image_from_float(image_t *img, int w, int h, float *data, float 
 
 // Bayer Image Processing
 pixformat_t imlib_bayer_shift(pixformat_t pixfmt, int x, int y, bool transpose);
+void imlib_debayer_ycbcr(image_t *src, rectangle_t *roi, int8_t *Y0, int8_t *CB, int8_t *CR);
 void imlib_debayer_line(int x_start, int x_end, int y_row, void *dst_row_ptr, pixformat_t pixfmt, image_t *src);
 void imlib_debayer_image(image_t *dst, image_t *src);
+void imlib_debayer_image_awb(image_t *dst, image_t *src, bool fast, uint32_t r_out, uint32_t g_out, uint32_t b_out);
 
 // YUV Image Processing
 pixformat_t imlib_yuv_shift(pixformat_t pixfmt, int x);
@@ -1316,11 +1319,6 @@ void imlib_find_hog(image_t *src, rectangle_t *roi, int cell_size);
 void imlib_zero(image_t *img, image_t *mask, bool invert);
 void imlib_draw_row_setup(imlib_draw_row_data_t *data);
 void imlib_draw_row_teardown(imlib_draw_row_data_t *data);
-#ifdef IMLIB_ENABLE_DMA2D
-void imlib_draw_row_deinit_all();
-#endif
-void *imlib_draw_row_get_row_buffer(imlib_draw_row_data_t *data);
-void imlib_draw_row_put_row_buffer(imlib_draw_row_data_t *data, void *row_buffer);
 void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data);
 void imlib_draw_image_get_bounds(image_t *dst_img,
                                  image_t *src_img,
@@ -1389,15 +1387,12 @@ void imlib_zero_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data
 void imlib_mask_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
 void imlib_binary(image_t *out, image_t *img, list_t *thresholds, bool invert, bool zero, image_t *mask);
 void imlib_invert(image_t *img);
-void imlib_b_and_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
-void imlib_b_and(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_b_nand(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_b_or_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
-void imlib_b_or(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_b_nor(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_b_xor_line_op(image_t *img, int line, void *other, void *data, bool vflipped);
-void imlib_b_xor(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_b_xnor(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
+void imlib_b_and_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_b_nand_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_b_or_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_b_nor_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_b_xor_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_b_xnor_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
 void imlib_erode(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_dilate(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_open(image_t *img, int ksize, int threshold, image_t *mask);
@@ -1405,20 +1400,12 @@ void imlib_close(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_top_hat(image_t *img, int ksize, int threshold, image_t *mask);
 void imlib_black_hat(image_t *img, int ksize, int threshold, image_t *mask);
 // Math Functions
-void imlib_replace(image_t *img,
-                   const char *path,
-                   image_t *other,
-                   int scalar,
-                   bool hmirror,
-                   bool vflip,
-                   bool transpose,
-                   image_t *mask);
-void imlib_add(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_sub(image_t *img, const char *path, image_t *other, int scalar, bool reverse, image_t *mask);
-void imlib_min(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_max(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_difference(image_t *img, const char *path, image_t *other, int scalar, image_t *mask);
-void imlib_blend(image_t *img, const char *path, image_t *other, int scalar, float alpha, image_t *mask);
+void imlib_add_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_sub_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_rsub_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_min_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_max_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
+void imlib_difference_line_op(int x, int x_end, int y_row, imlib_draw_row_data_t *data);
 // Filtering Functions
 void imlib_histeq(image_t *img, image_t *mask);
 void imlib_clahe_histeq(image_t *img, float clip_limit, image_t *mask);

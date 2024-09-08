@@ -28,6 +28,7 @@ SRCS += $(addprefix common/,    \
 	file_utils.c                \
 	mp_utils.c                  \
 	sensor_utils.c              \
+	nosys_stubs.c               \
    )
 
 SRCS += $(addprefix sensors/,   \
@@ -108,6 +109,10 @@ SRCS += $(addprefix imlib/,     \
 SRCS += $(wildcard ports/$(PORT)/*.c)
 
 OBJS = $(addprefix $(BUILD)/, $(SRCS:.c=.o))
+ifeq ($(USE_CLANG),1)
+CLANG_OBJS = $(BUILD)/imlib/bayer.o
+endif
+
 OBJ_DIRS = $(sort $(dir $(OBJS)))
 
 all: | $(OBJ_DIRS) $(OBJS)
@@ -121,6 +126,11 @@ $(BUILD)/%.o : %.c
 $(BUILD)/%.o : %.s
 	$(ECHO) "AS $<"
 	$(AS) $(AFLAGS) $< -o $@
+
+# Rule for compiling with clang
+$(CLANG_OBJS): $(BUILD)/%.o : %.c
+	$(ECHO) "CL $<"
+	$(CLANG) $(CLANG_FLAGS) -c -o $@ $<
 
 $(BUILD)/imlib/fmath.o: override CFLAGS += -fno-strict-aliasing
 

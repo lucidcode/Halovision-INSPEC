@@ -37,7 +37,6 @@
 
 // Debugging configuration.
 #define OMV_TUSBDBG_ENABLE         (1)
-#define OMV_TUSBDBG_PACKET         (64)
 #define OMV_TUSBDBG_BUFFER         (512)
 
 // UMM heap block size
@@ -56,7 +55,7 @@
 #define OMV_FB_ALLOC_SIZE          (16K)  // minimum fb alloc size
 #define OMV_GC_BLOCK0_MEMORY       SRAM   // Main GC block.
 #define OMV_GC_BLOCK0_SIZE         (64K)
-#define OMV_JPEG_SIZE              (16 * 1024) // IDE JPEG buffer (header + data).
+#define OMV_JPEG_SIZE              (16K) // IDE JPEG buffer (header + data).
 
 #define OMV_TEXT_ORIGIN            0x00026000
 #define OMV_FFS_LENGTH             64K

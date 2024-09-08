@@ -24,7 +24,7 @@ Example usage::
 Functions
 ---------
 
-.. function:: init([type=tv.TV_SHIELD, [triple_buffer=False]])
+.. function:: init(type=TV_SHIELD, triple_buffer=False) -> None
 
    Initializes an attached tv output module.
 
@@ -36,36 +36,36 @@ Functions
     ``triple_buffer`` If True then makes updates to the screen non-blocking in `tv.TV_SHIELD`
     mode at the cost of 3X the display RAM (495 KB).
 
-.. function:: deinit()
+.. function:: deinit() -> None
 
    Deinitializes the tv module, internal/external hardware, and I/O pins.
 
-.. function:: width()
+.. function:: width() -> int
 
    Returns 352 pixels. This is the `sensor.SIF` resolution.
 
-.. function:: height()
+.. function:: height() -> int
 
    Returns 240 pixels. This is the `sensor.SIF` resolution.
 
-.. function:: type()
+.. function:: type() -> int
 
    Returns the type of the screen that was set during `tv.init()`.
 
-.. function:: triple_buffer()
+.. function:: triple_buffer() -> bool
 
    Returns if triple buffering is enabled that was set during `tv.init()`.
 
-.. function:: refresh()
+.. function:: refresh() -> None
 
    Returns 60 Hz.
 
-.. function:: channel([channel])
+.. function:: channel(channel:Optional[int]=None) -> int
 
    For the wireless TV shield this sets the broadcast channel between 1-8. If passed without a channel
    argument then this method returns the previously set channel (1-8). Default is channel 8.
 
-.. function:: display(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]]]]])
+.. function:: display(image:image.Image, x=0, y=0, x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0)
 
    Displays an ``image`` whose top-left corner starts at location x, y.
 
@@ -119,9 +119,11 @@ Constants
 ---------
 
 .. data:: TV_NONE
+   :type: int
 
    Returned by `tv.type()` when the this module is not initialized.
 
 .. data:: TV_SHIELD
+   :type: int
 
    Used to initialize the TV module.

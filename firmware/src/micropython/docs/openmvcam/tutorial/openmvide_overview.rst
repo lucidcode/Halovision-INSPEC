@@ -60,7 +60,7 @@ text for the replace. Additionally, it also can preserve case while replacing.
 Finally, the find and replace features works not only on the current file, but,
 it can work on all files in a folder or all open files in OpenMV IDE.
 
-In addition to the nice text editing enviornment OpenMV IDE also provides
+In addition to the nice text editing environment OpenMV IDE also provides
 auto-completion support hover tool-tips on keywords. So, after typing ``.`` for
 example in Python OpenMV IDE will detect that you're about to write a function
 or method name and it will show you an auto-completion text box. Once you've
@@ -353,7 +353,7 @@ your computer first before playing them since disk I/O over USB on your OpenMV
 Cam is slow.
 
 Finally, FFMPEG is used to provide conversion and video player support and may
-be used for any non-OpenMV Cam activites you like. FFMPEG can convert/play
+be used for any non-OpenMV Cam activities you like. FFMPEG can convert/play
 a large number of file formats.
 
     *

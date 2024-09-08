@@ -24,7 +24,7 @@ Example usage for driving the 800x480 24-bit Parallel LCD::
 Constructors
 ------------
 
-.. class:: display.RGBDisplay([framesize=display.FWVGA, [refresh=60, [display_on=True, [portrait=False, [controller, [backlight]]]]]])
+.. class:: display.RGBDisplay(framesize=FWVGA, refresh=60, display_on=True, portrait=False, controller, backlight)
 
     ``framesize`` One of the standard supported resolutions.
 
@@ -44,23 +44,23 @@ Constructors
 Methods
 -------
 
-.. method:: RGBDisplay.deinit()
+.. method:: RGBDisplay.deinit() -> None
 
    Releases the I/O pins and RAM used by the class. This is called automatically on destruction.
 
-.. method:: RGBDisplay.width()
+.. method:: RGBDisplay.width() -> int
 
    Returns the width of the screen.
 
-.. method:: RGBDisplay.height()
+.. method:: RGBDisplay.height() -> int
 
    Returns the height of the screen.
 
-.. method:: RGBDisplay.refresh()
+.. method:: RGBDisplay.refresh() -> int
 
    Returns the refresh rate.
 
-.. method:: RGBDisplay.write(image, [x=0, [y=0, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]]]]])
+.. method:: RGBDisplay.write(image:image.Image, x=0, y=0, x_scale=1.0, y_scale=1.0, roi=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0) -> None
 
    Displays an ``image`` whose top-left corner starts at location x, y.
 
@@ -113,7 +113,7 @@ Methods
       * `image.ROTATE_180`: Rotate the image by 180 degrees (this is just HMIRROR | VFLIP).
       * `image.ROTATE_270`: Rotate the image by 270 degrees (this is just HMIRROR | TRANSPOSE).
 
-.. method:: RGBDisplay.clear([display_off=False])
+.. method:: RGBDisplay.clear(display_off=False) -> None
 
    Clears the lcd screen to black.
 
@@ -121,7 +121,7 @@ Methods
    frame buffer to black. You should also turn off the backlight too after this to ensure the
    screen goes to black as many displays are white when only the backlight is on.
 
-.. method:: RGBDisplay.backlight([value])
+.. method:: RGBDisplay.backlight(value:Optional[int]=None) -> int
 
    Sets the lcd backlight dimming value. 0 (off) to 100 (on).
 

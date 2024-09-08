@@ -5,7 +5,7 @@
 /* Adds a section to a table */
 #define OMV_ADD_SECTION(s) \
   LONG (ADDR(s)) \
-  LONG (SIZEOF(s) / 4)
+  LONG (SIZEOF(s))
 
 /* Aligns a section to the next power of 2. */
 #define OMV_ALIGN_DMA_SECTION(section) \
@@ -104,9 +104,10 @@ PROVIDE(__stack = __StackTop);
 .jpeg_memory (NOLOAD) :
 {
   . = ALIGN(4);
-  _jpeg_buf = .;
+  _jpeg_memory_start = .;
   . = . + OMV_JPEG_SIZE;
   . = ALIGN(4);
+  _jpeg_memory_end = .;
 } >OMV_JPEG_MEMORY
 #endif
 
@@ -119,6 +120,18 @@ PROVIDE(__stack = __StackTop);
   . = . + OMV_VOSPI_SIZE;
   . = ALIGN(4);
 } >OMV_VOSPI_MEMORY
+#endif
+
+/* GPU memory */
+#if defined(OMV_GPU_MEMORY)
+.gpu_memory (NOLOAD) :
+{
+  . = ALIGN(16);
+  _gpu_memory_start = .;
+  . = . + OMV_GPU_SIZE;
+  . = ALIGN(16);
+  _gpu_memory_end = .;
+} >OMV_GPU_MEMORY
 #endif
 
 /* Open-AMP Shared Memory Region */
@@ -148,14 +161,13 @@ PROVIDE(__stack = __StackTop);
 .fb_memory (NOLOAD) :
 {
   . = ALIGN(4);
-  _fb_base = .;
+  _fb_memory_start = .;
   . += OMV_FB_SIZE;
-
-  _fb_end = .;
-  . += OMV_FB_ALLOC_SIZE;
-
   . = ALIGN(4);
-  _fballoc = .;
+  _fb_memory_end = .;
+  . += OMV_FB_ALLOC_SIZE;
+  . = ALIGN(4);
+  _fb_alloc_end = .;
   . = ALIGN(4);
 } >OMV_FB_MEMORY
 #endif
@@ -195,10 +207,11 @@ PROVIDE(__stack = __StackTop);
   . = . + OMV_VFS_BUF_SIZE;
   #endif
 
-  #if !defined(OMV_JPEG_MEMORY)
+  #if defined(OMV_JPEG_SIZE) && !defined(OMV_JPEG_MEMORY)
   . = ALIGN(16);
-  _jpeg_buf = .;      // IDE JPEG buffer
+  _jpeg_memory_start = .;
   . = . + OMV_JPEG_SIZE;
+  _jpeg_memory_end = .;
   #endif
 
   /* FFS (internal) filesystem buffer */
