@@ -33,3 +33,13 @@ freeze ("$(OMV_LIB_DIR)/", "mutex.py")
 # Bluetooth
 require("aioble")
 freeze ("$(OMV_LIB_DIR)/", "ble_advertising.py")
+
+# INSPEC
+freeze ("$(TOP_DIR)/../../../../../../software", "ble.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "face.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "config.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "inspec.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "wifi.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "rem.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "led.py")
+freeze ("$(TOP_DIR)/../../../../../../software", "lsd.py")
