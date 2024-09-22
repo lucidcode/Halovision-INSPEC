@@ -40,7 +40,7 @@ sudo apt-get install git build-essential
 ```
 TOOLCHAIN_PATH=${HOME}/cache/gcc
 TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz"
-sudo mkdir ${TOOLCHAIN_PATH}
+mkdir -p ${TOOLCHAIN_PATH}
 wget --no-check-certificate -O - ${TOOLCHAIN_URL} | tar --strip-components=1 -Jx -C ${TOOLCHAIN_PATH}
 export PATH=${TOOLCHAIN_PATH}/bin:${PATH}
 ```
@@ -50,5 +50,5 @@ To build the firmware, run the following commands inside the openmv repository:
 ```bash
 cd firmware
 make -j$(nproc) -C src/micropython/mpy-cross
-make -j$(nproc) TARGET=INSPEC -C src
+make -j$(nproc) TARGET=OPENMV_INSPEC -C src
 ```
