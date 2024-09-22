@@ -76,11 +76,6 @@ int mp_init_filesystem(fs_user_mount_t *vfs) {
     f_write(&fp, fresh_main_py, sizeof(fresh_main_py) - 1 /* don't count null terminator */, &n);
     f_close(&fp);
 
-    // Create readme file
-    f_open(&vfs->fatfs, &fp, "/README.txt", FA_WRITE | FA_CREATE_ALWAYS);
-    f_write(&fp, fresh_readme_txt, sizeof(fresh_readme_txt) - 1 /* don't count null terminator */, &n);
-    f_close(&fp);
-
     return 0;
 }
 #endif
