@@ -254,9 +254,14 @@ class inspec_sensor:
             return
 
         if not self.stream.connected:
-            self.stream.start_server()
+            self.stream.start_server(0)
             if self.stream.error:
                 self.stream.error = None
                 self.comms.send_data(f'ip:{self.stream.ip}')
         else:
             self.stream.send_image(self.img)
+
+        if not self.stream.connected2 and self.config.get('SecondStream'):
+            self.stream.start_server(1)
+            if self.stream.error2:
+                self.stream.error2 = None

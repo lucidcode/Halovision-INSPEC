@@ -46,6 +46,7 @@ class inspec_config:
         self.default['GainCeiling'] = 16
         self.default['HorizontalMirror'] = 1
         self.default['VerticalFlip'] = 0
+        self.default['SecondStream'] = 0
 
         config_exists = False
         entries = os.listdir()
@@ -69,6 +70,7 @@ class inspec_config:
             if self.config[setting] != None:
                 return self.config[setting]
         except Exception as e:
+            self.config[setting] = self.default[setting]
             print(str(e))
 
         if self.default[setting] != None:
