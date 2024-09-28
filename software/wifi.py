@@ -6,7 +6,6 @@ import uselect as select
 class inspec_stream:
 
     def __init__(self, interface, ssid, password):
-        self.connected = False
         self.error = None
 
         if interface == "AccessPoint":
@@ -18,9 +17,10 @@ class inspec_stream:
         self.ip = self.wlan.ifconfig()[0]
         print("IP", self.ip)
 
-        self.server = None
-
-        self.start_server()
+        self.servers = [None, None]
+        self.clients = [None, None]
+        self.ports = [8080, 8082]
+        self.connected = [False, False]
 
     def start_access_point(self, ssid, password):
         self.wlan = network.WLAN(network.AP_IF)
@@ -40,44 +40,45 @@ class inspec_stream:
             if attempts > 10:
                 raise Exception("Failed to connect to " + ssid)
 
-    def start_server(self):
-        if self.server == None:
-            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+    def start_server(self, id):
+        if self.servers[id] == None:
+            self.servers[id] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.servers[id].setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
 
             host = ""
-            port = 8080
-            self.server.bind([host, port])
-            self.server.listen(1)
+            self.servers[id].bind([host, self.ports[id]])
+            self.servers[id].listen(1)
 
-            print(f'Waiting for connection on {self.ip}:{port}')
+            print(f'Waiting for connection on {self.ip}:{self.ports[id]}')
 
         try:
-            sockets, w, err = select.select((self.server,), (), (), 0)
+            sockets, w, err = select.select((self.servers[id],), (), (), 0)
+
             if sockets:
                 for entry in sockets:
-                    self.client, self.addr = self.server.accept()
-
+                    self.clients[id], addr = self.servers[id].accept()
+                    
                     try:
-                        self.client.settimeout(5.0)
-                        print("Connected to " + self.addr[0] + ":" + str(self.addr[1]))
-                        self.start_streaming()
+                        self.clients[id].settimeout(5.0)
+                        print("Connected to " + addr[0] + ":" + str(addr[1]))
+                        self.start_streaming(id)
+                        self.connected[id] = True
                     except OSError as e:
-                        self.connected = False
-                        self.client.close()
-                        print("client socket error:", e)
-                        self.start_server()
+                        self.connected[id] = False
+                        self.clients[id].close()
+                        print("client socket error:", id, e)
+                        self.start_server(id)
 
         except OSError as e:
-            self.connected = False
-            self.server.close()
-            self.server = None
             print("server socket error:", e)
-            self.start_server()
+            self.connected[id] = False
+            self.servers[id].close()
+            self.servers[id] = None
+            self.start_server(id)
 
-    def start_streaming(self):
-        data = self.client.recv(1024)
-        self.client.send(
+    def start_streaming(self, id):
+        data = self.clients[id].recv(1024)
+        self.clients[id].send(
             "HTTP/1.1 200 OK\r\n"
             "Server: INSPEC\r\n"
             "Access-Control-Allow-Origin: *\r\n"
@@ -85,10 +86,9 @@ class inspec_stream:
             "Cache-Control: no-cache\r\n"
             "Pragma: no-cache\r\n\r\n"
         )
-        self.connected = True
 
     def send_image(self, image):
-        if self.connected == False:
+        if self.connected[0] == False:
             return
 
         cframe = image.to_jpeg(quality=35, copy=True)
@@ -97,12 +97,20 @@ class inspec_stream:
             "Content-Type: image/jpeg\r\n"
             "Content-Length:" + str(cframe.size()) + "\r\n\r\n"
         )
+        self.send_data(0, cframe, header)
+        self.send_data(1, cframe, header)
+
+    def send_data(self, id, cframe, header):
+        if self.connected[id] == False:
+            return
 
         try:
-            self.client.sendall(header)
-            self.client.sendall(cframe)
+            self.clients[id].sendall(header)
+            self.clients[id].sendall(cframe)
         except OSError as e:
-            self.connected = False
-            self.start_server()
-            self.error = e
-            print("client socket error:", e)
+            self.connected[id] = False
+            self.start_server(id)
+
+            if id == 0:
+                self.error = e
+            print("client socket error", id, e)

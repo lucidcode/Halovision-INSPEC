@@ -253,10 +253,13 @@ class inspec_sensor:
         if not self.config.get('AccessPoint') and not self.config.get('WiFi'):
             return
 
-        if not self.stream.connected:
-            self.stream.start_server()
+        if not self.stream.connected[0]:
+            self.stream.start_server(0)
             if self.stream.error:
                 self.stream.error = None
                 self.comms.send_data(f'ip:{self.stream.ip}')
         else:
             self.stream.send_image(self.img)
+
+        if not self.stream.connected[1] and self.config.get('SecondStream'):
+            self.stream.start_server(1)
