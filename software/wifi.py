@@ -7,7 +7,6 @@ class inspec_stream:
 
     def __init__(self, interface, ssid, password):
         self.error = None
-        self.error2 = None
 
         if interface == "AccessPoint":
             self.start_access_point(ssid, password)
@@ -18,15 +17,10 @@ class inspec_stream:
         self.ip = self.wlan.ifconfig()[0]
         print("IP", self.ip)
 
-        self.server = None
-        self.client = None
-        self.port = 8080
-        self.connected = False
-        
-        self.server2 = None
-        self.client2 = None
-        self.port2 = 8082
-        self.connected2 = False
+        self.servers = [None, None]
+        self.clients = [None, None]
+        self.ports = [8080, 8082]
+        self.connected = [False, False]
 
     def start_access_point(self, ssid, password):
         self.wlan = network.WLAN(network.AP_IF)
@@ -46,86 +40,45 @@ class inspec_stream:
             if attempts > 10:
                 raise Exception("Failed to connect to " + ssid)
 
-    def start_server(self, server_id):
-        server = None
-        client = None
-        port = 0
-        
-        if server_id == 0:
-            server = self.server
-            client = self.client
-            port = self.port
-
-        if server_id == 1:
-            server = self.server2
-            client = self.client2
-            port = self.port2
-
-        if server == None:
-            server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+    def start_server(self, id):
+        if self.servers[id] == None:
+            self.servers[id] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.servers[id].setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
 
             host = ""
-            server.bind([host, port])
-            server.listen(1)
+            self.servers[id].bind([host, self.ports[id]])
+            self.servers[id].listen(1)
 
-            print(f'Waiting for connection on {self.ip}:{port}')
+            print(f'Waiting for connection on {self.ip}:{self.ports[id]}')
 
         try:
-            sockets, w, err = select.select((server,), (), (), 0)
-            
-            if server_id == 0:
-                self.server = server
-            if server_id == 1:
-                self.server2 = server
+            sockets, w, err = select.select((self.servers[id],), (), (), 0)
 
             if sockets:
                 for entry in sockets:
-                    client, addr = server.accept()
+                    self.clients[id], addr = self.servers[id].accept()
                     
-                    if server_id == 0:
-                        self.client = client
-                    if server_id == 1:
-                        self.client2 = client
-
                     try:
-                        client.settimeout(5.0)
+                        self.clients[id].settimeout(5.0)
                         print("Connected to " + addr[0] + ":" + str(addr[1]))
-                        self.start_streaming(server_id)
-                        if port == self.port:
-                            self.connected = True
-                        if port == self.port2:
-                            self.connected2 = True
+                        self.start_streaming(id)
+                        self.connected[id] = True
                     except OSError as e:
-                        if port == self.port:
-                            self.connected = False
-                        if port == self.port2:
-                            self.connected2 = False
-                        client.close()
-                        print("client socket error:", server_id, e)
-                        self.start_server(server_id)
+                        self.connected[id] = False
+                        self.clients[id].close()
+                        print("client socket error:", id, e)
+                        self.start_server(id)
 
         except OSError as e:
             print("server socket error:", e)
-            if port == self.port:
-                self.connected = False
-            if port == self.port2:
-                self.connected2 = False
-            server.close()
-            server = None
-            self.start_server(server_id)
+            self.connected[id] = False
+            self.servers[id].close()
+            self.servers[id] = None
+            self.start_server(id)
 
-    def start_streaming(self, server_id):
-        client = None
-
-        if server_id == 0:
-            client = self.client
-
-        if server_id == 1:
-            client = self.client2
-
-        data = client.recv(1024)
-        client.send(
+    def start_streaming(self, id):
+        data = self.clients[id].recv(1024)
+        self.clients[id].send(
             "HTTP/1.1 200 OK\r\n"
             "Server: INSPEC\r\n"
             "Access-Control-Allow-Origin: *\r\n"
@@ -135,7 +88,7 @@ class inspec_stream:
         )
 
     def send_image(self, image):
-        if self.connected == False:
+        if self.connected[0] == False:
             return
 
         cframe = image.to_jpeg(quality=35, copy=True)
@@ -144,25 +97,20 @@ class inspec_stream:
             "Content-Type: image/jpeg\r\n"
             "Content-Length:" + str(cframe.size()) + "\r\n\r\n"
         )
+        self.send_data(0, cframe, header)
+        self.send_data(1, cframe, header)
 
-        try:
-            self.client.sendall(header)
-            self.client.sendall(cframe)
-        except OSError as e:
-            self.connected = False
-            self.start_server(0)
-            self.error = e
-            print("client socket error 0:", e)
-
-        if self.connected2 == False:
+    def send_data(self, id, cframe, header):
+        if self.connected[id] == False:
             return
 
         try:
-            self.client2.sendall(header)
-            self.client2.sendall(cframe)
+            self.clients[id].sendall(header)
+            self.clients[id].sendall(cframe)
         except OSError as e:
-            self.connected2 = False
-            self.start_server(1)
-            self.error2 = e
-            print("client socket error 1:", e)
+            self.connected[id] = False
+            self.start_server(id)
 
+            if id == 0:
+                self.error = e
+            print("client socket error", id, e)
