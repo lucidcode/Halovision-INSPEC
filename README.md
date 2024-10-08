@@ -8,13 +8,13 @@ A night-vision smart camera that detects eye movements during REM sleep and trig
 
 ## Works with
 
-<a href="https://play.google.com/store/apps/details?id=com.lucidcode.lucidscribe">Lucid Scribe Android</a>
+- <a href="https://play.google.com/store/apps/details?id=com.lucidcode.lucidscribe">Lucid Scribe Android</a>
 
 ![Lucid Scribe Android](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/lucid_scribe_android.gif?raw=true "Lucid Scribe Android")
 
 ![Lucid Scribe Setting](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/lucid_scribe_settings.gif?raw=true "Lucid Scribe Setting")
 
-<a href="http://lucidcode.com/LucidScribe/">Lucid Scribe</a>
+- <a href="http://lucidcode.com/LucidScribe/">Lucid Scribe</a>
 
 ![Lucid Scribe REM sleep at 06:23](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/lucid_scribe_rem_0623.gif?raw=true "Lucid Scribe REM sleep at 06:23")
 
@@ -22,11 +22,15 @@ A night-vision smart camera that detects eye movements during REM sleep and trig
 
 ## Documentation
 
-[Setup](https://github.com/lucidcode/Halovision-INSPEC/wiki/Setup%E2%80%90en)
+- [Setup](https://github.com/lucidcode/Halovision-INSPEC/wiki/Setup%E2%80%90en)
 
-[Settings](https://github.com/lucidcode/Halovision-INSPEC/wiki/Settings%E2%80%90en)
+- [Settings](https://github.com/lucidcode/Halovision-INSPEC/wiki/Settings%E2%80%90en)
 
-[Interfaces](https://github.com/lucidcode/Halovision-INSPEC/wiki/Interfaces%E2%80%90en)
+- [Interfaces](https://github.com/lucidcode/Halovision-INSPEC/wiki/Interfaces%E2%80%90en)
+
+## Accessories
+
+- [3D Printable Case with Flexible Tripod](https://makerworld.com/en/models/665460#profileId-592934) - simply print, assemble, insert the camera, and start using it immediately!
 
 ## Firmware build
 
@@ -46,7 +50,7 @@ export PATH=${TOOLCHAIN_PATH}/bin:${PATH}
 ```
 
 ### Build the firmware
-To build the firmware, run the following commands inside the openmv repository:
+To build the firmware, run the following commands:
 ```bash
 cd firmware
 make -j$(nproc) -C src/micropython/mpy-cross
