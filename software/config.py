@@ -63,7 +63,8 @@ class inspec_config:
             self.config = self.default
             self.save()
 
-        print(self.config)
+        json = self.format()
+        print(json)
 
     def get(self, setting):
         try:
@@ -99,9 +100,13 @@ class inspec_config:
 
     def save(self):
         config_file = open('config.txt', 'w')
+        json = self.format()
+        config_file.write(json)
+        config_file.close()
+
+    def format(self):
         json = ujson.dumps(self.config)
         json = json.replace("{", "{\r\n  ")
         json = json.replace(", ", ",\r\n  ")
         json = json.replace("}", "\r\n}")
-        config_file.write(json)
-        config_file.close()
+        return json
