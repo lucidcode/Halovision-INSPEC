@@ -118,6 +118,7 @@ class inspec_sensor:
                 self.detect()
                 self.led.process()
                 self.process_trigger()
+                self.process_api("variance", self.variance)
 
                 if (utime.ticks_ms() - self.last_update > 128):
                     self.send_stream()
@@ -210,6 +211,7 @@ class inspec_sensor:
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements
+            self.process_api("rem", self.eye_movements)
 
             if self.eye_movements >= 8:
                 self.trigger()
@@ -229,6 +231,7 @@ class inspec_sensor:
             self.trigger_time = sys.maxsize
             self.led.blink()
             self.comms.send_data(f'trigger:{str(self.variance)}')
+            self.process_api("trigger", self.variance)
 
             if self.stream == None or not self.stream.connected:
                 self.comms.send_image(self.img)        
@@ -263,3 +266,24 @@ class inspec_sensor:
 
         if not self.stream.connected[1] and self.config.get('SecondStream'):
             self.stream.start_server(1)
+
+    def process_api(self, endpoint, data):
+        if self.stream == None:
+            return
+
+        if not self.config.get('WebhookApi'):
+            return
+
+        if not self.config.get('AccessPoint') and not self.config.get('WiFi'):
+            return
+
+        if not self.stream.connected[2]:
+            self.stream.start_server(2)
+            if self.stream.error:
+                self.stream.error = None
+        else:
+            api_data = f'{endpoint}:{str(data)}'
+            if endpoint == "variance":
+                api_data = str(data)
+            api_data = api_data + '\r\n'
+            self.stream.send_data(2, api_data.encode(), None)

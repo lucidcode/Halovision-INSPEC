@@ -17,10 +17,10 @@ class inspec_stream:
         self.ip = self.wlan.ifconfig()[0]
         print("IP", self.ip)
 
-        self.servers = [None, None]
-        self.clients = [None, None]
-        self.ports = [8080, 8082]
-        self.connected = [False, False]
+        self.servers = [None, None, None]
+        self.clients = [None, None, None]
+        self.ports = [8080, 8082, 5000]
+        self.connected = [False, False, False]
 
     def start_access_point(self, ssid, password):
         self.wlan = network.WLAN(network.AP_IF)
@@ -105,11 +105,14 @@ class inspec_stream:
             return
 
         try:
-            self.clients[id].sendall(header)
+            if header != None:
+                self.clients[id].sendall(header)
             self.clients[id].sendall(cframe)
         except OSError as e:
             self.connected[id] = False
-            self.start_server(id)
+
+            if id != 2:
+                self.start_server(id)
 
             if id == 0:
                 self.error = e
