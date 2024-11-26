@@ -47,6 +47,7 @@ class inspec_config:
         self.default['HorizontalMirror'] = 1
         self.default['VerticalFlip'] = 0
         self.default['SecondStream'] = 0
+        self.default['WebhookApi'] = 0
 
         config_exists = False
         entries = os.listdir()

@@ -28,6 +28,24 @@ A night-vision smart camera that detects eye movements during REM sleep and trig
 
 - [Interfaces](https://github.com/lucidcode/Halovision-INSPEC/wiki/Interfaces%E2%80%90en)
 
+## Webhook API
+
+### Start the webhook API server
+
+```bash
+cd api
+python webhook_server.py
+```
+
+### Start the webhook demo
+
+```bash
+cd api
+python webhook_demo.py
+```
+
+Refer to the [Interfaces](https://github.com/lucidcode/Halovision-INSPEC/wiki/Interfaces%E2%80%90en) documentation for API endpoints.
+
 ## Accessories
 
 - [3D Printable Case with Flexible Tripod](https://makerworld.com/en/models/665460#profileId-592934) - simply print, assemble, insert the camera, and start using it immediately!
