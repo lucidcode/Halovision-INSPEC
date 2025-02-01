@@ -13,10 +13,12 @@ from face import face_detection
 from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
+from version import version
 from machine import LED
 
 class inspec_sensor:
     def __init__(self):
+        print(f'INSPEC {version}')
         self.config = inspec_config()
         self.configure_sensor()
 
@@ -159,6 +161,9 @@ class inspec_sensor:
 
         if message == "request.ip" and not self.stream == None:
             self.comms.send_data(f'ip:{self.stream.ip}')
+
+        if message == "request.version" and not self.stream == None:
+            self.comms.send_data(f'version:{version}')
 
         if message.startswith("update.setting."):
             message = message.replace("update.setting.", "")
