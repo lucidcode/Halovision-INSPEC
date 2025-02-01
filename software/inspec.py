@@ -114,6 +114,7 @@ class inspec_sensor:
                     self.total_variances = self.total_variances + self.variance
                     self.variances = self.variances + 1
                 self.extra_fb.replace(self.img)
+                self.face.draw_region(self.img)
 
                 self.detect()
                 self.led.process()

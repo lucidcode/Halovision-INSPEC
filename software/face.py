@@ -38,9 +38,14 @@ class face_detection:
             self.face_object = [0, 0, img.width(), img.height()]
             self.has_face = False
         
-        if self.config.get('DrawFaceRegion'):
-            if self.face_object[2] != img.width():
-                if self.config.get('PixelFormat') == 'RGB565':
-                    img.draw_rectangle(self.face_object, color=(70, 130, 180))
-                else:
-                    img.draw_rectangle(self.face_object)
+    def draw_region(self, img):
+        if not self.config.get('DrawFaceRegion'):
+            return
+
+        if self.face_object[2] == img.width():
+            return
+
+        if self.config.get('PixelFormat') == 'RGB565':
+            img.draw_rectangle(self.face_object, color=(70, 130, 180))
+        else:
+            img.draw_rectangle(self.face_object)
