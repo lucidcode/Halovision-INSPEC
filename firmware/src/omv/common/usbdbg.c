@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * USB debugger.
  */
@@ -18,9 +33,9 @@
 #include "py/runtime.h"
 
 #include "imlib.h"
-#if MICROPY_PY_SENSOR
+#if MICROPY_PY_CSI
 #include "omv_i2c.h"
-#include "sensor.h"
+#include "omv_csi.h"
 #endif
 #include "framebuffer.h"
 #include "usbdbg.h"
@@ -98,6 +113,16 @@ bool usbdbg_get_irq_enabled() {
     return irq_enabled;
 }
 
+uint32_t ticks_diff_ms(uint32_t start_ms) {
+    uint32_t current_ms = mp_hal_ticks_ms();
+    if (current_ms >= start_ms) {
+        return current_ms - start_ms;
+    } else {
+        // Handle wraparound
+        return (UINT32_MAX - start_ms) + current_ms + 1;
+    }
+}
+
 void usbdbg_data_in(uint32_t size, usbdbg_write_callback_t write_callback) {
     switch (cmd) {
         case USBDBG_FW_VERSION: {
@@ -120,9 +145,9 @@ void usbdbg_data_in(uint32_t size, usbdbg_write_callback_t write_callback) {
 
         case USBDBG_SENSOR_ID: {
             uint32_t buffer = 0xFF;
-            #if MICROPY_PY_SENSOR
-            if (sensor_is_detected() == true) {
-                buffer = sensor_get_id();
+            #if MICROPY_PY_CSI
+            if (omv_csi_is_detected() == true) {
+                buffer = omv_csi_get_id();
             }
             #endif
             cmd = USBDBG_NONE;
@@ -202,7 +227,13 @@ void usbdbg_data_in(uint32_t size, usbdbg_write_callback_t write_callback) {
         }
 
         case USBDBG_GET_STATE: {
-            uint32_t buffer[16] = { 0 };
+            // IDE will request 63/511 bytes of data to avoid ZLP packets.
+            // 64/512 packets still work too but generate ZLP packets.
+            size = OMV_MIN(size, 512);
+            uint8_t byte_buffer[size];
+            memset(byte_buffer, 0, size);
+            uint32_t *buffer = (uint32_t *) byte_buffer;
+            static uint32_t last_update_ms = 0;
 
             // Set script running flag
             if (script_running) {
@@ -215,8 +246,9 @@ void usbdbg_data_in(uint32_t size, usbdbg_write_callback_t write_callback) {
                 buffer[0] |= USBDBG_STATE_FLAGS_TEXT;
             }
 
-            // Try to lock FB. If header size == 0 frame is not ready
-            if (mutex_try_lock_alternate(&JPEG_FB()->lock, MUTEX_TID_IDE)) {
+            // Limit the frames sent over USB to 20Hz.
+            if (ticks_diff_ms(last_update_ms) > 50 &&
+                mutex_try_lock_alternate(&JPEG_FB()->lock, MUTEX_TID_IDE)) {
                 // If header size == 0 frame is not ready
                 if (JPEG_FB()->size == 0) {
                     // unlock FB
@@ -229,19 +261,20 @@ void usbdbg_data_in(uint32_t size, usbdbg_write_callback_t write_callback) {
                     buffer[1] = JPEG_FB()->w;
                     buffer[2] = JPEG_FB()->h;
                     buffer[3] = JPEG_FB()->size;
+                    last_update_ms = mp_hal_ticks_ms();
                 }
             }
 
             // The rest of this packet is packed with text buffer.
             if (tx_buf_len) {
                 const uint32_t hdr = 16;
-                tx_buf_len = OMV_MIN(tx_buf_len, (64 - hdr - 1));
-                usb_cdc_get_buf((uint8_t *) buffer + hdr, tx_buf_len);
-                ((uint8_t *) buffer)[hdr + tx_buf_len] = 0; // Null-terminate
+                tx_buf_len = OMV_MIN(tx_buf_len, (size - hdr - 1));
+                usb_cdc_get_buf(byte_buffer + hdr, tx_buf_len);
+                byte_buffer[hdr + tx_buf_len] = 0; // Null-terminate
             }
 
             cmd = USBDBG_NONE;
-            write_callback(&buffer, sizeof(buffer));
+            write_callback(&byte_buffer, size);
             break;
         }
 
@@ -322,7 +355,7 @@ void usbdbg_data_out(uint32_t size, usbdbg_read_callback_t read_callback) {
         }
 
         case USBDBG_ATTR_WRITE: {
-            #if MICROPY_PY_SENSOR
+            #if MICROPY_PY_CSI
             struct {
                 int32_t name;
                 int32_t value;
@@ -330,17 +363,17 @@ void usbdbg_data_out(uint32_t size, usbdbg_read_callback_t read_callback) {
             attr;
             read_callback(&attr, sizeof(attr));
             switch (attr.name) {
-                case ATTR_CONTRAST:
-                    sensor_set_contrast(attr.value);
+                case OMV_CSI_ATTR_CONTRAST:
+                    omv_csi_set_contrast(attr.value);
                     break;
-                case ATTR_BRIGHTNESS:
-                    sensor_set_brightness(attr.value);
+                case OMV_CSI_ATTR_BRIGHTNESS:
+                    omv_csi_set_brightness(attr.value);
                     break;
-                case ATTR_SATURATION:
-                    sensor_set_saturation(attr.value);
+                case OMV_CSI_ATTR_SATURATION:
+                    omv_csi_set_saturation(attr.value);
                     break;
-                case ATTR_GAINCEILING:
-                    sensor_set_gainceiling(attr.value);
+                case OMV_CSI_ATTR_GAINCEILING:
+                    omv_csi_set_gainceiling(attr.value);
                     break;
                 default:
                     break;

@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2023 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * OMV SPI bus port for mimxrt.
  */
@@ -219,6 +234,7 @@ int omv_spi_init(omv_spi_t *spi, omv_spi_config_t *config) {
     spi->inst = spi_descr->inst;
     spi->cs = spi_descr->cs;
     spi->dma_flags = config->dma_flags;
+    spi->bus_mode = config->bus_mode;
 
     lpspi_master_config_t spi_config;
     LPSPI_MasterGetDefaultConfig(&spi_config);
@@ -240,7 +256,7 @@ int omv_spi_init(omv_spi_t *spi, omv_spi_config_t *config) {
     spi->config_backup = spi_config;
 
     // Configure pins.
-    mimxrt_hal_spi_init(config->id, config->nss_enable, config->nss_pol);
+    mimxrt_hal_spi_init(config->id, config->nss_enable, config->nss_pol, config->bus_mode);
 
     LPSPI_MasterTransferCreateHandle(
         spi->inst,
@@ -279,7 +295,7 @@ int omv_spi_deinit(omv_spi_t *spi) {
             DMAMUX_DisableChannel(spi_descr->dma_descr_rx.dma_mux, spi->dma_descr_rx.channel);
         }
         LPSPI_Deinit(spi->inst);
-        mimxrt_hal_spi_deinit(spi->id);
+        mimxrt_hal_spi_deinit(spi->id, spi->bus_mode);
     }
     return 0;
 }
@@ -298,7 +314,7 @@ int omv_spi_default_config(omv_spi_config_t *config, uint32_t bus_id) {
     config->spi_mode = OMV_SPI_MODE_MASTER;
     config->bus_mode = OMV_SPI_BUS_TX_RX;
     config->bit_order = OMV_SPI_MSB_FIRST;
-    config->clk_pol = OMV_SPI_CPOL_HIGH;
+    config->clk_pol = OMV_SPI_CPOL_LOW;
     config->clk_pha = OMV_SPI_CPHA_1EDGE;
     config->nss_pol = OMV_SPI_NSS_LOW;
     config->nss_enable = true;

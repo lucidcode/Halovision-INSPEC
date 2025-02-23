@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Lepton driver.
  */
@@ -12,7 +27,7 @@
 #if (OMV_LEPTON_ENABLE == 1)
 
 #include <stdio.h>
-#include "sensor.h"
+#include "omv_csi.h"
 #include "vospi.h"
 #include "py/mphal.h"
 #include "omv_common.h"
@@ -57,9 +72,9 @@ typedef struct lepton_state {
 extern uint16_t _vospi_buf[];
 static lepton_state_t lepton;
 
-static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_mode);
+static int lepton_reset(omv_csi_t *csi, bool measurement_mode, bool high_temp_mode);
 
-static int sleep(sensor_t *sensor, int enable) {
+static int sleep(omv_csi_t *csi, int enable) {
     if (enable) {
         omv_gpio_write(OMV_CSI_POWER_PIN, 0);
         mp_hal_delay_ms(100);
@@ -71,93 +86,93 @@ static int sleep(sensor_t *sensor, int enable) {
     return 0;
 }
 
-static int read_reg(sensor_t *sensor, uint16_t reg_addr) {
+static int read_reg(omv_csi_t *csi, uint16_t reg_addr) {
     uint16_t reg_data;
-    if (omv_i2c_readw2(&sensor->i2c_bus, sensor->slv_addr, reg_addr, &reg_data)) {
+    if (omv_i2c_readw2(&csi->i2c_bus, csi->slv_addr, reg_addr, &reg_data)) {
         return -1;
     }
     return reg_data;
 }
 
-static int write_reg(sensor_t *sensor, uint16_t reg_addr, uint16_t reg_data) {
-    return omv_i2c_writew2(&sensor->i2c_bus, sensor->slv_addr, reg_addr, reg_data);
+static int write_reg(omv_csi_t *csi, uint16_t reg_addr, uint16_t reg_data) {
+    return omv_i2c_writew2(&csi->i2c_bus, csi->slv_addr, reg_addr, reg_data);
 }
 
-static int set_pixformat(sensor_t *sensor, pixformat_t pixformat) {
+static int set_pixformat(omv_csi_t *csi, pixformat_t pixformat) {
     return ((pixformat != PIXFORMAT_GRAYSCALE) && (pixformat != PIXFORMAT_RGB565)) ? -1 : 0;
 }
 
-static int set_framesize(sensor_t *sensor, framesize_t framesize) {
+static int set_framesize(omv_csi_t *csi, omv_csi_framesize_t framesize) {
     return 0;
 }
 
-static int set_contrast(sensor_t *sensor, int level) {
+static int set_contrast(omv_csi_t *csi, int level) {
     return 0;
 }
 
-static int set_brightness(sensor_t *sensor, int level) {
+static int set_brightness(omv_csi_t *csi, int level) {
     return 0;
 }
 
-static int set_saturation(sensor_t *sensor, int level) {
+static int set_saturation(omv_csi_t *csi, int level) {
     return 0;
 }
 
-static int set_gainceiling(sensor_t *sensor, gainceiling_t gainceiling) {
+static int set_gainceiling(omv_csi_t *csi, omv_csi_gainceiling_t gainceiling) {
     return 0;
 }
 
-static int set_quality(sensor_t *sensor, int quality) {
+static int set_quality(omv_csi_t *csi, int quality) {
     return 0;
 }
 
-static int set_colorbar(sensor_t *sensor, int enable) {
+static int set_colorbar(omv_csi_t *csi, int enable) {
     return 0;
 }
 
-static int set_special_effect(sensor_t *sensor, sde_t sde) {
+static int set_special_effect(omv_csi_t *csi, omv_csi_sde_t sde) {
     return 0;
 }
 
-static int set_auto_gain(sensor_t *sensor, int enable, float gain_db, float gain_db_ceiling) {
+static int set_auto_gain(omv_csi_t *csi, int enable, float gain_db, float gain_db_ceiling) {
     return 0;
 }
 
-static int get_gain_db(sensor_t *sensor, float *gain_db) {
+static int get_gain_db(omv_csi_t *csi, float *gain_db) {
     return 0;
 }
 
-static int set_auto_exposure(sensor_t *sensor, int enable, int exposure_us) {
+static int set_auto_exposure(omv_csi_t *csi, int enable, int exposure_us) {
     return 0;
 }
 
-static int get_exposure_us(sensor_t *sensor, int *exposure_us) {
+static int get_exposure_us(omv_csi_t *csi, int *exposure_us) {
     return 0;
 }
 
-static int set_auto_whitebal(sensor_t *sensor, int enable, float r_gain_db, float g_gain_db, float b_gain_db) {
+static int set_auto_whitebal(omv_csi_t *csi, int enable, float r_gain_db, float g_gain_db, float b_gain_db) {
     return 0;
 }
 
-static int get_rgb_gain_db(sensor_t *sensor, float *r_gain_db, float *g_gain_db, float *b_gain_db) {
+static int get_rgb_gain_db(omv_csi_t *csi, float *r_gain_db, float *g_gain_db, float *b_gain_db) {
     return 0;
 }
 
-static int set_hmirror(sensor_t *sensor, int enable) {
+static int set_hmirror(omv_csi_t *csi, int enable) {
     lepton.hmirror = enable;
     return 0;
 }
 
-static int set_vflip(sensor_t *sensor, int enable) {
+static int set_vflip(omv_csi_t *csi, int enable) {
     lepton.vflip = enable;
     return 0;
 }
 
-static int set_lens_correction(sensor_t *sensor, int enable, int radi, int coef) {
+static int set_lens_correction(omv_csi_t *csi, int enable, int radi, int coef) {
     return 0;
 }
 
-static int ioctl(sensor_t *sensor, int request, va_list ap) {
+static int ioctl(omv_csi_t *csi, int request, va_list ap) {
     int ret = 0;
 
     if ((!lepton.h_res) || (!lepton.v_res)) {
@@ -165,82 +180,82 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
     }
 
     switch (request) {
-        case IOCTL_LEPTON_GET_WIDTH: {
+        case OMV_CSI_IOCTL_LEPTON_GET_WIDTH: {
             int *width = va_arg(ap, int *);
             *width = lepton.h_res;
             break;
         }
-        case IOCTL_LEPTON_GET_HEIGHT: {
+        case OMV_CSI_IOCTL_LEPTON_GET_HEIGHT: {
             int *height = va_arg(ap, int *);
             *height = lepton.v_res;
             break;
         }
-        case IOCTL_LEPTON_GET_RADIOMETRY: {
+        case OMV_CSI_IOCTL_LEPTON_GET_RADIOMETRY: {
             int *type = va_arg(ap, int *);
             *type = lepton.radiometry;
             break;
         }
-        case IOCTL_LEPTON_GET_REFRESH: {
+        case OMV_CSI_IOCTL_LEPTON_GET_REFRESH: {
             int *refresh = va_arg(ap, int *);
             *refresh = (lepton.h_res == 80) ? 27 : 9;
             break;
         }
-        case IOCTL_LEPTON_GET_RESOLUTION: {
+        case OMV_CSI_IOCTL_LEPTON_GET_RESOLUTION: {
             int *resolution = va_arg(ap, int *);
             *resolution = 14;
             break;
         }
-        case IOCTL_LEPTON_RUN_COMMAND: {
+        case OMV_CSI_IOCTL_LEPTON_RUN_COMMAND: {
             int command = va_arg(ap, int);
             ret = (LEP_RunCommand(&lepton.port, command) == LEP_OK) ? 0 : -1;
             break;
         }
-        case IOCTL_LEPTON_SET_ATTRIBUTE: {
+        case OMV_CSI_IOCTL_LEPTON_SET_ATTRIBUTE: {
             int command = va_arg(ap, int);
             uint16_t *data = va_arg(ap, uint16_t *);
             size_t data_len = va_arg(ap, size_t);
             ret = (LEP_SetAttribute(&lepton.port, command, (LEP_ATTRIBUTE_T_PTR) data, data_len) == LEP_OK) ? 0 : -1;
             break;
         }
-        case IOCTL_LEPTON_GET_ATTRIBUTE: {
+        case OMV_CSI_IOCTL_LEPTON_GET_ATTRIBUTE: {
             int command = va_arg(ap, int);
             uint16_t *data = va_arg(ap, uint16_t *);
             size_t data_len = va_arg(ap, size_t);
             ret = (LEP_GetAttribute(&lepton.port, command, (LEP_ATTRIBUTE_T_PTR) data, data_len) == LEP_OK) ? 0 : -1;
             break;
         }
-        case IOCTL_LEPTON_GET_FPA_TEMPERATURE: {
+        case OMV_CSI_IOCTL_LEPTON_GET_FPA_TEMP: {
             int *temp = va_arg(ap, int *);
             LEP_SYS_FPA_TEMPERATURE_KELVIN_T tfpa;
             ret = (LEP_GetSysFpaTemperatureKelvin(&lepton.port, &tfpa) == LEP_OK) ? 0 : -1;
             *temp = tfpa;
             break;
         }
-        case IOCTL_LEPTON_GET_AUX_TEMPERATURE: {
+        case OMV_CSI_IOCTL_LEPTON_GET_AUX_TEMP: {
             int *temp = va_arg(ap, int *);
             LEP_SYS_AUX_TEMPERATURE_KELVIN_T taux;
             ret = (LEP_GetSysAuxTemperatureKelvin(&lepton.port, &taux) == LEP_OK) ? 0 : -1;
             *temp = taux;
             break;
         }
-        case IOCTL_LEPTON_SET_MEASUREMENT_MODE: {
+        case OMV_CSI_IOCTL_LEPTON_SET_MODE: {
             int measurement_mode_in = va_arg(ap, int);
             int high_temp_mode_in = va_arg(ap, int);
             if (lepton.measurement_mode != measurement_mode_in) {
                 lepton.measurement_mode = measurement_mode_in;
                 lepton.high_temp_mode = high_temp_mode_in;
-                ret = lepton_reset(sensor, lepton.measurement_mode, lepton.high_temp_mode);
+                ret = lepton_reset(csi, lepton.measurement_mode, lepton.high_temp_mode);
             }
             break;
         }
-        case IOCTL_LEPTON_GET_MEASUREMENT_MODE: {
+        case OMV_CSI_IOCTL_LEPTON_GET_MODE: {
             int *measurement_mode_out = va_arg(ap, int *);
             int *high_temp_mode_out = va_arg(ap, int *);
             *measurement_mode_out = lepton.measurement_mode;
             *high_temp_mode_out = lepton.high_temp_mode;
             break;
         }
-        case IOCTL_LEPTON_SET_MEASUREMENT_RANGE: {
+        case OMV_CSI_IOCTL_LEPTON_SET_RANGE: {
             float *arg_min_temp = va_arg(ap, float *);
             float *arg_max_temp = va_arg(ap, float *);
             float min_temp_range = (lepton.high_temp_mode) ? LEPTON_MIN_TEMP_HIGH : LEPTON_MIN_TEMP_NORM;
@@ -250,7 +265,7 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
             lepton.max_temp = IM_MIN(IM_MAX(*arg_max_temp, *arg_min_temp), max_temp_range);
             break;
         }
-        case IOCTL_LEPTON_GET_MEASUREMENT_RANGE: {
+        case OMV_CSI_IOCTL_LEPTON_GET_RANGE: {
             float *ptr_min_temp = va_arg(ap, float *);
             float *ptr_max_temp = va_arg(ap, float *);
             *ptr_min_temp = lepton.min_temp;
@@ -266,7 +281,7 @@ static int ioctl(sensor_t *sensor, int request, va_list ap) {
     return ret;
 }
 
-static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_mode) {
+static int lepton_reset(omv_csi_t *csi, bool measurement_mode, bool high_temp_mode) {
     omv_gpio_write(OMV_CSI_POWER_PIN, 0);
     mp_hal_delay_ms(10);
 
@@ -284,7 +299,7 @@ static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_
     memset(&lepton.port, 0, sizeof(LEP_CAMERA_PORT_DESC_T));
 
     for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(1)) {
-        if (LEP_OpenPort(&sensor->i2c_bus, LEP_CCI_TWI, 0, &lepton.port) == LEP_OK) {
+        if (LEP_OpenPort(&csi->i2c_bus, LEP_CCI_TWI, 0, &lepton.port) == LEP_OK) {
             break;
         }
         if ((mp_hal_ticks_ms() - start) >= LEPTON_BOOT_TIMEOUT) {
@@ -343,20 +358,20 @@ static int lepton_reset(sensor_t *sensor, bool measurement_mode, bool high_temp_
     return 0;
 }
 
-static int reset(sensor_t *sensor) {
+static int reset(omv_csi_t *csi) {
     static bool vospi_initialized = false;
 
     memset(&lepton, 0, sizeof(lepton_state_t));
     lepton.min_temp = LEPTON_MIN_TEMP_DEFAULT;
     lepton.max_temp = LEPTON_MAX_TEMP_DEFAULT;
 
-    if (lepton_reset(sensor, false, false) != 0) {
-        return -1;
+    if (lepton_reset(csi, false, false) != 0) {
+        return OMV_CSI_ERROR_CTL_FAILED;
     }
 
     if (vospi_initialized == false) {
         if (vospi_init(lepton.v_res, _vospi_buf) != 0) {
-            return -1;
+            return OMV_CSI_ERROR_CTL_FAILED;
         }
         vospi_initialized = true;
     }
@@ -364,26 +379,34 @@ static int reset(sensor_t *sensor) {
     return 0;
 }
 
-static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
+static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
     framebuffer_update_jpeg_buffer();
 
     if (MAIN_FB()->n_buffers != 1) {
         framebuffer_set_buffers(1);
     }
 
-    if (sensor_check_framebuffer_size(sensor) == -1) {
-        return -1;
+    if (csi->pixformat == PIXFORMAT_INVALID) {
+        return OMV_CSI_ERROR_INVALID_PIXFORMAT;
     }
 
-    if ((!lepton.h_res) || (!lepton.v_res) || (!sensor->framesize) || (!sensor->pixformat)) {
-        return -1;
+    if (csi->framesize == OMV_CSI_FRAMESIZE_INVALID) {
+        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
+    }
+
+    if (!lepton.h_res || !lepton.v_res) {
+        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
+    }
+
+    if (omv_csi_check_framebuffer_size(csi) == -1) {
+        return OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW;
     }
 
     framebuffer_free_current_buffer();
     vbuffer_t *buffer = framebuffer_get_tail(FB_NO_FLAGS);
 
     if (!buffer) {
-        return -1;
+        return OMV_CSI_ERROR_FRAMEBUFFER_ERROR;
     }
 
     for (int i = 0; i < LEPTON_SNAPSHOT_RETRY; i++) {
@@ -391,33 +414,33 @@ static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
             break;
         }
         if (i + 1 == LEPTON_SNAPSHOT_RETRY) {
-            return -1;
+            return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
         }
         // The FLIR lepton might have crashed so reset it (it does this).
-        if (lepton_reset(sensor, lepton.measurement_mode, lepton.high_temp_mode) != 0) {
-            return -1;
+        if (lepton_reset(csi, lepton.measurement_mode, lepton.high_temp_mode) != 0) {
+            return OMV_CSI_ERROR_CTL_FAILED;
         }
     }
 
     MAIN_FB()->w = MAIN_FB()->u;
     MAIN_FB()->h = MAIN_FB()->v;
-    MAIN_FB()->pixfmt = sensor->pixformat;
+    MAIN_FB()->pixfmt = csi->pixformat;
 
     framebuffer_init_image(image);
 
-    float x_scale = resolution[sensor->framesize][0] / ((float) lepton.h_res);
-    float y_scale = resolution[sensor->framesize][1] / ((float) lepton.v_res);
+    float x_scale = resolution[csi->framesize][0] / ((float) lepton.h_res);
+    float y_scale = resolution[csi->framesize][1] / ((float) lepton.v_res);
     // MAX == KeepAspectRationByExpanding - MIN == KeepAspectRatio
     float scale = IM_MAX(x_scale, y_scale), scale_inv = 1.0f / scale;
-    int x_offset = (resolution[sensor->framesize][0] - (lepton.h_res * scale)) / 2;
-    int y_offset = (resolution[sensor->framesize][1] - (lepton.v_res * scale)) / 2;
+    int x_offset = (resolution[csi->framesize][0] - (lepton.h_res * scale)) / 2;
+    int y_offset = (resolution[csi->framesize][1] - (lepton.v_res * scale)) / 2;
     // The code below upscales the source image to the requested frame size
     // and then crops it to the window set by the user.
 
     LEP_SYS_FPA_TEMPERATURE_KELVIN_T kelvin;
     if (lepton.measurement_mode && (!lepton.radiometry)) {
         if (LEP_GetSysFpaTemperatureKelvin(&lepton.port, &kelvin) != LEP_OK) {
-            return -1;
+            return OMV_CSI_ERROR_IO_ERROR;
         }
     }
 
@@ -456,13 +479,13 @@ static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
                         t_y = MAIN_FB()->v - t_y - 1;
                     }
 
-                    switch (sensor->pixformat) {
+                    switch (csi->pixformat) {
                         case PIXFORMAT_GRAYSCALE: {
                             IMAGE_PUT_GRAYSCALE_PIXEL(image, t_x, t_y, value & 0xFF);
                             break;
                         }
                         case PIXFORMAT_RGB565: {
-                            IMAGE_PUT_RGB565_PIXEL(image, t_x, t_y, sensor->color_palette[value & 0xFF]);
+                            IMAGE_PUT_RGB565_PIXEL(image, t_x, t_y, csi->color_palette[value & 0xFF]);
                             break;
                         }
                         default: {
@@ -477,62 +500,62 @@ static int snapshot(sensor_t *sensor, image_t *image, uint32_t flags) {
     return 0;
 }
 
-int lepton_init(sensor_t *sensor) {
-    sensor->reset = reset;
-    sensor->sleep = sleep;
-    sensor->snapshot = snapshot;
-    sensor->read_reg = read_reg;
-    sensor->write_reg = write_reg;
-    sensor->set_pixformat = set_pixformat;
-    sensor->set_framesize = set_framesize;
-    sensor->set_contrast = set_contrast;
-    sensor->set_brightness = set_brightness;
-    sensor->set_saturation = set_saturation;
-    sensor->set_gainceiling = set_gainceiling;
-    sensor->set_quality = set_quality;
-    sensor->set_colorbar = set_colorbar;
-    sensor->set_special_effect = set_special_effect;
-    sensor->set_auto_gain = set_auto_gain;
-    sensor->get_gain_db = get_gain_db;
-    sensor->set_auto_exposure = set_auto_exposure;
-    sensor->get_exposure_us = get_exposure_us;
-    sensor->set_auto_whitebal = set_auto_whitebal;
-    sensor->get_rgb_gain_db = get_rgb_gain_db;
-    sensor->set_hmirror = set_hmirror;
-    sensor->set_vflip = set_vflip;
-    sensor->set_lens_correction = set_lens_correction;
-    sensor->ioctl = ioctl;
+int lepton_init(omv_csi_t *csi) {
+    csi->reset = reset;
+    csi->sleep = sleep;
+    csi->snapshot = snapshot;
+    csi->read_reg = read_reg;
+    csi->write_reg = write_reg;
+    csi->set_pixformat = set_pixformat;
+    csi->set_framesize = set_framesize;
+    csi->set_contrast = set_contrast;
+    csi->set_brightness = set_brightness;
+    csi->set_saturation = set_saturation;
+    csi->set_gainceiling = set_gainceiling;
+    csi->set_quality = set_quality;
+    csi->set_colorbar = set_colorbar;
+    csi->set_special_effect = set_special_effect;
+    csi->set_auto_gain = set_auto_gain;
+    csi->get_gain_db = get_gain_db;
+    csi->set_auto_exposure = set_auto_exposure;
+    csi->get_exposure_us = get_exposure_us;
+    csi->set_auto_whitebal = set_auto_whitebal;
+    csi->get_rgb_gain_db = get_rgb_gain_db;
+    csi->set_hmirror = set_hmirror;
+    csi->set_vflip = set_vflip;
+    csi->set_lens_correction = set_lens_correction;
+    csi->ioctl = ioctl;
 
-    sensor->vsync_pol = 1;
-    sensor->hsync_pol = 0;
-    sensor->pixck_pol = 0;
-    sensor->frame_sync = 0;
-    sensor->mono_bpp = 1;
+    csi->vsync_pol = 1;
+    csi->hsync_pol = 0;
+    csi->pixck_pol = 0;
+    csi->frame_sync = 0;
+    csi->mono_bpp = 1;
 
-    if (reset(sensor) != 0) {
+    if (reset(csi) != 0) {
         return -1;
     }
 
     LEP_OEM_PART_NUMBER_T part;
     if (LEP_GetOemFlirPartNumber(&lepton.port, &part) != LEP_OK) {
-        return -1;
+        return OMV_CSI_ERROR_CSI_INIT_FAILED;
     }
 
     // 500 == Lepton
     // xxxx == Version
     // 01/00 == Shutter/NoShutter
     if (!strncmp(part.value, "500-0771", 8)) {
-        sensor->chip_id_w = LEPTON_3_5;
+        csi->chip_id = LEPTON_3_5;
     } else if (!strncmp(part.value, "500-0726", 8)) {
-        sensor->chip_id_w = LEPTON_3_0;
+        csi->chip_id = LEPTON_3_0;
     } else if (!strncmp(part.value, "500-0763", 8)) {
-        sensor->chip_id_w = LEPTON_2_5;
+        csi->chip_id = LEPTON_2_5;
     } else if (!strncmp(part.value, "500-0659", 8)) {
-        sensor->chip_id_w = LEPTON_2_0;
+        csi->chip_id = LEPTON_2_0;
     } else if (!strncmp(part.value, "500-0690", 8)) {
-        sensor->chip_id_w = LEPTON_1_6;
+        csi->chip_id = LEPTON_1_6;
     } else if (!strncmp(part.value, "500-0643", 8)) {
-        sensor->chip_id_w = LEPTON_1_5;
+        csi->chip_id = LEPTON_1_5;
     }
     return 0;
 }

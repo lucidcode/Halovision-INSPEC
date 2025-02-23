@@ -1,10 +1,27 @@
 /*
- * This file is part of the OpenMV project.
- * Copyright (c) 2013-2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * SPDX-License-Identifier: MIT
+ *
+ * Copyright (C) 2013-2024 OpenMV, LLC.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Filesystem helper functions.
- *
  */
 #include "imlib_config.h"
 #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
@@ -58,7 +75,7 @@ NORETURN void file_raise_error(FIL *fp, FRESULT res) {
     if (fp) {
         f_close(fp);
     }
-    mp_raise_msg(&mp_type_OSError, (mp_rom_error_text_t) ffs_strerror(res));
+    mp_raise_msg(&mp_type_OSError, (mp_rom_error_text_t) file_strerror(res));
 }
 
 static FATFS *lookup_path(const TCHAR **path) {
@@ -411,6 +428,37 @@ void file_read_check(FIL *fp, const void *data, size_t size) {
         }
         size -= len;
         data = ((uint8_t *) data) + len;
+    }
+}
+
+const char *file_strerror(FRESULT res) {
+    static const char *ffs_errors[] = {
+        "Succeeded",
+        "A hard error occurred in the low level disk I/O layer",
+        "Assertion failed",
+        "The physical drive cannot work",
+        "Could not find the file",
+        "Could not find the path",
+        "The path name format is invalid",
+        "Access denied due to prohibited access or directory full",
+        "Access denied due to prohibited access",
+        "The file/directory object is invalid",
+        "The physical drive is write protected",
+        "The logical drive number is invalid",
+        "The volume has no work area",
+        "There is no valid FAT volume",
+        "The f_mkfs() aborted due to any parameter error",
+        "Could not get a grant to access the volume within defined period",
+        "The operation is rejected according to the file sharing policy",
+        "LFN working buffer could not be allocated",
+        "Number of open files > _FS_SHARE",
+        "Given parameter is invalid",
+    };
+
+    if (res > (sizeof(ffs_errors) / sizeof(ffs_errors[0]))) {
+        return "unknown error";
+    } else {
+        return ffs_errors[res];
     }
 }
 #endif //IMLIB_ENABLE_IMAGE_FILE_IO

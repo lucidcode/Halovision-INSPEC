@@ -120,12 +120,9 @@
 #define IMLIB_ENABLE_FEATURES_BUILTIN_EYES_CASCADE
 
 // Enable Tensor Flow
-#if !defined(CUBEAI)
-#define IMLIB_ENABLE_TFLM
 #define IMLIB_ENABLE_TFLM_BUILTIN_FOMO_FACE_DETECTION
 #define IMLIB_ENABLE_TFLM_BUILTIN_PERSON_DETECT
 #define IMLIB_ENABLE_TFLM_BUILTIN_FORCE_INT_QUANT
-#endif
 
 // Enable FAST (20+ KBs).
 #define IMLIB_ENABLE_FAST
@@ -137,7 +134,9 @@
 #define IMLIB_ENABLE_FIND_LBP
 
 // Enable find_keypoints()
+#if defined(IMLIB_ENABLE_FAST) || defined(IMLIB_ENABLE_AGAST)
 #define IMLIB_ENABLE_FIND_KEYPOINTS
+#endif
 
 // Enable load, save and match descriptor
 #define IMLIB_ENABLE_DESCRIPTOR

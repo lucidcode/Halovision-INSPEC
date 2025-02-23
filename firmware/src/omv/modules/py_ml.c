@@ -1,10 +1,32 @@
 /*
- * This file is part of the OpenMV project.
+ * Copyright (C) 2024 OpenMV, LLC.
  *
- * Copyright (c) 2013-2024 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2024 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ * 3. Any redistribution, use, or modification in source or binary form
+ *    is done solely for personal benefit and not for any commercial
+ *    purpose or for monetary gain. For commercial licensing options,
+ *    please contact openmv@openmv.io
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE LICENSOR AND COPYRIGHT OWNER "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR OR COPYRIGHT
+ * OWNER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Python Machine Learning Module.
  */
@@ -18,12 +40,22 @@
 #include "py_helper.h"
 #include "imlib_config.h"
 
-#ifdef IMLIB_ENABLE_TFLM
+#if MICROPY_PY_ML
 #include "py_image.h"
 #include "file_utils.h"
 #include "py_ml.h"
-#include "tflm_builtin_models.h"
 #include "ulab/code/ndarray.h"
+#if MICROPY_PY_ML_TFLM
+#include "tflm_builtin_models.h"
+#endif
+
+#ifndef IMLIB_ML_MODEL_ALIGN
+#ifndef __DCACHE_PRESENT
+#define IMLIB_ML_MODEL_ALIGN    (32 - 1)
+#else
+#define IMLIB_ML_MODEL_ALIGN    (__SCB_DCACHE_LINE_SIZE - 1)
+#endif
+#endif
 
 static size_t py_ml_tuple_sum(mp_obj_tuple_t *o) {
     if (o->len < 1) {
@@ -210,7 +242,7 @@ static void py_ml_model_print(const mp_print_t *print, mp_obj_t self_in, mp_prin
     mp_printf(print, " }");
 }
 
-static mp_obj_t py_ml_model_predict(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+static mp_obj_t py_ml_model_predict(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_callback };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_callback, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
@@ -303,15 +335,16 @@ mp_obj_t py_ml_model_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
     mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
     mp_arg_parse_all_kw_array(n_args, n_kw, all_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
-    fb_alloc_mark();
-
     const char *path = mp_obj_str_get_str(args[ARG_path].u_obj);
+    (void) path;
 
     py_ml_model_obj_t *model = mp_obj_malloc_with_finaliser(py_ml_model_obj_t, &py_ml_model_type);
     model->data = NULL;
-    model->fb_alloc = args[ARG_load_to_fb].u_int;
+    model->fb_alloc = false;
     model->labels = mp_const_none;
 
+    #if MICROPY_PY_ML_TFLM
+    // Model loading will use ROMFS eventually, so need to move to the backend.
     for (const tflm_builtin_model_t *_model = &tflm_builtin_models[0]; _model->name != NULL; _model++) {
         if (!strcmp(path, _model->name)) {
             // Load model data.
@@ -332,25 +365,30 @@ mp_obj_t py_ml_model_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
             break;
         }
     }
+    #endif
 
     if (model->data == NULL) {
         #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
         FIL fp;
         file_open(&fp, path, false, FA_READ | FA_OPEN_EXISTING);
         model->size = f_size(&fp);
-        model->data = model->fb_alloc ? fb_alloc(model->size, FB_ALLOC_PREFER_SIZE) : xalloc(model->size);
+        model->fb_alloc = args[ARG_load_to_fb].u_bool;
+        if (model->fb_alloc) {
+            fb_alloc_mark();
+            model->data = fb_alloc(model->size, FB_ALLOC_PREFER_SPEED | FB_ALLOC_CACHE_ALIGN);
+            // The model's data will Not be free'd on exceptions.
+            fb_alloc_mark_permanent();
+        } else {
+            // Align size and memory and keep a reference to the GC block.
+            size_t size = (model->size + IMLIB_ML_MODEL_ALIGN) & ~IMLIB_ML_MODEL_ALIGN;
+            model->_raw = xalloc(size + IMLIB_ML_MODEL_ALIGN);
+            model->data = (void *) (((uintptr_t) model->_raw + IMLIB_ML_MODEL_ALIGN) & ~IMLIB_ML_MODEL_ALIGN);
+        }
         file_read(&fp, model->data, model->size);
         file_close(&fp);
         #else
         mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Image I/O is not supported"));
         #endif
-    }
-
-    if (model->fb_alloc) {
-        // The model's data will Not be free'd on exceptions.
-        fb_alloc_mark_permanent();
-    } else {
-        fb_alloc_free_till_mark();
     }
 
     ml_backend_init_model(model);
@@ -400,4 +438,4 @@ const mp_obj_module_t ml_module = {
 // Alias for backwards compatibility
 MP_REGISTER_EXTENSIBLE_MODULE(MP_QSTR_tf, ml_module);
 MP_REGISTER_EXTENSIBLE_MODULE(MP_QSTR_ml, ml_module);
-#endif // IMLIB_ENABLE_TFLM
+#endif // MICROPY_PY_ML

@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Basic drawing functions.
  */
@@ -91,34 +106,31 @@ static void imlib_set_pixel_aa(image_t *img, int x, int y, int err, int c) {
     switch (img->pixfmt) {
         case PIXFORMAT_BINARY: {
             uint32_t *ptr = IMAGE_COMPUTE_BINARY_PIXEL_ROW_PTR(img, y);
-            int old_c = IMAGE_GET_BINARY_PIXEL_FAST(ptr, x);
-            int new_c = (((old_c - c) * err) >> 8) + c;
+            int old_c = IMAGE_GET_BINARY_PIXEL_FAST(ptr, x) * 255;
+            int new_c = (((old_c * err) + ((c ? 255 : 0) * (256 - err))) >> 8) > 127;
             IMAGE_PUT_BINARY_PIXEL_FAST(ptr, x, new_c);
             break;
         }
         case PIXFORMAT_GRAYSCALE: {
             uint8_t *ptr = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(img, y);
             int old_c = IMAGE_GET_GRAYSCALE_PIXEL_FAST(ptr, x);
-            int new_c = (((old_c - c) * err) >> 8) + c;
+            int new_c = ((old_c * err) + ((c & 0xff) * (256 - err))) >> 8;
             IMAGE_PUT_GRAYSCALE_PIXEL_FAST(ptr, x, new_c);
             break;
         }
         case PIXFORMAT_RGB565: {
             uint16_t *ptr = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(img, y);
             int old_c = IMAGE_GET_RGB565_PIXEL_FAST(ptr, x);
-            int old_r8 = COLOR_RGB565_TO_R8(old_c);
-            int old_g8 = COLOR_RGB565_TO_G8(old_c);
-            int old_b8 = COLOR_RGB565_TO_B8(old_c);
-
-            int r8 = COLOR_RGB565_TO_R8(c);
-            int g8 = COLOR_RGB565_TO_G8(c);
-            int b8 = COLOR_RGB565_TO_B8(c);
-
-            int new_r8 = (((old_r8 - r8) * err) >> 8) + r8;
-            int new_g8 = (((old_g8 - g8) * err) >> 8) + g8;
-            int new_b8 = (((old_b8 - b8) * err) >> 8) + b8;
-
-            int new_c = COLOR_R8_G8_B8_TO_RGB565(new_r8, new_g8, new_b8);
+            int old_c_r5 = COLOR_RGB565_TO_R5(old_c);
+            int old_c_g6 = COLOR_RGB565_TO_G6(old_c);
+            int old_c_b5 = COLOR_RGB565_TO_B5(old_c);
+            int c_r5 = COLOR_RGB565_TO_R5(c);
+            int c_g6 = COLOR_RGB565_TO_G6(c);
+            int c_b5 = COLOR_RGB565_TO_B5(c);
+            int new_c_r5 = ((old_c_r5 * err) + (c_r5 * (256 - err))) >> 8;
+            int new_c_g6 = ((old_c_g6 * err) + (c_g6 * (256 - err))) >> 8;
+            int new_c_b5 = ((old_c_b5 * err) + (c_b5 * (256 - err))) >> 8;
+            int new_c = COLOR_R5_G6_B5_TO_RGB565(new_c_r5, new_c_g6, new_c_b5);
             IMAGE_PUT_RGB565_PIXEL_FAST(ptr, x, new_c);
             break;
         }
@@ -710,6 +722,9 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
 
     int alpha = data->alpha, max = 256;
 
+    // To avoid having to divide by 255 scale alpha to 0-256 so we can right shift by 8.
+    alpha = fast_roundf((alpha * 256) / 255.0f);
+
     if (data->dst_img->pixfmt == PIXFORMAT_RGB565) {
         alpha >>= 3; // 5-bit alpha for RGB565
         max = 32;
@@ -721,7 +736,7 @@ void imlib_draw_row_setup(imlib_draw_row_data_t *data) {
         data->smuad_alpha_palette = fb_alloc(256 * sizeof(uint32_t), FB_ALLOC_NO_HINT);
 
         for (int i = 0, a = alpha; i < 256; i++) {
-            int new_alpha = fast_roundf((a * data->alpha_palette[i]) / 255.f);
+            int new_alpha = fast_roundf((a * data->alpha_palette[i]) / 255.0f);
             data->smuad_alpha_palette[i] = data->black_background ? new_alpha : ((new_alpha << 16) | (max - new_alpha));
         }
     } else {
@@ -824,7 +839,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                    } else if (data->alpha == 256) {
+                    } else if (data->alpha == 255) {
                         if (!data->color_palette) {
                             for (int x = x_start; x < x_end; x++) {
                                 int pixel = IMAGE_GET_BINARY_PIXEL_FAST(src32, x);
@@ -912,46 +927,6 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                        // More desirable results are produced by alpha blending with 8-bits.
-                        // if (!data->color_palette) {
-                        //     for (int x = x_start; x < x_end; x++) {
-                        //         int pixel = IMAGE_GET_BINARY_PIXEL_FAST(src32, x) & IMAGE_GET_BINARY_PIXEL_FAST(dst32, x);
-                        //         IMAGE_PUT_BINARY_PIXEL_FAST(dst32, x, pixel);
-                        //     }
-                        // } else {
-                        //     const uint16_t *color_palette = data->color_palette;
-                        //     uint16_t pal0 = color_palette[0], pal255 = color_palette[255];
-                        //     pal0 = COLOR_RGB565_TO_Y(pal0) > 127;
-                        //     pal255 = COLOR_RGB565_TO_Y(pal255) > 127;
-                        //     switch ((pal0 << 1) | (pal255 << 0)) {
-                        //         case 0: {
-                        //             for (int x = x_start; x < x_end; x++) {
-                        //                 IMAGE_PUT_BINARY_PIXEL_FAST(dst32, x, 0);
-                        //             }
-                        //             break;
-                        //         }
-                        //         case 1: {
-                        //             for (int x = x_start; x < x_end; x++) {
-                        //                 int pixel = IMAGE_GET_BINARY_PIXEL_FAST(src32, x) & IMAGE_GET_BINARY_PIXEL_FAST(dst32, x);
-                        //                 IMAGE_PUT_BINARY_PIXEL_FAST(dst32, x, pixel);
-                        //             }
-                        //             break;
-                        //         }
-                        //         case 2: {
-                        //             for (int x = x_start; x < x_end; x++) {
-                        //                 int pixel = !(IMAGE_GET_BINARY_PIXEL_FAST(src32, x) | IMAGE_GET_BINARY_PIXEL_FAST(dst32, x));
-                        //                 IMAGE_PUT_BINARY_PIXEL_FAST(dst32, x, pixel);
-                        //             }
-                        //             break;
-                        //         }
-                        //         case 3: {
-                        //             for (int x = x_start; x < x_end; x++) {
-                        //                 IMAGE_PUT_BINARY_PIXEL_FAST(dst32, x, 1);
-                        //             }
-                        //             break;
-                        //         }
-                        //     }
-                        // }
                     }
                     break;
                 }
@@ -1009,7 +984,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                    } else if (data->alpha == 256) {
+                    } else if (data->alpha == 255) {
                         if (!data->color_palette) {
                             for (int x = x_start; x < x_end; x++) {
                                 int pixel = *src8++ > 127;
@@ -1127,7 +1102,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -1245,7 +1220,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -1363,7 +1338,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -1481,7 +1456,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -1604,7 +1579,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                    } else if (data->alpha == 256) {
+                    } else if (data->alpha == 255) {
                         if (!data->color_palette) {
                             for (int x = x_start; x < x_end; x++) {
                                 *dst8++ =
@@ -1697,7 +1672,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                    } else if (data->alpha == 256) {
+                    } else if (data->alpha == 255) {
                         if (!data->color_palette) {
                             unaligned_memcpy(dst8, src8, (x_end - x_start) * sizeof(uint8_t));
                         } else {
@@ -1781,7 +1756,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -1869,7 +1844,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -1957,7 +1932,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -2045,7 +2020,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -2151,7 +2126,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                    } else if (data->alpha == 256) {
+                    } else if (data->alpha == 255) {
                         if (!data->color_palette) {
                             for (int x = x_start; x < x_end; x++) {
                                 *dst16++ =
@@ -2242,7 +2217,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                 }
                             }
                         }
-                    } else if (data->alpha == 256) {
+                    } else if (data->alpha == 255) {
                         if (!data->color_palette) {
                             for (int x = x_start; x < x_end; x++) {
                                 int pixel = *src8++;
@@ -2330,7 +2305,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 unaligned_memcpy(dst16, src16, (x_end - x_start) * sizeof(uint16_t));
                             } else {
@@ -2416,7 +2391,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -2510,7 +2485,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -2604,7 +2579,7 @@ void imlib_draw_row(int x_start, int x_end, int y_row, imlib_draw_row_data_t *da
                                     }
                                 }
                             }
-                        } else if (data->alpha == 256) {
+                        } else if (data->alpha == 255) {
                             if (!data->color_palette) {
                                 for (int x = x_start; x < x_end; x++) {
                                     int pixel = *src16++;
@@ -2979,11 +2954,13 @@ void imlib_draw_image(image_t *dst_img,
     // top 16-bits = whole part, bottom 16-bits = fractional part.
 
     int dst_x_reset = (dst_delta_x < 0) ? (dst_x_end - 1) : dst_x_start;
-    long src_x_frac = fast_floorf(65536.0f / x_scale), src_x_frac_size = (src_x_frac + 0xFFFF) >> 16;
+    long src_x_frac = fast_floorf(65536.0f / x_scale);
+    long src_x_frac_size = (src_x_frac + 0xFFFF) >> 16;
     long src_x_accum_reset = fast_floorf((src_x_start << 16) / x_scale);
 
     int dst_y_reset = (dst_delta_y < 0) ? (dst_y_end - 1) : dst_y_start;
-    long src_y_frac = fast_floorf(65536.0f / y_scale), src_y_frac_size = (src_y_frac + 0xFFFF) >> 16;
+    long src_y_frac = fast_floorf(65536.0f / y_scale);
+    long src_y_frac_size = (src_y_frac + 0xFFFF) >> 16;
     long src_y_accum_reset = fast_floorf((src_y_start << 16) / y_scale);
 
     // Nearest Neighbor
@@ -3019,15 +2996,12 @@ void imlib_draw_image(image_t *dst_img,
         new_src_img.pixfmt = color_palette ? PIXFORMAT_RGB565 : PIXFORMAT_GRAYSCALE;
         new_src_img.data = fb_alloc(image_size(&new_src_img), FB_ALLOC_CACHE_ALIGN);
         imlib_draw_image(&new_src_img, src_img, 0, 0, 1.f, 1.f, NULL,
-                         rgb_channel, 256, color_palette, NULL, 0, NULL, NULL, NULL);
+                         rgb_channel, 255, color_palette, NULL, 0, NULL, NULL, NULL);
         src_img = &new_src_img;
         rgb_channel = -1;
         color_palette = NULL;
     }
 
-    // Special destination?
-    bool is_jpeg = src_img->pixfmt == PIXFORMAT_JPEG;
-    bool is_png = src_img->pixfmt == PIXFORMAT_PNG;
     // Best format to convert yuv/bayer/jpeg image to.
     int new_not_mutable_pixfmt = (rgb_channel != -1) ? PIXFORMAT_RGB565 :
                                  (color_palette ? PIXFORMAT_GRAYSCALE :
@@ -3046,19 +3020,51 @@ void imlib_draw_image(image_t *dst_img,
     size_t dst_img_row_bytes = image_size(dst_img) / dst_img->h;
 
     // Do we need to convert the image?
-    bool is_bayer_color_conversion = src_img->is_bayer && !dst_img->is_bayer;
-    bool is_yuv_color_conversion = src_img->is_yuv && !dst_img->is_yuv;
-    bool is_color_conversion = is_bayer_color_conversion || is_yuv_color_conversion;
+    bool is_bayer_conversion = src_img->is_bayer && !dst_img->is_bayer;
+    bool is_yuv_conversion = src_img->is_yuv && !dst_img->is_yuv;
+    bool is_bayer_yuv_conversion = is_bayer_conversion || is_yuv_conversion;
 
-    // Force a deep copy if we cannot use the image in-place.
-    bool need_deep_copy = (dst_img->data == src_img->data)
-                          && (is_scaling || (src_img_row_bytes < dst_img_row_bytes) || is_color_conversion);
+    // Is the line length growing which will prevent us from working in-place?
+    bool is_upscaling = src_img_row_bytes < dst_img_row_bytes;
 
-    // Force a deep copy if we are scaling.
-    bool is_color_conversion_scaling = is_color_conversion && is_scaling;
+    #if (OMV_GPU_ENABLE == 1)
+    if (!callback &&
+        !is_bayer_yuv_conversion &&
+        !src_img->is_compressed &&
+        (rgb_channel < 0) &&
+        ((dst_img->data != src_img->data) || (!is_upscaling)) &&
+        !(hint & (IMAGE_HINT_AREA | IMAGE_HINT_BICUBIC | IMAGE_HINT_TRANSPOSE))) {
+
+        rectangle_t dst_rect = {
+            .x = dst_x_start,
+            .y = dst_y_start,
+            .w = dst_x_end - dst_rect.x,
+            .h = dst_y_end - dst_rect.y,
+        };
+
+        rectangle_t src_rect = {
+            .x = fast_roundf(src_x_start / x_scale),
+            .y = fast_roundf(src_y_start / y_scale),
+            .w = fast_floorf(dst_rect.w / x_scale),
+            .h = fast_floorf(dst_rect.h / y_scale),
+        };
+
+        image_hint_t gpu_hints = ((dst_delta_x < 0) ? IMAGE_HINT_HMIRROR : 0) |
+                                 ((dst_delta_y < 0) ? IMAGE_HINT_VFLIP : 0) |
+                                 (hint & (IMAGE_HINT_BILINEAR | IMAGE_HINT_BLACK_BACKGROUND));
+
+        if (!omv_gpu_draw_image(src_img, &src_rect, dst_img, &dst_rect,
+                                alpha, color_palette, alpha_palette, gpu_hints)) {
+            goto exit_cleanup;
+        }
+    }
+    #endif
 
     // Make a deep copy of the source image.
-    if (need_deep_copy || is_color_conversion_scaling || is_jpeg || is_png) {
+    if (((dst_img->data == src_img->data) &&
+         (is_scaling || is_upscaling || is_bayer_yuv_conversion)) ||
+        (is_bayer_yuv_conversion && is_scaling) ||
+        src_img->is_compressed) {
         new_src_img.w = src_img->w; // same width as source image
         new_src_img.h = src_img->h; // same height as source image
 
@@ -3075,9 +3081,9 @@ void imlib_draw_image(image_t *dst_img,
                         imlib_debayer_image(&new_src_img, src_img);
                     } else if (src_img->is_yuv) {
                         imlib_deyuv_image(&new_src_img, src_img);
-                    } else if (is_jpeg) {
+                    } else if (src_img->pixfmt == PIXFORMAT_JPEG) {
                         jpeg_decompress(&new_src_img, src_img);
-                    } else if (is_png) {
+                    } else if (src_img->pixfmt == PIXFORMAT_PNG) {
                         png_decompress(&new_src_img, src_img);
                     }
                     break;
@@ -3088,7 +3094,7 @@ void imlib_draw_image(image_t *dst_img,
                     break;
                 }
                 default: {
-                    if (is_png) {
+                    if (src_img->pixfmt == PIXFORMAT_PNG) {
                         png_decompress(&new_src_img, src_img);
                     }
                     break;
@@ -3119,7 +3125,7 @@ void imlib_draw_image(image_t *dst_img,
             t_src_img.h = t_roi.h = src_width_scaled; // was transposed
             t_src_img.data = fb_alloc(image_size(&t_src_img), FB_ALLOC_CACHE_ALIGN);
             imlib_draw_image(&t_src_img, src_img, 0, 0, x_scale, y_scale, roi,
-                             -1, 256, NULL, NULL,
+                             -1, 255, NULL, NULL,
                              hint & (IMAGE_HINT_AREA | IMAGE_HINT_BILINEAR | IMAGE_HINT_BICUBIC),
                              NULL, NULL, NULL);
         } else {
@@ -3129,8 +3135,11 @@ void imlib_draw_image(image_t *dst_img,
             t_src_img.data = src_img->data;
         }
 
-        uint32_t size;
-        void *data = fb_alloc_all(&size, FB_ALLOC_PREFER_SPEED | FB_ALLOC_CACHE_ALIGN);
+        // Allocate a buffer to hold chunks of the transposed image.
+        size_t size = fb_avail();
+        size = (size & ~(OMV_ALLOC_ALIGNMENT - 1)) - OMV_ALLOC_ALIGNMENT;
+        size = IM_MIN(size, image_size(&t_src_img));
+        void *data = fb_alloc(size, FB_ALLOC_PREFER_SPEED | FB_ALLOC_CACHE_ALIGN);
 
         // line_num stores how many lines we can do at a time with on-chip RAM.
         image_t temp = {.w = t_roi.w, .h = t_roi.h, .pixfmt = t_src_img.pixfmt};
@@ -3223,31 +3232,6 @@ void imlib_draw_image(image_t *dst_img,
 
         goto exit_cleanup;
     }
-
-    #if (OMV_GPU_ENABLE == 1)
-    // Try to offload this to the GPU for processing.
-    if ((rgb_channel < 0) && (!(hint & (IMAGE_HINT_AREA | IMAGE_HINT_BICUBIC))) && (!callback)) {
-        rectangle_t dst_rect;
-        dst_rect.x = dst_x_start;
-        dst_rect.y = dst_y_start;
-        dst_rect.w = dst_x_end - dst_rect.x;
-        dst_rect.h = dst_y_end - dst_rect.y;
-
-        rectangle_t src_rect;
-        src_rect.x = src_x_accum_reset >> 16;
-        src_rect.y = src_y_accum_reset >> 16;
-        src_rect.w = ((src_x_accum_reset + (src_x_frac * dst_rect.w)) >> 16) - src_rect.x;
-        src_rect.h = ((src_y_accum_reset + (src_y_frac * dst_rect.h)) >> 16) - src_rect.y;
-
-        image_hint_t gpu_hint = hint & (IMAGE_HINT_BILINEAR | IMAGE_HINT_BLACK_BACKGROUND);
-        gpu_hint |= (dst_delta_x < 0) ? IMAGE_HINT_HMIRROR : 0;
-        gpu_hint |= (dst_delta_y < 0) ? IMAGE_HINT_VFLIP : 0;
-
-        if (!omv_gpu_draw_image(src_img, &src_rect, dst_img, &dst_rect, alpha, color_palette, alpha_palette, gpu_hint)) {
-            goto exit_cleanup;
-        }
-    }
-    #endif
 
     // Bicbuic and bilinear both shift the image right by (0.5, 0.5) so we have to undo that.
     if (hint & (IMAGE_HINT_BICUBIC | IMAGE_HINT_BILINEAR)) {
@@ -4323,123 +4307,6 @@ void imlib_draw_image(image_t *dst_img,
                         while (x_not_done) {
                             int src_x_index = next_src_x_index;
                             int src_x_index_m_1 = src_x_index - 1;
-// Concept code showing off how to do 4 operations in parallel. Not useful however because of overflows
-// in the 8-bit accumulators - the final image looks bad. Might be workable for lower bit-depth images.
-#if 0
-                            int pixel_row_0, pixel_row_1, pixel_row_2, pixel_row_3;
-                            // Column 0 = Bits[7:0]
-                            // Column 1 = Bits[15:8]
-                            // Column 2 = Bits[23:16]
-                            // Column 3 = Bits[31:24]
-
-                            if (src_x_index < w_start) {
-                                pixel_row_0 = ((*(src_row_ptr_0 + w_start)) * 0x010101) |
-                                              ((*(src_row_ptr_0 + w_start_p_1)) << 24);
-                                pixel_row_1 = ((*(src_row_ptr_1 + w_start)) * 0x010101) |
-                                              ((*(src_row_ptr_1 + w_start_p_1)) << 24);
-                                pixel_row_2 = ((*(src_row_ptr_2 + w_start)) * 0x010101) |
-                                              ((*(src_row_ptr_2 + w_start_p_1)) << 24);
-                                pixel_row_3 = ((*(src_row_ptr_3 + w_start)) * 0x010101) |
-                                              ((*(src_row_ptr_3 + w_start_p_1)) << 24);
-                            } else if (src_x_index == w_start) {
-                                pixel_row_0 = ((*(src_row_ptr_0 + w_start)) * 0x0101) |
-                                              ((*((uint16_t *) (src_row_ptr_0 + w_start_p_1))) << 16);
-                                pixel_row_1 = ((*(src_row_ptr_1 + w_start)) * 0x0101) |
-                                              ((*((uint16_t *) (src_row_ptr_1 + w_start_p_1))) << 16);
-                                pixel_row_2 = ((*(src_row_ptr_2 + w_start)) * 0x0101) |
-                                              ((*((uint16_t *) (src_row_ptr_2 + w_start_p_1))) << 16);
-                                pixel_row_3 = ((*(src_row_ptr_3 + w_start)) * 0x0101) |
-                                              ((*((uint16_t *) (src_row_ptr_3 + w_start_p_1))) << 16);
-                            } else if (src_x_index == w_limit_m_1) {
-                                pixel_row_0 = (*((uint16_t *) (src_row_ptr_0 + src_x_index_m_1))) |
-                                              ((*(src_row_ptr_0 + w_limit)) * 0x01010000);
-                                pixel_row_1 = (*((uint16_t *) (src_row_ptr_1 + src_x_index_m_1))) |
-                                              ((*(src_row_ptr_1 + w_limit)) * 0x01010000);
-                                pixel_row_2 = (*((uint16_t *) (src_row_ptr_2 + src_x_index_m_1))) |
-                                              ((*(src_row_ptr_2 + w_limit)) * 0x01010000);
-                                pixel_row_3 = (*((uint16_t *) (src_row_ptr_3 + src_x_index_m_1))) |
-                                              ((*(src_row_ptr_3 + w_limit)) * 0x01010000);
-                            } else if (src_x_index >= w_limit) {
-                                pixel_row_0 = (*(src_row_ptr_0 + src_x_index_m_1)) |
-                                              ((*(src_row_ptr_0 + w_limit)) * 0x01010100);
-                                pixel_row_1 = (*(src_row_ptr_1 + src_x_index_m_1)) |
-                                              ((*(src_row_ptr_1 + w_limit)) * 0x01010100);
-                                pixel_row_2 = (*(src_row_ptr_2 + src_x_index_m_1)) |
-                                              ((*(src_row_ptr_2 + w_limit)) * 0x01010100);
-                                pixel_row_3 = (*(src_row_ptr_3 + src_x_index_m_1)) |
-                                              ((*(src_row_ptr_3 + w_limit)) * 0x01010100);
-                            } else {
-                                // get 4 neighboring rows
-                                pixel_row_0 = *((uint32_t *) (src_row_ptr_0 + src_x_index_m_1));
-                                pixel_row_1 = *((uint32_t *) (src_row_ptr_1 + src_x_index_m_1));
-                                pixel_row_2 = *((uint32_t *) (src_row_ptr_2 + src_x_index_m_1));
-                                pixel_row_3 = *((uint32_t *) (src_row_ptr_3 + src_x_index_m_1));
-                            }
-
-                            // Need 8-bit signed (0x7F max).
-                            pixel_row_0 = __UHADD8(pixel_row_0, 0);
-                            pixel_row_1 = __UHADD8(pixel_row_1, 0);
-                            pixel_row_2 = __UHADD8(pixel_row_2, 0);
-                            pixel_row_3 = __UHADD8(pixel_row_3, 0);
-
-                            // Need 1/3 guard bits.
-                            pixel_row_0 = __UHADD8(pixel_row_0, 0);
-                            pixel_row_1 = __UHADD8(pixel_row_1, 0);
-                            pixel_row_2 = __UHADD8(pixel_row_2, 0);
-                            pixel_row_3 = __UHADD8(pixel_row_3, 0);
-
-                            // Need 2/3 guard bits.
-                            pixel_row_0 = __UHADD8(pixel_row_0, 0);
-                            pixel_row_1 = __UHADD8(pixel_row_1, 0);
-                            pixel_row_2 = __UHADD8(pixel_row_2, 0);
-                            pixel_row_3 = __UHADD8(pixel_row_3, 0);
-
-                            // Need 3/3 guard bits.
-                            pixel_row_0 = __UHADD8(pixel_row_0, 0);
-                            pixel_row_1 = __UHADD8(pixel_row_1, 0);
-                            pixel_row_2 = __UHADD8(pixel_row_2, 0);
-                            pixel_row_3 = __UHADD8(pixel_row_3, 0);
-
-                            long temp0 = __QADD8(pixel_row_2, pixel_row_2);
-                            long temp1 = __QADD8(pixel_row_1, pixel_row_1);
-                            long temp2 = __QSUB8(pixel_row_1, pixel_row_2);
-
-                            long a0_col = __QSUB8(pixel_row_2, pixel_row_0);
-                            long a1_col =
-                                __QSUB8(__QSUB8(__QADD8(__QADD8(pixel_row_0, pixel_row_0), __QADD8(temp0, temp0)),
-                                                __QADD8(__QADD8(temp1, temp1), pixel_row_1)), pixel_row_3);
-                            long a2_col = __QSUB8(__QADD8(__QADD8(__QADD8(temp2, temp2), temp2), pixel_row_3), pixel_row_0);
-
-                            long a0_col_2_0 = __SXTB16(a0_col);
-                            long a1_col_2_0 = __SXTB16(a1_col);
-                            long a2_col_2_0 = __SXTB16(a2_col);
-
-                            long smuad_a0_a1_0 = __PKHBT(a1_col_2_0, a0_col_2_0, 16);
-                            long pixel_1_avg_0 = ((pixel_row_1 & 0xff) << 16) | 0x8000;
-                            int d0 =
-                                ((int32_t) __SMLAD(smuad_dy_dy2, smuad_a0_a1_0, __SMLAD(dy3, a2_col_2_0, pixel_1_avg_0))) >> 16;
-
-                            long smuad_a0_a1_2 = __PKHTB(a0_col_2_0, a1_col_2_0, 16);
-                            long pixel_1_avg_2 = (pixel_row_1 & 0xff0000) | 0x8000;
-                            int d2 =
-                                ((int32_t) __SMLAD(smuad_dy_dy2, smuad_a0_a1_2,
-                                                   __SMLADX(dy3, a2_col_2_0, pixel_1_avg_2))) >> 16;
-
-                            long a0_col_3_1 = __SXTB16_RORn(a0_col, 8);
-                            long a1_col_3_1 = __SXTB16_RORn(a1_col, 8);
-                            long a2_col_3_1 = __SXTB16_RORn(a2_col, 8);
-
-                            long smuad_a0_a1_1 = __PKHBT(a1_col_3_1, a0_col_3_1, 16);
-                            long pixel_1_avg_1 = ((pixel_row_1 << 8) & 0xff0000) | 0x8000;
-                            int d1 =
-                                ((int32_t) __SMLAD(smuad_dy_dy2, smuad_a0_a1_1, __SMLAD(dy3, a2_col_3_1, pixel_1_avg_1))) >> 16;
-
-                            long smuad_a0_a1_3 = __PKHTB(a0_col_3_1, a1_col_3_1, 16);
-                            long pixel_1_avg_3 = ((pixel_row_1 >> 8) & 0xff0000) | 0x8000;
-                            int d3 =
-                                ((int32_t) __SMLAD(smuad_dy_dy2, smuad_a0_a1_3,
-                                                   __SMLADX(dy3, a2_col_3_1, pixel_1_avg_3))) >> 16;
-#else
                             int src_x_index_p_1 = src_x_index + 1;
                             int src_x_index_p_2 = src_x_index + 2;
                             int pixel_x_offests[4];
@@ -4486,7 +4353,6 @@ void imlib_draw_image(image_t *dst_img,
                             } // for z
 
                             int d0 = d[0], d1 = d[1], d2 = d[2], d3 = d[3];
-#endif
                             int a0 = d2 - d0;
                             int a1 = (d0 << 1) + (d2 << 2) - (5 * d1) - d3;
                             int a2 = (3 * (d1 - d2)) + d3 - d0;

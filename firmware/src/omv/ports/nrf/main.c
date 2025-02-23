@@ -24,7 +24,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -89,7 +88,7 @@
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
 #include "omv_i2c.h"
-#include "sensor.h"
+#include "omv_csi.h"
 #include "mp_utils.h"
 
 uint32_t HAL_GetHalVersion() {
@@ -143,7 +142,7 @@ soft_reset:
     machine_init();
     mp_init();
     readline_init0();
-    #if MICROPY_PY_MACHINE_HW_SPI
+    #if MICROPY_PY_MACHINE_SPI
     spi_init0();
     #endif
     #if MICROPY_PY_MACHINE_I2C
@@ -158,7 +157,7 @@ soft_reset:
     #if MICROPY_PY_MACHINE_RTCOUNTER
     rtc_init0();
     #endif
-    #if MICROPY_PY_MACHINE_TIMER
+    #if MICROPY_PY_MACHINE_TIMER_NRF
     timer_init0();
     #endif
     #if MICROPY_PY_MACHINE_UART
@@ -169,8 +168,8 @@ soft_reset:
     fb_alloc_init0();
     framebuffer_init0();
 
-    #if MICROPY_PY_SENSOR
-    sensor_init();
+    #if MICROPY_PY_CSI
+    omv_csi_init();
     #endif
 
     #if (MICROPY_PY_BLE_NUS == 0) && (MICROPY_HW_USB_CDC == 0)
@@ -270,11 +269,11 @@ soft_reset:
 
     #if MICROPY_VFS || MICROPY_MBFS || MICROPY_MODULE_FROZEN
     // Run boot.py script.
-    bool interrupted = mp_exec_bootscript("boot.py", true, false);
+    bool interrupted = mp_exec_bootscript("boot.py", true);
 
     // Run main.py script on first soft-reset.
     if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
-        mp_exec_bootscript("main.py", true, false);
+        mp_exec_bootscript("main.py", true);
         goto soft_reset_exit;
     }
     #endif

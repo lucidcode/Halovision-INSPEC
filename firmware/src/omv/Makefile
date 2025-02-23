@@ -17,7 +17,6 @@ SRCS += $(addprefix alloc/,     \
 
 SRCS += $(addprefix common/,    \
 	array.c                     \
-	ini.c                       \
 	ringbuf.c                   \
 	trace.c                     \
 	mutex.c                     \
@@ -27,8 +26,8 @@ SRCS += $(addprefix common/,    \
 	tinyusb_debug.c             \
 	file_utils.c                \
 	mp_utils.c                  \
-	sensor_utils.c              \
 	nosys_stubs.c               \
+	omv_csi.c                   \
    )
 
 SRCS += $(addprefix sensors/,   \
@@ -40,11 +39,14 @@ SRCS += $(addprefix sensors/,   \
 	ov9650.c                    \
 	mt9v0xx.c                   \
 	mt9m114.c                   \
+	boson.c                     \
 	lepton.c                    \
 	hm01b0.c                    \
 	hm0360.c                    \
 	gc2145.c                    \
+	genx320.c                   \
 	pag7920.c                   \
+	pag7936.c                   \
 	paj6100.c                   \
 	frogeye2020.c               \
    )

@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2024 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2024 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Binary image operations.
  */
@@ -185,7 +200,7 @@ void imlib_binary(image_t *out, image_t *img, list_t *thresholds, bool invert, b
         dst_row_override = fb_alloc0(image_line_size(out), FB_ALLOC_CACHE_ALIGN);
     }
 
-    imlib_draw_image(out, &bmp, 0, 0, 1.0f, 1.0f, NULL, -1, 256, NULL, NULL, 0, callback, mask, dst_row_override);
+    imlib_draw_image(out, &bmp, 0, 0, 1.0f, 1.0f, NULL, -1, 255, NULL, NULL, 0, callback, mask, dst_row_override);
 
     if (dst_row_override) {
         fb_free(); // dst_row_override
@@ -1240,7 +1255,7 @@ static void imlib_hat(image_t *img, int ksize, int threshold, image_t *mask, bin
     memcpy(temp.data, img->data, image_size(img));
     op(&temp, ksize, threshold, mask);
     void *dst_row_override = fb_alloc0(image_line_size(img), FB_ALLOC_CACHE_ALIGN);
-    imlib_draw_image(img, &temp, 0, 0, 1.0f, 1.0f, NULL, -1, 256, NULL, NULL, 0,
+    imlib_draw_image(img, &temp, 0, 0, 1.0f, 1.0f, NULL, -1, 255, NULL, NULL, 0,
                      imlib_difference_line_op, mask, dst_row_override);
     fb_free(); // dst_row_override
     fb_free(); // temp.data

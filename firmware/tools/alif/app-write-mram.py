@@ -19,9 +19,6 @@ from utils.discover import getValues, getJlinkSN
 import utils.config
 from utils.config import *
 from utils.user_validations import validateArgList
-from _ast import Or
-from _operator import or_
-from cgitb import handler
 sys.path.append("./isp")
 from serialport import serialPort
 from serialport import COM_BAUD_RATE_MAXIMUM
@@ -118,6 +115,7 @@ def main():
         print("[ERROR] You need Python 3 for this application!")
         sys.exit(EXIT_WITH_ERROR)
 
+    exit_code = 0
     # Deal with Command Line
     parser = argparse.ArgumentParser(description=
                                      'NVM Burner for Application TOC Package')
@@ -359,6 +357,8 @@ def main():
 
             if burn_mram_isp(isp, handler, fileName, address,
                              args.verbose, args.auth_image) == False:
+                
+                exit_code = EXIT_WITH_ERROR
                 break
 
         # Restore the default Baud rate
@@ -370,6 +370,7 @@ def main():
     isp_reset(isp)
 
     isp.closeSerial()
+    sys.exit(exit_code)
 
 if __name__ == "__main__":
     main()

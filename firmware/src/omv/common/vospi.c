@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2023-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * VOSPI driver.
  */
@@ -164,6 +179,8 @@ int vospi_init(uint32_t n_packets, void *buffer) {
     spi_config.bus_mode = OMV_SPI_BUS_RX;
     spi_config.datasize = 16;
     spi_config.baudrate = VOSPI_CLOCK_SPEED;
+    spi_config.clk_pol = OMV_SPI_CPOL_HIGH;
+    spi_config.clk_pha = OMV_SPI_CPHA_2EDGE;
     spi_config.dma_flags = OMV_SPI_DMA_CIRCULAR | OMV_SPI_DMA_DOUBLE;
 
     if (omv_spi_init(&vospi.spi_bus, &spi_config) != 0) {

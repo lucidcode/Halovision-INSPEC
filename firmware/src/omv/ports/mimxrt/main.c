@@ -1,14 +1,28 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2023 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * main function.
  */
-
 #include "py/compile.h"
 #include "py/runtime.h"
 #include "py/gc.h"
@@ -53,7 +67,7 @@
 
 #include "omv_boardconfig.h"
 #include "framebuffer.h"
-#include "sensor.h"
+#include "omv_csi.h"
 #include "usbdbg.h"
 #include "tinyusb_debug.h"
 #include "fb_alloc.h"
@@ -63,8 +77,6 @@
 #include "mimxrt_hal.h"
 
 int main(void) {
-    bool sdcard_detected = false;
-    bool sdcard_mounted = false;
     bool first_soft_reset = true;
 
     mimxrt_hal_init();
@@ -94,7 +106,7 @@ soft_reset:
     readline_init0();
     fb_alloc_init0();
     framebuffer_init0();
-    sensor_init0();
+    omv_csi_init0();
     //dma_alloc_init0();
     #ifdef IMLIB_ENABLE_IMAGE_FILE_IO
     file_buffer_init0();
@@ -139,49 +151,23 @@ soft_reset:
     mod_network_init();
     #endif
 
-    #if MICROPY_PY_SENSOR
+    #if MICROPY_PY_CSI
     if (first_soft_reset) {
-        sensor_init();
+        omv_csi_init();
     }
     #endif
 
-    // Mount or create a fresh filesystem.
-    mp_obj_t mount_point = MP_OBJ_NEW_QSTR(MP_QSTR__slash_);
-    #if MICROPY_PY_MACHINE_SDCARD
-    mimxrt_sdcard_obj_t *sdcard = &mimxrt_sdcard_objs[MICROPY_HW_SDCARD_SDMMC - 1];
-    if (!sdcard->state->initialized) {
-        mp_hal_pin_input(sdcard->pins->cd_b.pin);
-        sdcard_detected = !mp_hal_pin_read(sdcard->pins->cd_b.pin);
-    } else {
-        sdcard_detected = sdcard_detect(sdcard);
-    }
-    if (sdcard_detected) {
-        mp_obj_t args[] = { MP_OBJ_NEW_SMALL_INT(MICROPY_HW_SDCARD_SDMMC) };
-        mp_obj_t bdev = MP_OBJ_TYPE_GET_SLOT(&machine_sdcard_type, make_new) (&machine_sdcard_type, 1, 0, args);
-        if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == 0) {
-            mimxrt_msc_medium = &machine_sdcard_type;
-            sdcard_mounted = true;
-        }
-    }
-    #endif
+    // Execute _boot.py to set up the filesystem.
+    pyexec_frozen_module("_boot.py", false);
 
-    if (sdcard_mounted == false) {
-        mp_obj_t bdev = MP_OBJ_TYPE_GET_SLOT(&mimxrt_flash_type, make_new) (&mimxrt_flash_type, 0, 0, NULL);
-        if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == 0) {
-            mimxrt_msc_medium = &mimxrt_flash_type;
-        } else {
-            // Create a fresh filesystem.
-            fs_user_mount_t *vfs = MP_OBJ_TYPE_GET_SLOT(&mp_fat_vfs_type, make_new) (&mp_fat_vfs_type, 1, 0, &bdev);
-            if (mp_init_filesystem(vfs) == 0) {
-                if (mp_vfs_mount_and_chdir_protected(bdev, mount_point) == 0) {
-                    mimxrt_msc_medium = &mimxrt_flash_type;
-                }
-            }
-        }
-    }
+    // Set the USB medium to flash block device.
+    mimxrt_msc_medium = &mimxrt_flash_type;
 
-    // Mark the filesystem as an OpenMV storage.
-    file_ll_touch(".openmv_disk");
+    const char *path = "/sdcard";
+    // If SD is mounted, set the USB medium to SD.
+    if (mp_vfs_lookup_path(path, &path) != MP_VFS_NONE) {
+        mimxrt_msc_medium = &machine_sdcard_type;
+    }
 
     // Initialize TinyUSB after the filesystem is mounted.
     if (!tusb_inited()) {
@@ -189,11 +175,11 @@ soft_reset:
     }
 
     // Run boot.py script.
-    bool interrupted = mp_exec_bootscript("boot.py", true, false);
+    bool interrupted = mp_exec_bootscript("boot.py", true);
 
     // Run main.py script on first soft-reset.
     if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
-        mp_exec_bootscript("main.py", true, false);
+        mp_exec_bootscript("main.py", true);
         goto soft_reset_exit;
     }
 

@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Python module for time of flight sensors.
  */
@@ -30,8 +45,6 @@
 #define VL53L5CX_HEIGHT             8
 #define VL53L5CX_FRAME_DATA_SIZE    64
 
-static omv_i2c_t tof_bus = {};
-
 typedef enum tof_type {
     TOF_NONE,
     #if (OMV_TOF_VL53L5CX_ENABLE == 1)
@@ -43,6 +56,7 @@ static int tof_width = 0;
 static int tof_height = 0;
 static bool tof_transposed = false;
 static tof_type_t tof_sensor = TOF_NONE;
+static omv_i2c_t tof_bus = { 0 };
 
 #if (OMV_TOF_VL53L5CX_ENABLE == 1)
 static VL53L5CX_Configuration vl53l5cx_dev = {
@@ -91,16 +105,16 @@ static void tof_vl53l5cx_get_depth(VL53L5CX_Configuration *vl53l5cx_dev, float *
 
     for (mp_uint_t start = mp_hal_ticks_ms(); !frame_ready; mp_hal_delay_ms(1)) {
         if (vl53l5cx_check_data_ready(vl53l5cx_dev, &frame_ready) != 0) {
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("VL53L5CX ranging failed"));
+            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("VL53L5CX ranging failed"));
         }
 
         if ((mp_hal_ticks_ms() - start) >= timeout) {
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("VL53L5CX ranging timeout"));
+            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("VL53L5CX ranging timeout"));
         }
     }
 
     if (vl53l5cx_get_ranging_data(vl53l5cx_dev, &ranging_data) != 0) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("VL53L5CX ranging failed"));
+        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("VL53L5CX ranging failed"));
     }
 
     for (int i = 0, ii = VL53L5CX_WIDTH * VL53L5CX_HEIGHT; i < ii; i++) {
@@ -108,7 +122,8 @@ static void tof_vl53l5cx_get_depth(VL53L5CX_Configuration *vl53l5cx_dev, float *
     }
 }
 
-static mp_obj_t tof_get_depth_obj(int w, int h, float *frame, bool mirror, bool flip, bool dst_transpose, bool src_transpose) {
+static mp_obj_t tof_get_depth_obj(int w, int h, float *frame, bool mirror,
+                                  bool flip, bool dst_transpose, bool src_transpose) {
     mp_obj_list_t *list = (mp_obj_list_t *) mp_obj_new_list(w * h, NULL);
     float min = FLT_MAX;
     float max = -FLT_MAX;
@@ -182,7 +197,7 @@ static mp_obj_t tof_get_depth_obj(int w, int h, float *frame, bool mirror, bool 
 }
 #endif
 
-static mp_obj_t py_tof_deinit() {
+static mp_obj_t py_tof_reset() {
     tof_width = 0;
     tof_height = 0;
     tof_transposed = false;
@@ -196,12 +211,25 @@ static mp_obj_t py_tof_deinit() {
         omv_i2c_deinit(&tof_bus);
         tof_sensor = TOF_NONE;
     }
+    #if (OMV_TOF_VL53L5CX_ENABLE == 1)
+    vl53l5cx_reset(&vl53l5cx_dev.platform);
+    #endif
+    return mp_const_none;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_reset_obj, py_tof_reset);
 
+static mp_obj_t py_tof_deinit() {
+    tof_width = 0;
+    tof_height = 0;
+    tof_transposed = false;
+    #if (OMV_TOF_VL53L5CX_ENABLE == 1)
+    vl53l5cx_shutdown(&vl53l5cx_dev.platform);
+    #endif
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_deinit_obj, py_tof_deinit);
 
-mp_obj_t py_tof_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+mp_obj_t py_tof_init(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_type };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_type, MP_ARG_INT,  {.u_int = -1 } },
@@ -211,13 +239,13 @@ mp_obj_t py_tof_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
     mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
-    py_tof_deinit();
+    py_tof_reset();
     bool first_init = true;
     int type = args[ARG_type].u_int;
 
     if (type == -1) {
         TOF_SCAN_RETRY:
-        omv_i2c_init(&tof_bus, TOF_I2C_ID, OMV_I2C_SPEED_STANDARD);
+        omv_i2c_init(&tof_bus, OMV_TOF_I2C_ID, OMV_TOF_I2C_SPEED);
         // Scan and detect any supported sensor.
         uint8_t dev_list[10];
         int dev_size = omv_i2c_scan(&tof_bus, dev_list, sizeof(dev_list));
@@ -252,9 +280,8 @@ mp_obj_t py_tof_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
             int error = 0;
             uint8_t isAlive = 0;
             TOF_VL53L5CX_RETRY:
-            //vl53l5cx_dev.platform.bus     = tof_bus;
-            //vl53l5cx_dev.platform.address = VL53L5CX_ADDRESS;
-            omv_i2c_init(&tof_bus, TOF_I2C_ID, OMV_I2C_SPEED_FAST);
+            // Initialize I2C bus.
+            omv_i2c_init(&tof_bus, OMV_TOF_I2C_ID, OMV_TOF_I2C_SPEED);
 
             // Check sensor and initialize.
             error |= vl53l5cx_is_alive(&vl53l5cx_dev, &isAlive);
@@ -282,11 +309,12 @@ mp_obj_t py_tof_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
 
             if (error != 0 && first_init) {
                 first_init = false;
+                // Recover bus and scan one more time.
                 omv_i2c_pulse_scl(&tof_bus);
                 goto TOF_VL53L5CX_RETRY;
             } else if (error != 0) {
-                py_tof_deinit();
-                mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Failed to init the VL53L5CX"));
+                py_tof_reset();
+                mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("Failed to init the VL53L5CX"));
             }
             tof_sensor = TOF_VL53L5CX;
             tof_width = VL53L5CX_WIDTH;
@@ -295,7 +323,7 @@ mp_obj_t py_tof_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
         }
         #endif
         default: {
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Failed to detect a supported TOF sensor."));
+            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("Failed to detect a supported TOF sensor."));
         }
     }
 
@@ -307,7 +335,7 @@ static mp_obj_t py_tof_type() {
     if (tof_sensor != TOF_NONE) {
         return mp_obj_new_int(tof_sensor);
     }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+    mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_type_obj, py_tof_type);
 
@@ -315,7 +343,7 @@ static mp_obj_t py_tof_width() {
     if (tof_sensor != TOF_NONE) {
         return mp_obj_new_int(tof_width);
     }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+    mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_width_obj, py_tof_width);
 
@@ -323,7 +351,7 @@ static mp_obj_t py_tof_height() {
     if (tof_sensor != TOF_NONE) {
         return mp_obj_new_int(tof_height);
     }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+    mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_height_obj, py_tof_height);
 
@@ -334,12 +362,12 @@ static mp_obj_t py_tof_refresh() {
             return mp_obj_new_int(15);
         #endif
         default:
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
     }
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_refresh_obj, py_tof_refresh);
 
-mp_obj_t py_tof_read_depth(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+mp_obj_t py_tof_read_depth(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum { ARG_hmirror, ARG_vflip, ARG_transpose, ARG_timeout };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_hmirror, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_bool = false } },
@@ -367,14 +395,14 @@ mp_obj_t py_tof_read_depth(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
         }
         #endif
         default:
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
     }
 
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(py_tof_read_depth_obj, 0, py_tof_read_depth);
 
-mp_obj_t py_tof_draw_depth(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+mp_obj_t py_tof_draw_depth(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum {
         ARG_x, ARG_y, ARG_x_scale, ARG_y_scale, ARG_roi, ARG_channel, ARG_alpha,
         ARG_color_palette, ARG_alpha_palette, ARG_hint, ARG_scale
@@ -386,8 +414,8 @@ mp_obj_t py_tof_draw_depth(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
         { MP_QSTR_y_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_roi, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_rgb_channel, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = -1 } },
-        { MP_QSTR_alpha, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 256 } },
-        { MP_QSTR_color_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_INT(COLOR_PALETTE_RAINBOW)} },
+        { MP_QSTR_alpha, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 255 } },
+        { MP_QSTR_color_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_INT(COLOR_PALETTE_DEPTH)} },
         { MP_QSTR_alpha_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_hint, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 0 } },
         { MP_QSTR_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
@@ -399,15 +427,15 @@ mp_obj_t py_tof_draw_depth(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
 
     // Sanity checks
     if (tof_sensor == TOF_NONE) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
     }
 
     if (args[ARG_channel].u_int < -1 || args[ARG_channel].u_int > 2) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("RGB channel can be 0, 1, or 2"));
+        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("RGB channel can be 0, 1, or 2"));
     }
 
-    if (args[ARG_alpha].u_int < 0 || args[ARG_alpha].u_int > 256) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Alpha ranges between 0 and 256"));
+    if (args[ARG_alpha].u_int < 0 || args[ARG_alpha].u_int > 255) {
+        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("Alpha ranges between 0 and 255"));
     }
 
     image_t src_img = {
@@ -448,7 +476,7 @@ mp_obj_t py_tof_draw_depth(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(py_tof_draw_depth_obj, 2, py_tof_draw_depth);
 
-mp_obj_t py_tof_snapshot(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
+mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
     enum {
         ARG_hmirror, ARG_vflip, ARG_transpose, ARG_x_scale, ARG_y_scale, ARG_roi, ARG_channel,
         ARG_alpha, ARG_color_palette, ARG_alpha_palette, ARG_hint, ARG_scale, ARG_pixformat,
@@ -462,8 +490,8 @@ mp_obj_t py_tof_snapshot(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_arg
         { MP_QSTR_y_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_roi, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_rgb_channel, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = -1 } },
-        { MP_QSTR_alpha, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 256 } },
-        { MP_QSTR_color_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_INT(COLOR_PALETTE_RAINBOW)} },
+        { MP_QSTR_alpha, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 255 } },
+        { MP_QSTR_color_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_INT(COLOR_PALETTE_DEPTH)} },
         { MP_QSTR_alpha_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_hint, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 0 } },
         { MP_QSTR_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
@@ -481,8 +509,8 @@ mp_obj_t py_tof_snapshot(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_arg
         mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("RGB channel can be 0, 1, or 2"));
     }
 
-    if (args[ARG_alpha].u_int < 0 || args[ARG_alpha].u_int > 256) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Alpha ranges between 0 and 256"));
+    if (args[ARG_alpha].u_int < 0 || args[ARG_alpha].u_int > 255) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Alpha ranges between 0 and 255"));
     }
 
     if ((args[ARG_pixformat].u_int != PIXFORMAT_GRAYSCALE) && (args[ARG_pixformat].u_int != PIXFORMAT_RGB565)) {
@@ -507,11 +535,10 @@ mp_obj_t py_tof_snapshot(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_arg
         .h = fast_floorf(roi.h * y_scale),
         .pixfmt = args[ARG_pixformat].u_int,
     };
-
-    if (args[ARG_copy_to_fb].u_bool == false) {
+    if (args[ARG_copy_to_fb].u_bool) {
         py_helper_set_to_framebuffer(&dst_img);
     } else {
-        dst_img.data = xalloc(image_size(&dst_img));
+        image_xalloc(&dst_img, image_size(&dst_img));
     }
 
     float min = FLT_MAX;
@@ -540,7 +567,7 @@ mp_obj_t py_tof_snapshot(uint n_args, const mp_obj_t *pos_args, mp_map_t *kw_arg
         }
         #endif
         default:
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TOF sensor is not initialized"));
+            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("TOF sensor is not initialized"));
     }
 
     imlib_draw_image(&dst_img, &src_img, 0, 0, x_scale, y_scale, &roi,
@@ -562,11 +589,8 @@ static const mp_rom_map_elem_t globals_dict_table[] = {
     #if (OMV_TOF_VL53L5CX_ENABLE == 1)
     { MP_ROM_QSTR(MP_QSTR_TOF_VL53L5CX),        MP_ROM_INT(TOF_VL53L5CX)                },
     #endif
-    { MP_ROM_QSTR(MP_QSTR_PALETTE_RAINBOW),     MP_ROM_INT(COLOR_PALETTE_RAINBOW)       },
-    { MP_ROM_QSTR(MP_QSTR_PALETTE_IRONBOW),     MP_ROM_INT(COLOR_PALETTE_IRONBOW)       },
-    { MP_ROM_QSTR(MP_QSTR_GRAYSCALE),           MP_ROM_INT(PIXFORMAT_GRAYSCALE)         },
-    { MP_ROM_QSTR(MP_QSTR_RGB565),              MP_ROM_INT(PIXFORMAT_RGB565)            },
     { MP_ROM_QSTR(MP_QSTR_init),                MP_ROM_PTR(&py_tof_init_obj)            },
+    { MP_ROM_QSTR(MP_QSTR_reset),               MP_ROM_PTR(&py_tof_reset_obj)           },
     { MP_ROM_QSTR(MP_QSTR_deinit),              MP_ROM_PTR(&py_tof_deinit_obj)          },
     { MP_ROM_QSTR(MP_QSTR_type),                MP_ROM_PTR(&py_tof_type_obj)            },
     { MP_ROM_QSTR(MP_QSTR_width),               MP_ROM_PTR(&py_tof_width_obj)           },

@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Python helper functions.
  */
@@ -13,13 +28,13 @@
 #include "framebuffer.h"
 #include "py_helper.h"
 #include "py_assert.h"
-#if MICROPY_PY_SENSOR
-#include "sensor.h"
+#if MICROPY_PY_CSI
+#include "omv_csi.h"
 #endif
 
 extern void *py_image_cobj(mp_obj_t img_obj);
 
-mp_obj_t py_func_unavailable(uint n_args, const mp_obj_t *args, mp_map_t *kw_args) {
+mp_obj_t py_func_unavailable(size_t n_args, const mp_obj_t *args, mp_map_t *kw_args) {
     PY_ASSERT_TRUE_MSG(false, "This function is unavailable on your OpenMV Cam.");
     return mp_const_none;
 }
@@ -63,6 +78,16 @@ const void *py_helper_arg_to_palette(const mp_obj_t arg, uint32_t pixfmt) {
             palette = rainbow_table;
         } else if (type == COLOR_PALETTE_IRONBOW) {
             palette = ironbow_table;
+        #if (MICROPY_PY_TOF == 1)
+        } else if (type == COLOR_PALETTE_DEPTH) {
+            palette = depth_table;
+        #endif // MICROPY_PY_TOF == 1
+        #if (OMV_GENX320_ENABLE == 1)
+        } else if (type == COLOR_PALETTE_EVT_DARK) {
+            palette = evt_dark_table;
+        } else if (type == COLOR_PALETTE_EVT_LIGHT) {
+            palette = evt_light_table;
+        #endif // OMV_GENX320_ENABLE == 1
         } else {
             mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid color palette"));
         }
@@ -156,7 +181,7 @@ void py_helper_arg_to_float_array(const mp_obj_t arg, float *array, size_t size)
     }
 }
 
-image_t *py_helper_keyword_to_image(uint n_args, const mp_obj_t *args, uint arg_index,
+image_t *py_helper_keyword_to_image(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                     mp_map_t *kw_args, mp_obj_t kw, image_t *default_val) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -169,7 +194,7 @@ image_t *py_helper_keyword_to_image(uint n_args, const mp_obj_t *args, uint arg_
     return default_val;
 }
 
-void py_helper_keyword_rectangle(image_t *img, uint n_args, const mp_obj_t *args, uint arg_index,
+void py_helper_keyword_rectangle(image_t *img, size_t n_args, const mp_obj_t *args, size_t arg_index,
                                  mp_map_t *kw_args, mp_obj_t kw, rectangle_t *r) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -205,12 +230,12 @@ void py_helper_keyword_rectangle(image_t *img, uint n_args, const mp_obj_t *args
     rectangle_intersected(r, &temp);
 }
 
-void py_helper_keyword_rectangle_roi(image_t *img, uint n_args, const mp_obj_t *args, uint arg_index,
+void py_helper_keyword_rectangle_roi(image_t *img, size_t n_args, const mp_obj_t *args, size_t arg_index,
                                      mp_map_t *kw_args, rectangle_t *r) {
     py_helper_keyword_rectangle(img, n_args, args, arg_index, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_roi), r);
 }
 
-int py_helper_keyword_int(uint n_args, const mp_obj_t *args, uint arg_index,
+int py_helper_keyword_int(size_t n_args, const mp_obj_t *args, size_t arg_index,
                           mp_map_t *kw_args, mp_obj_t kw, int default_val) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -223,7 +248,7 @@ int py_helper_keyword_int(uint n_args, const mp_obj_t *args, uint arg_index,
     return default_val;
 }
 
-bool py_helper_keyword_int_maybe(uint n_args, const mp_obj_t *args, uint arg_index,
+bool py_helper_keyword_int_maybe(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                  mp_map_t *kw_args, mp_obj_t kw, int *value) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -236,7 +261,7 @@ bool py_helper_keyword_int_maybe(uint n_args, const mp_obj_t *args, uint arg_ind
     return false;
 }
 
-float py_helper_keyword_float(uint n_args, const mp_obj_t *args, uint arg_index,
+float py_helper_keyword_float(size_t n_args, const mp_obj_t *args, size_t arg_index,
                               mp_map_t *kw_args, mp_obj_t kw, float default_val) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -249,7 +274,7 @@ float py_helper_keyword_float(uint n_args, const mp_obj_t *args, uint arg_index,
     return default_val;
 }
 
-bool py_helper_keyword_float_maybe(uint n_args, const mp_obj_t *args, uint arg_index,
+bool py_helper_keyword_float_maybe(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                    mp_map_t *kw_args, mp_obj_t kw, float *value) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -262,7 +287,7 @@ bool py_helper_keyword_float_maybe(uint n_args, const mp_obj_t *args, uint arg_i
     return false;
 }
 
-void py_helper_keyword_int_array(uint n_args, const mp_obj_t *args, uint arg_index,
+void py_helper_keyword_int_array(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                  mp_map_t *kw_args, mp_obj_t kw, int *x, int size) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -281,7 +306,7 @@ void py_helper_keyword_int_array(uint n_args, const mp_obj_t *args, uint arg_ind
     }
 }
 
-float *py_helper_keyword_corner_array(uint n_args, const mp_obj_t *args, uint arg_index,
+float *py_helper_keyword_corner_array(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                       mp_map_t *kw_args, mp_obj_t kw) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
@@ -312,7 +337,7 @@ float *py_helper_keyword_corner_array(uint n_args, const mp_obj_t *args, uint ar
     return NULL;
 }
 
-uint py_helper_consume_array(uint n_args, const mp_obj_t *args, uint arg_index, size_t len, const mp_obj_t **items) {
+uint py_helper_consume_array(size_t n_args, const mp_obj_t *args, size_t arg_index, size_t len, const mp_obj_t **items) {
     if (MP_OBJ_IS_TYPE(args[arg_index], &mp_type_tuple) || MP_OBJ_IS_TYPE(args[arg_index], &mp_type_list)) {
         mp_obj_get_array_fixed_n(args[arg_index], len, (mp_obj_t **) items);
         return arg_index + 1;
@@ -323,7 +348,7 @@ uint py_helper_consume_array(uint n_args, const mp_obj_t *args, uint arg_index, 
     }
 }
 
-int py_helper_keyword_color(image_t *img, uint n_args, const mp_obj_t *args, uint arg_index,
+int py_helper_keyword_color(image_t *img, size_t n_args, const mp_obj_t *args, size_t arg_index,
                             mp_map_t *kw_args, int default_val) {
     mp_map_elem_t *kw_arg = kw_args ? mp_map_lookup(kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_color), MP_MAP_LOOKUP) : NULL;
 
@@ -416,7 +441,7 @@ void py_helper_arg_to_thresholds(const mp_obj_t arg, list_t *thresholds) {
     }
 }
 
-void py_helper_keyword_thresholds(uint n_args, const mp_obj_t *args, uint arg_index,
+void py_helper_keyword_thresholds(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                   mp_map_t *kw_args, list_t *thresholds) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_thresholds), MP_MAP_LOOKUP);
 
@@ -433,8 +458,8 @@ int py_helper_arg_to_ksize(const mp_obj_t arg) {
     return ksize;
 }
 
-mp_obj_t py_helper_keyword_object(uint n_args, const mp_obj_t *args,
-                                  uint arg_index, mp_map_t *kw_args, mp_obj_t kw, mp_obj_t default_val) {
+mp_obj_t py_helper_keyword_object(size_t n_args, const mp_obj_t *args,
+                                  size_t arg_index, mp_map_t *kw_args, mp_obj_t kw, mp_obj_t default_val) {
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
     if (kw_arg) {
@@ -446,8 +471,8 @@ mp_obj_t py_helper_keyword_object(uint n_args, const mp_obj_t *args,
     }
 }
 
-const uint16_t *py_helper_keyword_color_palette(uint n_args, const mp_obj_t *args,
-                                                uint arg_index, mp_map_t *kw_args, const uint16_t *default_color_palette) {
+const uint16_t *py_helper_keyword_color_palette(size_t n_args, const mp_obj_t *args,
+                                                size_t arg_index, mp_map_t *kw_args, const uint16_t *default_color_palette) {
     int palette;
 
     mp_map_elem_t *kw_arg =
@@ -463,6 +488,16 @@ const uint16_t *py_helper_keyword_color_palette(uint n_args, const mp_obj_t *arg
             default_color_palette = rainbow_table;
         } else if (palette == COLOR_PALETTE_IRONBOW) {
             default_color_palette = ironbow_table;
+        #if (MICROPY_PY_TOF == 1)
+        } else if (palette == COLOR_PALETTE_DEPTH) {
+            default_color_palette = depth_table;
+        #endif // MICROPY_PY_TOF == 1
+        #if (OMV_GENX320_ENABLE == 1)
+        } else if (palette == COLOR_PALETTE_EVT_DARK) {
+            default_color_palette = evt_dark_table;
+        } else if (palette == COLOR_PALETTE_EVT_LIGHT) {
+            default_color_palette = evt_light_table;
+        #endif // OMV_GENX320_ENABLE == 1
         } else {
             mp_raise_msg(&mp_type_ValueError,
                          MP_ERROR_TEXT("Invalid pre-defined color palette!"));
@@ -489,8 +524,8 @@ const uint16_t *py_helper_keyword_color_palette(uint n_args, const mp_obj_t *arg
     return default_color_palette;
 }
 
-const uint8_t *py_helper_keyword_alpha_palette(uint n_args, const mp_obj_t *args,
-                                               uint arg_index, mp_map_t *kw_args, const uint8_t *default_alpha_palette) {
+const uint8_t *py_helper_keyword_alpha_palette(size_t n_args, const mp_obj_t *args,
+                                               size_t arg_index, mp_map_t *kw_args, const uint8_t *default_alpha_palette) {
     image_t *arg_alpha_palette =
         py_helper_keyword_to_image(n_args, args, 9, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_alpha_palette), NULL);
 
@@ -522,8 +557,8 @@ void py_helper_update_framebuffer(image_t *img) {
 }
 
 void py_helper_set_to_framebuffer(image_t *img) {
-    #if MICROPY_PY_SENSOR
-    sensor_set_framebuffers(1);
+    #if MICROPY_PY_CSI
+    omv_csi_set_framebuffers(1);
     #else
     framebuffer_set_buffers(1);
     #endif

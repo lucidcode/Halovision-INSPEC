@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2022 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2022 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2022-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Tinyusb CDC debugger helper code.
  */
@@ -22,11 +37,12 @@
 #include "tinyusb_debug.h"
 #include "omv_common.h"
 
-#define DEBUG_BAUDRATE_SLOW     (921600)
-#define DEBUG_BAUDRATE_FAST     (12000000)
+#define USBDBG_BAUDRATE_SLOW     (921600)
+#define USBDBG_BAUDRATE_FAST     (12000000)
 #define DEBUG_EP_SIZE           (TUD_OPT_HIGH_SPEED ? 512 : 64)
 
 void NORETURN __fatal_error(const char *msg);
+static mp_sched_node_t tusb_debug_node;
 
 typedef struct __attribute__((packed)) {
     uint8_t cmd;
@@ -74,8 +90,8 @@ void tud_cdc_line_coding_cb(uint8_t itf, cdc_line_coding_t const *coding) {
     } else if (coding->bit_rate == 1200) {
         MICROPY_BOARD_ENTER_BOOTLOADER(0, 0);
         #endif
-    } else if (coding->bit_rate == DEBUG_BAUDRATE_SLOW
-               || coding->bit_rate == DEBUG_BAUDRATE_FAST) {
+    } else if (coding->bit_rate == USBDBG_BAUDRATE_SLOW ||
+               coding->bit_rate == USBDBG_BAUDRATE_FAST) {
         tinyusb_debug_mode = true;
     } else {
         tinyusb_debug_mode = false;
@@ -112,7 +128,6 @@ extern mp_uint_t __real_mp_hal_stdout_tx_strn(const char *str, mp_uint_t len);
 mp_uint_t __wrap_mp_hal_stdout_tx_strn(const char *str, mp_uint_t len) {
     if (tinyusb_debug_enabled()) {
         if (tud_cdc_connected()) {
-            NVIC_DisableIRQ(PendSV_IRQn);
             for (int i = 0; i < len; i++) {
                 // The ring buffer overflows occasionally, espcially when using a slow poll
                 // rate and fast print rate. When this happens, reset the buffer and start
@@ -121,9 +136,9 @@ mp_uint_t __wrap_mp_hal_stdout_tx_strn(const char *str, mp_uint_t len) {
                 if (ringbuf_put(&tx_ringbuf, str[i]) == -1 && len <= tx_ringbuf.size) {
                     tx_ringbuf.iget = 0;
                     tx_ringbuf.iput = 0;
+                    ringbuf_put(&tx_ringbuf, str[i]);
                 }
             }
-            NVIC_EnableIRQ(PendSV_IRQn);
         }
         return len;
     } else {
@@ -131,7 +146,7 @@ mp_uint_t __wrap_mp_hal_stdout_tx_strn(const char *str, mp_uint_t len) {
     }
 }
 
-static void tinyusb_debug_task(void) {
+void tinyusb_debug_task(mp_sched_node_t *node) {
     tud_task_ext(0, false);
 
     if (!tinyusb_debug_enabled() || !tud_cdc_connected() || tud_cdc_available() < 6) {
@@ -182,7 +197,7 @@ void OMV_USB1_IRQ_HANDLER(void) {
     dcd_int_handler(0);
     // If there are any event to process, schedule a call to cdc loop.
     if (tud_task_event_ready()) {
-        pendsv_schedule_dispatch(PENDSV_DISPATCH_CDC, tinyusb_debug_task);
+        mp_sched_schedule_node(&tusb_debug_node, tinyusb_debug_task);
     }
 }
 
@@ -191,7 +206,7 @@ void OMV_USB2_IRQ_HANDLER(void) {
     dcd_int_handler(1);
     // If there are any event to process, schedule a call to cdc loop.
     if (tud_task_event_ready()) {
-        pendsv_schedule_dispatch(PENDSV_DISPATCH_CDC, tinyusb_debug_task);
+        mp_sched_schedule_node(&tusb_debug_node, tinyusb_debug_task);
     }
 }
 #endif

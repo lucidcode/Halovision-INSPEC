@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2024 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2024 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Board configuration and pin definitions.
  */
@@ -27,13 +42,13 @@
 // GPU Configuration
 #define OMV_GPU_ENABLE                        (1)
 
-// Image sensor drivers configuration.
+// CSI drivers configuration.
 #define OMV_OV2640_ENABLE                     (1)
 #define OMV_OV7725_ENABLE                     (1)
 #define OMV_OV7725_PLL_CONFIG                 (0x41) // x4
 #define OMV_OV7725_BANDING                    (0x3F)
 
-// FIR sensor drivers configuration.
+// FIR drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE               (1)
 #define OMV_FIR_MLX90640_ENABLE               (1)
 #define OMV_FIR_MLX90641_ENABLE               (1)
@@ -61,7 +76,7 @@
 // Flash Latency
 #define OMV_FLASH_LATENCY                     (FLASH_LATENCY_7)
 
-// Linker script constants (see the linker script template stm32fxxx.ld.S).
+// Linker script constants (see the linker script template stm32.ld.S).
 // Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
 // The maximum available fb_alloc memory = FB_ALLOC_SIZE + FB_SIZE - (w*h*bpp).
 // Note: fb_alloc overwrites the line buffer which is only used during readout.
@@ -76,7 +91,6 @@
 #define OMV_GC_BLOCK0_SIZE                    (46K)
 #define OMV_JPEG_SIZE                         (8K)  // IDE JPEG buffer size (header + data).
 #define OMV_MSC_BUF_SIZE                      (2K)  // USB MSC bot data
-#define OMV_VFS_BUF_SIZE                      (1K)  // VFS struct + FATFS file buffer (624 bytes)
 #define OMV_FFS_BUF_SIZE                      (16K) // Flash filesystem cache
 #define OMV_LINE_BUF_SIZE                     (2 * 1024) // Image line buffer round(320 * 2BPP * 2 buffers).
 
@@ -91,16 +105,18 @@
 #define OMV_SRAM2_LENGTH                      32K
 
 // Flash configuration.
-#define OMV_FLASH_FFS_ORIGIN                  0x08004000
-#define OMV_FLASH_FFS_LENGTH                  48K
+#define OMV_FLASH_BOOT_ORIGIN                 0x08000000
+#define OMV_FLASH_BOOT_LENGTH                 32K
+#define OMV_FLASH_FFS_ORIGIN                  0x08008000
+#define OMV_FLASH_FFS_LENGTH                  32K
 #define OMV_FLASH_TXT_ORIGIN                  0x08010000
 #define OMV_FLASH_TXT_LENGTH                  960K
 
-// Main image sensor I2C bus
+// CSI I2C bus
 #define OMV_CSI_I2C_ID                        (1)
 #define OMV_CSI_I2C_SPEED                     (OMV_I2C_SPEED_STANDARD)
 
-// Thermal image sensor I2C bus
+// FIR I2C bus
 #define OMV_FIR_I2C_ID                        (2)
 #define OMV_FIR_I2C_SPEED                     (OMV_I2C_SPEED_FULL)
 
@@ -117,13 +133,14 @@
 #define OMV_WINC_IRQ_PIN                      (&omv_pin_D13_GPIO)
 
 // Camera Interface
-#define OMV_CSI_XCLK_SOURCE                   (XCLK_SOURCE_TIM)
-#define OMV_CSI_XCLK_FREQUENCY                (6000000)
+#define OMV_CSI_CLK_SOURCE                    (OMV_CSI_CLK_SOURCE_TIM)
+#define OMV_CSI_CLK_FREQUENCY                 (6000000)
 #define OMV_CSI_TIM                           (TIM1)
 #define OMV_CSI_TIM_PIN                       (&omv_pin_A8_TIM1)
 #define OMV_CSI_TIM_CHANNEL                   (TIM_CHANNEL_1)
 #define OMV_CSI_TIM_CLK_ENABLE()              __TIM1_CLK_ENABLE()
 #define OMV_CSI_TIM_CLK_DISABLE()             __TIM1_CLK_DISABLE()
+#define OMV_CSI_TIM_CLK_SLEEP_ENABLE()        __TIM1_CLK_SLEEP_ENABLE()
 #define OMV_CSI_TIM_PCLK_FREQ()               HAL_RCC_GetPCLK2Freq()
 #define OMV_CSI_HW_CROP_ENABLE                (1)
 
@@ -163,9 +180,9 @@
 #define OMV_SPI2_MOSI_PIN                     (&omv_pin_B15_SPI2)
 #define OMV_SPI2_SSEL_PIN                     (&omv_pin_B12_SPI2)
 #define OMV_SPI2_DMA_TX_CHANNEL               (DMA1_Stream4)
+#define OMV_SPI2_DMA_TX_REQUEST               (DMA_CHANNEL_0)
 #define OMV_SPI2_DMA_RX_CHANNEL               (DMA1_Stream3)
-#define DMA_REQUEST_SPI2_TX                   (DMA_CHANNEL_0)
-#define DMA_REQUEST_SPI2_RX                   (DMA_CHANNEL_0)
+#define OMV_SPI2_DMA_RX_REQUEST               (DMA_CHANNEL_0)
 
 // SPI LCD Interface
 #define OMV_SPI_DISPLAY_CONTROLLER            (OMV_SPI2_ID)

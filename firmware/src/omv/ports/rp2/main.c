@@ -45,6 +45,7 @@
 #include "mpbthciport.h"
 #include "mpnetworkport.h"
 #include "genhdr/mpversion.h"
+
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "pico/unique_id.h"
@@ -53,11 +54,13 @@
 #include "hardware/regs/intctrl.h"
 #include "hardware/structs/rosc.h"
 #include "pico/bootrom.h"
+#include "pico/aon_timer.h"
+#include "shared/timeutils/timeutils.h"
 
 #include "omv_boardconfig.h"
 #include "framebuffer.h"
 #include "omv_i2c.h"
-#include "sensor.h"
+#include "omv_csi.h"
 #include "usbdbg.h"
 #include "tinyusb_debug.h"
 #include "py_fir.h"
@@ -107,6 +110,19 @@ void pico_reset_to_bootloader(size_t n_args, const void *args_in) {
 int main(int argc, char **argv) {
     bool first_soft_reset = true;
 
+    // This is a tickless port, interrupts should always trigger SEV.
+    #if PICO_ARM
+    SCB->SCR |= SCB_SCR_SEVONPEND_Msk;
+    #endif
+
+    soft_timer_init();
+
+    // Set the MCU frequency and as a side effect the peripheral clock to 48 MHz.
+    set_sys_clock_khz(SYS_CLK_KHZ, false);
+
+    // Hook for setting up anything that needs to be super early in the bootup process.
+    MICROPY_BOARD_STARTUP();
+
     #if MICROPY_HW_ENABLE_UART_REPL
     bi_decl(bi_program_feature("UART REPL"))
     setup_default_uart();
@@ -127,17 +143,9 @@ int main(int argc, char **argv) {
     #endif
 
     // Start and initialise the RTC
-    datetime_t t = {
-        .year = 2021,
-        .month = 1,
-        .day = 1,
-        .dotw = 4, // 0 is Monday, so 4 is Friday
-        .hour = 0,
-        .min = 0,
-        .sec = 0,
-    };
-    rtc_init();
-    rtc_set_datetime(&t);
+    struct timespec ts = { 0, 0 };
+    ts.tv_sec = timeutils_seconds_since_epoch(2021, 1, 1, 0, 0, 0);
+    aon_timer_start(&ts);
     mp_hal_time_ns_set_from_rtc();
 
     // Set board unique ID from flash for USB debugging.
@@ -174,21 +182,14 @@ soft_reset:
 
     py_fir_init0();
 
-    #if MICROPY_PY_SENSOR
-    if (sensor_init() != 0) {
-        printf("sensor init failed!\n");
+    #if MICROPY_PY_CSI
+    if (omv_csi_init() != 0) {
+        printf("csi init failed!\n");
     }
     #endif
 
     // Execute _boot.py to set up the filesystem.
-    #if MICROPY_VFS_FAT && MICROPY_HW_USB_MSC
-    pyexec_frozen_module("_boot_fat.py", false);
-    #else
     pyexec_frozen_module("_boot.py", false);
-    #endif
-
-    // Mark the filesystem as an OpenMV storage.
-    file_ll_touch(".openmv_disk");
 
     // Initialize TinyUSB after the filesystem has been mounted.
     if (!tusb_inited()) {
@@ -201,11 +202,11 @@ soft_reset:
     }
 
     // Run boot.py script.
-    bool interrupted = mp_exec_bootscript("boot.py", true, false);
+    bool interrupted = mp_exec_bootscript("boot.py", true);
 
     // Run main.py script on first soft-reset.
     if (first_soft_reset && !interrupted && mp_vfs_import_stat("main.py")) {
-        mp_exec_bootscript("main.py", true, false);
+        mp_exec_bootscript("main.py", true);
         goto soft_reset_exit;
     }
 
