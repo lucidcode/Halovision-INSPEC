@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * OMV SPI port for stm32.
  */
@@ -58,29 +73,29 @@ extern SPI_HandleTypeDef SPIHandle5;
 DEFINE_SPI_INSTANCE(5)
 #endif
 
-#if defined(SPI6_ID) && defined(MICROPY_HW_SPI6_SCK)
+#if defined(OMV_SPI6_ID) && defined(MICROPY_HW_SPI6_SCK)
 extern SPI_HandleTypeDef SPIHandle6;
-#elif defined(SPI6_ID)
+#elif defined(OMV_SPI6_ID)
 DEFINE_SPI_INSTANCE(6)
 #endif
 
-#define INITIALIZE_SPI_DESCR(spi, spi_number)                                       \
-    do {                                                                            \
-        (spi)->id = spi_number;                                                     \
-        (spi)->irqn = SPI##spi_number##_IRQn;                                       \
-        (spi)->cs = OMV_SPI##spi_number##_SSEL_PIN;                                 \
-        (spi)->descr = &SPIHandle##spi_number;                                      \
-        (spi)->descr->Instance = SPI##spi_number;                                   \
-        (spi)->dma_descr_tx = (DMA_HandleTypeDef)                                   \
-        {OMV_SPI##spi_number##_DMA_TX_CHANNEL, {DMA_REQUEST_SPI##spi_number##_TX}}; \
-        (spi)->dma_descr_rx = (DMA_HandleTypeDef)                                   \
-        {OMV_SPI##spi_number##_DMA_RX_CHANNEL, {DMA_REQUEST_SPI##spi_number##_RX}}; \
+#define INITIALIZE_SPI_DESCR(spi, spi_number)                                               \
+    do {                                                                                    \
+        (spi)->id = spi_number;                                                             \
+        (spi)->irqn = SPI##spi_number##_IRQn;                                               \
+        (spi)->cs = OMV_SPI##spi_number##_SSEL_PIN;                                         \
+        (spi)->descr = &SPIHandle##spi_number;                                              \
+        (spi)->descr->Instance = SPI##spi_number;                                           \
+        (spi)->dma_descr_tx = (DMA_HandleTypeDef)                                           \
+        { OMV_SPI##spi_number##_DMA_TX_CHANNEL, { OMV_SPI##spi_number##_DMA_TX_REQUEST } }; \
+        (spi)->dma_descr_rx = (DMA_HandleTypeDef)                                           \
+        { OMV_SPI##spi_number##_DMA_RX_CHANNEL, { OMV_SPI##spi_number##_DMA_RX_REQUEST } }; \
     } while (0)
 
 static omv_spi_t *omv_spi_descr_all[6] = { NULL };
 
 static uint32_t omv_spi_clocksource(SPI_TypeDef *spi) {
-    #if defined(MCU_SERIES_H7)
+    #if defined(STM32H7)
     if (spi == SPI1 || spi == SPI2 || spi == SPI3) {
         return HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_SPI123);
     } else if (spi == SPI4 || spi == SPI5) {
@@ -149,7 +164,7 @@ static void omv_spi_callback(SPI_HandleTypeDef *hspi) {
     } else if (hspi->Instance == SPI5) {
         spi = omv_spi_descr_all[4];
     #endif
-    #if defined(SPI6_ID)
+    #if defined(OMV_SPI6_ID)
     } else if (hspi->Instance == SPI6) {
         spi = omv_spi_descr_all[5];
     #endif
@@ -275,7 +290,7 @@ static int omv_spi_dma_init(omv_spi_t *spi, uint32_t direction, omv_spi_config_t
     dma_descr->Init.MemBurst = DMA_MBURST_SINGLE;
     dma_descr->Init.PeriphBurst = DMA_PBURST_SINGLE;
     dma_descr->Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    #if defined(MCU_SERIES_H7)
+    #if defined(STM32H7)
     dma_descr->Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     #else
     dma_descr->Init.PeriphDataAlignment = (config->datasize == 8) ? DMA_PDATAALIGN_BYTE : DMA_PDATAALIGN_HALFWORD;
@@ -321,9 +336,9 @@ static int omv_spi_bus_init(omv_spi_t *spi, omv_spi_config_t *config) {
     spi_descr->Init.CLKPhase = config->clk_pha;
     spi_descr->Init.CLKPolarity = config->clk_pol;
     spi_descr->Init.BaudRatePrescaler = omv_spi_prescaler(spi_descr->Instance, config->baudrate);
-    #if defined(MCU_SERIES_F7) || defined(MCU_SERIES_H7)
+    #if defined(STM32F7) || defined(STM32H7)
     spi_descr->Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
-    #if defined(MCU_SERIES_H7)
+    #if defined(STM32H7)
     spi_descr->Init.NSSPolarity = (config->nss_pol == 0) ? SPI_NSS_POLARITY_LOW : SPI_NSS_POLARITY_HIGH;
     spi_descr->Init.FifoThreshold = SPI_FIFO_THRESHOLD_04DATA;
     spi_descr->Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_00CYCLE;
@@ -341,7 +356,7 @@ static int omv_spi_bus_init(omv_spi_t *spi, omv_spi_config_t *config) {
     } else if (config->bus_mode == OMV_SPI_BUS_RX) {
         spi_descr->Init.Direction = SPI_DIRECTION_2LINES_RXONLY;
     } else {
-        #if defined(MCU_SERIES_H7)
+        #if defined(STM32H7)
         spi_descr->Init.Direction = SPI_DIRECTION_2LINES_TXONLY;
         #else
         spi_descr->Init.Direction = SPI_DIRECTION_1LINE;
@@ -379,7 +394,7 @@ int omv_spi_init(omv_spi_t *spi, omv_spi_config_t *config) {
     } else if (config->id == 5) {
         INITIALIZE_SPI_DESCR(spi, 5);
     #endif
-    #if defined(SPI6_ID)
+    #if defined(OMV_SPI6_ID)
     } else if (config->id == 6) {
         INITIALIZE_SPI_DESCR(spi, 6);
     #endif

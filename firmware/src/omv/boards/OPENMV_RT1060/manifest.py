@@ -1,5 +1,8 @@
 include("$(MPY_DIR)/extmod/asyncio")
 
+# Filesystem
+freeze ("$(OMV_LIB_DIR)/", "_boot.py")
+
 # Drivers
 require("onewire")
 require("ds18x20")
@@ -22,7 +25,7 @@ require("webrepl")
 freeze ("$(OMV_LIB_DIR)/", "rpc.py")
 freeze ("$(OMV_LIB_DIR)/", "rtsp.py")
 freeze ("$(OMV_LIB_DIR)/", "mqtt.py")
-freeze ("$(OMV_LIB_DIR)/", "urequests.py")
+freeze ("$(OMV_LIB_DIR)/", "requests.py")
 
 # Utils
 require("time")
@@ -32,4 +35,3 @@ freeze ("$(OMV_LIB_DIR)/", "mutex.py")
 
 # Bluetooth
 require("aioble")
-freeze ("$(OMV_LIB_DIR)/", "ble_advertising.py")

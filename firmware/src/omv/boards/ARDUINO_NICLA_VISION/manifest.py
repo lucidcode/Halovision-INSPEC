@@ -1,5 +1,8 @@
 include("$(MPY_DIR)/extmod/asyncio")
 
+# Filesystem
+freeze ("$(OMV_LIB_DIR)/", "_boot.py")
+
 # Drivers
 require("lsm6dsox")
 require("onewire")
@@ -19,7 +22,7 @@ require("webrepl")
 freeze ("$(OMV_LIB_DIR)/", "rpc.py")
 freeze ("$(OMV_LIB_DIR)/", "rtsp.py")
 freeze ("$(OMV_LIB_DIR)/", "mqtt.py")
-freeze ("$(OMV_LIB_DIR)/", "urequests.py")
+freeze ("$(OMV_LIB_DIR)/", "requests.py")
 
 # Utils
 require("time")

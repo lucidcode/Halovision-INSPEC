@@ -24,10 +24,10 @@
 #define OMV_JPEG_QUALITY_HIGH           (90)
 #define OMV_JPEG_QUALITY_THRESHOLD      (320 * 240 * 2)
 
-// Image sensor drivers configuration.
+// CSI drivers configuration.
 #define OMV_OV5640_ENABLE               (1)
 #define OMV_OV5640_AF_ENABLE            (1)
-#define OMV_OV5640_XCLK_FREQ            (24000000)
+#define OMV_OV5640_CLK_FREQ             (24000000)
 #define OMV_OV5640_PLL_CTRL2            (0x64)
 #define OMV_OV5640_PLL_CTRL3            (0x13)
 #define OMV_OV5640_REV_Y_CHECK          (0)
@@ -41,12 +41,15 @@
 
 #define OMV_MT9M114_ENABLE              (1)
 #define OMV_MT9V0XX_ENABLE              (1)
+#define OMV_BOSON_ENABLE                (1)
 #define OMV_LEPTON_ENABLE               (1)
+#define OMV_GENX320_ENABLE              (1)
+#define OMV_GENX320_EHC_ENABLE          (1)
 #define OMV_PAG7920_ENABLE              (1)
 #define OMV_PAJ6100_ENABLE              (1)
 #define OMV_FROGEYE2020_ENABLE          (1)
 
-// FIR sensor drivers configuration.
+// FIR drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE         (1)
 #define OMV_FIR_MLX90640_ENABLE         (1)
 #define OMV_FIR_MLX90641_ENABLE         (1)
@@ -120,15 +123,15 @@
 #define OMV_FLASH_FFS_ORIGIN            0x60400000
 #define OMV_FLASH_FFS_LENGTH            0x00400000
 
-// Main image sensor I2C bus
+// CSI I2C bus
 #define OMV_CSI_I2C_ID                  (1)
 #define OMV_CSI_I2C_SPEED               (OMV_I2C_SPEED_STANDARD)
 
-// Thermal image sensor I2C bus
+// FIR I2C bus
 #define OMV_FIR_I2C_ID                  (4)
 #define OMV_FIR_I2C_SPEED               (OMV_I2C_SPEED_FULL)
 
-// Main image sensor SPI bus
+// CSI SPI bus
 #define OMV_CSI_SPI_ID                  (4)
 
 // Physical I2C buses.
@@ -186,7 +189,6 @@
 // FIR Lepton
 #define OMV_FIR_LEPTON_I2C_BUS          (OMV_FIR_I2C_ID)
 #define OMV_FIR_LEPTON_I2C_BUS_SPEED    (OMV_FIR_I2C_SPEED)
-#define OMV_FIR_LEPTON_RX_CLK_DIV       (8)
 
 #define OMV_FIR_LEPTON_SPI_BUS          (OMV_SPI3_ID)
 #define OMV_FIR_LEPTON_MOSI_PIN         (&omv_pin_LPSPI3_MOSI)
@@ -200,7 +202,7 @@
 #define OMV_CSI_DMA_MUX                 (DMAMUX)
 #define OMV_CSI_DMA_CHANNEL_START       (4U)
 #define OMV_CSI_DMA_CHANNEL_COUNT       (2U)
-#define OMV_CSI_XCLK_FREQUENCY          (12000000)
+#define OMV_CSI_CLK_FREQUENCY           (12000000)
 #define OMV_CSI_DMA_MEMCPY_ENABLE       (1)
 #define OMV_CSI_HW_SWAP_ENABLE          (1)
 #define OMV_CSI_HW_CROP_ENABLE          (1)

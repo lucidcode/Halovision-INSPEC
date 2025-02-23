@@ -1,10 +1,25 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2013-2021 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2013-2021 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2013-2024 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * USB debug support.
  */
@@ -13,11 +28,13 @@
 
 /**
  * Firmware version (major, minor and patch numbers).
- *
  */
-#define FIRMWARE_VERSION_MAJOR    (4)
-#define FIRMWARE_VERSION_MINOR    (5)
-#define FIRMWARE_VERSION_PATCH    (9)
+#define FIRMWARE_VERSION_MAJOR  (4)
+#define FIRMWARE_VERSION_MINOR  (6)
+#define FIRMWARE_VERSION_PATCH  (20)
+
+#define USBDBG_BAUDRATE_SLOW    (921600)
+#define USBDBG_BAUDRATE_FAST    (12000000)
 
 /**
  * To add a new debugging command, increment the last command value used.
@@ -28,28 +45,28 @@
  * See usbdbg.c for examples.
  */
 enum usbdbg_cmd {
-    USBDBG_NONE            =0x00,
-    USBDBG_FW_VERSION      =0x80,
-    USBDBG_FRAME_SIZE      =0x81,
-    USBDBG_FRAME_DUMP      =0x82,
-    USBDBG_ARCH_STR        =0x83,
-    USBDBG_SCRIPT_EXEC     =0x05,
-    USBDBG_SCRIPT_STOP     =0x06,
-    USBDBG_SCRIPT_SAVE     =0x07,
-    USBDBG_SCRIPT_RUNNING  =0x87,
-    USBDBG_TEMPLATE_SAVE   =0x08,
-    USBDBG_DESCRIPTOR_SAVE =0x09,
-    USBDBG_ATTR_READ       =0x8A,
-    USBDBG_ATTR_WRITE      =0x0B,
-    USBDBG_SYS_RESET       =0x0C,
-    USBDBG_SYS_RESET_TO_BL =0x0E,
-    USBDBG_FB_ENABLE       =0x0D,
-    USBDBG_TX_BUF_LEN      =0x8E,
-    USBDBG_TX_BUF          =0x8F,
-    USBDBG_SENSOR_ID       =0x90,
-    USBDBG_TX_INPUT        =0x11,
-    USBDBG_SET_TIME        =0x12,
-    USBDBG_GET_STATE       =0x93,
+    USBDBG_NONE            = 0x00,
+    USBDBG_FW_VERSION      = 0x80,
+    USBDBG_FRAME_SIZE      = 0x81,
+    USBDBG_FRAME_DUMP      = 0x82,
+    USBDBG_ARCH_STR        = 0x83,
+    USBDBG_SCRIPT_EXEC     = 0x05,
+    USBDBG_SCRIPT_STOP     = 0x06,
+    USBDBG_SCRIPT_SAVE     = 0x07,
+    USBDBG_SCRIPT_RUNNING  = 0x87,
+    USBDBG_TEMPLATE_SAVE   = 0x08,
+    USBDBG_DESCRIPTOR_SAVE = 0x09,
+    USBDBG_ATTR_READ       = 0x8A,
+    USBDBG_ATTR_WRITE      = 0x0B,
+    USBDBG_SYS_RESET       = 0x0C,
+    USBDBG_SYS_RESET_TO_BL = 0x0E,
+    USBDBG_FB_ENABLE       = 0x0D,
+    USBDBG_TX_BUF_LEN      = 0x8E,
+    USBDBG_TX_BUF          = 0x8F,
+    USBDBG_SENSOR_ID       = 0x90,
+    USBDBG_TX_INPUT        = 0x11,
+    USBDBG_SET_TIME        = 0x12,
+    USBDBG_GET_STATE       = 0x93,
 };
 
 enum usbdbg_state_flags {

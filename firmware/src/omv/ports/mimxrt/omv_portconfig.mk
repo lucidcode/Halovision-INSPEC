@@ -1,7 +1,31 @@
+# SPDX-License-Identifier: MIT
+#
+# Copyright (C) 2023 OpenMV, LLC.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 # Set startup and system files for CMSIS Makefile.
-SYSTEM  ?= mimxrt/system_$(MCU_SERIES)
-STARTUP ?= mimxrt/startup_$(MCU_SERIES)
-LDSCRIPT  ?= mimxrt
+MCU_SERIES := $(shell echo $(MCU) | cut -c1-10)
+LDSCRIPT ?= mimxrt
+SYSTEM   ?= mimxrt/system_$(MCU_SERIES)
+STARTUP  ?= mimxrt/startup_$(MCU_SERIES)
+HAL_DIR  ?= hal/mimxrt/$(MCU_SERIES)
 
 # Compiler Flags
 # TODO: -Wdouble-promotion
@@ -20,7 +44,7 @@ CFLAGS += -std=gnu99 \
           -mfpu=$(FPU)
 
 # TODO: FIX HSE
-CFLAGS += -DCPU_$(MCU_VARIANT) \
+CFLAGS += -DCPU_$(MCU) \
           -D$(TARGET) \
           -DARM_NN_TRUNCATE \
           -D__FPU_PRESENT=1 \
@@ -32,13 +56,13 @@ CFLAGS += -DCPU_$(MCU_VARIANT) \
 	      -DFSL_SDK_ENABLE_DRIVER_CACHE_CONTROL=1 \
 	      -DCFG_TUSB_MCU=OPT_MCU_MIMXRT1XXX \
 	      -DCPU_HEADER_H='<$(MCU_SERIES).h>' \
-	      -DCMSIS_MCU_H=$(CMSIS_MCU_H) \
+	      -DCMSIS_MCU_H='<$(MCU_SERIES).h>' \
 	      -DCLOCK_CONFIG_H='<boards/$(MCU_SERIES)_clock_config.h>' \
           -DCSI_DRIVER_FRAG_MODE=1 \
           -D__START=main \
           -D__STARTUP_CLEAR_BSS \
           -D__STARTUP_INITIALIZE_RAMFUNCTION \
-          $(OMV_BOARD_EXTRA_CFLAGS)
+          $(OMV_BOARD_CFLAGS)
 
 # Linker Flags
 LDFLAGS = -mthumb \
@@ -55,69 +79,75 @@ LDFLAGS = -mthumb \
           -Wl,-T$(BUILD)/$(LDSCRIPT).lds \
           -Wl,-Map=$(BUILD)/$(FIRMWARE).map
 
-HAL_CFLAGS += -I$(TOP_DIR)/$(CMSIS_DIR)/include/
+HAL_CFLAGS += -I$(TOP_DIR)/$(CMSIS_DIR)/include
 HAL_CFLAGS += -I$(TOP_DIR)/$(CMSIS_DIR)/include/mimxrt
-HAL_CFLAGS += -I$(TOP_DIR)/$(HAL_DIR)/
+HAL_CFLAGS += -I$(TOP_DIR)/$(HAL_DIR)
 HAL_CFLAGS += -I$(TOP_DIR)/$(HAL_DIR)/drivers
 
 MPY_CFLAGS += -I$(MP_BOARD_CONFIG_DIR)
-MPY_CFLAGS += -I$(BUILD)/$(MICROPY_DIR)/
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/py/
+MPY_CFLAGS += -I$(BUILD)/$(MICROPY_DIR)
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/py
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/oofatfs
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/tinyusb/src
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/lwip/src/include/
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/mimxrt/
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/mimxrt/lwip_inc/
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/runtime/
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/lwip/src/include
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/tinyusb
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/mimxrt
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/mimxrt/lwip_inc
+MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/runtime
+
+MPY_CFLAGS += -DMICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
+MPY_CFLAGS += -DMICROPY_PY_SSL=$(MICROPY_PY_SSL)
+MPY_CFLAGS += -DMICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
+MPY_CFLAGS += -DMICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
+MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
+MPY_CFLAGS += -DMICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
+MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH_USE_SYNC_EVENTS=1
 MPY_CFLAGS += -DMICROPY_VFS_FAT=1
 
-ifeq ($(MICROPY_PY_LWIP), 0)
-MICROPY_ARGS += MICROPY_PY_LWIP=0 MICROPY_PY_SSL=0
-else
-MPY_CFLAGS += -DMICROPY_PY_SSL=1 -DMICROPY_SSL_MBEDTLS=1
-MICROPY_ARGS += MICROPY_PY_SSL=1 MICROPY_SSL_MBEDTLS=1
-endif
-MICROPY_ARGS += MCU_DIR=$(TOP_DIR)/$(HAL_DIR) \
-                CMSIS_DIR=$(TOP_DIR)/$(CMSIS_DIR)\
-                SUPPORTS_HARDWARE_FP_SINGLE=1 \
-                MICROPY_VFS_LFS2=0 \
-                MICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)\
-                MICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC)
+MPY_MKARGS += MCU_DIR=$(TOP_DIR)/$(HAL_DIR)
+MPY_MKARGS += CMSIS_DIR=$(TOP_DIR)/$(CMSIS_DIR)
+MPY_MKARGS += SUPPORTS_HARDWARE_FP_SINGLE=1
+MPY_MKARGS += MICROPY_VFS_LFS2=0
+MPY_MKARGS += MICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
+MPY_MKARGS += MICROPY_PY_SSL=$(MICROPY_PY_SSL)
+MPY_MKARGS += MICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
+MPY_MKARGS += MICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
+MPY_MKARGS += MICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
+MPY_MKARGS += MICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
+MPY_MKARGS += MICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)
+MPY_MKARGS += MICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC)
 
 OMV_CFLAGS += -I$(OMV_BOARD_CONFIG_DIR)
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/alloc/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/common/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/imlib/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/modules/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/sensors/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/templates/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)/modules/
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/alloc
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/common
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/imlib
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/modules
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/sensors
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/templates
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)
+OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)/modules
 
-OMV_CFLAGS += -I$(TOP_DIR)/$(LEPTON_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(LSM6DS3_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(LSM6DSOX_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(VL53L5CX_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(WINC1500_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90621_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90640_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90641_DIR)/include/
-OMV_CFLAGS += -I$(TOP_DIR)/$(PIXART_DIR)/include/
-OMV_CFLAGS += -I$(BUILD)/$(TENSORFLOW_DIR)/
+OMV_CFLAGS += -I$(TOP_DIR)/$(GENX320_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(BOSON_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(LEPTON_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(LSM6DS3_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(LSM6DSOX_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(VL53L5CX_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(WINC1500_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90621_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90640_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(MLX90641_DIR)/include
+OMV_CFLAGS += -I$(TOP_DIR)/$(PIXART_DIR)/include
 
 CFLAGS += $(HAL_CFLAGS) $(MPY_CFLAGS) $(OMV_CFLAGS)
-
-#------------- Libraries ----------------#
-ifeq ($(MICROPY_PY_AUDIO), 1)
-LIBS += $(TOP_DIR)/$(LIBPDM_DIR)/libPDMFilter_CM7_GCC_wc32.a
-endif
-LIBS += $(TOP_DIR)/$(TENSORFLOW_DIR)/libtflm/lib/libtflm-$(CPU)+fp-release.a
 
 #------------- Firmware Objects ----------------#
 FIRM_OBJ += $(wildcard $(BUILD)/$(CMSIS_DIR)/src/dsp/*/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(HAL_DIR)/drivers/*.o)
+FIRM_OBJ += $(wildcard $(BUILD)/$(GENX320_DIR)/src/*.o)
+FIRM_OBJ += $(wildcard $(BUILD)/$(BOSON_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(LEPTON_DIR)/src/*.o)
 ifeq ($(MICROPY_PY_IMU), 1)
 FIRM_OBJ += $(wildcard $(BUILD)/$(LSM6DS3_DIR)/src/*.o)
@@ -128,7 +158,6 @@ FIRM_OBJ += $(wildcard $(BUILD)/$(MLX90640_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(MLX90641_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(VL53L5CX_DIR)/src/*.o)
 FIRM_OBJ += $(wildcard $(BUILD)/$(PIXART_DIR)/src/*.o)
-FIRM_OBJ += $(wildcard $(BUILD)/$(TENSORFLOW_DIR)/*.o)
 
 #------------- OpenMV Objects ----------------#
 FIRM_OBJ += $(addprefix $(BUILD)/$(CMSIS_DIR)/src/, \
@@ -145,7 +174,6 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/alloc/, \
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	array.o                     \
-	ini.o                       \
 	ringbuf.o                   \
 	trace.o                     \
 	mutex.o                     \
@@ -155,7 +183,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	tinyusb_debug.o             \
 	file_utils.o                \
 	mp_utils.o                  \
-	sensor_utils.o              \
+	omv_csi.o                   \
    )
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/,   \
@@ -167,10 +195,12 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/,   \
 	ov9650.o                    \
 	mt9v0xx.o                   \
 	mt9m114.o                   \
+	boson.o                     \
 	lepton.o                    \
 	hm01b0.o                    \
 	hm0360.o                    \
 	gc2145.o                    \
+	genx320.o                   \
 	pag7920.o                   \
 	paj6100.o                   \
 	frogeye2020.o               \
@@ -271,7 +301,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	sdio.o                              \
 	systick.o                           \
 	ticks.o                             \
-	tusb_port.o                         \
+	usbd.o                              \
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/hal/,\
@@ -308,6 +338,9 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/shared/,\
 	runtime/softtimer.o         \
 	timeutils/timeutils.o       \
 	readline/readline.o         \
+	tinyusb/mp_usbd.o           \
+	tinyusb/mp_usbd_cdc.o       \
+	tinyusb/mp_usbd_descriptor.o \
 	)
 
 FIRM_OBJ += $(wildcard $(BUILD)/$(MICROPY_DIR)/lib/mbedtls/library/*.o)
@@ -421,6 +454,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/modules/ulab/code/,\
 	numpy/stats.o                   \
 	numpy/transform.o               \
 	numpy/vector.o                  \
+	scipy/integrate/integrate.o     \
 	scipy/linalg/linalg.o           \
 	scipy/optimize/optimize.o       \
 	scipy/scipy.o                   \
@@ -511,6 +545,21 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	)
 endif
 
+#------------- Libraries ----------------#
+ifeq ($(MICROPY_PY_AUDIO), 1)
+LIBS += $(TOP_DIR)/$(LIBPDM_DIR)/libPDMFilter_CM7_GCC_wc32.a
+endif
+
+#------------- ML libraries ----------------#
+ifeq ($(MICROPY_PY_ML_TFLM), 1)
+OMV_CFLAGS += -I$(BUILD)/$(TENSORFLOW_DIR)/
+FIRM_OBJ += $(addprefix $(BUILD)/$(TENSORFLOW_DIR)/, \
+	tflm_backend.o \
+	tflm_builtin_models.o \
+	)
+LIBS += $(TOP_DIR)/$(TENSORFLOW_DIR)/libtflm/lib/libtflm-$(CPU)+fp-release.a
+endif
+
 ###################################################
 all: $(OPENMV)
 
@@ -523,8 +572,12 @@ $(FW_DIR):
 FIRMWARE_OBJS: | $(BUILD) $(FW_DIR)
 	$(MAKE)  -C $(CMSIS_DIR)                 BUILD=$(BUILD)/$(CMSIS_DIR)        CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(HAL_DIR)                   BUILD=$(BUILD)/$(HAL_DIR)          CFLAGS="$(CFLAGS) -MMD"
+ifeq ($(MICROPY_PY_ML_TFLM), 1)
 	$(MAKE)  -C $(TENSORFLOW_DIR)            BUILD=$(BUILD)/$(TENSORFLOW_DIR)   CFLAGS="$(CFLAGS) -MMD" headers
-	$(MAKE)  -C $(MICROPY_DIR)/ports/$(PORT) BUILD=$(BUILD)/$(MICROPY_DIR)      $(MICROPY_ARGS)
+endif
+	$(MAKE)  -C $(MICROPY_DIR)/ports/$(PORT) BUILD=$(BUILD)/$(MICROPY_DIR)      $(MPY_MKARGS)
+	$(MAKE)  -C $(GENX320_DIR)               BUILD=$(BUILD)/$(GENX320_DIR)      CFLAGS="$(CFLAGS) -MMD"
+	$(MAKE)  -C $(BOSON_DIR)                 BUILD=$(BUILD)/$(BOSON_DIR)        CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(LEPTON_DIR)                BUILD=$(BUILD)/$(LEPTON_DIR)       CFLAGS="$(CFLAGS) -MMD"
 ifeq ($(MICROPY_PY_IMU), 1)
 	$(MAKE)  -C $(LSM6DS3_DIR)               BUILD=$(BUILD)/$(LSM6DS3_DIR)      CFLAGS="$(CFLAGS) -MMD"
@@ -535,7 +588,9 @@ endif
 	$(MAKE)  -C $(MLX90641_DIR)              BUILD=$(BUILD)/$(MLX90641_DIR)     CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(VL53L5CX_DIR)              BUILD=$(BUILD)/$(VL53L5CX_DIR)     CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(PIXART_DIR)                BUILD=$(BUILD)/$(PIXART_DIR)       CFLAGS="$(CFLAGS) -MMD"
+ifeq ($(MICROPY_PY_ML_TFLM), 1)
 	$(MAKE)  -C $(TENSORFLOW_DIR)            BUILD=$(BUILD)/$(TENSORFLOW_DIR)   CFLAGS="$(CFLAGS) -MMD" all
+endif
 	$(MAKE)  -C $(OMV_DIR)                   BUILD=$(BUILD)/$(OMV_DIR)          CFLAGS="$(CFLAGS) -MMD"
 
 # This target generates the main/app firmware image located at 0x08010000

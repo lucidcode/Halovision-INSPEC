@@ -1,18 +1,61 @@
+# SPDX-License-Identifier: MIT
+#
+# Copyright (C) 2020-2024 OpenMV, LLC.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 # Set startup and system files based on MCU.
+LDSCRIPT  ?= nrf52xxx
+HAL_DIR   ?= hal/nrfx
 SYSTEM    ?= nrf/system_nrf52840
 STARTUP   ?= nrf/startup_$(shell echo $(MCU) | tr '[:upper:]' '[:lower:]')
-LDSCRIPT  ?= nrf52xxx
+MCU_LOWER := $(shell echo $(MCU) | tr '[:upper:]' '[:lower:]')
+
 export SD_DIR = $(TOP_DIR)/drivers/nrf
 
 # Compiler Flags
-CFLAGS += -std=gnu99 -Wall -Werror -Warray-bounds -mthumb -nostartfiles -fdata-sections -ffunction-sections
-CFLAGS += -D$(MCU) -D$(CFLAGS_MCU) -DARM_NN_TRUNCATE -D__FPU_PRESENT=1 -D__VFP_FP__ -D$(TARGET)\
-          -fsingle-precision-constant -Wdouble-promotion -mcpu=$(CPU) -mtune=$(CPU) -mfpu=$(FPU) -mfloat-abi=hard\
-          -DCMSIS_MCU_H=$(CMSIS_MCU_H) -DMP_PORT_NO_SOFTTIMER
-CFLAGS += $(OMV_BOARD_EXTRA_CFLAGS)
+CFLAGS += -std=gnu99 \
+          -Wall \
+          -Werror \
+          -Warray-bounds \
+          -mthumb \
+          -nostartfiles \
+          -fdata-sections \
+          -ffunction-sections
+
+CFLAGS += -D$(MCU) \
+          -DARM_NN_TRUNCATE \
+          -D__FPU_PRESENT=1 \
+          -D__VFP_FP__ \
+          -D$(TARGET) \
+          -fsingle-precision-constant \
+          -Wdouble-promotion \
+          -mcpu=$(CPU) \
+          -mtune=$(CPU) \
+          -mfpu=$(FPU) \
+          -mfloat-abi=hard \
+          -DCMSIS_MCU_H='<$(MCU_LOWER).h>' \
+          -DMP_PORT_NO_SOFTTIMER \
+          $(OMV_BOARD_CFLAGS)
 
 # Disable LTO and set the SD
-MICROPY_ARGS += LTO=0 SD=$(SD)
+MPY_MKARGS += LTO=0 SD=$(SD)
 
 HAL_CFLAGS += -I$(TOP_DIR)/$(CMSIS_DIR)/include/
 HAL_CFLAGS += -I$(TOP_DIR)/$(CMSIS_DIR)/include/nrf
@@ -111,7 +154,6 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/alloc/, \
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	array.o                     \
-	ini.o                       \
 	ringbuf.o                   \
 	trace.o                     \
 	mutex.o                     \
@@ -120,7 +162,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/common/, \
 	tinyusb_debug.o             \
 	file_utils.o                \
 	mp_utils.o                  \
-	sensor_utils.o              \
+	omv_csi.o                   \
    )
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(OMV_DIR)/sensors/,   \
@@ -216,7 +258,6 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
 	drivers/bluetooth/ble_drv.o     \
 	drivers/bluetooth/ble_uart.o    \
 	drivers/usb/usb_cdc.o           \
-	drivers/usb/usb_descriptors.o   \
 	frozen_content.o                \
 	)
 
@@ -270,11 +311,15 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/shared/,\
 	libc/printf.o               \
 	libc/string0.o              \
 	runtime/pyexec.o            \
+	runtime/mpirq.o             \
 	runtime/interrupt_char.o    \
 	runtime/sys_stdio_mphal.o   \
 	runtime/stdout_helpers.o    \
 	timeutils/timeutils.o       \
 	readline/readline.o         \
+	tinyusb/mp_usbd.o           \
+	tinyusb/mp_usbd_cdc.o       \
+	tinyusb/mp_usbd_descriptor.o \
 	)
 
 FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/lib/libm/,\
@@ -357,6 +402,7 @@ FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/modules/ulab/code/,\
 	numpy/stats.o                   \
 	numpy/transform.o               \
 	numpy/vector.o                  \
+	scipy/integrate/integrate.o     \
 	scipy/linalg/linalg.o           \
 	scipy/optimize/optimize.o       \
 	scipy/scipy.o                   \
@@ -380,7 +426,7 @@ $(FW_DIR):
 
 FIRMWARE_OBJS: | $(BUILD) $(FW_DIR)
 	$(MAKE)  -C $(CMSIS_DIR)                 BUILD=$(BUILD)/$(CMSIS_DIR)    CFLAGS="$(CFLAGS) -fno-strict-aliasing -MMD"
-	$(MAKE)  -C $(MICROPY_DIR)/ports/$(PORT) BUILD=$(BUILD)/$(MICROPY_DIR)  $(MICROPY_ARGS)
+	$(MAKE)  -C $(MICROPY_DIR)/ports/$(PORT) BUILD=$(BUILD)/$(MICROPY_DIR)  $(MPY_MKARGS)
 	$(MAKE)  -C $(HAL_DIR)                   BUILD=$(BUILD)/$(HAL_DIR)      CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(MLX90621_DIR)              BUILD=$(BUILD)/$(MLX90621_DIR) CFLAGS="$(CFLAGS) -MMD"
 	$(MAKE)  -C $(MLX90640_DIR)              BUILD=$(BUILD)/$(MLX90640_DIR) CFLAGS="$(CFLAGS) -MMD"

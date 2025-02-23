@@ -1,3 +1,51 @@
+Sun, 26 Jan 2025
+
+version 6.7.3
+
+    fix keepdims for min, max, argmin, argmax
+    
+Sun, 19 Jan 2025
+
+version 6.7.2
+
+    fix keepdims for std, remove redundant macros from numerical.h, update documentation
+
+Mon, 30 Dec 2024
+
+version 6.7.1
+
+    add keepdims keyword argument to numerical functions
+
+Sun, 15 Dec 2024
+
+version 6.7.0
+
+    add scipy.integrate module
+
+Sun, 24 Nov 2024
+
+version 6.6.1
+
+    fix compilation error, for complexes
+
+Wed, 9 Oct 2024
+
+version 6.6.0
+
+    add numpy.take
+
+Sat, 14 Sep 2024
+
+version 6.5.5
+
+    add scratchpad, out, log keyword arguments to spectrum
+
+Sat, 14 Sep 2024
+
+version 6.5.4
+
+    fix roll, when shift is 0
+
 Wed, 6 Mar 2024
 
 version 6.5.2

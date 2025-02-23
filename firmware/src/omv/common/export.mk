@@ -1,9 +1,24 @@
-# This file is part of the OpenMV project.
+# SPDX-License-Identifier: MIT
 #
-# Copyright (c) 2013-2024 Ibrahim Abdelkader <iabdalkader@openmv.io>
-# Copyright (c) 2013-2024 Kwabena W. Agyeman <kwagyeman@openmv.io>
+# Copyright (C) 2013-2024 OpenMV, LLC.
 #
-# This work is licensed under the MIT license, see the file LICENSE for details.
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 #
 # Tools, directories and common variables that need to be exported when calling
 # sub-Makefiles.
@@ -41,28 +56,27 @@ export TARGET
 export FIRMWARE
 export SYSTEM
 export STARTUP
-export MICROPY_ARGS
+export MPY_MKARGS
 export VELA_ARGS
 export FROZEN_MANIFEST
 
 # Export board config variables
 export PORT
-export HAL_DIR
 export MCU
-export MCU_SERIES
-export MCU_VARIANT
-export MCU_CORE
 
 # Export Directories
 export TOP_DIR
 export BUILD
 export TOOLS
 export FW_DIR
+export BOOT_DIR
 export OMV_DIR
 export CMSIS_DIR
 export MICROPY_DIR
+export BOSON_DIR
 export LEPTON_DIR
 export LSM6DS3_DIR
+export LSM6DSM_DIR
 export LSM6DSOX_DIR
 export WINC1500_DIR
 export MLX90621_DIR

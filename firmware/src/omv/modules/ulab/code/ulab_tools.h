@@ -17,6 +17,7 @@
 
 typedef struct _shape_strides_t {
     uint8_t increment;
+    uint8_t axis;
     uint8_t ndim;
     size_t *shape;
     int32_t *strides;
@@ -34,6 +35,7 @@ void *ndarray_set_float_function(uint8_t );
 
 shape_strides tools_reduce_axes(ndarray_obj_t *, mp_obj_t );
 int8_t tools_get_axis(mp_obj_t , uint8_t );
+mp_obj_t ulab_tools_restore_dims(ndarray_obj_t * , ndarray_obj_t * , mp_obj_t , shape_strides );
 ndarray_obj_t *tools_object_is_square(mp_obj_t );
 
 uint8_t ulab_binary_get_size(uint8_t );
@@ -44,7 +46,6 @@ void ulab_rescale_float_strides(int32_t *);
 
 bool ulab_tools_mp_obj_is_scalar(mp_obj_t );
 
-#if ULAB_NUMPY_HAS_RANDOM_MODULE
-ndarray_obj_t *ulab_tools_create_out(mp_obj_tuple_t , mp_obj_t , uint8_t , bool );
-#endif
+ndarray_obj_t *ulab_tools_inspect_out(mp_obj_t , uint8_t , uint8_t , size_t *, bool );
+
 #endif

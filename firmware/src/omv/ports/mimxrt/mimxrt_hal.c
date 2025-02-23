@@ -1,14 +1,28 @@
 /*
- * This file is part of the OpenMV project.
+ * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2023 Ibrahim Abdelkader <iabdalkader@openmv.io>
- * Copyright (c) 2023 Kwabena W. Agyeman <kwagyeman@openmv.io>
+ * Copyright (C) 2023 OpenMV, LLC.
  *
- * This work is licensed under the MIT license, see the file LICENSE for details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * MIMXRT HAL.
  */
-
 #include "fsl_gpio.h"
 #include "fsl_csi.h"
 #include "fsl_iomuxc.h"
@@ -180,7 +194,7 @@ int mimxrt_hal_i2c_init(uint32_t bus_id) {
     return 0;
 }
 
-int mimxrt_hal_spi_init(uint32_t bus_id, bool nss_enable, uint32_t nss_pol) {
+int mimxrt_hal_spi_init(uint32_t bus_id, bool nss_enable, uint32_t nss_pol, uint32_t bus_mode) {
     typedef struct {
         omv_gpio_t sclk_pin;
         omv_gpio_t miso_pin;
@@ -228,8 +242,12 @@ int mimxrt_hal_spi_init(uint32_t bus_id, bool nss_enable, uint32_t nss_pol) {
     }
 
     omv_gpio_config(spi_pins.sclk_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(spi_pins.miso_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
-    omv_gpio_config(spi_pins.mosi_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    if (bus_mode & OMV_SPI_BUS_RX) {
+        omv_gpio_config(spi_pins.miso_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    }
+    if (bus_mode & OMV_SPI_BUS_TX) {
+        omv_gpio_config(spi_pins.mosi_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_MED, -1);
+    }
     if (nss_enable) {
         omv_gpio_config(spi_pins.ssel_pin, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_MED, -1);
     } else {
@@ -243,7 +261,7 @@ int mimxrt_hal_spi_init(uint32_t bus_id, bool nss_enable, uint32_t nss_pol) {
     return 0;
 }
 
-int mimxrt_hal_spi_deinit(uint32_t bus_id) {
+int mimxrt_hal_spi_deinit(uint32_t bus_id, uint32_t bus_mode) {
     typedef struct {
         omv_gpio_t sclk_pin;
         omv_gpio_t miso_pin;
@@ -291,16 +309,20 @@ int mimxrt_hal_spi_deinit(uint32_t bus_id) {
     }
 
     omv_gpio_deinit(spi_pins.sclk_pin);
-    omv_gpio_deinit(spi_pins.miso_pin);
-    omv_gpio_deinit(spi_pins.mosi_pin);
+    if (bus_mode & OMV_SPI_BUS_RX) {
+        omv_gpio_deinit(spi_pins.miso_pin);
+    }
+    if (bus_mode & OMV_SPI_BUS_TX) {
+        omv_gpio_deinit(spi_pins.mosi_pin);
+    }
     omv_gpio_deinit(spi_pins.ssel_pin);
     return 0;
 }
 
 void CSI_IRQHandler(void) {
     uint32_t csisr = CSI_REG_SR(CSI);
-    extern void sensor_sof_callback();
-    extern void sensor_line_callback(uint32_t);
+    extern void omv_csi_sof_callback();
+    extern void omv_csi_line_callback(uint32_t);
 
     // Clear interrupt flags.
     CSI_REG_SR(CSI) = csisr;
@@ -308,11 +330,11 @@ void CSI_IRQHandler(void) {
     if (csisr & CSI_SR_SOF_INT_MASK) {
         // Clear the FIFO and re/enable DMA.
         CSI_REG_CR3(CSI) |= (CSI_CR3_DMA_REFLASH_RFF_MASK | CSI_CR3_DMA_REQ_EN_RFF_MASK);
-        sensor_sof_callback();
+        omv_csi_sof_callback();
     } else if (csisr & CSI_SR_DMA_TSF_DONE_FB1_MASK) {
-        sensor_line_callback(CSI_REG_DMASA_FB1(CSI));
+        omv_csi_line_callback(CSI_REG_DMASA_FB1(CSI));
     } else if (csisr & CSI_SR_DMA_TSF_DONE_FB2_MASK) {
-        sensor_line_callback(CSI_REG_DMASA_FB2(CSI));
+        omv_csi_line_callback(CSI_REG_DMASA_FB2(CSI));
     }
 
     // Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate

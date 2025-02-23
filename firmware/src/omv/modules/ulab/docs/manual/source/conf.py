@@ -23,11 +23,11 @@ from sphinx import addnodes
 # -- Project information -----------------------------------------------------
 
 project = 'The ulab book'
-copyright = '2019-2024, Zoltán Vörös and contributors'
+copyright = '2019-2025, Zoltán Vörös and contributors'
 author = 'Zoltán Vörös'
 
 # The full version, including alpha/beta/rc tags
-release = '6.5.0'
+release = '6.7.3'
 
 
 # -- General configuration ---------------------------------------------------

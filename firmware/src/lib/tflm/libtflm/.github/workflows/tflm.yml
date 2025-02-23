@@ -34,7 +34,7 @@ jobs:
           - {name: cortex-m7+fp, arch: cortex-m7+fp, kernel: cmsis_nn, coproc: '', args: ''}
           - {name: cortex-m55, arch: cortex-m55, kernel: cmsis_nn, coproc: '', args: ''}
           - {name: cortex-m55-u55, arch: cortex-m55, kernel: ethos_u, coproc: ethos_u, args: "ETHOSU_ARCH=u55"}
-        build: [release] #, debug]
+        build: [release, release_with_logs]
       fail-fast: true
 
     steps:

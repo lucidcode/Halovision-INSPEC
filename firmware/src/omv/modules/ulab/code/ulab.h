@@ -398,6 +398,28 @@
 #define ULAB_NUMPY_HAS_WHERE            (1)
 #endif
 
+// the integrate module; functions of the integrate module still have
+// to be defined separately
+#ifndef ULAB_SCIPY_HAS_INTEGRATE_MODULE
+#define ULAB_SCIPY_HAS_INTEGRATE_MODULE        (1)
+#endif
+
+#ifndef ULAB_INTEGRATE_HAS_TANHSINH
+#define ULAB_INTEGRATE_HAS_TANHSINH			(1)
+#endif
+
+#ifndef ULAB_INTEGRATE_HAS_ROMBERG
+#define ULAB_INTEGRATE_HAS_ROMBERG			(1)
+#endif
+
+#ifndef ULAB_INTEGRATE_HAS_SIMPSON
+#define ULAB_INTEGRATE_HAS_SIMPSON			(1)
+#endif
+
+#ifndef ULAB_INTEGRATE_HAS_QUAD
+#define ULAB_INTEGRATE_HAS_QUAD				(1)
+#endif
+
 // the linalg module; functions of the linalg module still have
 // to be defined separately
 #ifndef ULAB_NUMPY_HAS_LINALG_MODULE
@@ -440,7 +462,7 @@
 // Note that in this case, the input also must be numpythonic,
 // i.e., the real an imaginary parts cannot be passed as two arguments
 #ifndef ULAB_FFT_IS_NUMPY_COMPATIBLE
-#define ULAB_FFT_IS_NUMPY_COMPATIBLE    (0)
+#define ULAB_FFT_IS_NUMPY_COMPATIBLE    (1)
 #endif
 
 #ifndef ULAB_FFT_HAS_FFT
@@ -557,6 +579,10 @@
 
 #ifndef ULAB_NUMPY_HAS_SUM
 #define ULAB_NUMPY_HAS_SUM              (1)
+#endif
+
+#ifndef ULAB_NUMPY_HAS_TAKE
+#define ULAB_NUMPY_HAS_TAKE             (1)
 #endif
 
 #ifndef ULAB_NUMPY_HAS_TRACE

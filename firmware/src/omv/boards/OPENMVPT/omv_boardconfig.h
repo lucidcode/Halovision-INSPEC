@@ -27,10 +27,10 @@
 // GPU Configuration
 #define OMV_GPU_ENABLE                          (1)
 
-// Image sensor drivers configuration.
+// CSI drivers configuration.
 #define OMV_OV5640_ENABLE                       (1)
 #define OMV_OV5640_AF_ENABLE                    (1)
-#define OMV_OV5640_XCLK_FREQ                    (24000000)
+#define OMV_OV5640_CLK_FREQ                     (24000000)
 #define OMV_OV5640_PLL_CTRL2                    (0x64)
 #define OMV_OV5640_PLL_CTRL3                    (0x13)
 #define OMV_OV5640_REV_Y_CHECK                  (1)
@@ -38,15 +38,12 @@
 #define OMV_OV5640_REV_Y_CTRL2                  (0x54)
 #define OMV_OV5640_REV_Y_CTRL3                  (0x13)
 
-// FIR sensor drivers configuration.
+// FIR drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE                 (1)
 #define OMV_FIR_MLX90640_ENABLE                 (1)
 #define OMV_FIR_MLX90641_ENABLE                 (1)
 #define OMV_FIR_AMG8833_ENABLE                  (1)
 #define OMV_FIR_LEPTON_ENABLE                   (1)
-
-// Debugging configuration.
-#define OMV_WIFIDBG_ENABLE                      (1)
 
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE                      256
@@ -107,7 +104,7 @@
 // Power supply configuration
 #define OMV_PWR_SUPPLY                          (PWR_LDO_SUPPLY)
 
-// Linker script constants (see the linker script template stm32fxxx.ld.S).
+// Linker script constants (see the linker script template stm32.ld.S).
 // Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
 // The maximum available fb_alloc memory = FB_ALLOC_SIZE + FB_SIZE - (w*h*bpp).
 #define OMV_MAIN_MEMORY                         SRAM1   // Data/BSS memory
@@ -116,14 +113,14 @@
 #define OMV_FB_MEMORY                           DRAM    // Framebuffer, fb_alloc
 #define OMV_FB_SIZE                             (32M)   // FB memory: header + VGA/GS image
 #define OMV_FB_ALLOC_SIZE                       (23M)   // minimum fb alloc size
-#define OMV_FB_OVERLAY_MEMORY                   AXI_SRAM // Fast fb_alloc memory.
+#define OMV_FB_OVERLAY_MEMORY                   SRAM0   // Fast fb_alloc memory.
 #define OMV_FB_OVERLAY_SIZE                     (496K)  // Fast fb_alloc memory size.
 #define OMV_JPEG_MEMORY                         DRAM    // JPEG buffer memory buffer.
 #define OMV_JPEG_SIZE                           (1M)    // IDE JPEG buffer (header + data).
 #define OMV_VOSPI_MEMORY                        SRAM4   // VoSPI buffer memory.
 #define OMV_VOSPI_SIZE                          (38K)
 #define OMV_DMA_MEMORY                          SRAM3   // DMA buffers memory.
-#define OMV_DMA_MEMORY_D1                       AXI_SRAM // Domain 1 DMA buffers.
+#define OMV_DMA_MEMORY_D1                       SRAM0   // Domain 1 DMA buffers.
 #define OMV_DMA_MEMORY_D2                       SRAM3   // Domain 2 DMA buffers.
 #define OMV_DMA_MEMORY_D3                       SRAM4   // Domain 3 DMA buffers.
 #define OMV_GC_BLOCK0_MEMORY                    SRAM1   // Main GC block.
@@ -132,7 +129,6 @@
 #define OMV_GC_BLOCK1_SIZE                      (8M)
 #define OMV_SDRAM_SIZE                          (64 * 1024 * 1024)  // This needs to be here for UVC firmware.
 #define OMV_MSC_BUF_SIZE                        (2K)    // USB MSC bot data
-#define OMV_VFS_BUF_SIZE                        (1K)    // VFS struct + FATFS file buffer (624 bytes)
 #define OMV_LINE_BUF_SIZE                       (11 * 1024) // Image line buffer round(2592 * 2BPP * 2 buffers).
 
 // Memory map.
@@ -142,18 +138,20 @@
 #define OMV_DTCM_LENGTH                         128K
 #define OMV_ITCM_ORIGIN                         0x00000000
 #define OMV_ITCM_LENGTH                         64K
+#define OMV_SRAM0_ORIGIN                        0x24000000
+#define OMV_SRAM0_LENGTH                        512K
 #define OMV_SRAM1_ORIGIN                        0x30000000
 #define OMV_SRAM1_LENGTH                        272K // SRAM1 + SRAM2 + 1/2 SRAM3
 #define OMV_SRAM3_ORIGIN                        0x30044000
 #define OMV_SRAM3_LENGTH                        16K
 #define OMV_SRAM4_ORIGIN                        0x38000000
 #define OMV_SRAM4_LENGTH                        64K
-#define OMV_AXI_SRAM_ORIGIN                     0x24000000
-#define OMV_AXI_SRAM_LENGTH                     512K
 #define OMV_DRAM_ORIGIN                         0xC0000000
 #define OMV_DRAM_LENGTH                         64M
 
 // Flash configuration.
+#define OMV_FLASH_BOOT_ORIGIN                   0x08000000
+#define OMV_FLASH_BOOT_LENGTH                   128K
 #define OMV_FLASH_FFS_ORIGIN                    0x08020000
 #define OMV_FLASH_FFS_LENGTH                    128K
 #define OMV_FLASH_TXT_ORIGIN                    0x08040000
@@ -178,11 +176,11 @@
 #define OMV_GPIO_PORT_J_ENABLE                  (1)
 #define OMV_GPIO_PORT_K_ENABLE                  (1)
 
-// Main image sensor I2C bus
+// CSI I2C bus
 #define OMV_CSI_I2C_ID                          (1)
 #define OMV_CSI_I2C_SPEED                       (OMV_I2C_SPEED_STANDARD)
 
-// Thermal image sensor I2C bus
+// FIR I2C bus
 #define OMV_FIR_I2C_ID                          (2)
 #define OMV_FIR_I2C_SPEED                       (OMV_I2C_SPEED_FULL)
 
@@ -201,13 +199,14 @@
 #define OMV_WINC_IRQ_PIN                        (&omv_pin_H5_GPIO)
 
 // Camera interface
-#define OMV_CSI_XCLK_SOURCE                     (XCLK_SOURCE_TIM)
-#define OMV_CSI_XCLK_FREQUENCY                  (12000000)
+#define OMV_CSI_CLK_SOURCE                      (OMV_CSI_CLK_SOURCE_TIM)
+#define OMV_CSI_CLK_FREQUENCY                   (12000000)
 #define OMV_CSI_TIM                             (TIM1)
 #define OMV_CSI_TIM_PIN                         (&omv_pin_A8_TIM1)
 #define OMV_CSI_TIM_CHANNEL                     (TIM_CHANNEL_1)
 #define OMV_CSI_TIM_CLK_ENABLE()                __TIM1_CLK_ENABLE()
 #define OMV_CSI_TIM_CLK_DISABLE()               __TIM1_CLK_DISABLE()
+#define OMV_CSI_TIM_CLK_SLEEP_ENABLE()          __TIM1_CLK_SLEEP_ENABLE()
 #define OMV_CSI_TIM_PCLK_FREQ()                 HAL_RCC_GetPCLK2Freq()
 #define OMV_CSI_DMA_MEMCPY_ENABLE               (1)
 #define OMV_CSI_HW_CROP_ENABLE                  (1)
@@ -248,7 +247,9 @@
 #define OMV_SPI2_MOSI_PIN                       (&omv_pin_B15_SPI2)
 #define OMV_SPI2_SSEL_PIN                       (&omv_pin_B12_GPIO)
 #define OMV_SPI2_DMA_TX_CHANNEL                 (DMA1_Stream4)
+#define OMV_SPI2_DMA_TX_REQUEST                 (DMA_REQUEST_SPI2_TX)
 #define OMV_SPI2_DMA_RX_CHANNEL                 (DMA1_Stream3)
+#define OMV_SPI2_DMA_RX_REQUEST                 (DMA_REQUEST_SPI2_RX)
 
 // SPI bus 3
 #define OMV_SPI3_ID                             (3)
@@ -257,7 +258,9 @@
 #define OMV_SPI3_MOSI_PIN                       (&omv_pin_B5_SPI3)
 #define OMV_SPI3_SSEL_PIN                       (&omv_pin_A15_GPIO)
 #define OMV_SPI3_DMA_TX_CHANNEL                 (DMA1_Stream7)
+#define OMV_SPI3_DMA_TX_REQUEST                 (DMA_REQUEST_SPI3_TX)
 #define OMV_SPI3_DMA_RX_CHANNEL                 (DMA1_Stream2)
+#define OMV_SPI3_DMA_RX_REQUEST                 (DMA_REQUEST_SPI3_RX)
 
 // SPI bus 5
 #define OMV_SPI5_ID                             (5)
@@ -266,7 +269,9 @@
 #define OMV_SPI5_MOSI_PIN                       (&omv_pin_J10_SPI5)
 #define OMV_SPI5_SSEL_PIN                       (&omv_pin_K1_GPIO)
 #define OMV_SPI5_DMA_TX_CHANNEL                 (DMA2_Stream4)
+#define OMV_SPI5_DMA_TX_REQUEST                 (DMA_REQUEST_SPI5_TX)
 #define OMV_SPI5_DMA_RX_CHANNEL                 (DMA2_Stream3)
+#define OMV_SPI5_DMA_RX_REQUEST                 (DMA_REQUEST_SPI5_RX)
 
 // LCD Interface
 #define OMV_RGB_DISPLAY_CONTROLLER              (LTDC)
