@@ -27,6 +27,7 @@ class inspec_config:
         self.default['TossThreshold'] = 8000
         self.default['TriggerDelay'] = 0
         self.default['TriggerInterval'] = 1000 * 60 * 1
+        self.default['NREM1Delay'] = 1000 * 60 * 1
         self.default['TimeBetweenTosses'] = 1000 * 60 * 5
         self.default['Year'] = 2024
         self.default['Month'] = 1

@@ -13,7 +13,8 @@ class non_rapid_eye_movement:
             self.last_movement = now
             self.nrem1 = 0
 
-        if now - self.last_movement > 1000 * 8:
+        delay_step = self.config.get('NREM1Delay') / 8
+        if now - self.last_movement > delay_step:
             if self.nrem1 < 8:
                 self.nrem1 = self.nrem1 + 1
 
