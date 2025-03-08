@@ -34,8 +34,8 @@ class inspec_sensor:
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
-        self.total_variances = 0
-        self.variances = 0
+        self.peak_variance = 0
+        self.global_variance = 0
         
         machine.RTC().datetime((self.config.get('Year'), self.config.get('Month'), self.config.get('Day'), 0, 0, 0, 0, 0))
 
@@ -51,18 +51,7 @@ class inspec_sensor:
         sensor.set_hmirror(True if self.config.get('HorizontalMirror') else False)
         sensor.set_vflip(True if self.config.get('VerticalFlip') else False)
         
-        if self.config.get('TrackFace'):
-            sensor.set_framesize(sensor.HQVGA)
-        elif self.config.get('FrameSize') == 'VGA':
-            sensor.set_framesize(sensor.VGA)
-        elif self.config.get('FrameSize') == 'QVGA':
-            sensor.set_framesize(sensor.QVGA)
-        elif self.config.get('FrameSize') == 'QQVGA':
-            sensor.set_framesize(sensor.QQVGA)
-        elif self.config.get('FrameSize') == 'HQVGA':
-            sensor.set_framesize(sensor.HQVGA)
-        else:
-            sensor.set_framesize(sensor.QVGA)
+        sensor.set_framesize(sensor.HQVGA)
 
         if self.config.get('PixelFormat') == 'RGB565':
             sensor.set_pixformat(sensor.RGB565)
@@ -111,12 +100,14 @@ class inspec_sensor:
 
                 if self.config.get('TrackFace'):
                     self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
+                else:
+                    time.sleep_ms(64)
 
                 self.face.detect(self.img)
-                self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
-                if self.variance > 0:
-                    self.total_variances = self.total_variances + self.variance
-                    self.variances = self.variances + 1
+                self.global_variance, self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
+                
+                if self.variance > self.peak_variance:
+                    self.peak_variance = self.variance
                 self.extra_fb.replace(self.img)
                 self.face.draw_region(self.img)
 
@@ -131,15 +122,11 @@ class inspec_sensor:
 
                 if (utime.ticks_ms() - self.last_update > 128):
                     self.send_stream()
-                    average = 0
-                    if self.variances > 0:
-                        average = int(self.total_variances / self.variances)
 
                     face = "1" if self.face.has_face else "0"
-                    data = f'{str(average)};{self.eye_movements};{face}'
+                    data = f'{str(self.peak_variance)};{self.eye_movements};{face}'
                     self.comms.send_data(data)
-                    self.total_variances = 0
-                    self.variances = 0
+                    self.peak_variance = 0
                     self.last_update = utime.ticks_ms()
 
                     if self.comms.sending_image or self.comms.sending_file:
@@ -216,7 +203,7 @@ class inspec_sensor:
         self.lsd.log(self.variance, motion)
         
     def detect_rem(self):
-        eye_movements = self.rem.detect(self.variance)
+        eye_movements = self.rem.detect(self.variance, self.global_variance)
         self.lsd.log(self.variance, eye_movements)
 
         if self.eye_movements != eye_movements:
