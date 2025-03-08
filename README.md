@@ -71,6 +71,6 @@ export PATH=${TOOLCHAIN_PATH}/bin:${PATH}
 To build the firmware, run the following commands:
 ```bash
 cd firmware
-make -j$(nproc) -C src/micropython/mpy-cross
+make -j$(nproc) -C src/lib/micropython/mpy-cross
 make -j$(nproc) TARGET=OPENMV_INSPEC -C src
 ```
