@@ -178,10 +178,12 @@ class inspec_sensor:
             self.config.set(setting, value)
             self.config.save()
 
-            if (setting == "AccessPoint" or setting == "WiFi") and value == "1" and self.stream == None:
-                self.init_stream()
+            if (setting == "AccessPoint" or setting == "WiFi") and value == "1":
                 if self.stream != None:
                     self.comms.send_data(f'ip:{self.stream.ip}')
+                    return
+
+                self.init_stream()
 
             if self.config.is_sensor_setting(setting):
                 self.configure_sensor()
