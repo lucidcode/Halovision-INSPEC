@@ -9,6 +9,7 @@ import image
 from led import lights
 from lsd import lucid_scribe_data
 from rem import rapid_eye_movement
+from nrem import non_rapid_eye_movement
 from face import face_detection
 from config import inspec_config
 from ble import inspec_comms
@@ -29,6 +30,7 @@ class inspec_sensor:
         self.lsd = lucid_scribe_data(self.config)
         self.face = face_detection(self.config, self.comms)
         self.rem = rapid_eye_movement(self.config, self.face)
+        self.nrem = non_rapid_eye_movement(self.config, self.face)
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
@@ -118,7 +120,11 @@ class inspec_sensor:
                 self.extra_fb.replace(self.img)
                 self.face.draw_region(self.img)
 
-                self.detect()
+                self.detect_motion()
+                self.detect_face()
+                self.detect_rem()
+                self.detect_nrem()
+                
                 self.led.process()
                 self.process_trigger()
                 self.process_api("variance", self.variance)
@@ -182,18 +188,11 @@ class inspec_sensor:
 
         if message == "disconnect":
             self.comms.disconnect()
-        
-    def detect(self):
-        if self.config.get('Algorithm') == "Motion Detection":
-            self.detect_motion()
-
-        if self.config.get('Algorithm') == "Face Detection":
-            self.detect_face()
-
-        if self.config.get('Algorithm') == "REM Detection":
-            self.detect_rem()
 
     def detect_motion(self):
+        if self.config.get('Algorithm') != "Motion Detection":
+            return
+
         motion = 0
         if self.variance > self.config.get('TriggerThreshold'):
             motion = 8
@@ -203,6 +202,9 @@ class inspec_sensor:
         self.lsd.log(self.variance, motion)
 
     def detect_face(self):
+        if self.config.get('Algorithm') != "Face Detection":
+            return
+
         motion = 0
         if self.face.has_face:
             motion = 8
@@ -219,10 +221,27 @@ class inspec_sensor:
             self.eye_movements = eye_movements
             self.process_api("rem", self.eye_movements)
 
+            if self.config.get('Algorithm') != "REM Detection":
+                return
+
             if self.eye_movements >= 8:
                 self.trigger()
 
             if self.eye_movements >= 5:
+                self.lsd.add_image(self.img, self.eye_movements)
+        
+    def detect_nrem(self):
+        if self.config.get('Algorithm') != "NREM1 Detection":
+            return
+
+        eye_movements = self.nrem.detect(self.variance)
+
+        if self.eye_movements != eye_movements:
+            self.eye_movements = eye_movements
+            self.process_api("nrem1", self.eye_movements)
+
+            if self.eye_movements >= 8:
+                self.trigger()
                 self.lsd.add_image(self.img, self.eye_movements)
 
     def trigger(self):
