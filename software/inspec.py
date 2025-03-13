@@ -10,6 +10,7 @@ from led import lights
 from lsd import lucid_scribe_data
 from rem import rapid_eye_movement
 from nrem import non_rapid_eye_movement
+from quality import sleep_quality
 from face import face_detection
 from config import inspec_config
 from ble import inspec_comms
@@ -31,6 +32,7 @@ class inspec_sensor:
         self.face = face_detection(self.config, self.comms)
         self.rem = rapid_eye_movement(self.config, self.face)
         self.nrem = non_rapid_eye_movement(self.config, self.face)
+        self.quality = sleep_quality(self.config)
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
@@ -115,6 +117,7 @@ class inspec_sensor:
                 self.detect_face()
                 self.detect_rem()
                 self.detect_nrem()
+                self.quality.measure(self.variance)
                 
                 self.led.process()
                 self.process_trigger()
@@ -124,7 +127,7 @@ class inspec_sensor:
                     self.send_stream()
 
                     face = "1" if self.face.has_face else "0"
-                    data = f'{str(self.peak_variance)};{self.eye_movements};{face}'
+                    data = f'{str(self.peak_variance)};{self.rem.eye_movements};{face};{self.quality.indicator}'
                     self.comms.send_data(data)
                     self.peak_variance = 0
                     self.last_update = utime.ticks_ms()
