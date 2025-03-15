@@ -181,6 +181,9 @@ class inspec_sensor:
         if message == "disconnect":
             self.comms.disconnect()
 
+        if message == "restart":
+            machine.reset()
+
     def detect_motion(self):
         if self.config.get('Algorithm') != "Motion Detection":
             return
