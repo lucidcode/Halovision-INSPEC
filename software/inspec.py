@@ -24,9 +24,7 @@ class inspec_sensor:
         self.config = inspec_config()
         self.configure_sensor()
 
-        self.comms = inspec_comms()
-        self.comms.message_received = self.ble_message_received
-
+        self.comms = inspec_comms(self.ble_message_received)
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
         self.face = face_detection(self.config, self.comms)
