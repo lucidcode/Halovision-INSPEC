@@ -17,14 +17,14 @@ class inspec_config:
         self.default['WiFiKey'] = "1234567890"
         self.default['PixelFormat'] = 'Grayscale'
         self.default['PixelThreshold'] = 8
-        self.default['PixelRange'] = 8
+        self.default['PixelRange'] = 6
         self.default['Brightness'] = 0
         self.default['Contrast'] = 3
         self.default['Saturation'] = 0
         self.default['FrameSize'] = 'HQVGA'
         self.default['CreateLogs'] = 0
         self.default['TriggerThreshold'] = 20
-        self.default['TossThreshold'] = 8000
+        self.default['TossThreshold'] = 800
         self.default['TriggerDelay'] = 0
         self.default['TriggerInterval'] = 1000 * 60 * 1
         self.default['NREM1Delay'] = 1000 * 60 * 1
@@ -36,7 +36,7 @@ class inspec_config:
         self.default['TrackFace'] = 1
         self.default['TrackEyes'] = 0
         self.default['FaceFeatures'] = 16
-        self.default['DrawFaceRegion'] = 0
+        self.default['DrawFaceRegion'] = 1
         self.default['FaceStages'] = 25
         self.default['FaceThreshold'] = 0.75
         self.default['FaceScaleFactor'] = 1.25
