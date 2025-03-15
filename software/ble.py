@@ -14,7 +14,7 @@ class inspec_comms:
     _IRQ_GATTS_WRITE = const(3)
     _IRQ_GATTS_INDICATE_DONE = const(20)
 
-    def __init__(self):
+    def __init__(self, message_received):
         self._connections = set()
         self.sending_image = False
         self.sending_file = False
@@ -29,7 +29,7 @@ class inspec_comms:
         self.advertise()
 
         self.wait = 0
-        self.message_received = None
+        self.message_received = message_received
 
     def register(self):
         BLE_UUID = '13370001-763c-4507-99fb-100f72f2300a'
@@ -65,9 +65,7 @@ class inspec_comms:
         if event == _IRQ_GATTS_WRITE:
             buffer = self.ble.gatts_read(self.rx)
             message = buffer.decode('UTF-8')
-
-            if self.message_received is not None:
-                self.message_received(message)
+            self.message_received(message)
 
     def advertise(self):
         self.payload = advertising_payload(
