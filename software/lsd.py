@@ -49,8 +49,9 @@ class lucid_scribe_data:
         self.lsd_file.close()
         self.lsd_values = "0"
         self.rem_values = "0"
+        self.sqi_values = "0"
 
-    def log(self, variance, rem):
+    def log(self, variance, rem, sqi):
         if self.config.get('CreateLogs') != 1:
             return
 
@@ -64,6 +65,7 @@ class lucid_scribe_data:
             self.write_log()
             self.lsd_values = str(variance)
             self.rem_values = str(rem)
+            self.sqi_values = str(rem)
             return
 
         if (now - self.lsd_minute_start >= 1000 * 60):
@@ -72,16 +74,19 @@ class lucid_scribe_data:
             self.write_log()
             self.lsd_values = str(variance)
             self.rem_values = str(rem)
+            self.sqi_values = str(rem)
             return
 
         self.lsd_values = f'{self.lsd_values},{str(variance)}'
         self.rem_values = f'{self.rem_values},{str(rem)}'
+        self.sqi_values = f'{self.sqi_values},{str(quality)}'
 
     def write_log(self):
         self.lsd_file = open(self.session_file, 'a')
         formatted_time = self.format_time()
         self.lsd_file.write(f'\r\n{formatted_time}:lsd - {self.lsd_values}')
         self.lsd_file.write(f'\r\n{formatted_time}:rem - {self.rem_values}')
+        self.lsd_file.write(f'\r\n{formatted_time}:sqi - {self.sqi_values}')
         self.lsd_file.close()
         
     def add_image(self, image, eye_movements):
