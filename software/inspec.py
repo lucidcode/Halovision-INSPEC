@@ -192,7 +192,7 @@ class inspec_sensor:
             self.lsd.add_image(self.img, motion)
             self.trigger()
 
-        self.lsd.log(self.variance, motion)
+        self.lsd.log(self.variance, motion, 0)
 
     def detect_face(self):
         if self.config.get('Algorithm') != "Face Detection":
@@ -204,11 +204,13 @@ class inspec_sensor:
             self.lsd.add_image(self.img, motion)
             self.trigger()
 
-        self.lsd.log(self.variance, motion)
+        self.lsd.log(self.variance, motion, 0)
         
     def detect_rem(self):
         eye_movements = self.rem.detect(self.variance, self.global_variance)
-        self.lsd.log(self.variance, eye_movements)
+        
+        if self.config.get('Algorithm') == "REM Detection":
+            self.lsd.log(self.variance, self.rem.eye_movements, self.quality.indicator)
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements
@@ -228,6 +230,7 @@ class inspec_sensor:
             return
 
         eye_movements = self.nrem.detect(self.variance)
+        self.lsd.log(self.variance, self.nrem.eye_movements, self.quality.indicator)
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements
