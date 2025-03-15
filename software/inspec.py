@@ -30,7 +30,7 @@ class inspec_sensor:
         self.face = face_detection(self.config, self.comms)
         self.rem = rapid_eye_movement(self.config, self.face)
         self.nrem = non_rapid_eye_movement(self.config, self.face)
-        self.quality = sleep_quality(self.config)
+        self.quality = sleep_quality(self.config, self.process_api)
 
         self.img = sensor.snapshot()
         self.extra_fb.replace(self.img)
