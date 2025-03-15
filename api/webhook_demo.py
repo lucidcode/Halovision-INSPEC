@@ -34,5 +34,14 @@ def variance():
 		abort(400)
 
 
+@app.route('/quality', methods=['POST'])
+def rem():
+	if request.method == 'POST':
+		print(datetime.datetime.now(), request.json)
+		return 'success', 200
+	else:
+		abort(400)
+
+
 if __name__ == '__main__':
 	app.run(host='localhost', port=5000)
