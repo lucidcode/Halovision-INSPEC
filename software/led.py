@@ -16,7 +16,7 @@ class lights:
         self.led_blue.off()
         self.processing = False
 
-    def blink(self):
+    def flash(self):
         self.leds = self.config.get('LEDs')
         
         if self.leds == "":

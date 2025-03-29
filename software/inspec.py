@@ -176,6 +176,9 @@ class inspec_sensor:
             if self.config.is_sensor_setting(setting):
                 self.configure_sensor()
 
+        if message == "flash.leds":
+            self.led.flash()
+
         if message == "disconnect":
             self.comms.disconnect()
 
@@ -250,7 +253,7 @@ class inspec_sensor:
         now = utime.ticks_ms()
         if self.trigger_time - now < 0:
             self.trigger_time = sys.maxsize
-            self.led.blink()
+            self.led.flash()
             self.comms.send_data(f'trigger:{str(self.variance)}')
             self.process_api("trigger", self.variance)
 
