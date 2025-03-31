@@ -98,12 +98,7 @@ class inspec_sensor:
             try:
                 self.img = sensor.snapshot()
 
-                if self.config.get('TrackFace'):
-                    self.img.gamma(gamma=1.0, contrast=1.5, brightness=0.0)
-                else:
-                    time.sleep_ms(64)
-
-                self.face.detect(self.img)
+                self.face.detect(self.img, self.global_variance)
                 self.global_variance, self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
                 
                 if self.variance > self.peak_variance:
