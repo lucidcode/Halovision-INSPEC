@@ -35,6 +35,7 @@ class inspec_config:
         self.default['CreateGifs'] = 1
         self.default['TrackFace'] = 1
         self.default['TrackEyes'] = 0
+        self.default['TensorFlow'] = 1
         self.default['FaceFeatures'] = 16
         self.default['DrawFaceRegion'] = 1
         self.default['FaceStages'] = 25
