@@ -6,15 +6,43 @@ class lights:
     def __init__(self, config):
         self.config = config
         self.led_red = LED("LED_RED")
-        time.sleep_ms(256)
-        self.led_red.off()
         self.led_green = LED("LED_GREEN")
-        time.sleep_ms(256)
-        self.led_green.off()
         self.led_blue = LED("LED_BLUE")
-        time.sleep_ms(256)
-        self.led_blue.off()
         self.processing = False
+
+        for step in range(1, 4):
+            delay = (int)(step * 16)
+            self.led_red.on()
+            time.sleep_ms(delay * 2)
+            self.led_red.off()
+            time.sleep_ms(delay)
+
+            self.led_green.on()
+            time.sleep_ms(delay * 2)
+            self.led_green.off()
+            time.sleep_ms(delay)
+
+            self.led_blue.on()
+            time.sleep_ms(delay * 2)
+            self.led_blue.off()
+            time.sleep_ms(delay)
+            
+    def blink(self, leds, duration):
+        if "R" in leds:
+            self.led_red.on()
+        if "G" in leds:
+            self.led_green.on()
+        if "B" in leds:
+            self.led_blue.on()
+
+        time.sleep_ms(duration)
+            
+        if "R" in leds:
+            self.led_red.off()
+        if "G" in leds:
+            self.led_green.off()
+        if "B" in leds:
+            self.led_blue.off()
 
     def flash(self):
         self.leds = self.config.get('LEDs')

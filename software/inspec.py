@@ -129,7 +129,8 @@ class inspec_sensor:
                         self.comms.process_file()
                 
             except Exception as e:
-                print(e)
+                print("Error", str(e))
+                self.led.blink("R", 8)
                 if str(e) == "IDE interrupt":
                     break
 
@@ -160,6 +161,7 @@ class inspec_sensor:
 
             self.config.set(setting, value)
             self.config.save()
+            self.led.blink("B", 8)
 
             if (setting == "AccessPoint" or setting == "WiFi") and value == "1":
                 if self.stream != None:
