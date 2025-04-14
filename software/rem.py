@@ -12,7 +12,7 @@ class rapid_eye_movement:
 
         if global_variance >= self.config.get('TossThreshold'):
             self.eye_movements = 0
-            self.last_eye_movement = now + 1000 * 10
+            self.last_eye_movement = now + 1000 * self.config.get('TossCooldown')
 
         if now - self.last_eye_movement > 1000 * 60:
             if self.eye_movements > 0:

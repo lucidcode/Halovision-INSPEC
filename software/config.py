@@ -25,6 +25,7 @@ class inspec_config:
         self.default['CreateLogs'] = 0
         self.default['TriggerThreshold'] = 20
         self.default['TossThreshold'] = 800
+        self.default['TossCooldown'] = 10
         self.default['TriggerDelay'] = 0
         self.default['TriggerInterval'] = 1000 * 60 * 1
         self.default['NREM1Delay'] = 1000 * 60 * 1
