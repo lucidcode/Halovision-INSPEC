@@ -79,6 +79,7 @@ class inspec_config:
             print(str(e))
 
         if self.default[setting] != None:
+            self.config[setting] = self.default[setting]
             return self.default[setting]
 
         return ""
