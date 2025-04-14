@@ -8,11 +8,12 @@ class rapid_eye_movement:
         self.last_eye_movement = utime.ticks_ms()
 
     def detect(self, variance, global_variance):
+        now = utime.ticks_ms()
+
         if global_variance >= self.config.get('TossThreshold'):
             self.eye_movements = 0
             self.last_eye_movement = now + 1000 * 10
 
-        now = utime.ticks_ms()
         if now - self.last_eye_movement > 1000 * 60:
             if self.eye_movements > 0:
                 self.eye_movements = self.eye_movements - 1
