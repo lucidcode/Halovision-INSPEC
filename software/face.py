@@ -16,6 +16,7 @@ class face_detection:
         self.ml_model = None
         self.min_confidence = 0.4
         self.threshold_list = [(math.ceil(self.min_confidence * 255), 255)]
+        self.detector = ""
         
         self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
 
@@ -39,6 +40,7 @@ class face_detection:
 
                 for (x, y, w, h), score in detection_list:
                     self.face_object = (x - w, y - h, w * 4, h * 4)
+                    self.detector = "TensorFlow"
                     self.has_face = True
                     return
 
@@ -57,6 +59,7 @@ class face_detection:
 
         if face_objects:
             self.face_object = face_objects[0]
+            self.detector = "HaarCascade"
             self.has_face = True
 
             if self.config.get('TrackEyes'):
@@ -76,7 +79,11 @@ class face_detection:
         if self.face_object[2] == img.width():
             return
 
-        img.draw_rectangle(self.face_object, color=(70, 130, 180))
+        if self.detector == "TensorFlow":
+            img.draw_rectangle(self.face_object, color=(70, 130, 180))
+
+        if self.detector == "HaarCascade":
+            img.draw_rectangle(self.face_object)
 
         if self.correct_angle:
             face_x = self.face_object[0]
