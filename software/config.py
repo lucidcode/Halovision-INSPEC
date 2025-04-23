@@ -37,7 +37,7 @@ class inspec_config:
         self.default['TrackFace'] = 1
         self.default['TrackEyes'] = 0
         self.default['TensorFlow'] = 1
-        self.default['MinConfidence'] = 102
+        self.default['FaceConfidence'] = 102
         self.default['FaceFeatures'] = 16
         self.default['DrawFaceRegion'] = 1
         self.default['FaceStages'] = 25
