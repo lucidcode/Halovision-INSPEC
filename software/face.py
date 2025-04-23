@@ -14,8 +14,6 @@ class face_detection:
         self.face_angle = 0
         self.correct_angle = False
         self.ml_model = None
-        self.min_confidence = 0.4
-        self.threshold_list = [(math.ceil(self.min_confidence * 255), 255)]
         self.detector = ""
         
         self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
@@ -112,16 +110,17 @@ class face_detection:
     def post_process(self, model, inputs, outputs):
         n, oh, ow, oc = model.output_shape[0]
         nms = NMS(ow, oh, inputs[0].roi)
+        threshold_list = [(self.config.get('FaceConfidence'), 255)]
         for i in range(oc):
             img = image.Image(outputs[0][0, :, :, i] * 255)
             blobs = img.find_blobs(
-                self.threshold_list, x_stride=1, area_threshold=1, pixels_threshold=1
+                threshold_list, x_stride=1, area_threshold=1, pixels_threshold=1
             )
             for b in blobs:
                 rect = b.rect()
                 x, y, w, h = rect
                 score = (
-                    img.get_statistics(thresholds=self.threshold_list, roi=rect).l_mean() / 255.0
+                    img.get_statistics(thresholds=threshold_list, roi=rect).l_mean() / 255.0
                 )
                 nms.add_bounding_box(x, y, x + w, y + h, score, i)
         return nms.get_bounding_boxes()
