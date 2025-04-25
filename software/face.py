@@ -19,7 +19,7 @@ class face_detection:
         self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
 
     def detect(self, img, global_variance):
-        if not self.config.get('TrackFace'):
+        if not self.config.get('TrackFace') and not self.config.get('TensorFlow'):
             self.face_object = [0, 0, img.width(), img.height()]
             self.has_face = False
             return
@@ -41,6 +41,9 @@ class face_detection:
                     self.detector = "TensorFlow"
                     self.has_face = True
                     return
+
+        if not self.config.get('TrackFace'):
+            return
 
         self.face_angle = 0
         face_objects = img.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale_factor=self.config.get('FaceScaleFactor'))
