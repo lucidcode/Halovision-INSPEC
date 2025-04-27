@@ -26,6 +26,7 @@ class inspec_config:
         self.default['TriggerThreshold'] = 16
         self.default['TossThreshold'] = 256
         self.default['TossCooldown'] = 1
+        self.default['ArtifactFilter'] = 0.0
         self.default['TriggerDelay'] = 0
         self.default['TriggerInterval'] = 1000 * 60 * 1
         self.default['NREM1Delay'] = 1000 * 60 * 1
@@ -91,7 +92,7 @@ class inspec_config:
             self.config[setting] = value
             return
 
-        float_settings = ["FaceThreshold", "FaceScaleFactor"]
+        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter"]
         if setting in float_settings:
             self.config[setting] = float(value)
             return
