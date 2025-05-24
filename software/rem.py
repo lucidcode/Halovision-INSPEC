@@ -28,6 +28,8 @@ class rapid_eye_movement:
         artifact_filter = self.config.get('ArtifactFilter')
         artifact_variance = variance + variance * (1.0 - artifact_filter)
         if artifact_filter != 0 and global_variance > artifact_variance:
+            if artifact_filter >= 0.5:
+                self.eye_movements = 0
             return self.eye_movements
 
         if now - self.last_eye_movement > 1000:
