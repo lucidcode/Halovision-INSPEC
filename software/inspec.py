@@ -21,6 +21,7 @@ from machine import LED
 class inspec_sensor:
     def __init__(self):
         print(f'INSPEC {version}')
+        self.error = None
         self.config = inspec_config()
         self.configure_sensor()
 
@@ -127,11 +128,16 @@ class inspec_sensor:
 
                     if self.comms.sending_image or self.comms.sending_file:
                         self.comms.process_file()
-                
+
+                if self.error != None and self.comms.send_errors:
+                    self.comms.send_data(f'error:{self.error}')
+                    self.error = None
+
             except Exception as e:
-                print("Error", str(e))
+                self.error = str(e)
+                print("Error", self.error)
                 self.led.blink("R", 8)
-                if str(e) == "IDE interrupt":
+                if self.error == "IDE interrupt":
                     break
 
     def ble_message_received(self, message):
@@ -152,8 +158,11 @@ class inspec_sensor:
         if message == "request.ip" and not self.stream == None:
             self.comms.send_data(f'ip:{self.stream.ip}')
 
-        if message == "request.version" and not self.stream == None:
+        if message == "request.version":
             self.comms.send_data(f'version:{version}')
+
+        if message == "request.errors":
+            self.comms.send_errors = True
 
         if message.startswith("update.setting."):
             message = message.replace("update.setting.", "")
@@ -267,7 +276,8 @@ class inspec_sensor:
                 self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
                 
         except Exception as e:
-            print("init_stream error: ", str(e))
+            self.error = str(e)
+            print("init_stream error: ", self.error)
             self.stream = None
 
     def send_stream(self):
