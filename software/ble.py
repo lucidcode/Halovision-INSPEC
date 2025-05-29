@@ -15,15 +15,14 @@ class inspec_comms:
     _IRQ_GATTS_INDICATE_DONE = const(20)
 
     def __init__(self, message_received):
+        self.connected = False
         self._connections = set()
         self.sending_image = False
         self.sending_file = False
-
-        self.connected = False
+        self.send_errors = False
 
         self.ble = bluetooth.BLE()
         self.ble.active(True)
-
         self.ble.irq(self.irq)
         self.register()
         self.advertise()
@@ -54,6 +53,7 @@ class inspec_comms:
             conn_handle, _, _ = data
             self._connections.add(conn_handle)
             self.connected = True
+            self.send_errors = False
         elif event == _IRQ_CENTRAL_DISCONNECT:
             self.connected = False
             conn_handle, _, _ = data
