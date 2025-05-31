@@ -239,7 +239,7 @@ class inspec_sensor:
             return
 
         eye_movements = self.nrem.detect(self.variance)
-        self.lsd.log(self.variance, self.nrem.eye_movements, self.quality.indicator)
+        self.lsd.log(self.variance, self.nrem.nrem1, self.quality.indicator)
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements
