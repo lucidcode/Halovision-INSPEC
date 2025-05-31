@@ -5,14 +5,15 @@ import uselect as select
 
 class inspec_stream:
 
-    def __init__(self, interface, ssid, password):
+    def __init__(self, config):
+        self.config = config
         self.error = None
 
-        if interface == "AccessPoint":
-            self.start_access_point(ssid, password)
+        if self.config.get('WiFi'):
+            self.connect_network(self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
 
-        if interface == "Station":
-            self.connect_network(ssid, password)
+        if self.config.get('AccessPoint'):
+            self.start_access_point(self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
 
         self.ip = self.wlan.ifconfig()[0]
         print("IP", self.ip)
@@ -35,9 +36,9 @@ class inspec_stream:
         attempts = 0
         while not self.wlan.isconnected():
             print("Connecting to " + ssid)
-            time.sleep_ms(1000)
+            time.sleep_ms(1024)
             attempts = attempts + 1
-            if attempts > 10:
+            if attempts > 12:
                 raise Exception("Failed to connect to " + ssid)
 
     def start_server(self, id):
@@ -91,7 +92,7 @@ class inspec_stream:
         if self.connected[0] == False:
             return
 
-        cframe = image.to_jpeg(quality=35, copy=True)
+        cframe = image.to_jpeg(quality=self.config.get('WiFiImageQuality'), copy=True)
         header = (
             "\r\n--inspec\r\n"
             "Content-Type: image/jpeg\r\n"
