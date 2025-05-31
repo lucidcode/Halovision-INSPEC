@@ -15,6 +15,7 @@ class inspec_config:
         self.default['WiFi'] = False
         self.default['WiFiNetworkName'] = "INSPEC"
         self.default['WiFiKey'] = "1234567890"
+        self.default['WiFiImageQuality'] = 50
         self.default['PixelFormat'] = 'Grayscale'
         self.default['PixelThreshold'] = 6
         self.default['PixelRange'] = 6

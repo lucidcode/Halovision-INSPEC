@@ -118,11 +118,10 @@ class inspec_sensor:
                 self.process_api("variance", self.variance)
 
                 if (utime.ticks_ms() - self.last_update > 128):
-                    self.send_stream()
-
                     face = "1" if self.face.has_face else "0"
                     data = f'{str(self.peak_variance)};{self.rem.eye_movements};{face};{self.quality.indicator}'
                     self.comms.send_data(data)
+                    self.send_stream()
                     self.peak_variance = 0
                     self.last_update = utime.ticks_ms()
 
@@ -269,12 +268,8 @@ class inspec_sensor:
     def init_stream(self):
         try:
             self.stream = None
-            if self.config.get('AccessPoint'):
-                self.stream = inspec_stream("AccessPoint", self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
+            self.stream = inspec_stream(self.config)
 
-            if self.config.get('WiFi'):
-                self.stream = inspec_stream("Station", self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
-                
         except Exception as e:
             self.error = str(e)
             print("init_stream error: ", self.error)
