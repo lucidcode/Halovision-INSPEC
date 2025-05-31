@@ -23,7 +23,7 @@ class inspec_config:
         self.default['Saturation'] = 0
         self.default['FrameSize'] = 'HQVGA'
         self.default['CreateLogs'] = 0
-        self.default['TriggerThreshold'] = 16
+        self.default['TriggerThreshold'] = 8
         self.default['TossThreshold'] = 256
         self.default['TossCooldown'] = 1
         self.default['ArtifactFilter'] = 0.0
@@ -44,7 +44,7 @@ class inspec_config:
         self.default['FaceStages'] = 25
         self.default['FaceThreshold'] = 0.75
         self.default['FaceScaleFactor'] = 1.25
-        self.default['FaceAngles'] = [-15, 15, -30, 30]
+        self.default['FaceAngles'] = [-5, 5]
         self.default['BlinkCount'] = 8
         self.default['AutoGain'] = 0
         self.default['AutoExposure'] = 0
