@@ -9,7 +9,7 @@ class face_detection:
         self.config = config
         self.comms = comms
         self.has_face = False
-        self.face_cascade = image.HaarCascade("frontalface", stages=self.config.get('FaceStages'))
+        self.face_cascade = image.HaarCascade("/rom/haarcascade_frontalface.cascade", stages=self.config.get('FaceStages'))
         self.face_object = [0, 0, 1, 1]
         self.face_angle = 0
         self.correct_angle = False
@@ -30,7 +30,7 @@ class face_detection:
 
         if self.config.get('TensorFlow'):
             if self.ml_model == None:
-                self.ml_model = ml.Model('fomo_face_detection')                
+                self.ml_model = ml.Model('/rom/fomo_face_detection.tflite')                
         
             for i, detection_list in enumerate(self.ml_model.predict([img], callback=self.post_process)):
                 if i == 0 or len(detection_list) == 0:
