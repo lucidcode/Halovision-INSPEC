@@ -1,0 +1,4 @@
+set semihosting args ../build/AppTocPackage.bin 0x8057bf50
+continue
+wait
+reset reset.hardware

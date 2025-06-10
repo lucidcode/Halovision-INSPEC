@@ -1,15 +1,16 @@
 #!/bin/bash
 set -e -x
 
-cd $(dirname $0)/..
+BUILD_DIR=/workspace/build/${TARGET}
 
-
-export PATH=/source/gcc/bin:/source/cmake/bin:$PATH
+# Update submodules.
 git submodule update --init --depth=1
-git -C src/lib/micropython/ submodule update --init --depth=1
+make -j$(nproc) TARGET=${TARGET} submodules
 
 # Build the firmware.
-make -j$(nproc) -C src/lib/micropython/mpy-cross
-make -j$(nproc) TARGET=$TARGET LLVM_PATH=/source/llvm/bin -C src
-mkdir -p ./docker/build/$TARGET
-cp -r src/build/bin/* ./docker/build/$TARGET
+make -j$(nproc) BUILD=${BUILD_DIR} clean
+make -j$(nproc) -C lib/micropython/mpy-cross
+make -j$(nproc) BUILD=${BUILD_DIR} TARGET=${TARGET} LLVM_PATH=/workspace/llvm/bin
+
+# Fix permissions.
+chown -R ${HOST_UID:-1000}:${HOST_GID:-1000} /workspace/build

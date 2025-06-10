@@ -24,23 +24,35 @@ import os
 import sys
 import vfs
 
-main_py = """from inspec import inspec_sensor
+main_py = """import time
+from machine import LED
 
-print("inspec")
-inspec = inspec_sensor()
-inspec.monitor()
+led = LED("LED_BLUE")
+
+while True:
+    led.on()
+    time.sleep_ms(150)
+    led.off()
+    time.sleep_ms(100)
+    led.on()
+    time.sleep_ms(150)
+    led.off()
+    time.sleep_ms(600)
 """
 
-readme_txt = """Thank you for supporting the INSPEC project!
+readme_txt = """Thank you for supporting the OpenMV project!
 
-For setup instructions, please visit:
-https://github.com/lucidcode/Halovision-INSPEC/wiki/Setup%E2%80%90en
+To download the IDE, please visit:
+https://openmv.io/pages/download
 
-For documentation, please visit:
-https://github.com/lucidcode/Halovision-INSPEC/wiki/Settings%E2%80%90en
+For tutorials and documentation, please visit:
+http://docs.openmv.io/
 
-Please use GitHub to report bugs and issues:
-https://github.com/lucidcode/Halovision-INSPEC
+For technical support and projects, please visit the forums:
+http://forums.openmv.io/
+
+Please use github to report bugs and issues:
+https://github.com/openmv/openmv
 """
 
 bdev = None
