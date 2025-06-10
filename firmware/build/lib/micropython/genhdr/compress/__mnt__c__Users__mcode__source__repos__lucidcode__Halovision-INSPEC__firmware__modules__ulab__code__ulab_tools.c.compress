@@ -1,0 +1,9 @@
+axis is out of bounds
+axis must be None, or an integer
+size is defined for ndarrays only
+input must be square matrix
+out has wrong type
+out array has wrong dtype
+out array has wrong dimension
+out array has wrong shape
+output array must be contiguous

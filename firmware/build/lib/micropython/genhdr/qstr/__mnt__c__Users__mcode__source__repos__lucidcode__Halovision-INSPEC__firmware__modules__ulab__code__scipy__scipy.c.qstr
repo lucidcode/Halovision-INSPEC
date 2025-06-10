@@ -1,0 +1,7 @@
+Q(__name__)
+Q(scipy)
+Q(integrate)
+Q(linalg)
+Q(optimize)
+Q(signal)
+Q(special)

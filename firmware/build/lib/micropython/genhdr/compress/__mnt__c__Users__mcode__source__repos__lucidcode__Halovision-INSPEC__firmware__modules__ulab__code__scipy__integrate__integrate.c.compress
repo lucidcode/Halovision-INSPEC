@@ -1,0 +1,12 @@
+first argument must be a callable
+can't convert arg %d from %s to float
+levels needs to be a positive integer
+first argument must be a callable
+can't convert arg %d from %s to float
+steps needs to be a positive integer
+first argument must be a function
+can't convert arg %d from %s to float
+steps needs to be a positive integer
+first argument must be a callable
+can't convert arg %d from %s to float
+order needs to be a positive integer

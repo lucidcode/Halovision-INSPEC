@@ -1,0 +1,1 @@
+MP_REGISTER_ROOT_POINTER(void *machine_pin_irq_objects[(4 * 32 + 3)]);

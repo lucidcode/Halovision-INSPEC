@@ -1,0 +1,8 @@
+argument must be None, an integer or a tuple of integers
+shape must be None, and integer or a tuple of integers
+shape must be None, and integer or a tuple of integers
+out has wrong type
+output array has wrong type
+size must match out.shape when used together
+output array must be contiguous
+shape must be None, and integer or a tuple of integers

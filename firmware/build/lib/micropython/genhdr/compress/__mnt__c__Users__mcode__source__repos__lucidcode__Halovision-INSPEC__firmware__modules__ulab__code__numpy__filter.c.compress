@@ -1,0 +1,3 @@
+convolve arguments must be ndarrays
+convolve arguments must be linear arrays
+convolve arguments must not be empty

@@ -1,0 +1,22 @@
+conversion to object
+local '%q' used before type known
+can't load from '%q'
+can't load with '%q' index
+can't load from '%q'
+local '%q' has type '%q' but source is '%q'
+can't store '%q'
+can't store to '%q'
+can't store with '%q' index
+can't store '%q'
+can't store to '%q'
+can't implicitly convert '%q' to 'bool'
+'not' not implemented
+can't do unary op of '%q'
+div/mod not implemented for uint
+comparison of int and uint
+binary op %q not implemented
+can't do binary op between '%q' and '%q'
+casting
+return expected '%q' but got '%q'
+must raise an object
+native yield

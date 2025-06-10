@@ -1,0 +1,2 @@
+flash erase command failed with %d
+flash block write command failed with %d

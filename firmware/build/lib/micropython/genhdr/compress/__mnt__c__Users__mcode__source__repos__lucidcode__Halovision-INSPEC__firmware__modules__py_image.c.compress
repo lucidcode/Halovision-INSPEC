@@ -1,0 +1,121 @@
+Can't convert %s to %s
+Can't convert %s to %s
+only slices with step=1 (aka None) are supported
+Can't convert %s to %s
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+Invalid pixel format
+only slices with step=1 (aka None) are supported
+cannot grow or shrink image
+only slices with step=1 (aka None) are supported
+cannot grow or shrink image
+only slices with step=1 (aka None) are supported
+cannot grow or shrink image
+only slices with step=1 (aka None) are supported
+cannot grow or shrink image
+Invalid pixel format
+Unsupported dtype
+Unsupported pixformat
+Buffer is too small
+RGB channel can be 0, 1, or 2
+Alpha ranges between 0 and 255
+Quality ranges between 0 and 100
+Only copying/cropping is supported for Bayer/YUV!
+YUV422 images cannot be tranposed/rotated!
+Compression Failed!
+The image doesn't fit in the frame buffer!
+Error: 1 <= quality <= 100!
+Error: 0 < scale!
+Error: 0.0 <= seed_threshold <= 1.0!
+Error: 0.0 <= floating_threshold <= 1.0!
+RGB channel can be 0, 1, or 2
+Alpha ranges between 0 and 255
+Unexpected matrix dimensions!
+Unexpected matrix dimensions!
+Incompatible arguments!
+Can't convert to bitmap in place!
+Can't convert to bitmap in place!
+Error: 0 <= percentile <= 1!
+Error: 0 <= bias <= 1!
+Kernel size too large!
+Unexpected kernel dimensions!
+Unexpected kernel dimensions!
+Kernel size too large!
+Kernel size too large!
+Width must be even!
+Height must be even!
+Width must be even!
+Height must be even!
+Width must be even!
+Height must be even!
+Strength must be > 0!
+Zoom must be > 0!
+Zoom must be > 0!
+FOV must be > 0 and < 180!
+only slices with step=1 (aka None) are supported
+RGB channel can be 0, 1, or 2
+Alpha ranges between 0 and 255
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+bins must be >= 2
+l_bins must be >= 2
+bins must be >= 2
+l_bins must be >= 2
+bins must be >= 2
+l_bins must be >= 2
+bins must be >= 2
+a_bins must be >= 2
+bins must be >= 2
+b_bins must be >= 2
+bins must be >= 2
+l_bins must be >= 2
+bins must be >= 2
+l_bins must be >= 2
+bins must be >= 2
+l_bins must be >= 2
+bins must be >= 2
+a_bins must be >= 2
+bins must be >= 2
+b_bins must be >= 2
+only slices with step=1 (aka None) are supported
+x_stride must not be zero.
+y_stride must not be zero.
+only slices with step=1 (aka None) are supported
+x_stride must not be zero.
+y_stride must not be zero.
+x_stride must not be zero.
+y_stride must not be zero.
+only slices with step=1 (aka None) are supported
+x_stride must not be zero.
+y_stride must not be zero.
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+only slices with step=1 (aka None) are supported
+ROI(w,h) != TEMPLATE_ROI(w,h)
+Region of interest is smaller than template!
+Region of interest is bigger than image!
+Region of interest is smaller than detector window!
+Expected a ndarray with dtype float
+Expected a ndarray with shape (height, width) or (height, width, 3
+Buffer is too small
+Image width must be > 0
+Image height must be > 0
+Pixel format is not set or unsupported
+Expected an image buffer
+Buffer is too small
+Failed to load Haar cascade
+Descriptor type is not supported
+Descriptor type is not supported
+Descriptors have different types!
+Can't convert %s to %s
+Can't convert %s to %s
+Can't convert %s to %s
+Can't convert %s to %s
+Expected threshold between 0 and 100
+Descriptor type is not supported

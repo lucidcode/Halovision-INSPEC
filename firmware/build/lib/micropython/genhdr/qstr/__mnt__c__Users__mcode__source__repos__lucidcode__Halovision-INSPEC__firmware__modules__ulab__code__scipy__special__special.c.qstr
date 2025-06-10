@@ -1,0 +1,6 @@
+Q(__name__)
+Q(special)
+Q(erf)
+Q(erfc)
+Q(gamma)
+Q(gammaln)

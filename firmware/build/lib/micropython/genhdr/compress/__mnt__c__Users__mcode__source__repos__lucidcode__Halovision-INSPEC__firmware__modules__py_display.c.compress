@@ -1,0 +1,7 @@
+Intensity ranges between 0 (off) and 100 (full on)
+Display does not support backlight control.
+RGB channel can be 0, 1, or 2
+Alpha ranges between 0 and 255
+Vertical flip requires triple buffering!
+Expected a display controller
+Expected a display controller

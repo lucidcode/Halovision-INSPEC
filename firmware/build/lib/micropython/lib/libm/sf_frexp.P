@@ -1,0 +1,33 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/lib/libm/sf_frexp.o: \
+ ../../lib/libm/sf_frexp.c ../../lib/libm/fdlibm.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/math.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/reent.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_ansi.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/newlib.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_newlib_version.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/config.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/ieeefp.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/features.h \
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/cdefs.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/_default_types.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_types.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/_types.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/lock.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_ansi.h
+ ../../lib/libm/sf_frexp.c ../../lib/libm/fdlibm.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/math.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/reent.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_ansi.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/newlib.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_newlib_version.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/config.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/ieeefp.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/features.h :
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/cdefs.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/_default_types.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_types.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/_types.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/lock.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_ansi.h :

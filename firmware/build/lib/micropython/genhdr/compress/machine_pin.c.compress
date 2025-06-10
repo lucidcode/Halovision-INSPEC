@@ -1,0 +1,4 @@
+invalid pin mode: %d
+requested AF %d not available for pin %d
+IRQ not supported on given Pin
+IRQ mode not supported

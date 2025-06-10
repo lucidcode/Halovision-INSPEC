@@ -1,0 +1,3 @@
+interp is defined for 1D iterables of equal length
+trapz is defined for 1D iterables
+trapz is defined for 1D arrays of equal length

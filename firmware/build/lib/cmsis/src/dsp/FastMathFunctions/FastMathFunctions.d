@@ -1,0 +1,32 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/cmsis/src/dsp/FastMathFunctions/FastMathFunctions.o: \
+ lib/cmsis/src/dsp/FastMathFunctions/FastMathFunctions.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_cos_f32.c \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/fast_math_functions.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_math_types.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_compiler.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_gcc.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_math_memory.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_math_types.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/none.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/utils.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/basic_math_functions.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_common_tables.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/fast_math_functions.h \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_cos_q15.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_cos_q31.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_sin_f32.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_sin_q15.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_sin_q31.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_sqrt_q31.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_sqrt_q15.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_vexp_f32.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_vexp_f64.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_vlog_f32.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_vlog_f64.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_divide_q15.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_divide_q31.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_vlog_q31.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_vlog_q15.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_atan2_f32.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_atan2_q31.c \
+ lib/cmsis/src/dsp/FastMathFunctions/arm_atan2_q15.c

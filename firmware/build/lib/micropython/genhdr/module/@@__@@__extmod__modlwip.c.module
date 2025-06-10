@@ -1,0 +1,2 @@
+MP_REGISTER_MODULE(MP_QSTR_lwip, mp_module_lwip);
+MP_REGISTER_EXTENSIBLE_MODULE(MP_QSTR_socket, mp_module_lwip);

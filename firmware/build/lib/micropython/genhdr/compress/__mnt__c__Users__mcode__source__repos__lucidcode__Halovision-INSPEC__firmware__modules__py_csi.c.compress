@@ -1,0 +1,12 @@
+Sleep Failed
+Shutdown Failed
+Width must be > 0
+Height must be > 0
+Invalid Pixel Format
+The tuple/list must either be (x, y, w, h) or (w, h)
+Invalid ROI dimensions!
+ROI does not overlap on the image!
+Operation not supported
+The tuple/list must either be (x, y, w, h) or (w, h)
+0 bytes transferred!
+0 bytes transferred!

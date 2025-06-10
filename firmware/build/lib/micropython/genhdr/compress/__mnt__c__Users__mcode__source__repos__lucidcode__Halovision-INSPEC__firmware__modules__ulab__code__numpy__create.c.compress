@@ -1,0 +1,22 @@
+input argument must be an integer, a tuple, or a list
+too many dimensions
+wrong number of arguments
+divide by zero
+arange: cannot compute length
+wrong input type
+first argument must be a tuple of ndarrays
+only ndarrays can be concatenated
+wrong axis specified
+input arrays are not compatible
+input arrays are not compatible
+input must be 1- or 2-d
+number of points must be at least 2
+number of points must be at least 2
+input is not an array
+index out of range
+mode should be raise, wrap or clip
+index out of range
+index must not be negative
+offset must be non-negative and no greater than buffer length
+buffer size must be a multiple of element size
+buffer is smaller than requested size

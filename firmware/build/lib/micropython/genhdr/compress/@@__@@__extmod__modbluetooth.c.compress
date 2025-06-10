@@ -1,0 +1,17 @@
+invalid UUID
+invalid char in UUID
+UUID too long
+UUID too short
+must query one param
+unknown config param
+can't specify pos and kw args
+unknown config param
+invalid handler
+invalid service UUID
+invalid characteristic tuple
+invalid characteristic UUID
+invalid descriptor UUID
+invalid addr
+invalid addr
+UUID
+UUID

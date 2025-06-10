@@ -1,0 +1,6 @@
+FFT is defined for ndarrays only
+FFT is defined for ndarrays only
+FFT is implemented for linear arrays only
+input array length must be power of 2
+FFT is implemented for linear arrays only
+real and imaginary parts must be of equal length
