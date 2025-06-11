@@ -1,0 +1,8 @@
+input matrix is asymmetric
+matrix is not positive definite
+input matrix is asymmetric
+iterations did not converge
+input matrix is singular
+operation is defined for ndarrays only
+operation is defined for 2D arrays only
+mode must be complete, or reduced

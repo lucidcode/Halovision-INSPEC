@@ -1,0 +1,1 @@
+MP_REGISTER_ROOT_POINTER(void *machine_can_objects[(1)]);

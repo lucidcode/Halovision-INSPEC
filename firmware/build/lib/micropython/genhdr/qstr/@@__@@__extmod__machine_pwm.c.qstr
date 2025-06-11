@@ -1,0 +1,6 @@
+Q(init)
+Q(deinit)
+Q(freq)
+Q(duty_u16)
+Q(duty_ns)
+Q(PWM)

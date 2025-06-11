@@ -1,0 +1,34 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/drivers/lepton/src/LEPTON_VID.o: \
+ drivers/lepton/src/LEPTON_VID.c \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_SDK.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_Types.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/common/omv_i2c.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/ports/mimxrt/omv_portconfig.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_gpio.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_common.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_device_registers.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/mimxrt/MIMXRT1062.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/core_cm7.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_version.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_compiler.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_gcc.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/mpu_armv7.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cachel1_armv7.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/mimxrt/system_MIMXRT1062.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/MIMXRT1062_features.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_common_arm.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_clock.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_lpi2c.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_lpspi.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_iomuxc.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_edma.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_lpspi_edma.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_lpspi.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_edma.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/mimxrt_pads.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/boards/OPENMV_RT1060/omv_pins.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_ErrorCodes.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_SDKConfig.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_I2C_Protocol.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_I2C_Service.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/drivers/lepton/include/LEPTON_VID.h

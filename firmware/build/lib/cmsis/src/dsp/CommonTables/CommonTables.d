@@ -1,0 +1,20 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/cmsis/src/dsp/CommonTables/CommonTables.o: \
+ lib/cmsis/src/dsp/CommonTables/CommonTables.c \
+ lib/cmsis/src/dsp/CommonTables/arm_common_tables.c \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_math_types.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_compiler.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_gcc.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_common_tables.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_math_types.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/fast_math_functions.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_math_memory.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/none.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/utils.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/basic_math_functions.h \
+ lib/cmsis/src/dsp/CommonTables/arm_const_structs.c \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_const_structs.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/arm_common_tables.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/transform_functions.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/complex_math_functions.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/dsp/fast_math_functions.h \
+ lib/cmsis/src/dsp/CommonTables/arm_mve_tables.c

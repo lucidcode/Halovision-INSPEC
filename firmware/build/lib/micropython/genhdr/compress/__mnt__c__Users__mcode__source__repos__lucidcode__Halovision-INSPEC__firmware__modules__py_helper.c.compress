@@ -1,0 +1,19 @@
+This function is unavailable on your OpenMV Cam.
+Expected a mutable image
+Expected an uncompressed image
+Expected an uncompressed image
+Invalid color palette
+Unexpcted color palette format
+Color palette must be 256 pixels
+Invalid ROI dimensions!
+ROI does not overlap on the image!
+Invalid ROI dimensions!
+ROI does not overlap on the image!
+Not enough positional arguments!
+KernelSize must be >= 0!
+Invalid pre-defined color palette!
+Color palette must be RGB565!
+Color palette must be 256 pixels!
+Alpha palette must be GRAYSCALE!
+Alpha palette must be 256 pixels!
+The image doesn't fit in the frame buffer!

@@ -1,0 +1,11 @@
+out must be an ndarray
+out must be of float dtype
+input and output dimensions differ
+input and output shapes differ
+first argument must be an ndarray
+out keyword is not supported for function
+operands could not be broadcast together
+wrong input type
+first argument must be a callable
+wrong output type
+wrong output type

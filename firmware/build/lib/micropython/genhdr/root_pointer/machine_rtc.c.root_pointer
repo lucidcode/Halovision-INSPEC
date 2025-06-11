@@ -1,0 +1,1 @@
+MP_REGISTER_ROOT_POINTER(void *machine_rtc_irq_object);

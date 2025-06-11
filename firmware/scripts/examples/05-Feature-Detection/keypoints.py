@@ -21,7 +21,7 @@ sensor.set_windowing((320, 240))
 sensor.set_pixformat(sensor.GRAYSCALE)
 
 sensor.skip_frames(time=2000)
-sensor.set_auto_gain(False, value=100)
+sensor.set_auto_gain(False, gain_db=100)
 
 
 def draw_keypoints(img, kpts):
@@ -34,7 +34,7 @@ def draw_keypoints(img, kpts):
 
 kpts1 = None
 # NOTE: uncomment to load a keypoints descriptor from file
-# kpts1 = image.load_descriptor("/desc.orb")
+# kpts1 = image.load_descriptor("desc.orb")
 # img = sensor.snapshot()
 # draw_keypoints(img, kpts1)
 

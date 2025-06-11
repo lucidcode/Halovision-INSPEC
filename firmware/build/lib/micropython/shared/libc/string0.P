@@ -1,0 +1,9 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/shared/libc/string0.o: \
+ ../../shared/libc/string0.c \
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stdint-gcc.h \
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h
+ ../../shared/libc/string0.c :
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h :
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stdint-gcc.h :
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h :

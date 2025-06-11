@@ -1,0 +1,7 @@
+sosfilt requires iterable arguments
+input must be one-dimensional
+zi must be an ndarray
+zi must be of shape (n_section, 2)
+zi must be of float type
+sos array must be of shape (n_section, 6)
+sos[:, 3] should be all ones

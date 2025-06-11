@@ -1,0 +1,1 @@
+MP_REGISTER_ROOT_POINTER(mp_obj_t persistent_code_root_pointers);

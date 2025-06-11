@@ -1,0 +1,1685 @@
+%c needs int or char
+
+%d maximum banks
+
+%d maximum banks
+
+%q index out of range
+
+%q indices must be integers, not %s
+
+%q() takes %d positional arguments but %d were given
+
+%q() takes %d positional arguments but %d were given
+
+%s
+
+%s
+
+'%q' argument required
+
+'%s' expects a label
+
+'%s' expects a register
+
+'%s' expects a special register
+
+'%s' expects an FPU register
+
+'%s' expects an address of the form [a, b]
+
+'%s' expects an integer
+
+'%s' expects at most r%d
+
+'%s' expects at most r%d
+
+'%s' expects {r0, r1, ...}
+
+'%s' integer 0x%x doesn't fit in mask 0x%x
+
+'%s' object doesn't support item assignment
+
+'%s' object doesn't support item deletion
+
+'%s' object has no attribute '%q'
+
+'%s' object has no attribute '%q'
+
+'%s' object isn't an iterator
+
+'%s' object isn't an iterator
+
+'%s' object isn't callable
+
+'%s' object isn't callable
+
+'%s' object isn't iterable
+
+'%s' object isn't subscriptable
+
+'=' alignment not allowed in string format specifier
+
+'align' requires 1 argument
+
+'await' outside function
+
+'break'/'continue' outside loop
+
+'data' requires at least 2 arguments
+
+'data' requires integer arguments
+
+'label' requires 1 argument
+
+'not' not implemented
+
+'return' outside function
+
+'yield' outside function
+
+* arg after **
+
+*x must be assignment target
+
+0 bytes transferred!
+
+0 bytes transferred!
+
+0.0 to a complex power
+
+AP required
+
+Alpha palette must be 256 pixels!
+
+Alpha palette must be GRAYSCALE!
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Alpha ranges between 0 and 255
+
+Buffer is too small
+
+Buffer is too small
+
+Buffer is too small
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN bus not enabled
+
+CAN data field too long
+
+CAN filter parameter error
+
+CAN(%d) doesn't exist
+
+CERT_REQUIRED requires server_hostname
+
+Can't convert %s to %s
+
+Can't convert %s to %s
+
+Can't convert %s to %s
+
+Can't convert %s to %s
+
+Can't convert %s to %s
+
+Can't convert %s to %s
+
+Can't convert %s to %s
+
+Can't convert to bitmap in place!
+
+Can't convert to bitmap in place!
+
+Channel ranges between 1 and 8
+
+Color palette must be 256 pixels
+
+Color palette must be 256 pixels!
+
+Color palette must be RGB565!
+
+Compression Failed!
+
+Descriptor type is not supported
+
+Descriptor type is not supported
+
+Descriptor type is not supported
+
+Descriptors have different types!
+
+Display does not support backlight control.
+
+End of stream
+
+End of stream
+
+End of stream
+
+Error: 0 < scale!
+
+Error: 0 <= bias <= 1!
+
+Error: 0 <= percentile <= 1!
+
+Error: 0.0 <= floating_threshold <= 1.0!
+
+Error: 0.0 <= seed_threshold <= 1.0!
+
+Error: 1 <= quality <= 100!
+
+Expected a display controller
+
+Expected a display controller
+
+Expected a mutable image
+
+Expected a ndarray with dtype float
+
+Expected a ndarray with shape (height, width) or (height, width, 3
+
+Expected an image buffer
+
+Expected an uncompressed image
+
+Expected an uncompressed image
+
+Expected threshold between 0 and 100
+
+Expected version V1.0, V1.1, or V2.0
+
+FFC Error!
+
+FFT is defined for ndarrays only
+
+FFT is defined for ndarrays only
+
+FFT is implemented for linear arrays only
+
+FFT is implemented for linear arrays only
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FIR sensor is not initialized
+
+FOV must be > 0 and < 180!
+
+FPA Error!
+
+Failed to detect a supported FIR sensor.
+
+Failed to detect a supported TV controller.
+
+Failed to init the AMG8833!
+
+Failed to init the Lepton!
+
+Failed to init the MLX90621!
+
+Failed to init the MLX90640!
+
+Failed to init the MLX90641!
+
+Failed to load Haar cascade
+
+Failed to read the AMG8833 sensor data!
+
+Failed to read the AMG8833 sensor data!
+
+Failed to read the AMG8833 sensor data!
+
+Failed to read the MLX90621 sensor data!
+
+Failed to read the MLX90640 sensor data!
+
+Failed to read the MLX90640 sensor data!
+
+Failed to read the MLX90640 sensor data!
+
+Failed to read the MLX90640 sensor data!
+
+Failed to read the MLX90641 sensor data!
+
+Failed to read the MLX90641 sensor data!
+
+Fifo must be 0
+
+Height must be > 0
+
+Height must be even!
+
+Height must be even!
+
+Height must be even!
+
+I/O operation on closed file
+
+I2C operation not supported
+
+I2C operation not supported
+
+I2C operation not supported
+
+I2C operation not supported
+
+I2C operation not supported
+
+I2C(%d) doesn't exist
+
+IRQ mode not supported
+
+IRQ not supported on given Pin
+
+IV
+
+IV
+
+Image format is not supported
+
+Image height must be > 0
+
+Image width must be > 0
+
+Incompatible arguments!
+
+Input shape does not match the model input shape
+
+Input shape does not match the model input shape
+
+Intensity ranges between 0 (off) and 100 (full on)
+
+Invalid Height!
+
+Invalid LAN interface %d
+
+Invalid Pixel Format
+
+Invalid ROI dimensions!
+
+Invalid ROI dimensions!
+
+Invalid ROI dimensions!
+
+Invalid Refresh Rate!
+
+Invalid Width!
+
+Invalid color palette
+
+Invalid frame size
+
+Invalid image stream bpp
+
+Invalid image stream bpp
+
+Invalid image stream pixformat
+
+Invalid image stream pixformat
+
+Invalid pixel format
+
+Invalid pixel format
+
+Invalid pixformat
+
+Invalid pre-defined color palette!
+
+Invalid stream mode, expected 'R/r' or 'W/w'
+
+Invalid stream offset
+
+Invalid stream type
+
+Invalid value %d for phy
+
+Kernel size too large!
+
+Kernel size too large!
+
+Kernel size too large!
+
+KernelSize must be >= 0!
+
+LED(%d) doesn't exist
+
+LHS of keyword arg must be an id
+
+MJPEG stream is closed
+
+MJPEG stream is closed
+
+Not enough positional arguments!
+
+Only copying/cropping is supported for Bayer/YUV!
+
+Operation not supported
+
+Operation not supported by this FIR sensor
+
+Operation not supported by this FIR sensor
+
+Operation not supported by this FIR sensor
+
+Operation not supported by this FIR sensor
+
+Output shape has too many dimensions
+
+PHY Auto-negotiation failed.
+
+PHY Init failed.
+
+Pin doesn't exist
+
+Pin(%q) does not have ADC capabilities
+
+Pixel format is not set or unsupported
+
+Quality ranges between 0 and 100
+
+Quality ranges between 0 and 100
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+RGB channel can be 0, 1, or 2
+
+ROI does not overlap on the image!
+
+ROI does not overlap on the image!
+
+ROI does not overlap on the image!
+
+ROI(w,h) != TEMPLATE_ROI(w,h)
+
+Region of interest is bigger than image!
+
+Region of interest is smaller than detector window!
+
+Region of interest is smaller than template!
+
+SDCard(%d) doesn't exist
+
+SPI(%d) doesn't exist
+
+STA required
+
+SYS Error!
+
+Shutdown Failed
+
+Sleep Failed
+
+Stream closed
+
+Strength must be > 0!
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+TV controller is not initialized
+
+The chosen CS is not available
+
+The image doesn't fit in the frame buffer!
+
+The image doesn't fit in the frame buffer!
+
+The tuple/list must either be (x, y, w, h) or (w, h)
+
+The tuple/list must either be (x, y, w, h) or (w, h)
+
+This function is unavailable on your OpenMV Cam.
+
+Timeout!
+
+Timeout!
+
+Timer doesn't exist
+
+UART(%d) doesn't exist
+
+UUID
+
+UUID
+
+UUID too long
+
+UUID too short
+
+Unexpcted color palette format
+
+Unexpected image geometry
+
+Unexpected kernel dimensions!
+
+Unexpected kernel dimensions!
+
+Unexpected matrix dimensions!
+
+Unexpected matrix dimensions!
+
+Unexpected tensor shape
+
+Unsupported dtype
+
+Unsupported input type
+
+Unsupported input type. Expected a list
+
+Unsupported pixformat
+
+Vertical flip requires triple buffering!
+
+WDT(%d) doesn't exist
+
+Width must be > 0
+
+Width must be even!
+
+Width must be even!
+
+Width must be even!
+
+YUV422 images cannot be tranposed/rotated!
+
+Zoom must be > 0!
+
+Zoom must be > 0!
+
+__init__() should return None, not '%s'
+
+a_bins must be >= 2
+
+a_bins must be >= 2
+
+abort() called
+
+address %08x is not aligned to %d bytes
+
+annotation must be an identifier
+
+arange: cannot compute length
+
+arg is an empty sequence
+
+arg must be user-type
+
+arg must be user-type
+
+arg must be user-type
+
+argsort argument must be an ndarray
+
+argsort is not implemented for flattened arrays
+
+argument must be None, an integer or a tuple of integers
+
+argument name reused
+
+argument num/types mismatch
+
+argument should be a '%q' not a '%q'
+
+arguments must be ndarrays
+
+arguments must be ndarrays
+
+array and index length must be equal
+
+array has too many dimensions
+
+array is too big
+
+array/bytes required on right side
+
+async for/with outside async function
+
+attempt to get (arg)min/(arg)max of empty sequence
+
+attempt to get argmin/argmax of an empty sequence
+
+attributes not supported
+
+axis is out of bounds
+
+axis must be None, or an integer
+
+axis must be None, or an integer
+
+axis must be None, or an integer
+
+axis too long
+
+b_bins must be >= 2
+
+b_bins must be >= 2
+
+bad compile mode
+
+bad flow mask
+
+bad inversion mask
+
+bad typecode
+
+binary op %q not implemented
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bins must be >= 2
+
+bits must be 32 or less
+
+bits must be 8
+
+blksize % 16
+
+branch not in range
+
+buffer is smaller than requested size
+
+buffer is smaller than requested size
+
+buffer size must be a multiple of element size
+
+buffer size must be a multiple of element size
+
+buffer too small
+
+buffer too small
+
+buffer too small
+
+buffer too small
+
+buffer too small
+
+buffer too small
+
+buffers must be the same length
+
+bytecode overflow
+
+bytes value out of range
+
+call super().__init__() first
+
+can only have up to 4 parameters to Thumb assembly
+
+can only specify one unknown dimension
+
+can't add special method to already-subclassed class
+
+can't assign to expression
+
+can't assign to expression
+
+can't assign to expression
+
+can't cancel self
+
+can't convert %s to complex
+
+can't convert %s to float
+
+can't convert %s to int
+
+can't convert '%q' object to %q implicitly
+
+can't convert NaN to int
+
+can't convert arg %d from %s to float
+
+can't convert arg %d from %s to float
+
+can't convert arg %d from %s to float
+
+can't convert arg %d from %s to float
+
+can't convert inf to int
+
+can't create '%q' instances
+
+can't declare nonlocal in outer code
+
+can't delete expression
+
+can't do binary op between '%q' and '%q'
+
+can't do unary op of '%q'
+
+can't encrypt & decrypt
+
+can't implicitly convert '%q' to 'bool'
+
+can't import name %q
+
+can't load from '%q'
+
+can't load from '%q'
+
+can't load with '%q' index
+
+can't perform relative import
+
+can't send non-None value to a just-started generator
+
+can't set attribute
+
+can't specify pos and kw args
+
+can't specify pos and kw args
+
+can't specify pos and kw args
+
+can't specify pos and kw args
+
+can't specify pos and kw args
+
+can't store '%q'
+
+can't store '%q'
+
+can't store to '%q'
+
+can't store to '%q'
+
+can't store with '%q' index
+
+can't switch from automatic field numbering to manual field specification
+
+can't switch from manual field specification to automatic field numbering
+
+can't truncate-divide a complex number
+
+can't unambiguously get sizeof scalar
+
+can't wait
+
+cannot assign new shape
+
+cannot cast output with casting rule
+
+cannot delete array elements
+
+cannot grow or shrink image
+
+cannot grow or shrink image
+
+cannot grow or shrink image
+
+cannot grow or shrink image
+
+cannot reshape array
+
+casting
+
+chr() arg not in range(0x110000)
+
+comparison of int and uint
+
+complex divide by zero
+
+conversion to object
+
+convolve arguments must be linear arrays
+
+convolve arguments must be ndarrays
+
+convolve arguments must not be empty
+
+corrupted file
+
+corrupted file
+
+corrupted file
+
+could not invert Vandermonde matrix
+
+cross is defined for 1D arrays of length 3
+
+cts not available
+
+data type not understood
+
+default 'except' must be last
+
+dict update sequence has wrong length
+
+diff argument must be an ndarray
+
+differentiation order out of range
+
+differentiation order out of range
+
+dimensions do not match
+
+div/mod not implemented for uint
+
+divide by zero
+
+divide by zero
+
+divide by zero
+
+divide by zero
+
+divide by zero
+
+dtype of int32 is not supported
+
+empty
+
+empty
+
+empty file
+
+empty heap
+
+empty heap
+
+empty separator
+
+empty separator
+
+empty separator
+
+encoding
+
+end of format while looking for conversion specifier
+
+error in regex
+
+exceptions must derive from BaseException
+
+expected ':' after format specifier
+
+expecting an assembler instruction
+
+expecting just a value for set
+
+expecting key:value for dict
+
+extra keyword arguments given
+
+extra positional arguments given
+
+fifo must be 0
+
+fifo must be 0
+
+fifo must be 0
+
+first argument must be a callable
+
+first argument must be a callable
+
+first argument must be a callable
+
+first argument must be a callable
+
+first argument must be a function
+
+first argument must be a function
+
+first argument must be a function
+
+first argument must be a function
+
+first argument must be a tuple of ndarrays
+
+first argument must be an ndarray
+
+first argument must be an ndarray
+
+first argument must be an ndarray
+
+first two arguments must be ndarrays
+
+first two arguments must be ndarrays
+
+flash block write command failed with %d
+
+flash erase command failed with %d
+
+flattening order must be either 'C', or 'F'
+
+flip argument must be an ndarray
+
+format
+
+format needs a dict
+
+format string didn't convert all arguments
+
+format string needs more arguments
+
+full
+
+full
+
+function doesn't take keyword arguments
+
+function expected at most %d arguments, got %d
+
+function got multiple values for argument '%q'
+
+function got multiple values for argument '%q'
+
+function has the same sign at the ends of interval
+
+function is defined for ndarrays only
+
+function missing %d required positional arguments
+
+function missing keyword-only argument
+
+function missing required keyword argument '%q'
+
+function missing required positional argument #%d
+
+function takes %d positional arguments but %d were given
+
+generator already executing
+
+generator already executing
+
+generator ignored GeneratorExit
+
+generator raised StopIteration
+
+generator raised StopIteration
+
+hash is final
+
+heap must be a list
+
+identifier redefined as global
+
+identifier redefined as nonlocal
+
+import * not at module level
+
+incompatible .mpy arch
+
+incompatible .mpy file
+
+incomplete format
+
+incomplete format key
+
+incorrect padding
+
+index is out of bounds
+
+index is out of bounds
+
+index is out of bounds
+
+index is out of bounds
+
+index must not be negative
+
+index out of range
+
+index out of range
+
+index out of range
+
+indices must be integers, slices, or Boolean lists
+
+inline assembler must be a function
+
+input and out arrays must have same length
+
+input and output dimensions differ
+
+input and output shapes differ
+
+input argument must be an integer, a tuple, or a list
+
+input array length must be power of 2
+
+input array length must be power of 2
+
+input arrays are not compatible
+
+input arrays are not compatible
+
+input arrays are not compatible
+
+input data must be an iterable
+
+input data must be an iterable
+
+input is not an array
+
+input is not iterable
+
+input matrix is asymmetric
+
+input matrix is asymmetric
+
+input matrix is singular
+
+input matrix is singular
+
+input must be 1- or 2-d
+
+input must be a dense ndarray
+
+input must be a dense ndarray
+
+input must be one-dimensional
+
+input must be square matrix
+
+input must be tuple, list, range, or ndarray
+
+input must be tuple, list, range, or ndarray
+
+input vectors must be of equal length
+
+int() arg 2 must be >= 2 and <= 36
+
+integer needed
+
+interp is defined for 1D iterables of equal length
+
+invalid UUID
+
+invalid addr
+
+invalid addr
+
+invalid address type
+
+invalid address type
+
+invalid address type
+
+invalid addrsize
+
+invalid argument(s) value
+
+invalid arguments
+
+invalid arguments
+
+invalid arguments
+
+invalid arguments
+
+invalid arguments
+
+invalid arguments
+
+invalid arguments as dns server
+
+invalid cert
+
+invalid char in UUID
+
+invalid characteristic UUID
+
+invalid characteristic tuple
+
+invalid descriptor UUID
+
+invalid drive strength: %d
+
+invalid dupterm index
+
+invalid format
+
+invalid format specifier
+
+invalid handler
+
+invalid key
+
+invalid micropython decorator
+
+invalid micropython decorator
+
+invalid pin mode: %d
+
+invalid prefer argument
+
+invalid service UUID
+
+invalid syntax
+
+invalid syntax
+
+invalid syntax
+
+invalid syntax for number
+
+issubclass() arg 1 must be a class
+
+issubclass() arg 2 must be a class or a tuple of classes
+
+iterations did not converge
+
+join expects a list of str/bytes objects consistent with self object
+
+key
+
+keyword argument(s) not implemented - use normal args instead
+
+l_bins must be >= 2
+
+l_bins must be >= 2
+
+l_bins must be >= 2
+
+l_bins must be >= 2
+
+l_bins must be >= 2
+
+l_bins must be >= 2
+
+label '%q' not defined
+
+label redefined
+
+levels needs to be a positive integer
+
+lhs and rhs should be compatible
+
+local '%q' has type '%q' but source is '%q'
+
+local '%q' used before type known
+
+local variable referenced before assignment
+
+malformed f-string
+
+math domain error
+
+matrix is not positive definite
+
+maxiter must be > 0
+
+maxiter must be > 0
+
+maxiter should be > 0
+
+median argument must be an ndarray
+
+memory allocation failed, allocating %u bytes
+
+memory allocation failed, heap is locked
+
+memoryview offset too large
+
+mktime needs a tuple of length 8 or 9
+
+mode
+
+mode must be complete, or reduced
+
+mode should be raise, wrap or clip
+
+more degrees of freedom than data points
+
+more degrees of freedom than data points
+
+multiple *x in assignment
+
+multiple bases have instance lay-out conflict
+
+must query one param
+
+must query one param
+
+must query one param
+
+must query one param
+
+must query one param
+
+must raise an object
+
+must specify all of sck/mosi/miso
+
+must use keyword argument for key function
+
+name '%q' isn't defined
+
+name too long
+
+native code in .mpy unsupported
+
+native method too big
+
+native yield
+
+ndarray length overflows
+
+need more than %d values to unpack
+
+need more than %d values to unpack
+
+negative factorial
+
+negative shift count
+
+negative shift count
+
+negative shift count
+
+no active exception to reraise
+
+no available NIC
+
+no binding for nonlocal found
+
+no module named '%q'
+
+no such attribute
+
+non-default argument follows default argument
+
+non-hex digit
+
+not a constant
+
+not supported for input types
+
+number of points must be at least 2
+
+number of points must be at least 2
+
+object '%s' isn't a tuple or list
+
+object not in sequence
+
+object of type '%s' has no len()
+
+object with buffer protocol required
+
+offset is too large
+
+offset must be non-negative and no greater than buffer length
+
+only ndarrays can be concatenated
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+only slices with step=1 (aka None) are supported
+
+opcode
+
+operands could not be broadcast together
+
+operands could not be broadcast together
+
+operands could not be broadcast together
+
+operands could not be broadcast together
+
+operands could not be broadcast together
+
+operands could not be broadcast together
+
+operation is defined for 2D arrays only
+
+operation is defined for ndarrays only
+
+operation is implemented for 1D Boolean arrays only
+
+operation is not implemented on ndarrays
+
+operation is not supported for given type
+
+operation not supported for the input types
+
+ord() expected a character, but string of length %d found
+
+order needs to be a positive integer
+
+out array has wrong dimension
+
+out array has wrong dtype
+
+out array has wrong shape
+
+out array is too small
+
+out array must be a 1D array of float type
+
+out has wrong type
+
+out has wrong type
+
+out keyword is not supported for function
+
+out must be a float dense array
+
+out must be an ndarray
+
+out must be an ndarray
+
+out must be of float dtype
+
+output array has wrong type
+
+output array must be contiguous
+
+output array must be contiguous
+
+output too small
+
+overflow converting long int to machine word
+
+overflow converting long int to machine word
+
+parameters must be registers in sequence r0 to r3
+
+parameters must be registers in sequence r0 to r3
+
+period too large
+
+pop from an empty set
+
+pop from empty list
+
+popitem(): dictionary is empty
+
+positional arg after **
+
+positional arg after keyword arg
+
+pow() with 3 arguments requires integers
+
+real and imaginary parts must be of equal length
+
+requested AF %d not available for pin %d
+
+requested length %d but object has length %d
+
+results cannot be cast to specified type
+
+results cannot be cast to specified type
+
+return annotation must be an identifier
+
+return expected '%q' but got '%q'
+
+roll argument must be an ndarray
+
+rsplit(None,n)
+
+rts not available
+
+rxbuf too large
+
+schedule queue full
+
+scratchpad must be a 1D dense float array
+
+scratchpad must be an ndarray
+
+scratchpad must be twice as long as input
+
+shape must be None, and integer or a tuple of integers
+
+shape must be None, and integer or a tuple of integers
+
+shape must be None, and integer or a tuple of integers
+
+shape must be integer or tuple of integers
+
+sign not allowed in string format specifier
+
+sign not allowed with integer format specifier 'c'
+
+single '}' encountered in format string
+
+size is defined for ndarrays only
+
+size must match out.shape when used together
+
+slice step can't be zero
+
+sort argument must be an ndarray
+
+sos array must be of shape (n_section, 6)
+
+sos[:, 3] should be all ones
+
+sosfilt requires iterable arguments
+
+spectrogram is defined for ndarrays only
+
+spectrogram is defined for ndarrays only
+
+spectrogram is implemented for 1D arrays only
+
+spectrogram is implemented for 1D arrays only
+
+splitting with sub-captures
+
+steps needs to be a positive integer
+
+steps needs to be a positive integer
+
+stream operation not supported
+
+string argument without an encoding
+
+string argument without an encoding
+
+string index out of range
+
+string index out of range
+
+string indices must be integers, not %s
+
+struct: can't index
+
+struct: index out of range
+
+struct: no fields
+
+substring not found
+
+super() can't find self
+
+syntax error in JSON
+
+syntax error in uctypes descriptor
+
+the first Pin doesn't support PWM
+
+the pins must be a A/B pair of a submodule
+
+the second Pin doesn't support PWM
+
+ticks interval overflow
+
+timeout waiting for DHCP to get IP address
+
+tobytes can be invoked for dense arrays only
+
+too many args
+
+too many dimensions
+
+too many dimensions
+
+too many indices
+
+too many locals for native method
+
+too many values to unpack (expected %d)
+
+trapz is defined for 1D arrays of equal length
+
+trapz is defined for 1D iterables
+
+tuple index out of range
+
+tuple index out of range
+
+txbuf too large
+
+type '%q' isn't an acceptable base type
+
+type object '%q' has no attribute '%q'
+
+type takes 1 or 3 arguments
+
+unexpected indent
+
+unexpected key
+
+unexpected key
+
+unexpected key
+
+unexpected key
+
+unexpected keyword argument '%q'
+
+unexpected keyword argument '%q'
+
+unicode name escapes
+
+unindent doesn't match any outer indent level
+
+unknown config param
+
+unknown config param
+
+unknown config param
+
+unknown config param
+
+unknown config param
+
+unknown config param
+
+unknown conversion specifier %c
+
+unknown format code '%c' for object of type '%s'
+
+unknown format code '%c' for object of type '%s'
+
+unknown format code '%c' for object of type '%s'
+
+unknown status param
+
+unknown status param
+
+unknown type
+
+unknown type '%q'
+
+unmatched '{' in format
+
+unreadable attribute
+
+unsupported Thumb instruction '%s' with %d arguments
+
+unsupported format character '%c' (0x%x) at index %d
+
+unsupported type for %q: '%s'
+
+unsupported types for %q: '%s', '%s'
+
+usecols is too high
+
+value out of range -16 to 15
+
+wbits
+
+wrong axis index
+
+wrong axis index
+
+wrong axis specified
+
+wrong dtype
+
+wrong index type
+
+wrong input type
+
+wrong input type
+
+wrong input type
+
+wrong input type
+
+wrong input type
+
+wrong input type
+
+wrong input type
+
+wrong length of condition array
+
+wrong length of index array
+
+wrong number of arguments
+
+wrong number of arguments
+
+wrong output type
+
+wrong output type
+
+x_stride must not be zero.
+
+x_stride must not be zero.
+
+x_stride must not be zero.
+
+x_stride must not be zero.
+
+y_stride must not be zero.
+
+y_stride must not be zero.
+
+y_stride must not be zero.
+
+y_stride must not be zero.
+
+zero step
+
+zi must be an ndarray
+
+zi must be of float type
+
+zi must be of shape (n_section, 2)

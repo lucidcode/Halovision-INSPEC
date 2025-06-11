@@ -1,0 +1,16 @@
+can only have up to 4 parameters to Thumb assembly
+parameters must be registers in sequence r0 to r3
+parameters must be registers in sequence r0 to r3
+'%s' expects at most r%d
+'%s' expects a register
+'%s' expects a special register
+'%s' expects at most r%d
+'%s' expects an FPU register
+'%s' expects {r0, r1, ...}
+'%s' expects an integer
+'%s' integer 0x%x doesn't fit in mask 0x%x
+'%s' expects an address of the form [a, b]
+'%s' expects a label
+label '%q' not defined
+unsupported Thumb instruction '%s' with %d arguments
+branch not in range

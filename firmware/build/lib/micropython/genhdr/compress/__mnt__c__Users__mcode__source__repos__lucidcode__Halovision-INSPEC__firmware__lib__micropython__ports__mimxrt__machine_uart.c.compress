@@ -1,0 +1,7 @@
+bad flow mask
+rts not available
+cts not available
+bad inversion mask
+rxbuf too large
+txbuf too large
+UART(%d) doesn't exist

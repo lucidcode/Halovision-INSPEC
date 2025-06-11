@@ -1,0 +1,17 @@
+out must be a float dense array
+offset is too large
+buffer size must be a multiple of element size
+buffer is smaller than requested size
+out array is too small
+spectrogram is defined for ndarrays only
+spectrogram is implemented for 1D arrays only
+input array length must be power of 2
+out must be an ndarray
+out array must be a 1D array of float type
+input and out arrays must have same length
+scratchpad must be an ndarray
+scratchpad must be a 1D dense float array
+scratchpad must be twice as long as input
+spectrogram is defined for ndarrays only
+spectrogram is implemented for 1D arrays only
+input arrays are not compatible

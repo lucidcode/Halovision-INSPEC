@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Copyright (C) 2012 ARM Limited. All rights reserved.-->
+<flash_config
+     xmlns:xi="http://www.w3.org/2001/XInclude"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns="http://www.arm.com/flash_config"
+     xsi:schemaLocation="http://www.arm.com/flash_config flash_config.xsd">
+        <devices>
+                <device name="MRAM">
+                    <regions>
+                        <region address="0x80000000" size="0x580000"/> 
+                    </regions> 
+                    <programming_type type="FILE">
+                        <method language="JYTHON" script="FDB://ensemble_mram_axiap.py" class="EnsembleMRAM_AXIAP" method_config="MRAM_5.5"/>
+                    </programming_type>
+                </device>
+        </devices>
+        <method_configs>
+                <method_config id="MRAM_5.5">
+                    <params>
+                        <!-- The device in the target to access memory - supported are AXI5-APs or any CPU core. Default searches for first AXI5-AP device. -->
+                        <!-- <param name="memapName" type="string" value="AXI-AP"/> -->
+                        <!-- How large a chunk to program per step (doesn't actually limit alignment) -->
+                        <param name="programPageSize" type="integer" value="4096"/>
+                        <!-- Set to false to skip the verification stage -->
+                        <param name="verify" type="string" value="true"/>
+                        <!-- Read and compare current contents to skip writing -->
+                        <param name="compare" type="string" value="true"/>
+                        <!-- Sector size for manual erase, if invoked (we don't need to manually erase to program) -->
+                        <param name="eraseSectorSize" type="integer" value="8192"/>
+                        <param name="address" type="integer" value="0x80000000"/>
+                        <param name="size" type="integer" value="0x580000"/>
+                    </params>
+                </method_config>
+        </method_configs>
+</flash_config> 

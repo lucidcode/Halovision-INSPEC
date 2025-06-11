@@ -1,0 +1,45 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/common/file_utils.o: \
+ common/file_utils.c \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/boards/LUCIDCODE_INSPEC/imlib_config.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/runtime.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/mpstate.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/mpconfig.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/ports/mimxrt/omv_mpconfigport.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/ports/mimxrt/mpconfigport.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/ports/mimxrt/boards/LUCIDCODE_INSPEC/mpconfigboard.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_common.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_device_registers.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/mimxrt/MIMXRT1062.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/core_cm7.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_version.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_compiler.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cmsis_gcc.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/mpu_armv7.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/cachel1_armv7.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/cmsis/include/mimxrt/system_MIMXRT1062.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/MIMXRT1062_features.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_common_arm.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_clock.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/mimxrt/MIMXRT1062/drivers/fsl_common.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/mpthread.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/misc.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/genhdr/compressed.data.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/nlr.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/obj.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/qstr.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/genhdr/qstrdefs.generated.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/mpprint.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/runtime0.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/objlist.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/objexcept.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/objtuple.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/genhdr/root_pointers.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/pystack.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/cstack.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/extmod/vfs.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/py/builtin.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/extmod/vfs_fat.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/lib/oofatfs/ff.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/lib/oofatfs/ffconf.h \
+ common/omv_common.h common/fb_alloc.h common/file_utils.h \
+ /mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/lib/micropython/lib/oofatfs/ff.h

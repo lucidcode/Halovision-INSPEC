@@ -1,0 +1,22 @@
+attempt to get argmin/argmax of an empty sequence
+attempt to get (arg)min/(arg)max of empty sequence
+axis must be None, or an integer
+operation is not implemented on ndarrays
+input must be tuple, list, range, or ndarray
+sort argument must be an ndarray
+argsort argument must be an ndarray
+argsort is not implemented for flattened arrays
+axis too long
+arguments must be ndarrays
+cross is defined for 1D arrays of length 3
+diff argument must be an ndarray
+index out of range
+differentiation order out of range
+differentiation order out of range
+flip argument must be an ndarray
+wrong axis index
+median argument must be an ndarray
+roll argument must be an ndarray
+wrong axis index
+axis must be None, or an integer
+input must be tuple, list, range, or ndarray

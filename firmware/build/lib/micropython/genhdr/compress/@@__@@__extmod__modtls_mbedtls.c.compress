@@ -1,0 +1,5 @@
+invalid key
+invalid cert
+%s
+CERT_REQUIRED requires server_hostname
+%s

@@ -1,0 +1,21 @@
+data type not understood
+array is too big
+ndarray length overflows
+too many dimensions
+index is out of bounds
+indices must be integers, slices, or Boolean lists
+index is out of bounds
+operands could not be broadcast together
+array and index length must be equal
+operation is implemented for 1D Boolean arrays only
+too many indices
+cannot delete array elements
+flattening order must be either 'C', or 'F'
+tobytes can be invoked for dense arrays only
+operands could not be broadcast together
+operation is not supported for given type
+shape must be integer or tuple of integers
+can only specify one unknown dimension
+cannot reshape array
+cannot assign new shape
+function is defined for ndarrays only

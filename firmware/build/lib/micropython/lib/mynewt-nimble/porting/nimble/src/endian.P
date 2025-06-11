@@ -1,0 +1,33 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/lib/mynewt-nimble/porting/nimble/src/endian.o: \
+ ../../lib/mynewt-nimble/porting/nimble/src/endian.c \
+ ../../lib/mynewt-nimble/porting/nimble/include/os/endian.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/inttypes.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/newlib.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_newlib_version.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/config.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/ieeefp.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/features.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_intsup.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_ansi.h \
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/stdint.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/_default_types.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_stdint.h \
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_locale.h
+ ../../lib/mynewt-nimble/porting/nimble/src/endian.c :
+ ../../lib/mynewt-nimble/porting/nimble/include/os/endian.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/inttypes.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/newlib.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_newlib_version.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/config.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/ieeefp.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/features.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_intsup.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/_ansi.h :
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/stdint.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/machine/_default_types.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_stdint.h :
+ /home/mcoder/cache/gcc/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h :
+ /home/mcoder/cache/gcc/arm-none-eabi/include/sys/_locale.h :

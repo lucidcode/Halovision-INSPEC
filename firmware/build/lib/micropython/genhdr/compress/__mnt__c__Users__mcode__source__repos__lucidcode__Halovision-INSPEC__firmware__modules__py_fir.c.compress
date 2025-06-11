@@ -1,0 +1,34 @@
+Failed to read the MLX90621 sensor data!
+Failed to read the MLX90640 sensor data!
+Failed to read the MLX90640 sensor data!
+Failed to read the MLX90641 sensor data!
+Failed to read the AMG8833 sensor data!
+Failed to read the AMG8833 sensor data!
+Failed to init the MLX90621!
+Failed to init the MLX90640!
+Failed to init the MLX90641!
+Failed to init the AMG8833!
+Failed to init the Lepton!
+Failed to detect a supported FIR sensor.
+FIR sensor is not initialized
+FIR sensor is not initialized
+FIR sensor is not initialized
+FIR sensor is not initialized
+FIR sensor is not initialized
+Operation not supported by this FIR sensor
+Operation not supported by this FIR sensor
+Operation not supported by this FIR sensor
+Operation not supported by this FIR sensor
+Failed to read the MLX90640 sensor data!
+Failed to read the MLX90640 sensor data!
+Failed to read the MLX90641 sensor data!
+Failed to read the AMG8833 sensor data!
+FIR sensor is not initialized
+FIR sensor is not initialized
+FIR sensor is not initialized
+RGB channel can be 0, 1, or 2
+Alpha ranges between 0 and 255
+RGB channel can be 0, 1, or 2
+Alpha ranges between 0 and 255
+Invalid pixformat
+FIR sensor is not initialized

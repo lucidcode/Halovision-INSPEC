@@ -1,0 +1,3 @@
+buffers must be the same length
+bits must be 8
+must specify all of sck/mosi/miso

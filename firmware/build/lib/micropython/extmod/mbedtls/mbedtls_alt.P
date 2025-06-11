@@ -1,0 +1,3 @@
+/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/extmod/mbedtls/mbedtls_alt.o: \
+ ../../extmod/mbedtls/mbedtls_alt.c
+ ../../extmod/mbedtls/mbedtls_alt.c :
