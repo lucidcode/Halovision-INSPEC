@@ -100,7 +100,7 @@ class inspec_sensor:
                 self.img = sensor.snapshot()
 
                 self.face.detect(self.img, self.global_variance)
-                self.global_variance, self.variance = self.img.variance(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
+                self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
                 
                 if self.variance > self.peak_variance:
                     self.peak_variance = self.variance
