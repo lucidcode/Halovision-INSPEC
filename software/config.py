@@ -27,7 +27,7 @@ class inspec_config:
         self.default['TriggerThreshold'] = 8
         self.default['TossThreshold'] = 256
         self.default['TossCooldown'] = 1
-        self.default['ArtifactFilter'] = 0.0
+        self.default['ArtifactFilter'] = 0.7
         self.default['TriggerDelay'] = 0
         self.default['TriggerInterval'] = 1000 * 60 * 1
         self.default['NREM1Delay'] = 1000 * 60 * 1
