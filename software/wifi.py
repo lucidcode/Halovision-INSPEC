@@ -8,6 +8,12 @@ class inspec_stream:
     def __init__(self, config):
         self.config = config
         self.error = None
+        self.wlan = None
+        self.ip = None
+        self.servers = [None, None, None]
+        self.clients = [None, None, None]
+        self.ports = [8080, 8082, 5000]
+        self.connected = [False, False, False]
 
         if self.config.get('WiFi'):
             self.connect_network(self.config.get('WiFiNetworkName'), self.config.get('WiFiKey'))
@@ -15,13 +21,11 @@ class inspec_stream:
         if self.config.get('AccessPoint'):
             self.start_access_point(self.config.get('AccessPointName'), self.config.get('AccessPointPassword'))
 
+        if self.wlan == None:
+            return
+
         self.ip = self.wlan.ifconfig()[0]
         print("IP", self.ip)
-
-        self.servers = [None, None, None]
-        self.clients = [None, None, None]
-        self.ports = [8080, 8082, 5000]
-        self.connected = [False, False, False]
 
     def start_access_point(self, ssid, password):
         self.wlan = network.WLAN(network.AP_IF)
