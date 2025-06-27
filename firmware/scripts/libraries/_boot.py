@@ -30,7 +30,7 @@ inspec = inspec_sensor()
 inspec.monitor()
 """
 
-readme_txt = """Thank you for supporting the INSPEC project!Add commentMore actions
+readme_txt = """Thank you for supporting the INSPEC project!
 
 For setup instructions, please visit:
 https://github.com/lucidcode/Halovision-INSPEC/wiki/Setup%E2%80%90en
