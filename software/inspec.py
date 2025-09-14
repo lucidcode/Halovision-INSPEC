@@ -163,6 +163,10 @@ class inspec_sensor:
         if message == "request.errors":
             self.comms.send_errors = True
 
+        if message == "request.settings":
+            config = self.config.get_config_file()
+            self.comms.send_file(config)
+
         if message.startswith("update.setting."):
             message = message.replace("update.setting.", "")
             setting, value = message.split(':')
