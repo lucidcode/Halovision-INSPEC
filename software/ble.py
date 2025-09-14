@@ -120,6 +120,20 @@ class inspec_comms:
         self.chunks_sent = 0
         self.sending_file = True
 
+    def send_file(self, config):
+        if self.sending_file:
+            return
+        if self.sending_image:
+            return
+
+        gc.collect()
+
+        self.cframe = bytearray(len(config))
+        self.cframe[:] = config
+
+        self.chunks_sent = 0
+        self.sending_file = True
+
     def process_file(self):
         if self.wait > 0:
             self.wait -= 1

@@ -1,5 +1,6 @@
 import ujson
 import os
+import binascii
 
 class inspec_config:
     def __init__(self):
@@ -86,6 +87,11 @@ class inspec_config:
             return self.default[setting]
 
         return ""
+
+    def get_config_file(self):
+        with open('config.txt', mode='rb') as file:
+            content = bytearray(file.read())
+            return content
 
     def set(self, setting, value):
         string_settings = ["PixelFormat", "FrameSize", "LEDs", "Researcher", "Algorithm", "Mode", "AccessPointName", "AccessPointPassword", "WiFiNetworkName", "WiFiKey"]
