@@ -22,6 +22,7 @@ class inspec_comms:
         self.send_errors = False
 
         self.ble = bluetooth.BLE()
+        self.ble.config(gap_name="INSPEC")
         self.ble.active(True)
         self.ble.irq(self.irq)
         self.register()
