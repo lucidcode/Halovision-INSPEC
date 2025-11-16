@@ -1,12 +1,14 @@
 # Halovision-INSPEC
 
-A night-vision smart camera that detects eye movements during REM sleep and triggers audio and visual alerts to promote lucidity.
+The <a href="https://inspec.me/">INSPEC</a> is a lucid dreaming device that detects eye movements during REM sleep with a night-vision smart camera and triggers audio and visual alerts to promote lucidity. Like having your own private sleep lab technician that watches you sleep and alerts you when you are dreaming.
 
 ![INSPEC](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/inspec.jpg?raw=true "INSPEC")
 
 ![INSPECs](https://github.com/lucidcode/Halovision-INSPEC/raw/master/images/inspecs.jpg?raw=true "INSPECs")
 
 ## Works with
+
+- <a href="https://apps.apple.com/us/app/lucid-scribe-lucid-dreaming/id6755086169">Lucid Scribe iOS</a>
 
 - <a href="https://play.google.com/store/apps/details?id=com.lucidcode.lucidscribe">Lucid Scribe Android</a>
 
