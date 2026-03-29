@@ -41,116 +41,74 @@
 #include "unaligned_memcpy.h"
 #include "dcmi.pio.h"
 
-static void dma_irq_handler();
 extern void __fatal_error(const char *msg);
 
-static void omv_csi_dma_config(int w, int h, int bpp, uint32_t *capture_buf, bool rev_bytes) {
-    dma_channel_abort(OMV_CSI_DMA_CHANNEL);
-    dma_irqn_set_channel_enabled(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL, false);
+static void dma_irq_handler() {
+    omv_csi_t *csi = omv_csi_get(-1);
+    framebuffer_t *fb = csi->fb;
 
-    dma_channel_config c = dma_channel_get_default_config(OMV_CSI_DMA_CHANNEL);
-    channel_config_set_read_increment(&c, false);
-    channel_config_set_write_increment(&c, true);
-    channel_config_set_dreq(&c, pio_get_dreq(OMV_CSI_PIO, OMV_CSI_SM, false));
-    channel_config_set_bswap(&c, rev_bytes);
+    if (dma_irqn_get_channel_status(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL)) {
+        // Clear the interrupt request.
+        dma_irqn_acknowledge_channel(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL);
 
-    dma_channel_configure(OMV_CSI_DMA_CHANNEL, &c,
-                          capture_buf, // Destinatinon pointer.
-                          &OMV_CSI_PIO->rxf[OMV_CSI_SM], // Source pointer.
-                          (w * h * bpp) >> 2, // Number of transfers in words.
-                          true      // Start immediately, will block on SM.
-                          );
+        // Release the current buffer and acquire a new one.
+        framebuffer_release(fb, FB_FLAG_FREE | FB_FLAG_CHECK_LAST);
+        vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK);
 
-    // Re-enable DMA IRQs.
-    dma_irqn_set_channel_enabled(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL, true);
+        if (buffer != NULL) {
+            // Set next buffer and retrigger the DMA channel.
+            dma_channel_set_write_addr(OMV_CSI_DMA_CHANNEL, buffer->data, true);
+
+            // Unblock the state machine
+            pio_sm_restart(OMV_CSI_PIO, OMV_CSI_SM);
+            pio_sm_clear_fifos(OMV_CSI_PIO, OMV_CSI_SM);
+            pio_sm_put_blocking(OMV_CSI_PIO, OMV_CSI_SM, (fb->v - 1));
+            pio_sm_put_blocking(OMV_CSI_PIO, OMV_CSI_SM, (fb->u * fb->bpp) - 1);
+        }
+    }
 }
 
-int omv_csi_init() {
-    int init_ret = 0;
+static bool rp2_csi_is_active(omv_csi_t *csi) {
+    return dma_channel_is_busy(OMV_CSI_DMA_CHANNEL);
+}
 
-    // PIXCLK
-    gpio_init(OMV_CSI_PXCLK_PIN);
-    gpio_set_dir(OMV_CSI_PXCLK_PIN, GPIO_IN);
+static int rp2_csi_config(omv_csi_t *csi, omv_csi_config_t config) {
+    if (config == OMV_CSI_CONFIG_INIT) {
+        // PIXCLK
+        gpio_init(OMV_CSI_PXCLK_PIN);
+        gpio_set_dir(OMV_CSI_PXCLK_PIN, GPIO_IN);
 
-    // HSYNC
-    gpio_init(OMV_CSI_HSYNC_PIN);
-    gpio_set_dir(OMV_CSI_HSYNC_PIN, GPIO_IN);
+        // HSYNC
+        gpio_init(OMV_CSI_HSYNC_PIN);
+        gpio_set_dir(OMV_CSI_HSYNC_PIN, GPIO_IN);
 
-    // VSYNC
-    gpio_init(OMV_CSI_VSYNC_PIN);
-    gpio_set_dir(OMV_CSI_VSYNC_PIN, GPIO_IN);
+        // VSYNC
+        gpio_init(OMV_CSI_VSYNC_PIN);
+        gpio_set_dir(OMV_CSI_VSYNC_PIN, GPIO_IN);
 
-    #if defined(OMV_CSI_POWER_PIN)
-    gpio_init(OMV_CSI_POWER_PIN);
-    gpio_set_dir(OMV_CSI_POWER_PIN, GPIO_OUT);
-    gpio_pull_down(OMV_CSI_POWER_PIN);
-    gpio_put(OMV_CSI_POWER_PIN, 1);
-    #endif
+        // Install new DMA IRQ handler.
+        irq_set_enabled(OMV_CSI_DMA_IRQ, false);
 
-    #if defined(OMV_CSI_RESET_PIN)
-    gpio_init(OMV_CSI_RESET_PIN);
-    gpio_set_dir(OMV_CSI_RESET_PIN, GPIO_OUT);
-    gpio_pull_up(OMV_CSI_RESET_PIN);
-    gpio_put(OMV_CSI_RESET_PIN, 1);
-    #endif
+        // Clear DMA interrupts.
+        dma_irqn_acknowledge_channel(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL);
 
-    // Reset the csi state
-    memset(&csi, 0, sizeof(omv_csi_t));
+        // Remove current handler if any
+        irq_handler_t irq_handler = irq_get_exclusive_handler(OMV_CSI_DMA_IRQ);
+        if (irq_handler != NULL) {
+            irq_remove_handler(OMV_CSI_DMA_IRQ, irq_handler);
+        }
 
-    // Set default framebuffer
-    csi.fb = framebuffer_get(0);
+        // Set new exclusive IRQ handler.
+        irq_set_exclusive_handler(OMV_CSI_DMA_IRQ, dma_irq_handler);
+        // Or set shared IRQ handler, but this needs to be called once.
+        // irq_add_shared_handler(OMV_CSI_DMA_IRQ, dma_irq_handler, PICO_DEFAULT_IRQ_PRIORITY);
 
-    // Set default snapshot function.
-    csi.snapshot = omv_csi_snapshot;
-
-    // Configure the csi external clock (XCLK).
-    if (omv_csi_set_clk_frequency(OMV_CSI_CLK_FREQUENCY) != 0) {
-        // Failed to initialize the csi clock.
-        return OMV_CSI_ERROR_TIM_INIT_FAILED;
+        irq_set_enabled(OMV_CSI_DMA_IRQ, true);
     }
-
-    // Detect and initialize the image sensor.
-    if ((init_ret = omv_csi_probe_init(OMV_CSI_I2C_ID, OMV_CSI_I2C_SPEED)) != 0) {
-        // Sensor probe/init failed.
-        return init_ret;
-    }
-
-    // Set default color palette.
-    csi.color_palette = rainbow_table;
-
-    // Set new DMA IRQ handler.
-    // Disable IRQs.
-    irq_set_enabled(OMV_CSI_DMA_IRQ, false);
-
-    // Clear DMA interrupts.
-    dma_irqn_acknowledge_channel(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL);
-
-    // Remove current handler if any
-    irq_handler_t irq_handler = irq_get_exclusive_handler(OMV_CSI_DMA_IRQ);
-    if (irq_handler != NULL) {
-        irq_remove_handler(OMV_CSI_DMA_IRQ, irq_handler);
-    }
-
-    // Set new exclusive IRQ handler.
-    irq_set_exclusive_handler(OMV_CSI_DMA_IRQ, dma_irq_handler);
-    // Or set shared IRQ handler, but this needs to be called once.
-    // irq_add_shared_handler(OMV_CSI_DMA_IRQ, dma_irq_handler, PICO_DEFAULT_IRQ_PRIORITY);
-
-    irq_set_enabled(OMV_CSI_DMA_IRQ, true);
-
-    // Disable VSYNC IRQ and callback
-    omv_csi_set_vsync_callback(NULL);
-
-    // Disable Frame callback.
-    omv_csi_set_frame_callback(NULL);
-
-    /* All good! */
-    csi.detected = true;
-
     return 0;
 }
 
-int omv_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
+static int rp2_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
     // Disable DMA channel
     dma_channel_abort(OMV_CSI_DMA_CHANNEL);
     dma_irqn_set_channel_enabled(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL, false);
@@ -167,7 +125,11 @@ int omv_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
     return 0;
 }
 
-int omv_csi_set_clk_frequency(uint32_t frequency) {
+static uint32_t rp2_clk_get_frequency(omv_clk_t *clk) {
+    return OMV_CSI_CLK_FREQUENCY;
+}
+
+static int rp2_clk_set_frequency(omv_clk_t *clk, uint32_t frequency) {
     uint32_t p = 4;
 
     // Allocate pin to the PWM
@@ -192,67 +154,41 @@ int omv_csi_set_clk_frequency(uint32_t frequency) {
     return 0;
 }
 
-int omv_csi_set_windowing(int x, int y, int w, int h) {
+int omv_csi_set_windowing(omv_csi_t *csi, int x, int y, int w, int h) {
     return OMV_CSI_ERROR_CTL_UNSUPPORTED;
 }
 
-static void dma_irq_handler() {
-    framebuffer_t *fb = csi.fb;
-
-    if (dma_irqn_get_channel_status(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL)) {
-        // Clear the interrupt request.
-        dma_irqn_acknowledge_channel(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL);
-
-        framebuffer_get_tail(fb, FB_NO_FLAGS);
-        vbuffer_t *buffer = framebuffer_get_tail(fb, FB_PEEK);
-        if (buffer != NULL) {
-            // Set next buffer and retrigger the DMA channel.
-            dma_channel_set_write_addr(OMV_CSI_DMA_CHANNEL, buffer->data, true);
-
-            // Unblock the state machine
-            pio_sm_restart(OMV_CSI_PIO, OMV_CSI_SM);
-            pio_sm_clear_fifos(OMV_CSI_PIO, OMV_CSI_SM);
-            pio_sm_put_blocking(OMV_CSI_PIO, OMV_CSI_SM, (fb->v - 1));
-            pio_sm_put_blocking(OMV_CSI_PIO, OMV_CSI_SM, (fb->u * fb->bpp) - 1);
-        }
-    }
-}
-
-int omv_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
+static int rp2_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
+    vbuffer_t *buffer = NULL;
     framebuffer_t *fb = csi->fb;
-
-    // Compress the framebuffer for the IDE preview.
-    framebuffer_update_jpeg_buffer(fb);
-
-    if (omv_csi_check_framebuffer_size() != 0) {
-        return OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW;
-    }
-
-    // Free the current FB head.
-    framebuffer_free_current_buffer(fb);
-
-    // Set framebuffer pixel format.
-    if (csi->pixformat == PIXFORMAT_INVALID) {
-        return OMV_CSI_ERROR_INVALID_PIXFORMAT;
-    }
-    fb->pixfmt = csi->pixformat;
-
-    vbuffer_t *buffer = framebuffer_get_head(fb, FB_NO_FLAGS);
 
     // If there's no ready buffer in the fifo, and the DMA is Not currently
     // transferring a new buffer, reconfigure and restart the DMA transfer.
-    if (buffer == NULL && !dma_channel_is_busy(OMV_CSI_DMA_CHANNEL)) {
-        framebuffer_setup_buffers(fb);
-
-        buffer = framebuffer_get_tail(fb, FB_PEEK);
-        if (buffer == NULL) {
+    if (!rp2_csi_is_active(csi) && !framebuffer_readable(fb)) {
+        // Acquire a buffer from the free queue.
+        if (!(buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK))) {
             return OMV_CSI_ERROR_FRAMEBUFFER_ERROR;
         }
 
-        // Configure the DMA on the first frame, for later frames only the write is changed.
-        omv_csi_dma_config(fb->u, fb->v, fb->bpp,
-                           (void *) buffer->data,
-                           (csi->rgb_swap && fb->bpp == 2));
+        // Configure the DMA on the first frame.
+        dma_channel_abort(OMV_CSI_DMA_CHANNEL);
+        dma_irqn_set_channel_enabled(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL, false);
+
+        dma_channel_config c = dma_channel_get_default_config(OMV_CSI_DMA_CHANNEL);
+        channel_config_set_read_increment(&c, false);
+        channel_config_set_write_increment(&c, true);
+        channel_config_set_dreq(&c, pio_get_dreq(OMV_CSI_PIO, OMV_CSI_SM, false));
+        channel_config_set_bswap(&c, csi->rgb_swap && (fb->bpp == 2));
+
+        dma_channel_configure(OMV_CSI_DMA_CHANNEL, &c,
+                              (uint32_t *) buffer->data, // Destinatinon pointer.
+                              &OMV_CSI_PIO->rxf[OMV_CSI_SM], // Source pointer.
+                              (fb->u * fb->v * fb->bpp) >> 2, // Number of transfers in words.
+                              true // Start immediately, will block on SM.
+                              );
+
+        // Re-enable DMA IRQs.
+        dma_irqn_set_channel_enabled(OMV_CSI_DMA, OMV_CSI_DMA_CHANNEL, true);
 
         // Re-enable the state machine.
         pio_sm_clear_fifos(OMV_CSI_PIO, OMV_CSI_SM);
@@ -263,20 +199,46 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
         pio_sm_put_blocking(OMV_CSI_PIO, OMV_CSI_SM, (fb->u * fb->bpp) - 1);
     }
 
-    // Wait for the DMA to finish the transfer.
-    for (mp_uint_t ticks = mp_hal_ticks_ms(); buffer == NULL;) {
-        buffer = framebuffer_get_head(fb, FB_NO_FLAGS);
-        if ((mp_hal_ticks_ms() - ticks) > 3000) {
+    // One shot DMA transfers must be invalidated.
+    framebuffer_flags_t fb_flags = FB_FLAG_USED | FB_FLAG_PEEK | FB_FLAG_INVALIDATE;
+
+    // Wait for a frame to be ready.
+    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_event_handle_nowait()) {
+        if ((buffer = framebuffer_acquire(fb, fb_flags))) {
+            break;
+        }
+
+        if (flags & OMV_CSI_FLAG_NON_BLOCK) {
+            return OMV_CSI_ERROR_WOULD_BLOCK;
+        }
+
+        if ((mp_hal_ticks_ms() - start) > OMV_CSI_TIMEOUT_MS) {
             omv_csi_abort(csi, true, false);
             return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
         }
     }
 
+    // Set the framebuffer width/height.
     fb->w = fb->u;
     fb->h = fb->v;
+    // Set the framebuffer pixel format.
+    fb->pixfmt = csi->pixformat;
 
     // Set the user image.
-    framebuffer_init_image(fb, image);
+    framebuffer_to_image(fb, image);
     return 0;
 }
-#endif
+
+int omv_csi_ops_init(omv_csi_t *csi) {
+    // Set CSI ops.
+    csi->abort = rp2_csi_abort;
+    csi->config = rp2_csi_config;
+    csi->snapshot = rp2_csi_snapshot;
+
+    // Set CSI clock ops.
+    csi->clk->freq = OMV_CSI_CLK_FREQUENCY;
+    csi->clk->set_freq = rp2_clk_set_frequency;
+    csi->clk->get_freq = rp2_clk_get_frequency;
+    return 0;
+}
+#endif // MICROPY_PY_CSI

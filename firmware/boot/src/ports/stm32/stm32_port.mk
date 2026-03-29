@@ -92,6 +92,14 @@ CFLAGS += -I$(OMV_BOARD_CONFIG_DIR) \
           -I$(TOP_DIR)/$(HAL_DIR)/include/Legacy/ \
           -I$(TOP_DIR)/$(TINYUSB_DIR)/src
 
+CPP_CFLAGS = -P \
+             -E \
+             -DBOOTLOADER \
+             -DLINKER_SCRIPT \
+             -I$(OMV_BOARD_CONFIG_DIR) \
+             -I$(TOP_DIR)/$(COMMON_DIR) \
+             -I$(TOP_DIR)/$(BOOT_DIR)/include
+
 SRC_C += $(addprefix src/common/, \
 	dfu.c \
 	mpu.c \
@@ -113,6 +121,7 @@ SRC_C += $(addprefix $(TINYUSB_DIR)/, \
 	src/device/usbd.c \
 	src/device/usbd_control.c \
 	src/portable/synopsys/dwc2/dcd_dwc2.c \
+	src/portable/synopsys/dwc2/dwc2_common.c \
 )
 
 SRC_C += $(addprefix $(CMSIS_DIR)/src/,\
@@ -186,8 +195,7 @@ $(BUILD)/%.o : %.s
 	$(AS) $(AFLAGS) $< -o $@
 
 $(FIRMWARE): $(OBJS)
-	$(CPP) -P -E -DBOOTLOADER -DLINKER_SCRIPT -I$(OMV_BOARD_CONFIG_DIR) \
-                    $(PORT_DIR)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
+	$(CPP) $(CPP_CFLAGS) $(PORT_DIR)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
 	$(CC) $(LDFLAGS) $(OBJS) -o $(FW_DIR)/$(FIRMWARE).elf
 	$(OBJCOPY) -Obinary $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).bin
 

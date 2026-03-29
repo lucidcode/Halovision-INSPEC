@@ -1,4 +1,7 @@
 # MIT license; Copyright (c) 2024 OpenMV LLC.
+#
+# Note: this test completely erases the filesystem!
+# It is intended to be run manually.
 
 import alif
 import hashlib
@@ -16,8 +19,8 @@ def flash_make_filesystem():
     except:
         pass
     bdev = alif.Flash()
-    os.VfsFat.mkfs(bdev)
-    vfs.mount(os.VfsFat(bdev), "/flash")
+    vfs.VfsFat.mkfs(bdev)
+    vfs.mount(vfs.VfsFat(bdev), "/flash")
     sys.path.append("/flash")
     sys.path.append("/flash/lib")
     os.chdir("/flash")
@@ -67,18 +70,23 @@ def flash_block_test():
     if buf_big != data_big:
         raise RuntimeError("big block read-back failed")
 
-    xip_address = dev.ioctl(7, 0)
-    if xip_address is not None:
+    try:
         import uctypes
 
-        xip = uctypes.bytearray_at(xip_address, len(buf_big))
+        xip = memoryview(dev)
+    except:
+        xip = None
+    if xip is not None:
         t0 = time.ticks_us()
-        buf_big[:] = xip[:]
+        buf_big[:] = xip[: len(buf_big)]
         dt = time.ticks_diff(time.ticks_us(), t0)
         print(f"XIP read speed:    {len(buf_big) / 1024 / dt * 1_000_000} KiB/sec")
 
         if buf_big != data_big:
             raise RuntimeError("XIP read-back failed")
+        for i in range(len(buf_big)):
+            if xip[i] != data_big[i]:
+                raise RuntimeError("XIP byte-wise read-back failed")
 
 
 def flash_write_verify(path, size=1024 * 1024, block_size=1024):

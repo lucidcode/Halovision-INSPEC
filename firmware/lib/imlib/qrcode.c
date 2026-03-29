@@ -2984,7 +2984,7 @@ void imlib_find_qrcodes(list_t *out, image_t *ptr, rectangle_t *roi)
     img.h = roi->h;
     img.pixfmt = PIXFORMAT_GRAYSCALE;
     img.data = grayscale_image;
-    imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 255, NULL, NULL, 0, NULL, NULL, NULL);
+    imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 255, NULL, NULL, 0, NULL, NULL, NULL, NULL);
 
     quirc_end(controller);
     list_init(out, sizeof(find_qrcodes_list_lnk_data_t));
@@ -3016,7 +3016,7 @@ void imlib_find_qrcodes(list_t *out, image_t *ptr, rectangle_t *roi)
 
             // Payload is already null terminated.
             lnk_data.payload_len = data->payload_len;
-            lnk_data.payload = xalloc(data->payload_len);
+            lnk_data.payload = m_malloc(data->payload_len);
             memcpy(lnk_data.payload, data->payload, data->payload_len);
 
             lnk_data.version = data->version;

@@ -50,16 +50,11 @@
 #define OMV_FIR_MLX90641_ENABLE    (1)
 #define OMV_FIR_AMG8833_ENABLE     (1)
 
-// Debugging configuration.
-#define OMV_TUSBDBG_ENABLE         (1)
-#define OMV_TUSBDBG_BUFFER         (512)
-
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE         16
 
 // USB IRQn.
 #define OMV_USB_IRQN               (USBD_IRQn)
-#define OMV_USB1_IRQ_HANDLER       (USBD_IRQHandler)
 
 // Linker script constants (see the linker script template port/x.ld.S).
 #define OMV_MAIN_MEMORY            SRAM // Data, BSS memory
@@ -70,7 +65,7 @@
 #define OMV_FB_ALLOC_SIZE          (16K)  // minimum fb alloc size
 #define OMV_GC_BLOCK0_MEMORY       SRAM   // Main GC block.
 #define OMV_GC_BLOCK0_SIZE         (64K)
-#define OMV_JPEG_SIZE              (16K) // IDE JPEG buffer (header + data).
+#define OMV_SB_SIZE                (16K) // Streaming buffer size.
 
 #define OMV_TEXT_ORIGIN            0x00026000
 #define OMV_FFS_LENGTH             64K

@@ -24,6 +24,10 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   manufacturer: NXP
+*/
+
 #include "bsp/board_api.h"
 #include "fsl_device_registers.h"
 #include "fsl_gpio.h"
@@ -34,47 +38,36 @@
 #include "clock_config.h"
 
 //--------------------------------------------------------------------+
-// MACRO TYPEDEF CONSTANT ENUM
-//--------------------------------------------------------------------+
-
-#ifdef BOARD_TUD_RHPORT
-  #define PORT_SUPPORT_DEVICE(_n)  (BOARD_TUD_RHPORT == _n)
-#else
-  #define PORT_SUPPORT_DEVICE(_n)  0
-#endif
-
-#ifdef BOARD_TUH_RHPORT
-  #define PORT_SUPPORT_HOST(_n)    (BOARD_TUH_RHPORT == _n)
-#else
-  #define PORT_SUPPORT_HOST(_n)    0
-#endif
-
-//--------------------------------------------------------------------+
 // Forward USB interrupt events to TinyUSB IRQ Handler
 //--------------------------------------------------------------------+
 
 #if CFG_TUSB_MCU == OPT_MCU_MCXN9
 void USB0_FS_IRQHandler(void) {
-  tud_int_handler(0);
+  tusb_int_handler(0, true);
 }
 
 void USB1_HS_IRQHandler(void) {
-  tud_int_handler(1);
+  tusb_int_handler(1, true);
 }
 
 #elif CFG_TUSB_MCU == OPT_MCU_MCXA15
 
 void USB0_IRQHandler(void) {
-  tud_int_handler(0);
+  tusb_int_handler(0, true);
 }
 
 #endif
 
 
 void board_init(void) {
+
   BOARD_InitPins();
+
   BOARD_InitBootClocks();
+
+  #ifdef XTAL0_CLK_HZ
   CLOCK_SetupExtClocking(XTAL0_CLK_HZ);
+  #endif
 
 #if CFG_TUSB_OS == OPT_OS_NONE
   // 1ms tick timer
@@ -96,15 +89,7 @@ void board_init(void) {
   board_led_write(0);
 
 #ifdef NEOPIXEL_PIN
-  // Neopixel
-  static uint32_t pixelData[NEOPIXEL_NUMBER];
-  IOCON_PinMuxSet(IOCON, NEOPIXEL_PORT, NEOPIXEL_PIN, IOCON_PIO_DIG_FUNC4_EN);
-
-  sctpix_init(NEOPIXEL_TYPE);
-  sctpix_addCh(NEOPIXEL_CH, pixelData, NEOPIXEL_NUMBER);
-  sctpix_setPixel(NEOPIXEL_CH, 0, 0x100010);
-  sctpix_setPixel(NEOPIXEL_CH, 1, 0x100010);
-  sctpix_show();
+  // No neo pixel support yet
 #endif
 
   // Button
@@ -115,9 +100,6 @@ void board_init(void) {
 #endif
 
 #ifdef UART_DEV
-  // UART
-//  IOCON_PinMuxSet(IOCON, UART_RX_PINMUX);
-//  IOCON_PinMuxSet(IOCON, UART_TX_PINMUX);
 
   // Enable UART when debug log is on
   board_uart_init_clock();
@@ -127,13 +109,14 @@ void board_init(void) {
   uart_config.baudRate_Bps = CFG_BOARD_UART_BAUDRATE;
   uart_config.enableTx = true;
   uart_config.enableRx = true;
+
   LPUART_Init(UART_DEV, &uart_config, 12000000u);
 #endif
 
   // USB VBUS
   /* PORT0 PIN22 configured as USB0_VBUS */
 
-#if PORT_SUPPORT_DEVICE(0)
+#if defined(BOARD_TUD_RHPORT) && BOARD_TUD_RHPORT == 0
   // Port0 is Full Speed
 
   #if CFG_TUSB_MCU == OPT_MCU_MCXA15
@@ -147,7 +130,7 @@ void board_init(void) {
   CLOCK_EnableUsbfsClock();
 #endif
 
-#if PORT_SUPPORT_DEVICE(1) && (CFG_TUSB_MCU == OPT_MCU_MCXN9)
+#if defined(BOARD_TUD_RHPORT) && BOARD_TUD_RHPORT == 1 && (CFG_TUSB_MCU == OPT_MCU_MCXN9)
   // Port1 is High Speed
 
   // Power
@@ -208,17 +191,6 @@ void board_init(void) {
 
 void board_led_write(bool state) {
   GPIO_PinWrite(LED_GPIO, LED_PIN, state ? LED_STATE_ON : (1 - LED_STATE_ON));
-
-#ifdef NEOPIXEL_PIN
-  if (state) {
-    sctpix_setPixel(NEOPIXEL_CH, 0, 0x100000);
-    sctpix_setPixel(NEOPIXEL_CH, 1, 0x101010);
-  } else {
-    sctpix_setPixel(NEOPIXEL_CH, 0, 0x001000);
-    sctpix_setPixel(NEOPIXEL_CH, 1, 0x000010);
-  }
-  sctpix_show();
-#endif
 }
 
 uint32_t board_button_read(void) {

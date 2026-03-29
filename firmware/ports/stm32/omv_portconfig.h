@@ -82,8 +82,13 @@ typedef const stm32_gpio_t *omv_gpio_t;
 // IRQ handlers, if this I2C is enabled in Micropython, or defined and handled in stm32_hal_msp.c.
 typedef I2C_HandleTypeDef *omv_i2c_dev_t;
 
+#if defined(STM32N6)
+#define OMV_I2C_MAX_8BIT_XFER   (65536U - 16U)
+#define OMV_I2C_MAX_16BIT_XFER  (32768U - 8U)
+#else
 #define OMV_I2C_MAX_8BIT_XFER   (65536U - 16U)
 #define OMV_I2C_MAX_16BIT_XFER  (65536U - 8U)
+#endif
 
 #define OMV_SPI_MODE_SLAVE     (SPI_MODE_SLAVE)
 #define OMV_SPI_MODE_MASTER    (SPI_MODE_MASTER)
@@ -104,10 +109,26 @@ typedef I2C_HandleTypeDef *omv_i2c_dev_t;
 #define OMV_SPI_NSS_LOW        (0)
 #define OMV_SPI_NSS_HIGH       (1)
 
+#if defined(STM32N6)
+#define OMV_SPI_MAX_8BIT_XFER  (65536U - 16U)
+#define OMV_SPI_MAX_16BIT_XFER (32768U - 8U)
+#else
 #define OMV_SPI_MAX_8BIT_XFER  (65536U - 16U)
 #define OMV_SPI_MAX_16BIT_XFER (65536U - 8U)
+#endif
 #define OMV_SPI_MAX_TIMEOUT    (HAL_MAX_DELAY)
 
+#if defined(STM32N6)
+#define OMV_SPI_PORT_BITS               \
+    struct {                            \
+        IRQn_Type irqn;                 \
+        SPI_HandleTypeDef *descr;       \
+        DMA_QListTypeDef dma_queue_tx;  \
+        DMA_QListTypeDef dma_queue_rx;  \
+        DMA_HandleTypeDef dma_descr_tx; \
+        DMA_HandleTypeDef dma_descr_rx; \
+    };
+#else
 #define OMV_SPI_PORT_BITS               \
     struct {                            \
         IRQn_Type irqn;                 \
@@ -115,9 +136,9 @@ typedef I2C_HandleTypeDef *omv_i2c_dev_t;
         DMA_HandleTypeDef dma_descr_tx; \
         DMA_HandleTypeDef dma_descr_rx; \
     };
+#endif
 
 // omv_csi_t port-specific fields.
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7)
 #if defined(STM32H7)
 #define OMV_CSI_PORT_BITS_MDMA \
     MDMA_HandleTypeDef mdma0;  \
@@ -125,12 +146,32 @@ typedef I2C_HandleTypeDef *omv_i2c_dev_t;
 #else
 #define OMV_CSI_PORT_BITS_MDMA
 #endif
-#define OMV_CSI_PORT_BITS        \
-    struct {                     \
-        TIM_HandleTypeDef tim;   \
-        DMA_HandleTypeDef dma;   \
-        DCMI_HandleTypeDef dcmi; \
-        OMV_CSI_PORT_BITS_MDMA   \
+
+
+#if defined(STM32N6)
+#define OMV_CSI_PORT_BITS_DCMIPP     \
+    struct {                         \
+        DCMIPP_HandleTypeDef dcmipp; \
+        DMA_QListTypeDef dma_queue;  \
     };
+#else
+#define OMV_CSI_PORT_BITS_DCMIPP
 #endif
+
+#define OMV_CSI_PORT_BITS            \
+    struct {                         \
+        uint32_t dma_size;           \
+        bool one_shot;               \
+        DMA_HandleTypeDef dma;       \
+        IRQn_Type dma_irqn;          \
+        DCMI_HandleTypeDef dcmi;     \
+        OMV_CSI_PORT_BITS_MDMA       \
+            OMV_CSI_PORT_BITS_DCMIPP \
+    };
+
+#define OMV_CSI_CLK_PORT_BITS  \
+    struct {                   \
+        TIM_HandleTypeDef tim; \
+    };
+
 #endif // __OMV_PORTCONFIG_H__

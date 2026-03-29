@@ -79,10 +79,16 @@ IMLIB_SRC_C += \
     zbar.c \
 
 CFLAGS += -I$(TOP_DIR)/lib/imlib
-$(BUILD)/lib/imlib/fmath.o: override CFLAGS += -fno-strict-aliasing
 
 ifeq ($(CLANG_ENABLE),1)
 OMV_CLANG_OBJ = $(BUILD)/lib/imlib/bayer.o
+endif
+
+# Enable instrumentation.
+ifeq ($(PROFILE_ENABLE), 1)
+$(BUILD)/lib/imlib/%.o: override CFLAGS += -finstrument-functions
+# Clang does not support -finstrument-functions-exclude-file-list.
+$(OMV_CLANG_OBJ): override CFLAGS := $(filter-out -finstrument-functions-exclude-file-list=%,$(CFLAGS))
 endif
 
 OMV_FIRM_OBJ += $(addprefix $(BUILD)/lib/imlib/, $(IMLIB_SRC_C:.c=.o))

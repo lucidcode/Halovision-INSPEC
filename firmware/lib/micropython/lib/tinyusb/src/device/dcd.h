@@ -93,22 +93,22 @@ typedef struct TU_ATTR_ALIGNED(4) {
 
 // clean/flush data cache: write cache -> memory.
 // Required before an DMA TX transfer to make sure data is in memory
-void dcd_dcache_clean(void const* addr, uint32_t data_size) TU_ATTR_WEAK;
+bool dcd_dcache_clean(const void* addr, uint32_t data_size);
 
 // invalidate data cache: mark cache as invalid, next read will read from memory
 // Required BOTH before and after an DMA RX transfer
-void dcd_dcache_invalidate(void const* addr, uint32_t data_size) TU_ATTR_WEAK;
+bool dcd_dcache_invalidate(const void* addr, uint32_t data_size);
 
 // clean and invalidate data cache
 // Required before an DMA transfer where memory is both read/write by DMA
-void dcd_dcache_clean_invalidate(void const* addr, uint32_t data_size) TU_ATTR_WEAK;
+bool dcd_dcache_clean_invalidate(const void* addr, uint32_t data_size);
 
 //--------------------------------------------------------------------+
 // Controller API
 //--------------------------------------------------------------------+
 
 // Initialize controller to device mode
-void dcd_init(uint8_t rhport);
+bool dcd_init(uint8_t rhport, const tusb_rhport_init_t* rh_init);
 
 // Deinitialize controller, unset device mode.
 bool dcd_deinit(uint8_t rhport);
@@ -162,7 +162,7 @@ bool dcd_edpt_xfer            (uint8_t rhport, uint8_t ep_addr, uint8_t * buffer
 
 // Submit an transfer using fifo, When complete dcd_event_xfer_complete() is invoked to notify the stack
 // This API is optional, may be useful for register-based for transferring data.
-bool dcd_edpt_xfer_fifo       (uint8_t rhport, uint8_t ep_addr, tu_fifo_t * ff, uint16_t total_bytes) TU_ATTR_WEAK;
+bool dcd_edpt_xfer_fifo       (uint8_t rhport, uint8_t ep_addr, tu_fifo_t * ff, uint16_t total_bytes);
 
 // Stall endpoint, any queuing transfer should be removed from endpoint
 void dcd_edpt_stall           (uint8_t rhport, uint8_t ep_addr);
@@ -194,38 +194,45 @@ extern void dcd_event_handler(dcd_event_t const * event, bool in_isr);
 
 // helper to send bus signal event
 TU_ATTR_ALWAYS_INLINE static inline void dcd_event_bus_signal (uint8_t rhport, dcd_eventid_t eid, bool in_isr) {
-  dcd_event_t event = { .rhport = rhport, .event_id = eid };
+  dcd_event_t event;
+  event.rhport = rhport;
+  event.event_id = eid;
   dcd_event_handler(&event, in_isr);
 }
 
 // helper to send bus reset event
 TU_ATTR_ALWAYS_INLINE static inline  void dcd_event_bus_reset (uint8_t rhport, tusb_speed_t speed, bool in_isr) {
-  dcd_event_t event = { .rhport = rhport, .event_id = DCD_EVENT_BUS_RESET };
+  dcd_event_t event;
+  event.rhport = rhport;
+  event.event_id = DCD_EVENT_BUS_RESET;
   event.bus_reset.speed = speed;
   dcd_event_handler(&event, in_isr);
 }
 
 // helper to send setup received
 TU_ATTR_ALWAYS_INLINE static inline void dcd_event_setup_received(uint8_t rhport, uint8_t const * setup, bool in_isr) {
-  dcd_event_t event = { .rhport = rhport, .event_id = DCD_EVENT_SETUP_RECEIVED };
+  dcd_event_t event;
+  event.rhport = rhport;
+  event.event_id = DCD_EVENT_SETUP_RECEIVED;
   memcpy(&event.setup_received, setup, sizeof(tusb_control_request_t));
-
   dcd_event_handler(&event, in_isr);
 }
 
 // helper to send transfer complete event
 TU_ATTR_ALWAYS_INLINE static inline void dcd_event_xfer_complete (uint8_t rhport, uint8_t ep_addr, uint32_t xferred_bytes, uint8_t result, bool in_isr) {
-  dcd_event_t event = { .rhport = rhport, .event_id = DCD_EVENT_XFER_COMPLETE };
-
+  dcd_event_t event;
+  event.rhport = rhport;
+  event.event_id = DCD_EVENT_XFER_COMPLETE;
   event.xfer_complete.ep_addr = ep_addr;
   event.xfer_complete.len     = xferred_bytes;
   event.xfer_complete.result  = result;
-
   dcd_event_handler(&event, in_isr);
 }
 
 TU_ATTR_ALWAYS_INLINE static inline void dcd_event_sof(uint8_t rhport, uint32_t frame_count, bool in_isr) {
-  dcd_event_t event = { .rhport = rhport, .event_id = DCD_EVENT_SOF };
+  dcd_event_t event;
+  event.rhport = rhport;
+  event.event_id = DCD_EVENT_SOF;
   event.sof.frame_count = frame_count;
   dcd_event_handler(&event, in_isr);
 }

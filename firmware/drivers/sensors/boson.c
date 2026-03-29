@@ -43,6 +43,7 @@
 
 #include "Client_API.h"
 #include "UART_Connector.h"
+#include "serialPortAdapter.h"
 
 #define FLIR_BOSON_BOOT_TRY_COUNT (10)
 #define FLIR_BOSON_BOOT_TIME_MS (1000)
@@ -50,6 +51,7 @@
 static int boson_framesize = 0;
 
 static int reset(omv_csi_t *csi) {
+    FSLP_set_csi(csi);
     csi->color_palette = NULL;
 
     int i = 0;
@@ -123,6 +125,8 @@ static int set_framesize(omv_csi_t *csi, omv_csi_framesize_t framesize) {
 }
 
 static int set_colorbar(omv_csi_t *csi, int enable) {
+    FSLP_set_csi(csi);
+
     if (gaoSetTestRampState(enable ? FLR_ENABLE : FLR_DISABLE) != FLR_OK) {
         return -1;
     }
@@ -134,14 +138,8 @@ static int set_colorbar(omv_csi_t *csi, int enable) {
     return 0;
 }
 
-static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
-    int ret = omv_csi_snapshot(csi, image, flags);
-
-    if (ret < 0) {
-        return ret;
-    }
-
-    int num_pixels = resolution[boson_framesize][0] * resolution[boson_framesize][1];
+static int post_process(omv_csi_t *csi, image_t *image, uint32_t flags) {
+    int num_pixels = csi->resolution[boson_framesize][0] * csi->resolution[boson_framesize][1];
 
     if (csi->color_palette && (framebuffer_get_buffer_size(csi->fb) >= (num_pixels * sizeof(uint16_t)))) {
         for (int32_t i = num_pixels - 1; i >= 0; i--) {
@@ -152,7 +150,7 @@ static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
         csi->fb->pixfmt = PIXFORMAT_RGB565;
     }
 
-    return ret;
+    return 0;
 }
 
 int boson_init(omv_csi_t *csi) {
@@ -161,7 +159,7 @@ int boson_init(omv_csi_t *csi) {
     csi->set_pixformat = set_pixformat;
     csi->set_framesize = set_framesize;
     csi->set_colorbar = set_colorbar;
-    csi->snapshot = snapshot;
+    csi->post_process = post_process;
 
     // Set csi flags
     csi->vsync_pol = 0;
@@ -170,14 +168,14 @@ int boson_init(omv_csi_t *csi) {
     csi->mono_bpp = sizeof(uint8_t);
 
     // Override standard resolutions
-    resolution[OMV_CSI_FRAMESIZE_VGA][0] = 640;
-    resolution[OMV_CSI_FRAMESIZE_VGA][1] = 512;
+    csi->resolution[OMV_CSI_FRAMESIZE_VGA][0] = 640;
+    csi->resolution[OMV_CSI_FRAMESIZE_VGA][1] = 512;
 
-    resolution[OMV_CSI_FRAMESIZE_QVGA][0] = 320;
-    resolution[OMV_CSI_FRAMESIZE_QVGA][1] = 256;
+    csi->resolution[OMV_CSI_FRAMESIZE_QVGA][0] = 320;
+    csi->resolution[OMV_CSI_FRAMESIZE_QVGA][1] = 256;
 
     if (reset(csi) != 0) {
-        return -1;
+        return OMV_CSI_ERROR_CSI_INIT_FAILED;
     }
 
     csi->chip_id = (boson_framesize == OMV_CSI_FRAMESIZE_VGA) ? BOSON_640_ID : BOSON_320_ID;

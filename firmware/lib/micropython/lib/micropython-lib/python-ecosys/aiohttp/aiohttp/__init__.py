@@ -18,8 +18,14 @@ class ClientResponse:
     def __init__(self, reader):
         self.content = reader
 
+    def _get_header(self, keyname, default):
+        for k in self.headers:
+            if k.lower() == keyname:
+                return self.headers[k]
+        return default
+
     def _decode(self, data):
-        c_encoding = self.headers.get("Content-Encoding")
+        c_encoding = self._get_header("content-encoding", None)
         if c_encoding in ("gzip", "deflate", "gzip,deflate"):
             try:
                 import deflate
@@ -36,13 +42,15 @@ class ClientResponse:
         return data
 
     async def read(self, sz=-1):
-        return self._decode(await self.content.read(sz))
+        return self._decode(
+            await (self.content.read(sz) if sz == -1 else self.content.readexactly(sz))
+        )
 
     async def text(self, encoding="utf-8"):
-        return (await self.read(int(self.headers.get("Content-Length", -1)))).decode(encoding)
+        return (await self.read(int(self._get_header("content-length", -1)))).decode(encoding)
 
     async def json(self):
-        return _json.loads(await self.read(int(self.headers.get("Content-Length", -1))))
+        return _json.loads(await self.read(int(self._get_header("content-length", -1))))
 
     def __repr__(self):
         return "<ClientResponse %d %s>" % (self.status, self.headers)
@@ -60,13 +68,13 @@ class ChunkedClientResponse(ClientResponse):
             self.chunk_size = int(l, 16)
             if self.chunk_size == 0:
                 # End of message
-                sep = await self.content.read(2)
+                sep = await self.content.readexactly(2)
                 assert sep == b"\r\n"
                 return b""
-        data = await self.content.read(min(sz, self.chunk_size))
+        data = await self.content.readexactly(min(sz, self.chunk_size))
         self.chunk_size -= len(data)
         if self.chunk_size == 0:
-            sep = await self.content.read(2)
+            sep = await self.content.readexactly(2)
             assert sep == b"\r\n"
         return self._decode(data)
 
@@ -263,7 +271,7 @@ class ClientSession:
         return _WSRequestContextManager(self, self._ws_connect(url, ssl=ssl))
 
     async def _ws_connect(self, url, ssl=None):
-        ws_client = WebSocketClient(None)
+        ws_client = WebSocketClient(self._base_headers.copy())
         await ws_client.connect(url, ssl=ssl, handshake_request=self.request_raw)
         self._reader = ws_client.reader
         return ClientWebSocketResponse(ws_client)

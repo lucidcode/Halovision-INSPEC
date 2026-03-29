@@ -58,7 +58,7 @@
 #define HAL_LPTIM_MODULE_ENABLED
 /*#define HAL_LTDC_MODULE_ENABLED   */
 /*#define HAL_MCE_MODULE_ENABLED   */
-/*#define HAL_MDF_MODULE_ENABLED   */
+#define HAL_MDF_MODULE_ENABLED
 /*#define HAL_MMC_MODULE_ENABLED   */
 /*#define HAL_NAND_MODULE_ENABLED   */
 /*#define HAL_NOR_MODULE_ENABLED   */
@@ -70,7 +70,7 @@
 #define HAL_RNG_MODULE_ENABLED
 #define HAL_RTC_MODULE_ENABLED
 /*#define HAL_SAI_MODULE_ENABLED   */
-/*#define HAL_SD_MODULE_ENABLED   */
+#define HAL_SD_MODULE_ENABLED
 /*#define HAL_SDRAM_MODULE_ENABLED   */
 /*#define HAL_SMARTCARD_MODULE_ENABLED   */
 /*#define HAL_SMBUS_MODULE_ENABLED   */
@@ -151,7 +151,7 @@
   * @brief This is the HAL system configuration section
   */
 #define  VDD_VALUE                  3300UL /*!< Value of VDD in mv */
-#define  TICK_INT_PRIORITY          15U  /*!< tick interrupt priority (lowest by default) */
+#define  TICK_INT_PRIORITY          0U  /*!< tick interrupt priority (lowest by default) */
 #define  USE_RTOS                   0U
 
 /* ########################## Assert Selection ############################## */
@@ -416,6 +416,7 @@
 
 #ifdef HAL_RTC_MODULE_ENABLED
 #include "stm32n6xx_hal_rtc.h"
+#include "stm32n6xx_ll_rtc.h"
 #endif /* HAL_RTC_MODULE_ENABLED */
 
 #ifdef HAL_SAI_MODULE_ENABLED

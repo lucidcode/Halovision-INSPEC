@@ -81,6 +81,19 @@ __Vectors:
     .long   SPIFI0_IRQHandler                               /* SPI flash interface */
     .size    __Vectors, . - __Vectors
 
+/*  Variable to store CRP value in. No code read protection enabled by default
+ *  Code Read Protection level (CRP)
+ *    CRP_Level:
+ *      <0xFFFFFFFF=> Disabled
+ *      <0x4E697370=> NO_ISP
+ *      <0x12345678=> CRP1
+ *      <0x87654321=> CRP2
+ *      <0x43218765=> CRP3
+ */
+    #ifndef NO_CRP
+      .section .crp, "a"
+      .long 0xFFFFFFFF
+    #endif
 
     
     .text

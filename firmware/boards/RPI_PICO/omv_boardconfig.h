@@ -36,7 +36,6 @@ extern unsigned char *OMV_BOARD_UID_ADDR;   // Unique ID address.
 #define OMV_FIR_MLX90640_ENABLE    (0)
 #define OMV_FIR_MLX90641_ENABLE    (0)
 #define OMV_FIR_AMG8833_ENABLE     (1)
-#define OMV_FIR_LEPTON_ENABLE      (0)
 
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE         16
@@ -54,7 +53,7 @@ extern unsigned char *OMV_BOARD_UID_ADDR;   // Unique ID address.
 #define OMV_FB_MEMORY              RAM    // Framebuffer, fb_alloc
 #define OMV_FB_SIZE                (151K) // FB memory: header + QVGA/GS image
 #define OMV_FB_ALLOC_SIZE          (12K)  // minimum fb alloc size
-#define OMV_JPEG_SIZE              (20K)  // IDE JPEG buffer (header + data).
+#define OMV_SB_SIZE                (20K)  // IDE JPEG buffer (header + data).
 
 // GP LED
 #define OMV_LED_PIN                (25)

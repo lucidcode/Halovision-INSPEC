@@ -48,3 +48,9 @@ endif
 
 # Include the port Makefile.
 include $(PORT_DIR)/$(PORT_LOWER)_port.mk
+
+# Check GCC toolchain version.
+ifeq ($(CPU),cortex-m55)
+include $(TOP_DIR)/common/check_toolchain.mk
+endif
+

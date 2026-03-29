@@ -1,4 +1,5 @@
 import binascii
+import errno
 import hashlib
 import os
 import sys
@@ -9,7 +10,7 @@ import serial.tools.list_ports
 
 from .transport import TransportError, TransportExecError, stdout_write_bytes
 from .transport_serial import SerialTransport
-from .romfs import make_romfs
+from .romfs import make_romfs, VfsRomWriter
 
 
 class CommandError(Exception):
@@ -300,6 +301,82 @@ def do_filesystem_recursive_cp(state, src, dest, multiple, check_hash):
         do_filesystem_cp(state, src_path_joined, dest_path_joined, False, check_hash)
 
 
+def do_filesystem_recursive_rm(state, path, args):
+    if state.transport.fs_isdir(path):
+        if state.transport.mounted:
+            r_cwd = state.transport.eval("os.getcwd()")
+            abs_path = os.path.normpath(
+                os.path.join(r_cwd, path) if not os.path.isabs(path) else path
+            )
+            if isinstance(state.transport, SerialTransport) and abs_path.startswith(
+                f"{SerialTransport.fs_hook_mount}/"
+            ):
+                raise CommandError(
+                    f"rm -r not permitted on {SerialTransport.fs_hook_mount} directory"
+                )
+        for entry in state.transport.fs_listdir(path):
+            do_filesystem_recursive_rm(state, _remote_path_join(path, entry.name), args)
+        if path:
+            try:
+                state.transport.fs_rmdir(path)
+                if args.verbose:
+                    print(f"removed directory: '{path}'")
+            except OSError as e:
+                if e.errno != errno.EINVAL:  # not vfs mountpoint
+                    raise CommandError(
+                        f"rm -r: cannot remove :{path} {os.strerror(e.errno) if e.errno else ''}"
+                    ) from e
+                if args.verbose:
+                    print(f"skipped: '{path}' (vfs mountpoint)")
+    else:
+        state.transport.fs_rmfile(path)
+        if args.verbose:
+            print(f"removed: '{path}'")
+
+
+def human_size(size, decimals=1):
+    for unit in ["B", "K", "M", "G", "T"]:
+        if size < 1024.0 or unit == "T":
+            break
+        size /= 1024.0
+    return f"{size:.{decimals}f}{unit}" if unit != "B" else f"{int(size)}"
+
+
+def do_filesystem_tree(state, path, args):
+    """Print a tree of the device's filesystem starting at path."""
+    connectors = ("├── ", "└── ")
+
+    def _tree_recursive(path, prefix=""):
+        entries = state.transport.fs_listdir(path)
+        entries.sort(key=lambda e: e.name)
+        for i, entry in enumerate(entries):
+            connector = connectors[1] if i == len(entries) - 1 else connectors[0]
+            is_dir = entry.st_mode & 0x4000  # Directory
+            size_str = ""
+            # most MicroPython filesystems don't support st_size on directories, reduce clutter
+            if entry.st_size > 0 or not is_dir:
+                if args.size:
+                    size_str = f"[{entry.st_size:>9}]  "
+                elif args.human:
+                    size_str = f"[{human_size(entry.st_size):>6}]  "
+            print(f"{prefix}{connector}{size_str}{entry.name}")
+            if is_dir:
+                _tree_recursive(
+                    _remote_path_join(path, entry.name),
+                    prefix + ("    " if i == len(entries) - 1 else "│   "),
+                )
+
+    if not path or path == ".":
+        path = state.transport.exec("import os;print(os.getcwd())").strip().decode("utf-8")
+    if not (path == "." or state.transport.fs_isdir(path)):
+        raise CommandError(f"tree: '{path}' is not a directory")
+    if args.verbose:
+        print(f":{path} on {state.transport.device_name}")
+    else:
+        print(f":{path}")
+    _tree_recursive(path)
+
+
 def do_filesystem(state, args):
     state.ensure_raw_repl()
     state.did_action()
@@ -327,8 +404,8 @@ def do_filesystem(state, args):
         # leading ':' if the user included them.
         paths = [path[1:] if path.startswith(":") else path for path in paths]
 
-    # ls implicitly lists the cwd.
-    if command == "ls" and not paths:
+    # ls and tree implicitly lists the cwd.
+    if command in ("ls", "tree") and not paths:
         paths = [""]
 
     try:
@@ -352,7 +429,10 @@ def do_filesystem(state, args):
             elif command == "mkdir":
                 state.transport.fs_mkdir(path)
             elif command == "rm":
-                state.transport.fs_rmfile(path)
+                if args.recursive:
+                    do_filesystem_recursive_rm(state, path, args)
+                else:
+                    state.transport.fs_rmfile(path)
             elif command == "rmdir":
                 state.transport.fs_rmdir(path)
             elif command == "touch":
@@ -367,12 +447,10 @@ def do_filesystem(state, args):
                     )
                 else:
                     do_filesystem_cp(state, path, cp_dest, len(paths) > 1, not args.force)
-    except FileNotFoundError as er:
-        raise CommandError("{}: {}: No such file or directory.".format(command, er.args[0]))
-    except IsADirectoryError as er:
-        raise CommandError("{}: {}: Is a directory.".format(command, er.args[0]))
-    except FileExistsError as er:
-        raise CommandError("{}: {}: File exists.".format(command, er.args[0]))
+            elif command == "tree":
+                do_filesystem_tree(state, path, args)
+    except OSError as er:
+        raise CommandError("{}: {}: {}.".format(command, er.strerror, os.strerror(er.errno)))
     except TransportError as er:
         raise CommandError("Error with transport:\n{}".format(er.args[0]))
 
@@ -555,7 +633,7 @@ def _do_romfs_deploy(state, args):
     romfs_filename = args.path
 
     # Read in or create the ROMFS filesystem image.
-    if os.path.isfile(romfs_filename):
+    if os.path.isfile(romfs_filename) and romfs_filename.endswith((".img", ".romfs")):
         with open(romfs_filename, "rb") as f:
             romfs = f.read()
     else:
@@ -582,8 +660,7 @@ def _do_romfs_deploy(state, args):
         print(f"ROMFS{rom_id} partition has size {rom_size} bytes")
 
     # Check if ROMFS image is valid
-    ROMFS_HEADER = b"\xd2\xcd\x31"
-    if len(romfs) < 4 or not romfs.startswith(ROMFS_HEADER):
+    if not romfs.startswith(VfsRomWriter.ROMFS_HEADER):
         print("Invalid ROMFS image")
         sys.exit(1)
 
@@ -624,7 +701,9 @@ def _do_romfs_deploy(state, args):
         romfs_chunk += bytes(chunk_size - len(romfs_chunk))
         if has_deflate_io:
             # Needs: binascii.a2b_base64, io.BytesIO, deflate.DeflateIO.
-            romfs_chunk_compressed = zlib.compress(romfs_chunk, wbits=-9)
+            compressor = zlib.compressobj(wbits=-9)
+            romfs_chunk_compressed = compressor.compress(romfs_chunk)
+            romfs_chunk_compressed += compressor.flush()
             buf = binascii.b2a_base64(romfs_chunk_compressed).strip()
             transport.exec(f"buf=DeflateIO(BytesIO(a2b_base64({buf})),RAW,9).read()")
         elif has_a2b_base64:

@@ -35,7 +35,11 @@
 #include "omv_gpu.h"
 #include "omv_boardconfig.h"
 
-void imlib_init_all() {
+#ifdef IMLIB_ENABLE_GAMMA_LUT
+uint8_t gamma_table[256];
+#endif
+
+void imlib_init() {
     #if (OMV_GPU_ENABLE == 1)
     omv_gpu_init();
     #endif
@@ -44,7 +48,7 @@ void imlib_init_all() {
     #endif
 }
 
-void imlib_deinit_all() {
+void imlib_deinit() {
     #if (OMV_GPU_ENABLE == 1)
     omv_gpu_deinit();
     #endif
@@ -52,6 +56,16 @@ void imlib_deinit_all() {
     imlib_hardware_jpeg_deinit();
     #endif
 }
+
+#ifdef IMLIB_ENABLE_GAMMA_LUT
+// brightness: -1.0 to 1.0, contrast: 0.0 to 2.0, gamma: 0.0 to inf.
+void imlib_update_gamma_table(float brightness, float contrast, float gamma) {
+    for (int i = 0; i < 256; i++) {
+        int v = fast_roundf((powf(i / 255.0f, 1.0f / gamma) * contrast + brightness) * 255.0f);
+        gamma_table[i] = IM_CLAMP(v, 0, 255);
+    }
+}
+#endif
 
 int imlib_ksize_to_n(int ksize) {
     return ((ksize * 2) + 1) * ((ksize * 2) + 1);
@@ -64,20 +78,6 @@ int imlib_ksize_to_n(int ksize) {
 void point_init(point_t *ptr, int x, int y) {
     ptr->x = x;
     ptr->y = y;
-}
-
-void point_copy(point_t *dst, point_t *src) {
-    memcpy(dst, src, sizeof(point_t));
-}
-
-bool point_equal_fast(point_t *ptr0, point_t *ptr1) {
-    return !memcmp(ptr0, ptr1, sizeof(point_t));
-}
-
-int point_quadrance(point_t *ptr0, point_t *ptr1) {
-    int delta_x = ptr0->x - ptr1->x;
-    int delta_y = ptr0->y - ptr1->y;
-    return (delta_x * delta_x) + (delta_y * delta_y);
 }
 
 void point_rotate(int x, int y, float r, int center_x, int center_y, int16_t *new_x, int16_t *new_y) {
@@ -216,14 +216,6 @@ void rectangle_init(rectangle_t *ptr, int x, int y, int w, int h) {
     ptr->h = h;
 }
 
-void rectangle_copy(rectangle_t *dst, rectangle_t *src) {
-    memcpy(dst, src, sizeof(rectangle_t));
-}
-
-bool rectangle_equal_fast(rectangle_t *ptr0, rectangle_t *ptr1) {
-    return !memcmp(ptr0, ptr1, sizeof(rectangle_t));
-}
-
 bool rectangle_overlap(rectangle_t *ptr0, rectangle_t *ptr1) {
     int x0 = ptr0->x;
     int y0 = ptr0->y;
@@ -262,30 +254,18 @@ void rectangle_united(rectangle_t *dst, rectangle_t *src) {
 // Image Stuff //
 /////////////////
 
-void image_xalloc(image_t *img, size_t size) {
-    // Round the size up to ensure that the allocation is a multiple of the alignment in bytes.
-    // This ensures after address alignment that the data can be modified without affecting other cache lines.
-    size = ((size + OMV_ALLOC_ALIGNMENT - 1) / OMV_ALLOC_ALIGNMENT) * OMV_ALLOC_ALIGNMENT;
-    img->_raw = xalloc(size + OMV_ALLOC_ALIGNMENT - 1);
-    // Offset the data pointer to ensure it is aligned.
-    img->data = (void *) (((uintptr_t) img->_raw + OMV_ALLOC_ALIGNMENT - 1) & ~(OMV_ALLOC_ALIGNMENT - 1));
+void image_alloc(image_t *img, size_t size) {
+    // Align the memory size to cache line.
+    size = OMV_ALIGN_TO(size, OMV_CACHE_LINE_SIZE);
+    // Allocate extra to align the pointer.
+    img->_raw = m_malloc(size + OMV_CACHE_LINE_SIZE - 1);
+    // Align the memory address to cache line.
+    img->data = (void *) OMV_ALIGN_TO(img->_raw, OMV_CACHE_LINE_SIZE);
 }
 
-void image_xalloc0(image_t *img, size_t size) {
-    image_xalloc(img, size);
+void image_alloc0(image_t *img, size_t size) {
+    image_alloc(img, size);
     memset(img->data, 0, size);
-}
-
-void image_init(image_t *ptr, int w, int h, pixformat_t pixfmt, uint32_t size, void *pixels) {
-    ptr->w = w;
-    ptr->h = h;
-    ptr->pixfmt = pixfmt;
-    ptr->size = size;
-    ptr->pixels = pixels;
-}
-
-void image_copy(image_t *dst, image_t *src) {
-    memcpy(dst, src, sizeof(image_t));
 }
 
 size_t image_line_size(image_t *ptr) {
@@ -456,6 +436,76 @@ void imlib_fill_image_from_float(image_t *img, int w, int h, float *data, float 
     }
 }
 
+// This function fills a grayscale image from an array of lepton 8/14/16-bit values that are scaled
+// between min and max. The image w*h must equal the floating point array w*h.
+void imlib_fill_image_from_lepton(image_t *img, int w, int h, uint16_t *data, float min, float max,
+                                  bool auto_range, bool radiometric, int kelvin_offset,
+                                  bool mirror, bool flip, bool transpose) {
+    int new_min;
+    int new_max;
+
+    if (auto_range) {
+        new_min = INT_MAX;
+        new_max = INT_MIN;
+
+        for (int i = 0; i < w * h; i++) {
+            int temp = data[i];
+
+            if (!radiometric) {
+                temp = (temp - 8192) + kelvin_offset;
+            }
+
+            if (temp < new_min) {
+                new_min = temp;
+            }
+
+            if (temp > new_max) {
+                new_max = temp;
+            }
+        }
+    } else {
+        float tmp = min;
+        min = (min < max) ? min : max;
+        max = (max > tmp) ? max : tmp;
+        new_min = fast_roundf((min + 273.15f) * 100.f); // to kelvin
+        new_max = fast_roundf((max + 273.15f) * 100.f); // to kelvin
+    }
+
+    float diff = 255.f / (new_max - new_min);
+
+    for (int y = 0; y < h; y++) {
+        int y_dst = flip ? (h - 1 - y) : y;
+        const uint16_t *raw_row = data + (y * w);
+        uint8_t *row_pointer = ((uint8_t *) img->data) + (y_dst * w);
+        uint8_t *t_row_pointer = ((uint8_t *) img->data) + y_dst;
+
+        for (int x = 0; x < w; x++) {
+            int x_dst = mirror ? (w - 1 - x) : x;
+            int raw = raw_row[x];
+
+            if (!radiometric) {
+                raw = (raw - 8192) + kelvin_offset;
+            }
+
+            if (raw < new_min) {
+                raw = new_min;
+            }
+
+            if (raw > new_max) {
+                raw = new_max;
+            }
+
+            int pixel = __USAT(fast_roundf((raw - new_min) * diff), 8);
+
+            if (!transpose) {
+                row_pointer[x_dst] = pixel;
+            } else {
+                t_row_pointer[x_dst * h] = pixel;
+            }
+        }
+    }
+}
+
 int8_t imlib_rgb565_to_l(uint16_t pixel) {
     float r_lin = xyz_table[COLOR_RGB565_TO_R8(pixel)];
     float g_lin = xyz_table[COLOR_RGB565_TO_G8(pixel)];
@@ -598,7 +648,7 @@ static save_image_format_t imblib_parse_extension(image_t *img, const char *path
     return FORMAT_DONT_CARE;
 }
 
-bool imlib_read_geometry(FIL *fp, image_t *img, const char *path, img_read_settings_t *rs) {
+bool imlib_read_geometry(file_t *fp, image_t *img, const char *path, img_read_settings_t *rs) {
     char magic[4];
     file_open(fp, path, false, FA_READ | FA_OPEN_EXISTING);
     file_read(fp, &magic, 4);
@@ -639,7 +689,7 @@ bool imlib_read_geometry(FIL *fp, image_t *img, const char *path, img_read_setti
 
 #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
 void imlib_load_image(image_t *img, const char *path) {
-    FIL fp;
+    file_t fp;
     char magic[4];
     file_open(&fp, path, false, FA_READ | FA_OPEN_EXISTING);
     file_read(&fp, &magic, 4);
@@ -674,7 +724,7 @@ void imlib_save_image(image_t *img, const char *path, rectangle_t *roi, int qual
             ppm_write_subimg(img, path, roi);
             break;
         case FORMAT_RAW: {
-            FIL fp;
+            file_t fp;
             file_open(&fp, path, false, FA_WRITE | FA_CREATE_ALWAYS);
             file_write(&fp, img->pixels, img->w * img->h);
             file_close(&fp);
@@ -697,7 +747,7 @@ void imlib_save_image(image_t *img, const char *path, rectangle_t *roi, int qual
                 png_write(img, new_path);
                 fb_free();
             } else if (IM_IS_BAYER(img)) {
-                FIL fp;
+                file_t fp;
                 char *new_path = strcat(strcpy(fb_alloc(strlen(path) + 5, FB_ALLOC_NO_HINT), path), ".raw");
                 file_open(&fp, new_path, false, FA_WRITE | FA_CREATE_ALWAYS);
                 file_write(&fp, img->pixels, img->w * img->h);

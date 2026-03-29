@@ -45,13 +45,10 @@ rusb2_controller_t rusb2_controller[] = {
 };
 
 // Application API for setting IRQ number. May throw warnings for missing prototypes.
+void tusb_rusb2_set_irqnum(uint8_t rhport, int32_t irqnum);
 void tusb_rusb2_set_irqnum(uint8_t rhport, int32_t irqnum) {
   rusb2_controller[rhport].irqnum = irqnum;
 }
-
-//  void osal_task_delay(uint32_t msec) {
-//    R_BSP_SoftwareDelay(msec, BSP_DELAY_UNITS_MILLISECONDS);
-//  }
 
 #else
   #error "Unsupported MCU"

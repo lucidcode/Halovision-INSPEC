@@ -46,6 +46,8 @@ def request(
 ):
     if headers is None:
         headers = {}
+    else:
+        headers = headers.copy()
 
     redirect = None  # redirection url, None means no redirection
     chunked_data = data and getattr(data, "__next__", None) and not getattr(data, "__len__", None)
@@ -54,9 +56,9 @@ def request(
         import binascii
 
         username, password = auth
-        formated = b"{}:{}".format(username, password)
-        formated = str(binascii.b2a_base64(formated)[:-1], "ascii")
-        headers["Authorization"] = "Basic {}".format(formated)
+        formatted = b"{}:{}".format(username, password)
+        formatted = str(binascii.b2a_base64(formatted)[:-1], "ascii")
+        headers["Authorization"] = "Basic {}".format(formatted)
 
     try:
         proto, dummy, host, path = url.split("/", 3)
@@ -180,6 +182,8 @@ def request(
 
     if redirect:
         s.close()
+        # Use the host specified in the redirect URL, as it may not be the same as the original URL.
+        headers.pop("Host", None)
         if status in [301, 302, 303]:
             return request("GET", redirect, None, None, headers, stream)
         else:

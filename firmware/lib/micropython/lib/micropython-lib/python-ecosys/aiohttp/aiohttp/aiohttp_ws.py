@@ -136,7 +136,7 @@ class WebSocketClient:
         return frame + payload
 
     async def handshake(self, uri, ssl, req):
-        headers = {}
+        headers = self.params
         _http_proto = "http" if uri.protocol != "wss" else "https"
         url = f"{_http_proto}://{uri.hostname}:{uri.port}{uri.path or '/'}"
         key = binascii.b2a_base64(bytes(random.getrandbits(8) for _ in range(16)))[:-1]
@@ -166,7 +166,11 @@ class WebSocketClient:
 
     async def receive(self):
         while True:
-            opcode, payload = await self._read_frame()
+            opcode, payload, final = await self._read_frame()
+            while not final:
+                # original opcode must be preserved
+                _, morepayload, final = await self._read_frame()
+                payload += morepayload
             send_opcode, data = self._process_websocket_frame(opcode, payload)
             if send_opcode:  # pragma: no cover
                 await self.send(data, send_opcode)
@@ -189,7 +193,7 @@ class WebSocketClient:
             await self.send(b"", self.CLOSE)
 
     async def _read_frame(self):
-        header = await self.reader.read(2)
+        header = await self.reader.readexactly(2)
         if len(header) != 2:  # pragma: no cover
             # raise OSError(32, "Websocket connection closed")
             opcode = self.CLOSE
@@ -197,16 +201,16 @@ class WebSocketClient:
             return opcode, payload
         fin, opcode, has_mask, length = self._parse_frame_header(header)
         if length == 126:  # Magic number, length header is 2 bytes
-            (length,) = struct.unpack("!H", await self.reader.read(2))
+            (length,) = struct.unpack("!H", await self.reader.readexactly(2))
         elif length == 127:  # Magic number, length header is 8 bytes
-            (length,) = struct.unpack("!Q", await self.reader.read(8))
+            (length,) = struct.unpack("!Q", await self.reader.readexactly(8))
 
         if has_mask:  # pragma: no cover
-            mask = await self.reader.read(4)
-        payload = await self.reader.read(length)
+            mask = await self.reader.readexactly(4)
+        payload = await self.reader.readexactly(length)
         if has_mask:  # pragma: no cover
             payload = bytes(x ^ mask[i % 4] for i, x in enumerate(payload))
-        return opcode, payload
+        return opcode, payload, fin
 
 
 class ClientWebSocketResponse:

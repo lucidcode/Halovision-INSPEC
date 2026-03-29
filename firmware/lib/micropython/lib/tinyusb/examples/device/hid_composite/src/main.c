@@ -58,11 +58,13 @@ int main(void)
   board_init();
 
   // init device stack on configured roothub port
-  tud_init(BOARD_TUD_RHPORT);
+  tusb_rhport_init_t dev_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUD_RHPORT, &dev_init);
 
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
+  board_init_after_tusb();
 
   while (1)
   {
@@ -194,6 +196,27 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
     }
     break;
 
+    case REPORT_ID_STYLUS_PEN: {
+      static bool touch_state = false;
+      hid_stylus_report_t report = {
+        .attr = 0,
+        .x = 0,
+        .y = 0
+      };
+
+      if (btn) {
+        report.attr = STYLUS_ATTR_TIP_SWITCH | STYLUS_ATTR_IN_RANGE;
+        report.x = 100;
+        report.y = 100;
+        tud_hid_report(REPORT_ID_STYLUS_PEN, &report, sizeof(report));
+        touch_state = true;
+      } else {
+        report.attr = 0;
+        if (touch_state) tud_hid_report(REPORT_ID_STYLUS_PEN, &report, sizeof(report));
+        touch_state = false;
+      }
+    }
+    break;
     default: break;
   }
 }

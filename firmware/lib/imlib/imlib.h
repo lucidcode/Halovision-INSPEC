@@ -38,24 +38,23 @@
 #include "fb_alloc.h"
 #include "file_utils.h"
 #include "umm_malloc.h"
-#include "xalloc.h"
 #include "array.h"
 #include "fmath.h"
 #include "collections.h"
 #include "imlib_config.h"
 #include "omv_boardconfig.h"
 #include "omv_common.h"
+#include "omv_profiler.h"
+#include "py/runtime.h"
 
 // Enables 38 TensorFlow Lite operators.
 #define IMLIB_TF_DEFAULT        (1)
 // Enables 78 TensofFlow Lite operators.
 #define IMLIB_TF_FULLOPS        (2)
 
-#ifndef M_PI
-#define M_PI                     3.14159265f
-#define M_PI_2                   1.57079632f
-#define M_PI_4                   0.78539816f
-#endif
+#define IMLIB_PI                 3.14159265358979323846f
+#define IMLIB_PI_2               1.57079632679489661923f
+#define IMLIB_PI_4               0.78539816339744830962f
 
 #define IM_LOG2_2(x)             (((x) & 0x2ULL) ? (2) :             1)                                // NO ({ ... }) !
 #define IM_LOG2_4(x)             (((x) & 0xCULL) ? (2 + IM_LOG2_2((x) >> 2)) :  IM_LOG2_2(x))          // NO ({ ... }) !
@@ -116,8 +115,8 @@
 #define UINT64_T_MASK            (UINT64_T_BITS - 1)
 #define UINT64_T_SHIFT           IM_LOG2(UINT64_T_MASK)
 
-#define IM_DEG2RAD(x)            (((x) * M_PI) / 180)
-#define IM_RAD2DEG(x)            (((x) * 180) / M_PI)
+#define IM_DEG2RAD(x)            (((x) * IMLIB_PI) / 180.0f)
+#define IM_RAD2DEG(x)            (((x) * 180.0f) / IMLIB_PI)
 
 int imlib_ksize_to_n(int ksize);
 
@@ -131,9 +130,6 @@ typedef struct point {
 } point_t;
 
 void point_init(point_t *ptr, int x, int y);
-void point_copy(point_t *dst, point_t *src);
-bool point_equal_fast(point_t *ptr0, point_t *ptr1);
-int point_quadrance(point_t *ptr0, point_t *ptr1);
 void point_rotate(int x, int y, float r, int center_x, int center_y, int16_t *new_x, int16_t *new_y);
 void point_min_area_rectangle(point_t *corners, point_t *new_corners, int corners_len);
 
@@ -161,22 +157,10 @@ typedef struct rectangle {
     int16_t h;
 } rectangle_t;
 
-typedef struct bounding_box_lnk_data {
-    rectangle_t rect;
-    float score;
-    int label_index;
-} bounding_box_lnk_data_t;
-
 void rectangle_init(rectangle_t *ptr, int x, int y, int w, int h);
-void rectangle_copy(rectangle_t *dst, rectangle_t *src);
-bool rectangle_equal_fast(rectangle_t *ptr0, rectangle_t *ptr1);
 bool rectangle_overlap(rectangle_t *ptr0, rectangle_t *ptr1);
 void rectangle_intersected(rectangle_t *dst, rectangle_t *src);
 void rectangle_united(rectangle_t *dst, rectangle_t *src);
-float rectangle_iou(rectangle_t *r1, rectangle_t *r2);
-void rectangle_nms_add_bounding_box(list_t *bounding_boxes, bounding_box_lnk_data_t *box);
-int rectangle_nms_get_bounding_boxes(list_t *bounding_boxes, float threshold, float sigma);
-void rectangle_map_bounding_boxes(list_t *bounding_boxes, int window_w, int window_h, rectangle_t *roi);
 
 /////////////////
 // Color Stuff //
@@ -186,8 +170,7 @@ typedef struct color_thresholds_list_lnk_data {
     uint8_t LMin, LMax; // or grayscale
     int8_t AMin, AMax;
     int8_t BMin, BMax;
-}
-color_thresholds_list_lnk_data_t;
+}color_thresholds_list_lnk_data_t;
 
 #define COLOR_THRESHOLD_BINARY(pixel, threshold, invert)                          \
     ({                                                                            \
@@ -387,6 +370,39 @@ extern const uint16_t depth_table[256];
 extern const uint16_t evt_dark_table[256];
 extern const uint16_t evt_light_table[256];
 
+// Dynamic LUTs
+extern uint8_t gamma_table[256];
+
+//////////////////
+// Event Camera //
+//////////////////
+
+typedef struct ec_event {
+    uint16_t type;
+    uint16_t ts_s;
+    uint16_t ts_ms;
+    uint16_t ts_us;
+    uint16_t x;
+    uint16_t y;
+} ec_event_t;
+
+#define EC_EVENT_SIZE (sizeof(ec_event_t) / sizeof(uint16_t))
+
+typedef enum {
+    EC_PIX_OFF_EVENT       = 0,
+    EC_PIX_ON_EVENT        = 1,
+    EC_EXT_TRIGGER_FALLING = 2,
+    EC_EXT_TRIGGER_RISING  = 3,
+    EC_RST_TRIGGER_FALLING = 4,
+    EC_RST_TRIGGER_RISING  = 5
+} ec_event_type_t;
+
+#define EC_PIXEL_EVENT(event) (EC_PIX_OFF_EVENT + ((event) & 1))
+#define EC_TRIGGER_EVENT(id, polarity) (EC_EXT_TRIGGER_FALLING + (((id) & 1) << 1) + ((polarity) & 1))
+#define EC_TS_S(timestamp) ((timestamp) / 1000000)
+#define EC_TS_MS(timestamp) (((timestamp) / 1000) % 1000)
+#define EC_TS_US(timestamp) ((timestamp) % 1000)
+
 /////////////////
 // Image Stuff //
 /////////////////
@@ -559,7 +575,7 @@ typedef struct image {
     int32_t w;
     int32_t h;
     PIXFORMAT_STRUCT;
-    // Keeps a reference to the GC block when used with image_xalloc/image_xalloc0.
+    // Keeps a reference to the GC block when used with image_alloc/image_alloc0.
     uint8_t *_raw;
     union {
         uint8_t *pixels;
@@ -567,10 +583,8 @@ typedef struct image {
     };
 } image_t;
 
-void image_xalloc(image_t *img, size_t size);
-void image_xalloc0(image_t *img, size_t size);
-void image_init(image_t *ptr, int w, int h, pixformat_t pixfmt, uint32_t size, void *pixels);
-void image_copy(image_t *dst, image_t *src);
+void image_alloc(image_t *img, size_t size);
+void image_alloc0(image_t *img, size_t size);
 size_t image_line_size(image_t *ptr);
 size_t image_size(image_t *ptr);
 bool image_get_mask_pixel(image_t *ptr, int x, int y);
@@ -1181,14 +1195,18 @@ typedef struct imlib_draw_row_data {
 typedef void (*imlib_draw_row_callback_t) (int x_start, int x_end, int y_row, imlib_draw_row_data_t *data);
 
 // Library Hardware Init
-void imlib_init_all();
-void imlib_deinit_all();
+void imlib_init();
+void imlib_deinit();
 
 // Generic Helper Functions
 void imlib_fill_image_from_float(image_t *img, int w, int h, float *data, float min, float max,
                                  bool mirror, bool flip, bool dst_transpose, bool src_transpose);
+void imlib_fill_image_from_lepton(image_t *img, int w, int h, uint16_t *data, float min, float max,
+                                  bool auto_range, bool radiometric, int kelvin_offset,
+                                  bool mirror, bool flip, bool transpose);
 
 // Bayer Image Processing
+void imlib_update_gamma_table(float brightness, float contrast, float gamma);
 pixformat_t imlib_bayer_shift(pixformat_t pixfmt, int x, int y, bool transpose);
 void imlib_debayer_ycbcr(image_t *src, rectangle_t *roi, int8_t *Y0, int8_t *CB, int8_t *CR);
 void imlib_debayer_line(int x_start, int x_end, int y_row, void *dst_row_ptr, pixformat_t pixfmt, image_t *src);
@@ -1208,12 +1226,12 @@ uint16_t imlib_lab_to_rgb(uint8_t l, int8_t a, int8_t b);
 uint16_t imlib_yuv_to_rgb(uint8_t y, int8_t u, int8_t v);
 
 /* Image file functions */
-void ppm_read_geometry(FIL *fp, image_t *img, const char *path, ppm_read_settings_t *rs);
-void ppm_read_pixels(FIL *fp, image_t *img, int n_lines, ppm_read_settings_t *rs);
+void ppm_read_geometry(file_t *fp, image_t *img, const char *path, ppm_read_settings_t *rs);
+void ppm_read_pixels(file_t *fp, image_t *img, int n_lines, ppm_read_settings_t *rs);
 void ppm_read(image_t *img, const char *path);
 void ppm_write_subimg(image_t *img, const char *path, rectangle_t *r);
-bool bmp_read_geometry(FIL *fp, image_t *img, const char *path, bmp_read_settings_t *rs);
-void bmp_read_pixels(FIL *fp, image_t *img, int n_lines, bmp_read_settings_t *rs);
+bool bmp_read_geometry(file_t *fp, image_t *img, const char *path, bmp_read_settings_t *rs);
+void bmp_read_pixels(file_t *fp, image_t *img, int n_lines, bmp_read_settings_t *rs);
 void bmp_read(image_t *img, const char *path);
 void bmp_write_subimg(image_t *img, const char *path, rectangle_t *r);
 #if (OMV_JPEG_CODEC_ENABLE == 1)
@@ -1226,33 +1244,33 @@ void jpeg_decompress(image_t *dst, image_t *src);
 bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_subsampling_t subsampling);
 bool jpeg_is_valid(image_t *img);
 int jpeg_clean_trailing_bytes(int bpp, uint8_t *data);
-void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settings_t *rs);
-void jpeg_read_pixels(FIL *fp, image_t *img);
+void jpeg_read_geometry(file_t *fp, image_t *img, const char *path, jpg_read_settings_t *rs);
+void jpeg_read_pixels(file_t *fp, image_t *img);
 void jpeg_read(image_t *img, const char *path);
 void jpeg_write(image_t *img, const char *path, int quality);
 void png_decompress(image_t *dst, image_t *src);
 bool png_compress(image_t *src, image_t *dst);
-void png_read_geometry(FIL *fp, image_t *img, const char *path, png_read_settings_t *rs);
-void png_read_pixels(FIL *fp, image_t *img);
+void png_read_geometry(file_t *fp, image_t *img, const char *path, png_read_settings_t *rs);
+void png_read_pixels(file_t *fp, image_t *img);
 void png_read(image_t *img, const char *path);
 void png_write(image_t *img, const char *path);
-bool imlib_read_geometry(FIL *fp, image_t *img, const char *path, img_read_settings_t *rs);
+bool imlib_read_geometry(file_t *fp, image_t *img, const char *path, img_read_settings_t *rs);
 void imlib_image_operation(image_t *img, const char *path, image_t *other, int scalar, line_op_t op, void *data);
 void imlib_load_image(image_t *img, const char *path);
 void imlib_save_image(image_t *img, const char *path, rectangle_t *roi, int quality);
 
 /* GIF functions */
-void gif_open(FIL *fp, int width, int height, bool color, bool loop);
-void gif_add_frame(FIL *fp, image_t *img, uint16_t delay);
-void gif_close(FIL *fp);
+void gif_open(file_t *fp, int width, int height, bool color, bool loop);
+void gif_add_frame(file_t *fp, image_t *img, uint16_t delay);
+void gif_close(file_t *fp);
 
 /* MJPEG functions */
-void mjpeg_open(FIL *fp, int width, int height);
-void mjpeg_write(FIL *fp, int width, int height, uint32_t *frames, uint32_t *bytes,
+void mjpeg_open(file_t *fp, int width, int height);
+void mjpeg_write(file_t *fp, int width, int height, uint32_t *frames, uint32_t *bytes,
                  image_t *img, int quality, rectangle_t *roi, int rgb_channel, int alpha,
                  const uint16_t *color_palette, const uint8_t *alpha_palette, image_hint_t hint);
-void mjpeg_sync(FIL *fp, uint32_t frames, uint32_t bytes, uint32_t us_avg);
-void mjpeg_close(FIL *fp, uint32_t frames, uint32_t bytes, uint32_t us_avg);
+void mjpeg_sync(file_t *fp, uint32_t frames, uint32_t bytes, uint32_t us_avg);
+void mjpeg_close(file_t *fp, uint32_t frames, uint32_t bytes, uint32_t us_avg);
 
 /* Point functions */
 point_t *point_alloc(int16_t x, int16_t y);
@@ -1316,15 +1334,15 @@ array_t *orb_find_keypoints(image_t *image, bool normalized, int threshold,
                             float scale_factor, int max_keypoints, corner_detector_t corner_detector, rectangle_t *roi);
 int orb_match_keypoints(array_t *kpts1, array_t *kpts2, int *match, int threshold, rectangle_t *r, point_t *c, int *angle);
 int orb_filter_keypoints(array_t *kpts, rectangle_t *r, point_t *c);
-int orb_save_descriptor(FIL *fp, array_t *kpts);
-int orb_load_descriptor(FIL *fp, array_t *kpts);
+int orb_save_descriptor(file_t *fp, array_t *kpts);
+int orb_load_descriptor(file_t *fp, array_t *kpts);
 float orb_cluster_dist(int cx, int cy, void *kp);
 
 /* LBP Operator */
 uint8_t *imlib_lbp_desc(image_t *image, rectangle_t *roi);
 int imlib_lbp_desc_distance(uint8_t *d0, uint8_t *d1);
-int imlib_lbp_desc_save(FIL *fp, uint8_t *desc);
-int imlib_lbp_desc_load(FIL *fp, uint8_t **desc);
+int imlib_lbp_desc_save(file_t *fp, uint8_t *desc);
+int imlib_lbp_desc_load(file_t *fp, uint8_t **desc);
 
 /* Iris detector */
 void imlib_find_iris(image_t *src, point_t *iris, rectangle_t *roi);
@@ -1383,6 +1401,7 @@ void imlib_draw_string(image_t *img,
                        int string_rotation,
                        bool string_hmirror,
                        bool string_hflip);
+void imlib_draw_event_histogram(image_t *img, ec_event_t *ec_event, int num_events, int gain);
 void imlib_draw_image(image_t *dst_img,
                       image_t *src_img,
                       int dst_x_start,
@@ -1395,6 +1414,7 @@ void imlib_draw_image(image_t *dst_img,
                       const uint16_t *color_palette,
                       const uint8_t *alpha_palette,
                       image_hint_t hint,
+                      float *transform,
                       imlib_draw_row_callback_t callback,
                       void *callback_arg,
                       void *dst_row_override);

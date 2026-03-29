@@ -68,7 +68,7 @@
 /** INCLUDE FILES                                                            **/
 /******************************************************************************/
 #include "omv_boardconfig.h"
-#if ((OMV_LEPTON_ENABLE == 1) || (OMV_FIR_LEPTON_ENABLE == 1))
+#if (OMV_LEPTON_ENABLE == 1)
 
 #include "LEPTON_Types.h"
 #include "LEPTON_ErrorCodes.h"
@@ -158,7 +158,7 @@ LEP_RESULT LEP_I2C_MasterReadData(omv_i2c_t *bus,
     LEP_RESULT result = LEP_OK;
 
     for (int i = 0; i < dataLength; i++) {
-        if (omv_i2c_readw2(bus, deviceAddress << 1, subAddress + (i * 2), &dataPtr[i])) {
+        if (omv_i2c_read_reg(bus, deviceAddress << 1, subAddress + (i * 2), 2, &dataPtr[i], 2)) {
             return LEP_ERROR;
         }
     }
@@ -186,7 +186,7 @@ LEP_RESULT LEP_I2C_MasterWriteData(omv_i2c_t *bus,
     LEP_RESULT result = LEP_OK;
 
     for (int i = 0; i < dataLength; i++) {
-        if (omv_i2c_writew2(bus, deviceAddress << 1, subAddress + (i * 2), dataPtr[i])) {
+        if (omv_i2c_write_reg(bus, deviceAddress << 1, subAddress + (i * 2), 2, dataPtr[i], 2)) {
             return LEP_ERROR;
         }
     }
@@ -201,7 +201,7 @@ LEP_RESULT LEP_I2C_MasterReadRegister(omv_i2c_t *bus,
 {
     LEP_RESULT result = LEP_OK;
 
-    if (omv_i2c_readw2(bus, deviceAddress << 1, regAddress, regValue)) {
+    if (omv_i2c_read_reg(bus, deviceAddress << 1, regAddress, 2, regValue, 2)) {
         return LEP_ERROR;
     }
 
@@ -215,7 +215,7 @@ LEP_RESULT LEP_I2C_MasterWriteRegister(omv_i2c_t *bus,
 {
     LEP_RESULT result = LEP_OK;
 
-    if (omv_i2c_writew2(bus, deviceAddress << 1, regAddress, regValue)) {
+    if (omv_i2c_write_reg(bus, deviceAddress << 1, regAddress, 2, regValue, 2)) {
         return LEP_ERROR;
     }
 
@@ -232,4 +232,4 @@ LEP_RESULT LEP_I2C_MasterStatus(omv_i2c_t *bus,
     return(result);
 }
 
-#endif // ((OMV_LEPTON_ENABLE == 1) || (OMV_FIR_LEPTON_ENABLE == 1))
+#endif // (OMV_LEPTON_ENABLE == 1)

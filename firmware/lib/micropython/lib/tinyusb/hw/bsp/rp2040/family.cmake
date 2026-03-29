@@ -31,7 +31,9 @@ elseif (PICO_PLATFORM STREQUAL "rp2350-riscv")
 	set(OPENOCD_TARGET rp2350-riscv)
 endif()
 
-set(OPENOCD_OPTION "-f interface/cmsis-dap.cfg -f target/${OPENOCD_TARGET}.cfg -c \"adapter speed 5000\"")
+if (NOT OPENOCD_OPTION)
+	set(OPENOCD_OPTION "-f interface/cmsis-dap.cfg -f target/${OPENOCD_TARGET}.cfg -c \"adapter speed 5000\"")
+endif()
 
 if (NOT PICO_TINYUSB_PATH)
 	set(PICO_TINYUSB_PATH ${TOP})
@@ -93,6 +95,7 @@ target_sources(tinyusb_device_base INTERFACE
 		${TOP}/src/class/hid/hid_device.c
 		${TOP}/src/class/midi/midi_device.c
 		${TOP}/src/class/msc/msc_device.c
+		${TOP}/src/class/mtp/mtp_device.c
 		${TOP}/src/class/net/ecm_rndis_device.c
 		${TOP}/src/class/net/ncm_device.c
 		${TOP}/src/class/usbtmc/usbtmc_device.c
@@ -111,6 +114,7 @@ target_sources(tinyusb_host_base INTERFACE
 		${TOP}/src/host/hub.c
 		${TOP}/src/class/cdc/cdc_host.c
 		${TOP}/src/class/hid/hid_host.c
+		${TOP}/src/class/midi/midi_host.c
 		${TOP}/src/class/msc/msc_host.c
 		${TOP}/src/class/vendor/vendor_host.c
 		)
@@ -143,6 +147,7 @@ target_sources(tinyusb_bsp INTERFACE
 	)
 target_include_directories(tinyusb_bsp INTERFACE
 	${TOP}/hw
+	${CMAKE_CURRENT_LIST_DIR}/boards/${BOARD}
 	)
 target_link_libraries(tinyusb_bsp INTERFACE
 	pico_unique_id
@@ -191,6 +196,7 @@ function(family_configure_target TARGET RTOS)
 
 	# compile define from command line
 	if(DEFINED CFLAGS_CLI)
+		separate_arguments(CFLAGS_CLI)
 		target_compile_options(${TARGET} PUBLIC ${CFLAGS_CLI})
 	endif()
 

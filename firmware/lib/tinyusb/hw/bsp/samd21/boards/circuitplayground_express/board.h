@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: Adafruit Circuit Playground Express
+   url: https://www.adafruit.com/product/3333
+*/
+
 #ifndef BOARD_H_
 #define BOARD_H_
 
@@ -42,6 +47,10 @@
 // UART
 #define UART_RX_PIN           4
 #define UART_TX_PIN           5
+
+static inline void board_vbus_set(uint8_t rhport, bool state) {
+ (void) rhport; (void) state;
+}
 
 #ifdef __cplusplus
  }

@@ -31,7 +31,7 @@ MCU_LOWER := $(shell echo $(MCU) | tr '[:upper:]' '[:lower:]')
 export SD_DIR = $(TOP_DIR)/drivers/nrf
 
 # Compiler Flags
-CFLAGS += -std=gnu99 \
+CFLAGS += -std=gnu11 \
           -Wall \
           -Werror \
           -Warray-bounds \
@@ -64,14 +64,13 @@ LDFLAGS = -mcpu=$(CPU) \
           -nostdlib \
           -Wl,--gc-sections \
           -Wl,--print-memory-usage \
-          -Wl,--wrap=mp_usbd_task \
-          -Wl,--wrap=tud_cdc_rx_cb \
           -Wl,--wrap=mp_hal_stdio_poll \
           -Wl,--wrap=mp_hal_stdout_tx_strn \
           -Wl,--no-warn-rwx-segment \
           -Wl,-Map=$(BUILD)/$(FIRMWARE).map \
           -Wl,-T$(BUILD)/$(LDSCRIPT).lds
 
+OMV_CFLAGS += -I$(TOP_DIR)
 OMV_CFLAGS += -I$(TOP_DIR)/$(COMMON_DIR)
 OMV_CFLAGS += -I$(TOP_DIR)/modules
 OMV_CFLAGS += -I$(TOP_DIR)/ports/$(PORT)
@@ -97,6 +96,7 @@ MPY_CFLAGS += -I$(TOP_DIR)/drivers/nrf/$(NRF_SOFTDEV)/$(NRF_SOFTDEV)_API/include
 
 # Disable LTO and set the SD
 MPY_MKARGS += LTO=0 SD=$(SD)
+MPY_MKARGS += CFLAGS_EXTRA="-std=gnu11"
 ifeq ($(MICROPY_PY_ULAB), 1)
 MPY_CFLAGS += -DMP_NEED_LOG2
 endif

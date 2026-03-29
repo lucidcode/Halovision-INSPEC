@@ -79,6 +79,7 @@ uint8_t const desc_hid_report[] =
 {
   TUD_HID_REPORT_DESC_KEYBOARD( HID_REPORT_ID(REPORT_ID_KEYBOARD         )),
   TUD_HID_REPORT_DESC_MOUSE   ( HID_REPORT_ID(REPORT_ID_MOUSE            )),
+  TUD_HID_REPORT_DESC_STYLUS_PEN( HID_REPORT_ID(REPORT_ID_STYLUS_PEN     )),
   TUD_HID_REPORT_DESC_CONSUMER( HID_REPORT_ID(REPORT_ID_CONSUMER_CONTROL )),
   TUD_HID_REPORT_DESC_GAMEPAD ( HID_REPORT_ID(REPORT_ID_GAMEPAD          ))
 };
@@ -153,7 +154,7 @@ uint8_t const* tud_descriptor_other_speed_configuration_cb(uint8_t index)
 {
   (void) index; // for multiple configurations
 
-  // other speed config is basically configuration with type = OHER_SPEED_CONFIG
+  // other speed config is basically configuration with type = OTHER_SPEED_CONFIG
   memcpy(desc_other_speed_config, desc_configuration, CONFIG_TOTAL_LEN);
   desc_other_speed_config[1] = TUSB_DESC_OTHER_SPEED_CONFIG;
 

@@ -43,9 +43,12 @@
 #include "LEPTON_RAD.h"
 #include "LEPTON_I2C_Reg.h"
 
-#define LEPTON_BOOT_TIMEOUT        (1000)
+#define LEPTON_BOOT_TIMEOUT        (3000)
+#define LEPTON_COLD_BOOT_DELAY     (2000)
+#define LEPTON_WARM_BOOT_DELAY     (1000)
 #define LEPTON_SNAPSHOT_RETRY      (3)
-#define LEPTON_SNAPSHOT_TIMEOUT    (10000)
+#define LEPTON_SNAPSHOT_TIMEOUT    (5000)
+#define LEPTON_I2C_STATUS_BOOT     (LEP_I2C_STATUS_BOOT_MODE_MASK | LEP_I2C_STATUS_BOOT_STAT_MASK)
 
 // Min/Max temperatures in Celsius.
 #define LEPTON_MIN_TEMP_NORM       (-10.0f)
@@ -69,33 +72,20 @@ typedef struct lepton_state {
     LEP_CAMERA_PORT_DESC_T port;
 } lepton_state_t;
 
-extern uint16_t _vospi_buf[];
 static lepton_state_t lepton;
 
-static int lepton_reset(omv_csi_t *csi, bool measurement_mode, bool high_temp_mode);
-
-static int sleep(omv_csi_t *csi, int enable) {
-    if (enable) {
-        omv_gpio_write(OMV_CSI_POWER_PIN, 0);
-        mp_hal_delay_ms(100);
-    } else {
-        omv_gpio_write(OMV_CSI_POWER_PIN, 1);
-        mp_hal_delay_ms(100);
-    }
-
-    return 0;
-}
+static int lepton_config(omv_csi_t *csi, bool measurement_mode, bool high_temp_mode);
 
 static int read_reg(omv_csi_t *csi, uint16_t reg_addr) {
     uint16_t reg_data;
-    if (omv_i2c_readw2(&csi->i2c_bus, csi->slv_addr, reg_addr, &reg_data)) {
+    if (omv_i2c_read_reg(csi->i2c, csi->slv_addr, reg_addr, 2, &reg_data, 2)) {
         return -1;
     }
     return reg_data;
 }
 
 static int write_reg(omv_csi_t *csi, uint16_t reg_addr, uint16_t reg_data) {
-    return omv_i2c_writew2(&csi->i2c_bus, csi->slv_addr, reg_addr, reg_data);
+    return omv_i2c_write_reg(csi->i2c, csi->slv_addr, reg_addr, 2, reg_data, 2);
 }
 
 static int set_pixformat(omv_csi_t *csi, pixformat_t pixformat) {
@@ -202,7 +192,7 @@ static int ioctl(omv_csi_t *csi, int request, va_list ap) {
         }
         case OMV_CSI_IOCTL_LEPTON_GET_RESOLUTION: {
             int *resolution = va_arg(ap, int *);
-            *resolution = 14;
+            *resolution = lepton.radiometry ? 16 : 14;
             break;
         }
         case OMV_CSI_IOCTL_LEPTON_RUN_COMMAND: {
@@ -244,7 +234,7 @@ static int ioctl(omv_csi_t *csi, int request, va_list ap) {
             if (lepton.measurement_mode != measurement_mode_in) {
                 lepton.measurement_mode = measurement_mode_in;
                 lepton.high_temp_mode = high_temp_mode_in;
-                ret = lepton_reset(csi, lepton.measurement_mode, lepton.high_temp_mode);
+                ret = lepton_config(csi, lepton.measurement_mode, lepton.high_temp_mode);
             }
             break;
         }
@@ -281,75 +271,51 @@ static int ioctl(omv_csi_t *csi, int request, va_list ap) {
     return ret;
 }
 
-static int lepton_reset(omv_csi_t *csi, bool measurement_mode, bool high_temp_mode) {
-    omv_gpio_write(OMV_CSI_POWER_PIN, 0);
-    mp_hal_delay_ms(10);
-
-    omv_gpio_write(OMV_CSI_POWER_PIN, 1);
-    mp_hal_delay_ms(10);
-
-    omv_gpio_write(OMV_CSI_RESET_PIN, 0);
-    mp_hal_delay_ms(10);
-
-    omv_gpio_write(OMV_CSI_RESET_PIN, 1);
-    mp_hal_delay_ms(1000);
-
+static int lepton_config(omv_csi_t *csi, bool measurement_mode, bool high_temp_mode) {
     LEP_RAD_ENABLE_E rad;
     LEP_AGC_ROI_T roi;
-    memset(&lepton.port, 0, sizeof(LEP_CAMERA_PORT_DESC_T));
 
-    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(1)) {
-        if (LEP_OpenPort(&csi->i2c_bus, LEP_CCI_TWI, 0, &lepton.port) == LEP_OK) {
+    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(10)) {
+        if (LEP_OpenPort(csi->i2c, LEP_CCI_TWI, 0, &lepton.port) == LEP_OK) {
             break;
         }
+
         if ((mp_hal_ticks_ms() - start) >= LEPTON_BOOT_TIMEOUT) {
             return -1;
         }
     }
 
-    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(1)) {
-        LEP_SDK_BOOT_STATUS_E status;
-        if (LEP_GetCameraBootStatus(&lepton.port, &status) != LEP_OK) {
-            return -1;
-        }
-        if (status == LEP_BOOT_STATUS_BOOTED) {
-            break;
-        }
-        if ((mp_hal_ticks_ms() - start) >= LEPTON_BOOT_TIMEOUT) {
-            return -1;
-        }
-    }
+    // Soft-reboot Lepton
+    LEP_RunOemReboot(&lepton.port);
+    mp_hal_delay_ms(LEPTON_WARM_BOOT_DELAY);
 
-    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(1)) {
+    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(10)) {
         LEP_UINT16 status;
-        if (LEP_DirectReadRegister(&lepton.port, LEP_I2C_STATUS_REG, &status) != LEP_OK) {
-            return -1;
-        }
-        if (!(status & LEP_I2C_STATUS_BUSY_BIT_MASK)) {
+        LEP_DirectReadRegister(&lepton.port, LEP_I2C_STATUS_REG, &status);
+
+        if (status == LEPTON_I2C_STATUS_BOOT) {
             break;
         }
+
         if ((mp_hal_ticks_ms() - start) >= LEPTON_BOOT_TIMEOUT) {
             return -1;
         }
-    }
-
-    if (LEP_GetRadEnableState(&lepton.port, &rad) != LEP_OK
-        || LEP_GetAgcROI(&lepton.port, &roi) != LEP_OK) {
-        return -1;
     }
 
     // Use the low gain mode to enable high temperature readings (~450C) on Lepton 3.5
-    LEP_SYS_GAIN_MODE_E gain_mode = lepton.high_temp_mode ? LEP_SYS_GAIN_MODE_LOW : LEP_SYS_GAIN_MODE_HIGH;
-    if (LEP_SetSysGainMode(&lepton.port, gain_mode) != LEP_OK) {
-        return -1;
-    }
+    LEP_SYS_GAIN_MODE_E gain_mode = high_temp_mode ? LEP_SYS_GAIN_MODE_LOW : LEP_SYS_GAIN_MODE_HIGH;
 
-    if (!lepton.measurement_mode) {
-        if (LEP_SetRadEnableState(&lepton.port, LEP_RAD_DISABLE) != LEP_OK
-            || LEP_SetAgcEnableState(&lepton.port, LEP_AGC_ENABLE) != LEP_OK
-            || LEP_SetAgcCalcEnableState(&lepton.port, LEP_AGC_ENABLE) != LEP_OK) {
-            return -1;
-        }
+    bool hasSetSysGainMode = csi->chip_id == LEPTON_3_5 ||
+                             csi->chip_id == LEPTON_3_0 ||
+                             csi->chip_id == LEPTON_2_5;
+
+    if ((hasSetSysGainMode && LEP_SetSysGainMode(&lepton.port, gain_mode) != LEP_OK) ||
+        LEP_GetAgcROI(&lepton.port, &roi) != LEP_OK ||
+        LEP_SetRadEnableState(&lepton.port, measurement_mode) != LEP_OK ||
+        LEP_SetAgcEnableState(&lepton.port, !measurement_mode) != LEP_OK ||
+        LEP_SetAgcCalcEnableState(&lepton.port, !measurement_mode) != LEP_OK ||
+        LEP_GetRadEnableState(&lepton.port, &rad) != LEP_OK) {
+        return -1;
     }
 
     lepton.h_res = roi.endCol + 1;
@@ -358,85 +324,123 @@ static int lepton_reset(omv_csi_t *csi, bool measurement_mode, bool high_temp_mo
     return 0;
 }
 
+static int sleep(omv_csi_t *csi, int enable) {
+    return 0;
+}
+
+static int match(omv_csi_t *csi, size_t id) {
+    return (id == LEPTON_ID) || ((id >> 8) == LEPTON_ID);
+}
+
 static int reset(omv_csi_t *csi) {
-    static bool vospi_initialized = false;
+    vospi_deinit();
 
     memset(&lepton, 0, sizeof(lepton_state_t));
     lepton.min_temp = LEPTON_MIN_TEMP_DEFAULT;
     lepton.max_temp = LEPTON_MAX_TEMP_DEFAULT;
 
-    if (lepton_reset(csi, false, false) != 0) {
+    // Extra delay after hard-reset.
+    uint32_t ticks_diff = mp_hal_ticks_ms() - csi->reset_time_ms;
+    if (ticks_diff < LEPTON_COLD_BOOT_DELAY) {
+        mp_hal_delay_ms(LEPTON_COLD_BOOT_DELAY - ticks_diff);
+    }
+
+    if (lepton_config(csi, false, false) != 0) {
         return OMV_CSI_ERROR_CTL_FAILED;
     }
 
-    if (vospi_initialized == false) {
-        if (vospi_init(lepton.v_res, _vospi_buf) != 0) {
-            return OMV_CSI_ERROR_CTL_FAILED;
+    if (csi->fb && vospi_init(lepton.v_res, csi->fb) != 0) {
+        return OMV_CSI_ERROR_CTL_FAILED;
+    }
+
+    return 0;
+}
+
+static int _abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
+    return vospi_abort();
+}
+
+static int config(omv_csi_t *csi, omv_csi_config_t config) {
+    if (config == OMV_CSI_CONFIG_INIT) {
+        if (reset(csi) != 0) {
+            return OMV_CSI_ERROR_CSI_INIT_FAILED;
         }
-        vospi_initialized = true;
+
+        LEP_OEM_PART_NUMBER_T part;
+        if (LEP_GetOemFlirPartNumber(&lepton.port, &part) != LEP_OK) {
+            return OMV_CSI_ERROR_CSI_INIT_FAILED;
+        }
+
+        // 500 == Lepton
+        // xxxx == Version
+        // 01/00 == Shutter/NoShutter
+        if (!strncmp(part.value, "500-0771", 8)) {
+            csi->chip_id = LEPTON_3_5;
+        } else if (!strncmp(part.value, "500-0726", 8)) {
+            csi->chip_id = LEPTON_3_0;
+        } else if (!strncmp(part.value, "500-0763", 8)) {
+            csi->chip_id = LEPTON_2_5;
+        } else if (!strncmp(part.value, "500-0659", 8)) {
+            csi->chip_id = LEPTON_2_0;
+        } else if (!strncmp(part.value, "500-0690", 8)) {
+            csi->chip_id = LEPTON_1_6;
+        } else if (!strncmp(part.value, "500-0643", 8)) {
+            csi->chip_id = LEPTON_1_5;
+        }
     }
 
     return 0;
 }
 
 static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
+    vbuffer_t *buffer = NULL;
+    size_t reset_retry = 0;
     framebuffer_t *fb = csi->fb;
-    framebuffer_update_jpeg_buffer(fb);
-
-    if (fb->n_buffers != 1) {
-        framebuffer_set_buffers(fb, 1);
-    }
-
-    if (csi->pixformat == PIXFORMAT_INVALID) {
-        return OMV_CSI_ERROR_INVALID_PIXFORMAT;
-    }
-
-    if (csi->framesize == OMV_CSI_FRAMESIZE_INVALID) {
-        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
-    }
 
     if (!lepton.h_res || !lepton.v_res) {
         return OMV_CSI_ERROR_INVALID_FRAMESIZE;
     }
 
-    if (omv_csi_check_framebuffer_size(csi) == -1) {
-        return OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW;
+    if (csi->resolution[csi->framesize][0] < lepton.h_res ||
+        csi->resolution[csi->framesize][1] < lepton.v_res) {
+        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
     }
 
-    framebuffer_free_current_buffer(fb);
-    vbuffer_t *buffer = framebuffer_get_tail(fb, FB_NO_FLAGS);
+    for (mp_uint_t tick_start = mp_hal_ticks_ms(); ; mp_event_handle_nowait()) {
+        // Restart first (if needed) before returning the frame or timing out.
+        if (!vospi_active()) {
+            vospi_restart();
+        }
 
-    if (!buffer) {
-        return OMV_CSI_ERROR_FRAMEBUFFER_ERROR;
-    }
-
-    for (int i = 0; i < LEPTON_SNAPSHOT_RETRY; i++) {
-        if (vospi_snapshot(LEPTON_SNAPSHOT_TIMEOUT) == 0) {
+        if ((buffer = framebuffer_acquire(csi->fb, FB_FLAG_USED | FB_FLAG_PEEK))) {
             break;
         }
-        if (i + 1 == LEPTON_SNAPSHOT_RETRY) {
-            return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
+
+        if (flags & OMV_CSI_FLAG_NON_BLOCK) {
+            return OMV_CSI_ERROR_WOULD_BLOCK;
         }
-        // The FLIR lepton might have crashed so reset it (it does this).
-        if (lepton_reset(csi, lepton.measurement_mode, lepton.high_temp_mode) != 0) {
-            return OMV_CSI_ERROR_CTL_FAILED;
+
+        // Reset the module on timeout, up to LEPTON_SNAPSHOT_RETRY times.
+        if ((mp_hal_ticks_ms() - tick_start) > LEPTON_SNAPSHOT_TIMEOUT) {
+            if (reset_retry++ == LEPTON_SNAPSHOT_RETRY) {
+                vospi_abort();
+                return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
+            }
+
+            if (lepton_config(csi, lepton.measurement_mode, lepton.high_temp_mode) != 0) {
+                return OMV_CSI_ERROR_CTL_FAILED;
+            }
+
+            tick_start = mp_hal_ticks_ms();
         }
     }
 
-    fb->w = fb->u;
-    fb->h = fb->v;
+    fb->w = csi->transpose ? fb->v : fb->u;
+    fb->h = csi->transpose ? fb->u : fb->v;
     fb->pixfmt = csi->pixformat;
 
-    framebuffer_init_image(fb, image);
-
-    float x_scale = resolution[csi->framesize][0] / ((float) lepton.h_res);
-    float y_scale = resolution[csi->framesize][1] / ((float) lepton.v_res);
-    // MAX == KeepAspectRationByExpanding - MIN == KeepAspectRatio
-    float scale = IM_MAX(x_scale, y_scale), scale_inv = 1.0f / scale;
-    int x_offset = (resolution[csi->framesize][0] - (lepton.h_res * scale)) / 2;
-    int y_offset = (resolution[csi->framesize][1] - (lepton.v_res * scale)) / 2;
-    // The code below upscales the source image to the requested frame size
-    // and then crops it to the window set by the user.
+    image_t fb_image;
+    framebuffer_to_image(fb, &fb_image);
 
     LEP_SYS_FPA_TEMPERATURE_KELVIN_T kelvin;
     if (lepton.measurement_mode && (!lepton.radiometry)) {
@@ -445,65 +449,49 @@ static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
         }
     }
 
-    for (int y = y_offset, yy = fast_ceilf(lepton.v_res * scale) + y_offset; y < yy; y++) {
-        if ((fb->y <= y) && (y < (fb->y + fb->v))) {
-            // user window cropping
+    fb_alloc_mark();
+    image_t temp = {
+        .w = csi->transpose ? lepton.v_res : lepton.h_res,
+        .h = csi->transpose ? lepton.h_res : lepton.v_res,
+        .pixfmt = PIXFORMAT_GRAYSCALE,
+        .data = fb_alloc(lepton.h_res * lepton.v_res, FB_ALLOC_CACHE_ALIGN),
+    };
 
-            uint16_t *row_ptr = _vospi_buf + (fast_floorf(y * scale_inv) * lepton.h_res);
+    // When not in measurment mode set the min and max temperatures such
+    // that 0-255 values from the sensor, which are grayscale pixels 0-255,
+    // are not clipped when interpreted as Kelvin values.
+    float min = -273.15f;   // In Celsius -> 0.0f in Kelvin
+    float max = -270.6f;    // In Celsius -> 2.55f in Kelvin
 
-            for (int x = x_offset, xx = fast_ceilf(lepton.h_res * scale) + x_offset; x < xx; x++) {
-                if ((fb->x <= x) && (x < (fb->x + fb->u))) {
-                    // user window cropping
-
-                    // Value is the 14/16-bit value from the FLIR IR camera.
-                    // However, with AGC enabled only the bottom 8-bits are non-zero.
-                    int value = row_ptr[fast_floorf(x * scale_inv)];
-
-                    if (lepton.measurement_mode) {
-                        // Need to convert 14/16-bits to 8-bits ourselves...
-                        if (!lepton.radiometry) {
-                            value = (value - 8192) + kelvin;
-                        }
-                        float celsius = (value * 0.01f) - 273.15f;
-                        celsius = IM_CLAMP(celsius, lepton.min_temp, lepton.max_temp);
-                        value = __USAT(IM_DIV(((celsius - lepton.min_temp) * 255),
-                                              (lepton.max_temp - lepton.min_temp)), 8);
-                    }
-
-                    int t_x = x - fb->x;
-                    int t_y = y - fb->y;
-
-                    if (lepton.hmirror) {
-                        t_x = fb->u - t_x - 1;
-                    }
-                    if (lepton.vflip) {
-                        t_y = fb->v - t_y - 1;
-                    }
-
-                    switch (csi->pixformat) {
-                        case PIXFORMAT_GRAYSCALE: {
-                            IMAGE_PUT_GRAYSCALE_PIXEL(image, t_x, t_y, value & 0xFF);
-                            break;
-                        }
-                        case PIXFORMAT_RGB565: {
-                            IMAGE_PUT_RGB565_PIXEL(image, t_x, t_y, csi->color_palette[value & 0xFF]);
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+    // When in measurment mode the lepton provides 14-bit or 16-bit values
+    // that must be clamped between the min and max temperatures in celsius
+    // and scaled to 0-255 values.
+    if (lepton.measurement_mode) {
+        min = lepton.min_temp;
+        max = lepton.max_temp;
     }
 
+    imlib_fill_image_from_lepton(&temp, lepton.h_res, lepton.v_res, (uint16_t *) fb_image.data,
+                                 min, max, false, (!lepton.measurement_mode) || lepton.radiometry,
+                                 kelvin, lepton.hmirror, lepton.vflip, csi->transpose);
+
+    imlib_draw_image(&fb_image, &temp, 0, 0, 1.0f, 1.0f, NULL, -1, 255,
+                     (csi->pixformat == PIXFORMAT_RGB565) ? csi->color_palette : NULL, NULL,
+                     IMAGE_HINT_BILINEAR | IMAGE_HINT_CENTER | IMAGE_HINT_SCALE_ASPECT_EXPAND,
+                     NULL, NULL, NULL, NULL);
+
+    fb_alloc_free_till_mark();
+    framebuffer_to_image(fb, image);
     return 0;
 }
 
 int lepton_init(omv_csi_t *csi) {
     csi->reset = reset;
     csi->sleep = sleep;
+    csi->config = config;
+    csi->abort = _abort;
+    csi->shutdown = NULL;
+    csi->match = match;
     csi->snapshot = snapshot;
     csi->read_reg = read_reg;
     csi->write_reg = write_reg;
@@ -527,37 +515,13 @@ int lepton_init(omv_csi_t *csi) {
     csi->set_lens_correction = set_lens_correction;
     csi->ioctl = ioctl;
 
+    csi->auxiliary = 1;
     csi->vsync_pol = 1;
     csi->hsync_pol = 0;
     csi->pixck_pol = 0;
     csi->frame_sync = 0;
     csi->mono_bpp = 1;
 
-    if (reset(csi) != 0) {
-        return -1;
-    }
-
-    LEP_OEM_PART_NUMBER_T part;
-    if (LEP_GetOemFlirPartNumber(&lepton.port, &part) != LEP_OK) {
-        return OMV_CSI_ERROR_CSI_INIT_FAILED;
-    }
-
-    // 500 == Lepton
-    // xxxx == Version
-    // 01/00 == Shutter/NoShutter
-    if (!strncmp(part.value, "500-0771", 8)) {
-        csi->chip_id = LEPTON_3_5;
-    } else if (!strncmp(part.value, "500-0726", 8)) {
-        csi->chip_id = LEPTON_3_0;
-    } else if (!strncmp(part.value, "500-0763", 8)) {
-        csi->chip_id = LEPTON_2_5;
-    } else if (!strncmp(part.value, "500-0659", 8)) {
-        csi->chip_id = LEPTON_2_0;
-    } else if (!strncmp(part.value, "500-0690", 8)) {
-        csi->chip_id = LEPTON_1_6;
-    } else if (!strncmp(part.value, "500-0643", 8)) {
-        csi->chip_id = LEPTON_1_5;
-    }
     return 0;
 }
 #endif // (OMV_LEPTON_ENABLE == 1)

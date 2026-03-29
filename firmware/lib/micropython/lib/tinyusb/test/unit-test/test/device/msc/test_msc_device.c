@@ -32,8 +32,8 @@
 #include "tusb_fifo.h"
 #include "tusb.h"
 #include "usbd.h"
-TEST_FILE("usbd_control.c")
-TEST_FILE("msc_device.c")
+TEST_SOURCE_FILE("usbd_control.c")
+TEST_SOURCE_FILE("msc_device.c")
 
 // Mock File
 #include "mock_dcd.h"
@@ -41,6 +41,10 @@ TEST_FILE("msc_device.c")
 //--------------------------------------------------------------------+
 // MACRO TYPEDEF CONSTANT ENUM DECLARATION
 //--------------------------------------------------------------------+
+
+uint32_t tusb_time_millis_api(void) {
+  return 0;
+}
 
 enum
 {
@@ -90,19 +94,21 @@ enum
 
 uint8_t msc_disk[DISK_BLOCK_NUM][DISK_BLOCK_SIZE];
 
-// Invoked when received SCSI_CMD_INQUIRY
-// Application fill vendor id, product id and revision with string up to 8, 16, 4 characters respectively
-void tud_msc_inquiry_cb(uint8_t lun, uint8_t vendor_id[8], uint8_t product_id[16], uint8_t product_rev[4])
-{
+// Invoked when received SCSI_CMD_INQUIRY, v2 with full inquiry response
+// Some inquiry_resp's fields are already filled with default values, application can update them
+// Return length of inquiry response, typically sizeof(scsi_inquiry_resp_t) (36 bytes), can be longer if included vendor data.
+uint32_t tud_msc_inquiry2_cb(uint8_t lun, scsi_inquiry_resp_t* inquiry_resp, uint32_t bufsize) {
   (void) lun;
-
+  (void) bufsize;
   const char vid[] = "TinyUSB";
   const char pid[] = "Mass Storage";
   const char rev[] = "1.0";
 
-  memcpy(vendor_id  , vid, strlen(vid));
-  memcpy(product_id , pid, strlen(pid));
-  memcpy(product_rev, rev, strlen(rev));
+  memcpy(inquiry_resp->vendor_id, vid, strlen(vid));
+  memcpy(inquiry_resp->product_id, pid, strlen(pid));
+  memcpy(inquiry_resp->product_rev, rev, strlen(rev));
+
+  return sizeof(scsi_inquiry_resp_t); // 36 bytes
 }
 
 // Invoked when received Test Unit Ready command.
@@ -197,10 +203,14 @@ void setUp(void)
   dcd_int_disable_Ignore();
   dcd_int_enable_Ignore();
 
-  if ( !tud_inited() )
-  {
-    dcd_init_Expect(rhport);
-    tusb_init();
+  if ( !tud_inited() ) {
+    tusb_rhport_init_t dev_init = {
+      .role = TUSB_ROLE_DEVICE,
+      .speed = TUSB_SPEED_AUTO
+    };
+
+    dcd_init_ExpectAndReturn(0, &dev_init, true);
+    tusb_init(0, &dev_init);
   }
 
   dcd_event_bus_reset(rhport, TUSB_SPEED_HIGH, false);

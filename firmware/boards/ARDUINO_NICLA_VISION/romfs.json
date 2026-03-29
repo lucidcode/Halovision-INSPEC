@@ -33,6 +33,18 @@
       "optimize": "Performance"
     },
     {
+      "type": "tflite",
+      "path": "{TOP}/lib/models/yolo_lc_192.tflite",
+      "alignment": 16,
+      "optimize": "Performance"
+    },
+    {
+      "type": "tflite",
+      "path": "{TOP}/lib/models/blazeface_front_128.tflite",
+      "alignment": 16,
+      "optimize": "Performance"
+    },
+    {
       "type": "haar",
       "path": "{TOP}/lib/haar/haarcascade_eye.xml",
       "stages": 0

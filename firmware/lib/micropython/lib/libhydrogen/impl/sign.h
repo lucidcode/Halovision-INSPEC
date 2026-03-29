@@ -1,6 +1,6 @@
 #define hydro_sign_CHALLENGEBYTES 32
-#define hydro_sign_NONCEBYTES 32
-#define hydro_sign_PREHASHBYTES 64
+#define hydro_sign_NONCEBYTES     32
+#define hydro_sign_PREHASHBYTES   64
 
 static void
 hydro_sign_p2(uint8_t sig[hydro_x25519_BYTES], const uint8_t challenge[hydro_sign_CHALLENGEBYTES],
@@ -39,10 +39,10 @@ hydro_sign_prehash(uint8_t csig[hydro_sign_BYTES], const uint8_t prehash[hydro_s
 {
     hydro_hash_state st;
     uint8_t          challenge[hydro_sign_CHALLENGEBYTES];
-    const uint8_t *  pk     = &sk[hydro_x25519_SECRETKEYBYTES];
-    uint8_t *        nonce  = &csig[0];
-    uint8_t *        sig    = &csig[hydro_sign_NONCEBYTES];
-    uint8_t *        eph_sk = sig;
+    const uint8_t   *pk     = &sk[hydro_x25519_SECRETKEYBYTES];
+    uint8_t         *nonce  = &csig[0];
+    uint8_t         *sig    = &csig[hydro_sign_NONCEBYTES];
+    uint8_t         *eph_sk = sig;
 
     hydro_random_buf(eph_sk, hydro_x25519_SECRETKEYBYTES);
     COMPILER_ASSERT(hydro_x25519_SECRETKEYBYTES == hydro_hash_KEYBYTES);
@@ -65,7 +65,7 @@ static int
 hydro_sign_verify_core(hydro_x25519_fe xs[5], const hydro_x25519_limb_t *other1,
                        const uint8_t other2[hydro_x25519_BYTES])
 {
-    hydro_x25519_limb_t *     z2 = xs[1], *x3 = xs[2], *z3 = xs[3];
+    hydro_x25519_limb_t      *z2 = xs[1], *x3 = xs[2], *z3 = xs[3];
     hydro_x25519_fe           xo2;
     const hydro_x25519_limb_t sixteen = 16;
 
@@ -100,10 +100,10 @@ hydro_sign_verify_p2(const uint8_t sig[hydro_x25519_BYTES],
 {
     hydro_x25519_fe xs[7];
 
-    hydro_x25519_core(&xs[0], challenge, pk, 0);
-    hydro_x25519_core(&xs[2], sig, hydro_x25519_BASE_POINT, 0);
+    hydro_x25519_core(xs, challenge, pk, 0);
+    hydro_x25519_core(xs + 2, sig, hydro_x25519_BASE_POINT, 0);
 
-    return hydro_sign_verify_core(&xs[2], xs[0], nonce);
+    return hydro_sign_verify_core(xs + 2, xs[0], nonce);
 }
 
 static int

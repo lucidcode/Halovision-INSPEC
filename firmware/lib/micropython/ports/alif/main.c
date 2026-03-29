@@ -29,8 +29,8 @@
 #include "py/gc.h"
 #include "py/mperrno.h"
 #include "py/mphal.h"
-#include "py/stackctrl.h"
 #include "extmod/modbluetooth.h"
+#include "extmod/modmachine.h"
 #include "extmod/modnetwork.h"
 #include "shared/readline/readline.h"
 #include "shared/runtime/gchelper.h"
@@ -55,8 +55,9 @@
 
 extern uint8_t __StackTop, __StackLimit;
 extern uint8_t __GcHeapStart, __GcHeapEnd;
+extern void machine_pin_irq_deinit(void);
 
-NORETURN void panic(const char *msg) {
+MP_NORETURN void panic(const char *msg) {
     mp_hal_stdout_tx_strn("\nFATAL ERROR:\n", 14);
     mp_hal_stdout_tx_strn(msg, strlen(msg));
     for (;;) {
@@ -90,8 +91,7 @@ int main(void) {
     #endif
 
     // Initialise stack extents and GC heap.
-    mp_stack_set_top(&__StackTop);
-    mp_stack_set_limit(&__StackTop - &__StackLimit - 1024);
+    mp_cstack_init_with_top(&__StackTop, &__StackTop - &__StackLimit);
     gc_init(&__GcHeapStart, &__GcHeapEnd);
 
     #if MICROPY_PY_LWIP
@@ -132,7 +132,7 @@ int main(void) {
         pyexec_frozen_module("_boot.py", false);
 
         // Execute user scripts.
-        int ret = pyexec_file_if_exists("boot.py", true);
+        int ret = pyexec_file_if_exists("boot.py");
         #if MICROPY_HW_ENABLE_USBDEV
         mp_usbd_init();
         #endif
@@ -140,7 +140,7 @@ int main(void) {
             goto soft_reset_exit;
         }
         if (pyexec_mode_kind == PYEXEC_MODE_FRIENDLY_REPL && ret != 0) {
-            ret = pyexec_file_if_exists("main.py", true);
+            ret = pyexec_file_if_exists("main.py");
             if (ret & PYEXEC_FORCED_EXIT) {
                 goto soft_reset_exit;
             }
@@ -163,7 +163,11 @@ int main(void) {
         #if MICROPY_PY_BLUETOOTH
         mp_bluetooth_deinit();
         #endif
+        #if MICROPY_PY_MACHINE_I2C_TARGET
+        mp_machine_i2c_target_deinit_all();
+        #endif
         soft_timer_deinit();
+        machine_pin_irq_deinit();
         gc_sweep_all();
         mp_deinit();
     }

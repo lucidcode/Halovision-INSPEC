@@ -1847,6 +1847,39 @@ typedef enum _xrdc2_periph
 /* @} */
 
 /*!
+ * @addtogroup asrc_clock_source
+ * @{
+ */
+
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
+
+/*!
+ * @brief The ASRC clock source
+ */
+
+typedef enum _asrc_clock_source
+{
+    kASRC_ClockSourceNotAvalible    = -1U,         /**< not avalible */
+    kASRC_ClockSourceBitClock0_SAI1_TX = 0U,       /**< SAI1 TX */
+    kASRC_ClockSourceBitClock1_SAI1_RX = 1U,       /**< SAI1 RX */
+    kASRC_ClockSourceBitClock2_SAI2_TX = 2U,       /**< SAI2 TX */
+    kASRC_ClockSourceBitClock3_SAI2_RX = 3U,       /**< SAI2 RX */
+    kASRC_ClockSourceBitClock4_SAI3_TX = 4U,       /**< SAI3 TX */
+    kASRC_ClockSourceBitClock5_SAI3_RX = 5U,       /**< SAI3 RX */
+    kASRC_ClockSourceBitClock6_SAI4_TX = 6U,       /**< SAI4 TX */
+    kASRC_ClockSourceBitClock7_SAI4_RX = 7U,       /**< SAI4 RX */
+    kASRC_ClockSourceBitClock8_SPDIF_TX = 8U,      /**< SPDIF TX */
+    kASRC_ClockSourceBitClock9_SPDIF_RX = 9U,      /**< SPDIF RX */
+    kASRC_ClockSourceBitClocka_SAI2_CLOCK_ROOT = 10U, /**< SAI2 CLOCK ROOT */
+    kASRC_ClockSourceBitClockb_SAI3_CLOCK_ROOT = 11U, /**< SAI3 CLOCK ROOT */
+    kASRC_ClockSourceBitClockc_SAI4_CLOCK_ROOT = 12U, /**< SAI4 CLOCK ROOT */
+    kASRC_ClockSourceBitClockd_MIC_CLOCK_ROOT = 13U, /**< MIC CLOCK ROOT */
+    kASRC_ClockSourceBitClocke_MQS_CLOCK_ROOT = 14U, /**< MQS CLOCK ROOT */
+} asrc_clock_source_t;
+
+/*!
  * @addtogroup iomuxc_pads
  * @{ */
 

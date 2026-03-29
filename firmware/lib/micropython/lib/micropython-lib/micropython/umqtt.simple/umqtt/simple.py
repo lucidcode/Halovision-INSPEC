@@ -17,6 +17,7 @@ class MQTTClient:
         password=None,
         keepalive=0,
         ssl=None,
+        ssl_params={},
     ):
         if port == 0:
             port = 8883 if ssl else 1883
@@ -25,6 +26,7 @@ class MQTTClient:
         self.server = server
         self.port = port
         self.ssl = ssl
+        self.ssl_params = ssl_params
         self.pid = 0
         self.cb = None
         self.user = user
@@ -65,7 +67,12 @@ class MQTTClient:
         self.sock.settimeout(timeout)
         addr = socket.getaddrinfo(self.server, self.port)[0][-1]
         self.sock.connect(addr)
-        if self.ssl:
+        if self.ssl is True:
+            # Legacy support for ssl=True and ssl_params arguments.
+            import ssl
+
+            self.sock = ssl.wrap_socket(self.sock, **self.ssl_params)
+        elif self.ssl:
             self.sock = self.ssl.wrap_socket(self.sock, server_hostname=self.server)
         premsg = bytearray(b"\x10\0\0\0\0\0")
         msg = bytearray(b"\x04MQTT\x04\x02\0\0")
@@ -166,6 +173,19 @@ class MQTTClient:
                 assert resp[1] == pkt[2] and resp[2] == pkt[3]
                 if resp[3] == 0x80:
                     raise MQTTException(resp[3])
+                return
+
+    def unsubscribe(self, topic):
+        pkt = bytearray(b"\xa2\0\0\0")
+        self.pid += 1
+        struct.pack_into("!BH", pkt, 1, 2 + 2 + len(topic), self.pid)
+        self.sock.write(pkt)
+        self._send_str(topic)
+        while 1:
+            op = self.wait_msg()
+            if op == 0xB0:
+                resp = self.sock.read(3)
+                assert resp[1] == pkt[2] and resp[2] == pkt[3]
                 return
 
     # Wait for a single incoming MQTT message and process it.

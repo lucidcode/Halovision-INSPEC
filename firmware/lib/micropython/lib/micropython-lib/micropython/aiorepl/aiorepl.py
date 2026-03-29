@@ -74,7 +74,7 @@ __exec_task = asyncio.create_task(__code())
                 except asyncio.CancelledError:
                     pass
         else:
-            # Excute code snippet directly.
+            # Execute code snippet directly.
             try:
                 try:
                     micropython.kbd_intr(3)
@@ -114,6 +114,8 @@ async def task(g=None, prompt="--> "):
             curs = 0  # cursor offset from end of cmd buffer
             while True:
                 b = await s.read(1)
+                if not b:  # Handle EOF/empty read
+                    break
                 pc = c  # save previous character
                 c = ord(b)
                 pt = t  # save previous time
@@ -132,7 +134,7 @@ async def task(g=None, prompt="--> "):
                             continue
                         if curs:
                             # move cursor to end of the line
-                            sys.stdout.write("\x1B[{}C".format(curs))
+                            sys.stdout.write("\x1b[{}C".format(curs))
                             curs = 0
                         sys.stdout.write("\n")
                         if cmd:
@@ -153,15 +155,15 @@ async def task(g=None, prompt="--> "):
                             if curs:
                                 cmd = "".join((cmd[: -curs - 1], cmd[-curs:]))
                                 sys.stdout.write(
-                                    "\x08\x1B[K"
+                                    "\x08\x1b[K"
                                 )  # move cursor back, erase to end of line
                                 sys.stdout.write(cmd[-curs:])  # redraw line
-                                sys.stdout.write("\x1B[{}D".format(curs))  # reset cursor location
+                                sys.stdout.write("\x1b[{}D".format(curs))  # reset cursor location
                             else:
                                 cmd = cmd[:-1]
                                 sys.stdout.write("\x08 \x08")
                     elif c == CHAR_CTRL_A:
-                        await raw_repl(s, g)
+                        raw_repl(sys.stdin, g)
                         break
                     elif c == CHAR_CTRL_B:
                         continue
@@ -207,21 +209,21 @@ async def task(g=None, prompt="--> "):
                         elif key == "[D":  # left
                             if curs < len(cmd) - 1:
                                 curs += 1
-                                sys.stdout.write("\x1B")
+                                sys.stdout.write("\x1b")
                                 sys.stdout.write(key)
                         elif key == "[C":  # right
                             if curs:
                                 curs -= 1
-                                sys.stdout.write("\x1B")
+                                sys.stdout.write("\x1b")
                                 sys.stdout.write(key)
                         elif key == "[H":  # home
                             pcurs = curs
                             curs = len(cmd)
-                            sys.stdout.write("\x1B[{}D".format(curs - pcurs))  # move cursor left
+                            sys.stdout.write("\x1b[{}D".format(curs - pcurs))  # move cursor left
                         elif key == "[F":  # end
                             pcurs = curs
                             curs = 0
-                            sys.stdout.write("\x1B[{}C".format(pcurs))  # move cursor right
+                            sys.stdout.write("\x1b[{}C".format(pcurs))  # move cursor right
                     else:
                         # sys.stdout.write("\\x")
                         # sys.stdout.write(hex(c))
@@ -231,7 +233,7 @@ async def task(g=None, prompt="--> "):
                         # inserting into middle of line
                         cmd = "".join((cmd[:-curs], b, cmd[-curs:]))
                         sys.stdout.write(cmd[-curs - 1 :])  # redraw line to end
-                        sys.stdout.write("\x1B[{}D".format(curs))  # reset cursor location
+                        sys.stdout.write("\x1b[{}D".format(curs))  # reset cursor location
                     else:
                         sys.stdout.write(b)
                         cmd += b
@@ -239,7 +241,7 @@ async def task(g=None, prompt="--> "):
         micropython.kbd_intr(3)
 
 
-async def raw_paste(s, g, window=512):
+def raw_paste(s, window=512):
     sys.stdout.write("R\x01")  # supported
     sys.stdout.write(bytearray([window & 0xFF, window >> 8, 0x01]).decode())
     eof = False
@@ -248,7 +250,7 @@ async def raw_paste(s, g, window=512):
     file = b""
     while not eof:
         for idx in range(window):
-            b = await s.read(1)
+            b = s.read(1)
             c = ord(b)
             if c == CHAR_CTRL_C or c == CHAR_CTRL_D:
                 # end of file
@@ -267,7 +269,12 @@ async def raw_paste(s, g, window=512):
     return file
 
 
-async def raw_repl(s: asyncio.StreamReader, g: dict):
+def raw_repl(s, g: dict):
+    """
+    This function is blocking to prevent other
+    async tasks from writing to the stdio stream and
+    breaking the raw repl session.
+    """
     heading = "raw REPL; CTRL-B to exit\n"
     line = ""
     sys.stdout.write(heading)
@@ -276,7 +283,7 @@ async def raw_repl(s: asyncio.StreamReader, g: dict):
         line = ""
         sys.stdout.write(">")
         while True:
-            b = await s.read(1)
+            b = s.read(1)
             c = ord(b)
             if c == CHAR_CTRL_A:
                 rline = line
@@ -284,7 +291,7 @@ async def raw_repl(s: asyncio.StreamReader, g: dict):
 
                 if len(rline) == 2 and ord(rline[0]) == CHAR_CTRL_E:
                     if rline[1] == "A":
-                        line = await raw_paste(s, g)
+                        line = raw_paste(s)
                         break
                 else:
                     # reset raw REPL

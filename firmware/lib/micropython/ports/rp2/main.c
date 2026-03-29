@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 
+#include "rp2_flash.h"
 #include "py/compile.h"
 #include "py/cstack.h"
 #include "py/runtime.h"
@@ -33,6 +34,7 @@
 #include "py/mperrno.h"
 #include "py/mphal.h"
 #include "extmod/modbluetooth.h"
+#include "extmod/modmachine.h"
 #include "extmod/modnetwork.h"
 #include "shared/readline/readline.h"
 #include "shared/runtime/gchelper.h"
@@ -46,6 +48,7 @@
 #include "mpnetworkport.h"
 #include "genhdr/mpversion.h"
 #include "mp_usbd.h"
+#include "rp2_psram.h"
 
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
@@ -93,6 +96,13 @@ int main(int argc, char **argv) {
     // Hook for setting up anything that needs to be super early in the boot-up process.
     MICROPY_BOARD_STARTUP();
 
+    // Set the flash divisor to an appropriate value
+    rp2_flash_set_timing();
+
+    #if MICROPY_HW_ENABLE_PSRAM
+    size_t psram_size = psram_init(MICROPY_HW_PSRAM_CS_PIN);
+    #endif
+
     #if MICROPY_HW_ENABLE_UART_REPL
     bi_decl(bi_program_feature("UART REPL"))
     setup_default_uart();
@@ -120,7 +130,21 @@ int main(int argc, char **argv) {
 
     // Initialise stack extents and GC heap.
     mp_cstack_init_with_top(&__StackTop, &__StackTop - &__StackBottom);
+
+    #if MICROPY_HW_ENABLE_PSRAM
+    if (psram_size) {
+        #if MICROPY_GC_SPLIT_HEAP
+        gc_init(&__GcHeapStart, &__GcHeapEnd);
+        gc_add((void *)PSRAM_BASE, (void *)(PSRAM_BASE + psram_size));
+        #else
+        gc_init((void *)PSRAM_BASE, (void *)(PSRAM_BASE + psram_size));
+        #endif
+    } else {
+        gc_init(&__GcHeapStart, &__GcHeapEnd);
+    }
+    #else
     gc_init(&__GcHeapStart, &__GcHeapEnd);
+    #endif
 
     #if MICROPY_PY_LWIP
     // lwIP doesn't allow to reinitialise itself by subsequent calls to this function
@@ -168,7 +192,9 @@ int main(int argc, char **argv) {
         machine_pin_init();
         rp2_pio_init();
         rp2_dma_init();
+        #if MICROPY_PY_MACHINE_I2S
         machine_i2s_init0();
+        #endif
 
         #if MICROPY_PY_BLUETOOTH
         mp_bluetooth_hci_init();
@@ -225,15 +251,24 @@ int main(int argc, char **argv) {
         #if MICROPY_PY_NETWORK
         mod_network_deinit();
         #endif
+        #if MICROPY_PY_MACHINE_I2S
         machine_i2s_deinit_all();
+        #endif
         rp2_dma_deinit();
         rp2_pio_deinit();
         #if MICROPY_PY_BLUETOOTH
         mp_bluetooth_deinit();
         #endif
+        #if MICROPY_PY_MACHINE_PWM
         machine_pwm_deinit_all();
+        #endif
         machine_pin_deinit();
+        #if MICROPY_PY_MACHINE_UART
         machine_uart_deinit_all();
+        #endif
+        #if MICROPY_PY_MACHINE_I2C_TARGET
+        mp_machine_i2c_target_deinit_all();
+        #endif
         #if MICROPY_PY_THREAD
         mp_thread_deinit();
         #endif

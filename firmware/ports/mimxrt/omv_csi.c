@@ -54,86 +54,10 @@ extern uint8_t _line_buf[OMV_LINE_BUF_SIZE];
                           | CSI_CR1_FB2_DMA_DONE_INTEN_MASK \
                           | CSI_CR1_FB1_DMA_DONE_INTEN_MASK)
 
-void omv_csi_init0() {
-    omv_csi_abort(&csi, true, false);
-
-    // Re-init I2C to reset the bus state after soft reset, which
-    // could have interrupted the bus in the middle of a transfer.
-    if (csi.i2c_bus.initialized) {
-        // Reinitialize the bus using the last used id and speed.
-        omv_i2c_init(&csi.i2c_bus, csi.i2c_bus.id, csi.i2c_bus.speed);
-    }
-
-    csi.disable_delays = false;
-
-    // Disable VSYNC IRQ and callback
-    omv_csi_set_vsync_callback(NULL);
-
-    // Disable Frame callback.
-    omv_csi_set_frame_callback(NULL);
-}
-
-int omv_csi_init() {
-    int init_ret = 0;
-
-    mimxrt_hal_csi_init(CSI);
-
-    #if defined(OMV_CSI_POWER_PIN)
-    omv_gpio_write(OMV_CSI_POWER_PIN, 1);
-    #endif
-
-    #if defined(OMV_CSI_RESET_PIN)
-    omv_gpio_write(OMV_CSI_RESET_PIN, 1);
-    #endif
-
-    // Reset the csi state
-    memset(&csi, 0, sizeof(omv_csi_t));
-
-    // Set default framebuffer
-    csi.fb = framebuffer_get(0);
-
-    // Set default snapshot function.
-    // Some sensors need to call snapshot from init.
-    csi.snapshot = omv_csi_snapshot;
-
-    // Configure the csi external clock (XCLK).
-    if (omv_csi_set_clk_frequency(OMV_CSI_CLK_FREQUENCY) != 0) {
-        // Failed to initialize the csi clock.
-        return OMV_CSI_ERROR_TIM_INIT_FAILED;
-    }
-
-    // Detect and initialize the image sensor.
-    if ((init_ret = omv_csi_probe_init(OMV_CSI_I2C_ID, OMV_CSI_I2C_SPEED)) != 0) {
-        // Sensor probe/init failed.
-        return init_ret;
-    }
-
-    // Configure the CSI interface.
-    if (omv_csi_config(OMV_CSI_CONFIG_INIT) != 0) {
-        // CSI config failed
-        return OMV_CSI_ERROR_CSI_INIT_FAILED;
-    }
-
-    // Set default color palette.
-    csi.color_palette = rainbow_table;
-
-    // Disable VSYNC IRQ and callback
-    omv_csi_set_vsync_callback(NULL);
-
-    // Disable Frame callback.
-    omv_csi_set_frame_callback(NULL);
-
-    // All good!
-    csi.detected = true;
-
-    return 0;
-}
-
-int omv_csi_config(omv_csi_config_t config) {
+int imx_csi_config(omv_csi_t *csi, omv_csi_config_t config) {
     if (config == OMV_CSI_CONFIG_INIT) {
+        // Reset and configure CSI.
         CSI_Reset(CSI);
-        NVIC_DisableIRQ(CSI_IRQn);
-
         // CSI_Reset does not zero CR1.
         CSI_REG_CR1(CSI) = 0;
         // CSI mode: HSYNC, VSYNC, and PIXCLK signals are used.
@@ -144,9 +68,9 @@ int omv_csi_config(omv_csi_config_t config) {
 
         // Configure VSYNC, HSYNC and PIXCLK signals.
         CSI_REG_CR1(CSI) |= CSI_CR1_EXT_VSYNC_MASK;
-        CSI_REG_CR1(CSI) |= !csi.vsync_pol ? CSI_CR1_SOF_POL_MASK    : 0;
-        CSI_REG_CR1(CSI) |= !csi.hsync_pol ? CSI_CR1_HSYNC_POL_MASK  : 0;
-        CSI_REG_CR1(CSI) |= csi.pixck_pol ? CSI_CR1_REDGE_MASK      : 0;
+        CSI_REG_CR1(CSI) |= !csi->vsync_pol ? CSI_CR1_SOF_POL_MASK : 0;
+        CSI_REG_CR1(CSI) |= !csi->hsync_pol ? CSI_CR1_HSYNC_POL_MASK : 0;
+        CSI_REG_CR1(CSI) |= csi->pixck_pol ? CSI_CR1_REDGE_MASK : 0;
 
         // Stride config: No stride.
         CSI_REG_FBUF_PARA(CSI) = 0;
@@ -157,10 +81,6 @@ int omv_csi_config(omv_csi_config_t config) {
         CSI_REG_CR2(CSI) |= CSI_CR2_DMA_BURST_TYPE_RFF(3U);
         CSI_REG_CR3(CSI) |= 7U << CSI_CR3_RxFF_LEVEL_SHIFT;
 
-        // Configure DMA buffers.
-        CSI_REG_DMASA_FB1(CSI) = (uint32_t) (&_line_buf[OMV_LINE_BUF_SIZE * 0]);
-        CSI_REG_DMASA_FB2(CSI) = (uint32_t) (&_line_buf[OMV_LINE_BUF_SIZE / 2]);
-
         // Write to memory from first completed frame.
         // DMA CSI addr switch at dma transfer done.
         CSI_REG_CR18(CSI) |= CSI_CR18_MASK_OPTION(0);
@@ -168,29 +88,23 @@ int omv_csi_config(omv_csi_config_t config) {
     return 0;
 }
 
-int omv_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
-    NVIC_DisableIRQ(CSI_IRQn);
+static int imx_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
+    // Disable CSI interrupts.
     CSI_DisableInterrupts(CSI, CSI_IRQ_FLAGS);
+    NVIC_DisableIRQ(CSI_IRQn);
+    NVIC_ClearPendingIRQ(CSI_IRQn);
+
     CSI_REG_CR3(CSI) &= ~CSI_CR3_DMA_REQ_EN_RFF_MASK;
     CSI_REG_CR18(CSI) &= ~CSI_CR18_CSI_ENABLE_MASK;
-
     csi->dest_inc = 0;
-    csi->first_line = false;
-    csi->drop_frame = false;
-    csi->last_frame_ms = 0;
-    csi->last_frame_ms_valid = false;
-
-    if (csi->fb) {
-        if (fifo_flush) {
-            framebuffer_flush_buffers(csi->fb, true);
-        } else if (!csi->disable_full_flush) {
-            framebuffer_flush_buffers(csi->fb, false);
-        }
-    }
     return 0;
 }
 
-int omv_csi_set_clk_frequency(uint32_t frequency) {
+static uint32_t imx_clk_get_frequency(omv_clk_t *clk) {
+    return 24000000 / (CLOCK_GetDiv(kCLOCK_CsiDiv) + 1);
+}
+
+static int imx_clk_set_frequency(omv_clk_t *clk, uint32_t frequency) {
     if (frequency >= 24000000) {
         CLOCK_SetDiv(kCLOCK_CsiDiv, 0);
     } else if (frequency >= 12000000) {
@@ -207,46 +121,53 @@ int omv_csi_set_clk_frequency(uint32_t frequency) {
     return 0;
 }
 
-uint32_t omv_csi_get_xclk_frequency() {
-    return 24000000 / (CLOCK_GetDiv(kCLOCK_CsiDiv) + 1);
-}
-
-void omv_csi_sof_callback() {
-    csi.first_line = false;
-    csi.drop_frame = false;
+void omv_csi_sof_callback(omv_csi_t *csi) {
+    csi->first_line = false;
+    csi->drop_frame = false;
 
     // Get current framebuffer.
-    vbuffer_t *buffer = framebuffer_get_tail(csi.fb, FB_PEEK);
+    vbuffer_t *buffer = framebuffer_acquire(csi->fb, FB_FLAG_FREE | FB_FLAG_PEEK);
 
     if (buffer == NULL) {
-        omv_csi_abort(&csi, false, true);
-    } else if (buffer->offset < resolution[csi.framesize][1]) {
+        omv_csi_abort(csi, false, true);
+        return;
+    } else if (csi->one_shot) {
+        omv_csi_throttle_framerate(csi);
+        if (csi->drop_frame) {
+            return;
+        }
+        CSI_REG_DMASA_FB1(CSI) = (uint32_t) buffer->data;
+        CSI_REG_DMASA_FB2(CSI) = (uint32_t) buffer->data;
+    } else if (csi->pixformat != PIXFORMAT_JPEG && buffer->offset < csi->resolution[csi->framesize][1]) {
         // Missed a few lines, reset buffer state and continue.
-        buffer->reset_state = true;
+        framebuffer_reset(buffer);
     }
+
+    // Clear the FIFO and re/enable DMA.
+    CSI_REG_CR3(CSI) |= (CSI_CR3_DMA_REFLASH_RFF_MASK | CSI_CR3_DMA_REQ_EN_RFF_MASK);
 }
 
 #if defined(OMV_CSI_DMA)
-int omv_csi_dma_memcpy(void *dma, void *dst, void *src, int bpp, bool transposed) {
+int omv_csi_dma_memcpy(omv_csi_t *csi, void *dma, void *dst, void *src, int bpp, bool transposed) {
+    edma_handle_t *handle = dma;
+    edma_transfer_config_t config;
+    framebuffer_t *fb = csi->fb;
+
     // EMDA will not perform burst transfers for anything less than 32-byte chunks of four 64-bit
     // beats. Additionally, the CSI hardware lacks cropping so we cannot align the source address.
     // Given this, performance will be lacking on cropped images. So much so that we do not use
     // the EDMA for anything less than 4-byte transfers otherwise you get sensor timeout errors.
-    if (csi.dest_inc < MIN_EDMA_DST_INC) {
+    if (csi->dest_inc < MIN_EDMA_DST_INC) {
         return -1;
     }
 
-    edma_handle_t *handle = dma;
-    edma_transfer_config_t config;
-    framebuffer_t *fb = csi.fb;
-
     EDMA_PrepareTransferConfig(&config,
                                src, // srcAddr
-                               csi.src_size, // srcWidth
-                               csi.src_inc, // srcOffset
+                               csi->src_size, // srcWidth
+                               csi->src_inc, // srcOffset
                                dst, // destAddr
-                               transposed ? bpp : csi.dest_inc, // destWidth
-                               transposed ? (fb->v * bpp) : csi.dest_inc, // destOffset
+                               transposed ? bpp : csi->dest_inc, // destWidth
+                               transposed ? (fb->v * bpp) : csi->dest_inc, // destOffset
                                fb->u * bpp, // bytesEachRequest
                                fb->u * bpp); // transferBytes
 
@@ -259,7 +180,7 @@ int omv_csi_dma_memcpy(void *dma, void *dst, void *src, int bpp, bool transposed
         }
         if (--retry == 0) {
             // Drop the frame if EDMA is not keeping up as the image will be corrupt.
-            csi.drop_frame = true;
+            csi->drop_frame = true;
             return 0;
         }
     }
@@ -269,37 +190,45 @@ int omv_csi_dma_memcpy(void *dma, void *dst, void *src, int bpp, bool transposed
 }
 #endif
 
-void omv_csi_line_callback(uint32_t addr) {
-    framebuffer_t *fb = csi.fb;
+void omv_csi_frame_callback(omv_csi_t *csi) {
+    // Release the current framebuffer.
+    framebuffer_release(csi->fb, FB_FLAG_FREE | FB_FLAG_CHECK_LAST);
+    CSI_REG_CR3(CSI) &= ~CSI_CR3_DMA_REQ_EN_RFF_MASK;
+    if (csi->frame_cb.fun) {
+        csi->frame_cb.fun(csi->frame_cb.arg);
+    }
+}
+
+void omv_csi_line_callback(omv_csi_t *csi, uint32_t addr) {
+    framebuffer_t *fb = csi->fb;
+
+    // omv_csi_line_callback() will be called at the end of the complete frame in one-shot mode.
+    if (csi->one_shot) {
+        omv_csi_frame_callback(csi);
+        return;
+    }
 
     // Throttle frames to match the current frame rate.
-    omv_csi_throttle_framerate();
+    omv_csi_throttle_framerate(csi);
 
     // Get current framebuffer.
-    vbuffer_t *buffer = framebuffer_get_tail(fb, FB_PEEK);
+    vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK);
 
-    if (csi.pixformat == PIXFORMAT_JPEG) {
-        if (csi.drop_frame) {
+    if (csi->pixformat == PIXFORMAT_JPEG) {
+        bool jpeg_end = false;
+
+        if (csi->drop_frame) {
             return;
         }
-        bool jpeg_end = false;
-        if (csi.jpg_format == 4) {
-            // JPEG MODE 4:
-            //
-            // The width and height are fixed in each frame. The first two bytes are valid data
-            // length in every line, followed by valid image data. Dummy data (0xFF) may be used as
-            // padding at each line end if the current valid image data is less than the line width.
-            //
-            // In this mode `offset` holds the size of all jpeg data transferred.
-            //
-            // Note: We are using this mode for the OV5640 because it allows us to use the line
-            // buffers to fifo the JPEG image data input so we can handle SDRAM refresh hiccups
-            // that will cause data loss if we make the DMA hardware write directly to the FB.
-            //
+
+        if (csi->jpg_format == 4) {
+            // JPEG MODE 4: Fixed width and height per frame. Each line starts
+            // with two bytes indicating valid data length, followed by image
+            // data and optional padding (0xFF). `offset` holds the total size.
             uint16_t size = __REV16(*((uint16_t *) addr));
             // Prevent a buffer overflow when writing the jpeg data.
             if (buffer->offset + size > framebuffer_get_buffer_size(fb)) {
-                buffer->jpeg_buffer_overflow = true;
+                buffer->flags |= VB_FLAG_OVERFLOW;
                 jpeg_end = true;
             } else {
                 unaligned_memcpy(buffer->data + buffer->offset, ((uint16_t *) addr) + 1, size);
@@ -313,26 +242,22 @@ void omv_csi_line_callback(uint32_t addr) {
                 }
                 buffer->offset += size;
             }
-        } else if (csi.jpg_format == 3) {
+        } else if (csi->jpg_format == 3) {
             // OV2640 JPEG TODO
         }
-        // In JPEG mode the camera sensor will output some number of lines that doesn't match the
-        // the current framesize. Since we don't have an end-of-frame interrupt on the mimxrt we
-        // detect the end of the frame when there's no more jpeg data.
+
+        // In JPEG mode, the camera will output a number of lines that doesn't
+        // match the current frame size. Since we don't have an end-of-frame
+        // interrupt on the MIMXRT, the frame ends when there's no more data.
         if (jpeg_end) {
-            // Release the current framebuffer.
-            framebuffer_get_tail(fb, FB_NO_FLAGS);
-            CSI_REG_CR3(CSI) &= ~CSI_CR3_DMA_REQ_EN_RFF_MASK;
-            if (csi.frame_callback) {
-                csi.frame_callback();
-            }
-            csi.drop_frame = true;
+            omv_csi_frame_callback(csi);
+            csi->drop_frame = true;
         }
         return;
     }
 
-    if (csi.drop_frame) {
-        if (++buffer->offset == resolution[csi.framesize][1]) {
+    if (csi->drop_frame) {
+        if (++buffer->offset == csi->resolution[csi->framesize][1]) {
             buffer->offset = 0;
             CSI_REG_CR3(CSI) &= ~CSI_CR3_DMA_REQ_EN_RFF_MASK;
         }
@@ -341,16 +266,16 @@ void omv_csi_line_callback(uint32_t addr) {
 
     if ((fb->y <= buffer->offset) && (buffer->offset < (fb->y + fb->v))) {
         // Copy from DMA buffer to framebuffer.
-        uint32_t bytes_per_pixel = omv_csi_get_src_bpp();
+        uint32_t bytes_per_pixel = omv_csi_get_src_bpp(csi);
         uint8_t *src = ((uint8_t *) addr) + (fb->x * bytes_per_pixel);
         uint8_t *dst = buffer->data;
 
         // Adjust BPP for Grayscale.
-        if (csi.pixformat == PIXFORMAT_GRAYSCALE) {
+        if (csi->pixformat == PIXFORMAT_GRAYSCALE) {
             bytes_per_pixel = 1;
         }
 
-        if (csi.transpose) {
+        if (csi->transpose) {
             dst += bytes_per_pixel * (buffer->offset - fb->y);
         } else {
             dst += fb->u * bytes_per_pixel * (buffer->offset - fb->y);
@@ -360,19 +285,14 @@ void omv_csi_line_callback(uint32_t addr) {
         // We're using multiple handles to give each channel the maximum amount of time possible to do the line
         // transfer. In most situations only one channel will be running at a time. However, if SDRAM is
         // backedup we don't have to disable the channel if it is flushing trailing data to SDRAM.
-        omv_csi_copy_line(&csi.dma_channels[buffer->offset % OMV_CSI_DMA_CHANNEL_COUNT], src, dst);
+        omv_csi_copy_line(csi, &csi->dma_channels[buffer->offset % OMV_CSI_DMA_CHANNEL_COUNT], src, dst);
         #else
-        omv_csi_copy_line(NULL, src, dst);
+        omv_csi_copy_line(csi, NULL, src, dst);
         #endif
     }
 
-    if (++buffer->offset == resolution[csi.framesize][1]) {
-        // Release the current framebuffer.
-        framebuffer_get_tail(fb, FB_NO_FLAGS);
-        CSI_REG_CR3(CSI) &= ~CSI_CR3_DMA_REQ_EN_RFF_MASK;
-        if (csi.frame_callback) {
-            csi.frame_callback();
-        }
+    if (++buffer->offset == csi->resolution[csi->framesize][1]) {
+        omv_csi_frame_callback(csi);
     }
 }
 
@@ -417,38 +337,16 @@ static void edma_config(omv_csi_t *csi, uint32_t bytes_per_pixel) {
 }
 #endif
 
-int omv_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
+int imx_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
+    vbuffer_t *buffer = NULL;
     framebuffer_t *fb = csi->fb;
 
-    // Used to restore the frame buffer width and height.
-    uint32_t w = fb->u;
-    uint32_t h = fb->v;
-
-    if (csi->pixformat == PIXFORMAT_INVALID) {
-        return OMV_CSI_ERROR_INVALID_PIXFORMAT;
-    }
-
-    if (csi->framesize == OMV_CSI_FRAMESIZE_INVALID) {
-        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
-    }
-
-    if (omv_csi_check_framebuffer_size() != 0) {
-        return OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW;
-    }
-
-    // Compress the framebuffer for the IDE preview.
-    framebuffer_update_jpeg_buffer(fb);
-
-    // Free the current FB head.
-    framebuffer_free_current_buffer(fb);
-
-    // If the DMA is not active, reconfigure and restart the CSI transfer.
-    if (!(CSI->CR18 & CSI_CR18_CSI_ENABLE_MASK)) {
-        framebuffer_setup_buffers(fb);
-
-        uint32_t bytes_per_pixel = omv_csi_get_src_bpp();
-        uint32_t dma_line_bytes = resolution[csi->framesize][0] * bytes_per_pixel;
-        uint32_t length = dma_line_bytes * h;
+    // Configure and re/start the capture if it's not alrady active
+    // and there are no pending buffers (from non-blocking capture).
+    if (!(CSI->CR18 & CSI_CR18_CSI_ENABLE_MASK) && !framebuffer_readable(fb)) {
+        uint32_t bytes_per_pixel = omv_csi_get_src_bpp(csi);
+        uint32_t dma_line_bytes = csi->resolution[csi->framesize][0] * bytes_per_pixel;
+        uint32_t length = dma_line_bytes * fb->v;
 
         // Error out if the transfer size is not compatible with DMA transfer restrictions.
         if ((!dma_line_bytes)
@@ -479,73 +377,62 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
             CSI_REG_CR1(CSI) &= ~(CSI_CR1_SWAP16_EN_MASK | CSI_CR1_PACK_DIR_MASK);
         }
 
+        csi->one_shot = csi->pixformat != PIXFORMAT_JPEG &&
+                        !csi->transpose && !omv_csi_get_cropped(csi) &&
+                        !(csi->pixformat == PIXFORMAT_GRAYSCALE && csi->mono_bpp == 2);
+
+        // Configure DMA buffers.
+        CSI_REG_DMASA_FB1(CSI) = (uint32_t) (&_line_buf[OMV_LINE_BUF_SIZE * 0]);
+        CSI_REG_DMASA_FB2(CSI) = (uint32_t) (&_line_buf[OMV_LINE_BUF_SIZE / 2]);
         CSI_REG_IMAG_PARA(CSI) =
             (dma_line_bytes << CSI_IMAG_PARA_IMAGE_WIDTH_SHIFT) |
-            (1 << CSI_IMAG_PARA_IMAGE_HEIGHT_SHIFT);
+            ((csi->one_shot ? fb->v : 1) << CSI_IMAG_PARA_IMAGE_HEIGHT_SHIFT);
 
-        // Configure and enable CSI interrupts.
+        // Enable CSI interrupts.
         CSI_EnableInterrupts(CSI, CSI_IRQ_FLAGS);
+        NVIC_ClearPendingIRQ(CSI_IRQn);
+        NVIC_SetPriority(CSI_IRQn, IRQ_PRI_CSI);
         NVIC_EnableIRQ(CSI_IRQn);
 
         // Enable CSI
         CSI_REG_CR18(CSI) |= CSI_CR18_CSI_ENABLE_MASK;
     }
 
-    // Let the camera know we want to trigger it now.
-    #if defined(OMV_CSI_FSYNC_PIN)
-    if (csi->frame_sync) {
-        omv_gpio_write(OMV_CSI_FSYNC_PIN, 1);
-    }
-    #endif
-
-    framebuffer_flags_t fb_flags = FB_NO_FLAGS;
+    framebuffer_flags_t fb_flags = FB_FLAG_USED | FB_FLAG_PEEK;
 
     #if defined(OMV_CSI_DMA)
-    // dest_inc will be less than MIN_EDMA_DST_INC if the EDMA is not initialized or unusable.
+    // If the EDMA is used, the transfers must be invalidated.
     if (csi->dest_inc >= MIN_EDMA_DST_INC) {
-        fb_flags = FB_INVALIDATE;
+        fb_flags |= FB_FLAG_INVALIDATE;
     }
     #endif
 
-    vbuffer_t *buffer = framebuffer_get_head(fb, fb_flags);
-    // Wait for the DMA to finish the transfer.
-    for (mp_uint_t ticks = mp_hal_ticks_ms(); buffer == NULL;) {
-        MICROPY_EVENT_POLL_HOOK
-        if ((mp_hal_ticks_ms() - ticks) > OMV_CSI_TIMEOUT_MS) {
+    // Wait for a frame to be ready.
+    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_event_handle_nowait()) {
+        if ((buffer = framebuffer_acquire(fb, fb_flags))) {
+            break;
+        }
+
+        if (flags & OMV_CSI_FLAG_NON_BLOCK) {
+            return OMV_CSI_ERROR_WOULD_BLOCK;
+        }
+
+        if ((mp_hal_ticks_ms() - start) > OMV_CSI_TIMEOUT_MS) {
             omv_csi_abort(csi, true, false);
-
-            #if defined(OMV_CSI_FSYNC_PIN)
-            if (csi->frame_sync) {
-                omv_gpio_write(OMV_CSI_FSYNC_PIN, 0);
-            }
-            #endif
-
             return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
         }
-        buffer = framebuffer_get_head(fb, fb_flags);
     }
-
-    // We're done receiving data.
-    #if defined(OMV_CSI_FSYNC_PIN)
-    if (csi->frame_sync) {
-        omv_gpio_write(OMV_CSI_FSYNC_PIN, 0);
-    }
-    #endif
 
     // The JPEG in the frame buffer is actually invalid.
-    if (buffer->jpeg_buffer_overflow) {
+    if (buffer->flags & VB_FLAG_OVERFLOW) {
         return OMV_CSI_ERROR_JPEG_OVERFLOW;
     }
 
-    if (!csi->transpose) {
-        fb->w = w;
-        fb->h = h;
-    } else {
-        fb->w = h;
-        fb->h = w;
-    }
+    // Set the framebuffer width/height.
+    fb->w = csi->transpose ? fb->v : fb->u;
+    fb->h = csi->transpose ? fb->u : fb->v;
 
-    // Fix the BPP.
+    // Set the framebuffer pixel format.
     switch (csi->pixformat) {
         case PIXFORMAT_GRAYSCALE:
             fb->pixfmt = PIXFORMAT_GRAYSCALE;
@@ -583,7 +470,20 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
     }
 
     // Set the user image.
-    framebuffer_init_image(fb, image);
+    framebuffer_to_image(fb, image);
     return 0;
 }
-#endif
+
+int omv_csi_ops_init(omv_csi_t *csi) {
+    // Set CSI ops.
+    csi->abort = imx_csi_abort;
+    csi->config = imx_csi_config;
+    csi->snapshot = imx_csi_snapshot;
+
+    // Set CSI clock ops.
+    csi->clk->freq = OMV_CSI_CLK_FREQUENCY;
+    csi->clk->set_freq = imx_clk_set_frequency;
+    csi->clk->get_freq = imx_clk_get_frequency;
+    return 0;
+}
+#endif // MICROPY_PY_CSI

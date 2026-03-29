@@ -27,13 +27,8 @@
 // CSI drivers configuration.
 #define OMV_OV5640_ENABLE               (1)
 #define OMV_OV5640_AF_ENABLE            (1)
-#define OMV_OV5640_CLK_FREQ             (24000000)
 #define OMV_OV5640_PLL_CTRL2            (0x64)
 #define OMV_OV5640_PLL_CTRL3            (0x13)
-#define OMV_OV5640_REV_Y_CHECK          (0)
-#define OMV_OV5640_REV_Y_FREQ           (25000000)
-#define OMV_OV5640_REV_Y_CTRL2          (0x54)
-#define OMV_OV5640_REV_Y_CTRL3          (0x13)
 
 #define OMV_OV7725_ENABLE               (1)
 #define OMV_OV7725_PLL_CONFIG           (0x41)   // x4
@@ -45,26 +40,22 @@
 #define OMV_PAG7920_ENABLE              (1)
 #define OMV_PAJ6100_ENABLE              (1)
 #define OMV_FROGEYE2020_ENABLE          (1)
-#define OMV_GENX320_EHC_ENABLE          (1)
 
 // FIR drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE         (1)
 #define OMV_FIR_MLX90640_ENABLE         (1)
 #define OMV_FIR_MLX90641_ENABLE         (1)
 #define OMV_FIR_AMG8833_ENABLE          (1)
-#define OMV_FIR_LEPTON_ENABLE           (1)
-
-// Debugging configuration.
-#define OMV_TUSBDBG_ENABLE              (1)
-#define OMV_TUSBDBG_BUFFER              (2048)
 
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE              256
 
+// Protocol hardware capabilities
+#define OMV_PROTOCOL_HW_CAPS            OMV_PROTOCOL_HW_CAPS_MAKE( \
+        HAS_DRAM, HAS_WIFI, HAS_BT, HAS_SD, HAS_ETH, HAS_USB_HS)
+
 // USB config.
 #define OMV_USB_IRQN                    (USB_OTG1_IRQn)
-#define OMV_USB1_IRQ_HANDLER            (USB_OTG1_IRQHandler)
-#define OMV_USB2_IRQ_HANDLER            (USB_OTG2_IRQHandler)
 
 #define OMV_USB_PHY_ID                  (kUSB_ControllerEhci0)
 #define OMV_USB_PHY_D_CAL               (0x0CU)
@@ -77,24 +68,23 @@
 #define OMV_MAIN_MEMORY                 DTCM    // Data/BSS memory
 #define OMV_STACK_MEMORY                ITCM1   // stack memory
 #define OMV_STACK_SIZE                  (32K)
-#define OMV_JPEG_MEMORY                 DRAM    // JPEG buffer memory buffer.
-#define OMV_JPEG_SIZE                   (1M)    // IDE JPEG buffer (header + data).
+#define OMV_SB_MEMORY                   DRAM    // Streaming buffer memory.
+#define OMV_SB_SIZE                     (1M)    // Streaming buffer size.
 #define OMV_FB_MEMORY                   DRAM    // Framebuffer, fb_alloc
 #define OMV_FB_SIZE                     (13M)   // FB memory: header + VGA/GS image
 #define OMV_FB_ALLOC_SIZE               (10M)   // minimum fb alloc size
 #define OMV_FB_OVERLAY_MEMORY           OCRM1   // Fast fb_alloc memory.
 #define OMV_FB_OVERLAY_SIZE             (512K)
-#define OMV_VOSPI_MEMORY                OCRM2   // VoSPI buffer memory.
-#define OMV_VOSPI_SIZE                  (38K)
 #define OMV_DMA_MEMORY                  DTCM    // Misc DMA buffers memory.
 #define OMV_GC_BLOCK0_MEMORY            OCRM2   // Extra GC block 0.
-#define OMV_GC_BLOCK0_SIZE              (26K)
+#define OMV_GC_BLOCK0_SIZE              (64K)
 #define OMV_GC_BLOCK1_MEMORY            DTCM    // Main GC block
-#define OMV_GC_BLOCK1_SIZE              (288K)
+#define OMV_GC_BLOCK1_SIZE              (271K)
 #define OMV_GC_BLOCK2_MEMORY            DRAM    // Extra GC block 1.
 #define OMV_GC_BLOCK2_SIZE              (8M)
 #define OMV_RAMFUNC_MEMORY              ITCM2   // RAM code memory.
 #define OMV_LINE_BUF_SIZE               (11 * 1024)  // Image line buffer.
+#define OMV_VOSPI_DMA_BUFFER            ".dma_buffer"
 
 // Memory configuration.
 #define OMV_DTCM_ORIGIN                 0x20000000
@@ -188,11 +178,6 @@
 #define OMV_SPI_DISPLAY_TRIPLE_BUFFER   (0)
 #define OMV_SPI_DISPLAY_RX_CLK_DIV      (8)
 
-// FIR Lepton
-#define OMV_FIR_LEPTON_I2C_BUS          (OMV_FIR_I2C_ID)
-#define OMV_FIR_LEPTON_I2C_BUS_SPEED    (OMV_FIR_I2C_SPEED)
-#define OMV_FIR_LEPTON_SPI_BUS          (OMV_SPI3_ID)
-
 // Camera interface configuration.
 #define OMV_CSI_BASE                    (CSI)
 #define OMV_CSI_DMA                     (DMA0)
@@ -203,6 +188,7 @@
 #define OMV_CSI_DMA_MEMCPY_ENABLE       (1)
 #define OMV_CSI_HW_SWAP_ENABLE          (1)
 #define OMV_CSI_HW_CROP_ENABLE          (1)
+#define OMV_CSI_MAX_DEVICES             (2)
 
 #define OMV_CSI_D0_PIN                  (&omv_pin_DCMI_D0)
 #define OMV_CSI_D1_PIN                  (&omv_pin_DCMI_D1)

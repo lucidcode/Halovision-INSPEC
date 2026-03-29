@@ -592,7 +592,7 @@ static int jpeg_check_highwater(jpeg_buf_t *jpeg_buf) {
             return 1;
         }
         jpeg_buf->length += 1024;
-        jpeg_buf->buf = xrealloc(jpeg_buf->buf, jpeg_buf->length);
+        jpeg_buf->buf = m_realloc(jpeg_buf->buf, jpeg_buf->length);
     }
     return 0;
 }
@@ -605,7 +605,7 @@ static void jpeg_put_char(jpeg_buf_t *jpeg_buf, char c) {
             return;
         }
         jpeg_buf->length += 1024;
-        jpeg_buf->buf = xrealloc(jpeg_buf->buf, jpeg_buf->length);
+        jpeg_buf->buf = m_realloc(jpeg_buf->buf, jpeg_buf->length);
     }
 
     jpeg_buf->buf[jpeg_buf->idx++] = c;
@@ -619,7 +619,7 @@ static void jpeg_put_bytes(jpeg_buf_t *jpeg_buf, const void *data, int size) {
             return;
         }
         jpeg_buf->length += 1024;
-        jpeg_buf->buf = xrealloc(jpeg_buf->buf, jpeg_buf->length);
+        jpeg_buf->buf = m_realloc(jpeg_buf->buf, jpeg_buf->length);
     }
 
     memcpy(jpeg_buf->buf + jpeg_buf->idx, data, size);
@@ -931,8 +931,6 @@ static void jpeg_write_headers(jpeg_buf_t *jpeg_buf, int w, int h, int bpp, jpeg
 }
 
 bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_subsampling_t subsampling) {
-    OMV_PROFILE_START();
-
     if (!dst->data) {
         uint32_t size = 0;
         dst->data = fb_alloc_all(&size, FB_ALLOC_PREFER_SIZE | FB_ALLOC_CACHE_ALIGN);
@@ -1261,8 +1259,6 @@ bool jpeg_compress(image_t *src, image_t *dst, int quality, bool realloc, jpeg_s
 
     dst->size = jpeg_buf.idx;
     dst->data = jpeg_buf.buf;
-
-    OMV_PROFILE_PRINT();
     return false;
 }
 
@@ -1311,7 +1307,7 @@ int jpeg_clean_trailing_bytes(int size, uint8_t *data) {
 
 #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
 // This function inits the geometry values of an image.
-void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settings_t *rs) {
+void jpeg_read_geometry(file_t *fp, image_t *img, const char *path, jpg_read_settings_t *rs) {
     for (;;) {
         uint16_t header;
         file_read(fp, &header, 2);
@@ -1340,7 +1336,7 @@ void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settin
 
                 rs->jpg_w = width;
                 rs->jpg_h = height;
-                rs->jpg_size = IMLIB_IMAGE_MAX_SIZE(f_size(fp));
+                rs->jpg_size = IMLIB_IMAGE_MAX_SIZE(file_size(fp));
 
                 img->w = rs->jpg_w;
                 img->h = rs->jpg_h;
@@ -1348,7 +1344,7 @@ void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settin
                 img->pixfmt = PIXFORMAT_JPEG;
                 return;
             } else {
-                file_seek(fp, f_tell(fp) + size - 2);
+                file_seek(fp, file_tell(fp) + size - 2);
             }
         } else {
             file_raise_corrupted(fp);
@@ -1357,13 +1353,13 @@ void jpeg_read_geometry(FIL *fp, image_t *img, const char *path, jpg_read_settin
 }
 
 // This function reads the pixel values of an image.
-void jpeg_read_pixels(FIL *fp, image_t *img) {
+void jpeg_read_pixels(file_t *fp, image_t *img) {
     file_seek(fp, 0);
     file_read(fp, img->pixels, img->size);
 }
 
 void jpeg_read(image_t *img, const char *path) {
-    FIL fp;
+    file_t fp;
     jpg_read_settings_t rs;
 
     // Do not use file buffering here.
@@ -1371,7 +1367,7 @@ void jpeg_read(image_t *img, const char *path) {
     jpeg_read_geometry(&fp, img, path, &rs);
 
     if (!img->pixels) {
-        image_xalloc(img, img->size);
+        image_alloc(img, img->size);
     }
 
     jpeg_read_pixels(&fp, img);
@@ -1379,7 +1375,7 @@ void jpeg_read(image_t *img, const char *path) {
 }
 
 void jpeg_write(image_t *img, const char *path, int quality) {
-    FIL fp;
+    file_t fp;
     file_open(&fp, path, false, FA_WRITE | FA_CREATE_ALWAYS);
     if (IM_IS_JPEG(img)) {
         file_write(&fp, img->pixels, img->size);

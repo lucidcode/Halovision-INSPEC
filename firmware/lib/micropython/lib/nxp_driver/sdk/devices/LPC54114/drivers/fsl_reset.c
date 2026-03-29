@@ -45,9 +45,9 @@ void RESET_SetPeripheralReset(reset_ip_name_t peripheral)
 {
     const uint32_t regIndex = ((uint32_t)peripheral & 0xFFFF0000u) >> 16;
     const uint32_t bitPos = ((uint32_t)peripheral & 0x0000FFFFu);
-    const uint32_t bitMask = 1u << bitPos;
+    const uint32_t bitMask = 1UL << bitPos;
 
-    assert(bitPos < 32u);
+    assert(bitPos < 32UL);
 
     /* ASYNC_SYSCON registers have offset 1024 */
     if (regIndex >= SYSCON_PRESETCTRL_COUNT)
@@ -86,9 +86,9 @@ void RESET_ClearPeripheralReset(reset_ip_name_t peripheral)
 {
     const uint32_t regIndex = ((uint32_t)peripheral & 0xFFFF0000u) >> 16;
     const uint32_t bitPos = ((uint32_t)peripheral & 0x0000FFFFu);
-    const uint32_t bitMask = 1u << bitPos;
+    const uint32_t bitMask = 1UL << bitPos;
 
-    assert(bitPos < 32u);
+    assert(bitPos < 32UL);
 
     /* ASYNC_SYSCON registers have offset 1024 */
     if (regIndex >= SYSCON_PRESETCTRL_COUNT)
@@ -137,7 +137,7 @@ void RESET_SetSlaveCoreReset(void)
     uint32_t cpuctrl = (SYSCON->CPUCTRL & ~0x7F80U) | 0xC0C48000U;
 
     /* CM4 is the master. */
-    if (cpuctrl & SYSCON_CPUCTRL_MASTERCPU_MASK)
+    if (SYSCON_CPUCTRL_MASTERCPU_MASK == (cpuctrl & SYSCON_CPUCTRL_MASTERCPU_MASK))
     {
         SYSCON->CPUCTRL = cpuctrl | SYSCON_CPUCTRL_CM0RSTEN_MASK;
     }
@@ -156,7 +156,7 @@ void RESET_ClearSlaveCoreReset(void)
     uint32_t cpuctrl = (SYSCON->CPUCTRL & ~0x7F80U) | 0xC0C48000U;
 
     /* CM4 is the master. */
-    if (cpuctrl & SYSCON_CPUCTRL_MASTERCPU_MASK)
+    if (SYSCON_CPUCTRL_MASTERCPU_MASK == (cpuctrl & SYSCON_CPUCTRL_MASTERCPU_MASK))
     {
         SYSCON->CPUCTRL = cpuctrl & ~SYSCON_CPUCTRL_CM0RSTEN_MASK;
     }
@@ -178,7 +178,7 @@ void RESET_SlaveCoreReset(uint32_t bootAddr, uint32_t bootStackPointer)
     SYSCON->CPBOOT = bootAddr;
 
     RESET_SetSlaveCoreReset();
-    while(i--){}
+    while(0U != i--){}
     RESET_ClearSlaveCoreReset();
 }
 

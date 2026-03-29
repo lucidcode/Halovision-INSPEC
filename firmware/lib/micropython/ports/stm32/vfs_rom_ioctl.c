@@ -33,31 +33,36 @@
 #include "flash.h"
 #include "qspi.h"
 #include "storage.h"
+#include "xspi.h"
 
 #if MICROPY_VFS_ROM_IOCTL
 
-#if MICROPY_HW_ROMFS_ENABLE_PART0 && !defined(MICROPY_HW_ROMFS_PART0_START)
-#define MICROPY_HW_ROMFS_PART0_START (uintptr_t)(&_micropy_hw_romfs_part0_start)
-#define MICROPY_HW_ROMFS_PART0_SIZE (uintptr_t)(&_micropy_hw_romfs_part0_size)
+#if MICROPY_HW_ROMFS_ENABLE_PART0 && defined(MICROPY_HW_ROMFS_PART0_START)
+#define ROMFS0_DYNAMIC (1)
+static MP_DEFINE_MEMORYVIEW_OBJ(romfs0_obj, 'B', 0, (uintptr_t)-1, (void *)-1);
+#elif MICROPY_HW_ROMFS_ENABLE_PART0 && !defined(MICROPY_HW_ROMFS_PART0_START)
+#define ROMFS0_DYNAMIC (0)
 extern uint8_t _micropy_hw_romfs_part0_start;
 extern uint8_t _micropy_hw_romfs_part0_size;
+static const MP_DEFINE_MEMORYVIEW_OBJ(romfs0_obj, 'B', 0, (uintptr_t)&_micropy_hw_romfs_part0_size, (void *)&_micropy_hw_romfs_part0_start);
 #endif
 
-#if MICROPY_HW_ROMFS_ENABLE_PART1 && !defined(MICROPY_HW_ROMFS_PART1_START)
-#define MICROPY_HW_ROMFS_PART1_START (uintptr_t)(&_micropy_hw_romfs_part1_start)
-#define MICROPY_HW_ROMFS_PART1_SIZE (uintptr_t)(&_micropy_hw_romfs_part1_size)
+#if MICROPY_HW_ROMFS_ENABLE_PART1 && defined(MICROPY_HW_ROMFS_PART1_START)
+#define ROMFS1_DYNAMIC (1)
+static MP_DEFINE_MEMORYVIEW_OBJ(romfs1_obj, 'B', 0, (uintptr_t)-1, (void *)-1);
+#elif MICROPY_HW_ROMFS_ENABLE_PART1 && !defined(MICROPY_HW_ROMFS_PART1_START)
+#define ROMFS1_DYNAMIC (0)
 extern uint8_t _micropy_hw_romfs_part1_start;
 extern uint8_t _micropy_hw_romfs_part1_size;
+static const MP_DEFINE_MEMORYVIEW_OBJ(romfs1_obj, 'B', 0, (uintptr_t)&_micropy_hw_romfs_part1_size, (void *)&_micropy_hw_romfs_part1_start);
 #endif
 
-#define ROMFS_MEMORYVIEW(base, size) {{&mp_type_memoryview}, 'B', 0, (size), (void *)(base)}
-
-static const mp_obj_array_t romfs_obj_table[] = {
+static const mp_obj_array_t *romfs_obj_table[] = {
     #if MICROPY_HW_ROMFS_ENABLE_PART0
-    ROMFS_MEMORYVIEW(MICROPY_HW_ROMFS_PART0_START, MICROPY_HW_ROMFS_PART0_SIZE),
+    &romfs0_obj,
     #endif
     #if MICROPY_HW_ROMFS_ENABLE_PART1
-    ROMFS_MEMORYVIEW(MICROPY_HW_ROMFS_PART1_START, MICROPY_HW_ROMFS_PART1_SIZE),
+    &romfs1_obj,
     #endif
 };
 
@@ -76,7 +81,20 @@ mp_obj_t mp_vfs_rom_ioctl(size_t n_args, const mp_obj_t *args) {
         return MP_OBJ_NEW_SMALL_INT(-MP_EINVAL);
     }
 
-    const mp_obj_array_t *romfs_obj = &romfs_obj_table[romfs_id];
+    #if ROMFS0_DYNAMIC
+    if (romfs_id == 0) {
+        romfs0_obj.items = (void *)MICROPY_HW_ROMFS_PART0_START;
+        romfs0_obj.len = MICROPY_HW_ROMFS_PART0_SIZE;
+    }
+    #endif
+    #if ROMFS1_DYNAMIC
+    if (romfs_id == 1) {
+        romfs1_obj.items = (void *)MICROPY_HW_ROMFS_PART1_START;
+        romfs1_obj.len = MICROPY_HW_ROMFS_PART1_SIZE;
+    }
+    #endif
+
+    const mp_obj_array_t *romfs_obj = romfs_obj_table[romfs_id];
     uintptr_t romfs_base = (uintptr_t)romfs_obj->items;
     uintptr_t romfs_len = romfs_obj->len;
 
@@ -125,6 +143,18 @@ mp_obj_t mp_vfs_rom_ioctl(size_t n_args, const mp_obj_t *args) {
             return MP_OBJ_NEW_SMALL_INT(4);
         }
         #endif
+
+        #if MICROPY_HW_ROMFS_ENABLE_EXTERNAL_XSPI
+        if (xspi_is_valid_addr(&xspi_flash2, dest)) {
+            dest -= xspi_get_xip_base(&xspi_flash2);
+            dest_max -= xspi_get_xip_base(&xspi_flash2);
+            int ret = spi_bdev_eraseblocks_raw(MICROPY_HW_ROMFS_XSPI_SPIBDEV_OBJ, dest / MP_SPIFLASH_ERASE_BLOCK_SIZE, dest_max - dest + MP_SPIFLASH_ERASE_BLOCK_SIZE - 1);
+            if (ret < 0) {
+                return MP_OBJ_NEW_SMALL_INT(ret);
+            }
+            return MP_OBJ_NEW_SMALL_INT(4);
+        }
+        #endif
     }
 
     if (cmd == MP_VFS_ROM_IOCTL_WRITE) {
@@ -150,6 +180,14 @@ mp_obj_t mp_vfs_rom_ioctl(size_t n_args, const mp_obj_t *args) {
         if (qspi_is_valid_addr(dest)) {
             dest -= QSPI_MAP_ADDR;
             int ret = mp_spiflash_write(MICROPY_HW_ROMFS_QSPI_SPIFLASH_OBJ, dest, bufinfo.len, bufinfo.buf);
+            return MP_OBJ_NEW_SMALL_INT(ret);
+        }
+        #endif
+
+        #if MICROPY_HW_ROMFS_ENABLE_EXTERNAL_XSPI
+        if (xspi_is_valid_addr(&xspi_flash2, dest)) {
+            dest -= xspi_get_xip_base(&xspi_flash2);
+            int ret = spi_bdev_writeblocks_raw(MICROPY_HW_ROMFS_XSPI_SPIBDEV_OBJ, bufinfo.buf, 0, dest, bufinfo.len);
             return MP_OBJ_NEW_SMALL_INT(ret);
         }
         #endif

@@ -8,7 +8,16 @@ repos:
         verbose: true
         stages: [commit-msg]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.1.2
+    # Version should be kept in sync with .github/workflows/ruff.yml & also micropython
+    rev: v0.11.6
     hooks:
       - id: ruff
         id: ruff-format
+
+  - repo: https://github.com/codespell-project/codespell
+    # version should be kept in sync with .github/workflows/codespell.yml & micropython repo
+    rev: v2.4.1
+    hooks:
+    - id: codespell
+      additional_dependencies:
+        - tomli

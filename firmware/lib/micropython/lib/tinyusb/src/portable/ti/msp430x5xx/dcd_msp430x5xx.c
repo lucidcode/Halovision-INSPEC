@@ -130,9 +130,8 @@ static void enable_functional_reset(const bool enable)
 /*------------------------------------------------------------------*/
 /* Controller API
  *------------------------------------------------------------------*/
-void dcd_init (uint8_t rhport)
-{
-  (void) rhport;
+bool dcd_init(uint8_t rhport, const tusb_rhport_init_t* rh_init) {
+  (void) rhport; (void) rh_init;
 
   USBKEYPID = USBKEY;
 
@@ -164,6 +163,8 @@ void dcd_init (uint8_t rhport)
   }
 
   USBKEYPID = 0;
+
+  return true;
 }
 
 // There is no "USB peripheral interrupt disable" bit on MSP430, so we have
@@ -661,24 +662,10 @@ static void handle_setup_packet(void)
   dcd_event_setup_received(0, (uint8_t*) &_setup_packet[0], true);
 }
 
-#if CFG_TUSB_OS == OPT_OS_NONE
-TU_ATTR_ALWAYS_INLINE static inline void tu_delay(uint32_t ms) {
-  // msp430 can run up to 25Mhz -> 40ns per cycle. 1 ms = 25000 cycles
-  // each loop need 4 cycle: 1 sub, 1 cmp, 1 jump, 1 nop
-  volatile uint32_t cycles = (25000 * ms) >> 2;
-  while (cycles > 0) {
-    cycles--;
-    asm("nop");
-  }
-}
-#else
-#define tu_delay(ms) osal_task_delay(ms)
-#endif
-
 static void handle_bus_power_event(void *param) {
   (void) param;
 
-  tu_delay(5);                 // Bus power settling delay.
+  tusb_time_delay_ms_api(5);                 // Bus power settling delay.
 
   USBKEYPID = USBKEY;
 
@@ -693,13 +680,17 @@ static void handle_bus_power_event(void *param) {
     uint16_t attempts = 0;
     do {                              // Poll the PLL, checking for a successful lock.
       USBPLLIR = 0;
-      tu_delay(1);
+      tusb_time_delay_ms_api(1);
       attempts++;
     } while ((attempts < 10) && (USBPLLIR != 0));
 
     // A successful lock is indicated by all PLL-related interrupt flags being cleared.
     if(!USBPLLIR) {
-      dcd_init(0);                    // Re-initialize the USB module.
+      const tusb_rhport_init_t rhport_init = {
+        .role = TUSB_ROLE_DEVICE,
+        .speed = TUSB_SPEED_FULL
+      };
+      dcd_init(0, &rhport_init);         // Re-initialize the USB module.
     }
   } else {                            // Event caused by removal of bus power.
     USBPWRCTL |= VBONIE;              // Enable bus-power-applied interrupt.

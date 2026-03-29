@@ -63,6 +63,10 @@ mpool_open(key, fd, fvtable, pagesize, maxcache)
 	MPOOL *mp;
 	int entry;
 
+	off_t file_size = fvtable->lseek(fd, 0, SEEK_END);
+	if (file_size == (off_t)-1)
+		return (NULL);
+
 	/* Allocate and initialize the MPOOL cookie. */
 	if ((mp = (MPOOL *)calloc(1, sizeof(MPOOL))) == NULL)
 		return (NULL);
@@ -71,9 +75,6 @@ mpool_open(key, fd, fvtable, pagesize, maxcache)
 		CIRCLEQ_INIT(&mp->hqh[entry]);
 	mp->maxcache = maxcache;
 	mp->fvtable = fvtable;
-	off_t file_size = mp->fvtable->lseek(fd, 0, SEEK_END);
-	if (file_size == (off_t)-1)
-		return (NULL);
 	mp->npages = file_size / pagesize;
 	mp->pagesize = pagesize;
 	mp->fd = fd;

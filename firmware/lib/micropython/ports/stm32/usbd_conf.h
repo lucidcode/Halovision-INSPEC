@@ -39,7 +39,7 @@
 
 #include "py/mpconfig.h"
 
-#define USBD_MAX_NUM_INTERFACES               3
+#define USBD_MAX_NUM_INTERFACES               8
 #define USBD_MAX_NUM_CONFIGURATION            1
 #define USBD_MAX_STR_DESC_SIZ                 0x100
 #if MICROPY_HW_USB_SELF_POWERED
@@ -63,6 +63,10 @@
 #define USBD_FS_NUM_FIFO                      (1 + USBD_FS_NUM_TX_FIFO)
 #define USBD_HS_NUM_TX_FIFO                   (9)
 #define USBD_HS_NUM_FIFO                      (1 + USBD_HS_NUM_TX_FIFO)
+
+#if MICROPY_HW_TINYUSB_STACK
+void mp_usbd_ll_init(void);
+#endif
 
 #endif // MICROPY_INCLUDED_STM32_USBD_CONF_H
 

@@ -30,26 +30,26 @@
 // CSI drivers configuration.
 #define OMV_OV5640_ENABLE                       (1)
 #define OMV_OV5640_AF_ENABLE                    (1)
-#define OMV_OV5640_CLK_FREQ                     (24000000)
 #define OMV_OV5640_PLL_CTRL2                    (0x64)
 #define OMV_OV5640_PLL_CTRL3                    (0x13)
-#define OMV_OV5640_REV_Y_CHECK                  (1)
-#define OMV_OV5640_REV_Y_FREQ                   (25000000)
-#define OMV_OV5640_REV_Y_CTRL2                  (0x54)
-#define OMV_OV5640_REV_Y_CTRL3                  (0x13)
+
+#define OMV_LEPTON_ENABLE                       (1)
 
 // FIR drivers configuration.
 #define OMV_FIR_MLX90621_ENABLE                 (1)
 #define OMV_FIR_MLX90640_ENABLE                 (1)
 #define OMV_FIR_MLX90641_ENABLE                 (1)
 #define OMV_FIR_AMG8833_ENABLE                  (1)
-#define OMV_FIR_LEPTON_ENABLE                   (1)
 
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE                      256
 
 // USB IRQn.
 #define OMV_USB_IRQN                            (OTG_FS_IRQn)
+
+// OpenMV protocol configuration.
+#define OMV_PROTOCOL_MAX_BUFFER_SIZE            (4096)
+#define OMV_PROTOCOL_HW_CAPS                    OMV_PROTOCOL_HW_CAPS_MAKE(HAS_JPEG, HAS_DRAM, HAS_CRC, HAS_SD)
 
 //PLL1 48MHz for USB, SDMMC and FDCAN
 #define OMV_OSC_PLL1M                           (3)
@@ -115,10 +115,8 @@
 #define OMV_FB_ALLOC_SIZE                       (23M)   // minimum fb alloc size
 #define OMV_FB_OVERLAY_MEMORY                   SRAM0   // Fast fb_alloc memory.
 #define OMV_FB_OVERLAY_SIZE                     (496K)  // Fast fb_alloc memory size.
-#define OMV_JPEG_MEMORY                         DRAM    // JPEG buffer memory buffer.
-#define OMV_JPEG_SIZE                           (1M)    // IDE JPEG buffer (header + data).
-#define OMV_VOSPI_MEMORY                        SRAM4   // VoSPI buffer memory.
-#define OMV_VOSPI_SIZE                          (38K)
+#define OMV_SB_MEMORY                           DRAM    // Streaming buffer memory.
+#define OMV_SB_SIZE                             (1M)    // Streaming buffer size.
 #define OMV_DMA_MEMORY                          SRAM3   // DMA buffers memory.
 #define OMV_DMA_MEMORY_D1                       SRAM0   // Domain 1 DMA buffers.
 #define OMV_DMA_MEMORY_D2                       SRAM3   // Domain 2 DMA buffers.
@@ -127,9 +125,9 @@
 #define OMV_GC_BLOCK0_SIZE                      (250K)
 #define OMV_GC_BLOCK1_MEMORY                    DRAM    // Extra GC block 0.
 #define OMV_GC_BLOCK1_SIZE                      (8M)
-#define OMV_SDRAM_SIZE                          (64 * 1024 * 1024)  // This needs to be here for UVC firmware.
 #define OMV_MSC_BUF_SIZE                        (2K)    // USB MSC bot data
 #define OMV_LINE_BUF_SIZE                       (11 * 1024) // Image line buffer round(2592 * 2BPP * 2 buffers).
+#define OMV_VOSPI_DMA_BUFFER                    ".dma_buffer"
 
 // Memory map.
 #define OMV_FLASH_ORIGIN                        0x08000000
@@ -193,6 +191,9 @@
 #define OMV_SOFT_I2C_SIOD_PIN                   (&omv_pin_B11_GPIO)
 #define OMV_SOFT_I2C_SPIN_DELAY                 64
 
+// CSI SPI bus
+#define OMV_CSI_SPI_ID                          (3)
+
 // WINC1500 WiFi module SPI bus
 #define OMV_WINC_SPI_ID                         (5)
 #define OMV_WINC_SPI_BAUDRATE                   (50000000)
@@ -211,9 +212,12 @@
 #define OMV_CSI_TIM_CLK_ENABLE()                __TIM1_CLK_ENABLE()
 #define OMV_CSI_TIM_CLK_DISABLE()               __TIM1_CLK_DISABLE()
 #define OMV_CSI_TIM_CLK_SLEEP_ENABLE()          __TIM1_CLK_SLEEP_ENABLE()
-#define OMV_CSI_TIM_PCLK_FREQ()                 HAL_RCC_GetPCLK2Freq()
+#define OMV_CSI_TIM_CLK_SLEEP_DISABLE()         __TIM1_CLK_SLEEP_DISABLE()
+#define OMV_CSI_DMA_CHANNEL                     (DMA2_Stream1)
+#define OMV_CSI_DMA_REQUEST                     (DMA_REQUEST_DCMI)
 #define OMV_CSI_DMA_MEMCPY_ENABLE               (1)
 #define OMV_CSI_HW_CROP_ENABLE                  (1)
+#define OMV_CSI_MAX_DEVICES                     (2)
 
 #define OMV_CSI_D0_PIN                          (&omv_pin_C6_DCMI)
 #define OMV_CSI_D1_PIN                          (&omv_pin_C7_DCMI)
@@ -229,6 +233,8 @@
 #define OMV_CSI_PXCLK_PIN                       (&omv_pin_A6_DCMI)
 #define OMV_CSI_RESET_PIN                       (&omv_pin_A10_GPIO)
 #define OMV_CSI_POWER_PIN                       (&omv_pin_D7_GPIO)
+
+#define OMV_CSI_POLARITY_CONFIG                 { OMV_CSI_ACTIVE_HIGH, OMV_CSI_ACTIVE_LOW }
 
 // Physical I2C buses.
 
@@ -249,7 +255,7 @@
 #define OMV_SPI2_SCLK_PIN                       (&omv_pin_B13_SPI2)
 #define OMV_SPI2_MISO_PIN                       (&omv_pin_B14_SPI2)
 #define OMV_SPI2_MOSI_PIN                       (&omv_pin_B15_SPI2)
-#define OMV_SPI2_SSEL_PIN                       (&omv_pin_B12_GPIO)
+#define OMV_SPI2_SSEL_PIN                       (&omv_pin_B12_SPI2)
 #define OMV_SPI2_DMA_TX_CHANNEL                 (DMA1_Stream4)
 #define OMV_SPI2_DMA_TX_REQUEST                 (DMA_REQUEST_SPI2_TX)
 #define OMV_SPI2_DMA_RX_CHANNEL                 (DMA1_Stream3)
@@ -260,7 +266,7 @@
 #define OMV_SPI3_SCLK_PIN                       (&omv_pin_B3_SPI3)
 #define OMV_SPI3_MISO_PIN                       (&omv_pin_B4_SPI3)
 #define OMV_SPI3_MOSI_PIN                       (&omv_pin_B5_SPI3)
-#define OMV_SPI3_SSEL_PIN                       (&omv_pin_A15_GPIO)
+#define OMV_SPI3_SSEL_PIN                       (&omv_pin_A15_SPI3)
 #define OMV_SPI3_DMA_TX_CHANNEL                 (DMA1_Stream7)
 #define OMV_SPI3_DMA_TX_REQUEST                 (DMA_REQUEST_SPI3_TX)
 #define OMV_SPI3_DMA_RX_CHANNEL                 (DMA1_Stream2)
@@ -271,7 +277,7 @@
 #define OMV_SPI5_SCLK_PIN                       (&omv_pin_H6_SPI5)
 #define OMV_SPI5_MISO_PIN                       (&omv_pin_H7_SPI5)
 #define OMV_SPI5_MOSI_PIN                       (&omv_pin_J10_SPI5)
-#define OMV_SPI5_SSEL_PIN                       (&omv_pin_K1_GPIO)
+#define OMV_SPI5_SSEL_PIN                       (&omv_pin_K1_SPI5)
 #define OMV_SPI5_DMA_TX_CHANNEL                 (DMA2_Stream4)
 #define OMV_SPI5_DMA_TX_REQUEST                 (DMA_REQUEST_SPI5_TX)
 #define OMV_SPI5_DMA_RX_CHANNEL                 (DMA2_Stream3)
@@ -350,38 +356,5 @@
 #define OMV_FT5X06_SCL_PIN                      (pin_J13)
 #define OMV_FT5X06_SDA_PIN                      (pin_J14)
 #define OMV_FT5X06_INT_PIN                      (&omv_pin_J6_GPIO)
-
-// FIR Lepton
-#define OMV_FIR_LEPTON_I2C_BUS                  (OMV_CSI_I2C_ID)
-#define OMV_FIR_LEPTON_I2C_BUS_SPEED            (OMV_CSI_I2C_SPEED)
-
-#define OMV_FIR_LEPTON_SPI_BUS                  (OMV_SPI3_ID)
-
-#define OMV_FIR_LEPTON_RESET_PIN                (&omv_pin_D5_GPIO)
-#define OMV_FIR_LEPTON_POWER_PIN                (&omv_pin_D4_GPIO)
-#define OMV_FIR_LEPTON_VSYNC_PIN                (&omv_pin_E3_GPIO)
-
-#define OMV_FIR_LEPTON_MCLK_PIN                 (&omv_pin_A3_TIM15)
-#define OMV_FIR_LEPTON_MCLK_FREQ                (24000000)
-
-#define OMV_FIR_LEPTON_MCLK_TIM                 (TIM15)
-#define OMV_FIR_LEPTON_MCLK_TIM_CHANNEL         (TIM_CHANNEL_2)
-#define OMV_FIR_LEPTON_MCLK_TIM_CLK_ENABLE()    __HAL_RCC_TIM15_CLK_ENABLE()
-#define OMV_FIR_LEPTON_MCLK_TIM_CLK_DISABLE()   __HAL_RCC_TIM15_CLK_DISABLE()
-#define OMV_FIR_LEPTON_MCLK_TIM_FORCE_RESET()   __HAL_RCC_TIM15_FORCE_RESET()
-#define OMV_FIR_LEPTON_MCLK_TIM_RELEASE_RESET() __HAL_RCC_TIM15_RELEASE_RESET()
-#define OMV_FIR_LEPTON_MCLK_TIM_PCLK_FREQ()     HAL_RCC_GetPCLK2Freq()
-
-// Buzzer
-#define OMV_BUZZER_PIN                          (&omv_pin_A1_TIM2)
-#define OMV_BUZZER_FREQ                         (4000)
-
-#define OMV_BUZZER_TIM                          (TIM2)
-#define OMV_BUZZER_TIM_CHANNEL                  (TIM_CHANNEL_2)
-#define OMV_BUZZER_TIM_CLK_ENABLE()             __HAL_RCC_TIM2_CLK_ENABLE()
-#define OMV_BUZZER_TIM_CLK_DISABLE()            __HAL_RCC_TIM2_CLK_DISABLE()
-#define OMV_BUZZER_TIM_FORCE_RESET()            __HAL_RCC_TIM2_FORCE_RESET()
-#define OMV_BUZZER_TIM_RELEASE_RESET()          __HAL_RCC_TIM2_RELEASE_RESET()
-#define OMV_BUZZER_TIM_PCLK_FREQ()              HAL_RCC_GetPCLK1Freq()
 
 #endif //__OMV_BOARDCONFIG_H__

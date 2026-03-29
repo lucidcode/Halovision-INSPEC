@@ -31,7 +31,7 @@ ROMFS_IMAGE := $(FW_DIR)/romfs.stamp
 ROMFS_CONFIG := $(OMV_BOARD_CONFIG_DIR)/romfs.json
 
 # Compiler Flags
-CFLAGS += -std=gnu99 \
+CFLAGS += -std=gnu11 \
           -Wall \
           -Werror \
           -Warray-bounds \
@@ -76,13 +76,12 @@ LDFLAGS = -mthumb \
           -mabi=aapcs-linux \
           -Wl,--print-memory-usage \
           -Wl,--gc-sections \
-          -Wl,--wrap=mp_usbd_task \
-          -Wl,--wrap=tud_cdc_rx_cb \
           -Wl,--wrap=mp_hal_stdio_poll \
           -Wl,--wrap=mp_hal_stdout_tx_strn \
           -Wl,-T$(BUILD)/$(LDSCRIPT).lds \
           -Wl,-Map=$(BUILD)/$(FIRMWARE).map
 
+OMV_CFLAGS += -I$(TOP_DIR)
 OMV_CFLAGS += -I$(TOP_DIR)/$(COMMON_DIR)
 OMV_CFLAGS += -I$(TOP_DIR)/modules
 OMV_CFLAGS += -I$(TOP_DIR)/ports/$(PORT)
@@ -109,12 +108,15 @@ MPY_CFLAGS += -DMICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
 MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
 MPY_CFLAGS += -DMICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
 MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH_USE_SYNC_EVENTS=1
+MPY_CFLAGS += -DMICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)
+MPY_CFLAGS += -DMICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC) 
 MPY_CFLAGS += -DMICROPY_VFS_FAT=1
 
 MPY_MKARGS += CMSIS_DIR=$(TOP_DIR)/$(CMSIS_DIR)
 MPY_MKARGS += MCU_DIR=$(TOP_DIR)/$(HAL_DIR)
 MPY_MKARGS += SUPPORTS_HARDWARE_FP_SINGLE=1
 MPY_MKARGS += MICROPY_VFS_LFS2=0
+MPY_MKARGS += CFLAGS_EXTRA="-std=gnu11"
 MPY_MKARGS += MICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
 MPY_MKARGS += MICROPY_PY_SSL=$(MICROPY_PY_SSL)
 MPY_MKARGS += MICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
@@ -136,6 +138,7 @@ include lib/imlib/imlib.mk
 include lib/tflm/tflm.mk
 include ports/ports.mk
 include common/micropy.mk
+include protocol/protocol.mk
 
 # Firmware objects from port.
 MPY_FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
@@ -217,13 +220,5 @@ $(ROMFS_IMAGE): $(ROMFS_CONFIG) | $(FIRMWARE)
             --top-dir $(TOP_DIR) --out-dir $(FW_DIR) \
             --build-dir $(BUILD) --config $(ROMFS_CONFIG)
 	touch $@
-
-# Flash the main firmware image
-flash_image::
-	$(PYDFU) -u $(FW_DIR)/$(FIRMWARE).dfu
-
-# Flash the main firmware image using dfu_util
-flash_image_dfu_util::
-	dfu-util -a 0 -d $(DFU_DEVICE) -D $(FW_DIR)/$(FIRMWARE).dfu
 
 include common/mkrules.mk

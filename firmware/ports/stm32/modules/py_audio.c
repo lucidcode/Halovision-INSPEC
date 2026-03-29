@@ -39,7 +39,7 @@
 #include "fb_alloc.h"
 #include "omv_boardconfig.h"
 #include "omv_common.h"
-#include "dma_utils.h"
+#include "stm_dma.h"
 
 #if MICROPY_PY_AUDIO
 
@@ -47,21 +47,38 @@
 static CRC_HandleTypeDef hcrc;
 static SAI_HandleTypeDef hsai;
 static DMA_HandleTypeDef hdma_sai_rx;
+
 static PDM_Filter_Config_t PDM_FilterConfig[OMV_AUDIO_MAX_CHANNELS];
 static PDM_Filter_Handler_t PDM_FilterHandler[OMV_AUDIO_MAX_CHANNELS];
 // NOTE: BDMA can only access D3 SRAM4 memory.
 #define PDM_BUFFER_SIZE      (16384)
-uint8_t OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(PDM_BUFFER[PDM_BUFFER_SIZE], 32), ".d3_dma_buffer");
+uint8_t OMV_ATTR_SEC_ALIGN(PDM_BUFFER[PDM_BUFFER_SIZE], ".d3_dma_buffer", OMV_DMA_ALIGNMENT);
+
 #elif defined(OMV_DFSDM)
 static DFSDM_Channel_HandleTypeDef hdfsdm;
+
 // NOTE: Only 1 filter is supported right now.
 static DFSDM_Filter_HandleTypeDef hdfsdm_filter[OMV_AUDIO_MAX_CHANNELS];
 static DMA_HandleTypeDef hdma_filter[OMV_AUDIO_MAX_CHANNELS];
+
 // NOTE: placed in D2 memory.
 #define PDM_BUFFER_SIZE      (512 * 2)
-int32_t OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(PDM_BUFFER[PDM_BUFFER_SIZE], 32), ".d2_dma_buffer");
+int32_t OMV_ATTR_SEC_ALIGN(PDM_BUFFER[PDM_BUFFER_SIZE], ".d2_dma_buffer", OMV_DMA_ALIGNMENT);
+
 #define DFSDM_GAIN_FRAC_BITS (3)
 static int32_t dfsdm_gain = 1;
+
+#elif defined(OMV_MDF)
+static MDF_HandleTypeDef hmdf;
+static MDF_FilterConfigTypeDef hmdf_filter[OMV_AUDIO_MAX_CHANNELS];
+
+// NOTE: Only 1 filter is supported right now.
+static DMA_QListTypeDef dma_queue;
+static DMA_NodeTypeDef OMV_ATTR_SEC_ALIGN(dma_nodes, ".dma_buffer", OMV_DMA_ALIGNMENT);
+static DMA_HandleTypeDef hdma_filter[OMV_AUDIO_MAX_CHANNELS];
+
+#define PDM_BUFFER_SIZE      (512 * 2)
+int32_t OMV_ATTR_SEC_ALIGN(PDM_BUFFER[PDM_BUFFER_SIZE], ".dma_buffer", OMV_DMA_ALIGNMENT);
 #else
 #error "No audio driver defined for this board"
 #endif
@@ -84,8 +101,12 @@ void OMV_SAI_DMA_IRQHandler(void) {
     HAL_DMA_IRQHandler(hsai.hdmarx);
 }
 #elif defined(OMV_DFSDM)
-void OMV_DFSDM_FLT0_IRQHandler() {
+void OMV_DFSDM_FLT0_IRQHandler(void) {
     HAL_DFSDM_IRQHandler(&hdfsdm_filter[0]);
+}
+#elif defined(OMV_MDF)
+void OMV_MDF_FLT0_IRQHandler(void) {
+    HAL_MDF_IRQHandler(&hmdf);
 }
 #endif  // defined(OMV_SAI)
 
@@ -93,11 +114,11 @@ void OMV_DFSDM_FLT0_IRQHandler() {
 void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 #elif defined(OMV_DFSDM)
 void HAL_DFSDM_FilterRegConvHalfCpltCallback(DFSDM_Filter_HandleTypeDef *hdfsdm_filter)
+#elif defined(OMV_MDF)
+void HAL_MDF_AcqHalfCpltCallback(MDF_HandleTypeDef *hmdf)
 #endif
 {
     xfer_status |= DMA_XFER_HALF;
-    uint32_t pdm_buffer_size_bytes = (sizeof(PDM_BUFFER[0]) * g_pdm_buffer_size);
-    SCB_InvalidateDCache_by_Addr((uint32_t *) (&PDM_BUFFER[0]), pdm_buffer_size_bytes);
     if (MP_STATE_PORT(audio_callback) != mp_const_none) {
         mp_sched_schedule_node(&audio_task_sched_node, audio_task_callback);
     }
@@ -107,11 +128,11 @@ void HAL_DFSDM_FilterRegConvHalfCpltCallback(DFSDM_Filter_HandleTypeDef *hdfsdm_
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hsai)
 #elif defined(OMV_DFSDM)
 void HAL_DFSDM_FilterRegConvCpltCallback(DFSDM_Filter_HandleTypeDef *hdfsdm_filter)
+#elif defined(OMV_MDF)
+void HAL_MDF_AcqCpltCallback(MDF_HandleTypeDef *hmdf)
 #endif
 {
     xfer_status |= DMA_XFER_FULL;
-    uint32_t pdm_buffer_size_bytes = (sizeof(PDM_BUFFER[0]) * g_pdm_buffer_size);
-    SCB_InvalidateDCache_by_Addr((uint32_t *) (&PDM_BUFFER[g_pdm_buffer_size]), pdm_buffer_size_bytes / 2);
     if (MP_STATE_PORT(audio_callback) != mp_const_none) {
         mp_sched_schedule_node(&audio_task_sched_node, audio_task_callback);
     }
@@ -166,7 +187,9 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *k
     // Default/max PDM buffer size;
     g_pdm_buffer_size = PDM_BUFFER_SIZE;
 
-    #if defined(OMV_DFSDM)
+    #if defined(OMV_MDF)
+    uint32_t samples_per_channel = PDM_BUFFER_SIZE / 2; // Half a transfer
+    #elif defined(OMV_DFSDM)
     uint32_t samples_per_channel = PDM_BUFFER_SIZE / 2; // Half a transfer
     dfsdm_gain = __USAT(fast_roundf(expf((gain_db / 20.0f) * M_LN10) * (1 << DFSDM_GAIN_FRAC_BITS)), 15);
     #else
@@ -189,7 +212,7 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *k
         }
         samples_per_channel = args[ARG_samples].u_int;
         // Recalculate the PDM buffer size for the requested samples.
-        #if defined(OMV_DFSDM)
+        #if defined(OMV_DFSDM) || defined(OMV_MDF)
         g_pdm_buffer_size = samples_per_channel * 2;
         #else
         g_pdm_buffer_size = (samples_per_channel * decimation_factor * g_channels) / 4;
@@ -244,27 +267,17 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *k
     // Enable the DMA clock
     OMV_SAI_DMA_CLK_ENABLE();
 
-    // Configure the SAI DMA
-    hdma_sai_rx.Instance = OMV_SAI_DMA_STREAM;
-    hdma_sai_rx.Init.Request = OMV_SAI_DMA_REQUEST;
-    hdma_sai_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
-    hdma_sai_rx.Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_sai_rx.Init.MemInc = DMA_MINC_ENABLE;
-    hdma_sai_rx.Init.PeriphDataAlignment = (g_channels == 1) ? DMA_PDATAALIGN_BYTE : DMA_PDATAALIGN_HALFWORD;
-    hdma_sai_rx.Init.MemDataAlignment = (g_channels == 1) ? DMA_MDATAALIGN_BYTE : DMA_MDATAALIGN_HALFWORD;
-    hdma_sai_rx.Init.Mode = DMA_CIRCULAR;
-    hdma_sai_rx.Init.Priority = DMA_PRIORITY_HIGH;
-    hdma_sai_rx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
-    hdma_sai_rx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-    hdma_sai_rx.Init.MemBurst = DMA_MBURST_SINGLE;
-    hdma_sai_rx.Init.PeriphBurst = DMA_MBURST_SINGLE;
-    __HAL_LINKDMA(&hsai, hdmarx, hdma_sai_rx);
-
     // Initialize the DMA stream
-    HAL_DMA_DeInit(&hdma_sai_rx);
-    if (HAL_DMA_Init(&hdma_sai_rx) != HAL_OK) {
+    uint32_t ssize = (g_channels == 1) ? 1 : 2;
+    uint32_t dsize = (g_channels == 1) ? 1 : 2;
+
+    if (stm_dma_init(&hdma_sai_rx, OMV_SAI_DMA_STREAM, OMV_SAI_DMA_REQUEST,
+                     DMA_PERIPH_TO_MEMORY, ssize, dsize, 0, &stm_dma_sai_init, true)) {
         RAISE_OS_EXCEPTION("SAI DMA init failed!");
     }
+
+    // Link DMA handle.
+    __HAL_LINKDMA(&hsai, hdmarx, hdma_sai_rx);
 
     // Configure and enable SAI DMA IRQ Channel
     NVIC_SetPriority(OMV_SAI_DMA_IRQ, IRQ_PRI_DMA21);
@@ -341,27 +354,17 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *k
     OMV_DFSDM_DMA_CLK_ENABLE();
 
     // Configure the DFSDM Filter 0 DMA/IRQ
-    hdma_filter[0].Instance = OMV_DFSDM_FLT0_DMA_STREAM;
-    hdma_filter[0].Init.Request = OMV_DFSDM_FLT0_DMA_REQUEST;
-    hdma_filter[0].Init.Direction = DMA_PERIPH_TO_MEMORY;
-    hdma_filter[0].Init.PeriphInc = DMA_PINC_DISABLE;
-    hdma_filter[0].Init.MemInc = DMA_MINC_ENABLE;
-    hdma_filter[0].Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-    hdma_filter[0].Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-    hdma_filter[0].Init.Mode = DMA_CIRCULAR;
-    hdma_filter[0].Init.Priority = DMA_PRIORITY_HIGH;
+    if (stm_dma_init(&hdma_filter[0], OMV_DFSDM_FLT0_DMA_STREAM, OMV_DFSDM_FLT0_DMA_REQUEST,
+                     DMA_PERIPH_TO_MEMORY, 4, 4, 0, &stm_dma_dfsdm_init, true)) {
+        RAISE_OS_EXCEPTION("DFSDM DMA init failed!");
+    }
 
+    // Link DMA handles.
     __HAL_LINKDMA(&hdfsdm_filter[0], hdmaInj, hdma_filter[0]);
     __HAL_LINKDMA(&hdfsdm_filter[0], hdmaReg, hdma_filter[0]);
 
     // Set DMA IRQ handle
-    dma_utils_set_irq_descr(OMV_DFSDM_FLT0_DMA_STREAM, &hdma_filter[0]);
-
-    // Initialize the DMA stream
-    HAL_DMA_DeInit(&hdma_filter[0]);
-    if (HAL_DMA_Init(&hdma_filter[0]) != HAL_OK) {
-        RAISE_OS_EXCEPTION("SAI DFSDM init failed!");
-    }
+    stm_dma_set_irq_descr(OMV_DFSDM_FLT0_DMA_STREAM, &hdma_filter[0]);
 
     // Configure and enable DFSDM Filter 0 DMA IRQ.
     NVIC_SetPriority(OMV_DFSDM_FLT0_DMA_IRQ, IRQ_PRI_DMA21);
@@ -369,6 +372,66 @@ static mp_obj_t py_audio_init(uint n_args, const mp_obj_t *pos_args, mp_map_t *k
 
     NVIC_SetPriority(OMV_DFSDM_FLT0_IRQ, IRQ_PRI_DMA21);
     HAL_NVIC_EnableIRQ(OMV_DFSDM_FLT0_IRQ);
+    #elif defined(OMV_MDF)
+    hmdf.Instance = OMV_MDF;
+    hmdf.Init.CommonParam.InterleavedFilters = 0;
+    hmdf.Init.CommonParam.ProcClockDivider = OMV_MDF_PROC_CLKDIV;
+    hmdf.Init.CommonParam.OutputClock.Activation = ENABLE;
+    hmdf.Init.CommonParam.OutputClock.Pins = MDF_OUTPUT_CLOCK_0;
+    hmdf.Init.CommonParam.OutputClock.Divider = OMV_MDF_CCKY_CLKDIV;
+    hmdf.Init.CommonParam.OutputClock.Trigger.Activation = DISABLE;
+    hmdf.Init.SerialInterface.Activation = ENABLE;
+    hmdf.Init.SerialInterface.Mode = MDF_SITF_LF_MASTER_SPI_MODE;
+    hmdf.Init.SerialInterface.ClockSource = MDF_SITF_CCK0_SOURCE;
+    hmdf.Init.SerialInterface.Threshold = 31;
+    hmdf.Init.FilterBistream = MDF_BITSTREAM0_FALLING;
+
+    // Initialize MDF.
+    if (HAL_MDF_Init(&hmdf) != HAL_OK) {
+        RAISE_OS_EXCEPTION("MDF init failed!");
+    }
+
+    // No init is called on this filter config.
+    hmdf_filter[0].DataSource = MDF_DATA_SOURCE_BSMX;
+    hmdf_filter[0].Delay = 0;
+    hmdf_filter[0].CicMode = MDF_ONE_FILTER_SINC4;
+    hmdf_filter[0].DecimationRatio = 32;
+    hmdf_filter[0].Offset = 0;
+    hmdf_filter[0].Gain = gain_db / 3;  // gain in steps of 3db
+    hmdf_filter[0].ReshapeFilter.Activation = ENABLE;
+    hmdf_filter[0].ReshapeFilter.DecimationRatio = MDF_RSF_DECIMATION_RATIO_4;
+    hmdf_filter[0].HighPassFilter.Activation = DISABLE; // Disabled for now.
+    hmdf_filter[0].HighPassFilter.CutOffFrequency = MDF_HPF_CUTOFF_0_000625FPCM;
+    hmdf_filter[0].Integrator.Activation = DISABLE;
+    hmdf_filter[0].SoundActivity.Activation = DISABLE;
+    hmdf_filter[0].AcquisitionMode = MDF_MODE_ASYNC_CONT;
+    hmdf_filter[0].FifoThreshold = MDF_FIFO_THRESHOLD_NOT_EMPTY;
+    hmdf_filter[0].DiscardSamples = 0;
+
+    // Initialize DMA.
+    if (stm_dma_init(&hdma_filter[0], OMV_MDF_FLT0_DMA_STREAM, OMV_MDF_FLT0_DMA_REQUEST,
+                     DMA_PERIPH_TO_MEMORY, 4, 4, OMV_MDF_DMA_XFER_PORTS, &stm_dma_mdf_init,
+                     true)) {
+        RAISE_OS_EXCEPTION("MDF DMA init failed!");
+    }
+
+    // Initialize DMA circular mode.
+    if (stm_dma_ll_init(&hdma_filter[0], &dma_queue, &dma_nodes, 1, OMV_MDF_DMA_LIST_PORTS)) {
+        RAISE_OS_EXCEPTION("MDF DMA init failed!");
+    }
+
+    // Link DMA handle.
+    __HAL_LINKDMA(&hmdf, hdma, hdma_filter[0]);
+
+    // Set DMA IRQ handle
+    stm_dma_set_irq_descr(OMV_MDF_FLT0_DMA_STREAM, &hdma_filter[0]);
+
+    // Configure and enable MDF Filter 0 DMA IRQ.
+    NVIC_SetPriority(OMV_MDF_FLT0_IRQ, IRQ_PRI_DMA21);
+    HAL_NVIC_EnableIRQ(OMV_MDF_FLT0_IRQ);
+
+    NVIC_SetPriority(OMV_MDF_FLT0_DMA_IRQ, IRQ_PRI_DMA21);
+    HAL_NVIC_EnableIRQ(OMV_MDF_FLT0_DMA_IRQ);
     #endif  // defined(OMV_SAI)
 
     // Allocate global PCM buffer.
@@ -399,6 +462,15 @@ void py_audio_deinit() {
         HAL_DMA_DeInit(&hdma_sai_rx);
         hdma_sai_rx.Instance = NULL;
     }
+    #elif defined(OMV_MDF)
+    if (hmdf.Instance != NULL) {
+        HAL_MDF_AcqStop_DMA(&hmdf);
+        HAL_MDF_DeInit(&hmdf);
+    }
+
+    // Disable IRQs
+    HAL_NVIC_DisableIRQ(OMV_MDF_FLT0_IRQ);
+    HAL_NVIC_DisableIRQ(OMV_MDF_FLT0_DMA_IRQ);
     #elif defined(OMV_DFSDM)
     if (hdma_filter[0].Instance != NULL) {
         HAL_DFSDM_FilterRegularStop_DMA(&hdfsdm_filter[0]);
@@ -438,6 +510,10 @@ static void audio_task_callback(mp_sched_node_t *node) {
         for (int i = 0; i < g_channels; i++) {
             PDM_Filter(&((uint8_t *) PDM_BUFFER)[i], &pcmbuf[i], &PDM_FilterHandler[i]);
         }
+        #elif defined(OMV_MDF)
+        for (int i = 0; i < g_pdm_buffer_size / 2; i++) {
+            pcmbuf[i] = PDM_BUFFER[i] >> 16;
+        }
         #elif defined(OMV_DFSDM)
         for (int i = 0; i < g_pdm_buffer_size / 2; i++) {
             pcmbuf[i] = __SSAT_ASR((PDM_BUFFER[i] >> 8) * dfsdm_gain, 16, DFSDM_GAIN_FRAC_BITS);
@@ -452,6 +528,10 @@ static void audio_task_callback(mp_sched_node_t *node) {
         // Convert PDM samples to PCM.
         for (int i = 0; i < g_channels; i++) {
             PDM_Filter(&((uint8_t *) PDM_BUFFER)[g_pdm_buffer_size / 2 + i], &pcmbuf[i], &PDM_FilterHandler[i]);
+        }
+        #elif defined(OMV_MDF)
+        for (int i = 0; i < g_pdm_buffer_size / 2; i++) {
+            pcmbuf[i] = PDM_BUFFER[g_pdm_buffer_size / 2 + i] >> 16;
         }
         #elif defined(OMV_DFSDM)
         for (int i = 0; i < g_pdm_buffer_size / 2; i++) {
@@ -479,6 +559,15 @@ static mp_obj_t py_audio_start_streaming(mp_obj_t callback_obj) {
     if (HAL_SAI_Receive_DMA(&hsai, (uint8_t *) PDM_BUFFER, g_pdm_buffer_size / g_channels) != HAL_OK) {
         MP_STATE_PORT(audio_callback) = mp_const_none;
         RAISE_OS_EXCEPTION("SAI DMA transfer failed!");
+    }
+    #elif defined(OMV_MDF)
+    MDF_DmaConfigTypeDef dma_config = {
+        .Address = (uint32_t) PDM_BUFFER,
+        .DataLength = sizeof(PDM_BUFFER[0]) * g_pdm_buffer_size,   // in bytes
+        .MsbOnly = DISABLE,
+    };
+    if (HAL_MDF_AcqStart_DMA(&hmdf, &hmdf_filter[0], &dma_config) != HAL_OK) {
+        RAISE_OS_EXCEPTION("MDF DMA transfer failed!");
     }
     #elif defined(OMV_DFSDM)
     // Start DMA transfer

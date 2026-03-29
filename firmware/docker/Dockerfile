@@ -10,7 +10,7 @@ RUN apt update && apt install -y \
 
 # Download and extract GCC
 RUN mkdir -p /workspace/gcc
-ENV GCC_URL="https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz"
+ENV GCC_URL="https://developer.arm.com/-/media/Files/downloads/gnu/14.3.rel1/binrel/arm-gnu-toolchain-14.3.rel1-x86_64-arm-none-eabi.tar.xz"
 RUN wget --no-check-certificate -O - ${GCC_URL} | tar --strip-components=1 -Jx -C /workspace/gcc
 
 # Download and extract LLVM
@@ -26,7 +26,7 @@ RUN wget --no-check-certificate -O - ${CMAKE_URL} | tar --strip-components=1 -xz
 # Download, build, and install Make
 RUN mkdir -p /workspace/make
 ENV MAKE_URL="https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz"
-RUN wget --no-check-certificate -O - ${MAKE_URL} | tar --strip-components=1 -xz -C /workspace/make
+RUN wget --no-check-certificate --user-agent="Mozilla/5.0" -O - ${MAKE_URL} | tar --strip-components=1 -xz -C /workspace/make
 RUN cd /workspace/make && ./configure && make -j$(nproc)
 
 # Set up directories

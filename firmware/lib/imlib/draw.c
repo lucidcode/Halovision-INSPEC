@@ -211,6 +211,7 @@ void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th
         // steep line
         x1 = (e2 + th / 2) / dy; // start offset
         int err = x1 * dy - th / 2; // shift error value to offset width
+        err = IM_MAX(err, 0); // prevent negative error on straight line
         for (x0 -= x1 * sx;; y0 += sy) {
             x1 = x0;
             imlib_set_pixel_aa(img, x1, y0, err, c); // aliasing pre-pixel
@@ -232,6 +233,7 @@ void imlib_draw_line(image_t *img, int x0, int y0, int x1, int y1, int c, int th
         // flat line
         y1 = (e2 + th / 2) / dx; // start offset
         int err = y1 * dx - th / 2; // shift error value to offset width
+        err = IM_MAX(err, 0); // prevent negative error on straight line
         for (y0 -= y1 * sy;; x0 += sx) {
             y1 = y0;
             imlib_set_pixel_aa(img, x0, y1, err, c); // aliasing pre-pixel
@@ -704,6 +706,23 @@ void imlib_draw_string(image_t *img,
             if (!exit) {
                 x_off += (string_hmirror ? -1 : +1) * fast_floorf(scale * 3);        // space char
             }
+        }
+    }
+}
+
+void imlib_draw_event_histogram(image_t *img, ec_event_t *ec_event, int num_events, int gain) {
+    switch (img->pixfmt) {
+        case PIXFORMAT_GRAYSCALE: {
+            for (int i = 0; i < num_events; i++) {
+                if (ec_event[i].type == EC_PIX_OFF_EVENT || ec_event[i].type == EC_PIX_ON_EVENT) {
+                    size_t index = (ec_event[i].y * img->w) + ec_event[i].x;
+                    int32_t delta = (ec_event[i].type == EC_PIX_OFF_EVENT) ? -gain : gain;
+                    img->data[index] = __USAT(((int32_t) img->data[index]) + delta, UINT8_T_BITS);
+                }
+            }
+        }
+        default: {
+            break;
         }
     }
 }
@@ -2815,10 +2834,10 @@ void imlib_draw_image(image_t *dst_img,
                       const uint16_t *color_palette,
                       const uint8_t *alpha_palette,
                       image_hint_t hint,
+                      float *transform,
                       imlib_draw_row_callback_t callback,
                       void *callback_arg,
                       void *dst_row_override) {
-    OMV_PROFILE_START();
     int dst_delta_x = 1; // positive direction
     if (x_scale < 0.f) {
         // flip X
@@ -2996,7 +3015,7 @@ void imlib_draw_image(image_t *dst_img,
         new_src_img.pixfmt = color_palette ? PIXFORMAT_RGB565 : PIXFORMAT_GRAYSCALE;
         new_src_img.data = fb_alloc(image_size(&new_src_img), FB_ALLOC_CACHE_ALIGN);
         imlib_draw_image(&new_src_img, src_img, 0, 0, 1.f, 1.f, NULL,
-                         rgb_channel, 255, color_palette, NULL, 0, NULL, NULL, NULL);
+                         rgb_channel, 255, color_palette, NULL, 0, NULL, NULL, NULL, NULL);
         src_img = &new_src_img;
         rgb_channel = -1;
         color_palette = NULL;
@@ -3054,7 +3073,7 @@ void imlib_draw_image(image_t *dst_img,
                                  (hint & (IMAGE_HINT_BILINEAR | IMAGE_HINT_BLACK_BACKGROUND));
 
         if (!omv_gpu_draw_image(src_img, &src_rect, dst_img, &dst_rect,
-                                alpha, color_palette, alpha_palette, gpu_hints)) {
+                                alpha, color_palette, alpha_palette, gpu_hints, transform)) {
             goto exit_cleanup;
         }
     }
@@ -3120,14 +3139,14 @@ void imlib_draw_image(image_t *dst_img,
         t_src_img.pixfmt = src_img->pixfmt;
 
         // Are we scaling?
-        if ((src_x_frac != 65536) || (src_y_frac != 65536)) {
+        if ((src_x_frac != 65536) || (src_y_frac != 65536) || transform) {
             t_src_img.w = t_roi.w = src_height_scaled; // was transposed
             t_src_img.h = t_roi.h = src_width_scaled; // was transposed
             t_src_img.data = fb_alloc(image_size(&t_src_img), FB_ALLOC_CACHE_ALIGN);
             imlib_draw_image(&t_src_img, src_img, 0, 0, x_scale, y_scale, roi,
                              -1, 255, NULL, NULL,
                              hint & (IMAGE_HINT_AREA | IMAGE_HINT_BILINEAR | IMAGE_HINT_BICUBIC),
-                             NULL, NULL, NULL);
+                             transform, NULL, NULL, NULL);
         } else {
             memcpy(&t_roi, roi, sizeof(rectangle_t));
             t_src_img.w = src_img->w;
@@ -3221,7 +3240,7 @@ void imlib_draw_image(image_t *dst_img,
             imlib_draw_image(dst_img, &out, dst_x_start_backup + i, dst_y_start_backup, 1.f, 1.f, NULL,
                              rgb_channel, alpha, color_palette, alpha_palette,
                              hint & IMAGE_HINT_BLACK_BACKGROUND,
-                             callback, callback_arg, dst_row_override);
+                             NULL, callback, callback_arg, dst_row_override);
         }
 
         fb_free(); // fb_alloc_all
@@ -5384,7 +5403,6 @@ exit_cleanup:
     if (&new_src_img == src_img) {
         fb_free();
     }
-    OMV_PROFILE_PRINT();
 }
 
 #ifdef IMLIB_ENABLE_FLOOD_FILL

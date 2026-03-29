@@ -422,8 +422,7 @@ static volatile enum {
     SPI_TX_CB_IDLE,
     SPI_TX_CB_MEMORY_WRITE_CMD,
     SPI_TX_CB_MEMORY_WRITE
-}
-spi_tx_cb_state = SPI_TX_CB_IDLE;
+} spi_tx_cb_state = SPI_TX_CB_IDLE;
 
 static void spi_config_deinit() {
     if (tv_triple_buffer) {
@@ -634,7 +633,7 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
             // Transmits left/right parts already zeroed...
             imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
                              rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
-                             cb, NULL, dst_img.data);
+                             NULL, cb, NULL, dst_img.data);
 
             // Zero the bottom rows
             if (p1.y < TV_HEIGHT) {
@@ -677,7 +676,7 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
 
                 imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
                                  rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, NULL);
 
                 if (TV_WIDTH - p1.x) {
                     for (int i = p0.y; i < p1.y; i++) {
@@ -718,7 +717,7 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
 
                 imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
                                  rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, NULL);
 
                 if (TV_WIDTH - p1.x) {
                     for (int i = p0.y; i < p1.y; i++) {

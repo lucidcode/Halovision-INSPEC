@@ -1,6 +1,6 @@
 #include <emmintrin.h>
 #ifdef __SSSE3__
-# include <tmmintrin.h>
+#    include <tmmintrin.h>
 #endif
 
 #define S 9
@@ -31,16 +31,28 @@ rotate24(__m128i x)
 
     _mm_storeu_si128((__m128i *) (void *) x8, x);
 
-    y8[ 0] = x8[ 1]; y8[ 1] = x8[ 2]; y8[ 2] = x8[ 3]; y8[ 3] = x8[ 0];
-    y8[ 4] = x8[ 5]; y8[ 5] = x8[ 6]; y8[ 6] = x8[ 7]; y8[ 7] = x8[ 4];
-    y8[ 8] = x8[ 9]; y8[ 9] = x8[10]; y8[10] = x8[11]; y8[11] = x8[ 8];
-    y8[12] = x8[13]; y8[13] = x8[14]; y8[14] = x8[15]; y8[15] = x8[12];
+    y8[0]  = x8[1];
+    y8[1]  = x8[2];
+    y8[2]  = x8[3];
+    y8[3]  = x8[0];
+    y8[4]  = x8[5];
+    y8[5]  = x8[6];
+    y8[6]  = x8[7];
+    y8[7]  = x8[4];
+    y8[8]  = x8[9];
+    y8[9]  = x8[10];
+    y8[10] = x8[11];
+    y8[11] = x8[8];
+    y8[12] = x8[13];
+    y8[13] = x8[14];
+    y8[14] = x8[15];
+    y8[15] = x8[12];
 
     return _mm_loadu_si128((const __m128i *) (const void *) y8);
 }
 #endif
 
-static const uint32_t coeffs[24] _hydro_attr_aligned_(16) = {
+static const uint32_t _hydro_attr_aligned_(16) coeffs[24] = {
     0x9e377904, 0, 0, 0, 0x9e377908, 0, 0, 0, 0x9e37790c, 0, 0, 0,
     0x9e377910, 0, 0, 0, 0x9e377914, 0, 0, 0, 0x9e377918, 0, 0, 0,
 };

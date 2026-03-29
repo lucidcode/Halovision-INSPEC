@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-
 from senml.senml_record import SenmlRecord
 from senml.senml_base import SenmlBase
 import json
@@ -170,7 +169,7 @@ class SenmlPack(SenmlBase):
 
     def _process_incomming_data(self, records, naming_map):
         """
-        generic processor for incomming data (actuators.
+        generic processor for incoming data (actuators.
         :param records: the list of raw senml data, parsed from a json or cbor structure
         :param naming_map: translates cbor to json field names (when needed).
         :return: None

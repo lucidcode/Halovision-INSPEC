@@ -27,17 +27,16 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "py/obj.h"
-#include "usbdbg.h"
 #include "framebuffer.h"
 #include "omv_boardconfig.h"
-#include "tinyusb_debug.h"
+#include "omv_protocol.h"
 
 static mp_obj_t py_omv_version_string() {
     char str[12];
     snprintf(str, 12, "%d.%d.%d",
-             FIRMWARE_VERSION_MAJOR,
-             FIRMWARE_VERSION_MINOR,
-             FIRMWARE_VERSION_PATCH);
+             OMV_FIRMWARE_VERSION_MAJOR,
+             OMV_FIRMWARE_VERSION_MINOR,
+             OMV_FIRMWARE_VERSION_PATCH);
     return mp_obj_new_str(str, strlen(str));
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_omv_version_string_obj, py_omv_version_string);
@@ -55,49 +54,40 @@ static mp_obj_t py_omv_board_type() {
 static MP_DEFINE_CONST_FUN_OBJ_0(py_omv_board_type_obj, py_omv_board_type);
 
 static mp_obj_t py_omv_board_id() {
-    char str[25];
+    char str[25] = {0};
+    #ifdef OMV_BOARD_UID_ADDR
     snprintf(str, 25, "%08X%08X%08X",
-             *((unsigned int *) (OMV_BOARD_UID_ADDR + 8)),
-             *((unsigned int *) (OMV_BOARD_UID_ADDR + 4)),
-             *((unsigned int *) (OMV_BOARD_UID_ADDR + 0)));
+             #if (OMV_BOARD_UID_SIZE == 2)
+             0U,
+             #else
+             *((unsigned int *) (OMV_BOARD_UID_ADDR + OMV_BOARD_UID_OFFSET * 2)),
+             #endif
+             *((unsigned int *) (OMV_BOARD_UID_ADDR + OMV_BOARD_UID_OFFSET * 1)),
+             *((unsigned int *) (OMV_BOARD_UID_ADDR + OMV_BOARD_UID_OFFSET * 0)));
+    #endif
     return mp_obj_new_str(str, strlen(str));
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_omv_board_id_obj, py_omv_board_id);
 
 static mp_obj_t py_omv_debug_mode() {
-    #if OMV_TUSBDBG_ENABLE
-    return mp_obj_new_bool(tinyusb_debug_enabled());
-    #elif MICROPY_HW_ENABLE_USB
-    extern int usb_cdc_debug_mode_enabled();
-    return mp_obj_new_bool(usb_cdc_debug_mode_enabled());
+    #if MICROPY_PY_PROTOCOL
+    return mp_obj_new_bool(omv_protocol_is_active());
     #else
-    return mp_const_none;
+    return mp_const_false;
     #endif
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_omv_debug_mode_obj, py_omv_debug_mode);
 
-static mp_obj_t py_omv_disable_fb(size_t n_args, const mp_obj_t *args) {
-    framebuffer_t *fb = framebuffer_get(0);
-
-    if (!n_args) {
-        return mp_obj_new_bool(!framebuffer_get_streaming(fb));
-    }
-    framebuffer_set_streaming(fb, !mp_obj_get_int(args[0]));
-    return mp_const_none;
-}
-static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_omv_disable_fb_obj, 0, 1, py_omv_disable_fb);
-
 static const mp_rom_map_elem_t globals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__),        MP_OBJ_NEW_QSTR(MP_QSTR_omv) },
-    { MP_ROM_QSTR(MP_QSTR_version_major),   MP_ROM_INT(FIRMWARE_VERSION_MAJOR) },
-    { MP_ROM_QSTR(MP_QSTR_version_minor),   MP_ROM_INT(FIRMWARE_VERSION_MINOR) },
-    { MP_ROM_QSTR(MP_QSTR_version_patch),   MP_ROM_INT(FIRMWARE_VERSION_PATCH) },
+    { MP_ROM_QSTR(MP_QSTR_version_major),   MP_ROM_INT(OMV_FIRMWARE_VERSION_MAJOR) },
+    { MP_ROM_QSTR(MP_QSTR_version_minor),   MP_ROM_INT(OMV_FIRMWARE_VERSION_MINOR) },
+    { MP_ROM_QSTR(MP_QSTR_version_patch),   MP_ROM_INT(OMV_FIRMWARE_VERSION_PATCH) },
     { MP_ROM_QSTR(MP_QSTR_version_string),  MP_ROM_PTR(&py_omv_version_string_obj) },
     { MP_ROM_QSTR(MP_QSTR_arch),            MP_ROM_PTR(&py_omv_arch_obj) },
     { MP_ROM_QSTR(MP_QSTR_board_type),      MP_ROM_PTR(&py_omv_board_type_obj) },
     { MP_ROM_QSTR(MP_QSTR_board_id),        MP_ROM_PTR(&py_omv_board_id_obj) },
-    { MP_ROM_QSTR(MP_QSTR_debug_mode),      MP_ROM_PTR(&py_omv_debug_mode_obj) },
-    { MP_ROM_QSTR(MP_QSTR_disable_fb),      MP_ROM_PTR(&py_omv_disable_fb_obj) }
+    { MP_ROM_QSTR(MP_QSTR_debug_mode),      MP_ROM_PTR(&py_omv_debug_mode_obj) }
 };
 
 static MP_DEFINE_CONST_DICT(globals_dict, globals_dict_table);

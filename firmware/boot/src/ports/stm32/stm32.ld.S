@@ -13,6 +13,7 @@
 ENTRY(Reset_Handler)
 
 #include "omv_boardconfig.h"
+#include "header.h"
 
 /* Specify the memory areas */
 MEMORY
@@ -32,6 +33,11 @@ SECTIONS
   {
     . = ALIGN(4);
     KEEP(*(.isr_vector)) /* Startup code */
+
+    /* Boot header at fixed offset */
+    . = OMV_BOOT_HEADER_OFFSET;
+    KEEP(*(.boot_header))
+
     . = ALIGN(4);
     *(.text)           /* .text sections (code) */
     *(.text*)          /* .text* sections (code) */
@@ -89,6 +95,16 @@ SECTIONS
     . = ALIGN(8);
     _estack = .;
   } >RAM
+
+  .ram_function : ALIGN(4)
+  {
+    _ram_function_start = .;
+    *(.ram_function*)
+    . = ALIGN(4);
+    _ram_function_end = .;
+  } > RAM AT> ROM
+
+  _ram_function_flash = LOADADDR(.ram_function);
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }

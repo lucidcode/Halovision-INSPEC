@@ -38,6 +38,7 @@ typedef enum py_helper_arg_image_flags {
 extern const mp_obj_fun_builtin_var_t py_func_unavailable_obj;
 image_t *py_helper_arg_to_image(const mp_obj_t arg, uint32_t flags);
 const void *py_helper_arg_to_palette(const mp_obj_t arg, uint32_t pixfmt);
+void *py_helper_arg_to_transform(const mp_obj_t arg);
 rectangle_t py_helper_arg_to_roi(const mp_obj_t arg, const image_t *img);
 void py_helper_arg_to_scale(const mp_obj_t arg_x_scale, const mp_obj_t arg_y_scale,
                             float *x_scale, float *y_scale);
@@ -58,8 +59,6 @@ bool py_helper_keyword_int_maybe(size_t n_args, const mp_obj_t *args, size_t arg
                                  mp_map_t *kw_args, mp_obj_t kw, int *value);
 float py_helper_keyword_float(size_t n_args, const mp_obj_t *args, size_t arg_index,
                               mp_map_t *kw_args, mp_obj_t kw, float default_val);
-bool py_helper_keyword_float_maybe(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                   mp_map_t *kw_args, mp_obj_t kw, float *value);
 void py_helper_keyword_int_array(size_t n_args, const mp_obj_t *args, size_t arg_index,
                                  mp_map_t *kw_args, mp_obj_t kw, int *x, int size);
 void py_helper_keyword_float_array(size_t n_args, const mp_obj_t *args, size_t arg_index,

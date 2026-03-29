@@ -66,20 +66,19 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 #define OMV_FIR_MLX90640_ENABLE         (0)
 #define OMV_FIR_MLX90641_ENABLE         (0)
 #define OMV_FIR_AMG8833_ENABLE          (1)
-#define OMV_FIR_LEPTON_ENABLE           (0)
-
-// Debugging configuration.
-#define OMV_TUSBDBG_ENABLE              (CORE_M55_HP)
-#define OMV_TUSBDBG_PACKET              (512)
-#define OMV_TUSBDBG_BUFFER              (4096)
 
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE              256
 
 // USB config.
 #define OMV_USB_IRQN                    (USB_IRQ_IRQn)
-#define OMV_USB1_IRQ_HANDLER            (USB_IRQHandler)
 #define OMV_USB_SWITCH_PIN              (&omv_pin_USB_SWITCH)
+
+// OpenMV protocol configuration.
+#define OMV_PROTOCOL_MAX_BUFFER_SIZE        (8192)
+#define OMV_PROTOCOL_HW_CAPS                OMV_PROTOCOL_HW_CAPS_MAKE( \
+        HAS_GPU, HAS_NPU, HAS_CRC, HAS_PMU, HAS_WIFI,                  \
+        HAS_BT, HAS_SD, HAS_ETH, HAS_USB_HS, HAS_MULTICORE)
 
 // Linker script constants (see the linker script template alif.ld.S).
 // Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
@@ -104,8 +103,8 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 #define OMV_FB_ALLOC_SIZE               (464K)  // Minimum fb alloc size
 #define OMV_FB_OVERLAY_MEMORY           DTCM    // Fast fb_alloc memory.
 #define OMV_FB_OVERLAY_SIZE             (256K)  // Fast fb_alloc memory size.
-#define OMV_JPEG_MEMORY                 SRAM6_A   // JPEG buffer.
-#define OMV_JPEG_SIZE                   (1M)
+#define OMV_SB_MEMORY                   SRAM6_A // Streaming buffer memory.
+#define OMV_SB_SIZE                     (1M)    // Streaming buffer size.
 #define OMV_DMA_MEMORY                  DTCM    // Misc DMA buffers memory.
 #define OMV_GPU_MEMORY                  SRAM9_B // GPU heap.
 #define OMV_GPU_SIZE                    (256K)
@@ -124,8 +123,8 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 #define OMV_FB_MEMORY                   SRAM6_B   // Main Frame buffer, fb_alloc
 #define OMV_FB_SIZE                     (256K)
 #define OMV_FB_ALLOC_SIZE               (256K)  // Minimum fb alloc size
-#define OMV_JPEG_MEMORY                 SRAM6_B   // JPEG buffer.
-#define OMV_JPEG_SIZE                   (500K)
+#define OMV_SB_MEMORY                   SRAM6_B   // JPEG buffer.
+#define OMV_SB_SIZE                     (500K)
 #define OMV_DMA_MEMORY                  DTCM    // Misc DMA buffers memory.
 #define OMV_OPENAMP_MEMORY              SRAM9_A // Open-AMP SHM
 #define OMV_OPENAMP_SIZE                (64K)
@@ -134,10 +133,10 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 #endif
 
 // Flash configuration.
-#if BOOTLOADER
-#define OMV_FLASH_ORIGIN                0x80000000
-#define OMV_FLASH_LENGTH                0x00020000      /* 128K */
-#elif CORE_M55_HP
+#define OMV_FLASH_BOOT_ORIGIN           0x80000000
+#define OMV_FLASH_BOOT_LENGTH           0x00020000      /* 128K */
+
+#if CORE_M55_HP
 #define OMV_FLASH_ORIGIN                0x80020000
 #define OMV_FLASH_LENGTH                0x00300000      /* 3MB */
 #define OMV_ROMFS_PART0_ORIGIN          0xa0800000
@@ -232,6 +231,13 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 #define OMV_PDM1_D0_PIN                 (&omv_pin_PDM_D1)
 
 // Physical SPI buses.
+// SPI bus 0
+#define OMV_SPI0_ID                     (0)
+#define OMV_SPI0_SCLK_PIN               (&omv_pin_SPI_SCLK)
+#define OMV_SPI0_MISO_PIN               (&omv_pin_SPI_MISO)
+#define OMV_SPI0_MOSI_PIN               (&omv_pin_SPI_MOSI)
+#define OMV_SPI0_SSEL_PIN               (&omv_pin_SPI_SSEL)
+
 // SPI bus 4
 #define OMV_SPI4_ID                     (4)
 #define OMV_SPI4_SCLK_PIN               (&omv_pin_LPSPI_SCLK)
@@ -242,6 +248,7 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 // CSI I2C bus
 #define OMV_CSI_I2C_ID                  (0)
 #define OMV_CSI_I2C_SPEED               (OMV_I2C_SPEED_FULL)
+#define OMV_CSI_I2C_REINIT              (0)
 
 // FIR I2C bus
 #define OMV_FIR_I2C_ID                  (1)
@@ -265,7 +272,8 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 
 // Camera interface
 #define OMV_CSI_BASE                    ((CPI_Type *) CPI_BASE)
-#define OMV_CSI_CLK_FREQUENCY           (12000000)
+#define OMV_CSI_CLK_FREQUENCY           (24000000)
+#define OMV_CSI_STATS_ENABLE            (1)
 
 #define OMV_CSI_D0_PIN                  (&omv_pin_CSI_D0)
 #define OMV_CSI_D1_PIN                  (&omv_pin_CSI_D1)
@@ -283,6 +291,18 @@ extern unsigned char OMV_BOARD_UID_ADDR[12];    // Unique address.
 #define OMV_CSI_RESET_PIN               (&omv_pin_CSI_RESET)
 #define OMV_CSI_POWER_PIN               (&omv_pin_CSI_POWER)
 
+#define OMV_CSI_POLARITY_CONFIG         { OMV_CSI_ACTIVE_LOW, OMV_CSI_ACTIVE_LOW }
+
 #define OMV_WL_POWER_PIN                (&omv_pin_WL_REG_ON)
 #define OMV_BT_POWER_PIN                (&omv_pin_BT_REG_ON)
+
+// SPI LCD Interface
+#define OMV_SPI_DISPLAY_CONTROLLER      (OMV_SPI0_ID)
+#define OMV_SPI_DISPLAY_MOSI_PIN        (&omv_pin_SPI_MOSI)
+#define OMV_SPI_DISPLAY_MISO_PIN        (&omv_pin_SPI_MISO)
+#define OMV_SPI_DISPLAY_SCLK_PIN        (&omv_pin_SPI_SCLK)
+#define OMV_SPI_DISPLAY_SSEL_PIN        (&omv_pin_SPI_SSEL)
+#define OMV_SPI_DISPLAY_RS_PIN          (&omv_pin_LCD_RS)
+#define OMV_SPI_DISPLAY_RST_PIN         (&omv_pin_LCD_RST)
+
 #endif //__OMV_BOARDCONFIG_H__

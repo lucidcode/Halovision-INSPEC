@@ -1,7 +1,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #ifdef __linux__
-#include <poll.h>
+#    include <poll.h>
 #endif
 #include <sys/types.h>
 #include <unistd.h>
@@ -52,7 +52,7 @@ hydro_random_safe_read(const int fd, void *const buf_, size_t len)
         buf += readnb;
     } while (len > (ssize_t) 0);
 
-    return (ssize_t)(buf - (unsigned char *) buf_);
+    return (ssize_t) (buf - (unsigned char *) buf_);
 }
 
 static int

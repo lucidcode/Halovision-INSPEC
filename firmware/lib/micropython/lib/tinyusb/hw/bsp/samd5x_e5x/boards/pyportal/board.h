@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: Adafruit PyPortal
+   url: https://www.adafruit.com/product/4116
+*/
+
 #ifndef BOARD_H_
 #define BOARD_H_
 
@@ -42,6 +47,10 @@
 // UART
 #define UART_TX_PIN           (32 + 13)
 #define UART_RX_PIN           (32 + 12)
+
+static inline void board_vbus_set(uint8_t rhport, bool state) {
+ (void) rhport; (void) state;
+}
 
 #ifdef __cplusplus
  }

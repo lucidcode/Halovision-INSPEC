@@ -51,11 +51,13 @@ int main(void) {
   board_init();
 
   // init device stack on configured roothub port
-  tud_init(BOARD_TUD_RHPORT);
+  tusb_rhport_init_t dev_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUD_RHPORT, &dev_init);
 
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
+  board_init_after_tusb();
 
   while (1) {
     tud_task(); // tinyusb device task
@@ -115,6 +117,16 @@ void cdc_task(void) {
       tud_cdc_write(buf, count);
       tud_cdc_write_flush();
     }
+
+    // Press on-board button to send Uart status notification
+    static uint32_t btn_prev = 0;
+    static cdc_notify_uart_state_t uart_state = { .value = 0 };
+    const uint32_t btn = board_button_read();
+    if (!btn_prev && btn) {
+      uart_state.dsr ^= 1;
+      tud_cdc_notify_uart_state(&uart_state);
+    }
+    btn_prev = btn;
   }
 }
 

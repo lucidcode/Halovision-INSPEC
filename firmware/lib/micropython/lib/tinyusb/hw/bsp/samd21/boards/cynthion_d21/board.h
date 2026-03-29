@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: Great Scott Gadgets Cynthion
+   url: https://greatscottgadgets.com/cynthion/
+*/
+
 #ifndef BOARD_H_
 #define BOARD_H_
 
@@ -38,6 +43,10 @@
 // Button
 #define BUTTON_PIN            PIN_PB22
 #define BUTTON_STATE_ACTIVE   0
+
+static inline void board_vbus_set(uint8_t rhport, bool state) {
+ (void) rhport; (void) state;
+}
 
 #ifdef __cplusplus
  }

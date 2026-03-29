@@ -35,7 +35,13 @@
 #include "fsl_iomuxc.h"
 #include "fsl_dmamux.h"
 #include "fsl_edma.h"
+#include "fsl_common.h"
 #include "fsl_sai.h"
+
+#ifndef FSL_FEATURE_SAI_FIFO_COUNTn
+// Back-compat with mcux-sdk 2.11
+#define FSL_FEATURE_SAI_FIFO_COUNTn(x) FSL_FEATURE_SAI_FIFO_COUNT
+#endif
 
 // Notes on this port's specific implementation of I2S:
 // - the DMA callback is used to implement the asynchronous background operations, for non-blocking mode

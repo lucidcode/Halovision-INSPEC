@@ -42,6 +42,9 @@ typedef unsigned int mp_uint_t;     // must be pointer size
 #define MICROPY_HW_SPIFLASH_SOFT_RESET      (1)
 #define MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE (0)
 
+#define MICROPY_BOARD_EARLY_INIT board_early_init
+void board_early_init(void);
+
 extern void board_enter_bootloader(void);
 #define MICROPY_BOARD_ENTER_BOOTLOADER(nargs, args) board_enter_bootloader()
 
@@ -148,14 +151,10 @@ extern const struct _mp_obj_type_t mod_network_nic_type_winc;
 // block device config for SPI flash
 extern const struct _mp_spiflash_config_t spiflash_config;
 extern struct _spi_bdev_t spi_bdev;
-#define MICROPY_HW_BDEV_IOCTL(op, arg) ( \
-    (op) == BDEV_IOCTL_NUM_BLOCKS ? (MICROPY_HW_SPIFLASH_SIZE_BITS / 8 / FLASH_BLOCK_SIZE) : \
-    (op) == BDEV_IOCTL_INIT ? spi_bdev_ioctl(&spi_bdev, (op), (uint32_t)&spiflash_config) : \
-    spi_bdev_ioctl(&spi_bdev, (op), (arg)) \
-)
-#define MICROPY_HW_BDEV_READBLOCKS(dest, bl, n) spi_bdev_readblocks(&spi_bdev, (dest), (bl), (n))
-#define MICROPY_HW_BDEV_WRITEBLOCKS(src, bl, n) spi_bdev_writeblocks(&spi_bdev, (src), (bl), (n))
-#define MICROPY_HW_BDEV_SPIFLASH_EXTENDED (&spi_bdev)
+#define MICROPY_HW_BDEV_SPIFLASH            (&spi_bdev)
+#define MICROPY_HW_BDEV_SPIFLASH_CONFIG     (&spiflash_config)
+#define MICROPY_HW_BDEV_SPIFLASH_EXTENDED   (&spi_bdev)
+#define MICROPY_HW_BDEV_SPIFLASH_SIZE_BYTES (MICROPY_HW_SPIFLASH_SIZE_BITS / 8)
 
 // SDRAM
 #define MICROPY_HW_SDRAM_SIZE               (64 * 1024 * 1024)

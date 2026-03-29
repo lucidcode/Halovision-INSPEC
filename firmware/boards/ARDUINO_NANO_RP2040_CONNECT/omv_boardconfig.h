@@ -49,16 +49,11 @@ extern unsigned char *OMV_BOARD_UID_ADDR;    // Unique address.
 // FIR drivers configuration.
 #define OMV_FIR_AMG8833_ENABLE     (1)
 
-// Debugging configuration.
-#define OMV_TUSBDBG_ENABLE         (1)
-#define OMV_TUSBDBG_BUFFER         (2048)
-
 // UMM heap block size
 #define OMV_UMM_BLOCK_SIZE         16
 
 // USB IRQn.
 #define OMV_USB_IRQN               (USBCTRL_IRQ_IRQn)
-#define OMV_USB1_IRQ_HANDLER       (USBD_IRQHandler)
 
 // Linker script constants (see the linker script template port/x.ld.S).
 #define OMV_MAIN_MEMORY            RAM // Data/BSS memory
@@ -69,7 +64,7 @@ extern unsigned char *OMV_BOARD_UID_ADDR;    // Unique address.
 #define OMV_FB_ALLOC_SIZE          (16K) // minimum fb alloc size
 #define OMV_GC_BLOCK0_MEMORY       RAM // Main GC block
 #define OMV_GC_BLOCK0_SIZE         (60 * 1024) // MicroPython's heap
-#define OMV_JPEG_SIZE              (20K) // IDE JPEG buffer (header + data).
+#define OMV_SB_SIZE                (20K) // Streaming buffer size.
 
 // GP LED
 #define OMV_LED_PIN                (6)
