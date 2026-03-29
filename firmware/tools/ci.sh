@@ -3,7 +3,7 @@
 ########################################################################################
 # Install ARM GCC.
 GCC_TOOLCHAIN_PATH=${HOME}/cache/gcc
-GCC_TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz"
+GCC_TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu/14.3.rel1/binrel/arm-gnu-toolchain-14.3.rel1-x86_64-arm-none-eabi.tar.xz"
 
 ci_install_arm_gcc() {
     mkdir -p ${GCC_TOOLCHAIN_PATH}
@@ -54,8 +54,11 @@ ci_build_target() {
         make -j$(nproc) -C docker TARGET=${BOARD}
     else
         make -j$(nproc) -C lib/micropython/mpy-cross
-        make -j$(nproc) TARGET=${1}
-        mv build/bin ${1}
+        make -j$(nproc) TARGET=${1} PROFILE_ENABLE=${3}
+        # Copy artifacts if enabled
+        if [ "$4" == "true" ]; then
+            mv build/bin ${1}
+        fi
     fi
 }
 
@@ -73,53 +76,27 @@ ci_package_firmware_development() {
 }
 
 ########################################################################################
-# Install code formatter deps
-CODEFORMAT_PATH=${HOME}/cache/deps/
-UNCRUSTIFY_PATH=${CODEFORMAT_PATH}/uncrustify
-UNCRUSTIFY_URL="https://github.com/uncrustify/uncrustify/archive/uncrustify-0.75.0.tar.gz"
-
-ci_install_code_format_deps() {
-    sudo apt-get install wget cmake build-essential colordiff
-
-    mkdir -p ${UNCRUSTIFY_PATH}
-    wget --no-check-certificate -O - ${UNCRUSTIFY_URL} | tar xvz --strip-components=1 -C ${UNCRUSTIFY_PATH}
-    (cd ${UNCRUSTIFY_PATH} && mkdir build && cd build && cmake .. && cmake --build .)
-
-    # Copy binaries to cache
-    mkdir -p ${CODEFORMAT_PATH}/bin
-    cp ${UNCRUSTIFY_PATH}/build/uncrustify ${CODEFORMAT_PATH}/bin/
-    cp `which colordiff` ${CODEFORMAT_PATH}/bin/
-    chmod +x ${CODEFORMAT_PATH}/bin/uncrustify
-}
-
-########################################################################################
-# Run code formatter
-ci_run_code_format_check() {
-    export PATH=${CODEFORMAT_PATH}/bin:${PATH}
-    UNCRUSTIFY_CONFIG=tools/uncrustify.cfg
-
-    exit_code=0
-    for file in "$@"; do
-        file_fmt="${file}.tmp"
-        uncrustify -q -c ${UNCRUSTIFY_CONFIG} -f ${file} -o ${file_fmt} || true
-
-        diff -q -u ${file} ${file_fmt} >> /dev/null 2>&1 || {
-            colordiff -u ${file} ${file_fmt} || true
-            exit_code=1
-        }
-    done
-    exit $exit_code
-}
-
-########################################################################################
 # Install STEdgeAI tools
-STEDGEAI_URL="https://upload.openmv.io/stedgeai/STEdgeAI-2.1.0.tar.gz"
-STEDGEAI_SHA256="888e71715127ff6384e38fcde96eea28f53f8370b2bb9cf0d2f6f939001b350c"
+STEDGEAI_BASE_URL="https://upload.openmv.io/stedgeai"
 STEDGEAI_CACHE="${HOME}/cache/stedgeai"
+
+case "$(uname -s)-$(uname -m)" in
+    Linux-x86_64)
+        STEDGEAI_URL="${STEDGEAI_BASE_URL}/STEdgeAI-3.0.0-linux-x86_64.tar.gz"
+        STEDGEAI_SHA256="55e31c2a541048616d7a0899de3906acf68655c21fe497eae3c983d067393099"
+        ;;
+    Darwin-arm64)
+        STEDGEAI_URL="${STEDGEAI_BASE_URL}/STEdgeAI-3.0.0-darwin-arm64.tar.gz"
+        STEDGEAI_SHA256="a4bc2605a78bc866b94517e90fac1e930431f4061e0c1265cd78f987963e383f"
+        ;;
+    *)
+        echo "Unsupported platform: $(uname -s)-$(uname -m)"
+        ;;
+esac
 
 ci_install_stedgeai() {
     STEDGEAI_PATH="${1}"
-    
+
     # If cached in CI, copy from cache to build.
     if [ -d "${STEDGEAI_CACHE}" ]; then
         mkdir -p "${STEDGEAI_PATH}"
@@ -131,31 +108,84 @@ ci_install_stedgeai() {
     # Download and install to STEDGEAI_PATH
     echo "Downloading STEdge AI tools..."
     mkdir -p "${STEDGEAI_PATH}"
-    
+
     # Create temporary file
     tmpfile=$(mktemp)
     trap 'rm -f "$tmpfile"' EXIT
-    
+
     # Download and verify checksum
     wget --no-check-certificate -O "$tmpfile" "$STEDGEAI_URL" || {
         echo "Download failed!"
         return 1
     }
-    
+
     echo "${STEDGEAI_SHA256}  ${tmpfile}" | sha256sum -c - || {
         echo "Checksum failed!"
         return 1
     }
-    
+
     # Extract the tools
     echo "Extracting to ${STEDGEAI_PATH}..."
     tar -xzf "$tmpfile" -C "${STEDGEAI_PATH}" --strip-components=1 || {
         echo "Extraction failed!"
         return 1
     }
-    
+
     touch "${STEDGEAI_PATH}/stedgeai.stamp"
-   
+
     echo "STEdgeAI installed successfully to ${STEDGEAI_PATH}"
+    return 0
+}
+
+########################################################################################
+# Run QEMU unit tests
+ci_run_qemu_tests() {
+    TARGET="${1}"
+
+    export PATH=${GNU_MAKE_PATH}:${GCC_TOOLCHAIN_PATH}/bin:${PATH}
+
+    # Patch micropython's mpremote for QEMU serial communication
+    echo "Patching micropython mpremote for QEMU..."
+    patch -N -p1 -d lib/micropython < tools/mpremote-qemu-serial.patch || echo "Patch already applied or failed"
+
+    # Start QEMU in background and capture output
+    echo "Starting QEMU for ${TARGET}..."
+    make TARGET=${TARGET} run > qemu_output.txt 2>&1 &
+
+    # Wait for QEMU to start and find the serial port from output
+    echo "Waiting for QEMU to start..."
+    for i in {1..30}; do
+        if grep -q "char device redirected to" qemu_output.txt; then
+            break
+        fi
+        sleep 1
+    done
+
+    # Extract the pts device from QEMU output
+    PTS_DEVICE=$(grep "redirected to" qemu_output.txt | sed 's/.*redirected to \(\/dev\/pts\/[0-9]*\).*/\1/')
+
+    if [ -z "$PTS_DEVICE" ]; then
+        echo "Error: Could not find QEMU serial port"
+        cat qemu_output.txt
+        return 1
+    else
+        echo "Found QEMU serial port: $PTS_DEVICE"
+    fi
+
+    # Run unit tests using patched mpremote from micropython
+    echo "Running unit tests..."
+    python3 lib/micropython/tools/mpremote/mpremote.py connect $PTS_DEVICE \
+        mount scripts/unittest/ run scripts/unittest/run.py 2>&1 | tee test_output.txt
+    TEST_EXIT_CODE=${PIPESTATUS[0]}
+
+    if [ $TEST_EXIT_CODE -ne 0 ]; then
+        echo "❌ mpremote command failed with exit code $TEST_EXIT_CODE"
+        return 1
+    fi
+
+    # Check if tests failed
+    if grep -q "Some tests FAILED" test_output.txt; then
+        return 1
+    fi
     return 0
 }
