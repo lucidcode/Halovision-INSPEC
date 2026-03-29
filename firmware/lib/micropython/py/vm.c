@@ -1476,6 +1476,7 @@ unwind_loop:
 
             if (exc_sp >= exc_stack) {
                 // catch exception and pass to byte code
+                MICROPY_VM_HOOK_EXC
                 code_state->ip = exc_sp->handler;
                 mp_obj_t *sp = MP_TAGPTR_PTR(exc_sp->val_sp);
                 // save this exception in the stack so it can be used in a reraise, if needed

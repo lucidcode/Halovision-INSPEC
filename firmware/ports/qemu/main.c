@@ -38,15 +38,21 @@
 #include "shared/runtime/gchelper.h"
 #include "shared/runtime/pyexec.h"
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "mp_utils.h"
 #include "file_utils.h"
 #include "fb_alloc.h"
 #include "framebuffer.h"
 #include "omv_csi.h"
 
+extern int qemu_npu_init(void);
+
 int main(int argc, char **argv) {
     bool first_soft_reset = true;
+
+    #ifdef ETHOS_U
+    qemu_npu_init();
+    #endif
 
 soft_reset:
     // Initialise stack extents and GC heap.
@@ -57,10 +63,6 @@ soft_reset:
 
     fb_alloc_init0();
     framebuffer_init0();
-
-    #ifdef IMLIB_ENABLE_IMAGE_FILE_IO
-    file_buffer_init0();
-    #endif
 
     imlib_init();
 

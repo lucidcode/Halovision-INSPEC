@@ -140,6 +140,9 @@
 
 // Enable find_apriltags() (64 KB)
 #define IMLIB_ENABLE_APRILTAGS
+#define IMLIB_ENABLE_APRILTAGS_TAG16H5
+#define IMLIB_ENABLE_APRILTAGS_TAG25H9
+#define IMLIB_ENABLE_APRILTAGS_TAG36H10
 #define IMLIB_ENABLE_APRILTAGS_TAG36H11
 
 // Enable fine find_apriltags() - (8-way connectivity versus 4-way connectivity)

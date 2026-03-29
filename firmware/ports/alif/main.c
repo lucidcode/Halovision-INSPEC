@@ -67,7 +67,7 @@
 #include "lib/cyw43-driver/src/cyw43.h"
 #endif
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "framebuffer.h"
 #include "fb_alloc.h"
 #include "file_utils.h"
@@ -120,9 +120,6 @@ soft_reset:
     framebuffer_init0();
     #if MICROPY_PY_CSI
     omv_csi_init0();
-    #endif
-    #ifdef IMLIB_ENABLE_IMAGE_FILE_IO
-    file_buffer_init0();
     #endif
     #if MICROPY_PY_IMU
     py_imu_init();

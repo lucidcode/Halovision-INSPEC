@@ -65,7 +65,7 @@
 #include "extmod/vfs.h"
 #include "extmod/vfs_fat.h"
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "framebuffer.h"
 #include "omv_csi.h"
 #include "fb_alloc.h"
@@ -106,9 +106,6 @@ soft_reset:
     framebuffer_init0();
     omv_csi_init0();
     //dma_alloc_init0();
-    #ifdef IMLIB_ENABLE_IMAGE_FILE_IO
-    file_buffer_init0();
-    #endif
     machine_adc_init();
     #if MICROPY_PY_MACHINE_SDCARD
     machine_sdcard_init0();

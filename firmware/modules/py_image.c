@@ -44,7 +44,7 @@
 #include "py_assert.h"
 #include "py_helper.h"
 #include "py_image.h"
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #if defined(IMLIB_ENABLE_IMAGE_IO)
 #include "py_imageio.h"
 #endif
@@ -1188,6 +1188,15 @@ static mp_obj_t py_image_to(pixformat_t pixfmt, mp_rom_obj_t default_color_palet
         framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
         bool is_fb = py_helper_is_equal_to_framebuffer(src_img);
         size_t buf_size = is_fb ? framebuffer_get_buffer_size(fb) : image_size(src_img);
+        if (is_fb && size > buf_size) {
+            // Resize the framebuffer to fit the scaled image.
+            for (size_t i = fb->buf_count; i > 0; i--) {
+                if (!framebuffer_resize(fb, i, size)) {
+                    break;
+                }
+            }
+            buf_size = framebuffer_get_buffer_size(fb);
+        }
         PY_ASSERT_TRUE_MSG((size <= buf_size), "The image doesn't fit in the frame buffer!");
         dst_img.data = src_img->data;
     }
@@ -5392,11 +5401,6 @@ static void py_apriltag_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
                         dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAG16H5);
                         break;
                     #endif
-                    #ifdef IMLIB_ENABLE_APRILTAGS_TAG25H7
-                    case TAG25H7:
-                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAG25H7);
-                        break;
-                    #endif
                     #ifdef IMLIB_ENABLE_APRILTAGS_TAG25H9
                     case TAG25H9:
                         dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAG25H9);
@@ -5412,9 +5416,29 @@ static void py_apriltag_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
                         dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAG36H11);
                         break;
                     #endif
-                    #ifdef IMLIB_ENABLE_APRILTAGS_ARTOOLKIT
-                    case ARTOOLKIT:
-                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_ARTOOLKIT);
+                    #ifdef IMLIB_ENABLE_APRILTAGS_TAGCIRCLE21H7
+                    case TAGCIRCLE21H7:
+                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAGCIRCLE21H7);
+                        break;
+                    #endif
+                    #ifdef IMLIB_ENABLE_APRILTAGS_TAGCIRCLE49H12
+                    case TAGCIRCLE49H12:
+                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAGCIRCLE49H12);
+                        break;
+                    #endif
+                    #ifdef IMLIB_ENABLE_APRILTAGS_TAGCUSTOM48H12
+                    case TAGCUSTOM48H12:
+                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAGCUSTOM48H12);
+                        break;
+                    #endif
+                    #ifdef IMLIB_ENABLE_APRILTAGS_TAGSTANDARD41H12
+                    case TAGSTANDARD41H12:
+                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAGSTANDARD41H12);
+                        break;
+                    #endif
+                    #ifdef IMLIB_ENABLE_APRILTAGS_TAGSTANDARD52H13
+                    case TAGSTANDARD52H13:
+                        dest[0] = MP_OBJ_NEW_QSTR(MP_QSTR_TAGSTANDARD52H13);
                         break;
                     #endif
                 }
@@ -6581,7 +6605,7 @@ static const mp_rom_map_elem_t locals_dict_table[] = {
     {MP_ROM_QSTR(MP_QSTR_min),                 MP_ROM_PTR(&py_image_min_obj)},
     {MP_ROM_QSTR(MP_QSTR_max),                 MP_ROM_PTR(&py_image_max_obj)},
     {MP_ROM_QSTR(MP_QSTR_difference),          MP_ROM_PTR(&py_image_difference_obj)},
-    {MP_ROM_QSTR(MP_QSTR_variation),            MP_ROM_PTR(&py_image_variation_obj)},
+    {MP_ROM_QSTR(MP_QSTR_variation),           MP_ROM_PTR(&py_image_variation_obj)},
     {MP_ROM_QSTR(MP_QSTR_blend),               MP_ROM_PTR(&py_image_draw_image_obj)},
     #else
     {MP_ROM_QSTR(MP_QSTR_negate),              MP_ROM_PTR(&py_func_unavailable_obj)},
@@ -7066,7 +7090,7 @@ mp_obj_t py_image_load_descriptor(size_t n_args, const mp_obj_t *args, mp_map_t 
     mp_obj_t desc = mp_const_none;
     const char *path = mp_obj_str_get_str(args[0]);
 
-    file_open(&fp, path, false, FA_READ | FA_OPEN_EXISTING);
+    file_open(&fp, path, FA_READ | FA_OPEN_EXISTING);
 
     // Read descriptor type
     file_read(&fp, &desc_type, sizeof(desc_type));
@@ -7122,7 +7146,7 @@ mp_obj_t py_image_save_descriptor(size_t n_args, const mp_obj_t *args, mp_map_t 
     uint32_t desc_type;
     const char *path = mp_obj_str_get_str(args[1]);
 
-    file_open(&fp, path, false, FA_WRITE | FA_CREATE_ALWAYS);
+    file_open(&fp, path, FA_WRITE | FA_CREATE_ALWAYS);
 
     // Find descriptor type
     const mp_obj_type_t *desc_obj_type = mp_obj_get_type(args[0]);
@@ -7256,7 +7280,7 @@ int py_image_descriptor_from_roi(image_t *img, const char *path, rectangle_t *ro
     file_t fp;
     array_t *kpts = orb_find_keypoints(img, false, 20, 1.5f, 100, CORNER_AGAST, roi);
     if (array_length(kpts)) {
-        file_open(&fp, path, false, FA_WRITE | FA_CREATE_ALWAYS);
+        file_open(&fp, path, FA_WRITE | FA_CREATE_ALWAYS);
         orb_save_descriptor(&fp, kpts);
         file_close(&fp);
     }
@@ -7315,9 +7339,6 @@ static const mp_rom_map_elem_t globals_dict_table[] = {
     #ifdef IMLIB_ENABLE_APRILTAGS_TAG16H5
     {MP_ROM_QSTR(MP_QSTR_TAG16H5),             MP_ROM_INT(TAG16H5)},
     #endif
-    #ifdef IMLIB_ENABLE_APRILTAGS_TAG25H7
-    {MP_ROM_QSTR(MP_QSTR_TAG25H7),             MP_ROM_INT(TAG25H7)},
-    #endif
     #ifdef IMLIB_ENABLE_APRILTAGS_TAG25H9
     {MP_ROM_QSTR(MP_QSTR_TAG25H9),             MP_ROM_INT(TAG25H9)},
     #endif
@@ -7327,8 +7348,20 @@ static const mp_rom_map_elem_t globals_dict_table[] = {
     #ifdef IMLIB_ENABLE_APRILTAGS_TAG36H11
     {MP_ROM_QSTR(MP_QSTR_TAG36H11),            MP_ROM_INT(TAG36H11)},
     #endif
-    #ifdef IMLIB_ENABLE_APRILTAGS_TAG36ARTOOLKIT
-    {MP_ROM_QSTR(MP_QSTR_ARTOOLKIT),           MP_ROM_INT(ARTOOLKIT)},
+    #ifdef IMLIB_ENABLE_APRILTAGS_TAGCIRCLE21H7
+    {MP_ROM_QSTR(MP_QSTR_TAGCIRCLE21H7),       MP_ROM_INT(TAGCIRCLE21H7)},
+    #endif
+    #ifdef IMLIB_ENABLE_APRILTAGS_TAGCIRCLE49H12
+    {MP_ROM_QSTR(MP_QSTR_TAGCIRCLE49H12),      MP_ROM_INT(TAGCIRCLE49H12)},
+    #endif
+    #ifdef IMLIB_ENABLE_APRILTAGS_TAGCUSTOM48H12
+    {MP_ROM_QSTR(MP_QSTR_TAGCUSTOM48H12),      MP_ROM_INT(TAGCUSTOM48H12)},
+    #endif
+    #ifdef IMLIB_ENABLE_APRILTAGS_TAGSTANDARD41H12
+    {MP_ROM_QSTR(MP_QSTR_TAGSTANDARD41H12),    MP_ROM_INT(TAGSTANDARD41H12)},
+    #endif
+    #ifdef IMLIB_ENABLE_APRILTAGS_TAGSTANDARD52H13
+    {MP_ROM_QSTR(MP_QSTR_TAGSTANDARD52H13),    MP_ROM_INT(TAGSTANDARD52H13)},
     #endif
     #endif
     #ifdef IMLIB_ENABLE_BARCODES

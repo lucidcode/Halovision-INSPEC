@@ -29,8 +29,8 @@
 #include "py/mphal.h"
 #include "omv_i2c.h"
 #include "omv_csi.h"
-#include "omv_boardconfig.h"
-#include "unaligned_memcpy.h"
+#include "board_config.h"
+#include "memcpy.h"
 #include "nrf_i2s.h"
 #include "hal/nrf_gpio.h"
 
@@ -125,7 +125,7 @@ static int nrf_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
 
     // This driver supports a single buffer.
     if (fb->buf_count != 1) {
-        omv_csi_set_framebuffers(csi, 1, false);
+        omv_csi_set_framebuffers(csi, 1);
     }
 
     // Acquire a buffer from the free queue.

@@ -737,6 +737,11 @@ typedef uint64_t mp_uint_t;
 #define MICROPY_VM_HOOK_RETURN
 #endif
 
+// Hook for the VM when an unhandled exception is passed to byte code
+#ifndef MICROPY_VM_HOOK_EXC
+#define MICROPY_VM_HOOK_EXC
+#endif
+
 // Hook for mp_sched_schedule when a function gets scheduled on sched_queue
 // (this macro executes within an atomic section)
 #ifndef MICROPY_SCHED_HOOK_SCHEDULED

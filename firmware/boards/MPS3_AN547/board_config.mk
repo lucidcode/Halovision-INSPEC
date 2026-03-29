@@ -1,0 +1,41 @@
+CPU=cortex-m55
+FPU=fpv5-d16
+PORT=qemu
+FVP_MACHINE=SSE-300_Ethos-U55
+OMV_ENABLE_BL=0
+OMV_LEPTON_SDK_ENABLE=0
+CMSIS_MCU_H = \"mps3_an547.h\"
+OMV_BOARD_CFLAGS= -mcmse \
+                  -DQEMU_SOC_MPS3 \
+                  -DCPU_FREQ_HZ=32000000 \
+                  -DETHOS_U -DETHOSU55 \
+                  -DOMV_NOSYS_STUBS_ENABLE=1
+DEBUGGER=NONE
+VELA_ARGS= "--accelerator-config ethos-u55-256 \
+            --memory-mode Shared_Sram \
+            --config $(TOP_DIR)/tools/vela.ini \
+            --system-config RTSS_HE_SRAM_Only"
+FVP_ARGS= -C cpu0.CFGITCMSZ=14 \
+          -C mps3_board.FPGA_SRAM_SIZE=8 \
+          -C mps3_board.sse300.NUMVMBANK=2 \
+          -C mps3_board.sse300.VM_BANK_SIZE=4096 \
+          -C ethosu.num_macs=256
+OMV_ROMFS_PART0_ORIGIN=0x62000000
+MICROPY_PY_CSI = 1
+MICROPY_PY_CSI_NG = 1
+MICROPY_PY_CRC = 1
+MICROPY_PY_FIR = 0
+MICROPY_PY_ULAB = 1
+MICROPY_PY_WINC1500 = 0
+MICROPY_PY_DISPLAY = 0
+MICROPY_PY_TV = 0
+MICROPY_PY_ML = 1
+MICROPY_PY_ML_TFLM = 1
+MICROPY_PY_LWIP = 0
+MICROPY_PY_SSL = 0
+MICROPY_PY_SSL_ECDSA_SIGN_ALT = 0
+MICROPY_SSL_MBEDTLS = 0
+MICROPY_PY_NETWORK_CYW43 = 0
+MICROPY_PY_BLUETOOTH = 0
+MICROPY_BLUETOOTH_NIMBLE = 0
+MICROPY_PY_UNITTEST = 1

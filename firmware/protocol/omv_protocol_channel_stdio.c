@@ -34,10 +34,10 @@
 
 #include "omv_common.h"
 #include "omv_protocol.h"
-#include "omv_boardconfig.h"
+#include "board_config.h"
 
 #ifndef OMV_PROTOCOL_STDIO_BUFFER_SIZE
-#define OMV_PROTOCOL_STDIO_BUFFER_SIZE  (512)
+#define OMV_PROTOCOL_STDIO_BUFFER_SIZE  (1024)
 #endif
 
 

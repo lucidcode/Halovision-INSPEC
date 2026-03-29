@@ -34,7 +34,7 @@
 // Entry Point
 ENTRY(Reset_Handler)
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 
 MEMORY
 {
@@ -66,6 +66,7 @@ MEMORY
     SRAM9_B     (rw)    : ORIGIN = OMV_SRAM9_B_ORIGIN,  LENGTH = OMV_SRAM9_B_LENGTH
     #endif
 }
+
 
 SECTIONS
 {
@@ -135,6 +136,14 @@ SECTIONS
     . = ALIGN(4);
     __bss_end__ = .;
   } > OMV_MAIN_MEMORY
+
+  // Configure an NS region for the rest of the DTCM.
+  .ns_dtcm (NOLOAD) : ALIGN(4)
+  {
+    . = ALIGN(16384);
+    PROVIDE(__ns_region_0_start = .);
+    PROVIDE(__ns_region_0_end = ORIGIN(DTCM) + LENGTH(DTCM));
+  } > DTCM
 
   .init_fini_arrays : ALIGN(16)
   {

@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Damien P. George
  */
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 
 MEMORY
 {
@@ -15,6 +15,12 @@ MEMORY
   #endif
   #if defined(OMV_SRAM2_ORIGIN)
   SRAM2 (xrw)       : ORIGIN = OMV_SRAM2_ORIGIN,     LENGTH = OMV_SRAM2_LENGTH
+  #endif
+  #if defined(OMV_DDR_ORIGIN)
+  DDR (xrw)         : ORIGIN = OMV_DDR_ORIGIN,        LENGTH = OMV_DDR_LENGTH
+  #endif
+  #if defined(OMV_PSRAM_ORIGIN)
+  PSRAM (xrw)       : ORIGIN = OMV_PSRAM_ORIGIN,      LENGTH = OMV_PSRAM_LENGTH
   #endif
   FLASH_ISR (rx)    : ORIGIN = OMV_FLASH_ISR_ORIGIN, LENGTH = OMV_FLASH_ISR_LENGTH
   FLASH_TEXT (rx)   : ORIGIN = OMV_FLASH_TXT_ORIGIN, LENGTH = OMV_FLASH_TXT_LENGTH
@@ -67,7 +73,7 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;          // Define a global symbol at bss end
     __bss_end__ = .;
-  } >OMV_MAIN_MEMORY
+  } >OMV_MAIN_MEMORY AT> OMV_MAIN_MEMORY
 
   #include "common.ld.S"
 }
