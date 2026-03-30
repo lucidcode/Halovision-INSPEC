@@ -8,8 +8,8 @@
  *
  * Board configuration and pin definitions.
  */
-#ifndef __OMV_BOARDCONFIG_H__
-#define __OMV_BOARDCONFIG_H__
+#ifndef __BOARD_CONFIG_H__
+#define __BOARD_CONFIG_H__
 
 // Architecture info
 #define OMV_BOARD_ARCH                  "OMVRT1060 32768 SDRAM"    // 33 chars max
@@ -207,4 +207,4 @@
 #define OMV_CSI_POWER_PIN               (&omv_pin_DCMI_POWER)
 #define OMV_CSI_FSYNC_PIN               (&omv_pin_DCMI_FSYNC)
 
-#endif //__OMV_BOARDCONFIG_H__
+#endif //__BOARD_CONFIG_H__

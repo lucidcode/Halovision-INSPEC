@@ -15,54 +15,67 @@ export Q = @
 MAKEFLAGS += --silent
 endif
 
-# Default path to LLVM toolchain.
-LLVM_PATH ?=/opt/LLVM-ET-Arm-18.1.3-Linux-x86_64/bin/
+# Debug configuration
+DEBUGGER ?= JLINK
 
-# Commands
-export CC      = $(Q)arm-none-eabi-gcc
-export CLANG   = $(Q)$(LLVM_PATH)/clang
-export CXX     = $(Q)arm-none-eabi-g++
-export AS      = $(Q)arm-none-eabi-as
-export LD      = $(Q)arm-none-eabi-ld
-export AR      = $(Q)arm-none-eabi-ar
-export RM      = $(Q)rm
-export CPP     = $(Q)arm-none-eabi-cpp
-export SIZE    = $(Q)arm-none-eabi-size
-export STRIP   = $(Q)arm-none-eabi-strip -s
-export OBJCOPY = $(Q)arm-none-eabi-objcopy
-export OBJDUMP = $(Q)arm-none-eabi-objdump
-export PYTHON  = $(Q)python3
-export MKDFU   = $(MICROPY_DIR)/tools/dfu.py
-export PYDFU   = $(Q)tools/pydfu.py
-export MKDIR   = $(Q)mkdir
-export ECHO    = $(Q)@echo
-export MAKE    = $(Q)make
-export CAT     = $(Q)cat
-export MKROMFS = mkromfs.py
+# Dummy target to run sdk/clean
+ifeq ($(TARGET),)
+  ifeq ($(filter sdk clean,$(MAKECMDGOALS)),)
+    $(error Invalid or no TARGET specified)
+  else
+    TARGET=OPENMV4
+  endif
+endif
+
+# OpenMV SDK configuration
+SDK_VERSION = 1.1.0
+SDK_DIR ?= $(HOME)/openmv-sdk-$(SDK_VERSION)
+SDK_STAMP = $(SDK_DIR)/sdk.version
+
+# Check if the SDK is downloaded
+ifeq ($(filter sdk clean,$(MAKECMDGOALS)),)
+  ifeq ($(wildcard $(SDK_STAMP)),)
+    $(error OpenMV SDK not found. Run 'make sdk' to install it.)
+  else
+    SDK_INSTALLED := $(shell cat $(SDK_STAMP))
+    ifneq ($(SDK_INSTALLED),$(SDK_VERSION))
+      $(error OpenMV SDK version mismatch. Run 'make sdk'.)
+    endif
+  endif
+endif
 
 # Targets
 export OPENMV ?= openmv
 export FIRMWARE ?= firmware
+OMV_DEBUG_ELF ?= $(FIRMWARE)
 export BOOTLOADER ?= bootloader
 
-# Jlink config
-JLINK_INTERFACE ?= swd
-JLINK_SPEED ?= 100000
-JLINK_DEVICE ?= unspecified
-JLINK_GDB_SERVER ?= /opt/JLink/JLinkGDBServer
-
-ifeq ($(TARGET),)
-  ifneq ($(MAKECMDGOALS),clean)
-    $(error Invalid or no TARGET specified)
-  endif
-  TARGET=OPENMV4
-endif
+# Commands (use := to avoid repeated expansion overhead in parallel builds)
+export CC      := $(Q)arm-none-eabi-gcc
+export CLANG   := $(Q)clang
+export CXX     := $(Q)arm-none-eabi-g++
+export AS      := $(Q)arm-none-eabi-as
+export LD      := $(Q)arm-none-eabi-ld
+export AR      := $(Q)arm-none-eabi-ar
+export RM      := $(Q)rm
+export CPP     := $(Q)arm-none-eabi-cpp
+export SIZE    := $(Q)arm-none-eabi-size
+export STRIP   := $(Q)arm-none-eabi-strip -s
+export OBJCOPY := $(Q)arm-none-eabi-objcopy
+export OBJDUMP := $(Q)arm-none-eabi-objdump
+export PYTHON  := $(Q)python3
+export MKDIR   := $(Q)mkdir
+export ECHO    := $(Q)@echo
+export MAKE    := $(Q)make
+export CAT     := $(Q)cat
+export MKROMFS := mkromfs.py
+export MACHINE := $(shell uname -m)
 
 # Directories
-export TOP_DIR=$(shell pwd)
-export BUILD=$(TOP_DIR)/build
-export TOOLS_DIR=$(TOP_DIR)/tools
-export FW_DIR=$(BUILD)/bin
+export TOP_DIR:=$(shell pwd)
+export BUILD:=$(TOP_DIR)/build
+export TOOLS_DIR:=$(TOP_DIR)/tools
+export FW_DIR:=$(BUILD)/bin
 export BOOT_DIR=boot
 export PORTS_DIR=ports
 export CUBEAI_DIR=cubeai
@@ -73,11 +86,14 @@ export LIBPDM_DIR=lib/libpdm
 export TENSORFLOW_DIR=lib/tflm
 export COMMON_DIR=common
 export CYW4343_FW_DIR=drivers/cyw4343/firmware/
-export OMV_BOARD_CONFIG_DIR=$(TOP_DIR)/boards/$(TARGET)/
-export OMV_PORT_DIR=$(TOP_DIR)/ports/$(PORT)
-export MP_BOARD_CONFIG_DIR=$(TOP_DIR)/$(MICROPY_DIR)/ports/$(PORT)/boards/$(TARGET)/
-export OMV_LIB_DIR=$(TOP_DIR)/scripts/libraries
-export FROZEN_MANIFEST=$(OMV_BOARD_CONFIG_DIR)/manifest.py
+export OMV_BOARD_CONFIG_DIR:=$(TOP_DIR)/boards/$(TARGET)/
+export OMV_LIB_DIR:=$(TOP_DIR)/scripts/libraries
+export FROZEN_MANIFEST:=$(OMV_BOARD_CONFIG_DIR)/manifest.py
+
+# Prepend SDK bin directories to PATH.
+STEDGEAI_CORE = $(wildcard $(SDK_DIR)/stedgeai/[0-9]*)
+STEDGEAI_UTIL = Utilities/$(if $(filter Darwin,$(shell uname -s)),macarm,linux)
+export PATH := $(SDK_DIR)/gcc/bin:$(SDK_DIR)/llvm/bin:$(SDK_DIR)/cmake/bin:$(SDK_DIR)/python/bin:$(SDK_DIR)/stcubeprog/bin:$(STEDGEAI_CORE)/$(STEDGEAI_UTIL):$(SDK_DIR)/fvp/bin:$(PATH)
 
 # Debugging/Optimization
 ifeq ($(DEBUG), 1)
@@ -107,12 +123,27 @@ CFLAGS += -DFB_ALLOC_STATS
 endif
 
 # Enable timing for some functions.
-ifeq ($(PROFILE), 1)
-CFLAGS += -DOMV_PROFILE_ENABLE=1
+ifeq ($(PROFILE_ENABLE), 1)
+$(info ===================================)
+$(info =======  Profiling Enabled  =======)
+$(info ===================================)
+
+# Enable profiling in IRQ context (default: enabled)
+PROFILE_IRQ ?= 0
+
+# Default profiler hash table size (must be power of 2)
+ifeq ($(PROFILE_HASH),)
+PROFILE_HASH=256
+endif
+
+CFLAGS += -DOMV_PROFILER_ENABLE=1
+CFLAGS += -DOMV_PROFILER_HASH_SIZE=$(PROFILE_HASH)
+CFLAGS += -DOMV_PROFILER_IRQ_ENABLE=$(PROFILE_IRQ)
+CFLAGS += -finstrument-functions-exclude-file-list=lib/cmsis,lib/stm32,/lib/mimxrt,lib/alif,simd.h
 endif
 
 # Include OpenMV board config first to set the port.
-include $(OMV_BOARD_CONFIG_DIR)/omv_boardconfig.mk
+include $(OMV_BOARD_CONFIG_DIR)/board_config.mk
 
 # Include MicroPython board config.
 #include $(MP_BOARD_CONFIG_DIR)/mpconfigboard.mk
@@ -120,15 +151,35 @@ include $(OMV_BOARD_CONFIG_DIR)/omv_boardconfig.mk
 # Additional qstr definitions for OpenMV
 #OMV_SRC_QSTR := $(wildcard $(TOP_DIR)/modules/*.c)
 
+export OMV_PORT_DIR:=$(TOP_DIR)/ports/$(PORT)
+export MP_BOARD_CONFIG_DIR:=$(TOP_DIR)/$(MICROPY_DIR)/ports/$(PORT)/boards/$(TARGET)/
+
 # The following command line args are passed to MicroPython's top Makefile.
 MPY_MKARGS = PORT=$(PORT) BOARD=$(TARGET) DEBUG=$(DEBUG) MICROPY_MANIFEST_OMV_LIB_DIR=$(OMV_LIB_DIR)\
              FROZEN_MANIFEST=$(FROZEN_MANIFEST) OMV_SRC_QSTR="$(OMV_SRC_QSTR)"\
              MICROPY_ROM_TEXT_COMPRESSION=$(ROM_TEXT_COMPRESSION) USER_C_MODULES=$(TOP_DIR)
 
+
+
+# Check GCC toolchain version.
+ifeq ($(CPU),cortex-m55)
+include $(TOP_DIR)/common/check_toolchain.mk
+endif
+
 # Configure additional built-in modules. Note must define both the CFLAGS and the Make command line args.
 ifeq ($(MICROPY_PY_CSI), 1)
 MPY_CFLAGS += -DMICROPY_PY_CSI=1
 MPY_MKARGS += MICROPY_PY_CSI=1
+endif
+
+ifeq ($(MICROPY_PY_CSI_NG), 1)
+MPY_CFLAGS += -DMICROPY_PY_CSI_NG=1
+MPY_MKARGS += MICROPY_PY_CSI_NG=1
+endif
+
+ifeq ($(MICROPY_PY_PROTOCOL), 1)
+MPY_CFLAGS += -DMICROPY_PY_PROTOCOL=1
+MPY_MKARGS += MICROPY_PY_PROTOCOL=1
 endif
 
 ifeq ($(MICROPY_PY_FIR), 1)
@@ -145,6 +196,11 @@ endif
 ifeq ($(MICROPY_PY_IMU), 1)
 MPY_CFLAGS += -DMICROPY_PY_IMU=1
 MPY_MKARGS += MICROPY_PY_IMU=1
+endif
+
+ifeq ($(MICROPY_PY_CRC), 1)
+MPY_CFLAGS += -DMICROPY_PY_CRC=1
+MPY_MKARGS += MICROPY_PY_CRC=1
 endif
 
 ifeq ($(MICROPY_PY_BTREE), 1)
@@ -178,11 +234,6 @@ MPY_CFLAGS += -DMICROPY_PY_TV=1
 MPY_MKARGS += MICROPY_PY_TV=1
 endif
 
-ifeq ($(MICROPY_PY_BUZZER), 1)
-MPY_CFLAGS += -DMICROPY_PY_BUZZER=1
-MPY_MKARGS += MICROPY_PY_BUZZER=1
-endif
-
 ifeq ($(CUBEAI), 1)
 MPY_CFLAGS += -DMICROPY_PY_CUBEAI=1
 MPY_MKARGS += MICROPY_PY_CUBEAI=1
@@ -198,12 +249,44 @@ MPY_CFLAGS += -DMICROPY_PY_ML_TFLM=1
 MPY_MKARGS += MICROPY_PY_ML_TFLM=1
 endif
 
+ifeq ($(MICROPY_PY_ML_STAI), 1)
+MPY_CFLAGS += -DMICROPY_PY_ML_STAI=1
+MPY_MKARGS += MICROPY_PY_ML_STAI=1
+endif
+
+ifeq ($(MICROPY_PY_UNITTEST), 1)
+MPY_CFLAGS += -DMICROPY_PY_UNITTEST=1
+MPY_MKARGS += MICROPY_PY_UNITTEST=1
+endif
+
 MPY_PENDSV_ENTRIES := $(shell echo $(MPY_PENDSV_ENTRIES) | tr -d '[:space:]')
+
+MPY_CFLAGS += -DMICROPY_HW_USB_VID=$(OMV_USB_VID)
+MPY_CFLAGS += -DMICROPY_HW_USB_PID=$(OMV_USB_PID)
+
 MPY_CFLAGS += -DMICROPY_BOARD_PENDSV_ENTRIES="$(MPY_PENDSV_ENTRIES)"
-MPY_CFLAGS += -DMP_CONFIGFILE=\<$(OMV_PORT_DIR)/omv_mpconfigport.h\>
+MPY_CFLAGS += -DMP_CONFIGFILE=\<$(OMV_PORT_DIR)/mp_config.h\>
 
 # Include the port Makefile.
-include $(OMV_PORT_DIR)/omv_portconfig.mk
+include $(OMV_PORT_DIR)/port_config.mk
+
+# Freeze recursively-expanded variables into simply-expanded ones.
+# Without this, make re-evaluates all sub-variable references every
+# time it constructs the environment for each recipe fork
+CFLAGS := $(CFLAGS)
+LDFLAGS := $(LDFLAGS)
+MPY_CFLAGS := $(MPY_CFLAGS)
+MPY_MKARGS := $(MPY_MKARGS)
+AFLAGS := $(AFLAGS)
+TOP_DIR := $(TOP_DIR)
+BUILD := $(BUILD)
+TOOLS_DIR := $(TOOLS_DIR)
+FW_DIR := $(FW_DIR)
+OMV_BOARD_CONFIG_DIR := $(OMV_BOARD_CONFIG_DIR)
+OMV_PORT_DIR := $(OMV_PORT_DIR)
+MP_BOARD_CONFIG_DIR := $(MP_BOARD_CONFIG_DIR)
+OMV_LIB_DIR := $(OMV_LIB_DIR)
+FROZEN_MANIFEST := $(FROZEN_MANIFEST)
 
 # Export variables for sub-make.
 export PORT
@@ -225,10 +308,16 @@ ifeq ($(OMV_ENABLE_BL), 1)
 endif
 	$(SIZE) --format=SysV $(FW_DIR)/$(FIRMWARE).elf
 
-jlink:
-	${JLINK_GDB_SERVER} -speed ${JLINK_SPEED} -nogui \
-        -if ${JLINK_INTERFACE} -halt -cpu cortex-m \
-		-device ${JLINK_DEVICE} -novd ${JLINK_SCRIPT}
+.PHONY: sdk
+sdk:
+	$(Q)bash -c "source tools/ci.sh && ci_install_sdk"
 
 submodules:
 	$(MAKE) -C $(MICROPY_DIR)/ports/$(PORT) BOARD=$(TARGET) submodules
+
+debug: $(ROMFS_IMAGE)
+ifeq ($(DEBUGGER),NONE)
+	$(error This target does not support debugging)
+endif
+	gdbrunner $(DEBUGGER) $(OMV_$(DEBUGGER)_ARGS) $(FW_DIR)/$(OMV_DEBUG_ELF).elf
+
