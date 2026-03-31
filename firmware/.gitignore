@@ -7,8 +7,9 @@
 *.dis
 *.pyc
 
-# Packages #
+# Cscope files #
 ############
+cscope.*
 
 # Logs and databases #
 ######################
@@ -20,30 +21,24 @@
 
 # Build dir #
 ######################
-src/build
+build
 docker/build/
-*.dapper
-
 
 # Old releases
+######################
 releases
 
-# IDE config file #
+# Alif tools temp files
 ######################
-usr/openmv.config
+tools/alif/**/*.cfg
+tools/alif/**/*.crt
+tools/alif/**/*.ds
+tools/alif/**/*.bin
+tools/alif/**/*.bin.sign
+tools/alif/build/*-map.txt
+tools/st/stedgeai
 
-# Caffe #
-######################
-ml/cmsisnn/caffe
+tools/sdk_keys.sh
 
-# VS Code #
-######################
-.vscode/
-
-# Qt Creator #
-######################
-openmv.config
-openmv.creator
-openmv.creator.user
-openmv.files
-openmv.includes
+# macOS
+.DS_Store
