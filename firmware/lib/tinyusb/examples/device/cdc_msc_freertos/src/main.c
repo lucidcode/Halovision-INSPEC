@@ -30,24 +30,9 @@
 #include "bsp/board_api.h"
 #include "tusb.h"
 
-#if TUP_MCU_ESPRESSIF
-  // ESP-IDF need "freertos/" prefix in include path.
-  // CFG_TUSB_OS_INC_PATH should be defined accordingly.
-  #include "freertos/FreeRTOS.h"
-  #include "freertos/semphr.h"
-  #include "freertos/queue.h"
-  #include "freertos/task.h"
-  #include "freertos/timers.h"
-
+#ifdef ESP_PLATFORM
   #define USBD_STACK_SIZE     4096
 #else
-
-  #include "FreeRTOS.h"
-  #include "semphr.h"
-  #include "queue.h"
-  #include "task.h"
-  #include "timers.h"
-
   // Increase stack size when debug log is enabled
   #define USBD_STACK_SIZE    (3*configMINIMAL_STACK_SIZE/2) * (CFG_TUSB_DEBUG ? 2 : 1)
 #endif
@@ -87,7 +72,7 @@ static uint32_t blink_interval_ms = BLINK_NOT_MOUNTED;
 static void usb_device_task(void *param);
 void led_blinking_task(void* param);
 void cdc_task(void *params);
-
+extern void msc_disk_init(void);
 //--------------------------------------------------------------------+
 // Main
 //--------------------------------------------------------------------+
@@ -95,14 +80,10 @@ void cdc_task(void *params);
 int main(void) {
   board_init();
 
+  // Create task for: tinyusb, blinky, cdc
 #if configSUPPORT_STATIC_ALLOCATION
-  // blinky task
   xTaskCreateStatic(led_blinking_task, "blinky", BLINKY_STACK_SIZE, NULL, 1, blinky_stack, &blinky_taskdef);
-
-  // Create a task for tinyusb device stack
   xTaskCreateStatic(usb_device_task, "usbd", USBD_STACK_SIZE, NULL, configMAX_PRIORITIES-1, usb_device_stack, &usb_device_taskdef);
-
-  // Create CDC task
   xTaskCreateStatic(cdc_task, "cdc", CDC_STACK_SIZE, NULL, configMAX_PRIORITIES - 2, cdc_stack, &cdc_taskdef);
 #else
   xTaskCreate(led_blinking_task, "blinky", BLINKY_STACK_SIZE, NULL, 1, NULL);
@@ -110,15 +91,15 @@ int main(void) {
   xTaskCreate(cdc_task, "cdc", CDC_STACK_SZIE, NULL, configMAX_PRIORITIES - 2, NULL);
 #endif
 
-  // skip starting scheduler (and return) for ESP32-S2 or ESP32-S3
-#if !TUP_MCU_ESPRESSIF
+#ifndef ESP_PLATFORM
+  // only start scheduler for non-espressif mcu
   vTaskStartScheduler();
 #endif
 
   return 0;
 }
 
-#if TUP_MCU_ESPRESSIF
+#ifdef ESP_PLATFORM
 void app_main(void) {
   main();
 }
@@ -132,12 +113,15 @@ static void usb_device_task(void *param) {
   // init device stack on configured roothub port
   // This should be called after scheduler/kernel is started.
   // Otherwise it could cause kernel issue since USB IRQ handler does use RTOS queue API.
-  tud_init(BOARD_TUD_RHPORT);
+  tusb_rhport_init_t dev_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUD_RHPORT, &dev_init);
 
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
+  board_init_after_tusb();
 
+  msc_disk_init();
   // RTOS forever loop
   while (1) {
     // put this thread to waiting state until there is new events
@@ -203,6 +187,16 @@ void cdc_task(void *params) {
       }
 
       tud_cdc_write_flush();
+
+      // Press on-board button to send Uart status notification
+      static uint32_t btn_prev = 0;
+      static cdc_notify_uart_state_t uart_state = { .value = 0 };
+      const uint32_t btn = board_button_read();
+      if (!btn_prev && btn) {
+        uart_state.dsr ^= 1;
+        tud_cdc_notify_uart_state(&uart_state);
+      }
+      btn_prev = btn;
     }
 
     // For ESP32-Sx this delay is essential to allow idle how to run and reset watchdog
@@ -233,13 +227,11 @@ void tud_cdc_rx_cb(uint8_t itf) {
 //--------------------------------------------------------------------+
 void led_blinking_task(void* param) {
   (void) param;
-  static uint32_t start_ms = 0;
-  static bool led_state = false;
+    static bool led_state = false;
 
   while (1) {
     // Blink every interval ms
     vTaskDelay(blink_interval_ms / portTICK_PERIOD_MS);
-    start_ms += blink_interval_ms;
 
     board_led_write(led_state);
     led_state = 1 - led_state; // toggle

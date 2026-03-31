@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 
+#include "rp2_flash.h"
 #include "py/compile.h"
 #include "py/runtime.h"
 #include "py/gc.h"
@@ -34,6 +35,7 @@
 #include "py/stackctrl.h"
 #include "extmod/modbluetooth.h"
 #include "extmod/modnetwork.h"
+#include "extmod/modmachine.h"
 #include "shared/readline/readline.h"
 #include "shared/runtime/gchelper.h"
 #include "shared/runtime/pyexec.h"
@@ -57,7 +59,7 @@
 #include "pico/aon_timer.h"
 #include "shared/timeutils/timeutils.h"
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "framebuffer.h"
 #include "omv_i2c.h"
 #include "omv_csi.h"
@@ -115,13 +117,14 @@ int main(int argc, char **argv) {
     SCB->SCR |= SCB_SCR_SEVONPEND_Msk;
     #endif
 
-    soft_timer_init();
-
     // Set the MCU frequency and as a side effect the peripheral clock to 48 MHz.
     set_sys_clock_khz(SYS_CLK_KHZ, false);
 
-    // Hook for setting up anything that needs to be super early in the bootup process.
+    // Hook for setting up anything that needs to be super early in the boot-up process.
     MICROPY_BOARD_STARTUP();
+
+    // Set the flash divisor to an appropriate value
+    rp2_flash_set_timing();
 
     #if MICROPY_HW_ENABLE_UART_REPL
     bi_decl(bi_program_feature("UART REPL"))
@@ -175,16 +178,26 @@ soft_reset:
     #endif
 
     pendsv_init();
+    soft_timer_init();
     usbdbg_init();
 
     fb_alloc_init0();
     framebuffer_init0();
+    #if MICROPY_PY_CSI
+    omv_csi_init0();
+    #endif
 
+    #if MICROPY_PY_FIR
     py_fir_init0();
+    #endif // MICROPY_PY_FIR
 
     #if MICROPY_PY_CSI
-    if (omv_csi_init() != 0) {
-        printf("csi init failed!\n");
+    // Initialize the csi.
+    if (first_soft_reset) {
+        int ret = omv_csi_init();
+        if (ret != 0 && ret != OMV_CSI_ERROR_ISC_UNDETECTED) {
+            __fatal_error("Failed to init the CSI");
+        }
     }
     #endif
 
@@ -194,11 +207,6 @@ soft_reset:
     // Initialize TinyUSB after the filesystem has been mounted.
     if (!tusb_inited()) {
         tusb_init();
-
-        // Install Tinyusb CDC debugger IRQ handler.
-        irq_set_enabled(USBCTRL_IRQ, false);
-        irq_remove_handler(USBCTRL_IRQ, irq_get_vtable_handler(USBCTRL_IRQ));
-        irq_set_exclusive_handler(USBCTRL_IRQ, OMV_USB1_IRQ_HANDLER);
     }
 
     // Run boot.py script.
@@ -250,6 +258,9 @@ soft_reset:
 
 soft_reset_exit:
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
+    #if MICROPY_PY_CSI
+    omv_csi_abort_all();
+    #endif
     #if MICROPY_PY_AUDIO
     py_audio_deinit();
     #endif
@@ -263,6 +274,14 @@ soft_reset_exit:
     rp2_dma_deinit();
     machine_pwm_deinit_all();
     machine_pin_deinit();
+    machine_uart_deinit_all();
+    #if MICROPY_PY_MACHINE_I2C_TARGET
+    mp_machine_i2c_target_deinit_all();
+    #endif
+    #if MICROPY_PY_THREAD
+    mp_thread_deinit();
+    #endif
+    soft_timer_deinit();
     gc_sweep_all();
     mp_deinit();
     first_soft_reset = false;
@@ -285,7 +304,7 @@ void MP_WEAK __assert_func(const char *file, int line, const char *func, const c
 }
 #endif
 
-#define POLY    (0xD5)
+#define POLY (0xD5)
 
 uint8_t rosc_random_u8(size_t cycles) {
     static uint8_t r;

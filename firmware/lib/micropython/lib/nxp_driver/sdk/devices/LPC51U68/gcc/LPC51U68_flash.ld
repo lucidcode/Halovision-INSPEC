@@ -6,13 +6,14 @@
 **     Compiler:            GNU C Compiler
 **     Reference manual:    LPC51U68 User manual User manual Rev. 1.0 13 Dec 2017
 **     Version:             rev. 1.0, 2017-12-15
-**     Build:               b180801
+**     Build:               b200408
 **
 **     Abstract:
 **         Linker file for the GNU C Compiler
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2018 NXP
+**     Copyright 2016-2020 NXP
+**     All rights reserved.
 **
 **     SPDX-License-Identifier: BSD-3-Clause
 **
@@ -33,8 +34,9 @@ STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x0800;
 /* Specify the memory areas */
 MEMORY
 {
-  m_interrupts          (RX)  : ORIGIN = 0x00000000, LENGTH = 0x000000E0
-  m_text                (RX)  : ORIGIN = 0x000000E0, LENGTH = 0x0003FF20
+  m_interrupts          (RX)  : ORIGIN = 0x00000000, LENGTH = 0x00000200
+  m_crp                 (RX)  : ORIGIN = 0x000002FC, LENGTH = 0x00000004
+  m_text                (RX)  : ORIGIN = 0x00000300, LENGTH = 0x0003FD00
   m_data_sramx          (RW)  : ORIGIN = 0x04000000, LENGTH = 0x00008000
   m_data                (RW)  : ORIGIN = 0x20000000, LENGTH = 0x00010000
 }
@@ -49,6 +51,13 @@ SECTIONS
     KEEP(*(.isr_vector))     /* Startup code */
     . = ALIGN(4);
   } > m_interrupts
+
+  .crp :
+  {
+    . = ALIGN(4);
+    KEEP(*(.crp))    /* Code Read Protection level (CRP) */
+    . = ALIGN(4);
+  } > m_crp
 
   /* The program code and other data goes into internal flash */
   .text :

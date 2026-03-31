@@ -363,11 +363,11 @@ class _SX126x(BaseModem):
         if "preamble_len" in lora_cfg:
             self._preamble_len = lora_cfg["preamble_len"]
 
-        self._invert_iq = (
+        self._invert_iq = [
             lora_cfg.get("invert_iq_rx", self._invert_iq[0]),
             lora_cfg.get("invert_iq_tx", self._invert_iq[1]),
             self._invert_iq[2],
-        )
+        ]
 
         if "freq_khz" in lora_cfg:
             self._rf_freq_hz = int(lora_cfg["freq_khz"] * 1000)
@@ -449,7 +449,7 @@ class _SX126x(BaseModem):
     def _invert_workaround(self, enable):
         # Apply workaround for DS 15.4 Optimizing the Inverted IQ Operation
         if self._invert_iq[2] != enable:
-            val = self._read_read(_REG_IQ_POLARITY_SETUP)
+            val = self._reg_read(_REG_IQ_POLARITY_SETUP)
             val = (val & ~4) | _flag(4, enable)
             self._reg_write(_REG_IQ_POLARITY_SETUP, val)
             self._invert_iq[2] = enable
@@ -501,7 +501,7 @@ class _SX126x(BaseModem):
 
         self._cmd(">BH", _CMD_CALIBRATE_IMAGE, args)
 
-        # Can't find anythign in Datasheet about how long image calibration
+        # Can't find anything in Datasheet about how long image calibration
         # takes or exactly how it signals completion. Assuming it will be
         # similar to _CMD_CALIBRATE.
         self._wait_not_busy(_CALIBRATE_TIMEOUT_US)
@@ -596,8 +596,9 @@ class _SX126x(BaseModem):
         pkt_status = self._cmd("B", _CMD_GET_PACKET_STATUS, n_read=4)
 
         rx_packet.ticks_ms = ticks_ms
-        rx_packet.snr = pkt_status[2]  # SNR, units: dB *4
-        rx_packet.rssi = 0 - pkt_status[1] // 2  # RSSI, units: dBm
+        # SNR units are dB * 4 (signed)
+        rx_packet.rssi, rx_packet.snr = struct.unpack("xBbx", pkt_status)
+        rx_packet.rssi //= -2  # RSSI, units: dBm
         rx_packet.crc_error = (flags & _IRQ_CRC_ERR) != 0
 
         return rx_packet

@@ -32,8 +32,8 @@
  */
 #include <string.h>
 #include STM32_HAL_H
-#include "omv_boardconfig.h"
-#include "omv_bootconfig.h"
+#include "board_config.h"
+#include "boot_config.h"
 
 #if OMV_BOOT_XSPI_FLASH_SIZE
 
@@ -502,7 +502,7 @@ static int xspi_flash_write_page(uint32_t addr, const uint8_t *buf, uint32_t siz
 int spi_flash_memory_map(bool dtr) {
     XSPI_RegularCmdTypeDef command = {
         .InstructionMode = (dtr) ? HAL_XSPI_INSTRUCTION_8_LINES : HAL_XSPI_INSTRUCTION_1_LINE,
-        .InstructionWidth = HAL_XSPI_INSTRUCTION_8_BITS,
+        .InstructionWidth = (dtr) ? HAL_XSPI_INSTRUCTION_16_BITS : HAL_XSPI_INSTRUCTION_8_BITS,
         .InstructionDTRMode = (dtr) ? HAL_XSPI_INSTRUCTION_DTR_ENABLE : HAL_XSPI_INSTRUCTION_DTR_DISABLE,
         .AddressMode = (dtr) ? HAL_XSPI_ADDRESS_8_LINES : HAL_XSPI_ADDRESS_1_LINE,
         .AddressWidth = HAL_XSPI_ADDRESS_32_BITS,

@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: SAMD21 Curiosty Nano
+   url: https://www.microchip.com/en-us/development-tool/dm320119
+*/
+
 #ifndef BOARD_H_
 #define BOARD_H_
 
@@ -42,6 +47,10 @@
 // UART
 #define UART_RX_PIN           31	// CDC5_RX
 #define UART_TX_PIN           37	// CDC5_TX
+
+static inline void board_vbus_set(uint8_t rhport, bool state) {
+ (void) rhport; (void) state;
+}
 
 #ifdef __cplusplus
  }

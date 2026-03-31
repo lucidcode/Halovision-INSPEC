@@ -28,6 +28,9 @@
 #include "framebuffer.h"
 #include "py_helper.h"
 #include "py_assert.h"
+#if defined(MODULE_ULAB_ENABLED)
+#include "ndarray.h"
+#endif // MODULE_ULAB_ENABLED
 #if MICROPY_PY_CSI
 #include "omv_csi.h"
 #endif
@@ -45,12 +48,12 @@ image_t *py_helper_arg_to_image(const mp_obj_t arg, uint32_t flags) {
     if ((flags & ARG_IMAGE_ALLOC) && MP_OBJ_IS_STR(arg)) {
         #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
         const char *path = mp_obj_str_get_str(arg);
-        FIL fp;
-        image = xalloc(sizeof(image_t));
+        file_t fp;
+        image = m_malloc(sizeof(image_t));
         img_read_settings_t rs;
         imlib_read_geometry(&fp, image, path, &rs);
         file_close(&fp);
-        image->data = fb_alloc(image_size(image), FB_ALLOC_CACHE_ALIGN);
+        image_alloc(image, image_size(image));
         imlib_load_image(image, path);
         #else
         mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Image I/O is not supported"));
@@ -64,7 +67,7 @@ image_t *py_helper_arg_to_image(const mp_obj_t arg, uint32_t flags) {
         } else if ((flags & ARG_IMAGE_UNCOMPRESSED) && image->is_compressed) {
             mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected an uncompressed image"));
         } else if ((flags & ARG_IMAGE_GRAYSCALE) && image->pixfmt != PIXFORMAT_GRAYSCALE) {
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected an uncompressed image"));
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a grayscale image"));
         }
     }
     return image;
@@ -104,6 +107,40 @@ const void *py_helper_arg_to_palette(const mp_obj_t arg, uint32_t pixfmt) {
     return palette;
 }
 
+void *py_helper_arg_to_transform(const mp_obj_t arg) {
+    if (arg == mp_const_none) {
+        return NULL;
+    }
+
+    #if defined(MODULE_ULAB_ENABLED) && defined(OPENMV_N6)
+    if (!MP_OBJ_IS_TYPE(arg, &ulab_ndarray_type)) {
+        mp_raise_msg(&mp_type_TypeError, MP_ERROR_TEXT("Expected a ndarray"));
+    }
+
+    ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(arg);
+
+    if (ndarray->dtype != NDARRAY_FLOAT) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a ndarray with dtype float"));
+    }
+
+    if (!ndarray_is_dense(ndarray)) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a dense ndarray"));
+    }
+
+    if (ndarray->ndim != 2) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a 2D ndarray"));
+    }
+
+    if ((ndarray->shape[ULAB_MAX_DIMS - 2] != 3) || (ndarray->shape[ULAB_MAX_DIMS - 1] != 3)) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid matrix shape!"));
+    }
+
+    return ndarray->array;
+    #else
+    mp_raise_msg(&mp_type_TypeError, MP_ERROR_TEXT("Transform operations are not supported!"));
+    #endif // MODULE_ULAB_ENABLED
+}
+
 rectangle_t py_helper_arg_to_roi(const mp_obj_t arg, const image_t *img) {
     rectangle_t roi = {0, 0, img->w, img->h};
     if (arg != mp_const_none) {
@@ -125,10 +162,10 @@ rectangle_t py_helper_arg_to_roi(const mp_obj_t arg, const image_t *img) {
 void py_helper_arg_to_scale(const mp_obj_t arg_x_scale, const mp_obj_t arg_y_scale,
                             float *x_scale, float *y_scale) {
     if (arg_x_scale != mp_const_none) {
-        *x_scale = mp_obj_get_float(arg_x_scale);
+        *x_scale = mp_obj_get_float_to_f(arg_x_scale);
     }
     if (arg_y_scale != mp_const_none) {
-        *y_scale = mp_obj_get_float(arg_y_scale);
+        *y_scale = mp_obj_get_float_to_f(arg_y_scale);
     }
 
     if (arg_x_scale == mp_const_none && arg_y_scale != mp_const_none) {
@@ -146,11 +183,11 @@ void py_helper_arg_to_minmax(const mp_obj_t minmax, float *min, float *max,
     if (minmax != mp_const_none) {
         mp_obj_t *arg_scale;
         mp_obj_get_array_fixed_n(minmax, 2, &arg_scale);
-        min_out = mp_obj_get_float(arg_scale[0]);
-        max_out = mp_obj_get_float(arg_scale[1]);
+        min_out = mp_obj_get_float_to_f(arg_scale[0]);
+        max_out = mp_obj_get_float_to_f(arg_scale[1]);
     } else if (array && array_size) {
         for (int i = 0; i < array_size; i++) {
-            float t = mp_obj_get_float(array[i]);
+            float t = mp_obj_get_float_to_f(array[i]);
             if (t < min_out) {
                 min_out = t;
             }
@@ -166,7 +203,7 @@ void py_helper_arg_to_minmax(const mp_obj_t minmax, float *min, float *max,
 
 float py_helper_arg_to_float(const mp_obj_t arg, float default_value) {
     if (arg != mp_const_none) {
-        return mp_obj_get_float(arg);
+        return mp_obj_get_float_to_f(arg);
     }
     return default_value;
 }
@@ -176,7 +213,7 @@ void py_helper_arg_to_float_array(const mp_obj_t arg, float *array, size_t size)
         mp_obj_t *arg_array;
         mp_obj_get_array_fixed_n(arg, size, &arg_array);
         for (int i = 0; i < size; i++) {
-            array[i] = mp_obj_get_float(arg_array[i]);
+            array[i] = mp_obj_get_float_to_f(arg_array[i]);
         }
     }
 }
@@ -266,25 +303,12 @@ float py_helper_keyword_float(size_t n_args, const mp_obj_t *args, size_t arg_in
     mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
 
     if (kw_arg) {
-        default_val = mp_obj_get_float(kw_arg->value);
+        default_val = mp_obj_get_float_to_f(kw_arg->value);
     } else if (n_args > arg_index) {
-        default_val = mp_obj_get_float(args[arg_index]);
+        default_val = mp_obj_get_float_to_f(args[arg_index]);
     }
 
     return default_val;
-}
-
-bool py_helper_keyword_float_maybe(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                   mp_map_t *kw_args, mp_obj_t kw, float *value) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        return mp_obj_get_float_maybe(kw_arg->value, value);
-    } else if (n_args > arg_index) {
-        return mp_obj_get_float_maybe(args[arg_index], value);
-    }
-
-    return false;
 }
 
 void py_helper_keyword_int_array(size_t n_args, const mp_obj_t *args, size_t arg_index,
@@ -313,23 +337,23 @@ float *py_helper_keyword_corner_array(size_t n_args, const mp_obj_t *args, size_
     if (kw_arg) {
         mp_obj_t *arg_array;
         mp_obj_get_array_fixed_n(kw_arg->value, 4, &arg_array);
-        float *corners = xalloc(sizeof(float) * 8);
+        float *corners = m_malloc(sizeof(float) * 8);
         for (int i = 0; i < 4; i++) {
             mp_obj_t *arg_point;
             mp_obj_get_array_fixed_n(arg_array[i], 2, &arg_point);
-            corners[(i * 2) + 0] = mp_obj_get_float(arg_point[0]);
-            corners[(i * 2) + 1] = mp_obj_get_float(arg_point[1]);
+            corners[(i * 2) + 0] = mp_obj_get_float_to_f(arg_point[0]);
+            corners[(i * 2) + 1] = mp_obj_get_float_to_f(arg_point[1]);
         }
         return corners;
     } else if (n_args > arg_index) {
         mp_obj_t *arg_array;
         mp_obj_get_array_fixed_n(args[arg_index], 4, &arg_array);
-        float *corners = xalloc(sizeof(float) * 8);
+        float *corners = m_malloc(sizeof(float) * 8);
         for (int i = 0; i < 4; i++) {
             mp_obj_t *arg_point;
             mp_obj_get_array_fixed_n(arg_array[i], 2, &arg_point);
-            corners[(i * 2) + 0] = mp_obj_get_float(arg_point[0]);
-            corners[(i * 2) + 1] = mp_obj_get_float(arg_point[1]);
+            corners[(i * 2) + 0] = mp_obj_get_float_to_f(arg_point[0]);
+            corners[(i * 2) + 1] = mp_obj_get_float_to_f(arg_point[1]);
         }
         return corners;
     }
@@ -547,27 +571,41 @@ const uint8_t *py_helper_keyword_alpha_palette(size_t n_args, const mp_obj_t *ar
 }
 
 bool py_helper_is_equal_to_framebuffer(image_t *img) {
-    framebuffer_t *fb = framebuffer_get(0);
-    return framebuffer_get_buffer(fb, fb->head)->data == img->data;
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
+    vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_USED | FB_FLAG_PEEK);
+
+    return (buffer != NULL) && (img->data == buffer->data);
 }
 
 void py_helper_update_framebuffer(image_t *img) {
     if (py_helper_is_equal_to_framebuffer(img)) {
-        framebuffer_init_from_image(framebuffer_get(0), img);
+        framebuffer_from_image(framebuffer_get(FB_MAINFB_ID), img);
     }
 }
 
+// TODO need to pass a CSI here.
 void py_helper_set_to_framebuffer(image_t *img) {
-    framebuffer_t *fb = framebuffer_get(0);
-
     #if MICROPY_PY_CSI
-    omv_csi_set_framebuffers(1);
+    omv_csi_t *csi = omv_csi_get(-1);
+    framebuffer_t *fb = csi->fb;
+
+    omv_csi_abort(csi, true, false);
     #else
-    framebuffer_set_buffers(fb, 1);
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
     #endif
 
+    // Resize the frame buffer to fit the biggest uncompressed image.
+    framebuffer_resize(fb, 1, OMV_MAX(image_size(img), fb->u * fb->v * 2));
+
+    // This should never be NULL after resizing the frame buffer.
+    vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK);
+
+    PY_ASSERT_TRUE_MSG(buffer, "No free buffers!");
     PY_ASSERT_TRUE_MSG((image_size(img) <= framebuffer_get_buffer_size(fb)),
                        "The image doesn't fit in the frame buffer!");
-    framebuffer_init_from_image(fb, img);
-    img->data = framebuffer_get_buffer(fb, fb->head)->data;
+
+    framebuffer_from_image(fb, img);
+    img->data = buffer->data;
+
+    framebuffer_release(fb, FB_FLAG_FREE);
 }

@@ -37,6 +37,7 @@
 #include "py/stackctrl.h"
 #include "py/gc.h"
 #include "py/compile.h"
+#include "py/persistentcode.h"
 #include "shared/runtime/pyexec.h"
 #include "shared/readline/readline.h"
 #include "gccollect.h"
@@ -86,18 +87,24 @@
 #include "usbdbg.h"
 #include "py_audio.h"
 #include "framebuffer.h"
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "omv_i2c.h"
 #include "omv_csi.h"
 #include "mp_utils.h"
+
+extern uint32_t _heap_start;
+extern uint32_t _heap_end;
 
 uint32_t HAL_GetHalVersion() {
     // Hard-coded because it's not defined in SDK
     return ((2 << 24) | (0 << 16) | (0 << 8) | (0 << 0));
 }
 
-extern uint32_t _heap_start;
-extern uint32_t _heap_end;
+void NORETURN __fatal_error(const char *msg) {
+    while (1) {
+        ;
+    }
+}
 
 #if MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE
 static int vfs_mount_and_chdir(mp_obj_t bdev, mp_obj_t mount_point) {
@@ -142,6 +149,7 @@ soft_reset:
     machine_init();
     mp_init();
     readline_init0();
+    pin_init0();
     #if MICROPY_PY_MACHINE_SPI
     spi_init0();
     #endif
@@ -163,13 +171,20 @@ soft_reset:
     #if MICROPY_PY_MACHINE_UART
     uart_init0();
     #endif
-    pin_init0();
-
     fb_alloc_init0();
     framebuffer_init0();
+    #if MICROPY_PY_CSI
+    omv_csi_init0();
+    #endif
 
     #if MICROPY_PY_CSI
-    omv_csi_init();
+    // Initialize the csi.
+    if (first_soft_reset) {
+        int ret = omv_csi_init();
+        if (ret != 0 && ret != OMV_CSI_ERROR_ISC_UNDETECTED) {
+            __fatal_error("Failed to init the CSI");
+        }
+    }
     #endif
 
     #if (MICROPY_PY_BLE_NUS == 0) && (MICROPY_HW_USB_CDC == 0)
@@ -318,11 +333,14 @@ soft_reset:
 
 soft_reset_exit:
     printf("MPY: soft reboot\n");
-    #if MICROPY_PY_MACHINE_HW_PWM
-    pwm_deinit_all();
+    #if MICROPY_PY_CSI
+    omv_csi_abort_all();
     #endif
     #if MICROPY_PY_AUDIO
     py_audio_deinit();
+    #endif
+    #if MICROPY_PY_MACHINE_HW_PWM
+    pwm_deinit_all();
     #endif
     #if BLUETOOTH_SD
     sd_softdevice_disable();
@@ -369,7 +387,6 @@ MP_DEFINE_CONST_FUN_OBJ_KW(mp_builtin_open_obj, 1, mp_builtin_open);
 #endif
 #endif
 
-
 void HardFault_Handler(void) {
     #if defined(NRF52_SERIES) || defined(NRF91_SERIES)
     static volatile uint32_t reg;
@@ -386,12 +403,6 @@ void HardFault_Handler(void) {
     #endif
 }
 
-void NORETURN __fatal_error(const char *msg) {
-    while (1) {
-        ;
-    }
-}
-
 void nlr_jump_fail(void *val) {
     printf("FATAL: uncaught exception %p\n", val);
     mp_obj_print_exception(&mp_plat_print, (mp_obj_t) val);
@@ -402,3 +413,16 @@ void MP_WEAK __assert_func(const char *file, int line, const char *func, const c
     printf("Assertion '%s' failed, at file %s:%d\n", expr, file, line);
     __fatal_error("Assertion failed");
 }
+
+#if MICROPY_EMIT_MACHINE_CODE
+void *nrf_native_code_commit(void *buf, unsigned int len, void *reloc) {
+    (void) len;
+    if (reloc) {
+        // Native code in RAM must execute from the IRAM region at 0x00800000, and so relocations
+        // to text must also point to this region.  The MICROPY_MAKE_POINTER_CALLABLE macro will
+        // adjust the `buf` address from RAM to IRAM.
+        mp_native_relocate(reloc, buf, (uintptr_t) MICROPY_MAKE_POINTER_CALLABLE(buf) & ~1);
+    }
+    return buf;
+}
+#endif

@@ -79,12 +79,19 @@ int main(void) {
   printf("TinyUSB Host HID <-> Device CDC Example\r\n");
 
   // init device and host stack on configured roothub port
-  tud_init(BOARD_TUD_RHPORT);
-  tuh_init(BOARD_TUH_RHPORT);
+  tusb_rhport_init_t dev_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUD_RHPORT, &dev_init);
 
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
+  tusb_rhport_init_t host_init = {
+    .role = TUSB_ROLE_HOST,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUH_RHPORT, &host_init);
+
+  board_init_after_tusb();
 
   while (1) {
     tud_task(); // tinyusb device task
@@ -181,7 +188,9 @@ void tuh_hid_umount_cb(uint8_t dev_addr, uint8_t instance) {
 // look up new key in previous keys
 static inline bool find_key_in_report(hid_keyboard_report_t const* report, uint8_t keycode) {
   for (uint8_t i = 0; i < 6; i++) {
-    if (report->keycode[i] == keycode) return true;
+    if (report->keycode[i] == keycode) {
+      return true;
+    }
   }
 
   return false;
@@ -221,7 +230,9 @@ static void process_kbd_report(uint8_t dev_addr, hid_keyboard_report_t const* re
     // TODO example skips key released
   }
 
-  if (flush) tud_cdc_write_flush();
+  if (flush) {
+    tud_cdc_write_flush();
+  }
 
   prev_report = *report;
 }

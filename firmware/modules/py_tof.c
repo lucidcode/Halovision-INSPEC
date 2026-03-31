@@ -27,7 +27,7 @@
 #include "py/objlist.h"
 #include "py/mphal.h"
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 
 #if (MICROPY_PY_TOF == 1)
 #include "omv_i2c.h"
@@ -89,7 +89,7 @@ static void tof_fill_image_float_obj(image_t *img, mp_obj_t *data, float min, fl
         uint8_t *row_pointer = ((uint8_t *) img->data) + row_offset;
 
         for (int x = 0; x < img->w; x++) {
-            float raw = mp_obj_get_float(raw_row[x]);
+            float raw = mp_obj_get_float_to_f(raw_row[x]);
 
             if (raw < min) {
                 raw = min;
@@ -479,7 +479,7 @@ mp_obj_t py_tof_draw_depth(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
 
     imlib_draw_image(dst_img, &src_img, args[ARG_x].u_int, args[ARG_y].u_int, x_scale, y_scale, &roi,
                      args[ARG_channel].u_int, args[ARG_alpha].u_int, color_palette, alpha_palette,
-                     args[ARG_hint].u_int, NULL, NULL, NULL);
+                     args[ARG_hint].u_int, NULL, NULL, NULL, NULL);
 
     fb_alloc_free_till_mark();
     return mp_const_none;
@@ -548,7 +548,7 @@ mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
     if (args[ARG_copy_to_fb].u_bool) {
         py_helper_set_to_framebuffer(&dst_img);
     } else {
-        image_xalloc(&dst_img, image_size(&dst_img));
+        image_alloc(&dst_img, image_size(&dst_img));
     }
 
     float min = FLT_MAX;
@@ -584,13 +584,13 @@ mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
 
     imlib_draw_image(&dst_img, &src_img, 0, 0, x_scale, y_scale, &roi,
                      args[ARG_channel].u_int, args[ARG_alpha].u_int, color_palette, alpha_palette,
-                     (args[ARG_hint].u_int & (~IMAGE_HINT_CENTER)) | IMAGE_HINT_BLACK_BACKGROUND, NULL, NULL, NULL);
+                     (args[ARG_hint].u_int & (~IMAGE_HINT_CENTER)) | IMAGE_HINT_BLACK_BACKGROUND,
+                     NULL, NULL, NULL, NULL);
 
     fb_alloc_free_till_mark();
 
     if (args[ARG_copy_to_fb].u_bool) {
-        framebuffer_t *fb = framebuffer_get(0);
-        framebuffer_update_jpeg_buffer(fb);
+        framebuffer_update_preview(&dst_img);
     }
     return py_image_from_struct(&dst_img);
 }

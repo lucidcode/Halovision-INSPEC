@@ -23,8 +23,8 @@
 
 /*! @name Driver version */
 /*@{*/
-/*! @brief CLOCK driver version 2.2.0. */
-#define FSL_CLOCK_DRIVER_VERSION (MAKE_VERSION(2, 2, 0))
+/*! @brief CLOCK driver version 2.5.1. */
+#define FSL_CLOCK_DRIVER_VERSION (MAKE_VERSION(2, 5, 1))
 /*@}*/
 
 /*!
@@ -40,7 +40,7 @@
 
 /* Definition for delay API in clock driver, users can redefine it to the real application. */
 #ifndef SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY
-#define SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY (96000000UL)
+#define SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY (150000000UL)
 #endif
 
 /*! @brief Clock ip name array for FLEXCOMM. */
@@ -255,17 +255,8 @@ typedef enum _clock_name
     kCLOCK_UsbClk,      /*!< USB input                                               */
     kCLOCK_WdtOsc,      /*!< Watchdog Oscillator                                     */
     kCLOCK_Frg,         /*!< Frg Clock                                               */
-    kCLOCK_Dmic,        /*!< Digital Mic clock                                       */
-    kCLOCK_AsyncApbClk, /*!< Async APB clock																			    */
+    kCLOCK_AsyncApbClk, /*!< Async APB clock                                         */
     kCLOCK_FlexI2S,     /*!< FlexI2S clock                                           */
-    kCLOCK_Flexcomm0,   /*!< Flexcomm0Clock                                          */
-    kCLOCK_Flexcomm1,   /*!< Flexcomm1Clock                                          */
-    kCLOCK_Flexcomm2,   /*!< Flexcomm2Clock                                          */
-    kCLOCK_Flexcomm3,   /*!< Flexcomm3Clock                                          */
-    kCLOCK_Flexcomm4,   /*!< Flexcomm4Clock                                          */
-    kCLOCK_Flexcomm5,   /*!< Flexcomm5Clock                                          */
-    kCLOCK_Flexcomm6,   /*!< Flexcomm6Clock                                          */
-    kCLOCK_Flexcomm7,   /*!< Flexcomm7Clock                                          */
 } clock_name_t;
 
 /**
@@ -285,14 +276,14 @@ typedef enum _async_clock_src
  *
  */
 
-#define CLK_ATTACH_ID(mux, sel, pos) (((mux << 0U) | ((sel + 1) & 0xFU) << 8U) << (pos * 12U))
-#define MUX_A(mux, sel) CLK_ATTACH_ID(mux, sel, 0U)
-#define MUX_B(mux, sel, selector) (CLK_ATTACH_ID(mux, sel, 1U) | (selector << 24U))
+#define CLK_ATTACH_ID(mux, sel, pos) ((((uint32_t)(mux) << 0U) | (((uint32_t)(sel) + 1UL) & 0xFU) << 8U) << ((pos)*12U))
+#define MUX_A(mux, sel) CLK_ATTACH_ID((mux), (sel), 0U)
+#define MUX_B(mux, sel, selector) (CLK_ATTACH_ID((mux), (sel), 1U) | ((selector) << 24U))
 
 #define GET_ID_ITEM(connection) ((connection)&0xFFFU)
 #define GET_ID_NEXT_ITEM(connection) ((connection) >> 12U)
-#define GET_ID_ITEM_MUX(connection) ((connection)&0xFFU)
-#define GET_ID_ITEM_SEL(connection) ((((connection)&0xF00U) >> 8U) - 1U)
+#define GET_ID_ITEM_MUX(connection) (((uint8_t)(connection)) & 0xFFU)
+#define GET_ID_ITEM_SEL(connection) (uint8_t)(((((uint32_t)(connection)&0xF00U) >> 8U) - 1U))
 #define GET_ID_SELECTOR(connection) ((connection)&0xF000000U)
 
 #define CM_MAINCLKSELA 0
@@ -324,7 +315,7 @@ typedef enum _async_clock_src
 #define CM_FRGCLKSEL 26
 #define CM_DMICCLKSEL 27
 
-#define CM_ASYNCAPB 28
+#define CM_ASYNCAPB 28U
 
 typedef enum _clock_attach_id
 {
@@ -472,26 +463,26 @@ extern "C" {
 static inline void CLOCK_EnableClock(clock_ip_name_t clk)
 {
     uint32_t index = CLK_GATE_ABSTRACT_REG_OFFSET(clk);
-    if (index < 2)
+    if (index < 2UL)
     {
-        SYSCON->AHBCLKCTRLSET[index] = (1U << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
+        SYSCON->AHBCLKCTRLSET[index] = (1UL << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
     }
     else
     {
-        ASYNC_SYSCON->ASYNCAPBCLKCTRLSET = (1U << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
+        ASYNC_SYSCON->ASYNCAPBCLKCTRLSET = (1UL << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
     }
 }
 
 static inline void CLOCK_DisableClock(clock_ip_name_t clk)
 {
     uint32_t index = CLK_GATE_ABSTRACT_REG_OFFSET(clk);
-    if (index < 2)
+    if (index < 2UL)
     {
-        SYSCON->AHBCLKCTRLCLR[index] = (1U << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
+        SYSCON->AHBCLKCTRLCLR[index] = (1UL << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
     }
     else
     {
-        ASYNC_SYSCON->ASYNCAPBCLKCTRLCLR = (1U << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
+        ASYNC_SYSCON->ASYNCAPBCLKCTRLCLR = (1UL << CLK_GATE_ABSTRACT_BITS_SHIFT(clk));
     }
 }
 /**
@@ -505,6 +496,7 @@ typedef enum _clock_flashtim
     kCLOCK_Flash4Cycle,     /*!< Flash accesses use 4 CPU clocks */
     kCLOCK_Flash5Cycle,     /*!< Flash accesses use 5 CPU clocks */
     kCLOCK_Flash6Cycle,     /*!< Flash accesses use 6 CPU clocks */
+    kCLOCK_Flash7Cycle,     /*!< Flash accesses use 7 CPU clocks */
 } clock_flashtim_t;
 
 /**
@@ -633,7 +625,7 @@ uint32_t CLOCK_GetAdcClkFreq(void);
  */
 __STATIC_INLINE async_clock_src_t CLOCK_GetAsyncApbClkSrc(void)
 {
-    return (async_clock_src_t)(ASYNC_SYSCON->ASYNCAPBCLKSELA & 0x3);
+    return (async_clock_src_t)((uint32_t)(ASYNC_SYSCON->ASYNCAPBCLKSELA & 0x3UL));
 }
 /*! @brief	Return Frequency of Asynchronous APB Clock
  *  @return	Frequency of Asynchronous APB Clock Clock
@@ -674,7 +666,7 @@ __STATIC_INLINE void CLOCK_SetBypassPLL(bool bypass)
  */
 __STATIC_INLINE bool CLOCK_IsSystemPLLLocked(void)
 {
-    return (bool)((SYSCON->SYSPLLSTAT & SYSCON_SYSPLLSTAT_LOCK_MASK) != 0);
+    return (bool)((SYSCON->SYSPLLSTAT & SYSCON_SYSPLLSTAT_LOCK_MASK) != 0UL);
 }
 
 /*! @brief Store the current PLL rate
@@ -697,16 +689,10 @@ void CLOCK_SetStoredPLLClockRate(uint32_t rate);
  * automatic bandwidth selection, Spread Spectrum (SS) support, and fractional M-divider
  * are not used.<br>
  */
-#define PLL_CONFIGFLAG_USEINRATE (1 << 0) /*!< Flag to use InputRate in PLL configuration structure for setup */
-#define PLL_CONFIGFLAG_FORCENOFRACT                                                                                    \
-    (1 << 2) /*!< Force non-fractional output mode, PLL output will not use the fractional, automatic bandwidth, or SS \
-                \ \                                                                                                    \
-                  \ \ \ \                                                                                              \
-                    \ \ \ \ \ \                                                                                        \
-                       \ \ \ \ \ \ \ \                                                                                 \
-                         \ \ \ \ \ \ \ \ \ \                                                                           \
-                           \ \ \ \ \ \ \ \ \ \ \ \                                                                     \
-                             hardware */
+#define PLL_CONFIGFLAG_USEINRATE (1U << 0U) /*!< Flag to use InputRate in PLL configuration structure for setup */
+#define PLL_CONFIGFLAG_FORCENOFRACT                                                                                   \
+    (1U << 2U) /*!< Force non-fractional output mode, PLL output will not use the fractional, automatic bandwidth, or \
+                  SS hardware */
 
 /*! @brief PLL Spread Spectrum (SS) Programmable modulation frequency
  * See (MF) field in the SYSPLLSSCTRL1 register in the UM.
@@ -775,10 +761,10 @@ typedef struct _pll_config
 /*! @brief PLL setup structure flags for 'flags' field
  * These flags control how the PLL setup function sets up the PLL
  */
-#define PLL_SETUPFLAG_POWERUP (1 << 0)         /*!< Setup will power on the PLL after setup */
-#define PLL_SETUPFLAG_WAITLOCK (1 << 1)        /*!< Setup will wait for PLL lock, implies the PLL will be pwoered on */
-#define PLL_SETUPFLAG_ADGVOLT (1 << 2)         /*!< Optimize system voltage for the new PLL rate */
-#define PLL_SETUPFLAG_USEFEEDBACKDIV2 (1 << 3) /*!< Use feedback divider by 2 in divider path */
+#define PLL_SETUPFLAG_POWERUP (1U << 0U)  /*!< Setup will power on the PLL after setup */
+#define PLL_SETUPFLAG_WAITLOCK (1U << 1U) /*!< Setup will wait for PLL to lock, implying the PLL will be pwoered on */
+#define PLL_SETUPFLAG_ADGVOLT (1U << 2U)  /*!< Optimize system voltage for the new PLL rate */
+#define PLL_SETUPFLAG_USEFEEDBACKDIV2 (1U << 3U) /*!< Use feedback divider by 2 in divider path */
 
 /*! @brief PLL setup structure
  * This structure can be used to pre-build a PLL setup configuration
@@ -880,16 +866,6 @@ static inline void CLOCK_DisableUsbfs0Clock(void)
     CLOCK_DisableClock(kCLOCK_Usbd0);
 }
 bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq);
-
-/*!
- * @brief Use DWT to delay at least for some time.
- *  Please note that, this API will calculate the microsecond period with the maximum
- *  supported CPU frequency, so this API will only delay for at least the given microseconds, if precise
- *  delay count was needed, please implement a new timer count to achieve this function.
- *
- * @param delay_us  Delay time in unit of microsecond.
- */
-void SDK_DelayAtLeastUs(uint32_t delay_us);
 
 #if defined(__cplusplus)
 }

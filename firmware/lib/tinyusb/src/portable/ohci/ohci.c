@@ -38,6 +38,7 @@
 #include "osal/osal.h"
 
 #include "host/hcd.h"
+#include "host/usbh.h"
 #include "ohci.h"
 
 // TODO remove
@@ -167,20 +168,18 @@ static gtd_extra_data_t *gtd_get_extra_data(ohci_gtd_t const * const gtd);
 // tusb_app_virt_to_phys and tusb_app_virt_to_phys in your application.
 TU_ATTR_ALWAYS_INLINE static inline void *_phys_addr(void *virtual_address)
 {
-  if (tusb_app_virt_to_phys) return tusb_app_virt_to_phys(virtual_address);
-  return virtual_address;
+  return tusb_app_virt_to_phys(virtual_address);
 }
 
 TU_ATTR_ALWAYS_INLINE static inline void *_virt_addr(void *physical_address)
 {
-  if (tusb_app_phys_to_virt) return tusb_app_phys_to_virt(physical_address);
-  return physical_address;
+  return tusb_app_phys_to_virt(physical_address);
 }
 
 // Initialization according to 5.1.1.4
-bool hcd_init(uint8_t rhport)
-{
+bool hcd_init(uint8_t rhport, const tusb_rhport_init_t* rh_init) {
   (void) rhport;
+  (void) rh_init;
 
   //------------- Data Structure init -------------//
   tu_memclr(&ohci_data, sizeof(ohci_data_t));
@@ -207,12 +206,7 @@ bool hcd_init(uint8_t rhport)
     //Wait 20 ms. (Ref Usb spec 7.1.7.7)
     OHCI_REG->control_bit.hc_functional_state = OHCI_CONTROL_FUNCSTATE_RESUME;
 
-#if CFG_TUSB_OS != OPT_OS_NONE
-    // os_none implement task delay using usb frame counter which is not started yet
-    // therefore cause infinite delay.
-    // TODO find a way to delay in case of os none e.g __nop
-    osal_task_delay(20);
-#endif
+    tusb_time_delay_ms_api(20);
   }
 
   // reset controller
@@ -240,10 +234,7 @@ bool hcd_init(uint8_t rhport)
   OHCI_REG->control_bit.hc_functional_state = OHCI_CONTROL_FUNCSTATE_OPERATIONAL; // make HC's state to operational state TODO use this to suspend (save power)
   OHCI_REG->rh_status_bit.local_power_status_change = 1; // set global power for ports
 
-#if CFG_TUSB_OS != OPT_OS_NONE
-  // TODO as above delay
-  osal_task_delay(OHCI_REG->rh_descriptorA_bit.power_on_to_good_time * 2); // Wait POTG after power up
-#endif
+  tusb_time_delay_ms_api(OHCI_REG->rh_descriptorA_bit.power_on_to_good_time * 2); // Wait POTG after power up
 
   return true;
 }
@@ -328,13 +319,13 @@ static void ed_init(ohci_ed_t *p_ed, uint8_t dev_addr, uint16_t ep_size, uint8_t
     tu_memclr(p_ed, sizeof(ohci_ed_t));
   }
 
-  hcd_devtree_info_t devtree_info;
-  hcd_devtree_get_info(dev_addr, &devtree_info);
+  tuh_bus_info_t bus_info;
+  tuh_bus_info_get(dev_addr, &bus_info);
 
   p_ed->dev_addr          = dev_addr;
   p_ed->ep_number         = ep_addr & 0x0F;
   p_ed->pid               = (xfer_type == TUSB_XFER_CONTROL) ? PID_FROM_TD : (tu_edpt_dir(ep_addr) ? PID_IN : PID_OUT);
-  p_ed->speed             = devtree_info.speed;
+  p_ed->speed             = bus_info.speed;
   p_ed->is_iso            = (xfer_type == TUSB_XFER_ISOCHRONOUS) ? 1 : 0;
   p_ed->max_packet_size   = ep_size;
 
@@ -451,7 +442,6 @@ static void td_insert_to_ed(ohci_ed_t* p_ed, ohci_gtd_t * p_gtd)
 //--------------------------------------------------------------------+
 // Endpoint API
 //--------------------------------------------------------------------+
-
 bool hcd_edpt_open(uint8_t rhport, uint8_t dev_addr, tusb_desc_endpoint_t const * ep_desc)
 {
   (void) rhport;
@@ -484,6 +474,11 @@ bool hcd_edpt_open(uint8_t rhport, uint8_t dev_addr, tusb_desc_endpoint_t const 
   ed_list_insert( p_ed_head[ep_desc->bmAttributes.xfer], p_ed );
 
   return true;
+}
+
+bool hcd_edpt_close(uint8_t rhport, uint8_t daddr, uint8_t ep_addr) {
+  (void) rhport; (void) daddr; (void) ep_addr;
+  return false; // TODO not implemented yet
 }
 
 bool hcd_setup_send(uint8_t rhport, uint8_t dev_addr, uint8_t const setup_packet[8])

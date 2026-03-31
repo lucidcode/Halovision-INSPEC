@@ -1,40 +1,47 @@
 #!/bin/bash
 
 ########################################################################################
-# Install ARM GCC.
-GCC_TOOLCHAIN_PATH=${HOME}/cache/gcc
-GCC_TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz"
+# Install OpenMV SDK.
+SDK_VERSION="1.1.0"
+SDK_DIR="${HOME}/openmv-sdk-${SDK_VERSION}"
+SDK_BASE_URL="https://download.openmv.io/sdk"
+SDK_OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
+SDK_ARCH="$(uname -m)"
+SDK_TARBALL="openmv-sdk-${SDK_VERSION}-${SDK_OS}-${SDK_ARCH}.tar.gz"
+SDK_URL="${SDK_BASE_URL}/${SDK_TARBALL}"
 
-ci_install_arm_gcc() {
-    mkdir -p ${GCC_TOOLCHAIN_PATH}
-    wget --no-check-certificate -O - ${GCC_TOOLCHAIN_URL} | tar --strip-components=1 -Jx -C ${GCC_TOOLCHAIN_PATH}
-    export PATH=${GCC_TOOLCHAIN_PATH}/bin:${PATH}
-    arm-none-eabi-gcc --version
-}
+export SDK_DIR
+export PATH="${SDK_DIR}/make:${SDK_DIR}/python/bin:${PATH}"
 
-########################################################################################
-# Install ARM LLVM.
-LLVM_TOOLCHAIN_PATH=${HOME}/cache/llvm
-LLVM_TOOLCHAIN_URL="https://github.com/ARM-software/LLVM-embedded-toolchain-for-Arm/releases/download/release-18.1.3/LLVM-ET-Arm-18.1.3-Linux-x86_64.tar.xz"
+ci_install_sdk() {
+    if [ -f "${SDK_DIR}/sdk.version" ] && \
+       [ "$(cat ${SDK_DIR}/sdk.version)" = "${SDK_VERSION}" ]; then
+        echo "OpenMV SDK ${SDK_VERSION} already installed."
+        return 0
+    fi
 
-ci_install_arm_llvm() {
-    mkdir -p ${LLVM_TOOLCHAIN_PATH}
-    wget --no-check-certificate -O - ${LLVM_TOOLCHAIN_URL} | tar --strip-components=1 -Jx -C ${LLVM_TOOLCHAIN_PATH}
-    export PATH=${LLVM_TOOLCHAIN_PATH}/bin:${PATH}
-    clang --version
-}
+    echo "Installing OpenMV SDK ${SDK_VERSION} to ${SDK_DIR}..."
+    mkdir -p "${SDK_DIR}"
 
-########################################################################################
-# Install GNU Make.
-GNU_MAKE_PATH=${HOME}/cache/make
-GNU_MAKE_URL="https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz"
+    tmpfile=$(mktemp)
+    trap 'rm -f "$tmpfile"' EXIT
 
-ci_install_gnu_make() {
-    mkdir -p ${GNU_MAKE_PATH}
-    wget --no-check-certificate -O - ${GNU_MAKE_URL} | tar --strip-components=1 -zx -C ${GNU_MAKE_PATH}
-    cd ${GNU_MAKE_PATH} && ./configure && make -j$(nproc)
-    export PATH=${GNU_MAKE_PATH}:${PATH}
-    make --version
+    wget --no-check-certificate --progress=bar:force -O "$tmpfile" "$SDK_URL" || {
+        echo "Download failed: $SDK_URL"; return 1
+    }
+
+    expected=$(wget --no-check-certificate -qO- "${SDK_URL}.sha256" | awk '{print $1}') || {
+        echo "Could not fetch checksum from ${SDK_URL}.sha256"; return 1
+    }
+    echo "${expected}  ${tmpfile}" | sha256sum -c - || {
+        echo "Checksum verification failed!"; return 1
+    }
+
+    tar --strip-components=1 -xzf "$tmpfile" -C "${SDK_DIR}" || {
+        echo "Extraction failed!"; return 1
+    }
+
+    echo "OpenMV SDK ${SDK_VERSION} installed successfully."
 }
 
 ########################################################################################
@@ -47,15 +54,16 @@ ci_update_submodules() {
 ########################################################################################
 # Build Targets.
 ci_build_target() {
-    export LLVM_PATH=${LLVM_TOOLCHAIN_PATH}/bin
-    export PATH=${GNU_MAKE_PATH}:${GCC_TOOLCHAIN_PATH}/bin:${PATH}
     if [ "$1" == "DOCKER" ]; then
         BOARD=ARDUINO_NICLA_VISION
         make -j$(nproc) -C docker TARGET=${BOARD}
     else
         make -j$(nproc) -C lib/micropython/mpy-cross
-        make -j$(nproc) TARGET=${1}
-        mv build/bin ${1}
+        make -j$(nproc) TARGET=${1} PROFILE_ENABLE=${3}
+        # Copy artifacts if enabled
+        if [ "$4" == "true" ]; then
+            mv build/bin ${1}
+        fi
     fi
 }
 
@@ -73,89 +81,145 @@ ci_package_firmware_development() {
 }
 
 ########################################################################################
-# Install code formatter deps
-CODEFORMAT_PATH=${HOME}/cache/deps/
-UNCRUSTIFY_PATH=${CODEFORMAT_PATH}/uncrustify
-UNCRUSTIFY_URL="https://github.com/uncrustify/uncrustify/archive/uncrustify-0.75.0.tar.gz"
+# Run QEMU unit tests
+ci_run_qemu_tests() {
+    TARGET="${1}"
 
-ci_install_code_format_deps() {
-    sudo apt-get install wget cmake build-essential colordiff
+    # Start QEMU in background and capture output
+    echo "Starting QEMU for ${TARGET}..."
+    make TARGET=${TARGET} run > qemu_output.txt 2>&1 &
 
-    mkdir -p ${UNCRUSTIFY_PATH}
-    wget --no-check-certificate -O - ${UNCRUSTIFY_URL} | tar xvz --strip-components=1 -C ${UNCRUSTIFY_PATH}
-    (cd ${UNCRUSTIFY_PATH} && mkdir build && cd build && cmake .. && cmake --build .)
-
-    # Copy binaries to cache
-    mkdir -p ${CODEFORMAT_PATH}/bin
-    cp ${UNCRUSTIFY_PATH}/build/uncrustify ${CODEFORMAT_PATH}/bin/
-    cp `which colordiff` ${CODEFORMAT_PATH}/bin/
-    chmod +x ${CODEFORMAT_PATH}/bin/uncrustify
-}
-
-########################################################################################
-# Run code formatter
-ci_run_code_format_check() {
-    export PATH=${CODEFORMAT_PATH}/bin:${PATH}
-    UNCRUSTIFY_CONFIG=tools/uncrustify.cfg
-
-    exit_code=0
-    for file in "$@"; do
-        file_fmt="${file}.tmp"
-        uncrustify -q -c ${UNCRUSTIFY_CONFIG} -f ${file} -o ${file_fmt} || true
-
-        diff -q -u ${file} ${file_fmt} >> /dev/null 2>&1 || {
-            colordiff -u ${file} ${file_fmt} || true
-            exit_code=1
-        }
+    # Wait for QEMU to start and find the serial port from output
+    echo "Waiting for QEMU to start..."
+    for i in {1..30}; do
+        if grep -q "char device redirected to" qemu_output.txt; then
+            break
+        fi
+        sleep 1
     done
-    exit $exit_code
+
+    # Extract the pts device from QEMU output
+    PTS_DEVICE=$(grep "redirected to" qemu_output.txt | sed 's/.*redirected to \(\/dev\/pts\/[0-9]*\).*/\1/')
+
+    if [ -z "$PTS_DEVICE" ]; then
+        echo "Error: Could not find QEMU serial port"
+        cat qemu_output.txt
+        return 1
+    else
+        echo "Found QEMU serial port: $PTS_DEVICE"
+    fi
+
+    # Patch micropython's mpremote for QEMU serial communication
+    echo "Patching micropython mpremote for QEMU..."
+    patch -N -p1 -d lib/micropython < tools/mpremote-qemu-serial.patch || echo "Patch already applied or failed"
+
+    # Run unit tests using patched mpremote from micropython
+    echo "Running unit tests..."
+    python3 lib/micropython/tools/mpremote/mpremote.py connect $PTS_DEVICE \
+        mount scripts/unittest/ run scripts/unittest/run.py 2>&1 | tee test_output.txt
+    TEST_EXIT_CODE=${PIPESTATUS[0]}
+
+    if [ $TEST_EXIT_CODE -ne 0 ]; then
+        echo "❌ mpremote command failed with exit code $TEST_EXIT_CODE"
+        return 1
+    fi
+
+    # Check if tests failed
+    if grep -q "Some tests FAILED" test_output.txt; then
+        return 1
+    fi
+    return 0
 }
 
 ########################################################################################
-# Install STEdgeAI tools
-STEDGEAI_URL="https://upload.openmv.io/stedgeai/STEdgeAI-2.1.0.tar.gz"
-STEDGEAI_SHA256="888e71715127ff6384e38fcde96eea28f53f8370b2bb9cf0d2f6f939001b350c"
-STEDGEAI_CACHE="${HOME}/cache/stedgeai"
+# Install FVP
+FVP_VERSION="11.31.28"
+FVP_INSTALL_DIR="${HOME}/fvp-${FVP_VERSION}"
 
-ci_install_stedgeai() {
-    STEDGEAI_PATH="${1}"
-    
-    # If cached in CI, copy from cache to build.
-    if [ -d "${STEDGEAI_CACHE}" ]; then
-        mkdir -p "${STEDGEAI_PATH}"
-        cp -r "${STEDGEAI_CACHE}/." "${STEDGEAI_PATH}"
-        touch "${STEDGEAI_PATH}/stedgeai.stamp"
+ci_install_fvp() {
+    if [ -d "${FVP_INSTALL_DIR}" ]; then
+        echo "FVP ${FVP_VERSION} already installed."
         return 0
     fi
 
-    # Download and install to STEDGEAI_PATH
-    echo "Downloading STEdge AI tools..."
-    mkdir -p "${STEDGEAI_PATH}"
-    
-    # Create temporary file
+    echo "Installing FVP ${FVP_VERSION}..."
+    FVP_MAJOR_MINOR="${FVP_VERSION%.*}"
+    FVP_PATCH="${FVP_VERSION##*.}"
+    FVP_ARCHIVE="avh-linux-x86_${FVP_MAJOR_MINOR}_${FVP_PATCH}_Linux64.tar.gz"
+    FVP_URL="https://artifacts.tools.arm.com/avh/${FVP_VERSION}/${FVP_ARCHIVE}"
+
+    # ./FVP_Corstone_SSE-300.sh --i-agree-to-the-contained-eula --no-interactive -f -d ~/FVP_Corstone_SSE-300
+
     tmpfile=$(mktemp)
-    trap 'rm -f "$tmpfile"' EXIT
-    
-    # Download and verify checksum
-    wget --no-check-certificate -O "$tmpfile" "$STEDGEAI_URL" || {
-        echo "Download failed!"
-        return 1
+    wget --no-check-certificate --progress=bar:force -O "$tmpfile" "$FVP_URL" || {
+        echo "FVP download failed: $FVP_URL"; return 1
     }
-    
-    echo "${STEDGEAI_SHA256}  ${tmpfile}" | sha256sum -c - || {
-        echo "Checksum failed!"
-        return 1
+
+    mkdir -p "${FVP_INSTALL_DIR}"
+    tar --strip-components=1 -xzf "$tmpfile" -C "${FVP_INSTALL_DIR}" || {
+        echo "FVP extraction failed!"; return 1
     }
-    
-    # Extract the tools
-    echo "Extracting to ${STEDGEAI_PATH}..."
-    tar -xzf "$tmpfile" -C "${STEDGEAI_PATH}" --strip-components=1 || {
-        echo "Extraction failed!"
+    rm -f "$tmpfile"
+
+    echo "FVP ${FVP_VERSION} installed to ${FVP_INSTALL_DIR}"
+}
+
+########################################################################################
+# Run FVP unit tests
+ci_run_fvp_tests() {
+    TARGET="${1}"
+    FVP_PORT=5555
+    export PATH="${FVP_INSTALL_DIR}/bin:${PATH}"
+
+    # Start FVP in background with raw TCP UART
+    echo "Starting FVP for ${TARGET}..."
+    LD_LIBRARY_PATH="${SDK_DIR}/python/lib" make TARGET=${TARGET} run > fvp_output.txt 2>&1 &
+    FVP_PID=$!
+
+    # Wait for FVP telnet port to be ready
+    echo "Waiting for FVP to start..."
+    for i in {1..120}; do
+        if nc -z localhost ${FVP_PORT} 2>/dev/null; then
+            break
+        fi
+        if ! kill -0 ${FVP_PID} 2>/dev/null; then
+            echo "Error: FVP process exited prematurely"
+            cat fvp_output.txt
+            return 1
+        fi
+        sleep 1
+    done
+
+    if ! nc -z localhost ${FVP_PORT} 2>/dev/null; then
+        echo "Error: FVP telnet port ${FVP_PORT} not ready after 120s"
+        cat fvp_output.txt
+        kill ${FVP_PID} 2>/dev/null
         return 1
-    }
-    
-    touch "${STEDGEAI_PATH}/stedgeai.stamp"
-   
-    echo "STEdgeAI installed successfully to ${STEDGEAI_PATH}"
+    fi
+    echo "FVP ready on port ${FVP_PORT}"
+    sleep 2
+
+    # Patch micropython's mpremote for FVP socket communication
+    echo "Patching micropython mpremote for FVP..."
+    patch -N -p1 -d lib/micropython < tools/mpremote-qemu-serial.patch || echo "Patch already applied or failed"
+
+    # Run unit tests using mpremote over socket
+    echo "Running unit tests..."
+    timeout 600 python3 lib/micropython/tools/mpremote/mpremote.py \
+        connect "socket://localhost:${FVP_PORT}" \
+        mount scripts/unittest/ run scripts/unittest/run.py 2>&1 | tee test_output.txt
+    TEST_EXIT_CODE=${PIPESTATUS[0]}
+
+    # Cleanup
+    kill ${FVP_PID} 2>/dev/null
+
+    if [ $TEST_EXIT_CODE -ne 0 ]; then
+        echo "mpremote command failed with exit code $TEST_EXIT_CODE"
+        return 1
+    fi
+
+    if grep -q "Some tests FAILED" test_output.txt; then
+        return 1
+    fi
     return 0
 }

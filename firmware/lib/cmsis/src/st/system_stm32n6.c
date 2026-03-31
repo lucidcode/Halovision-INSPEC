@@ -26,7 +26,7 @@
  */
 #include STM32_HAL_H
 #include <string.h>
-#include "omv_boardconfig.h"
+#include "board_config.h"
 // Trustzone-M core secure attributes
 #include "partition_stm32n6xx.h"
 
@@ -137,6 +137,11 @@ void SystemClock_Config(void) {
     PeriphClkInit.Spi5ClockSelection      = OMV_OSC_SPI5_SOURCE;
     #endif
 
+    #if defined(OMV_OSC_USART2_SOURCE)
+    PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_USART2;
+    PeriphClkInit.Usart2ClockSelection    = OMV_OSC_USART2_SOURCE;
+    #endif
+
     #if defined(OMV_OSC_DCMIPP_SOURCE)
     PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_DCMIPP;
     PeriphClkInit.DcmippClockSelection    = OMV_OSC_DCMIPP_SOURCE;
@@ -147,8 +152,24 @@ void SystemClock_Config(void) {
     //PeriphClkInit.CsiClockSelection     = OMV_OSC_DCMIPP_SOURCE;
     #endif
 
+    #if defined(OMV_OSC_MDF1_SOURCE)
+    PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_MDF1;
+    PeriphClkInit.Mdf1ClockSelection      = OMV_OSC_MDF1_SOURCE;
+    #endif
+
+    #if defined(OMV_OSC_ADF1_SOURCE)
+    PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_ADF1;
+    PeriphClkInit.Adf1ClockSelection      = OMV_OSC_ADF1_SOURCE;
+    #endif
+
     PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_XSPI1;
     PeriphClkInit.Xspi1ClockSelection     = RCC_XSPI1CLKSOURCE_HCLK;
+
+    PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_SDMMC1;
+    PeriphClkInit.Sdmmc1ClockSelection    = RCC_SDMMC1CLKSOURCE_HCLK;
+
+    PeriphClkInit.PeriphClockSelection   |= RCC_PERIPHCLK_SDMMC2;
+    PeriphClkInit.Sdmmc2ClockSelection    = RCC_SDMMC2CLKSOURCE_HCLK;
 
     #if defined(OMV_RCC_IC0_SOURCE)
     PeriphClkInit.ICSelection[RCC_IC0].ClockSelection = OMV_RCC_IC0_SOURCE;

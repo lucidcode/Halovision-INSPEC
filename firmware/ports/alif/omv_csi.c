@@ -43,12 +43,12 @@
 #include "sys_ctrl_cpi.h"
 #include "system_utils.h"
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "omv_gpio.h"
 #include "omv_gpu.h"
 #include "omv_i2c.h"
 #include "omv_csi.h"
-#include "unaligned_memcpy.h"
+#include "memcpy.h"
 
 // Bits missing from cpi.h
 #define CAM_CFG_INTERFACE_Pos       (0U)
@@ -71,89 +71,83 @@
                          CAM_INTR_OUTFIFO_OVERRUN | \
                          CAM_INTR_BRESP_ERR)
 
-static CPI_Type *cpi_get_base_addr(omv_csi_t *csi) {
-    return ((CPI_Type *) CPI_BASE);
+static uint32_t omv_csi_get_fb_offset(omv_csi_t *csi);
+
+void CAM_IRQHandler(void) {
+    uint32_t mask = 0;
+    omv_csi_t *csi = omv_csi_get(-1);
+    CPI_Type *cpi = csi->base;
+
+    uint32_t status = cpi_get_interrupt_status(cpi);
+
+    if (status & CAM_INTR_VSYNC) {
+        mask |= CAM_INTR_VSYNC;
+    }
+
+    if (status & CAM_INTR_HSYNC) {
+        mask |= CAM_INTR_HSYNC;
+    }
+
+    if (status & CAM_INTR_INFIFO_OVERRUN) {
+        mask |= CAM_INTR_INFIFO_OVERRUN;
+        omv_csi_abort(csi, true, true);
+    }
+
+    if (status & CAM_INTR_OUTFIFO_OVERRUN) {
+        mask |= CAM_INTR_OUTFIFO_OVERRUN;
+        omv_csi_abort(csi, true, true);
+    }
+
+    if (status & CAM_INTR_BRESP_ERR) {
+        mask |= CAM_INTR_BRESP_ERR;
+        omv_csi_abort(csi, true, true);
+    }
+
+    if (status & CAM_INTR_STOP) {
+        mask |= CAM_INTR_STOP;
+        cpi->CAM_CTRL = 0;
+
+        if (!(status & CPI_ERROR_FLAGS)) {
+            // Release the buffer from free queue -> used queue.
+            framebuffer_release(csi->fb, FB_FLAG_FREE | FB_FLAG_CHECK_LAST);
+        }
+
+        // Acquire a buffer from the free queue.
+        vbuffer_t *buffer = framebuffer_acquire(csi->fb, FB_FLAG_FREE | FB_FLAG_PEEK);
+
+        if (buffer != NULL) {
+            cpi->CAM_CTRL = 0;
+            cpi->CAM_CTRL = CAM_CTRL_SW_RESET;
+            cpi->CAM_FRAME_ADDR = LocalToGlobal(buffer->data + omv_csi_get_fb_offset(csi));
+            cpi_irq_handler_clear_intr_status(cpi, mask);
+            cpi->CAM_CTRL = (CAM_CTRL_SNAPSHOT | CAM_CTRL_START | CAM_CTRL_FIFO_CLK_SEL);
+        }
+
+        if (csi->frame_cb.fun && !(status & CPI_ERROR_FLAGS)) {
+            csi->frame_cb.fun(csi->frame_cb.arg);
+        }
+    }
+
+    // Clear interrupts.
+    cpi_irq_handler_clear_intr_status(cpi, mask);
 }
 
-void omv_csi_init0() {
-    omv_csi_abort(&csi, true, false);
+static bool alif_csi_is_active(omv_csi_t *csi) {
+    CPI_Type *cpi = csi->base;
 
-    // Re-init I2C to reset the bus state after soft reset, which
-    // could have interrupted the bus in the middle of a transfer.
-    if (csi.i2c_bus.initialized) {
-        // Reinitialize the bus using the last used id and speed.
-        // TODO: Causes Alif's I3C to lock up.
-        //omv_i2c_init(&csi.i2c_bus, csi.i2c_bus.id, csi.i2c_bus.speed);
-    }
-
-    csi.disable_delays = false;
-
-    // Disable VSYNC IRQ and callback
-    omv_csi_set_vsync_callback(NULL);
-
-    // Disable Frame callback.
-    omv_csi_set_frame_callback(NULL);
+    return (cpi->CAM_CTRL & CAM_CTRL_BUSY);
 }
 
-int omv_csi_init() {
-    int init_ret = 0;
-    CPI_Type *cpi = cpi_get_base_addr(&csi);
-
-    alif_hal_csi_init(cpi, 0);
-
-    #if defined(OMV_CSI_POWER_PIN)
-    omv_gpio_write(OMV_CSI_POWER_PIN, 0);
+int alif_csi_isp_reset(omv_csi_t *csi) {
+    #ifdef IMLIB_ENABLE_GAMMA_LUT
+    imlib_update_gamma_table(-0.2f, 1.0f, 2.2f);
     #endif
-
-    #if defined(OMV_CSI_RESET_PIN)
-    omv_gpio_write(OMV_CSI_RESET_PIN, 0);
-    #endif
-
-    // Reset the csi state
-    memset(&csi, 0, sizeof(omv_csi_t));
-
-    // Set default framebuffer
-    csi.fb = framebuffer_get(0);
-
-    // Set default snapshot function.
-    csi.snapshot = omv_csi_snapshot;
-
-    // Configure the CSI external clock.
-    if (omv_csi_set_clk_frequency(OMV_CSI_CLK_FREQUENCY) != 0) {
-        // Failed to initialize the csi clock.
-        return OMV_CSI_ERROR_TIM_INIT_FAILED;
-    }
-
-    // Detect and initialize the image csi.
-    if ((init_ret = omv_csi_probe_init(OMV_CSI_I2C_ID, OMV_CSI_I2C_SPEED)) != 0) {
-        // csi probe/init failed.
-        return init_ret;
-    }
-
-    // Configure the CSI interface.
-    if (omv_csi_config(OMV_CSI_CONFIG_INIT) != 0) {
-        // CSI config failed
-        return OMV_CSI_ERROR_CSI_INIT_FAILED;
-    }
-
-    // Set default color palette.
-    csi.color_palette = rainbow_table;
-
-    // Disable VSYNC IRQ and callback
-    omv_csi_set_vsync_callback(NULL);
-
-    // Disable Frame callback.
-    omv_csi_set_frame_callback(NULL);
-
-    // All good!
-    csi.detected = true;
-
     return 0;
 }
 
-int omv_csi_config(omv_csi_config_t config) {
+int alif_csi_config(omv_csi_t *csi, omv_csi_config_t config) {
     if (config == OMV_CSI_CONFIG_INIT) {
-        CPI_Type *cpi = cpi_get_base_addr(&csi);
+        CPI_Type *cpi = csi->base;
 
         // Configure the FIFO.
         cpi->CAM_FIFO_CTRL &= ~CAM_FIFO_CTRL_RD_WMARK_Msk;
@@ -169,9 +163,9 @@ int omv_csi_config(omv_csi_config_t config) {
         cpi->CAM_CFG |= (CPI_VSYNC_WAIT_DISABLE << CAM_CFG_VSYNC_WAIT_Pos);
 
         // Set VSYNC, HSYNC and PIXCLK polarities.
-        cpi->CAM_CFG |= (csi.vsync_pol << CAM_CFG_VSYNC_POL_Pos);
-        cpi->CAM_CFG |= (csi.hsync_pol << CAM_CFG_HSYNC_POL_Pos);
-        cpi->CAM_CFG |= (!csi.pixck_pol << CAM_CFG_PXCLK_POL_Pos);
+        cpi->CAM_CFG |= (csi->vsync_pol << CAM_CFG_VSYNC_POL_Pos);
+        cpi->CAM_CFG |= (csi->hsync_pol << CAM_CFG_HSYNC_POL_Pos);
+        cpi->CAM_CFG |= (!csi->pixck_pol << CAM_CFG_PXCLK_POL_Pos);
 
         // Configure the data bus width, mode, endianness.
         cpi->CAM_CFG |= (CPI_ROW_ROUNDUP_DISABLE << CAM_CFG_RW_ROUNDUP_Pos);
@@ -189,29 +183,30 @@ int omv_csi_config(omv_csi_config_t config) {
     return 0;
 }
 
-int omv_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
-    CPI_Type *cpi = cpi_get_base_addr(csi);
+int alif_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq) {
+    CPI_Type *cpi = csi->base;
+
+    // Stop CPI
     cpi->CAM_CTRL = 0;
+
+    // Disable IRQs.
     NVIC_DisableIRQ(CAM_IRQ_IRQn);
     cpi_disable_interrupt(cpi, CPI_IRQ_FLAGS);
     cpi_irq_handler_clear_intr_status(cpi, CPI_IRQ_FLAGS);
-
-    csi->first_line = false;
-    csi->drop_frame = false;
-    csi->last_frame_ms = 0;
-    csi->last_frame_ms_valid = false;
-
-    if (csi->fb) {
-        if (fifo_flush) {
-            framebuffer_flush_buffers(csi->fb, true);
-        } else if (!csi->disable_full_flush) {
-            framebuffer_flush_buffers(csi->fb, false);
-        }
-    }
     return 0;
 }
 
-int omv_csi_set_clk_frequency(uint32_t frequency) {
+static uint32_t alif_clk_get_frequency(omv_clk_t *clk) {
+    uint32_t div = (CLKCTL_PER_MST->CAMERA_PIXCLK_CTRL & CAMERA_PIXCLK_CTRL_DIVISOR_Msk) >>
+                   CAMERA_PIXCLK_CTRL_DIVISOR_Pos;
+    if (CLKCTL_PER_MST->CAMERA_PIXCLK_CTRL & CAMERA_PIXCLK_CTRL_CLK_SEL) {
+        return 480000000 / div;
+    } else {
+        return 400000000 / div;
+    }
+}
+
+static int alif_clk_set_frequency(omv_clk_t *clk, uint32_t frequency) {
     // Configure CPI clock source (400MHz or 480MHz) and divider.
     if (frequency >= 24000000) {
         set_cpi_pixel_clk(CPI_PIX_CLKSEL_480MZ, 20);
@@ -225,74 +220,45 @@ int omv_csi_set_clk_frequency(uint32_t frequency) {
     return 0;
 }
 
-uint32_t omv_csi_get_clk_frequency() {
-    uint32_t div = (CLKCTL_PER_MST->CAMERA_PIXCLK_CTRL & CAMERA_PIXCLK_CTRL_DIVISOR_Msk) >>
-                   CAMERA_PIXCLK_CTRL_DIVISOR_Pos;
-    if (CLKCTL_PER_MST->CAMERA_PIXCLK_CTRL & CAMERA_PIXCLK_CTRL_CLK_SEL) {
-        return 480000000 / div;
-    } else {
-        return 400000000 / div;
-    }
-}
-
-uint32_t omv_csi_get_fb_offset(omv_csi_t *csi) {
+static uint32_t omv_csi_get_fb_offset(omv_csi_t *csi) {
     uint32_t offset = 0;
-    uint32_t bytes_per_pixel = omv_csi_get_src_bpp();
-    uint32_t line_size_bytes = resolution[csi->framesize][0] * bytes_per_pixel;
+    uint32_t bytes_per_pixel = omv_csi_get_src_bpp(csi);
+    uint32_t line_size_bytes = csi->resolution[csi->framesize][0] * bytes_per_pixel;
+
     // Offset the pixels buffer for debayering.
     if (csi->raw_output && csi->pixformat == PIXFORMAT_RGB565) {
-        offset += line_size_bytes * resolution[csi->framesize][1];
+        offset += line_size_bytes * csi->resolution[csi->framesize][1];
     }
+
     return offset;
 }
 
 // This is the default snapshot function, which can be replaced in omv_csi_init functions.
-int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
+int alif_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
+    CPI_Type *cpi = csi->base;
     framebuffer_t *fb = csi->fb;
+    vbuffer_t *buffer = NULL;
 
-    static uint32_t frames = 0;
-    static uint32_t r_stat, gb_stat, gr_stat, b_stat;
+    // Configure and re/start the capture if it's not alrady active
+    // and there are no pending buffers (from non-blocking capture).
+    if (!alif_csi_is_active(csi) && !framebuffer_readable(fb)) {
+        uint32_t bytes_per_pixel = omv_csi_get_src_bpp(csi);
+        uint32_t line_size_bytes = csi->resolution[csi->framesize][0] * bytes_per_pixel;
 
-    CPI_Type *cpi = cpi_get_base_addr(csi);
+        // Acquire a buffer from the free queue.
+        buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK);
 
-    if (csi->pixformat == PIXFORMAT_INVALID) {
-        return OMV_CSI_ERROR_INVALID_PIXFORMAT;
-    }
+        // Check if buffer is not ready or is not 64-bit aligned.
+        if ((!buffer) || (LocalToGlobal(buffer->data) & 0x7)) {
+            return OMV_CSI_ERROR_FRAMEBUFFER_ERROR;
+        }
 
-    if (csi->framesize == OMV_CSI_FRAMESIZE_INVALID) {
-        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
-    }
-
-    if (omv_csi_check_framebuffer_size() != 0) {
-        return OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW;
-    }
-
-    // Compress the framebuffer for the IDE preview.
-    framebuffer_update_jpeg_buffer(fb);
-
-    // Free the current FB head.
-    framebuffer_free_current_buffer(fb);
-
-    // Reconfigure and restart the CSI transfer if it's not running.
-    if (!(cpi->CAM_CTRL & CAM_CTRL_BUSY)) {
-        framebuffer_setup_buffers(fb);
-        uint32_t bytes_per_pixel = omv_csi_get_src_bpp();
-        uint32_t line_size_bytes = resolution[csi->framesize][0] * bytes_per_pixel;
-
-        // Error out if the transfer size is not compatible with DMA transfer restrictions.
+        // Ensure that the transfer size is compatible with DMA restrictions.
         if ((!line_size_bytes) ||
             (line_size_bytes % sizeof(uint64_t)) ||
             csi->transpose ||
             (csi->pixformat == PIXFORMAT_JPEG)) {
             return OMV_CSI_ERROR_INVALID_FRAMESIZE;
-        }
-
-        // Get the destination buffer address.
-        vbuffer_t *buffer = framebuffer_get_tail(fb, FB_PEEK);
-
-        // Check if buffer is not ready or is not 64-bit aligned.
-        if ((!buffer) || (LocalToGlobal(buffer->data) & 0x7)) {
-            return OMV_CSI_ERROR_FRAMEBUFFER_ERROR;
         }
 
         if (!csi->raw_output &&
@@ -316,20 +282,20 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
         cpi->CAM_VIDEO_FCFG &= ~CAM_VIDEO_FCFG_DATA_Msk;
         cpi->CAM_VIDEO_FCFG = line_size_bytes;
         cpi->CAM_VIDEO_FCFG &= ~CAM_VIDEO_FCFG_ROW_Msk;
-        cpi->CAM_VIDEO_FCFG |= ((resolution[csi->framesize][1] - 1) << CAM_VIDEO_FCFG_ROW_Pos);
+        cpi->CAM_VIDEO_FCFG |= ((csi->resolution[csi->framesize][1] - 1) << CAM_VIDEO_FCFG_ROW_Pos);
         cpi->CAM_FRAME_ADDR = LocalToGlobal(buffer->data + omv_csi_get_fb_offset(csi));
 
         // Configure and enable CSI interrupts.
         cpi_irq_handler_clear_intr_status(cpi, CPI_IRQ_FLAGS);
         cpi_enable_interrupt(cpi, CPI_IRQ_FLAGS);
         NVIC_ClearPendingIRQ(CAM_IRQ_IRQn);
+        NVIC_SetPriority(CAM_IRQ_IRQn, IRQ_PRI_CSI);
         NVIC_EnableIRQ(CAM_IRQ_IRQn);
 
         // Reset CSI and start the capture.
         cpi->CAM_CTRL = 0;
-        cpi->CAM_CTRL |= CAM_CTRL_SW_RESET;
+        cpi->CAM_CTRL = CAM_CTRL_SW_RESET;
         cpi->CAM_CTRL = (CAM_CTRL_SNAPSHOT | CAM_CTRL_START | CAM_CTRL_FIFO_CLK_SEL);
-        //printf("==== reconfigured ===\n");
     }
 
     // Let the camera know we want to trigger it now.
@@ -339,43 +305,30 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
     }
     #endif
 
-    vbuffer_t *buffer = framebuffer_get_head(fb, FB_INVALIDATE);
-    // Wait for the DMA to finish the transfer.
-    for (mp_uint_t ticks = mp_hal_ticks_ms(); buffer == NULL;) {
-        mp_event_handle_nowait();
+    // One shot DMA transfers must be invalidated.
+    framebuffer_flags_t fb_flags = FB_FLAG_USED | FB_FLAG_PEEK | FB_FLAG_INVALIDATE;
 
-        if ((mp_hal_ticks_ms() - ticks) > 3000) {
-            omv_csi_abort(csi, true, false);
-
-            #if defined(OMV_CSI_FSYNC_PIN)
-            if (csi->frame_sync) {
-                omv_gpio_write(OMV_CSI_FSYNC_PIN, 0);
-            }
-            #endif
-
-            return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
+    // Wait for a frame to be ready.
+    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_event_handle_nowait()) {
+        if ((buffer = framebuffer_acquire(fb, fb_flags))) {
+            break;
         }
 
-        buffer = framebuffer_get_head(fb, FB_INVALIDATE);
+        if (flags & OMV_CSI_FLAG_NON_BLOCK) {
+            return OMV_CSI_ERROR_WOULD_BLOCK;
+        }
+
+        if ((mp_hal_ticks_ms() - start) > OMV_CSI_TIMEOUT_MS) {
+            omv_csi_abort(csi, true, false);
+            return OMV_CSI_ERROR_CAPTURE_TIMEOUT;
+        }
     }
 
-    // We're done receiving data.
-    #if defined(OMV_CSI_FSYNC_PIN)
-    if (csi->frame_sync) {
-        omv_gpio_write(OMV_CSI_FSYNC_PIN, 0);
-    }
-    #endif
+    // Set the framebuffer width/height.
+    fb->w = csi->transpose ? fb->v : fb->u;
+    fb->h = csi->transpose ? fb->u : fb->v;
 
-    // Restore the frame buffer width and height.
-    if (!csi->transpose) {
-        fb->w = fb->u;
-        fb->h = fb->v;
-    } else {
-        fb->w = fb->v;
-        fb->h = fb->u;
-    }
-
-    // Reset the frame buffer's pixel format.
+    // Set the framebuffer pixel format.
     switch (csi->pixformat) {
         case PIXFORMAT_GRAYSCALE:
             fb->pixfmt = PIXFORMAT_GRAYSCALE;
@@ -399,7 +352,7 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
     }
 
     // Initialize a frame using the frame buffer.
-    framebuffer_init_image(fb, dst_image);
+    framebuffer_to_image(fb, dst_image);
 
     // Set the frame's pixel format to bayer for raw sensors.
     if (csi->raw_output && csi->pixformat != PIXFORMAT_BAYER) {
@@ -409,12 +362,12 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
     }
 
     // Crop first to reduce the frame size before debayering.
-    if (omv_csi_get_cropped()) {
+    if (omv_csi_get_cropped(csi)) {
         image_t src_cimage = *dst_image;
         image_t dst_cimage = *dst_image;
 
-        src_cimage.w = resolution[csi->framesize][0];
-        src_cimage.h = resolution[csi->framesize][1];
+        src_cimage.w = csi->resolution[csi->framesize][0];
+        src_cimage.h = csi->resolution[csi->framesize][1];
 
         // Offset the pixels buffer for the debayer code.
         if (csi->pixformat == PIXFORMAT_RGB565) {
@@ -424,7 +377,7 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
 
         rectangle_t srect = { fb->x, fb->y, fb->u, fb->v };
         rectangle_t drect = { 0, 0, fb->u, fb->v };
-        if (omv_gpu_draw_image(&src_cimage, &srect, &dst_cimage, &drect, 255, NULL, NULL, 0) != 0) {
+        if (omv_gpu_draw_image(&src_cimage, &srect, &dst_cimage, &drect, 255, NULL, NULL, 0, NULL) != 0) {
             return OMV_CSI_ERROR_IO_ERROR;
         }
     }
@@ -441,75 +394,40 @@ int omv_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
         // Set the target pixel format before debayer.
         dst_image->pixfmt = fb->pixfmt;
 
-        // Update AWB stats every n frames.
-        if ((frames++ % 100) == 0) {
-            omv_csi_ioctl(OMV_CSI_IOCTL_GET_RGB_STATS, &r_stat, &gb_stat, &gr_stat, &b_stat);
+        uint32_t r, g, b;
+        if (csi->stats_enabled) {
+            uint32_t gb, gr;
+            int ret = omv_csi_ioctl(csi, OMV_CSI_IOCTL_GET_RGB_STATS, &r, &gb, &gr, &b);
+            if (ret != 0) {
+                return ret;
+            }
+
+            g = (gb + gr) / 2;
+            omv_csi_stats_update(csi, &r, &g, &b, mp_hal_ticks_ms());
         }
 
+        omv_csi_get_stats(csi, &r, &g, &b);
+
         // Debayer frame.
-        imlib_debayer_image_awb(dst_image, &src_image, false, r_stat, (gb_stat + gr_stat) / 2, b_stat);
+        imlib_debayer_image_awb(dst_image, &src_image, false, r, g, b);
     }
     return 0;
 }
 
-void CAM_IRQHandler(void) {
-    uint32_t mask = 0;
-    CPI_Type *cpi = cpi_get_base_addr(&csi);
-    uint32_t status = cpi_get_interrupt_status(cpi);
+int omv_csi_ops_init(omv_csi_t *csi) {
+    // Set CPI base (LP/CPI).
+    csi->base = OMV_CSI_BASE;
 
-    if (status & CAM_INTR_VSYNC) {
-        mask |= CAM_INTR_VSYNC;
-    }
+    // Set CSI ops.
+    csi->abort = alif_csi_abort;
+    csi->config = alif_csi_config;
+    csi->snapshot = alif_csi_snapshot;
+    csi->isp_reset = alif_csi_isp_reset;
 
-    if (status & CAM_INTR_HSYNC) {
-        mask |= CAM_INTR_HSYNC;
-    }
-
-    if (status & CAM_INTR_INFIFO_OVERRUN) {
-        mask |= CAM_INTR_INFIFO_OVERRUN;
-        omv_csi_abort(&csi, true, true);
-        printf("INFIFO_OVERRUN\n");
-    }
-
-    if (status & CAM_INTR_OUTFIFO_OVERRUN) {
-        mask |= CAM_INTR_OUTFIFO_OVERRUN;
-        omv_csi_abort(&csi, true, true);
-        printf("OUTFIFO_OVERRUN\n");
-    }
-
-    if (status & CAM_INTR_BRESP_ERR) {
-        mask |= CAM_INTR_BRESP_ERR;
-        omv_csi_abort(&csi, true, true);
-        printf("BRESP_ERR %lu\n", cpi->CAM_AXI_ERR_STAT);
-    }
-
-    if (status & CAM_INTR_STOP) {
-        mask |= CAM_INTR_STOP;
-        cpi->CAM_CTRL = 0;
-        if (!(status & CPI_ERROR_FLAGS)) {
-            // Release the current framebuffer.
-            framebuffer_get_tail(csi.fb, FB_NO_FLAGS);
-        }
-
-        // Get the current framebuffer (or new tail).
-        vbuffer_t *buffer = framebuffer_get_tail(csi.fb, FB_PEEK);
-
-        if (buffer != NULL) {
-            cpi->CAM_CTRL = 0;
-            cpi->CAM_CTRL |= CAM_CTRL_SW_RESET;
-            cpi->CAM_FRAME_ADDR = LocalToGlobal(buffer->data + omv_csi_get_fb_offset(&csi));
-            cpi_irq_handler_clear_intr_status(cpi, mask);
-            cpi->CAM_CTRL = (CAM_CTRL_SNAPSHOT | CAM_CTRL_START | CAM_CTRL_FIFO_CLK_SEL);
-        }
-
-        if (!(status & CPI_ERROR_FLAGS)) {
-            if (csi.frame_callback) {
-                csi.frame_callback();
-            }
-        }
-    }
-
-    // Clear interrupts.
-    cpi_irq_handler_clear_intr_status(cpi, mask);
+    // Set CSI clock ops.
+    csi->clk->freq = OMV_CSI_CLK_FREQUENCY;
+    csi->clk->set_freq = alif_clk_set_frequency;
+    csi->clk->get_freq = alif_clk_get_frequency;
+    return 0;
 }
 #endif // MICROPY_PY_CSI

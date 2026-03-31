@@ -86,9 +86,11 @@ function ci_package_tests_run {
         python-stdlib/datetime \
         python-stdlib/fnmatch \
         python-stdlib/hashlib \
+        python-stdlib/inspect \
         python-stdlib/pathlib \
         python-stdlib/quopri \
         python-stdlib/shutil \
+        python-stdlib/tarfile \
         python-stdlib/tempfile \
         python-stdlib/time \
         python-stdlib/unittest/tests \

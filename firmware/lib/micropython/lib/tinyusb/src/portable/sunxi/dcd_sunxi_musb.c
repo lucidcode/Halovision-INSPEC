@@ -99,22 +99,12 @@ static void usb_phy_write(int addr, int data, int len)
 	}
 }
 
-static void delay_ms(uint32_t ms)
-{
-#if CFG_TUSB_OS == OPT_OS_NONE
-  int now = board_millis();
-  while (board_millis() - now <= ms) asm("nop");
-#else
-  osal_task_delay(ms);
-#endif
-}
-
 static void USBC_HardwareReset(void)
 {
   // Reset phy and controller
   USBC_REG_set_bit_l(USBPHY_CLK_RST_BIT, USBPHY_CLK_REG);
 	USBC_REG_set_bit_l(BUS_RST_USB_BIT, BUS_CLK_RST_REG);
-  delay_ms(2);
+  tusb_time_delay_ms_api(2);
 
 	USBC_REG_set_bit_l(USBPHY_CLK_GAT_BIT, USBPHY_CLK_REG);
   USBC_REG_set_bit_l(USBPHY_CLK_RST_BIT, USBPHY_CLK_REG);
@@ -867,8 +857,9 @@ static void usb_isr_handler(void) {
 	dcd_int_handler(0);
 }
 
-void dcd_init(uint8_t rhport)
-{
+bool dcd_init(uint8_t rhport, const tusb_rhport_init_t* rh_init) {
+  (void) rh_init;
+
   dcd_disconnect(rhport);
   USBC_HardwareReset();
   USBC_PhyConfig();
@@ -895,6 +886,8 @@ void dcd_init(uint8_t rhport)
   f1c100s_intc_set_isr(F1C100S_IRQ_USBOTG, usb_isr_handler);
 
   dcd_connect(rhport);
+
+  return true;
 }
 
 // Connect by enabling internal pull-up resistor on D+/D-

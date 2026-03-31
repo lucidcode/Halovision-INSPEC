@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-
 import io
 import struct
 
@@ -35,7 +34,7 @@ class CBORDecodeError(Exception):
 break_marker = object()
 
 
-class CBORSimpleValue(object):
+class CBORSimpleValue(object):  # noqa: PLW1641
     """
     Represents a CBOR "simple value".
     :param int value: the value (0-255)

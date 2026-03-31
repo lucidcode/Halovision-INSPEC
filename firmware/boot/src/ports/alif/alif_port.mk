@@ -28,7 +28,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Include OpenMV board config first to set the port.
-include $(OMV_BOARD_CONFIG_DIR)/omv_boardconfig.mk
+include $(OMV_BOARD_CONFIG_DIR)/board_config.mk
 
 LDSCRIPT  ?= alif
 BUILD := $(BUILD)/bootloader
@@ -95,6 +95,15 @@ LDFLAGS = -mthumb \
           -Wl,--no-warn-rwx-segment \
           -Wl,-Map=$(BUILD)/$(FIRMWARE).map \
           -Wl,-T$(BUILD)/$(LDSCRIPT).lds
+
+CPP_CFLAGS = -P \
+             -E \
+             -DBOOTLOADER \
+             -DLINKER_SCRIPT \
+             -DCORE_$(MCU_CORE) \
+             -I$(OMV_BOARD_CONFIG_DIR) \
+             -I$(TOP_DIR)/$(COMMON_DIR) \
+             -I$(TOP_DIR)/$(BOOT_DIR)/include
 
 SRC_C += $(addprefix src/common/, \
 	dfu.c \
@@ -179,8 +188,7 @@ $(BUILD)/%.o : %.s
 FIRMWARE_OBJS: | $(OBJS_DIR) $(OBJS)
 
 $(FIRMWARE): FIRMWARE_OBJS
-	$(CPP) -P -E -DBOOTLOADER -DLINKER_SCRIPT -DCORE_$(MCU_CORE) -I$(TOP_DIR)/$(COMMON_DIR) \
-                    -I$(OMV_BOARD_CONFIG_DIR) $(PORT_DIR)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
+	$(CPP) -P -E $(CPP_CFLAGS) $(PORT_DIR)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
 	$(CC) $(LDFLAGS) $(OBJS) -o $(FW_DIR)/$(FIRMWARE).elf
 	$(OBJCOPY) -Obinary $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).bin
 	BIN_SIZE=$$(stat -c%s "$(FW_DIR)/$(FIRMWARE).bin"); \

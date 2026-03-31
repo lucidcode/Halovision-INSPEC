@@ -26,20 +26,35 @@
 #ifndef __OMV_COMMON_H__
 #define __OMV_COMMON_H__
 
-#define OMV_ATTR_ALIGNED(x, a)    x __attribute__((aligned(a)))
-#define OMV_ATTR_SECTION(x, s)    x __attribute__((section(s)))
-#define OMV_ATTR_ALWAYS_INLINE    inline __attribute__((always_inline))
-#define OMV_ATTR_OPTIMIZE(o)      __attribute__((optimize(o)))
-#define OMV_BREAK()               __asm__ volatile ("BKPT")
+#define OMV_ATTR_ALIGNED(x, a)      x __attribute__((aligned(a)))
+#define OMV_ATTR_SECTION(x, s)      x __attribute__((section(s)))
+#define OMV_ATTR_ALWAYS_INLINE      inline __attribute__((always_inline))
+#define OMV_ATTR_OPTIMIZE(o)        __attribute__((optimize(o)))
+#define OMV_ATTR_SEC_ALIGN(x, s, a) x __attribute__((section(s), aligned(a)))
+#define OMV_ATTR_NO_INSTRUMENT      __attribute__((no_instrument_function))
+#define OMV_DEBUG_BREAKPOINT()      __asm__ volatile ("BKPT")
 
-// Use 32-byte alignment on MCUs with no cache for DMA buffer alignment.
 #ifndef __DCACHE_PRESENT
-#define OMV_ALLOC_ALIGNMENT       (32)
+#define OMV_CACHE_LINE_SIZE         (32)
 #else
-#define OMV_ALLOC_ALIGNMENT       (__SCB_DCACHE_LINE_SIZE)
+#define OMV_CACHE_LINE_SIZE         (__SCB_DCACHE_LINE_SIZE)
 #endif
 
-#define OMV_ATTR_ALIGNED_DMA(x)   OMV_ATTR_ALIGNED(x, OMV_ALLOC_ALIGNMENT)
+#ifndef OMV_DMA_ALIGNMENT
+#define OMV_DMA_ALIGNMENT           (OMV_CACHE_LINE_SIZE)
+#endif
+
+#define OMV_ALIGN_TO(x, alignment) \
+    ((((uintptr_t) (x)) + (alignment) - 1) & ~((uintptr_t) ((alignment) - 1)))
+
+#define OMV_ALIGN_DOWN(x, alignment) \
+    ((uintptr_t) (x) & ~((uintptr_t) (alignment) - 1))
+
+#define check_timeout_ms(start_ms, timeout) \
+    ((mp_hal_ticks_ms() - start_ms) > timeout)
+
+#define check_timeout_us(start_us, timeout) \
+    ((mp_hal_ticks_us() - start_us) > timeout)
 
 #ifdef OMV_DEBUG_PRINTF
 #define debug_printf(fmt, ...) \
@@ -62,16 +77,16 @@
 
 #define OMV_ARRAY_SIZE(a)         (sizeof(a) / sizeof(a[0]))
 
-#if OMV_PROFILE_ENABLE
-#include <stdio.h>
-#include "py/mphal.h"
-#define OMV_CONCATENATE_DETAIL(x, y) x##y
-#define OMV_CONCATENATE(x, y)   OMV_CONCATENATE_DETAIL(x, y)
-#define OMV_PROFILE_START(F)    mp_uint_t OMV_CONCATENATE(_ticks_start_, F) = mp_hal_ticks_us()
-#define OMV_PROFILE_PRINT(F)    printf("%s:%s %u us\n", __FUNCTION__, #F, mp_hal_ticks_us() - OMV_CONCATENATE(_ticks_start_, F))
-#else
-#define OMV_PROFILE_START(F)
-#define OMV_PROFILE_PRINT(F)
-#endif
+// Token concatenation macros
+// OMV_CONCAT expands its arguments before pasting, while
+// OMV_CONCAT_HELPER performs the raw token pasting (x##y).
+#define OMV_CONCAT_HELPER(x, y) x##y
+#define OMV_CONCAT_STR(x, y)    OMV_CONCAT_HELPER(x, y)
 
+// Returns a pointer to the containing structure
+// ptr: Pointer to the member within the structure
+// type: Type of the containing structure
+// member: Name of the member within the structure
+#define OMV_CONTAINER_OF(ptr, type, member) \
+    ((type *) ((char *) (ptr) - offsetof(type, member)))
 #endif //__OMV_COMMON_H__

@@ -24,10 +24,13 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: Teensy 4.1
+   url: https://www.pjrc.com/store/teensy41.html
+*/
 
 #ifndef BOARD_H_
 #define BOARD_H_
-
 
 // required since iMXRT MCUX-SDK include this file for board size
 #define BOARD_FLASH_SIZE (8 * 1024 * 1024)
@@ -45,5 +48,8 @@
 // UART D0, D1: IOMUXC_GPIO_AD_B0_03_LPUART6_RX, IOMUXC_GPIO_AD_B0_02_LPUART6_TX
 #define UART_PORT             LPUART6
 #define UART_CLK_ROOT         BOARD_BOOTCLOCKRUN_UART_CLK_ROOT
+
+static inline void BOARD_ConfigMPU(void) {
+}
 
 #endif /* BOARD_H_ */

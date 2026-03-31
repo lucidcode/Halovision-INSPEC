@@ -31,7 +31,6 @@
 #include "py/obj.h"
 #include "py/runtime.h"
 
-#include "xalloc.h"
 #include "imlib.h"
 #include "file_utils.h"
 
@@ -39,11 +38,10 @@ static void read_int_reset(ppm_read_settings_t *rs) {
     rs->read_int_c_valid = false;
 }
 
-static void read_int(FIL *fp, uint32_t *i, ppm_read_settings_t *rs) {
+static void read_int(file_t *fp, uint32_t *i, ppm_read_settings_t *rs) {
     enum {
         EAT_WHITESPACE, EAT_COMMENT, EAT_NUMBER
-    }
-    mode = EAT_WHITESPACE;
+    } mode = EAT_WHITESPACE;
     for (*i = 0;;) {
         if (!rs->read_int_c_valid) {
             if (file_tell(fp) == file_size(fp)) {
@@ -75,7 +73,7 @@ static void read_int(FIL *fp, uint32_t *i, ppm_read_settings_t *rs) {
 }
 
 // This function inits the geometry values of an image.
-void ppm_read_geometry(FIL *fp, image_t *img, const char *path, ppm_read_settings_t *rs) {
+void ppm_read_geometry(file_t *fp, image_t *img, const char *path, ppm_read_settings_t *rs) {
     read_int_reset(rs);
     file_read_check(fp, "P", 1);
     file_read(fp, &rs->ppm_fmt, 1);
@@ -101,7 +99,7 @@ void ppm_read_geometry(FIL *fp, image_t *img, const char *path, ppm_read_setting
 }
 
 // This function reads the pixel values of an image.
-void ppm_read_pixels(FIL *fp, image_t *img, int n_lines, ppm_read_settings_t *rs) {
+void ppm_read_pixels(file_t *fp, image_t *img, int n_lines, ppm_read_settings_t *rs) {
     if (rs->ppm_fmt == '2') {
         for (int i = 0; i < n_lines; i++) {
             for (int j = 0; j < img->w; j++) {
@@ -123,27 +121,29 @@ void ppm_read_pixels(FIL *fp, image_t *img, int n_lines, ppm_read_settings_t *rs
     } else if (rs->ppm_fmt == '5') {
         file_read(fp, img->pixels, n_lines * img->w);
     } else if (rs->ppm_fmt == '6') {
+        uint8_t *row_buf = fb_alloc(img->w * 3, FB_ALLOC_PREFER_SPEED);
         for (int i = 0; i < n_lines; i++) {
+            file_read(fp, row_buf, img->w * 3);
             for (int j = 0; j < img->w; j++) {
-                uint8_t r, g, b;
-                file_read(fp, &r, 1);
-                file_read(fp, &g, 1);
-                file_read(fp, &b, 1);
+                uint8_t r = row_buf[j * 3 + 0];
+                uint8_t g = row_buf[j * 3 + 1];
+                uint8_t b = row_buf[j * 3 + 2];
                 IM_SET_RGB565_PIXEL(img, j, i, COLOR_R8_G8_B8_TO_RGB565(r, g, b));
             }
         }
+        fb_free();
     }
 }
 
 void ppm_read(image_t *img, const char *path) {
-    FIL fp;
+    file_t fp;
     ppm_read_settings_t rs;
 
-    file_open(&fp, path, true, FA_READ | FA_OPEN_EXISTING);
+    file_open(&fp, path, FA_READ | FA_OPEN_EXISTING);
     ppm_read_geometry(&fp, img, path, &rs);
 
     if (!img->pixels) {
-        image_xalloc(img, img->w * img->h * img->bpp);
+        image_alloc(img, img->w * img->h * img->bpp);
     }
     ppm_read_pixels(&fp, img, img->h, &rs);
     file_close(&fp);
@@ -155,8 +155,8 @@ void ppm_write_subimg(image_t *img, const char *path, rectangle_t *r) {
         mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("No intersection!"));
     }
 
-    FIL fp;
-    file_open(&fp, path, true, FA_WRITE | FA_CREATE_ALWAYS);
+    file_t fp;
+    file_open(&fp, path, FA_WRITE | FA_CREATE_ALWAYS);
 
     if (IM_IS_GS(img)) {
         char buffer[20]; // exactly big enough for 5-digit w/h
@@ -173,16 +173,17 @@ void ppm_write_subimg(image_t *img, const char *path, rectangle_t *r) {
         char buffer[20]; // exactly big enough for 5-digit w/h
         int len = snprintf(buffer, 20, "P6\n%d %d\n255\n", rect.w, rect.h);
         file_write(&fp, buffer, len);
+        uint8_t *row_buf = fb_alloc(rect.w * 3, FB_ALLOC_PREFER_SPEED);
         for (int i = 0; i < rect.h; i++) {
             for (int j = 0; j < rect.w; j++) {
                 int pixel = IM_GET_RGB565_PIXEL(img, (rect.x + j), (rect.y + i));
-                char buff[3];
-                buff[0] = COLOR_RGB565_TO_R8(pixel);
-                buff[1] = COLOR_RGB565_TO_G8(pixel);
-                buff[2] = COLOR_RGB565_TO_B8(pixel);
-                file_write(&fp, buff, 3);
+                row_buf[j * 3 + 0] = COLOR_RGB565_TO_R8(pixel);
+                row_buf[j * 3 + 1] = COLOR_RGB565_TO_G8(pixel);
+                row_buf[j * 3 + 2] = COLOR_RGB565_TO_B8(pixel);
             }
+            file_write(&fp, row_buf, rect.w * 3);
         }
+        fb_free();
     }
     file_close(&fp);
 }

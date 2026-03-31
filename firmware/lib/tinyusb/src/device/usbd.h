@@ -37,8 +37,20 @@ extern "C" {
 // Application API
 //--------------------------------------------------------------------+
 
+// New API to replace tud_init() to init device stack on specific roothub port
+bool tud_rhport_init(uint8_t rhport, const tusb_rhport_init_t* rh_init);
+
 // Init device stack on roothub port
-bool tud_init (uint8_t rhport);
+#if TUSB_VERSION_NUMBER > 2000  // 0.20.0
+TU_ATTR_DEPRECATED("Please use tusb_init(rhport, rh_init) instead")
+#endif
+TU_ATTR_ALWAYS_INLINE static inline bool tud_init (uint8_t rhport) {
+  const tusb_rhport_init_t rh_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUD_OPT_HIGH_SPEED ? TUSB_SPEED_HIGH : TUSB_SPEED_FULL
+  };
+  return tud_rhport_init(rhport, &rh_init);
+}
 
 // Deinit device stack on roothub port
 bool tud_deinit(uint8_t rhport);
@@ -232,7 +244,7 @@ bool tud_vendor_control_xfer_cb(uint8_t rhport, uint8_t stage, tusb_control_requ
   /* CDC Union */\
   5, TUSB_DESC_CS_INTERFACE, CDC_FUNC_DESC_UNION, _itfnum, (uint8_t)((_itfnum) + 1),\
   /* Endpoint Notification */\
-  7, TUSB_DESC_ENDPOINT, _ep_notif, TUSB_XFER_INTERRUPT, U16_TO_U8S_LE(_ep_notif_size), 16,\
+  7, TUSB_DESC_ENDPOINT, _ep_notif, TUSB_XFER_INTERRUPT, U16_TO_U8S_LE(_ep_notif_size), 1,\
   /* CDC Data Interface */\
   9, TUSB_DESC_INTERFACE, (uint8_t)((_itfnum)+1), 0, 2, TUSB_CLASS_CDC_DATA, 0, 0, 0,\
   /* Endpoint Out */\
@@ -251,6 +263,25 @@ bool tud_vendor_control_xfer_cb(uint8_t rhport, uint8_t stage, tusb_control_requ
 #define TUD_MSC_DESCRIPTOR(_itfnum, _stridx, _epout, _epin, _epsize) \
   /* Interface */\
   9, TUSB_DESC_INTERFACE, _itfnum, 0, 2, TUSB_CLASS_MSC, MSC_SUBCLASS_SCSI, MSC_PROTOCOL_BOT, _stridx,\
+  /* Endpoint Out */\
+  7, TUSB_DESC_ENDPOINT, _epout, TUSB_XFER_BULK, U16_TO_U8S_LE(_epsize), 0,\
+  /* Endpoint In */\
+  7, TUSB_DESC_ENDPOINT, _epin, TUSB_XFER_BULK, U16_TO_U8S_LE(_epsize), 0
+
+
+//--------------------------------------------------------------------+
+// MTP Descriptor Templates
+//--------------------------------------------------------------------+
+
+// Length of template descriptor: 30 bytes
+#define TUD_MTP_DESC_LEN    (9 + 7 + 7 + 7)
+
+// Interface number, string index, EP event, EP event size, EP event polling, EP Out & EP In address, EP size
+#define TUD_MTP_DESCRIPTOR(_itfnum, _stridx, _ep_evt, _ep_evt_size, _ep_evt_polling_interval, _epout, _epin, _epsize) \
+  /* Interface */\
+  9, TUSB_DESC_INTERFACE, _itfnum, 0, 3, TUSB_CLASS_IMAGE, MTP_SUBCLASS_STILL_IMAGE, MTP_PROTOCOL_PIMA_15470, _stridx,\
+  /* Endpoint Interrupt */\
+  7, TUSB_DESC_ENDPOINT, _ep_evt, TUSB_XFER_INTERRUPT, U16_TO_U8S_LE(_ep_evt_size), _ep_evt_polling_interval,\
   /* Endpoint Out */\
   7, TUSB_DESC_ENDPOINT, _epout, TUSB_XFER_BULK, U16_TO_U8S_LE(_epsize), 0,\
   /* Endpoint In */\

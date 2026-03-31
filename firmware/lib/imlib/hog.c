@@ -29,7 +29,6 @@
 #include <string.h>
 #include "imlib.h"
 #include "fb_alloc.h"
-#include "xalloc.h"
 
 #ifdef IMLIB_ENABLE_HOG
 #define N_BINS    (9)
@@ -79,7 +78,7 @@ void imlib_find_hog(image_t *src, rectangle_t *roi, int cell_size) {
                             k += m * m;
                             // Find and quantize gradient degree
                             // TODO atan2f is swapped for visualization
-                            int t = ((int) fast_fabsf((atan2f(vx, vy) * 180.0f / M_PI))) / 20;
+                            int t = ((int) fast_fabsf((atan2f(vx, vy) * 180.0f / IMLIB_PI))) / 20;
                             t = (t == 9)? 0 : t;
 
                             // hog[((cy/cell_size) * x_cells + (cx/cell_size)) * N_BINS + t] += m;
@@ -145,7 +144,7 @@ void imlib_find_hog(image_t *src, rectangle_t *roi, int cell_size) {
         }
     }
 
-    xfree(gds);
+    m_free(gds);
     fb_free();
 }
 #endif // IMLIB_ENABLE_HOG

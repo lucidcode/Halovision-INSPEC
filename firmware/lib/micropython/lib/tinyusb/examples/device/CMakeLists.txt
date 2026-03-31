@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.20)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../../hw/bsp/family_support.cmake)
 
@@ -26,8 +26,10 @@ family_add_subdirectory(hid_generic_inout)
 family_add_subdirectory(hid_multiple_interface)
 family_add_subdirectory(midi_test)
 family_add_subdirectory(msc_dual_lun)
+family_add_subdirectory(mtp)
 family_add_subdirectory(net_lwip_webserver)
 family_add_subdirectory(uac2_headset)
+family_add_subdirectory(uac2_speaker_fb)
 family_add_subdirectory(usbtmc)
 family_add_subdirectory(video_capture)
 family_add_subdirectory(video_capture_2ch)

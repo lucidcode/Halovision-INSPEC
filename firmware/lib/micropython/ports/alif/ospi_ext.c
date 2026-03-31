@@ -208,12 +208,12 @@ void ospi_setup_write_ext(ospi_flash_cfg_t *ospi_cfg, bool rxds, uint32_t inst_l
 
 static inline uint32_t ospi_xip_ctrlr0(uint32_t data_len) {
     return CTRLR0_IS_MST
-        | (OCTAL << CTRLR0_SPI_FRF_OFFSET)
-        | (0 << CTRLR0_SCPOL_OFFSET)
-        | (0 << CTRLR0_SCPH_OFFSET)
-        | (0 << CTRLR0_SSTE_OFFSET)
-        | (TMOD_RO << CTRLR0_TMOD_OFFSET)
-        | (data_len << CTRLR0_DFS_OFFSET);
+           | (OCTAL << CTRLR0_SPI_FRF_OFFSET)
+           | (0 << CTRLR0_SCPOL_OFFSET)
+           | (0 << CTRLR0_SCPH_OFFSET)
+           | (0 << CTRLR0_SSTE_OFFSET)
+           | (TMOD_RO << CTRLR0_TMOD_OFFSET)
+           | (data_len << CTRLR0_DFS_OFFSET);
 }
 
 void ospi_xip_enter_ext(ospi_flash_cfg_t *ospi_cfg, uint32_t inst_len, uint32_t data_len, uint16_t incr_command, uint16_t wrap_command, uint16_t read_dummy_cycles) {

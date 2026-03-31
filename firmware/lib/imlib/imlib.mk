@@ -69,6 +69,7 @@ IMLIB_SRC_C += \
     qsort.c \
     rainbow_tab.c \
     rectangle.c \
+    rotation_corr.c \
     selective_search.c \
     sincos_tab.c \
     stats.c \
@@ -78,11 +79,17 @@ IMLIB_SRC_C += \
     yuv.c \
     zbar.c \
 
-CFLAGS += -I$(TOP_DIR)/lib/imlib
-$(BUILD)/lib/imlib/fmath.o: override CFLAGS += -fno-strict-aliasing
+CFLAGS += -I$(TOP_DIR)/lib/imlib -DAPRILTAG_HAVE_CONFIG
 
 ifeq ($(CLANG_ENABLE),1)
 OMV_CLANG_OBJ = $(BUILD)/lib/imlib/bayer.o
+endif
+
+# Enable instrumentation.
+ifeq ($(PROFILE_ENABLE), 1)
+$(BUILD)/lib/imlib/%.o: override CFLAGS += -finstrument-functions
+# Clang does not support -finstrument-functions-exclude-file-list.
+$(OMV_CLANG_OBJ): override CFLAGS := $(filter-out -finstrument-functions-exclude-file-list=%,$(CFLAGS))
 endif
 
 OMV_FIRM_OBJ += $(addprefix $(BUILD)/lib/imlib/, $(IMLIB_SRC_C:.c=.o))

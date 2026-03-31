@@ -23,7 +23,7 @@
  *
  * PAG7920 driver.
  */
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #if (OMV_PAG7920_ENABLE == 1)
 
 #include <stdint.h>
@@ -34,9 +34,8 @@
 #include "omv_csi.h"
 #include "framebuffer.h"
 #include "omv_i2c.h"
-
 #include "pag7920.h"
-#include "pag7920_reg.h"
+#include "sensor_config.h"
 
 #define SENSOR_I2C_DEBUG (0)
 
@@ -211,7 +210,7 @@ static bool g_f_vflip = false;
 static int switch_bank(omv_csi_t *csi, uint8_t bank) {
     if (g_bank_cache != bank) {
         debug_printf("W Reg: 0x%02X 0x%02X\r\n", REG_BANK, bank);
-        int res = omv_i2c_writeb(&csi->i2c_bus, csi->slv_addr, REG_BANK, bank);
+        int res = omv_i2c_write_reg(csi->i2c, csi->slv_addr, REG_BANK, 1, bank, 1);
         if (res) {
             g_bank_cache = -1;  // Encountered an unknown error, clear cache.
             printf("switch bank failed, res = %d\n", res);
@@ -234,7 +233,7 @@ static int write_reg_w_bank(omv_csi_t *csi, uint8_t bank, uint8_t addr,
     }
 
     debug_printf("W Reg: 0x%02X 0x%02X\r\n", addr, val);
-    return omv_i2c_writeb(&csi->i2c_bus, csi->slv_addr, addr, val);
+    return omv_i2c_write_reg(csi->i2c, csi->slv_addr, addr, 1, val, 1);
 }
 
 static int read_reg_w_bank(omv_csi_t *csi, uint8_t bank, uint8_t addr,
@@ -245,7 +244,7 @@ static int read_reg_w_bank(omv_csi_t *csi, uint8_t bank, uint8_t addr,
     }
 
     debug_printf("R Reg: 0x%02X\r\n", addr);
-    return omv_i2c_readb(&csi->i2c_bus, csi->slv_addr, addr, p_val);
+    return omv_i2c_read_reg(csi->i2c, csi->slv_addr, addr, 1, p_val, 1);
 }
 
 static int init_csi(omv_csi_t *csi) {
@@ -254,8 +253,8 @@ static int init_csi(omv_csi_t *csi) {
 #define ta_seq default_regs
     for (int i = 0; ta_seq[i][0]; i++) {
         debug_printf("W Reg: 0x%02X 0x%02X\r\n", ta_seq[i][0], ta_seq[i][1]);
-        int res = omv_i2c_writeb(&csi->i2c_bus, csi->slv_addr, ta_seq[i][0],
-                                 ta_seq[i][1]);
+        int res = omv_i2c_write_reg(csi->i2c, csi->slv_addr, ta_seq[i][0],
+                                    1, ta_seq[i][1], 1);
         if (res) {
             return res;
         }
@@ -268,7 +267,10 @@ static int reset(omv_csi_t *csi) {
     // Reset internal flag.
     g_f_hflip = g_f_vflip = false;
     g_bank_cache = -1;
-    return init_csi(csi);
+    if (init_csi(csi) != 0) {
+        return OMV_CSI_ERROR_CSI_INIT_FAILED;
+    }
+    return 0;
 }
 
 static int sleep(omv_csi_t *csi, int enable) {
@@ -282,7 +284,7 @@ static int sleep(omv_csi_t *csi, int enable) {
 
 static int read_reg(omv_csi_t *csi, uint16_t reg_addr) {
     uint8_t val = 0;
-    if (omv_i2c_readb(&csi->i2c_bus, csi->slv_addr, (uint8_t) reg_addr, &val)) {
+    if (omv_i2c_read_reg(csi->i2c, csi->slv_addr, reg_addr, 1, &val, 1)) {
         return -1;
     }
     return val;
@@ -290,8 +292,7 @@ static int read_reg(omv_csi_t *csi, uint16_t reg_addr) {
 
 static int write_reg(omv_csi_t *csi, uint16_t reg_addr, uint16_t reg_data) {
     int ret;
-    ret = omv_i2c_writeb(&csi->i2c_bus, csi->slv_addr, (uint8_t) reg_addr,
-                         (uint8_t) reg_data);
+    ret = omv_i2c_write_reg(csi->i2c, csi->slv_addr, reg_addr, 1, reg_data, 1);
     if (ret == 0 && reg_addr == REG_BANK) {
         g_bank_cache = (uint8_t) reg_data;
     }
@@ -661,7 +662,9 @@ int pag7920_init(omv_csi_t *csi) {
     csi->frame_sync = 1;
     csi->mono_bpp = 1;
 
-    init_csi(csi);
+    if (init_csi(csi) != 0) {
+        return OMV_CSI_ERROR_CSI_INIT_FAILED;
+    }
 
     return 0;
 }

@@ -24,6 +24,10 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   manufacturer: NXP
+*/
+
 #include "bsp/board_api.h"
 #include "board/clock_config.h"
 #include "board/pin_mux.h"
@@ -31,35 +35,34 @@
 
 // Suppress warning caused by mcu driver
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
+#include "fsl_clock.h"
 #include "fsl_device_registers.h"
 #include "fsl_gpio.h"
 #include "fsl_iomuxc.h"
-#include "fsl_clock.h"
 #include "fsl_lpuart.h"
 #include "fsl_ocotp.h"
 
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+  #pragma GCC diagnostic pop
 #endif
 
-#if defined(BOARD_TUD_RHPORT) && CFG_TUD_ENABLED
-  #define PORT_SUPPORT_DEVICE(_n)  (BOARD_TUD_RHPORT == _n)
-#else
-  #define PORT_SUPPORT_DEVICE(_n)  0
-#endif
+/* --- Note about USB buffer RAM ---
+  For M7 core it's recommended to put USB buffer in DTCM for better performance (flexspi_nor linker default)
+  Otherwise you have to put the buffer in a non-cacheable section by configurate MPU manually or using BOARD_ConfigMPU():
+  - Define CFG_TUSB_MEM_SECTION=__attribute__((section("NonCacheable")))
+  - (IAR only) Change __NCACHE_REGION_SIZE in linker script to cover the size of non-cacheable section, multiple of 2^N
 
-#if defined(BOARD_TUH_RHPORT) && CFG_TUH_ENABLED
-  #define PORT_SUPPORT_HOST(_n)    (BOARD_TUH_RHPORT == _n)
-#else
-  #define PORT_SUPPORT_HOST(_n)    0
-#endif
+  For secondary M4 core, the USB controller doesn't support transfer from DTCM so OCRAM must be used:
+  - __NCACHE_REGION_SIZE is defined by the linker script by default
+  - Define CFG_TUSB_MEM_SECTION=__attribute__((section("NonCacheable")))
+*/
 
 // needed by fsl_flexspi_nor_boot
-TU_ATTR_USED const uint8_t dcd_data[] = { 0x00 };
+TU_ATTR_USED const uint8_t dcd_data[] = {0x00};
 
 //--------------------------------------------------------------------+
 //
@@ -71,20 +74,20 @@ TU_ATTR_USED const uint8_t dcd_data[] = { 0x00 };
 #endif
 
 static void init_usb_phy(uint8_t usb_id) {
-  USBPHY_Type* usb_phy;
+  USBPHY_Type *usb_phy;
 
   if (usb_id == 0) {
     usb_phy = USBPHY1;
     CLOCK_EnableUsbhs0PhyPllClock(kCLOCK_Usbphy480M, BOARD_XTAL0_CLK_HZ);
     CLOCK_EnableUsbhs0Clock(kCLOCK_Usb480M, BOARD_XTAL0_CLK_HZ);
   }
-  #ifdef USBPHY2
+#ifdef USBPHY2
   else if (usb_id == 1) {
     usb_phy = USBPHY2;
     CLOCK_EnableUsbhs1PhyPllClock(kCLOCK_Usbphy480M, BOARD_XTAL0_CLK_HZ);
     CLOCK_EnableUsbhs1Clock(kCLOCK_Usb480M, BOARD_XTAL0_CLK_HZ);
   }
-  #endif
+#endif
   else {
     return;
   }
@@ -103,16 +106,12 @@ static void init_usb_phy(uint8_t usb_id) {
   usb_phy->TX = phytx;
 }
 
-void board_init(void)
-{
-  // make sure the dcache is on.
-#if defined(__DCACHE_PRESENT) && __DCACHE_PRESENT
-  if (SCB_CCR_DC_Msk != (SCB_CCR_DC_Msk & SCB->CCR)) SCB_EnableDCache();
-#endif
-
-  BOARD_InitPins();
+void board_init(void) {
+  BOARD_InitBootPins();
   BOARD_BootClockRUN();
   SystemCoreClockUpdate();
+
+  BOARD_ConfigMPU(); // defined in board.h
 
 #ifdef TRACE_ETM
   //CLOCK_EnableClock(kCLOCK_Trace);
@@ -125,9 +124,9 @@ void board_init(void)
 #elif CFG_TUSB_OS == OPT_OS_FREERTOS
   // If freeRTOS is used, IRQ priority is limit by max syscall ( smaller is higher )
   NVIC_SetPriority(USB_OTG1_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
-#ifdef USBPHY2
+  #ifdef USBPHY2
   NVIC_SetPriority(USB_OTG2_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
-#endif
+  #endif
 #endif
 
   board_led_write(true);
@@ -139,16 +138,16 @@ void board_init(void)
   uart_config.enableTx = true;
   uart_config.enableRx = true;
 
-  if ( kStatus_Success != LPUART_Init(UART_PORT, &uart_config, UART_CLK_ROOT) ) {
+  if (kStatus_Success != LPUART_Init(UART_PORT, &uart_config, UART_CLK_ROOT)) {
     // failed to init uart, probably baudrate is not supported
     // TU_BREAKPOINT();
   }
 
   //------------- USB -------------//
   // Note: RT105x RT106x and later have dual USB controllers.
-  init_usb_phy(0); // USB0
+  init_usb_phy(0);// USB0
 #ifdef USBPHY2
-  init_usb_phy(1); // USB1
+  init_usb_phy(1);// USB1
 #endif
 }
 
@@ -156,23 +155,11 @@ void board_init(void)
 // USB Interrupt Handler
 //--------------------------------------------------------------------+
 void USB_OTG1_IRQHandler(void) {
-  #if PORT_SUPPORT_DEVICE(0)
-  tud_int_handler(0);
-  #endif
-
-  #if PORT_SUPPORT_HOST(0)
-  tuh_int_handler(0, true);
-  #endif
+  tusb_int_handler(0, true);
 }
 
 void USB_OTG2_IRQHandler(void) {
-  #if PORT_SUPPORT_DEVICE(1)
-  tud_int_handler(1);
-  #endif
-
-  #if PORT_SUPPORT_HOST(1)
-  tuh_int_handler(1, true);
-  #endif
+  tusb_int_handler(1, true);
 }
 
 //--------------------------------------------------------------------+
@@ -190,18 +177,18 @@ uint32_t board_button_read(void) {
 size_t board_get_unique_id(uint8_t id[], size_t max_len) {
   (void) max_len;
 
-  #if FSL_FEATURE_OCOTP_HAS_TIMING_CTRL
+#if FSL_FEATURE_OCOTP_HAS_TIMING_CTRL
   OCOTP_Init(OCOTP, CLOCK_GetFreq(kCLOCK_IpgClk));
-  #else
+#else
   OCOTP_Init(OCOTP, 0u);
-  #endif
+#endif
 
   // Reads shadow registers 0x01 - 0x04 (Configuration and Manufacturing Info)
   // into 8 bit wide destination, avoiding punning.
   for (int i = 0; i < 4; ++i) {
     uint32_t wr = OCOTP_ReadFuseShadowRegister(OCOTP, i + 1);
     for (int j = 0; j < 4; j++) {
-      id[i*4+j] = wr & 0xff;
+      id[i * 4 + j] = wr & 0xff;
       wr >>= 8;
     }
   }
@@ -210,7 +197,7 @@ size_t board_get_unique_id(uint8_t id[], size_t max_len) {
   return 16;
 }
 
-int board_uart_read(uint8_t* buf, int len) {
+int board_uart_read(uint8_t *buf, int len) {
   int count = 0;
 
   while (count < len) {
@@ -233,8 +220,8 @@ int board_uart_read(uint8_t* buf, int len) {
   return count;
 }
 
-int board_uart_write(void const * buf, int len) {
-  LPUART_WriteBlocking(UART_PORT, (uint8_t const*)buf, len);
+int board_uart_write(void const *buf, int len) {
+  LPUART_WriteBlocking(UART_PORT, (uint8_t const *) buf, len);
   return len;
 }
 
@@ -261,9 +248,8 @@ TU_ATTR_UNUSED void _start(void) {
 }
 
 #ifdef __clang__
-void	_exit (int __status) {
+void _exit(int __status) {
   while (1) {}
 }
 #endif
-
 #endif

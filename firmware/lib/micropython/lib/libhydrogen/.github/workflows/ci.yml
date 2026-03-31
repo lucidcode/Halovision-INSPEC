@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  zig:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update packages list
+        run: sudo apt-get update
+
+      - name: Install Zig
+        uses: mlugg/setup-zig@v1
+        with:
+          version: master
+
+      - name: Build
+        run: |
+          zig build
+          zig build -Dtarget=x86_64-linux
+          zig build -Dtarget=aarch64-linux
+          zig build -Dtarget=x86_64-windows
+          zig build -Dtarget=aarch64-windows
+          zig build -Dtarget=x86_64-macos
+          zig build -Dtarget=aarch64-macos
+          zig build -Dtarget=wasm32-wasi
+          zig build -Drelease
+          rm -fr zig-cache zig-out        
+
+  make:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update packages list
+        run: sudo apt-get update
+
+      - name: Install Make
+        run: sudo apt-get install make
+
+      - name: Build
+        run: make
+
+      - name: Test
+        run: make test
+        

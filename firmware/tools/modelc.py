@@ -66,29 +66,26 @@ def vela_compile(model_path, build_dir, vela_args):
     os.rename(f"{build_dir}/{model}_vela.tflite", f"{build_dir}/{model}.tflite")
 
 def stedge_compile(model_path, build_dir, profile, stedge_args=None):
-    core_dir = os.path.realpath("tools/st/stedgeai/2.1")
-    config = os.path.realpath("tools/st/scripts/neuralart.json")
+    core_dir = os.environ["STEDGEAI_CORE_DIR"]
+    config = os.path.realpath("lib/stai/scripts/neuralart.json")
     model_name = os.path.basename(os.path.splitext(model_path)[0])
     model_ext = os.path.splitext(model_path)[1]
     output_dir = os.path.join(build_dir, model_name)
 
     # Remove any Make-related variables that could leak
     env = os.environ.copy()
-    env["STEDGEAI_CORE_DIR"] = core_dir
     for var in ["RM", "CFLAGS", "CPPFLAGS", "CXXFLAGS", "LDFLAGS", 'MAKEFLAGS']:
         env.pop(var, None)
 
-    print(f"{C_GREEN}Creating relocatable binary model {model_name}{C_RESET}")
-
     # Step 1: stedgeai generate
     generate_command = [
-        os.path.join(core_dir, "Utilities/linux/stedgeai"),
+        "stedgeai",
         "generate",
         *stedge_args,
         "--model", model_path,
         "--relocatable",
         "--st-neural-art", f"{profile}@{config}",
-        "--no-workspace",
+        "--workspace", os.path.join(output_dir, "workspace"),
         "--output", os.path.join(output_dir, "gen"),
         "--verbosity", "1",
     ]
@@ -122,7 +119,9 @@ def stedge_compile(model_path, build_dir, profile, stedge_args=None):
         r"([ \t]+XIP size.*?Table: mempool.*?\n)", result.stdout, re.DOTALL | re.MULTILINE
     )
     if match:
-        print(C_BLUE + match.group(1).rstrip() + C_RESET + "\n")
+        output = "\n".join(l.strip() for l in match.group(1).split("\n"))
+        print(f"{C_GREEN}Model: {model_name}{C_RESET}")
+        print(C_BLUE + output + C_RESET + "\n")
 
     os.rename(f"{output_dir}/network_rel.bin", f"{build_dir}/{model_name}{model_ext}")
 

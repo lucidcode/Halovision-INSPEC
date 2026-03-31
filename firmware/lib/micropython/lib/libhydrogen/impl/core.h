@@ -1,9 +1,7 @@
 int
 hydro_init(void)
 {
-    if (hydro_random_init() != 0) {
-        abort();
-    }
+    hydro_random_ensure_initialized();
     return 0;
 }
 
@@ -88,7 +86,7 @@ hydro_hex2bin(uint8_t *bin, size_t bin_maxlen, const char *hex, size_t hex_len, 
             }
             break;
         }
-        c_val = (uint8_t)((c_num0 & c_num) | (c_alpha0 & c_alpha));
+        c_val = (uint8_t) ((c_num0 & c_num) | (c_alpha0 & c_alpha));
         if (bin_pos >= bin_maxlen) {
             ret   = -1;
             errno = ERANGE;
@@ -160,7 +158,7 @@ hydro_compare(const uint8_t *b1_, const uint8_t *b2_, size_t len)
 int
 hydro_pad(unsigned char *buf, size_t unpadded_buflen, size_t blocksize, size_t max_buflen)
 {
-    unsigned char *        tail;
+    unsigned char         *tail;
     size_t                 i;
     size_t                 xpadlen;
     size_t                 xpadded_len;
@@ -176,7 +174,7 @@ hydro_pad(unsigned char *buf, size_t unpadded_buflen, size_t blocksize, size_t m
     } else {
         xpadlen -= unpadded_buflen % blocksize;
     }
-    if (SIZE_MAX - unpadded_buflen <= xpadlen) {
+    if ((size_t) SIZE_MAX - unpadded_buflen <= xpadlen) {
         return -1;
     }
     xpadded_len = unpadded_buflen + xpadlen;
@@ -187,7 +185,7 @@ hydro_pad(unsigned char *buf, size_t unpadded_buflen, size_t blocksize, size_t m
     mask = 0U;
     for (i = 0; i < blocksize; i++) {
         barrier_mask = (unsigned char) (((i ^ xpadlen) - 1U) >> ((sizeof(size_t) - 1U) * CHAR_BIT));
-        tail[-i]     = (tail[-i] & mask) | (0x80 & barrier_mask);
+        *(tail - i)  = ((*(tail - i)) & mask) | (0x80 & barrier_mask);
         mask |= barrier_mask;
     }
     return (int) (xpadded_len + 1);
@@ -210,10 +208,10 @@ hydro_unpad(const unsigned char *buf, size_t padded_buflen, size_t blocksize)
     tail = &buf[padded_buflen - 1U];
 
     for (i = 0U; i < blocksize; i++) {
-        c          = tail[-i];
+        c          = *(tail - i);
         is_barrier = (((acc - 1U) & (pad_len - 1U) & ((c ^ 0x80) - 1U)) >> 8) & 1U;
         acc |= c;
-        pad_len |= (i & -is_barrier);
+        pad_len |= i & (1U + ~is_barrier);
         valid |= (unsigned char) is_barrier;
     }
     if (valid == 0) {

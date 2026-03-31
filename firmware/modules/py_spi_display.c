@@ -23,7 +23,7 @@
  *
  * SPI Display Python module.
  */
-#include "omv_boardconfig.h"
+#include "board_config.h"
 
 #if MICROPY_PY_DISPLAY && defined(OMV_SPI_DISPLAY_CONTROLLER)
 
@@ -54,7 +54,7 @@ static void spi_transmit(py_display_obj_t *self, uint8_t *txdata, uint16_t size)
     omv_spi_transfer_t spi_xfer = {
         .txbuf = txdata,
         .size = size,
-        .timeout = OMV_SPI_MAX_TIMEOUT,
+        .timeout = 1000,
         .flags = OMV_SPI_XFER_BLOCKING
     };
 
@@ -67,7 +67,7 @@ static void spi_transmit_16(py_display_obj_t *self, uint8_t *txdata, uint16_t si
     omv_spi_transfer_t spi_xfer = {
         .txbuf = txdata,
         .size = (!self->byte_swap) ? size : (size * 2),
-        .timeout = OMV_SPI_MAX_TIMEOUT,
+        .timeout = 1000,
         .flags = OMV_SPI_XFER_BLOCKING,
     };
 
@@ -84,7 +84,11 @@ static void spi_switch_mode(py_display_obj_t *self, int bits, bool dma) {
     spi_config.datasize = bits;
     spi_config.bus_mode = OMV_SPI_BUS_TX;
     spi_config.nss_enable = false;
+    #if OMV_SPI_NO_DMA
+    spi_config.dma_flags = 0;
+    #else
     spi_config.dma_flags = dma ? OMV_SPI_DMA_NORMAL : 0;
+    #endif
     omv_spi_init(&self->spi_bus, &spi_config);
 }
 
@@ -99,6 +103,33 @@ static int spi_write(py_display_obj_t *self, uint8_t cmd, uint8_t *args, size_t 
 }
 
 static void spi_display_command(py_display_obj_t *self, uint8_t cmd, uint8_t arg) {
+    if (self->controller != mp_const_none) {
+        qstr attr = 0;
+        switch (cmd) {
+            case LCD_COMMAND_DISPOFF:
+                attr = MP_QSTR_display_off;
+                break;
+            case LCD_COMMAND_DISPON:
+                attr = MP_QSTR_display_on;
+                break;
+            case LCD_COMMAND_RAMWR:
+                attr = MP_QSTR_ram_write;
+                break;
+            default:
+                break;
+        }
+
+        if (attr) {
+            mp_obj_t dest[3];
+            mp_load_method_maybe(self->controller, attr, dest);
+            if (dest[0] != MP_OBJ_NULL) {
+                dest[2] = MP_OBJ_FROM_PTR(self);
+                mp_call_method_n_kw(1, 0, dest);
+                return;
+            }
+        }
+    }
+
     spi_write(self, cmd, &arg, (arg > 0) ? 1 : 0, false);
 }
 
@@ -216,7 +247,7 @@ static void spi_display_write(py_display_obj_t *self, image_t *src_img, int dst_
             // Transmits left/right parts already zeroed...
             imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start,
                              x_scale, y_scale, roi, rgb_channel, alpha, color_palette, alpha_palette,
-                             hint | IMAGE_HINT_BLACK_BACKGROUND, spi_display_draw_image_cb, self, dst_img.data);
+                             hint | IMAGE_HINT_BLACK_BACKGROUND, NULL, spi_display_draw_image_cb, self, dst_img.data);
 
             // Zero the bottom rows
             if (p1.y < self->height) {
@@ -259,7 +290,7 @@ static void spi_display_write(py_display_obj_t *self, image_t *src_img, int dst_
 
             imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start,
                              x_scale, y_scale, roi, rgb_channel, alpha, color_palette,
-                             alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND, NULL, NULL, NULL);
+                             alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND, NULL, NULL, NULL, NULL);
 
             if (self->width - p1.x) {
                 for (int i = p0.y; i < p1.y; i++) {
@@ -329,8 +360,8 @@ static void spi_display_deinit(py_display_obj_t *self) {
 
 mp_obj_t spi_display_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
     enum {
-        ARG_width, ARG_height, ARG_refresh, ARG_bgr, ARG_byte_swap, ARG_triple_buffer,
-        ARG_controller, ARG_backlight
+        ARG_width, ARG_height, ARG_refresh, ARG_bgr, ARG_byte_swap, ARG_hmirror, ARG_vflip,
+        ARG_triple_buffer, ARG_controller, ARG_backlight
     };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_width,         MP_ARG_INT,  {.u_int = 128  } },
@@ -338,6 +369,8 @@ mp_obj_t spi_display_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
         { MP_QSTR_refresh,       MP_ARG_INT,  {.u_int = 60   } },
         { MP_QSTR_bgr,           MP_ARG_BOOL, {.u_bool = false} },
         { MP_QSTR_byte_swap,     MP_ARG_BOOL, {.u_bool = false} },
+        { MP_QSTR_hmirror,       MP_ARG_BOOL, {.u_bool = true} },
+        { MP_QSTR_vflip,         MP_ARG_BOOL, {.u_bool = true} },
         { MP_QSTR_triple_buffer, MP_ARG_BOOL, {.u_bool = LCD_TRIPLE_BUFFER_DEFAULT} },
         { MP_QSTR_controller,    MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_backlight,     MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
@@ -353,7 +386,7 @@ mp_obj_t spi_display_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
     if ((args[ARG_height].u_int <= 0) || (args[ARG_height].u_int > 32767)) {
         mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid Height!"));
     }
-    if ((args[ARG_refresh].u_int < 30) || (args[ARG_refresh].u_int > 120)) {
+    if ((args[ARG_refresh].u_int < 1) || (args[ARG_refresh].u_int > 120)) {
         mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid Refresh Rate!"));
     }
 
@@ -404,7 +437,17 @@ mp_obj_t spi_display_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
         spi_display_command(self, LCD_COMMAND_SLPOUT, 0);
         mp_hal_delay_ms(120);
         // Memory data access control
-        spi_display_command(self, LCD_COMMAND_MADCTL, self->bgr ? 0xC8 : 0xC0);
+        uint8_t madctl = 0;
+        if (args[ARG_hmirror].u_bool) {
+            madctl |= 0x40;
+        }
+        if (args[ARG_vflip].u_bool) {
+            madctl |= 0x80;
+        }
+        if (self->bgr) {
+            madctl |= 0x08;
+        }
+        spi_display_command(self, LCD_COMMAND_MADCTL, madctl);
         // Interface pixel format
         spi_display_command(self, LCD_COMMAND_COLMOD, 0x05);
     }

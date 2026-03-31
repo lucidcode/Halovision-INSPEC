@@ -1,3 +1,0 @@
-/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/extmod/modopenamp.o: \
- ../../extmod/modopenamp.c
- ../../extmod/modopenamp.c :

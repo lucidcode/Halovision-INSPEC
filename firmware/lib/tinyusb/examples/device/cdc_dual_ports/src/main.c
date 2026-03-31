@@ -52,11 +52,13 @@ int main(void) {
   board_init();
 
   // init device stack on configured roothub port
-  tud_init(BOARD_TUD_RHPORT);
+  tusb_rhport_init_t dev_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUD_RHPORT, &dev_init);
 
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
+  board_init_after_tusb();
 
   while (1) {
     tud_task(); // tinyusb device task
@@ -94,27 +96,33 @@ void tud_umount_cb(void) {
   blink_interval_ms = BLINK_NOT_MOUNTED;
 }
 
-
 //--------------------------------------------------------------------+
 // USB CDC
 //--------------------------------------------------------------------+
 static void cdc_task(void) {
-  uint8_t itf;
-
-  for (itf = 0; itf < CFG_TUD_CDC; itf++) {
+  for (uint8_t itf = 0; itf < CFG_TUD_CDC; itf++) {
     // connected() check for DTR bit
     // Most but not all terminal client set this when making connection
     // if ( tud_cdc_n_connected(itf) )
     {
       if (tud_cdc_n_available(itf)) {
         uint8_t buf[64];
-
         uint32_t count = tud_cdc_n_read(itf, buf, sizeof(buf));
 
         // echo back to both serial ports
         echo_serial_port(0, buf, count);
         echo_serial_port(1, buf, count);
       }
+
+      // Press on-board button to send Uart status notification
+      static uint32_t btn_prev = 0;
+      static cdc_notify_uart_state_t uart_state = { .value = 0 };
+      const uint32_t btn = board_button_read();
+      if (!btn_prev && btn) {
+        uart_state.dsr ^= 1;
+        tud_cdc_notify_uart_state(&uart_state);
+      }
+      btn_prev = btn;
     }
   }
 }
@@ -131,9 +139,7 @@ void tud_cdc_line_state_cb(uint8_t instance, bool dtr, bool rts) {
       cdc_line_coding_t coding;
       tud_cdc_get_line_coding(&coding);
       if (coding.bit_rate == 1200) {
-        if (board_reset_to_bootloader) {
-          board_reset_to_bootloader();
-        }
+        board_reset_to_bootloader();
       }
     }
   }

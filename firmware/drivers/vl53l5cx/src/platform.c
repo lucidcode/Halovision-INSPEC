@@ -23,7 +23,7 @@
  *
  * VL53L5CX platform implementation.
  */
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #if (OMV_TOF_VL53L5CX_ENABLE == 1)
 
 #include "py/mphal.h"
@@ -63,11 +63,11 @@ void vl53l5cx_swap(uint8_t *buf, uint16_t size) {
 uint8_t vl53l5cx_read(VL53L5CX_Platform *platform, uint16_t addr, uint8_t *buf, uint32_t size) {
     addr = __REVSH(addr);
 
-    if (omv_i2c_write_bytes(platform->bus, platform->address, (uint8_t *) &addr, 2, OMV_I2C_XFER_NO_STOP) != 0) {
+    if (omv_i2c_write(platform->bus, platform->address, (uint8_t *) &addr, 2, OMV_I2C_XFER_NO_STOP) != 0) {
         return VL53L5CX_STATUS_ERROR;
     }
 
-    if (omv_i2c_read_bytes(platform->bus, platform->address, buf, size, OMV_I2C_XFER_NO_FLAGS) != 0) {
+    if (omv_i2c_read(platform->bus, platform->address, buf, size, OMV_I2C_XFER_NO_FLAGS) != 0) {
         return VL53L5CX_STATUS_ERROR;
     }
     return 0;
@@ -76,11 +76,11 @@ uint8_t vl53l5cx_read(VL53L5CX_Platform *platform, uint16_t addr, uint8_t *buf, 
 uint8_t vl53l5cx_write(VL53L5CX_Platform *platform, uint16_t addr, uint8_t *buf, uint32_t size) {
     addr = __REVSH(addr);
 
-    if (omv_i2c_write_bytes(platform->bus, platform->address, (uint8_t*) &addr, 2, OMV_I2C_XFER_SUSPEND) != 0) {
+    if (omv_i2c_write(platform->bus, platform->address, (uint8_t*) &addr, 2, OMV_I2C_XFER_SUSPEND) != 0) {
         return VL53L5CX_STATUS_ERROR;
     }
 
-    if (omv_i2c_write_bytes(platform->bus, platform->address, buf, size, OMV_I2C_XFER_NO_FLAGS) != 0) {
+    if (omv_i2c_write(platform->bus, platform->address, buf, size, OMV_I2C_XFER_NO_FLAGS) != 0) {
         return VL53L5CX_STATUS_ERROR;
     }
 

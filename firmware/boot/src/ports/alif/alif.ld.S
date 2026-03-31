@@ -33,11 +33,12 @@
 // Entry Point
 ENTRY(Reset_Handler)
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
+#include "header.h"
 
 MEMORY
 {
-    FLASH_TEXT  (rx)    : ORIGIN = OMV_FLASH_ORIGIN,    LENGTH = OMV_FLASH_LENGTH
+    FLASH_TEXT  (rx)    : ORIGIN = OMV_FLASH_BOOT_ORIGIN, LENGTH = OMV_FLASH_BOOT_LENGTH
     ITCM        (rx)    : ORIGIN = OMV_ITCM_ORIGIN,     LENGTH = OMV_ITCM_LENGTH
     DTCM        (rw)    : ORIGIN = OMV_DTCM_ORIGIN,     LENGTH = OMV_DTCM_LENGTH
     #if defined(OMV_SRAM0_ORIGIN)
@@ -71,6 +72,11 @@ SECTIONS
   .text : ALIGN(16)
   {
     KEEP(*(.vectors))
+
+    /* Boot header at fixed offset */
+    . = OMV_BOOT_HEADER_OFFSET;
+    KEEP(*(.boot_header))
+
     . = ALIGN(4);
     *(.text*)
     . = ALIGN(4);

@@ -32,13 +32,14 @@ SRC_USERMOD_CXX += $(wildcard $(OMV_PORT_MOD_DIR)/*.cpp)
 
 # Extra module flags.
 CFLAGS_USERMOD += \
+        -std=gnu11 \
         -I$(OMV_MOD_DIR) \
         -I$(OMV_PORT_MOD_DIR) \
         -Wno-float-conversion
 
 CXXFLAGS_USERMOD += \
         $(CFLAGS_USERMOD) \
-        -std=c++11 \
+        -std=gnu++11 \
         -fno-rtti \
         -fno-exceptions \
         -fno-use-cxa-atexit \
@@ -47,7 +48,7 @@ CXXFLAGS_USERMOD += \
         -fpermissive \
         -fno-threadsafe-statics \
         -fmessage-length=0 \
-        $(filter-out -std=gnu99 -std=gnu11,$(CFLAGS))
+        $(filter-out -std=gnu11,$(CFLAGS))
 
 # Add CubeAI module if enabled.
 ifeq ($(MICROPY_PY_CUBEAI), 1)
@@ -61,7 +62,18 @@ USERMOD_DIR := $(USERMOD_DIR)/ulab/code
 include $(USERMOD_DIR)/micropython.mk
 endif
 
+# Add unit test modules if enabled.
+ifeq ($(MICROPY_PY_UNITTEST), 1)
+SRC_USERMOD += $(wildcard $(OMV_MOD_DIR)/unittests/*.c)
+endif
+
 ifeq ($(DEBUG), 0)
 # Use a higher optimization level for user C modules.
 $(BUILD)/modules/%.o: override CFLAGS += $(USERMOD_OPT)
+endif
+
+ifeq ($(PROFILE_ENABLE), 1)
+$(BUILD)/modules/py_ml.o: override CFLAGS += -finstrument-functions
+$(BUILD)/modules/py_image.o: override CFLAGS += -finstrument-functions
+$(BUILD)/modules/ulab/%.o: override CFLAGS += -finstrument-functions
 endif

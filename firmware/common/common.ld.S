@@ -95,7 +95,7 @@ OMV_GC_BLOCK_NEW(4)
 } > FLASH_TEXT
 #endif
 
-/* Heap memfor libc malloc/sbrk */
+/* Heap memory for libc malloc/sbrk */
 #if defined(OMV_HEAP_MEMORY)
 .heap (NOLOAD) : ALIGN(4)
 {
@@ -105,6 +105,10 @@ OMV_GC_BLOCK_NEW(4)
   . = ALIGN(4);
   _heap_limit = .;
 } > OMV_HEAP_MEMORY
+#else
+/* No dedicated heap region; provide zero-size fallback so _sbrk links. */
+PROVIDE(__end__ = .);
+PROVIDE(_heap_limit = .);
 #endif
 
 /* Stack memory */
@@ -121,27 +125,16 @@ OMV_GC_BLOCK_NEW(4)
 PROVIDE(__stack = __StackTop);
 #endif
 
-/* JPEG framebuffer memory */
-#if defined(OMV_JPEG_MEMORY)
-.jpeg_memory (NOLOAD) :
+/* Streaming buffer memory */
+#if defined(OMV_SB_MEMORY)
+.sb_memory (NOLOAD) :
 {
   . = ALIGN(4);
-  _jpeg_memory_start = .;
-  . = . + OMV_JPEG_SIZE;
+  _sb_memory_start = .;
+  . = . + OMV_SB_SIZE;
   . = ALIGN(4);
-  _jpeg_memory_end = .;
-} >OMV_JPEG_MEMORY
-#endif
-
-/* VOSPI framebuffer memory */
-#if defined(OMV_VOSPI_MEMORY)
-.vospi_memory (NOLOAD) :
-{
-  . = ALIGN(4);
-  _vospi_buf = .;
-  . = . + OMV_VOSPI_SIZE;
-  . = ALIGN(4);
-} >OMV_VOSPI_MEMORY
+  _sb_memory_end = .;
+} >OMV_SB_MEMORY
 #endif
 
 /* GPU memory */
@@ -222,11 +215,11 @@ PROVIDE(__stack = __StackTop);
   . = . + OMV_MSC_BUF_SIZE;
   #endif
 
-  #if defined(OMV_JPEG_SIZE) && !defined(OMV_JPEG_MEMORY)
+  #if defined(OMV_SB_SIZE) && !defined(OMV_SB_MEMORY)
   . = ALIGN(16);
-  _jpeg_memory_start = .;
-  . = . + OMV_JPEG_SIZE;
-  _jpeg_memory_end = .;
+  _sb_memory_start = .;
+  . = . + OMV_SB_SIZE;
+  _sb_memory_end = .;
   #endif
 
   /* FFS (internal) filesystem buffer */

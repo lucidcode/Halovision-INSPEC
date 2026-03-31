@@ -37,7 +37,6 @@
 #if defined(IMLIB_ENABLE_FIND_KEYPOINTS)
 #include "fmath.h"
 #include "arm_math.h"
-#include "xalloc.h"
 #include "fb_alloc.h"
 #include "file_utils.h"
 
@@ -343,7 +342,7 @@ static int comp_angle(image_t *img, kp_t *kp, float *a, float *b) {
         m_01 += v * v_sum;
     }
 
-    int angle = (int) (atan2f((float) m_01, (float) m_10) * (180.0f / M_PI));
+    int angle = (int) (atan2f((float) m_01, (float) m_10) * (180.0f / IMLIB_PI));
     if (angle < 0) {
         angle += 360;
     }
@@ -372,7 +371,7 @@ static void image_scale(image_t *src, image_t *dst) {
 array_t *orb_find_keypoints(image_t *img, bool normalized, int threshold,
                             float scale_factor, int max_keypoints, corner_detector_t corner_detector, rectangle_t *roi) {
     array_t *kpts;
-    array_alloc(&kpts, xfree);
+    array_alloc(&kpts, m_free);
 
     int octave = 1;
     int kpts_index = 0;
@@ -707,122 +706,49 @@ int orb_filter_keypoints(array_t *kpts, rectangle_t *r, point_t *c) {
 }
 
 #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
-int orb_save_descriptor(FIL *fp, array_t *kpts) {
-    UINT bytes;
-    FRESULT res;
-
+int orb_save_descriptor(file_t *fp, array_t *kpts) {
     int kpts_size = array_length(kpts);
 
     // Write the number of keypoints
-    res = file_ll_write(fp, &kpts_size, sizeof(kpts_size), &bytes);
-    if (res != FR_OK || bytes != sizeof(kpts_size)) {
-        goto error;
-    }
+    file_write(fp, &kpts_size, sizeof(kpts_size));
 
     // Write keypoints
     for (int i = 0; i < kpts_size; i++) {
         kp_t *kp = array_at(kpts, i);
-
-        // Write X
-        res = file_ll_write(fp, &kp->x, sizeof(kp->x), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->x)) {
-            goto error;
-        }
-
-        // Write Y
-        res = file_ll_write(fp, &kp->y, sizeof(kp->y), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->y)) {
-            goto error;
-        }
-
-        // Write Score
-        res = file_ll_write(fp, &kp->score, sizeof(kp->score), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->score)) {
-            goto error;
-        }
-
-        // Write Octave
-        res = file_ll_write(fp, &kp->octave, sizeof(kp->octave), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->octave)) {
-            goto error;
-        }
-
-        // Write Angle
-        res = file_ll_write(fp, &kp->angle, sizeof(kp->angle), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->angle)) {
-            goto error;
-        }
-
-        // Write descriptor
-        res = file_ll_write(fp, kp->desc, KDESC_SIZE, &bytes);
-        if (res != FR_OK || bytes != KDESC_SIZE) {
-            goto error;
-        }
+        file_write(fp, &kp->x, sizeof(kp->x));
+        file_write(fp, &kp->y, sizeof(kp->y));
+        file_write(fp, &kp->score, sizeof(kp->score));
+        file_write(fp, &kp->octave, sizeof(kp->octave));
+        file_write(fp, &kp->angle, sizeof(kp->angle));
+        file_write(fp, kp->desc, KDESC_SIZE);
     }
 
-error:
-    return res;
+    return 0;  // Success
 }
 
-int orb_load_descriptor(FIL *fp, array_t *kpts) {
-    UINT bytes;
-    FRESULT res = FR_OK;
-
+int orb_load_descriptor(file_t *fp, array_t *kpts) {
     int kpts_size = 0;
 
     // Read number of keypoints
-    res = file_ll_read(fp, &kpts_size, sizeof(kpts_size), &bytes);
-    if (res != FR_OK || bytes != sizeof(kpts_size)) {
-        goto error;
-    }
+    file_read(fp, &kpts_size, sizeof(kpts_size));
 
     // Read keypoints
     for (int i = 0; i < kpts_size; i++) {
-        kp_t *kp = xalloc(sizeof(*kp));
+        kp_t *kp = m_malloc(sizeof(*kp));
         kp->matched = 0;
 
-        // Read X
-        res = file_ll_read(fp, &kp->x, sizeof(kp->x), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->x)) {
-            goto error;
-        }
-
-        // Read Y
-        res = file_ll_read(fp, &kp->y, sizeof(kp->y), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->y)) {
-            goto error;
-        }
-
-        // Read Score
-        res = file_ll_read(fp, &kp->score, sizeof(kp->score), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->score)) {
-            goto error;
-        }
-
-        // Read Octave
-        res = file_ll_read(fp, &kp->octave, sizeof(kp->octave), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->octave)) {
-            goto error;
-        }
-
-        // Read Angle
-        res = file_ll_read(fp, &kp->angle, sizeof(kp->angle), &bytes);
-        if (res != FR_OK || bytes != sizeof(kp->angle)) {
-            goto error;
-        }
-
-        // Read descriptor
-        res = file_ll_read(fp, kp->desc,  KDESC_SIZE, &bytes);
-        if (res != FR_OK || bytes != KDESC_SIZE) {
-            goto error;
-        }
+        file_read(fp, &kp->x, sizeof(kp->x));
+        file_read(fp, &kp->y, sizeof(kp->y));
+        file_read(fp, &kp->score, sizeof(kp->score));
+        file_read(fp, &kp->octave, sizeof(kp->octave));
+        file_read(fp, &kp->angle, sizeof(kp->angle));
+        file_read(fp, kp->desc, KDESC_SIZE);
 
         // Add keypoint to array
         array_push_back(kpts, kp);
     }
 
-error:
-    return res;
+    return 0;  // Success
 }
 #endif  //IMLIB_ENABLE_IMAGE_FILE_IO
 

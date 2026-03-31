@@ -23,7 +23,7 @@
  *
  * Virtual image sensor.
  */
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #if (OMV_SOFTCSI_ENABLE == 1)
 
 #include <stdio.h>
@@ -35,7 +35,10 @@
 #include "omv_i2c.h"
 #include "framebuffer.h"
 
+static uint32_t step = 0;
+
 static int reset(omv_csi_t *csi) {
+    step = 0;
     return 0;
 }
 
@@ -64,65 +67,48 @@ static int set_vflip(omv_csi_t *csi, int enable) {
 static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
     framebuffer_t *fb = csi->fb;
 
+    // This driver can't use handle NULL images.
     if (!image) {
         return 0;
     }
 
-    framebuffer_update_jpeg_buffer(fb);
-
-    if (fb->n_buffers != 1) {
-        framebuffer_set_buffers(fb, 1);
-    }
-
-    if (csi->pixformat == PIXFORMAT_INVALID) {
-        return OMV_CSI_ERROR_INVALID_PIXFORMAT;
-    }
-
-    if (csi->framesize == OMV_CSI_FRAMESIZE_INVALID) {
-        return OMV_CSI_ERROR_INVALID_FRAMESIZE;
-    }
-
-    if (omv_csi_check_framebuffer_size(csi) == -1) {
-        return OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW;
-    }
-
-    framebuffer_free_current_buffer(fb);
-    vbuffer_t *buffer = framebuffer_get_tail(fb, FB_NO_FLAGS);
+    // Acquire a new free buffer.
+    vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK);
 
     if (!buffer) {
         return OMV_CSI_ERROR_FRAMEBUFFER_ERROR;
     }
 
-    if (!csi->transpose) {
-        fb->w = fb->u;
-        fb->h = fb->v;
-    } else {
-        fb->w = fb->v;
-        fb->h = fb->u;
-    }
-
+    // Set the framebuffer pixel format.
     fb->pixfmt = csi->pixformat;
-    framebuffer_init_image(fb, image);
 
-    static uint32_t step = 0;
-    uint32_t offset = (step / 4);
+    // Set the framebuffer width/height.
+    fb->w = csi->transpose ? fb->v : fb->u;
+    fb->h = csi->transpose ? fb->u : fb->v;
+
+    // The new buffer hasn't been released yet, so the data pointer
+    // has to be set manually after calling framebuffer_to_image.
+    framebuffer_to_image(fb, image);
+    image->pixels = buffer->data;
+
+    uint32_t offset = (step++ / 4);
 
     for (size_t y = 0; y < image->h; y++) {
         for (size_t x = 0; x < image->w; x++) {
             size_t tx = x;
             size_t ty = y;
-    
+
             if (csi->hmirror) {
                 tx = image->w - 1 - tx;
             }
-    
+
             if (csi->vflip) {
                 ty = image->h - 1 - ty;
             }
-    
+
             size_t pattern_x = csi->transpose ? y : x;
             size_t pattern_y = csi->transpose ? x : y;
-    
+
             switch (csi->pixformat) {
                 case PIXFORMAT_GRAYSCALE: {
                     uint8_t value = ((((pattern_x + offset) / 16) + (pattern_y / 16)) % 2) ? 0xFF : 0x00;
@@ -142,19 +128,24 @@ static int snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
             }
         }
     }
-    
-    step++;
+
+    // Move the buffer from free queue -> used queue.
+    framebuffer_release(fb, FB_FLAG_FREE);
+    framebuffer_to_image(fb, image);
     return 0;
 }
 
 int softcsi_init(omv_csi_t *csi) {
     csi->reset = reset;
+    csi->abort = NULL;
+    csi->config = NULL;
     csi->set_pixformat = set_pixformat;
     csi->set_framesize = set_framesize;
     csi->set_hmirror = set_hmirror;
     csi->set_vflip = set_vflip;
     csi->snapshot = snapshot;
 
+    csi->auxiliary = 1;
     csi->vsync_pol = 1;
     csi->hsync_pol = 0;
     csi->pixck_pol = 0;

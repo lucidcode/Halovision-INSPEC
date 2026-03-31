@@ -1,3 +1,0 @@
-/mnt/c/Users/mcode/source/repos/lucidcode/Halovision-INSPEC/firmware/build/lib/micropython/extmod/modopenamp_remoteproc_store.o: \
- ../../extmod/modopenamp_remoteproc_store.c
- ../../extmod/modopenamp_remoteproc_store.c :

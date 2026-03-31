@@ -23,7 +23,7 @@
  *
  * Author: Lake Fu at <lake_fu@pixart.com>
  */
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #if (OMV_PAJ6100_ENABLE == 1)
 #include <stdio.h>
 #include <stdbool.h>
@@ -34,8 +34,8 @@
 #include "omv_gpio.h"
 
 #include "paj6100.h"
-#include "paj6100_reg.h"
 #include "pixspi.h"
+#include "sensor_config.h"
 
 #define CACHE_BANK
 
@@ -395,8 +395,8 @@ static int set_pixformat(omv_csi_t *csi, pixformat_t pixformat) {
 static int set_framesize(omv_csi_t *csi, omv_csi_framesize_t framesize) {
     int ret = 0;
 
-    uint16_t w = resolution[framesize][0];
-    uint16_t h = resolution[framesize][1];
+    uint16_t w = csi->resolution[framesize][0];
+    uint16_t h = csi->resolution[framesize][1];
 
     uint8_t aavg_VnH, abc_start_line, voffset, abc_sample_size;
     ret |= read_regs_w_bank(BANK_0, REG_CMD_AAVG_V /* REG_CMD_AAVG_H */, &aavg_VnH, 1);
@@ -445,6 +445,11 @@ static int set_framesize(omv_csi_t *csi, omv_csi_framesize_t framesize) {
     lt_lockrange_in_lbound = (L_TARGET - AE_LOCK_RANGE_IN) * w * h;
     lt_lockrange_out_ubound = (L_TARGET + AE_LOCK_RANGE_OUT) * w * h;
     lt_lockrange_out_lbound = (L_TARGET - AE_LOCK_RANGE_OUT) * w * h;
+
+    // PAJ6100 crashes CSI hardware unless we recongfigure it.
+    #if (OMV_PAJ6100_GLITCH_RECONFIG == 1)
+    csi->config(csi, OMV_CSI_CONFIG_INIT);
+    #endif // (OMV_PAJ6100_GLITCH_RECONFIG == 1)
 
     return 0;
 }
@@ -632,7 +637,9 @@ static int reset(omv_csi_t *csi) {
     #endif
 
     // Re-init csi every time.
-    init_sensor(csi);
+    if (init_sensor(csi) != 0) {
+        return OMV_CSI_ERROR_CSI_INIT_FAILED;
+    }
 
     // Fetch default R_Frame_Time
     uint8_t buff[3] = {};
@@ -660,20 +667,16 @@ static int reset(omv_csi_t *csi) {
     return 0;
 }
 
-static int paj6100_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
-    int res = omv_csi_snapshot(csi, image, flags);
-    if (res == 0) {
-        l_total = 0;
-        int iml = image->h * image->w;
-        for (int i = 0; i < iml; ++i) {
-            l_total += image->data[i];
-        }
-        // PAJ6100 doesn't support HW auto-exposure,
-        // we provide a software implementation.
-        auto_exposure(csi);
+static int post_process(omv_csi_t *csi, image_t *image, uint32_t flags) {
+    l_total = 0;
+    int iml = image->h * image->w;
+    for (int i = 0; i < iml; ++i) {
+        l_total += image->data[i];
     }
-
-    return res;
+    // PAJ6100 doesn't support HW auto-exposure,
+    // we provide a software implementation.
+    auto_exposure(csi);
+    return 0;
 }
 
 int paj6100_init(omv_csi_t *csi) {
@@ -700,7 +703,7 @@ int paj6100_init(omv_csi_t *csi) {
     csi->set_special_effect = set_special_effect;
     csi->set_lens_correction = set_lens_correction;
 
-    csi->snapshot = paj6100_snapshot;
+    csi->post_process = post_process;
 
     // Set csi flags
     csi->vsync_pol = 1;
@@ -709,7 +712,9 @@ int paj6100_init(omv_csi_t *csi) {
     csi->frame_sync = 0;
     csi->mono_bpp = 1;
 
-    init_sensor(csi);
+    if (init_sensor(csi) != 0) {
+        return OMV_CSI_ERROR_CSI_INIT_FAILED;
+    }
     return 0;
 }
 

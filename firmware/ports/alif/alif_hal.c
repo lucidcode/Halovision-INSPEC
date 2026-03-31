@@ -43,7 +43,7 @@
 #include "sys_ctrl_cpi.h"
 #include "sys_ctrl_pdm.h"
 #include "se_services.h"
-#include "omv_boardconfig.h"
+#include "board_config.h"
 // Define pin objects in this file.
 #define OMV_GPIO_DEFINE_PINS    (1)
 #include "omv_gpio.h"
@@ -60,8 +60,9 @@
 #define MPU_REGION_MRAM                 (3)
 #define MPU_REGION_OSPI_REGISTERS       (4)
 #define MPU_REGION_OSPI0_XIP            (5)
-#define MPU_REGION_OPENAMP              (6)
-#define MPU_REGION_FIRST_FREE           (7) // Reserve the first 8 regions.
+#define MPU_REGION_OSPI1_XIP            (6)
+#define MPU_REGION_OPENAMP              (7)
+#define MPU_REGION_FIRST_FREE           (MPU_REGION_OPENAMP + 1)
 
 uint8_t OMV_BOARD_UID_ADDR[12];
 
@@ -103,6 +104,11 @@ void alif_hal_init(void) {
     // Configure and enable USB IRQs.
     NVIC_ClearPendingIRQ(USB_IRQ_IRQn);
     NVIC_SetPriority(USB_IRQ_IRQn, IRQ_PRI_USB);
+
+    #if MICROPY_PY_CSI
+    // Enable CSI clock and configure pins.
+    alif_hal_csi_init(OMV_CSI_BASE);
+    #endif
 }
 
 int alif_hal_i2c_init(uint32_t bus_id) {
@@ -364,14 +370,15 @@ int alif_hal_pdm_deinit(uint32_t pdm_id) {
     return 0;
 }
 
-int alif_hal_csi_init(CPI_Type *cpi, uint32_t mode) {
-    if (mode == 0) {
+int alif_hal_csi_init(CPI_Type *cpi) {
+    // Enable CPI clock.
+    if (cpi == ((CPI_Type *) CPI_BASE)) {
         enable_cpi_periph_clk();
     } else {
         enable_lpcpi_periph_clk();
     }
 
-    // Configure camera sensor interface pins
+    // Configure CPI pins.
     omv_gpio_config(OMV_CSI_D0_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_HIGH, -1);
     omv_gpio_config(OMV_CSI_D1_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_HIGH, -1);
     omv_gpio_config(OMV_CSI_D2_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_HIGH, -1);
@@ -386,18 +393,6 @@ int alif_hal_csi_init(CPI_Type *cpi, uint32_t mode) {
     omv_gpio_config(OMV_CSI_PXCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_HIGH, -1);
     omv_gpio_config(OMV_CSI_MXCLK_PIN, OMV_GPIO_MODE_ALT, OMV_GPIO_PULL_NONE, OMV_GPIO_SPEED_HIGH, -1);
 
-    // Configure DCMI GPIOs
-    #if defined(OMV_CSI_RESET_PIN)
-    omv_gpio_config(OMV_CSI_RESET_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_DOWN, OMV_GPIO_SPEED_LOW, -1);
-    #endif
-    #if defined(OMV_CSI_FSYNC_PIN)
-    omv_gpio_config(OMV_CSI_FSYNC_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_DOWN, OMV_GPIO_SPEED_LOW, -1);
-    #endif
-    #if defined(OMV_CSI_POWER_PIN)
-    omv_gpio_config(OMV_CSI_POWER_PIN, OMV_GPIO_MODE_OUTPUT, OMV_GPIO_PULL_UP, OMV_GPIO_SPEED_LOW, -1);
-    #endif
-
-    NVIC_SetPriority(CAM_IRQ_IRQn, IRQ_PRI_CSI);
     return 0;
 }
 
@@ -426,6 +421,10 @@ void alif_hal_mpu_init(void) {
         [MPU_REGION_OSPI0_XIP] = {   /* OSPI0 XIP flash - 512MB : RO-1, NP-1, XN-0  */
             .RBAR = ARM_MPU_RBAR(0xA0000000, ARM_MPU_SH_NON, 1, 1, 0),
             .RLAR = ARM_MPU_RLAR(0xBFFFFFFF, MPU_ATTR_NORMAL_NON_CACHEABLE)
+        },
+        [MPU_REGION_OSPI1_XIP] = {   /* OSPI1 XIP flash - 512MB : RO-1, NP-1, XN-0  */
+            .RBAR = ARM_MPU_RBAR(0xC0000000, ARM_MPU_SH_NON, 1, 1, 0),
+            .RLAR = ARM_MPU_RLAR(0xDFFFFFFF, MPU_ATTR_NORMAL_NON_CACHEABLE)
         },
     };
 

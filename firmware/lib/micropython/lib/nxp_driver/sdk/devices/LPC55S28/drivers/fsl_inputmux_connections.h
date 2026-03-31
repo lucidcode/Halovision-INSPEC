@@ -28,22 +28,27 @@
  */
 
 /*! @brief Periphinmux IDs */
-#define SCT0_INMUX0 0x00U
-#define TIMER0CAPTSEL0 0x20U
-#define TIMER1CAPTSEL0 0x40U
-#define TIMER2CAPTSEL0 0x60U
-#define PINTSEL_PMUX_ID 0xC0U
-#define PINTSEL0 0xC0U
-#define DMA0_ITRIG_INMUX0 0xE0U
-#define DMA0_OTRIG_INMUX0 0x160U
-#define FREQMEAS_REF_REG 0x180U
+#define SCT0_INMUX0         0x00U
+#define TIMER0CAPTSEL0      0x20U
+#define TIMER1CAPTSEL0      0x40U
+#define TIMER2CAPTSEL0      0x60U
+#define PINTSEL_PMUX_ID     0xC0U
+#define PINTSEL0            0xC0U
+#define DMA0_ITRIG_INMUX0   0xE0U
+#define DMA0_OTRIG_INMUX0   0x160U
+#define FREQMEAS_REF_REG    0x180U
 #define FREQMEAS_TARGET_REG 0x184U
-#define TIMER3CAPTSEL0 0x1A0U
-#define TIMER4CAPTSEL0 0x1C0U
-#define PINTSECSEL0 0x1E0U
-#define DMA1_ITRIG_INMUX0 0x200U
-#define DMA1_OTRIG_INMUX0 0x240U
-#define PMUX_SHIFT 20U
+#define TIMER3CAPTSEL0      0x1A0U
+#define TIMER4CAPTSEL0      0x1C0U
+#define PINTSECSEL0         0x1E0U
+#define DMA1_ITRIG_INMUX0   0x200U
+#define DMA1_OTRIG_INMUX0   0x240U
+#define DMA0_REQ_ENA_ID     0x740U
+#define DMA1_REQ_ENA_ID     0x760U
+#define DMA0_ITRIG_ENA_ID   0x780U
+#define DMA1_ITRIG_ENA_ID   0x7A0U
+#define ENA_SHIFT           8U
+#define PMUX_SHIFT          20U
 
 /*! @brief INPUTMUX connections type */
 typedef enum _inputmux_connection_t
@@ -384,7 +389,7 @@ typedef enum _inputmux_connection_t
     kINPUTMUX_Ctimer0M0ToDma1   = 4U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
     kINPUTMUX_Ctimer0M1ToDma1   = 5U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
     kINPUTMUX_Ctimer2M0ToDma1   = 6U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
-    kINPUTMUX_Ctimer4M1ToDma1   = 7U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
+    kINPUTMUX_Ctimer4M0ToDma1   = 7U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
     kINPUTMUX_Otrig0ToDma1      = 8U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
     kINPUTMUX_Otrig1ToDma1      = 9U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
     kINPUTMUX_Otrig2ToDma1      = 10U + (DMA1_ITRIG_INMUX0 << PMUX_SHIFT),
@@ -404,6 +409,85 @@ typedef enum _inputmux_connection_t
     kINPUTMUX_Dma1Flexcomm3RxTrigoutToTriginChannels = 8U + (DMA1_OTRIG_INMUX0 << PMUX_SHIFT),
     kINPUTMUX_Dma1Flexcomm3TxTrigoutToTriginChannels = 9U + (DMA1_OTRIG_INMUX0 << PMUX_SHIFT),
 } inputmux_connection_t;
+
+/*! @brief INPUTMUX signal enable/disable type */
+typedef enum _inputmux_signal_t
+{
+    /*!< DMA0 REQ signal. */
+    kINPUTMUX_HashCryptToDmac0Ch0RequestEna    = 0U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm8RxToDmac0Ch2RequestEna  = 2U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm8TxToDmac0Ch3RequestEna  = 3U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm0RxToDmac0Ch4RequestEna  = 4U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm0TxToDmac0Ch5RequestEna  = 5U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm1RxToDmac0Ch6RequestEna  = 6U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm1TxToDmac0Ch7RequestEna  = 7U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm3RxToDmac0Ch8RequestEna  = 8U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm3TxToDmac0Ch9RequestEna  = 9U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm2RxToDmac0Ch10RequestEna = 10U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm2TxToDmac0Ch11RequestEna = 11U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm4RxToDmac0Ch12RequestEna = 12U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm4TxToDmac0Ch13RequestEna = 13U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm5RxToDmac0Ch14RequestEna = 14U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm5TxToDmac0Ch15RequestEna = 15U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm6RxToDmac0Ch16RequestEna = 16U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm6TxToDmac0Ch17RequestEna = 17U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm7RxToDmac0Ch18RequestEna = 18U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm7TxToDmac0Ch19RequestEna = 19U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Adc0FIFO0ToDmac0Ch21RequestEna   = 21U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Adc0FIFO1ToDmac0Ch22RequestEna   = 22U + (DMA0_REQ_ENA_ID << ENA_SHIFT),
+
+    /*!< DMA1 REQ signal. */
+    kINPUTMUX_HashCryptToDmac1Ch0RequestEna   = 0U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm8RxToDmac1Ch2RequestEna = 2U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm8TxToDmac1Ch3RequestEna = 3U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm0RxToDmac1Ch4RequestEna = 4U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm0TxToDmac1Ch5RequestEna = 5U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm1RxToDmac1Ch6RequestEna = 6U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm1TxToDmac1Ch7RequestEna = 7U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm3RxToDmac1Ch8RequestEna = 8U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Flexcomm3TxToDmac1Ch9RequestEna = 9U + (DMA1_REQ_ENA_ID << ENA_SHIFT),
+
+    /*!< DMA0 input trigger source enable. */
+    kINPUTMUX_Dmac0InputTriggerPint0Ena     = 0U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerPint1Ena     = 1U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerPint2Ena     = 2U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerPint3Ena     = 3U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer0M0Ena = 4U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer0M1Ena = 5U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer1M0Ena = 6U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer1M1Ena = 7U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer2M0Ena = 8U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer2M1Ena = 9U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer3M0Ena = 10U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer3M1Ena = 11U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer4M0Ena = 12U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCtimer4M1Ena = 13U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerCompOutEna   = 14U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerDma0Out0Ena  = 15U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerDma0Out1Ena  = 16U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerDma0Out2Ena  = 17U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerDma0Out3Ena  = 18U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerSctDmac0Ena  = 19U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerSctDmac1Ena  = 20U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac0InputTriggerHashOutEna   = 21U + (DMA0_ITRIG_ENA_ID << ENA_SHIFT),
+
+    /*!< DMA1 input trigger source enable. */
+    kINPUTMUX_Dmac1InputTriggerPint0Ena     = 0U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerPint1Ena     = 1U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerPint2Ena     = 2U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerPint3Ena     = 3U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerCtimer0M0Ena = 4U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerCtimer0M1Ena = 5U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerCtimer2M0Ena = 6U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerCtimer4M0Ena = 7U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerDma1Out0Ena  = 8U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerDma1Out1Ena  = 9U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerDma1Out2Ena  = 10U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerDma1Out3Ena  = 11U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerSctDmac0Ena  = 12U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerSctDmac1Ena  = 13U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+    kINPUTMUX_Dmac1InputTriggerHashOutEna   = 14U + (DMA1_ITRIG_ENA_ID << ENA_SHIFT),
+} inputmux_signal_t;
 
 /*@}*/
 

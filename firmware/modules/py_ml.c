@@ -51,13 +51,7 @@
 #include "py_ml.h"
 #include "ulab/code/ndarray.h"
 
-#ifndef IMLIB_ML_MODEL_ALIGN
-#ifndef __DCACHE_PRESENT
-#define IMLIB_ML_MODEL_ALIGN    (32 - 1)
-#else
-#define IMLIB_ML_MODEL_ALIGN    (__SCB_DCACHE_LINE_SIZE - 1)
-#endif
-#endif
+#define IMLIB_ML_MODEL_ALIGN    (OMV_CACHE_LINE_SIZE)
 
 static size_t py_ml_tuple_sum(mp_obj_tuple_t *o) {
     if (o->len < 1) {
@@ -71,7 +65,7 @@ static size_t py_ml_tuple_sum(mp_obj_tuple_t *o) {
     return size;
 }
 
-static size_t pl_ml_dtype_size(char dtype) {
+static size_t py_ml_dtype_size(char dtype) {
     switch (dtype) {
         case 'f':
             return 4;
@@ -90,7 +84,7 @@ static void py_ml_process_input(py_ml_model_obj_t *model, mp_obj_t arg) {
         void *input_buffer = ml_backend_get_input(model, i);
         size_t input_size = py_ml_tuple_sum(MP_OBJ_TO_PTR(model->input_shape->items[i]));
         mp_obj_tuple_t *input_shape = MP_OBJ_TO_PTR(model->input_shape->items[i]);
-        float input_scale = 1.0f / mp_obj_get_float(model->input_scale->items[i]);
+        float input_scale = 1.0f / mp_obj_get_float_to_f(model->input_scale->items[i]);
         int input_zero_point = mp_obj_get_int(model->input_zero_point->items[i]);
         int input_dtype = mp_obj_get_int(model->input_dtype->items[i]);
         mp_obj_t input_arg = input_list->items[i];
@@ -98,7 +92,7 @@ static void py_ml_process_input(py_ml_model_obj_t *model, mp_obj_t arg) {
         if (mp_obj_is_callable(input_arg)) {
             // Input is a callable. Call the object and pass the tensor buffer and dtype.
             mp_obj_t fargs[3] = {
-                mp_obj_new_bytearray_by_ref(input_size * pl_ml_dtype_size(input_dtype), input_buffer),
+                mp_obj_new_bytearray_by_ref(input_size * py_ml_dtype_size(input_dtype), input_buffer),
                 MP_OBJ_FROM_PTR(input_shape),
                 mp_obj_new_int(input_dtype)
             };
@@ -157,13 +151,13 @@ static void py_ml_process_input(py_ml_model_obj_t *model, mp_obj_t arg) {
     }
 }
 
-static mp_obj_t py_ml_process_output(py_ml_model_obj_t *model) {
+static mp_obj_t py_ml_process_output(py_ml_model_obj_t *model, bool deep_copy) {
     mp_obj_list_t *output_list = MP_OBJ_TO_PTR(mp_obj_new_list(model->outputs_size, NULL));
     for (size_t i = 0; i < model->outputs_size; i++) {
         void *model_output = ml_backend_get_output(model, i);
         size_t size = py_ml_tuple_sum(MP_OBJ_TO_PTR(model->output_shape->items[i]));
         mp_obj_tuple_t *output_shape = MP_OBJ_TO_PTR(model->output_shape->items[i]);
-        float output_scale = mp_obj_get_float(model->output_scale->items[i]);
+        float output_scale = mp_obj_get_float_to_f(model->output_scale->items[i]);
         int output_zero_point = mp_obj_get_int(model->output_zero_point->items[i]);
         int output_dtype = mp_obj_get_int(model->output_dtype->items[i]);
 
@@ -178,31 +172,38 @@ static mp_obj_t py_ml_process_output(py_ml_model_obj_t *model) {
             shape[ulab_offset + j] = mp_obj_get_int(output_shape->items[j]);
         }
 
-        ndarray_obj_t *ndarray = ndarray_new_dense_ndarray(output_shape->len, shape, NDARRAY_FLOAT);
+        ndarray_obj_t *ndarray;
 
-        if (output_dtype == 'f') {
-            memcpy(ndarray->array, model_output, size * sizeof(float));
-        } else if (output_dtype == 'b') {
-            for (size_t j = 0; j < size; j++) {
-                float v = (((int8_t *) model_output)[j] - output_zero_point);
-                ((float *) ndarray->array)[j] = v * output_scale;
+        if (deep_copy) {
+            ndarray = ndarray_new_dense_ndarray(output_shape->len, shape, NDARRAY_FLOAT);
+
+            if (output_dtype == 'f') {
+                memcpy(ndarray->array, model_output, size * sizeof(float));
+            } else if (output_dtype == 'b') {
+                for (size_t j = 0; j < size; j++) {
+                    float v = (((int8_t *) model_output)[j] - output_zero_point);
+                    ((float *) ndarray->array)[j] = v * output_scale;
+                }
+            } else if (output_dtype == 'B') {
+                for (size_t j = 0; j < size; j++) {
+                    float v = (((uint8_t *) model_output)[j] - output_zero_point);
+                    ((float *) ndarray->array)[j] = v * output_scale;
+                }
+            } else if (output_dtype == 'h') {
+                for (size_t j = 0; j < size; j++) {
+                    float v = (((int16_t *) model_output)[j] - output_zero_point);
+                    ((float *) ndarray->array)[j] = v * output_scale;
+                }
+            } else if (output_dtype == 'H') {
+                for (size_t j = 0; j < size; j++) {
+                    float v = (((uint16_t *) model_output)[j] - output_zero_point);
+                    ((float *) ndarray->array)[j] = v * output_scale;
+                }
             }
-        } else if (output_dtype == 'B') {
-            for (size_t j = 0; j < size; j++) {
-                float v = (((uint8_t *) model_output)[j] - output_zero_point);
-                ((float *) ndarray->array)[j] = v * output_scale;
-            }
-        } else if (output_dtype == 'h') {
-            for (size_t j = 0; j < size; j++) {
-                float v = (((int16_t *) model_output)[j] - output_zero_point);
-                ((float *) ndarray->array)[j] = v * output_scale;
-            }
-        } else if (output_dtype == 'H') {
-            for (size_t j = 0; j < size; j++) {
-                float v = (((uint16_t *) model_output)[j] - output_zero_point);
-                ((float *) ndarray->array)[j] = v * output_scale;
-            }
+        } else {
+            ndarray = ndarray_new_ndarray(output_shape->len, shape, NULL, output_dtype, model_output);
         }
+
         output_list->items[i] = MP_OBJ_FROM_PTR(ndarray);
     }
 
@@ -260,20 +261,18 @@ static mp_obj_t py_ml_model_predict(size_t n_args, const mp_obj_t *pos_args, mp_
         mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Unsupported input type. Expected a list"));
     }
 
-    OMV_PROFILE_START(preprocess);
+    bool callback = args[ARG_callback].u_obj != mp_const_none;
+    bool postprocess = model->postprocess != mp_const_none || callback;
+
     py_ml_process_input(model, pos_args[1]);
-    OMV_PROFILE_PRINT(preprocess);
-
-    OMV_PROFILE_START(inference);
     ml_backend_run_inference(model);
-    OMV_PROFILE_PRINT(inference);
 
-    mp_obj_t output = py_ml_process_output(model);
+    mp_obj_t output = py_ml_process_output(model, !postprocess);
 
-    if (args[ARG_callback].u_obj != mp_const_none) {
+    if (postprocess) {
         // Pass model, inputs, outputs to the post-processing callback.
         mp_obj_t fargs[3] = { MP_OBJ_FROM_PTR(model), pos_args[1], output };
-        output = mp_call_function_n_kw(args[ARG_callback].u_obj, 3, 0, fargs);
+        output = mp_call_function_n_kw(callback ? args[ARG_callback].u_obj : model->postprocess, 3, 0, fargs);
     }
 
     return output;
@@ -315,6 +314,9 @@ static void py_ml_model_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
             case MP_QSTR_output_zero_point:
                 dest[0] = MP_OBJ_FROM_PTR(self->output_zero_point);
                 break;
+            case MP_QSTR_postprocess:
+                dest[0] = self->postprocess;
+                break;
             default:
                 // Continue lookup in locals_dict.
                 dest[1] = MP_OBJ_SENTINEL;
@@ -324,10 +326,11 @@ static void py_ml_model_attr(mp_obj_t self_in, qstr attr, mp_obj_t *dest) {
 }
 
 mp_obj_t py_ml_model_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
-    enum { ARG_path, ARG_load_to_fb };
+    enum { ARG_path, ARG_load_to_fb, ARG_postprocess };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_path, MP_ARG_REQUIRED | MP_ARG_OBJ },
         { MP_QSTR_load_to_fb, MP_ARG_REQUIRED | MP_ARG_BOOL },
+        { MP_QSTR_postprocess, MP_ARG_REQUIRED | MP_ARG_OBJ, {.u_rom_obj = MP_ROM_NONE} },
     };
 
     // Parse args.
@@ -336,6 +339,7 @@ mp_obj_t py_ml_model_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
 
     //const char *path = mp_obj_str_get_str(args[ARG_path].u_obj);
     py_ml_model_obj_t *model = mp_obj_malloc_with_finaliser(py_ml_model_obj_t, &py_ml_model_type);
+    model->postprocess = args[ARG_postprocess].u_obj;
 
     #if MICROPY_VFS
     mp_obj_t file_args[2] = {
@@ -372,9 +376,9 @@ mp_obj_t py_ml_model_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
             fb_alloc_mark_permanent();
         } else {
             // Align size and memory and keep a reference to the GC block.
-            size_t size = (model->size + IMLIB_ML_MODEL_ALIGN) & ~IMLIB_ML_MODEL_ALIGN;
-            model->_raw = xalloc(size + IMLIB_ML_MODEL_ALIGN);
-            model->data = (void *) (((uintptr_t) model->_raw + IMLIB_ML_MODEL_ALIGN) & ~IMLIB_ML_MODEL_ALIGN);
+            size_t size = OMV_ALIGN_TO(model->size, IMLIB_ML_MODEL_ALIGN);
+            model->_raw = m_malloc(size + IMLIB_ML_MODEL_ALIGN - 1);
+            model->data = (void *) OMV_ALIGN_TO(model->_raw, IMLIB_ML_MODEL_ALIGN);
         }
 
         // Read file data.

@@ -39,6 +39,7 @@ extern uint32_t blink_interval_ms;
 #endif
 
 void led_blinking_task(void);
+void audio_task(void);
 
 /*------------- MAIN -------------*/
 int main(void)
@@ -46,7 +47,11 @@ int main(void)
   board_init();
 
   // init device stack on configured roothub port
-  tud_init(BOARD_TUD_RHPORT);
+  tusb_rhport_init_t dev_init = {
+    .role = TUSB_ROLE_DEVICE,
+    .speed = TUSB_SPEED_AUTO
+  };
+  tusb_init(BOARD_TUD_RHPORT, &dev_init);
 
 #if (CFG_TUSB_MCU == OPT_MCU_RP2040)
   stdio_init_all();
@@ -58,7 +63,7 @@ int main(void)
   {
     tud_task(); // TinyUSB device task
     led_blinking_task();
-
+    audio_task();
 #if (CFG_TUSB_MCU == OPT_MCU_RP2040)
     // printf("Hello, world!\r\n");
 #endif

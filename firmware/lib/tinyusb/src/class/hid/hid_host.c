@@ -45,12 +45,11 @@
 //--------------------------------------------------------------------+
 typedef struct {
   uint8_t daddr;
-
   uint8_t itf_num;
   uint8_t ep_in;
   uint8_t ep_out;
-  bool mounted;           // Enumeration is complete
 
+  bool mounted;           // Enumeration is complete
   uint8_t itf_protocol;   // None, Keyboard, Mouse
   uint8_t protocol_mode;  // Boot (0) or Report protocol (1)
 
@@ -59,15 +58,61 @@ typedef struct {
 
   uint16_t epin_size;
   uint16_t epout_size;
-
-  CFG_TUH_MEM_ALIGN uint8_t epin_buf[CFG_TUH_HID_EPIN_BUFSIZE];
-  CFG_TUH_MEM_ALIGN uint8_t epout_buf[CFG_TUH_HID_EPOUT_BUFSIZE];
 } hidh_interface_t;
 
-CFG_TUH_MEM_SECTION
-tu_static hidh_interface_t _hidh_itf[CFG_TUH_HID];
+typedef struct {
+  TUH_EPBUF_DEF(epin, CFG_TUH_HID_EPIN_BUFSIZE);
+  TUH_EPBUF_DEF(epout, CFG_TUH_HID_EPOUT_BUFSIZE);
+} hidh_epbuf_t;
 
-tu_static uint8_t _hidh_default_protocol = HID_PROTOCOL_BOOT;
+static hidh_interface_t _hidh_itf[CFG_TUH_HID];
+CFG_TUH_MEM_SECTION static hidh_epbuf_t _hidh_epbuf[CFG_TUH_HID];
+
+static uint8_t _hidh_default_protocol = HID_PROTOCOL_BOOT;
+
+//--------------------------------------------------------------------+
+// Weak stubs: invoked if no strong implementation is available
+//--------------------------------------------------------------------+
+TU_ATTR_WEAK void tuh_hid_mount_cb(uint8_t dev_addr, uint8_t idx, uint8_t const* report_desc, uint16_t desc_len) {
+  (void) dev_addr;
+  (void) idx;
+  (void) report_desc;
+  (void) desc_len;
+}
+
+TU_ATTR_WEAK void tuh_hid_umount_cb(uint8_t dev_addr, uint8_t idx) {
+  (void) dev_addr;
+  (void) idx;
+}
+
+TU_ATTR_WEAK void tuh_hid_report_sent_cb(uint8_t dev_addr, uint8_t idx, uint8_t const* report, uint16_t len) {
+  (void) dev_addr;
+  (void) idx;
+  (void) report;
+  (void) len;
+}
+
+TU_ATTR_WEAK void tuh_hid_get_report_complete_cb(uint8_t dev_addr, uint8_t idx, uint8_t report_id, uint8_t report_type, uint16_t len) {
+  (void) dev_addr;
+  (void) idx;
+  (void) report_id;
+  (void) report_type;
+  (void) len;
+}
+
+TU_ATTR_WEAK void tuh_hid_set_report_complete_cb(uint8_t dev_addr, uint8_t idx, uint8_t report_id, uint8_t report_type, uint16_t len) {
+  (void) dev_addr;
+  (void) idx;
+  (void) report_id;
+  (void) report_type;
+  (void) len;
+}
+
+TU_ATTR_WEAK void tuh_hid_set_protocol_complete_cb(uint8_t dev_addr, uint8_t idx, uint8_t protocol) {
+  (void) dev_addr;
+  (void) idx;
+  (void) protocol;
+}
 
 //--------------------------------------------------------------------+
 // Helper
@@ -76,6 +121,10 @@ TU_ATTR_ALWAYS_INLINE static inline hidh_interface_t* get_hid_itf(uint8_t daddr,
   TU_ASSERT(daddr > 0 && idx < CFG_TUH_HID, NULL);
   hidh_interface_t* p_hid = &_hidh_itf[idx];
   return (p_hid->daddr == daddr) ? p_hid : NULL;
+}
+
+TU_ATTR_ALWAYS_INLINE static inline hidh_epbuf_t* get_hid_epbuf(uint8_t idx) {
+  return &_hidh_epbuf[idx];
 }
 
 // Get instance ID by endpoint address
@@ -178,9 +227,7 @@ static void set_protocol_complete(tuh_xfer_t* xfer) {
     p_hid->protocol_mode = (uint8_t) tu_le16toh(xfer->setup->wValue);
   }
 
-  if (tuh_hid_set_protocol_complete_cb) {
-    tuh_hid_set_protocol_complete_cb(daddr, idx, p_hid->protocol_mode);
-  }
+  tuh_hid_set_protocol_complete_cb(daddr, idx, p_hid->protocol_mode);
 }
 
 void tuh_hid_set_default_protocol(uint8_t protocol) {
@@ -225,16 +272,14 @@ bool tuh_hid_set_protocol(uint8_t daddr, uint8_t idx, uint8_t protocol) {
 static void get_report_complete(tuh_xfer_t* xfer) {
   TU_LOG_DRV("HID Get Report complete\r\n");
 
-  if (tuh_hid_get_report_complete_cb) {
-    uint8_t const itf_num = (uint8_t) tu_le16toh(xfer->setup->wIndex);
-    uint8_t const idx = tuh_hid_itf_get_index(xfer->daddr, itf_num);
+  uint8_t const itf_num = (uint8_t) tu_le16toh(xfer->setup->wIndex);
+  uint8_t const idx = tuh_hid_itf_get_index(xfer->daddr, itf_num);
 
-    uint8_t const report_type = tu_u16_high(xfer->setup->wValue);
+  uint8_t const report_type = tu_u16_high(xfer->setup->wValue);
     uint8_t const report_id = tu_u16_low(xfer->setup->wValue);
 
-    tuh_hid_get_report_complete_cb(xfer->daddr, idx, report_id, report_type,
-                                   (xfer->result == XFER_RESULT_SUCCESS) ? xfer->setup->wLength : 0);
-  }
+  tuh_hid_get_report_complete_cb(xfer->daddr, idx, report_id, report_type,
+                                 (xfer->result == XFER_RESULT_SUCCESS) ? xfer->setup->wLength : 0);
 }
 
 bool tuh_hid_get_report(uint8_t daddr, uint8_t idx, uint8_t report_id, uint8_t report_type, void* report, uint16_t len) {
@@ -269,16 +314,14 @@ bool tuh_hid_get_report(uint8_t daddr, uint8_t idx, uint8_t report_id, uint8_t r
 static void set_report_complete(tuh_xfer_t* xfer) {
   TU_LOG_DRV("HID Set Report complete\r\n");
 
-  if (tuh_hid_set_report_complete_cb) {
-    uint8_t const itf_num = (uint8_t) tu_le16toh(xfer->setup->wIndex);
-    uint8_t const idx = tuh_hid_itf_get_index(xfer->daddr, itf_num);
+  uint8_t const itf_num = (uint8_t) tu_le16toh(xfer->setup->wIndex);
+  uint8_t const idx = tuh_hid_itf_get_index(xfer->daddr, itf_num);
 
-    uint8_t const report_type = tu_u16_high(xfer->setup->wValue);
-    uint8_t const report_id = tu_u16_low(xfer->setup->wValue);
+  uint8_t const report_type = tu_u16_high(xfer->setup->wValue);
+  uint8_t const report_id = tu_u16_low(xfer->setup->wValue);
 
-    tuh_hid_set_report_complete_cb(xfer->daddr, idx, report_id, report_type,
-                                   (xfer->result == XFER_RESULT_SUCCESS) ? xfer->setup->wLength : 0);
-  }
+  tuh_hid_set_report_complete_cb(xfer->daddr, idx, report_id, report_type,
+                                 (xfer->result == XFER_RESULT_SUCCESS) ? xfer->setup->wLength : 0);
 }
 
 bool tuh_hid_set_report(uint8_t daddr, uint8_t idx, uint8_t report_id, uint8_t report_type, void* report, uint16_t len) {
@@ -353,11 +396,12 @@ bool tuh_hid_receive_ready(uint8_t dev_addr, uint8_t idx) {
 bool tuh_hid_receive_report(uint8_t daddr, uint8_t idx) {
   hidh_interface_t* p_hid = get_hid_itf(daddr, idx);
   TU_VERIFY(p_hid);
+  hidh_epbuf_t* epbuf = get_hid_epbuf(idx);
 
   // claim endpoint
   TU_VERIFY(usbh_edpt_claim(daddr, p_hid->ep_in));
 
-  if (!usbh_edpt_xfer(daddr, p_hid->ep_in, p_hid->epin_buf, p_hid->epin_size)) {
+  if (!usbh_edpt_xfer(daddr, p_hid->ep_in, epbuf->epin, p_hid->epin_size)) {
     usbh_edpt_release(daddr, p_hid->ep_in);
     return false;
   }
@@ -381,6 +425,7 @@ bool tuh_hid_send_report(uint8_t daddr, uint8_t idx, uint8_t report_id, const vo
 
   hidh_interface_t* p_hid = get_hid_itf(daddr, idx);
   TU_VERIFY(p_hid);
+  hidh_epbuf_t* epbuf = get_hid_epbuf(idx);
 
   if (p_hid->ep_out == 0) {
     // This HID does not have an out endpoint (other than control)
@@ -396,16 +441,16 @@ bool tuh_hid_send_report(uint8_t daddr, uint8_t idx, uint8_t report_id, const vo
 
   if (report_id == 0) {
     // No report ID in transmission
-    memcpy(&p_hid->epout_buf[0], report, len);
+    memcpy(&epbuf->epout[0], report, len);
   } else {
-    p_hid->epout_buf[0] = report_id;
-    memcpy(&p_hid->epout_buf[1], report, len);
+    epbuf->epout[0] = report_id;
+    memcpy(&epbuf->epout[1], report, len);
     ++len; // 1 more byte for report_id
   }
 
-  TU_LOG3_MEM(p_hid->epout_buf, len, 2);
+  TU_LOG3_MEM(epbuf->epout, len, 2);
 
-  if (!usbh_edpt_xfer(daddr, p_hid->ep_out, p_hid->epout_buf, len)) {
+  if (!usbh_edpt_xfer(daddr, p_hid->ep_out, epbuf->epout, len)) {
     usbh_edpt_release(daddr, p_hid->ep_out);
     return false;
   }
@@ -434,15 +479,14 @@ bool hidh_xfer_cb(uint8_t daddr, uint8_t ep_addr, xfer_result_t result, uint32_t
 
   hidh_interface_t* p_hid = get_hid_itf(daddr, idx);
   TU_VERIFY(p_hid);
+  hidh_epbuf_t* epbuf = get_hid_epbuf(idx);
 
   if (dir == TUSB_DIR_IN) {
-    TU_LOG_DRV("  Get Report callback (%u, %u)\r\n", daddr, idx);
-    TU_LOG3_MEM(p_hid->epin_buf, xferred_bytes, 2);
-    tuh_hid_report_received_cb(daddr, idx, p_hid->epin_buf, (uint16_t) xferred_bytes);
+    TU_LOG_DRV("  [idx=%u] Get Report callback\r\n", idx);
+    TU_LOG3_MEM(epbuf->epin, xferred_bytes, 2);
+    tuh_hid_report_received_cb(daddr, idx, epbuf->epin, (uint16_t) xferred_bytes);
   } else {
-    if (tuh_hid_report_sent_cb) {
-      tuh_hid_report_sent_cb(daddr, idx, p_hid->epout_buf, (uint16_t) xferred_bytes);
-    }
+    tuh_hid_report_sent_cb(daddr, idx, epbuf->epout, (uint16_t) xferred_bytes);
   }
 
   return true;
@@ -453,7 +497,7 @@ void hidh_close(uint8_t daddr) {
     hidh_interface_t* p_hid = &_hidh_itf[i];
     if (p_hid->daddr == daddr) {
       TU_LOG_DRV("  HIDh close addr = %u index = %u\r\n", daddr, i);
-      if (tuh_hid_umount_cb) tuh_hid_umount_cb(daddr, i);
+      tuh_hid_umount_cb(daddr, i);
       tu_memclr(p_hid, sizeof(hidh_interface_t));
     }
   }
@@ -509,7 +553,8 @@ bool hidh_open(uint8_t rhport, uint8_t daddr, tusb_desc_interface_t const* desc_
 
   // Assume bNumDescriptors = 1
   p_hid->report_desc_type = desc_hid->bReportType;
-  p_hid->report_desc_len = tu_unaligned_read16(&desc_hid->wReportLength);
+  // Use offsetof to avoid pointer to the odd/misaligned address
+  p_hid->report_desc_len = tu_unaligned_read16((uint8_t const*)desc_hid + offsetof(tusb_hid_descriptor_hid_t, wReportLength));
 
   // Per HID Specs: default is Report protocol, though we will force Boot protocol when set_config
   p_hid->protocol_mode = _hidh_default_protocol;
@@ -614,7 +659,7 @@ static void config_driver_mount_complete(uint8_t daddr, uint8_t idx, uint8_t con
   p_hid->mounted = true;
 
   // enumeration is complete
-  if (tuh_hid_mount_cb) tuh_hid_mount_cb(daddr, idx, desc_report, desc_len);
+  tuh_hid_mount_cb(daddr, idx, desc_report, desc_len);
 
   // notify usbh that driver enumeration is complete
   usbh_driver_set_config_complete(daddr, p_hid->itf_num);
@@ -652,9 +697,12 @@ uint8_t tuh_hid_parse_report_descriptor(tuh_hid_report_info_t* report_info_arr, 
 
     uint8_t const tag = header.tag;
     uint8_t const type = header.type;
-    uint8_t const size = header.size;
+    uint8_t size = header.size;
+    if (size == 3) {
+      size = 4; // HID 1.11 6.2.2.2 3 is 4 bytes
+    }
 
-    uint8_t const data8 = desc_report[0];
+    uint8_t const data8 = (size > 0) ? desc_report[0] : 0;
 
     TU_LOG(3, "tag = %d, type = %d, size = %d, data = ", tag, type, size);
     for (uint32_t i = 0; i < size; i++) {

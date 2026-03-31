@@ -33,19 +33,23 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "omv_bootconfig.h"
+#include "boot_config.h"
+#include "dfu.h"
+#include "header.h"
 
-bool tud_dfu_detached = true;
+omv_dfu_state_t dfu_state = DFU_STATE_DETACHED;
 
-uint32_t ticks_diff_ms(uint32_t start_ms) {
-    uint32_t current_ms = port_ticks_ms();
-    if (current_ms >= start_ms) {
-        return current_ms - start_ms;
-    } else {
-        // Handle wraparound
-        return (UINT32_MAX - start_ms) + current_ms + 1;
-    }
-}
+__attribute__((section(".boot_header"), used))
+const omv_boot_header_t omv_boot_header = {
+    .magic = OMV_BOOT_MAGIC_VALUE,
+    .major = OMV_BOOT_VERSION_MAJOR,
+    .minor = OMV_BOOT_VERSION_MINOR,
+    .patch = OMV_BOOT_VERSION_PATCH,
+    .reserved = {0},
+};
+
+#define check_timeout_ms(start_ms, timeout) \
+    ((port_ticks_ms() - (start_ms)) > (timeout))
 
 int main(void) {
     // Initialize low-level sub-systems.
@@ -66,10 +70,10 @@ int main(void) {
         // Poll TinyUSB.
         tud_task();
         // Wait for the device to be connected and configured.
-        if (tud_mounted() || ticks_diff_ms(start_ms) > 1000) {
+        if (tud_mounted() || check_timeout_ms(start_ms, 1000)) {
             break;
         }
-        port_led_blink(100);
+        port_led_blink(DFU_LED_BLINK_FAST);
     }
 
     // Restart timeout.
@@ -78,18 +82,21 @@ int main(void) {
     while (tud_mounted()) {
         // Poll TinyUSB.
         tud_task();
-        // Wait for first DFU command.
-        if (tud_dfu_detached && ticks_diff_ms(start_ms) > OMV_BOOT_DFU_TIMEOUT) {
-            // Timeout, jump to main app.
-            if (!forced) {
+
+        switch (dfu_state) {
+            case DFU_STATE_RESET:
                 break;
-            }
+            case DFU_STATE_ATTACHED:
+                port_led_blink(DFU_LED_BLINK_SLOW);
+                continue;
+            case DFU_STATE_DETACHED:
+                if (!forced && check_timeout_ms(start_ms, OMV_BOOT_DFU_TIMEOUT)) {
+                    break;
+                }
+                port_led_blink(DFU_LED_BLINK_FAST);
+                continue;
         }
-        if (tud_dfu_detached) {
-            port_led_blink(100);
-        } else {
-            port_led_blink(200);
-        }
+        break;
     }
 
     // Disconnect USB device.

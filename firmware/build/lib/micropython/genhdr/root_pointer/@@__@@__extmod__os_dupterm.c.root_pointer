@@ -1,1 +1,0 @@
-MP_REGISTER_ROOT_POINTER(mp_obj_t dupterm_objs[(3)]);

@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: SAME54 Xplained Pro
+   url: https://www.microchip.com/DevelopmentTools/ProductDetails/ATSAME54-XPRO
+*/
+
 #ifndef BOARD_H_
 #define BOARD_H_
 
@@ -42,6 +47,10 @@
 // UART: SERCOM2
 //#define UART_TX_PIN           23
 //#define UART_RX_PIN           22
+
+static inline void board_vbus_set(uint8_t rhport, bool state) {
+ (void) rhport; (void) state;
+}
 
 #ifdef __cplusplus
  }

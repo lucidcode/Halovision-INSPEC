@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: i.MX RT1024 Evaluation Kit
+   url: https://www.nxp.com/design/design-center/development-boards-and-designs/i-mx-evaluation-and-development-boards/i-mx-rt1024-evaluation-kit:MIMXRT1024-EVK
+*/
+
 #ifndef BOARD_MIMXRT1024_EVK_H_
 #define BOARD_MIMXRT1024_EVK_H_
 
@@ -44,5 +49,8 @@
 // UART: IOMUXC_GPIO_AD_B0_07_LPUART1_RX, IOMUXC_GPIO_AD_B0_06_LPUART1_TX
 #define UART_PORT             LPUART1
 #define UART_CLK_ROOT         BOARD_BOOTCLOCKRUN_UART_CLK_ROOT
+
+static inline void BOARD_ConfigMPU(void) {
+}
 
 #endif

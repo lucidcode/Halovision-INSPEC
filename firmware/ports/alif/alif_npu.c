@@ -35,36 +35,26 @@
 #include CMSIS_MCU_H
 
 #include "py/mphal.h"
+#include "py/runtime.h"
+
 #include "alif_hal.h"
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "ethosu_driver.h"
 
 #define ETHOSU_SEC_ENABLED      (1)
 #define ETHOSU_PRIV_ENABLED     (1)
 
-#define ETHOSU_CACHE_ALIGN      (16)
-//#define ETHOSU_CACHE_SIZE       (393216U)
 #define ETHOSU_CACHE_SIZE       (0)
+#define ETHOSU_CACHE_ALIGN      (16)
 
-#define ETHOSU_CACHE_SECTION    section(".bss.ethosu_cache")
-#define ETHOSU_CACHE_ATTRIBUTE  __attribute__((aligned(ETHOSU_CACHE_ALIGN), ETHOSU_CACHE_SECTION))
+#define ETHOSU_IRQ_NUMBER       LOCAL_NPU_IRQ_IRQn
+#define ETHOSU_IRQ_HANDLER      LOCAL_NPU_IRQHandler
+#define ETHOSU_BASE_ADDRESS     (void *) LOCAL_NPU_BASE
 
-#define IRQ_PRI_NPU             NVIC_EncodePriority(NVIC_PRIORITYGROUP_7, 8, 0)
-
-#if CORE_M55_HP
-#define ETHOSU_IRQ_NUMBER       NPU_HP_IRQ_IRQn
-#define ETHOSU_IRQ_HANDLER      NPU_HP_IRQHandler
-#define ETHOSU_BASE_ADDRESS     (void *) NPU_HP_BASE
+#if (ETHOSU_CACHE_SIZE == 0)
+static uint8_t * ETHOSU_CACHE_BUFFER = NULL;
 #else
-#define ETHOSU_IRQ_NUMBER       NPU_HE_IRQ_IRQn
-#define ETHOSU_IRQ_HANDLER      NPU_HE_IRQHandler
-#define ETHOSU_BASE_ADDRESS     (void *) NPU_HE_BASE
-#endif
-
-#if (ETHOSU_CACHE_SIZE > 0)
-static uint8_t ETHOSU_CACHE_BUFFER[ETHOSU_CACHE_SIZE] ETHOSU_CACHE_ATTRIBUTE;
-#else
-static uint8_t *ETHOSU_CACHE_BUFFER = NULL;
+static uint8_t OMV_ATTR_SEC_ALIGN(ETHOSU_CACHE_BUFFER[ETHOSU_CACHE_SIZE], ".bss.sram0", ETHOSU_CACHE_ALIGN);
 #endif
 
 static struct ethosu_driver ethosu_driver;
@@ -150,11 +140,11 @@ uint64_t ethosu_address_remap(uint64_t address, int index) {
 }
 
 void ethosu_inference_begin(struct ethosu_driver *drv, void *user_arg) {
-
+    mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
 }
 
 void ethosu_inference_end(struct ethosu_driver *drv, void *user_arg) {
-
+    mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
 }
 
 void ETHOSU_IRQ_HANDLER(void) {

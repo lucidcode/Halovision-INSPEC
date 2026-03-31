@@ -3,14 +3,14 @@
 **     Processors:          LPC51U68JBD48
 **                          LPC51U68JBD64
 **
-**     Compilers:           Keil ARM C/C++ Compiler
-**                          GNU C Compiler
+**     Compilers:           GNU C Compiler
 **                          IAR ANSI C/C++ Compiler for ARM
+**                          Keil ARM C/C++ Compiler
 **                          MCUXpresso Compiler
 **
 **     Reference manual:    LPC51U68 User manual User manual Rev. 1.0 13 Dec 2017
 **     Version:             rev. 1.0, 2017-12-15
-**     Build:               b180802
+**     Build:               b200416
 **
 **     Abstract:
 **         Provides a system configuration function and a global variable that
@@ -18,7 +18,8 @@
 **         the oscillator (PLL) that is part of the microcontroller device.
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2018 NXP
+**     Copyright 2016-2020 NXP
+**     All rights reserved.
 **
 **     SPDX-License-Identifier: BSD-3-Clause
 **
@@ -89,6 +90,18 @@ void SystemInit (void);
  * the current core clock.
  */
 void SystemCoreClockUpdate (void);
+
+/**
+ * @brief SystemInit function hook.
+ *
+ * This weak function allows to call specific initialization code during the
+ * SystemInit() execution.This can be used when an application specific code needs
+ * to be called as close to the reset entry as possible (for example the Multicore
+ * Manager MCMGR_EarlyInit() function call).
+ * NOTE: No global r/w variables can be used in this hook function because the
+ * initialization of these variables happens after this function.
+ */
+void SystemInitHook (void);
 
 #ifdef __cplusplus
 }

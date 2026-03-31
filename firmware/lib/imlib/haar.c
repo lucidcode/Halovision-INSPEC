@@ -33,7 +33,6 @@
 #include "extmod/vfs.h"
 #endif
 
-#include "xalloc.h"
 #include "imlib.h"
 
 #ifdef IMLIB_ENABLE_FEATURES
@@ -100,7 +99,7 @@ array_t *imlib_detect_objects(image_t *image, cascade_t *cascade, rectangle_t *r
     array_t *objects;
 
     // Allocate the objects array
-    array_alloc(&objects, xfree);
+    array_alloc(&objects, m_free);
 
     // Set cascade image pointers
     cascade->img = image;
@@ -118,9 +117,21 @@ array_t *imlib_detect_objects(image_t *image, cascade_t *cascade, rectangle_t *r
         cascade->step = cascade->window.h;
     }
 
+    // Compute the max height needed from all cascade rectangles.
+    // Some features extend beyond window.h, so window.h + 1 is not enough.
+    int mw_h = cascade->window.h;
+    for (int i = 0, r_idx = 0; i < cascade->n_features; i++) {
+        for (int j = 0; j < cascade->num_rectangles_array[i]; j++, r_idx += 4) {
+            int rh = cascade->rectangles_array[r_idx + 1] + cascade->rectangles_array[r_idx + 3];
+            if (rh > mw_h) {
+                mw_h = rh;
+            }
+        }
+    }
+
     // Allocate integral images
-    imlib_integral_mw_alloc(&sum, roi->w, cascade->window.h + 1);
-    imlib_integral_mw_alloc(&ssq, roi->w, cascade->window.h + 1);
+    imlib_integral_mw_alloc(&sum, roi->w, mw_h + 1);
+    imlib_integral_mw_alloc(&ssq, roi->w, mw_h + 1);
 
     // Iterate over the image pyramid
     for (float factor = 1.0f; ; factor *= cascade->scale_factor) {
@@ -240,7 +251,7 @@ int imlib_load_cascade_from_file(cascade_t *cascade, const char *path) {
         mp_stream_read_exactly(file, &cascade->n_stages, sizeof(cascade->n_stages), &error);
 
         // Allocate stages array.
-        cascade->stages_array = xalloc(sizeof(int8_t) * cascade->n_stages);
+        cascade->stages_array = m_malloc(sizeof(int8_t) * cascade->n_stages);
 
         // Read number of features in each stages
         mp_stream_read_exactly(file, cascade->stages_array, cascade->n_stages, &error);
@@ -256,11 +267,11 @@ int imlib_load_cascade_from_file(cascade_t *cascade, const char *path) {
         }
 
         // Alloc features thresh array, alpha1, alpha 2,rects weights and rects
-        cascade->stages_thresh_array = xalloc(sizeof(int16_t) * cascade->n_stages);
-        cascade->tree_thresh_array = xalloc(sizeof(int16_t) * cascade->n_features);
-        cascade->alpha1_array = xalloc(sizeof(int16_t) * cascade->n_features);
-        cascade->alpha2_array = xalloc(sizeof(int16_t) * cascade->n_features);
-        cascade->num_rectangles_array = xalloc(sizeof(int8_t) * cascade->n_features);
+        cascade->stages_thresh_array = m_malloc(sizeof(int16_t) * cascade->n_stages);
+        cascade->tree_thresh_array = m_malloc(sizeof(int16_t) * cascade->n_features);
+        cascade->alpha1_array = m_malloc(sizeof(int16_t) * cascade->n_features);
+        cascade->alpha2_array = m_malloc(sizeof(int16_t) * cascade->n_features);
+        cascade->num_rectangles_array = m_malloc(sizeof(int8_t) * cascade->n_features);
 
         // Read features thresh array, alpha1, alpha 2,rects weights and rects
         mp_stream_read_exactly(file, cascade->stages_thresh_array, sizeof(int16_t) * cascade->n_stages, &error);
@@ -275,8 +286,8 @@ int imlib_load_cascade_from_file(cascade_t *cascade, const char *path) {
         }
 
         // Allocate weights and rectangles arrays.
-        cascade->weights_array = xalloc(cascade->n_rectangles);
-        cascade->rectangles_array = xalloc(cascade->n_rectangles * 4);
+        cascade->weights_array = m_malloc(cascade->n_rectangles);
+        cascade->rectangles_array = m_malloc(cascade->n_rectangles * 4);
 
         // Read rectangles weights and rectangles (number of rectangles * 4 points)
         mp_stream_read_exactly(file, cascade->weights_array, sizeof(int8_t) * cascade->n_rectangles, &error);

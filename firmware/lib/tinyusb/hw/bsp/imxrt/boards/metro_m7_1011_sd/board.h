@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: Adafruit Metro M7 1011 SD
+   url: https://www.adafruit.com/product/5600
+*/
+
 #ifndef BOARD_METRO_M7_1011_SD_H_
 #define BOARD_METRO_M7_1011_SD_H_
 
@@ -43,5 +48,8 @@
 // UART: IOMUXC_GPIO_09_LPUART1_RXD, IOMUXC_GPIO_10_LPUART1_TXD
 #define UART_PORT             LPUART1
 #define UART_CLK_ROOT         BOARD_BOOTCLOCKRUN_UART_CLK_ROOT
+
+static inline void BOARD_ConfigMPU(void) {
+}
 
 #endif

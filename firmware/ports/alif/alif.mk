@@ -28,7 +28,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Include OpenMV board config.
-include $(OMV_BOARD_CONFIG_DIR)/omv_boardconfig.mk
+include $(OMV_BOARD_CONFIG_DIR)/board_config.mk
 
 LDSCRIPT  ?= alif
 BUILD := $(BUILD)/$(MCU_CORE)
@@ -37,12 +37,12 @@ DAVE2D_DIR=drivers/dave2d
 CORE_M55_HP := $(if $(filter M55_HP,$(MCU_CORE)),1,0)
 CMSIS_MCU_H := '<system_utils.h>'
 
-ROMFS_CONFIG := $(OMV_BOARD_CONFIG_DIR)/romfs.json
+ROMFS_CONFIG := $(OMV_BOARD_CONFIG_DIR)/romfs_config.json
 ROMFS_PART := $(if $(filter M55_HP,$(MCU_CORE)),0,1)
 ROMFS_IMAGE := $(FW_DIR)/romfs$(ROMFS_PART).stamp
 
 # Compiler Flags
-CFLAGS += -std=gnu99 \
+CFLAGS += -std=gnu11 \
           -Wall \
           -Werror \
           -Warray-bounds \
@@ -90,12 +90,13 @@ CLANG_FLAGS = -fshort-enums \
               -Wno-unused-command-line-argument \
               -D__ARMCC_VERSION=6100100 \
               -DALIF_CMSIS_H=$(CMSIS_MCU_H) \
-              $(filter-out -march%,$(CFLAGS))
+              $(filter-out -march% -fdisable-rtl%,$(CFLAGS))
 
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/$(COMMON_DIR)
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/modules/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)/
-OMV_CFLAGS += -I$(TOP_DIR)/$(OMV_DIR)/ports/$(PORT)/modules/
+OMV_CFLAGS += -I$(TOP_DIR)
+OMV_CFLAGS += -I$(TOP_DIR)/$(COMMON_DIR)
+OMV_CFLAGS += -I$(TOP_DIR)/modules/
+OMV_CFLAGS += -I$(TOP_DIR)/ports/$(PORT)/
+OMV_CFLAGS += -I$(TOP_DIR)/ports/$(PORT)/modules/
 OMV_CFLAGS += -I$(OMV_BOARD_CONFIG_DIR)
 
 MPY_CFLAGS += -I$(MP_BOARD_CONFIG_DIR)
@@ -112,6 +113,8 @@ MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/alif/tinyusb_port
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/alif/lwip_inc
 
 MPY_CFLAGS += -DMICROPY_PY_CSI=$(MICROPY_PY_CSI)
+MPY_CFLAGS += -DMICROPY_PY_CSI_NG=$(MICROPY_PY_CSI_NG)
+MPY_CFLAGS += -DMICROPY_PY_PROTOCOL=$(MICROPY_PY_PROTOCOL)
 MPY_CFLAGS += -DMICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
 MPY_CFLAGS += -DMICROPY_PY_SSL=$(MICROPY_PY_SSL)
 MPY_CFLAGS += -DMICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
@@ -119,13 +122,18 @@ MPY_CFLAGS += -DMICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
 MPY_CFLAGS += -DMICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
 MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
 MPY_CFLAGS += -DMICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
+MPY_CFLAGS += -DMICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)
+MPY_CFLAGS += -DMICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC)
 
 MPY_MKARGS += MCU_CORE=$(MCU_CORE)
 MPY_MKARGS += MICROPY_VFS_LFS2=0
 MPY_MKARGS += MICROPY_FLOAT_IMPL=float
 MPY_MKARGS += ALIF_DFP_REL_HERE=$(TOP_DIR)/$(HAL_DIR)
 MPY_MKARGS += CMSIS_DIR=$(TOP_DIR)/$(HAL_DIR)/cmsis/inc
+MPY_MKARGS += CFLAGS_EXTRA="-std=gnu11"
 MPY_MKARGS += MICROPY_PY_CSI=$(MICROPY_PY_CSI)
+MPY_MKARGS += MICROPY_PY_CSI_NG=$(MICROPY_PY_CSI_NG)
+MPY_MKARGS += MICROPY_PY_PROTOCOL=$(MICROPY_PY_PROTOCOL)
 MPY_MKARGS += MICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
 MPY_MKARGS += MICROPY_PY_SSL=$(MICROPY_PY_SSL)
 MPY_MKARGS += MICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
@@ -134,7 +142,7 @@ MPY_MKARGS += MICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
 MPY_MKARGS += MICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
 MPY_MKARGS += MICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
 MPY_MKARGS += MICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)
-MPY_MKARGS += MICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC) 
+MPY_MKARGS += MICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC)
 MPY_MKARGS += MICROPY_MANIFEST_MCU_CORE=$(shell echo $(MCU_CORE) | awk -F'_' '{print tolower($$2)}')
 
 ifeq ($(MCU_CORE),M55_HP)
@@ -172,9 +180,7 @@ LDFLAGS = -mthumb \
 
 ifeq ($(MCU_CORE),M55_HP)
 # Linker Flags
-LDFLAGS += -Wl,--wrap=mp_usbd_task \
-           -Wl,--wrap=tud_cdc_rx_cb \
-           -Wl,--wrap=mp_hal_stdio_poll \
+LDFLAGS += -Wl,--wrap=mp_hal_stdio_poll \
            -Wl,--wrap=mp_hal_stdout_tx_strn
 endif
 
@@ -182,8 +188,10 @@ endif
 include lib/cmsis/cmsis.mk
 include lib/alif/alif.mk
 include common/common.mk
+include protocol/protocol.mk
 include drivers/drivers.mk
 include lib/imlib/imlib.mk
+include lib/apriltag/apriltag.mk
 include lib/tflm/tflm.mk
 include ports/ports.mk
 include common/micropy.mk

@@ -12,6 +12,7 @@ TINYUSB_SRC_C += \
 	src/class/hid/hid_device.c \
 	src/class/midi/midi_device.c \
 	src/class/msc/msc_device.c \
+	src/class/mtp/mtp_device.c \
 	src/class/net/ecm_rndis_device.c \
 	src/class/net/ncm_device.c \
 	src/class/usbtmc/usbtmc_device.c \
@@ -21,6 +22,7 @@ TINYUSB_SRC_C += \
   src/host/hub.c \
   src/class/cdc/cdc_host.c \
   src/class/hid/hid_host.c \
+  src/class/midi/midi_host.c \
   src/class/msc/msc_host.c \
   src/class/vendor/vendor_host.c \
   src/typec/usbc.c \

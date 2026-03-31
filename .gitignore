@@ -104,3 +104,4 @@ firmware/src/micropython/lib/pico-sdk/lib/tinyusb/docs/contributing/code_of_cond
 firmware/src/micropython/lib/pico-sdk/lib/tinyusb/docs/info/contributors.rst
 firmware/src/micropython/lib/tinyusb/docs/contributing/code_of_conduct.rst
 firmware/src/micropython/lib/tinyusb/docs/info/contributors.rst
+firmware/build/

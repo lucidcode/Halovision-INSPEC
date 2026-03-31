@@ -50,7 +50,8 @@
 #define FROGEYE2020_SLV_ADDR    (0x6E)
 #define PAG7920_SLV_ADDR        (0x80)
 #define PAG7936_SLV_ADDR        (0x80)
-#define SOFTCSI_SLV_ADDR        (0x7f)
+#define PAG7936_SLV_ADDR_ALT    (0x2A)
+#define PS5520_SLV_ADDR         (0x90)
 
 // Chip ID Registers
 #define OV5640_CHIP_ID          (0x300A)
@@ -92,6 +93,7 @@
 #define GENX320_ID_MP           (0xB0602003)
 #define PAG7920_ID              (0x7920)
 #define PAG7936_ID              (0x7936)
+#define PS5520_ID               (0x5520)
 #define PAJ6100_ID              (0x6100)
 #define FROGEYE2020_ID          (0x2020)
 #define SOFTCSI_ID              (0x50F7)
@@ -102,6 +104,10 @@
 #define OMV_CSI_CLK_SOURCE_TIM  (1U)
 #define OMV_CSI_CLK_SOURCE_OSC  (2U)
 
+#ifndef OMV_CSI_MAX_DEVICES
+#define OMV_CSI_MAX_DEVICES     (1)
+#endif
+
 typedef enum {
     OMV_CSI_ACTIVE_LOW  = 0,
     OMV_CSI_ACTIVE_HIGH = 1
@@ -109,9 +115,10 @@ typedef enum {
 
 typedef enum {
     OMV_CSI_CONFIG_INIT      = (1 << 0),
-    OMV_CSI_CONFIG_FRAMESIZE = (1 << 1),
-    OMV_CSI_CONFIG_PIXFORMAT = (1 << 2),
-    OMV_CSI_CONFIG_WINDOWING = (1 << 3),
+    OMV_CSI_CONFIG_DEINIT    = (1 << 1),
+    OMV_CSI_CONFIG_FRAMESIZE = (1 << 2),
+    OMV_CSI_CONFIG_PIXFORMAT = (1 << 3),
+    OMV_CSI_CONFIG_WINDOWING = (1 << 4),
 } omv_csi_config_t;
 
 typedef enum {
@@ -138,6 +145,7 @@ typedef enum {
 
 typedef enum {
     OMV_CSI_FRAMESIZE_INVALID = 0,
+    OMV_CSI_FRAMESIZE_CUSTOM,
     // C/SIF Resolutions
     OMV_CSI_FRAMESIZE_QQCIF,    // 88x72
     OMV_CSI_FRAMESIZE_QCIF,     // 176x144
@@ -181,14 +189,18 @@ typedef enum {
     OMV_CSI_FRAMESIZE_QXGA,     // 2048x1536
     OMV_CSI_FRAMESIZE_WQXGA,    // 2560x1600
     OMV_CSI_FRAMESIZE_WQXGA2,   // 2592x1944
+    OMV_CSI_FRAMESIZE_MAX,
 } omv_csi_framesize_t;
 
 typedef enum {
-    OMV_CSI_IOCTL_FLAGS_ABORT = (1 << 8),
-} omv_csi_ioctl_flags_t;
+    OMV_CSI_FLAG_UPDATE_FB      = (1 << 0),
+    OMV_CSI_FLAG_NON_BLOCK      = (1 << 1),
+    OMV_CSI_FLAG_NO_POST        = (1 << 2),
+    OMV_CSI_FLAG_IOCTL_ABORT    = (1 << 8),
+} omv_csi_flags_t;
 
 typedef enum {
-    OMV_CSI_IOCTL_SET_READOUT_WINDOW    = 0x00 | OMV_CSI_IOCTL_FLAGS_ABORT,
+    OMV_CSI_IOCTL_SET_READOUT_WINDOW    = 0x00 | OMV_CSI_FLAG_IOCTL_ABORT,
     OMV_CSI_IOCTL_GET_READOUT_WINDOW    = 0x01,
     OMV_CSI_IOCTL_SET_TRIGGERED_MODE    = 0x02,
     OMV_CSI_IOCTL_GET_TRIGGERED_MODE    = 0x03,
@@ -210,19 +222,23 @@ typedef enum {
     OMV_CSI_IOCTL_LEPTON_GET_ATTRIBUTE  = 0x13,
     OMV_CSI_IOCTL_LEPTON_GET_FPA_TEMP   = 0x14,
     OMV_CSI_IOCTL_LEPTON_GET_AUX_TEMP   = 0x15,
-    OMV_CSI_IOCTL_LEPTON_SET_MODE       = 0x16 | OMV_CSI_IOCTL_FLAGS_ABORT,
+    OMV_CSI_IOCTL_LEPTON_SET_MODE       = 0x16 | OMV_CSI_FLAG_IOCTL_ABORT,
     OMV_CSI_IOCTL_LEPTON_GET_MODE       = 0x17,
-    OMV_CSI_IOCTL_LEPTON_SET_RANGE      = 0x18 | OMV_CSI_IOCTL_FLAGS_ABORT,
+    OMV_CSI_IOCTL_LEPTON_SET_RANGE      = 0x18 | OMV_CSI_FLAG_IOCTL_ABORT,
     OMV_CSI_IOCTL_LEPTON_GET_RANGE      = 0x19,
     OMV_CSI_IOCTL_HIMAX_MD_ENABLE       = 0x1A,
     OMV_CSI_IOCTL_HIMAX_MD_CLEAR        = 0x1B,
-    OMV_CSI_IOCTL_HIMAX_MD_WINDOW       = 0x1C | OMV_CSI_IOCTL_FLAGS_ABORT,
+    OMV_CSI_IOCTL_HIMAX_MD_WINDOW       = 0x1C | OMV_CSI_FLAG_IOCTL_ABORT,
     OMV_CSI_IOCTL_HIMAX_MD_THRESHOLD    = 0x1D,
-    OMV_CSI_IOCTL_HIMAX_OSC_ENABLE      = 0x1E | OMV_CSI_IOCTL_FLAGS_ABORT,
+    OMV_CSI_IOCTL_HIMAX_OSC_ENABLE      = 0x1E | OMV_CSI_FLAG_IOCTL_ABORT,
     OMV_CSI_IOCTL_GET_RGB_STATS         = 0x1F,
     OMV_CSI_IOCTL_GENX320_SET_BIASES    = 0x20,
     OMV_CSI_IOCTL_GENX320_SET_BIAS      = 0x21,
     OMV_CSI_IOCTL_GENX320_SET_AFK       = 0x22,
+    OMV_CSI_IOCTL_GENX320_SET_MODE      = 0x23,
+    OMV_CSI_IOCTL_GENX320_READ_EVENTS   = 0x24,
+    OMV_CSI_IOCTL_GENX320_CALIBRATE     = 0x25,
+    OMV_CSI_IOCTL_GENX320_SET_STC       = 0x26,
     OMV_CSI_IOCTL_UPDATE_AGC_AEC        = 0x7F
 } omv_csi_ioctl_t;
 
@@ -248,9 +264,15 @@ typedef enum {
     OMV_CSI_ERROR_FRAMEBUFFER_ERROR     = -18,
     OMV_CSI_ERROR_FRAMEBUFFER_OVERFLOW  = -19,
     OMV_CSI_ERROR_JPEG_OVERFLOW         = -20,
+    OMV_CSI_ERROR_WOULD_BLOCK           = -21,
 } omv_csi_error_t;
 
 #if (OMV_GENX320_ENABLE == 1)
+typedef enum {
+    OMV_CSI_GENX320_MODE_HISTO,
+    OMV_CSI_GENX320_MODE_EVENT,
+} genx_mode_t;
+
 typedef enum {
     OMV_CSI_GENX320_BIASES_DEFAULT,
     OMV_CSI_GENX320_BIASES_LOW_LIGHT,
@@ -266,11 +288,48 @@ typedef enum {
     OMV_CSI_GENX320_BIAS_HPF,
     OMV_CSI_GENX320_BIAS_REFR
 } omv_csi_genx320_bias_t;
+
+typedef enum {
+    OMV_CSI_GENX320_STC_DISABLE,
+    OMV_CSI_GENX320_STC_ONLY,
+    OMV_CSI_GENX320_STC_TRAIL_ONLY,
+    OMV_CSI_GENX320_STC_TRAIL
+} omv_csi_stc_modes_t;
 #endif
 
-typedef void (*vsync_cb_t) (uint32_t vsync);
-typedef void (*frame_cb_t) ();
 typedef struct _omv_csi omv_csi_t;
+
+typedef struct _omv_csi_callback_t {
+    void (*fun) (void *);
+    void *arg;
+} omv_csi_cb_t;
+
+typedef int (*omv_csi_snapshot_t)
+    (omv_csi_t *csi, image_t *image, uint32_t flags);
+
+typedef int (*omv_csi_post_process_t)
+    (omv_csi_t *csi, image_t *image, uint32_t flags);
+
+typedef struct _omv_clk omv_clk_t;
+
+typedef struct _omv_clk {
+    uint32_t freq;
+    #ifdef OMV_CSI_CLK_PORT_BITS
+    OMV_CSI_CLK_PORT_BITS
+    #endif
+    uint32_t (*get_freq) (omv_clk_t *csi);
+    int (*set_freq) (omv_clk_t *csi, uint32_t freq);
+} omv_clk_t;
+
+#if defined(OMV_CSI_STATS_ENABLE)
+typedef struct omv_csi_stats {
+    bool initialized;
+    uint32_t last_ms;
+    float r_avg;
+    float g_avg;
+    float b_avg;
+} omv_csi_stats_t;
+#endif // defined(OMV_CSI_STATS_ENABLE)
 
 typedef struct _omv_csi {
     uint32_t chip_id;           // Sensor ID 32 bits.
@@ -294,14 +353,15 @@ typedef struct _omv_csi {
         uint32_t cfa_format : 3;  // CFA format/pattern.
         uint32_t mipi_if    : 1;  // CSI-2 interface.
         uint32_t mipi_brate : 12; // CSI-2 interface bitrate.
+        uint32_t auxiliary  : 1;  // Indicates that the sensor can be used in dual-CSI config.
     };
 
     const uint16_t *color_palette;    // Color palette used for color lookup.
     bool disable_delays;        // Set to true to disable all sensor settling time delays.
     bool disable_full_flush;    // Turn off default frame buffer flush policy when full.
 
-    vsync_cb_t vsync_callback;  // VSYNC callback.
-    frame_cb_t frame_callback;  // Frame callback.
+    omv_csi_cb_t vsync_cb;      // VSYNC callback
+    omv_csi_cb_t frame_cb;      // Frame callback
 
     // Sensor state
     omv_csi_sde_t sde;          // Special digital effects
@@ -318,21 +378,38 @@ typedef struct _omv_csi {
     bool transpose;             // Transpose Image
     bool auto_rotation;         // Rotate Image Automatically
     bool detected;              // Set to true when the sensor is initialized.
+    bool power_on;              // Set to true when the sensor is active.
 
-    omv_i2c_t i2c_bus;          // SCCB/I2C bus.
-
+    omv_i2c_t *i2c;             // SCCB/I2C bus.
     framebuffer_t *fb;          // Frame buffer pointer
+    omv_clk_t *clk;             // Clock controller.
+    uint32_t clk_hz;            // Clock freqeuency request by this CSI.
+    uint32_t reset_time_ms;     // To track elapsed time since hard-reset.
+    uint32_t power_time_ms;     // To track elapsed time since power on.
+
+    #if defined(OMV_CSI_STATS_ENABLE)
+    bool stats_enabled;         // AWB stats enabled.
+    omv_csi_stats_t stats;      // AWB stats struct.
+    #endif // defined(OMV_CSI_STATS_ENABLE)
 
     #ifdef OMV_CSI_PORT_BITS
     // Additional port-specific members like device base pointer,
-    // dma handles, more I/Os etc... are included directly here,
-    // so that they can be accessible from this struct.
+    // DMA handles, and additional I/Os, are included directly here.
     OMV_CSI_PORT_BITS
     #endif
+
+    // Can be used by port or image sensor drivers to store private
+    // data, internal state, or additional operations.
+    void *priv;
+
+    // Resolution table
+    uint16_t resolution[OMV_CSI_FRAMESIZE_MAX][2];
 
     // Sensor function pointers
     int (*reset) (omv_csi_t *csi);
     int (*sleep) (omv_csi_t *csi, int enable);
+    int (*shutdown) (omv_csi_t *csi, int enable);
+    int (*match) (omv_csi_t *csi, size_t id);
     int (*read_reg) (omv_csi_t *csi, uint16_t reg_addr);
     int (*write_reg) (omv_csi_t *csi, uint16_t reg_addr, uint16_t reg_data);
     int (*set_pixformat) (omv_csi_t *csi, pixformat_t pixformat);
@@ -357,184 +434,209 @@ typedef struct _omv_csi {
     int (*set_special_effect) (omv_csi_t *csi, omv_csi_sde_t sde);
     int (*set_lens_correction) (omv_csi_t *csi, int enable, int radi, int coef);
     int (*ioctl) (omv_csi_t *csi, int request, va_list ap);
+    int (*config) (omv_csi_t *csi, omv_csi_config_t config);
+    int (*abort) (omv_csi_t *csi, bool fifo_flush, bool in_irq);
     int (*snapshot) (omv_csi_t *csi, image_t *image, uint32_t flags);
+    int (*post_process) (omv_csi_t *csi, image_t *image, uint32_t flags);
+    int (*isp_reset) (omv_csi_t *csi);
 } omv_csi_t;
 
-extern omv_csi_t csi;
+// CSI array
+extern omv_csi_t csi_all[OMV_CSI_MAX_DEVICES];
 
-// Resolution table
-extern uint16_t resolution[][2];
-
-// Initialize the sensor state.
+// Resets the sensor state on soft-reboots.
 void omv_csi_init0();
 
-// Initialize the sensor and probe the image sensor.
+// Initializes CSI struct with default ops.
 int omv_csi_init();
 
+// Implemented by ports to set the default CSI ops.
+int omv_csi_ops_init(omv_csi_t *csi);
+
+// Return CSI instance.
+// If id == -1, return the main csi, otherwise look up csi by chip-id.
+omv_csi_t *omv_csi_get(int id);
+
 // Detect and initialize the image sensor.
-int omv_csi_probe_init(uint32_t bus_id, uint32_t bus_speed);
+int omv_csi_probe(omv_i2c_t *i2c);
+
+// Match CSI chip ID with provided ID.
+int omv_csi_match(omv_csi_t *csi, size_t id);
 
 // This function is called after a setting that may require reconfiguring
 // the hardware changes, such as window size, frame size, or pixel format.
-int omv_csi_config(omv_csi_config_t config);
+int omv_csi_config(omv_csi_t *csi, omv_csi_config_t config);
 
 // Abort frame capture and disable IRQs, DMA etc..
 int omv_csi_abort(omv_csi_t *csi, bool fifo_flush, bool in_irq);
 
+// Call on soft-reboot
+void omv_csi_abort_all(void);
+
 // Reset the sensor to its default state.
-int omv_csi_reset();
+int omv_csi_reset(omv_csi_t *csi, bool hard);
 
-// Return csi PID.
-int omv_csi_get_id();
-
-// Returns the xclk freq in hz.
-uint32_t omv_csi_get_xclk_frequency();
+int omv_csi_get_id(omv_csi_t *csi);
 
 // Returns the xclk freq in hz.
-int omv_csi_set_clk_frequency(uint32_t frequency);
+uint32_t omv_csi_get_clk_frequency(omv_csi_t *csi, bool nominal);
+
+// Returns the xclk freq in hz.
+int omv_csi_set_clk_frequency(omv_csi_t *csi, uint32_t frequency);
 
 // Return true if the sensor was detected and initialized.
-bool omv_csi_is_detected();
+bool omv_csi_is_detected(omv_csi_t *csi);
 
 // Sleep mode.
-int omv_csi_sleep(int enable);
+int omv_csi_sleep(omv_csi_t *csi, int enable);
 
 // Shutdown mode.
-int omv_csi_shutdown(int enable);
+int omv_csi_shutdown(omv_csi_t *csi, int enable);
 
 // Read a csi register.
-int omv_csi_read_reg(uint16_t reg_addr);
+int omv_csi_read_reg(omv_csi_t *csi, uint16_t reg_addr);
 
 // Write a csi register.
-int omv_csi_write_reg(uint16_t reg_addr, uint16_t reg_data);
+int omv_csi_write_reg(omv_csi_t *csi, uint16_t reg_addr, uint16_t reg_data);
 
 // Set the sensor pixel format.
-int omv_csi_set_pixformat(pixformat_t pixformat);
+int omv_csi_set_pixformat(omv_csi_t *csi, pixformat_t pixformat);
 
 // Set the sensor frame size.
-int omv_csi_set_framesize(omv_csi_framesize_t framesize);
+int omv_csi_set_framesize(omv_csi_t *csi, omv_csi_framesize_t framesize);
 
 // Set the sensor frame rate.
-int omv_csi_set_framerate(int framerate);
+int omv_csi_set_framerate(omv_csi_t *csi, int framerate);
 
 // Return the number of bytes per pixel to read from the image sensor.
-uint32_t omv_csi_get_src_bpp();
+uint32_t omv_csi_get_src_bpp(omv_csi_t *csi);
 
 // Return the number of bytes per pixel to write to memory.
-uint32_t omv_csi_get_dst_bpp();
+uint32_t omv_csi_get_dst_bpp(omv_csi_t *csi);
 
 // Returns true if a crop is being applied to the frame buffer.
-bool omv_csi_get_cropped();
+bool omv_csi_get_cropped(omv_csi_t *csi);
 
 // Set window size.
-int omv_csi_set_windowing(int x, int y, int w, int h);
+int omv_csi_set_windowing(omv_csi_t *csi, int x, int y, int w, int h);
 
 // Set the sensor contrast level (from -3 to +3).
-int omv_csi_set_contrast(int level);
+int omv_csi_set_contrast(omv_csi_t *csi, int level);
 
 // Set the sensor brightness level (from -3 to +3).
-int omv_csi_set_brightness(int level);
+int omv_csi_set_brightness(omv_csi_t *csi, int level);
 
 // Set the sensor saturation level (from -3 to +3).
-int omv_csi_set_saturation(int level);
+int omv_csi_set_saturation(omv_csi_t *csi, int level);
 
 // Set the sensor AGC gain ceiling.
 // Note: This function has no effect when AGC (Automatic Gain Control) is disabled.
-int omv_csi_set_gainceiling(omv_csi_gainceiling_t gainceiling);
+int omv_csi_set_gainceiling(omv_csi_t *csi, omv_csi_gainceiling_t gainceiling);
 
 // Set the quantization scale factor, controls JPEG quality (quality 0-255).
-int omv_csi_set_quality(int qs);
+int omv_csi_set_quality(omv_csi_t *csi, int qs);
 
 // Enable/disable the colorbar mode.
-int omv_csi_set_colorbar(int enable);
+int omv_csi_set_colorbar(omv_csi_t *csi, int enable);
 
 // Enable auto gain or set value manually.
-int omv_csi_set_auto_gain(int enable, float gain_db, float gain_db_ceiling);
+int omv_csi_set_auto_gain(omv_csi_t *csi, int enable, float gain_db, float gain_db_ceiling);
 
 // Get the gain value.
-int omv_csi_get_gain_db(float *gain_db);
+int omv_csi_get_gain_db(omv_csi_t *csi, float *gain_db);
 
 // Enable auto exposure or set value manually.
-int omv_csi_set_auto_exposure(int enable, int exposure_us);
+int omv_csi_set_auto_exposure(omv_csi_t *csi, int enable, int exposure_us);
 
 // Get the exposure value.
-int omv_csi_get_exposure_us(int *get_exposure_us);
+int omv_csi_get_exposure_us(omv_csi_t *csi, int *get_exposure_us);
 
 // Enable auto white balance or set value manually.
-int omv_csi_set_auto_whitebal(int enable, float r_gain_db, float g_gain_db, float b_gain_db);
+int omv_csi_set_auto_whitebal(omv_csi_t *csi, int enable, float r_gain_db, float g_gain_db, float b_gain_db);
 
 // Get the rgb gain values.
-int omv_csi_get_rgb_gain_db(float *r_gain_db, float *g_gain_db, float *b_gain_db);
+int omv_csi_get_rgb_gain_db(omv_csi_t *csi, float *r_gain_db, float *g_gain_db, float *b_gain_db);
+
+#if defined(OMV_CSI_STATS_ENABLE)
+// Update RGB moving average struct.
+void omv_csi_stats_update(omv_csi_t *csi, uint32_t *r, uint32_t *g, uint32_t *b, uint32_t ms);
+
+// Get RGB moving average values.
+void omv_csi_get_stats(omv_csi_t *csi, uint32_t *r, uint32_t *g, uint32_t *b);
+#endif // defined(OMV_CSI_STATS_ENABLE)
 
 // Enable auto blc (black level calibration) or set from previous calibration.
-int omv_csi_set_auto_blc(int enable, int *regs);
+int omv_csi_set_auto_blc(omv_csi_t *csi, int enable, int *regs);
 
 // Get black level valibration register values.
-int omv_csi_get_blc_regs(int *regs);
+int omv_csi_get_blc_regs(omv_csi_t *csi, int *regs);
 
 // Enable/disable the hmirror mode.
-int omv_csi_set_hmirror(int enable);
+int omv_csi_set_hmirror(omv_csi_t *csi, int enable);
 
 // Get hmirror status.
-bool omv_csi_get_hmirror();
+bool omv_csi_get_hmirror(omv_csi_t *csi);
 
 // Enable/disable the vflip mode.
-int omv_csi_set_vflip(int enable);
+int omv_csi_set_vflip(omv_csi_t *csi, int enable);
 
 // Get vflip status.
-bool omv_csi_get_vflip();
+bool omv_csi_get_vflip(omv_csi_t *csi);
 
 // Enable/disable the transpose mode.
-int omv_csi_set_transpose(bool enable);
+int omv_csi_set_transpose(omv_csi_t *csi, bool enable);
 
 // Get transpose mode state.
-bool omv_csi_get_transpose();
+bool omv_csi_get_transpose(omv_csi_t *csi);
 
 // Enable/disable the auto rotation mode.
-int omv_csi_set_auto_rotation(bool enable);
+int omv_csi_set_auto_rotation(omv_csi_t *csi, bool enable);
 
 // Get transpose mode state.
-bool omv_csi_get_auto_rotation();
+bool omv_csi_get_auto_rotation(omv_csi_t *csi);
 
 // Set the number of virtual frame buffers.
-int omv_csi_set_framebuffers(int count);
+int omv_csi_set_framebuffers(omv_csi_t *csi, size_t count);
 
 // Drop the next frame to match the current frame rate.
-void omv_csi_throttle_framerate();
+void omv_csi_throttle_framerate(omv_csi_t *csi);
 
 // Set special digital effects (SDE).
-int omv_csi_set_special_effect(omv_csi_sde_t sde);
+int omv_csi_set_special_effect(omv_csi_t *csi, omv_csi_sde_t sde);
 
 // Set lens shading correction
-int omv_csi_set_lens_correction(int enable, int radi, int coef);
+int omv_csi_set_lens_correction(omv_csi_t *csi, int enable, int radi, int coef);
 
 // IOCTL function
-int omv_csi_ioctl(int request, ...);
+int omv_csi_ioctl(omv_csi_t *csi, int request, ...);
 
 // Set vsync callback function.
-int omv_csi_set_vsync_callback(vsync_cb_t vsync_cb);
+int omv_csi_set_vsync_callback(omv_csi_t *csi, omv_csi_cb_t cb);
 
 // Set frame callback function.
-int omv_csi_set_frame_callback(frame_cb_t vsync_cb);
+int omv_csi_set_frame_callback(omv_csi_t *csi, omv_csi_cb_t cb);
 
 // Set color palette
-int omv_csi_set_color_palette(const uint16_t *color_palette);
+int omv_csi_set_color_palette(omv_csi_t *csi, const uint16_t *color_palette);
 
 // Get color palette
-const uint16_t *omv_csi_get_color_palette();
+const uint16_t *omv_csi_get_color_palette(omv_csi_t *csi);
 
 // Return true if the current frame size/format fits in RAM.
-int omv_csi_check_framebuffer_size();
+int omv_csi_check_framebuffer_size(omv_csi_t *csi);
 
 // Auto-crop frame buffer until it fits in RAM (may switch pixel format to BAYER).
-int omv_csi_auto_crop_framebuffer();
+int omv_csi_auto_crop_framebuffer(omv_csi_t *csi);
 
 // Copy a single line buffer to its destination. The copying process is
 // DMA-accelerated, if available, and falls back to slow software if not.
-int omv_csi_copy_line(void *dma, uint8_t *src, uint8_t *dst);
+int omv_csi_copy_line(omv_csi_t *csi, void *dma, uint8_t *src, uint8_t *dst);
 
 // Default snapshot function.
 int omv_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags);
+
+// Convert csi chip id to string.
+const char *omv_csi_name(omv_csi_t *csi);
 
 // Convert csi error codes to strings.
 const char *omv_csi_strerror(int error);

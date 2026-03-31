@@ -23,6 +23,7 @@
  *
  * Fast approximate math functions.
  */
+#include "imlib.h"
 #include "fmath.h"
 
 const float __atanf_lut[4] = {
@@ -47,8 +48,13 @@ float fast_expf(float x) {
     // IEEE binary32 format
     e.e = (e.e - 1023 + 127) & 0xFF; // rebase
 
-    uint32_t packed = (e.s << 31) | (e.e << 23) | e.m << 3;
-    return *((float *) &packed);
+    union {
+        uint32_t u;
+        float f;
+    } packed;
+
+    packed.u = (e.s << 31) | (e.e << 23) | e.m << 3;
+    return packed.f;
 }
 
 /*
@@ -61,8 +67,7 @@ float fast_expf(float x) {
 float fast_cbrtf(float x) {
     union {
         int ix; float x;
-    }
-    v;
+    } v;
     v.x = x;               // x can be viewed as int.
     v.ix = v.ix / 4 + v.ix / 16; // Approximate divide by 3.
     v.ix = v.ix + v.ix / 16;
@@ -88,11 +93,11 @@ inline float fast_atanf(float xx) {
     /* range reduction */
     if (x > 2.414213562373095f) {
         /* tan 3pi/8 */
-        y = M_PI_2;
+        y = IMLIB_PI_2;
         x = -(1.0f / x);
     } else if (x > 0.4142135623730950f) {
         /* tan pi/8 */
-        y = M_PI_4;
+        y = IMLIB_PI_4;
         x = (x - 1.0f) / (x + 1.0f);
     } else {
         y = 0.0f;
@@ -118,29 +123,27 @@ float fast_atan2f(float y, float x) {
     }
 
     if (x < 0 && y >= 0) {
-        return M_PI - fast_atanf(-y / x);
+        return IMLIB_PI - fast_atanf(-y / x);
     }
 
     if (x < 0 && y < 0) {
-        return M_PI + fast_atanf(y / x);
+        return IMLIB_PI + fast_atanf(y / x);
     }
 
     if (x > 0 && y < 0) {
-        return 2 * M_PI - fast_atanf(-y / x);
+        return 2 * IMLIB_PI - fast_atanf(-y / x);
     }
 
-    return (y == 0) ? 0 : ((y > 0) ? M_PI : -M_PI);
+    return (y == 0) ? 0 : ((y > 0) ? IMLIB_PI : -IMLIB_PI);
 }
 
 float fast_log2(float x) {
     union {
         float f; uint32_t i;
-    }
-    vx = { x };
+    } vx = { x };
     union {
         uint32_t i; float f;
-    }
-    mx = { (vx.i & 0x007FFFFF) | 0x3f000000 };
+    } mx = { (vx.i & 0x007FFFFF) | 0x3f000000 };
     float y = vx.i;
     y *= 1.1920928955078125e-7f;
 
@@ -155,8 +158,7 @@ float fast_log(float x) {
 float fast_powf(float a, float b) {
     union {
         float d; int x;
-    }
-    u = { a };
+    } u = { a };
     u.x = (int) ((b * (u.x - 1064866805)) + 1064866805);
     return u.d;
 }

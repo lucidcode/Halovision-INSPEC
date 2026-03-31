@@ -6016,7 +6016,7 @@ void imlib_find_datamatrices(list_t *out, image_t *ptr, rectangle_t *roi, int ef
         img.h = roi->h;
         img.pixfmt = PIXFORMAT_GRAYSCALE;
         img.data = grayscale_image;
-        imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 255, NULL, NULL, 0, NULL, NULL, NULL);
+        imlib_draw_image(&img, ptr, 0, 0, 1.f, 1.f, roi, -1, 255, NULL, NULL, 0, NULL, NULL, NULL, NULL);
     }
 
     umm_init_x(fb_avail());
@@ -6077,7 +6077,7 @@ void imlib_find_datamatrices(list_t *out, image_t *ptr, rectangle_t *roi, int ef
 
             // Payload is NOT already null terminated.
             lnk_data.payload_len = message->outputIdx;
-            lnk_data.payload = xalloc(message->outputIdx);
+            lnk_data.payload = m_malloc(message->outputIdx);
             memcpy(lnk_data.payload, message->output, message->outputIdx);
 
             int rotate = fast_roundf((((2 * M_PI) + fast_atan2f(p[1].Y - p[0].Y, p[1].X - p[0].X)) * 180) / M_PI);

@@ -30,23 +30,9 @@
 #include "bsp/board_api.h"
 #include "tusb.h"
 
-#if TUP_MCU_ESPRESSIF
-  // ESP-IDF need "freertos/" prefix in include path.
-  // CFG_TUSB_OS_INC_PATH should be defined accordingly.
-  #include "freertos/FreeRTOS.h"
-  #include "freertos/semphr.h"
-  #include "freertos/queue.h"
-  #include "freertos/task.h"
-  #include "freertos/timers.h"
-
+#ifdef ESP_PLATFORM
   #define USBH_STACK_SIZE     4096
 #else
-  #include "FreeRTOS.h"
-  #include "semphr.h"
-  #include "queue.h"
-  #include "task.h"
-  #include "timers.h"
-
   // Increase stack size when debug log is enabled
   #define USBH_STACK_SIZE    (3*configMINIMAL_STACK_SIZE/2) * (CFG_TUSB_DEBUG ? 2 : 1)
 #endif
@@ -83,12 +69,6 @@ extern void cdc_app_init(void);
 extern void hid_app_init(void);
 extern void msc_app_init(void);
 
-#if CFG_TUH_ENABLED && CFG_TUH_MAX3421
-// API to read/rite MAX3421's register. Implemented by TinyUSB
-extern uint8_t tuh_max3421_reg_read(uint8_t rhport, uint8_t reg, bool in_isr);
-extern bool tuh_max3421_reg_write(uint8_t rhport, uint8_t reg, uint8_t data, bool in_isr);
-#endif
-
 /*------------- MAIN -------------*/
 int main(void) {
   board_init();
@@ -106,15 +86,15 @@ int main(void) {
 
   xTimerStart(blinky_tm, 0);
 
-  // skip starting scheduler (and return) for ESP32-S2 or ESP32-S3
-#if !TUP_MCU_ESPRESSIF
+  // only start scheduler for non-espressif mcu
+#ifndef ESP_PLATFORM
   vTaskStartScheduler();
 #endif
 
   return 0;
 }
 
-#if TUP_MCU_ESPRESSIF
+#ifdef ESP_PLATFORM
 void app_main(void) {
   main();
 }
@@ -126,14 +106,17 @@ static void usb_host_task(void *param) {
   (void) param;
 
   // init host stack on configured roothub port
-  if (!tuh_init(BOARD_TUH_RHPORT)) {
+  tusb_rhport_init_t host_init = {
+    .role = TUSB_ROLE_HOST,
+    .speed = TUSB_SPEED_AUTO
+  };
+
+  if (!tusb_init(BOARD_TUH_RHPORT, &host_init)) {
     printf("Failed to init USB Host Stack\r\n");
     vTaskSuspend(NULL);
   }
 
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
+  board_init_after_tusb();
 
 #if CFG_TUH_ENABLED && CFG_TUH_MAX3421
   // FeatherWing MAX3421E use MAX3421E's GPIO0 for VBUS enable

@@ -1,1 +1,0 @@
-MP_REGISTER_MODULE(MP_QSTR_cmath, mp_module_cmath);

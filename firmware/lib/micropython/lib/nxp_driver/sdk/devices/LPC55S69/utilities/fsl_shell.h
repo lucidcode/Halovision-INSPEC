@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2019 NXP
+ * Copyright 2016-2020 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -15,8 +15,8 @@
  */
 
 #include "fsl_common.h"
-#include "serial_manager.h"
-#include "generic_list.h"
+#include "fsl_component_serial_manager.h"
+#include "fsl_component_generic_list.h"
 
 /*******************************************************************************
  * Definitions
@@ -31,24 +31,30 @@
 #define SHELL_AUTO_COMPLETE (1U)
 
 /*! @brief Macro to set console buffer size. */
+#ifndef SHELL_BUFFER_SIZE
 #define SHELL_BUFFER_SIZE (64U)
+#endif
 
 /*! @brief Macro to set maximum arguments in command. */
 #define SHELL_MAX_ARGS (8U)
 
 /*! @brief Macro to set maximum count of history commands. */
+#ifndef SHELL_HISTORY_COUNT
 #define SHELL_HISTORY_COUNT (3U)
+#endif
 
 /*! @brief Macro to bypass arguments check */
 #define SHELL_IGNORE_PARAMETER_COUNT (0xFF)
 
 /*! @brief The handle size of the shell module. It is the sum of the SHELL_HISTORY_COUNT * SHELL_BUFFER_SIZE +
  * SHELL_BUFFER_SIZE + SERIAL_MANAGER_READ_HANDLE_SIZE + SERIAL_MANAGER_WRITE_HANDLE_SIZE*/
-#define SHELL_HANDLE_SIZE (520U)
+#define SHELL_HANDLE_SIZE                                                                                   \
+    (160U + SHELL_HISTORY_COUNT * SHELL_BUFFER_SIZE + SHELL_BUFFER_SIZE + SERIAL_MANAGER_READ_HANDLE_SIZE + \
+     SERIAL_MANAGER_WRITE_HANDLE_SIZE)
 
 /*! @brief Macro to determine whether use common task. */
 #ifndef SHELL_USE_COMMON_TASK
-#define SHELL_USE_COMMON_TASK (1U)
+#define SHELL_USE_COMMON_TASK (0U)
 #endif
 
 /*! @brief Macro to set shell task priority. */
@@ -227,7 +233,7 @@ _Pragma("diag_suppress=Pm120")
      * @retval kStatus_SHELL_Success Successfully send data.
      * @retval kStatus_SHELL_Error An error occurred.
      */
-    shell_status_t SHELL_Write(shell_handle_t shellHandle, char *buffer, uint32_t length);
+    shell_status_t SHELL_Write(shell_handle_t shellHandle, const char *buffer, uint32_t length);
 
     /*!
      * @brief Writes formatted output to the shell output stream.
@@ -240,6 +246,54 @@ _Pragma("diag_suppress=Pm120")
      * @return  Returns the number of characters printed or a negative value if an error occurs.
      */
     int SHELL_Printf(shell_handle_t shellHandle, const char *formatString, ...);
+    /*!
+     * @brief Sends data to the shell output stream with OS synchronization.
+     *
+     * This function is used to send data to the shell output stream with OS synchronization, note the function could
+     * not be called in ISR.
+     *
+     * @param shellHandle The shell module handle pointer.
+     * @param buffer Start address of the data to write.
+     * @param length Length of the data to write.
+     * @retval kStatus_SHELL_Success Successfully send data.
+     * @retval kStatus_SHELL_Error An error occurred.
+     */
+    shell_status_t SHELL_WriteSynchronization(shell_handle_t shellHandle, const char *buffer, uint32_t length);
+
+    /*!
+     * @brief Writes formatted output to the shell output stream with OS synchronization.
+     *
+     * Call this function to write a formatted output to the shell output stream with OS synchronization, note the
+     * function could not be called in ISR.
+     *
+     * @param shellHandle The shell module handle pointer.
+     *
+     * @param   formatString Format string.
+     * @return  Returns the number of characters printed or a negative value if an error occurs.
+     */
+    int SHELL_PrintfSynchronization(shell_handle_t shellHandle, const char *formatString, ...);
+    /*!
+     * @brief Change shell prompt.
+     *
+     * Call this function to change shell prompt.
+     *
+     * @param shellHandle The shell module handle pointer.
+     *
+     * @param prompt The string which will be used for command prompt
+     * @return  NULL.
+     */
+    void SHELL_ChangePrompt(shell_handle_t shellHandle, char *prompt);
+
+    /*!
+     * @brief Print shell prompt.
+     *
+     * Call this function to print shell prompt.
+     *
+     * @param shellHandle The shell module handle pointer.
+     *
+     * @return  NULL.
+     */
+    void SHELL_PrintPrompt(shell_handle_t shellHandle);
 
 /*!
  * @brief The task function for Shell.
@@ -251,6 +305,26 @@ _Pragma("diag_suppress=Pm120")
 #if !(defined(SHELL_NON_BLOCKING_MODE) && (SHELL_NON_BLOCKING_MODE > 0U))
     void SHELL_Task(shell_handle_t shellHandle);
 #endif
+
+    /*!
+     * @brief Check if code is running in ISR.
+     *
+     * This function is used to check if code running in ISR.
+     *
+     * @retval TRUE if code runing in ISR.
+     */
+    static inline bool SHELL_checkRunningInIsr(void)
+    {
+#if (defined(__DSC__) && defined(__CW__))
+        return !(isIRQAllowed());
+#elif defined(__GIC_PRIO_BITS)
+    return (0x13 == (__get_CPSR() & CPSR_M_Msk));
+#elif defined(__get_IPSR)
+    return (0U != __get_IPSR());
+#else
+    return false;
+#endif
+    }
 
     /* @} */
 

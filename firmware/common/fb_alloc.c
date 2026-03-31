@@ -27,7 +27,7 @@
 #include "py/runtime.h"
 #include "fb_alloc.h"
 #include "framebuffer.h"
-#include "omv_boardconfig.h"
+#include "board_config.h"
 #include "omv_common.h"
 
 extern char _fb_alloc_end;
@@ -39,16 +39,16 @@ static uint32_t alloc_bytes_peak;
 #endif
 
 #if defined(OMV_FB_OVERLAY_MEMORY)
-#define FB_OVERLAY_MEMORY_FLAG    0x1
+#define FB_OVERLAY_MEMORY_FLAG  0x1
 extern char _fballoc_overlay_end, _fballoc_overlay_start;
 static char *pointer_overlay = &_fballoc_overlay_end;
 #endif
 
 // fb_alloc_free_till_mark() will not free past this.
 // Use fb_alloc_free_till_mark_permanent() instead.
-#define FB_PERMANENT_FLAG         0x2
+#define FB_PERMANENT_FLAG       0x2
 
-char *fb_alloc_stack_pointer() {
+char *fb_alloc_sp() {
     return pointer;
 }
 
@@ -64,17 +64,20 @@ void fb_alloc_init0() {
 }
 
 uint32_t fb_avail() {
-    framebuffer_t *fb = framebuffer_get(0);
-    uint32_t temp = pointer - framebuffer_get_buffers_end(fb) - sizeof(uint32_t);
-    return (temp < sizeof(uint32_t)) ? 0 : temp;
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
+    char *pool_end = framebuffer_pool_end(fb);
+    if (pointer <= pool_end + sizeof(uint32_t)) {
+        return 0;
+    }
+    return pointer - pool_end - sizeof(uint32_t);
 }
 
 void fb_alloc_mark() {
-    framebuffer_t *fb = framebuffer_get(0);
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
     char *new_pointer = pointer - sizeof(uint32_t);
 
     // Check if allocation overwrites the framebuffer pixels
-    if (new_pointer < framebuffer_get_buffers_end(fb)) {
+    if (new_pointer < framebuffer_pool_end(fb)) {
         nlr_jump(MP_OBJ_TO_PTR(mp_obj_new_exception_msg(&mp_type_MemoryError,
                                                         MP_ERROR_TEXT("Out of fast frame buffer stack memory"))));
     }
@@ -137,7 +140,7 @@ void fb_alloc_free_till_mark_past_mark_permanent() {
 
 // returns null pointer without error if size==0
 void *fb_alloc(uint32_t size, int hints) {
-    framebuffer_t *fb = framebuffer_get(0);
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
 
     if (!size) {
         return NULL;
@@ -146,7 +149,7 @@ void *fb_alloc(uint32_t size, int hints) {
     size = ((size + sizeof(uint32_t) - 1) / sizeof(uint32_t)) * sizeof(uint32_t); // Round Up
 
     if (hints & FB_ALLOC_CACHE_ALIGN) {
-        size = ((size + OMV_ALLOC_ALIGNMENT - 1) / OMV_ALLOC_ALIGNMENT) * OMV_ALLOC_ALIGNMENT;
+        size = OMV_ALIGN_TO(size, OMV_ALLOC_ALIGNMENT);
         size += OMV_ALLOC_ALIGNMENT - sizeof(uint32_t);
     }
 
@@ -154,7 +157,7 @@ void *fb_alloc(uint32_t size, int hints) {
     char *new_pointer = result - sizeof(uint32_t);
 
     // Check if allocation overwrites the framebuffer pixels
-    if (new_pointer < framebuffer_get_buffers_end(fb)) {
+    if (new_pointer < framebuffer_pool_end(fb)) {
         fb_alloc_fail();
     }
 
@@ -198,13 +201,15 @@ void *fb_alloc0(uint32_t size, int hints) {
 }
 
 void *fb_alloc_all(uint32_t *size, int hints) {
-    framebuffer_t *fb = framebuffer_get(0);
-    uint32_t temp = pointer - framebuffer_get_buffers_end(fb) - sizeof(uint32_t);
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
+    char *pool_end = framebuffer_pool_end(fb);
 
-    if (temp < sizeof(uint32_t)) {
+    if (pointer <= pool_end + sizeof(uint32_t)) {
         *size = 0;
         return NULL;
     }
+
+    uint32_t temp = pointer - pool_end - sizeof(uint32_t);
 
     #if defined(OMV_FB_OVERLAY_MEMORY)
     if (!(hints & FB_ALLOC_PREFER_SIZE)) {

@@ -31,8 +31,9 @@ RPMSG_SHMEM_SIZE = DEFINED(__use_shmem__) ? 0x1800 : 0;
 /* Specify the memory areas */
 MEMORY
 {
-  m_interrupts          (RX)  : ORIGIN = 0x00000000, LENGTH = 0x000000E4
-  m_text                (RX)  : ORIGIN = 0x000000E4, LENGTH = 0x0002FF1C
+  m_interrupts          (RX)  : ORIGIN = 0x00000000, LENGTH = 0x000002FC
+  m_crp                 (RX)  : ORIGIN = 0x000002FC, LENGTH = 0x00000004
+  m_text                (RX)  : ORIGIN = 0x00000300, LENGTH = 0x0002FD00
   m_core1_image         (RX)  : ORIGIN = 0x00030000, LENGTH = 0x00010000
   m_data                (RW)  : ORIGIN = 0x20000000, LENGTH = 0x00010000
   rpmsg_sh_mem          (RW)  : ORIGIN = 0x20026800, LENGTH = RPMSG_SHMEM_SIZE
@@ -42,19 +43,21 @@ MEMORY
 SECTIONS
 {
   /* section for storing the secondary core image */
-  .m0code :
+  .core1_code :
   {
      . = ALIGN(4) ;
-    KEEP (*(.m0code))
-     *(.m0code*)
+    KEEP (*(.core1_code))
+     *(.core1_code*)
      . = ALIGN(4) ;
   } > m_core1_image
 
   /* NOINIT section for rpmsg_sh_mem */
   .noinit_rpmsg_sh_mem (NOLOAD) : ALIGN(4)
   {
+     __RPMSG_SH_MEM_START__ = .;
      *(.noinit.$rpmsg_sh_mem*)
      . = ALIGN(4) ;
+     __RPMSG_SH_MEM_END__ = .;
   } > rpmsg_sh_mem
 
   /* The startup code goes first into internal flash */
@@ -64,6 +67,13 @@ SECTIONS
     KEEP(*(.isr_vector))     /* Startup code */
     . = ALIGN(4);
   } > m_interrupts
+
+  .crp :
+  {
+    . = ALIGN(4);
+    KEEP(*(.crp))    /* Code Read Protection level (CRP) */
+    . = ALIGN(4);
+  } > m_crp
 
   /* The program code and other data goes into internal flash */
   .text :

@@ -446,7 +446,7 @@ class Interface:
         # Return the number of actual USB Interfaces represented by this object
         # (as set in desc_cfg().)
         #
-        # Only needs to be overriden if implementing a Interface class that
+        # Only needs to be overridden if implementing a Interface class that
         # represents more than one USB Interface descriptor (i.e. MIDI), or an
         # Interface Association Descriptor (i.e. USB-CDC).
         return 1
@@ -600,7 +600,8 @@ class Interface:
         # function has returned to the caller.
         if not self._open:
             raise RuntimeError("Not open")
-        _dev._submit_xfer(ep_addr, data, done_cb)
+        if not _dev._submit_xfer(ep_addr, data, done_cb):
+            raise RuntimeError("DCD error")
 
     def stall(self, ep_addr, *args):
         # Set or get the endpoint STALL state.
@@ -610,7 +611,7 @@ class Interface:
         # argument to set or clear.
         #
         # Generally endpoint STALL is handled automatically, but there are some
-        # device classes that need to explicitly stall or unstall an endpoint
+        # device classes that need to explicitly stall or un-stall an endpoint
         # under certain conditions.
         if not self._open or ep_addr not in self._eps:
             raise RuntimeError

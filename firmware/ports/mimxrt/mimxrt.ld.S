@@ -26,7 +26,7 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-#include "omv_boardconfig.h"
+#include "board_config.h"
 
 /* Specify the memory areas */
 MEMORY
@@ -105,7 +105,7 @@ SECTIONS
   .text :
   {
     . = ALIGN(4);
-    *(EXCLUDE_FILE(*fsl_flexspi.o *gc.o *vm.o *parse*.o *runtime*.o *map.o *mpirq.o ) .text*)
+    *(EXCLUDE_FILE(*fsl_flexspi.o *gc.o *vm.o *parse*.o *runtime*.o *mpirq.o ) .text*)
     *(.rodata)
     *(.rodata*)
     *(.glue_7)

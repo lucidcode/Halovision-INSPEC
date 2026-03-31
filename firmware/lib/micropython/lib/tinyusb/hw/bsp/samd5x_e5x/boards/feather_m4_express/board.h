@@ -24,6 +24,11 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   name: Adafruit Feather M4 Express
+   url: https://www.adafruit.com/product/3857
+*/
+
 #ifndef BOARD_H_
 #define BOARD_H_
 
@@ -59,6 +64,10 @@
 
 #define MAX3421_INTR_PIN        19 // D9
 #define MAX3421_INTR_EIC_ID     3  // EIC3
+
+static inline void board_vbus_set(uint8_t rhport, bool state) {
+ (void) rhport; (void) state;
+}
 
 #ifdef __cplusplus
  }
