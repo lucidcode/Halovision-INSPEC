@@ -1,4 +1,4 @@
-import sensor
+import csi
 import os
 import sys
 import ujson
@@ -23,18 +23,19 @@ class inspec_sensor:
         print(f'INSPEC {version}')
         self.error = None
         self.config = inspec_config()
+        self.sensor = csi.CSI()
         self.configure_sensor()
 
         self.comms = inspec_comms(self.ble_message_received)
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
-        self.face = face_detection(self.config, self.comms)
+        self.face = face_detection(self.config, self.comms, self.sensor)
         self.rem = rapid_eye_movement(self.config, self.face)
         self.nrem = non_rapid_eye_movement(self.config, self.face)
         self.quality = sleep_quality(self.config, self.process_api)
 
-        self.img = sensor.snapshot()
-        self.extra_fb.replace(self.img)
+        self.img = self.sensor.snapshot()
+        self.extra_fb.draw_image(self.img)
         self.peak_variance = 0
         self.global_variance = 0
         
@@ -48,63 +49,58 @@ class inspec_sensor:
         self.init_stream()
 
     def configure_sensor(self):
-        sensor.reset()
-        sensor.set_hmirror(True if self.config.get('HorizontalMirror') else False)
-        sensor.set_vflip(True if self.config.get('VerticalFlip') else False)
-        
-        sensor.set_framesize(sensor.HQVGA)
+        self.sensor.reset()
+        self.sensor.hmirror(True if self.config.get('HorizontalMirror') else False)
+        self.sensor.vflip(True if self.config.get('VerticalFlip') else False)
 
-        if self.config.get('PixelFormat') == 'RGB565':
-            sensor.set_pixformat(sensor.RGB565)
-            self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.RGB565)
-        if self.config.get('PixelFormat') == 'Grayscale':
-            sensor.set_pixformat(sensor.GRAYSCALE)
-            self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
-        if self.config.get('PixelFormat') == 'BAYER':
-            sensor.set_pixformat(sensor.BAYER)
-            self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.BAYER)
-        if self.config.get('PixelFormat') == 'YUV422':
-            sensor.set_pixformat(sensor.YUV422)
-            self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.YUV422)
-        if self.config.get('PixelFormat') == 'JPEG':
-            sensor.set_pixformat(sensor.JPEG)
-            self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.JPEG)
+        self.sensor.framesize(csi.HQVGA)
+
+        pixformat_map = {
+            'RGB565': csi.RGB565,
+            'Grayscale': csi.GRAYSCALE,
+            'BAYER': csi.BAYER,
+            'YUV422': csi.YUV422,
+            'JPEG': csi.JPEG,
+        }
+        fmt = pixformat_map.get(self.config.get('PixelFormat'), csi.RGB565)
+        self.sensor.pixformat(fmt)
+        self.extra_fb = image.Image(self.sensor.width(), self.sensor.height(), fmt)
 
         if self.config.get('TrackFace'):
-            sensor.set_contrast(3)
-            sensor.set_gainceiling(16)
+            self.sensor.contrast(3)
+            self.sensor.gainceiling(16)
             return
-        
+
         if self.config.get('Brightness'):
-            sensor.set_brightness(self.config.get('Brightness'))
+            self.sensor.brightness(self.config.get('Brightness'))
         if self.config.get('Contrast'):
-            sensor.set_contrast(self.config.get('Contrast'))
+            self.sensor.contrast(self.config.get('Contrast'))
         if self.config.get('Saturation'):
-            sensor.set_brightness(self.config.get('Saturation'))
+            self.sensor.saturation(self.config.get('Saturation'))
         if self.config.get('GainCeiling'):
-            sensor.set_gainceiling(self.config.get('GainCeiling'))
-        
+            self.sensor.gainceiling(self.config.get('GainCeiling'))
+
         if self.config.get('AutoGain'):
-            sensor.set_auto_gain(True)
+            self.sensor.auto_gain(True)
         else:
-            sensor.set_auto_gain(False)
-#
+            self.sensor.auto_gain(False)
+
         if self.config.get('AutoExposure'):
-            sensor.set_auto_exposure(True)
+            self.sensor.auto_exposure(True)
         else:
-            sensor.set_auto_exposure(False)
+            self.sensor.auto_exposure(False)
 
     def monitor(self):
         while True:
             try:
-                self.img = sensor.snapshot()
+                self.img = self.sensor.snapshot()
 
                 self.face.detect(self.img, self.global_variance)
                 self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
                 
                 if self.variance > self.peak_variance:
                     self.peak_variance = self.variance
-                self.extra_fb.replace(self.img)
+                self.extra_fb.draw_image(self.img)
                 self.face.draw_region(self.img)
 
                 self.detect_motion()

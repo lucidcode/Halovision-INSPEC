@@ -1,13 +1,15 @@
-import sensor
+import csi
 import image
 import math
 import ml
+from ml.postprocessing.edgeimpulse import Fomo
 from ml.utils import NMS
 
 class face_detection:
-    def __init__(self, config, comms):
+    def __init__(self, config, comms, sensor):
         self.config = config
         self.comms = comms
+        self.sensor = sensor
         self.has_face = False
         self.face_cascade = image.HaarCascade("/rom/haarcascade_frontalface.cascade", stages=self.config.get('FaceStages'))
         self.face_object = [0, 0, 1, 1]
@@ -15,8 +17,8 @@ class face_detection:
         self.correct_angle = False
         self.ml_model = None
         self.detector = ""
-        
-        self.extra_fb = sensor.alloc_extra_fb(sensor.width(), sensor.height(), sensor.GRAYSCALE)
+
+        self.extra_fb = image.Image(self.sensor.width(), self.sensor.height(), csi.GRAYSCALE)
 
     def detect(self, img, global_variance):
         if not self.config.get('TrackFace') and not self.config.get('TensorFlow'):
@@ -30,9 +32,9 @@ class face_detection:
 
         if self.config.get('TensorFlow'):
             if self.ml_model == None:
-                self.ml_model = ml.Model('/rom/fomo_face_detection.tflite')                
+                self.ml_model = ml.Model('/rom/fomo_face_detection.tflite', postprocess=Fomo(threshold=self.config.get('FaceConfidence')))                
         
-            for i, detection_list in enumerate(self.ml_model.predict([img], callback=self.post_process)):
+            for i, detection_list in enumerate(self.ml_model.predict([img])):
                 if i == 0 or len(detection_list) == 0:
                     continue
 
@@ -102,7 +104,7 @@ class face_detection:
                 (face_x + face_width, face_y)
             ]
 
-            rotated_rect = [translate(rotate(xy, theta), offset) for xy in rect]
+            rotated_rect = [self.translate(self.rotate(xy, theta), offset) for xy in rect]
             
             img.draw_line((rotated_rect[0][0], rotated_rect[0][1], rotated_rect[1][0], rotated_rect[1][1]), color=(220, 220, 0))    
             img.draw_line((rotated_rect[1][0], rotated_rect[1][1], rotated_rect[2][0], rotated_rect[2][1]), color=(220, 220, 0))    
@@ -110,25 +112,7 @@ class face_detection:
             img.draw_line((rotated_rect[3][0], rotated_rect[3][1], rotated_rect[0][0], rotated_rect[0][1]), color=(220, 220, 0))
             img.draw_string(face_x, face_y + face_height - 10, str(self.face_angle) + "^", color=(70, 130, 180), mono_space=False)
 
-    def post_process(self, model, inputs, outputs):
-        n, oh, ow, oc = model.output_shape[0]
-        nms = NMS(ow, oh, inputs[0].roi)
-        threshold_list = [(self.config.get('FaceConfidence'), 255)]
-        for i in range(oc):
-            img = image.Image(outputs[0][0, :, :, i] * 255)
-            blobs = img.find_blobs(
-                threshold_list, x_stride=1, area_threshold=1, pixels_threshold=1
-            )
-            for b in blobs:
-                rect = b.rect()
-                x, y, w, h = rect
-                score = (
-                    img.get_statistics(thresholds=threshold_list, roi=rect).l_mean() / 255.0
-                )
-                nms.add_bounding_box(x, y, x + w, y + h, score, i)
-        return nms.get_bounding_boxes()
-
-    def rotate(xy, theta):
+    def rotate(self, xy, theta):
         cos_theta, sin_theta = math.cos(theta), math.sin(theta)
 
         return (
@@ -136,5 +120,5 @@ class face_detection:
             int(xy[0] * sin_theta + xy[1] * cos_theta)
         )
 
-    def translate(xy, offset):
+    def translate(self, xy, offset):
         return xy[0] + offset[0], xy[1] + offset[1]
