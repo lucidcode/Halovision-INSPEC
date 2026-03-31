@@ -65,7 +65,7 @@ class lucid_scribe_data:
             self.write_log()
             self.lsd_values = str(variance)
             self.rem_values = str(rem)
-            self.sqi_values = str(rem)
+            self.sqi_values = str(sqi)
             return
 
         if (now - self.lsd_minute_start >= 1000 * 60):
@@ -74,12 +74,12 @@ class lucid_scribe_data:
             self.write_log()
             self.lsd_values = str(variance)
             self.rem_values = str(rem)
-            self.sqi_values = str(rem)
+            self.sqi_values = str(sqi)
             return
 
         self.lsd_values = f'{self.lsd_values},{str(variance)}'
         self.rem_values = f'{self.rem_values},{str(rem)}'
-        self.sqi_values = f'{self.sqi_values},{str(quality)}'
+        self.sqi_values = f'{self.sqi_values},{str(sqi)}'
 
     def write_log(self):
         self.lsd_file = open(self.session_file, 'a')
@@ -104,7 +104,7 @@ class lucid_scribe_data:
         entries = os.listdir("sessions")
         directories = ""
         for entry in entries:
-            if ("vision_" in entry):
+            if ("session_" in entry):
                 if directories == "":
                     directories = entry.replace("session_", "")
                 else:
