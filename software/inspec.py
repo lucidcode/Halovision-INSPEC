@@ -98,8 +98,8 @@ class inspec_sensor:
                 self.face.detect(self.img, self.global_variance)
                 self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
                 
-                if self.variance > self.peak_variance:
-                    self.peak_variance = self.variance
+                if self.global_variance > self.peak_variance:
+                    self.peak_variance = self.global_variance
                 self.extra_fb.draw_image(self.img)
                 self.face.draw_region(self.img)
 
@@ -107,11 +107,11 @@ class inspec_sensor:
                 self.detect_face()
                 self.detect_rem()
                 self.detect_nrem()
-                self.quality.measure(self.variance)
+                self.quality.measure(self.global_variance)
                 
                 self.led.process()
                 self.process_trigger()
-                self.process_api("variance", self.variance)
+                self.process_api("variance", self.global_variance)
 
                 if (utime.ticks_ms() - self.last_update > 128):
                     face = "1" if self.face.has_face else "0"
@@ -215,13 +215,13 @@ class inspec_sensor:
             self.lsd.add_image(self.img, motion)
             self.trigger()
 
-        self.lsd.log(self.variance, motion, 0)
+        self.lsd.log(self.global_variance, motion, 0)
         
     def detect_rem(self):
         eye_movements = self.rem.detect(self.variance, self.global_variance)
         
         if self.config.get('Algorithm') == "REM Detection":
-            self.lsd.log(self.variance, self.rem.eye_movements, self.quality.indicator)
+            self.lsd.log(self.global_variance, self.rem.eye_movements, self.quality.indicator)
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements
@@ -262,8 +262,8 @@ class inspec_sensor:
         if self.trigger_time - now < 0:
             self.trigger_time = sys.maxsize
             self.led.flash()
-            self.comms.send_data(f'trigger:{str(self.variance)}')
-            self.process_api("trigger", self.variance)
+            self.comms.send_data(f'trigger:{str(self.global_variance)}')
+            self.process_api("trigger", self.global_variance)
 
             if self.stream == None or not self.stream.connected:
                 self.comms.send_image(self.img)        
