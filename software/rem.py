@@ -6,6 +6,7 @@ class rapid_eye_movement:
         self.face = face
         self.eye_movements = 0
         self.last_eye_movement = utime.ticks_ms()
+        self.artifact_streak = 0.0
 
     def detect(self, variance, global_variance):
         now = utime.ticks_ms()
@@ -19,15 +20,22 @@ class rapid_eye_movement:
             self.eye_movements = self.eye_movements - 1
             self.last_eye_movement = now - 1000 * 58
 
-        if (self.config.get('TrackFace') or self.config.get('TensorFlow')) and not self.face.has_face:
+        if (self.config.get('TrackFace') or self.config.get('TensorFlow') or self.config.get('BlazeFace')) and not self.face.has_face:
             return self.eye_movements
 
         artifact_filter = self.config.get('ArtifactFilter')
         artifact_variance = variance + variance * (1.0 - artifact_filter)
         if artifact_filter != 0 and global_variance > artifact_variance:
+            self.artifact_streak += 1
             if artifact_filter >= 0.5:
-                self.eye_movements = 0
+                if self.artifact_streak > 4:
+                    self.eye_movements = 0
+                elif self.eye_movements > 0:
+                    self.eye_movements -= 1
             return self.eye_movements
+        else:
+            if self.artifact_streak > 0:
+                self.artifact_streak = max(0.0, self.artifact_streak - 0.25)
 
         if variance < self.config.get('TriggerThreshold'):
             return self.eye_movements

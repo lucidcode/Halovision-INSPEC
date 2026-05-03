@@ -37,7 +37,9 @@ class inspec_config:
         self.default['Day'] = 1
         self.default['TrackFace'] = 1
         self.default['TrackEyes'] = 0
-        self.default['TensorFlow'] = 1
+        self.default['TensorFlow'] = 0
+        self.default['BlazeFace'] = 1
+        self.default['BlazeFaceConfidence'] = 0.4
         self.default['FaceConfidence'] = 102
         self.default['DrawFaceRegion'] = 1
         self.default['FaceStages'] = 25
@@ -95,7 +97,7 @@ class inspec_config:
             self.config[setting] = value
             return
 
-        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter"]
+        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter", "BlazeFaceConfidence"]
         if setting in float_settings:
             self.config[setting] = float(value)
             return
