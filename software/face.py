@@ -2,8 +2,12 @@ import csi
 import image
 import math
 import ml
+import random
 from ml.postprocessing.edgeimpulse import Fomo
+from ml.postprocessing.mediapipe import BlazeFace
 from ml.utils import NMS
+
+AJNA = True
 
 class face_detection:
     def __init__(self, config, comms, sensor):
@@ -16,19 +20,87 @@ class face_detection:
         self.face_angle = 0
         self.correct_angle = False
         self.ml_model = None
+        self.blazeface_model = None
+        self.blazeface_skip_counter = 0
+        self.eye_centers = [(0, 0), (0, 0)]
+        self.ipd = 0
         self.detector = ""
+
+        self.halo_mid_x = 0
+        self.halo_mid_y = 0
+        self.halo_angle = 0
+        self.halo_rx_inner = 10
+        self.halo_ry_inner = 6
+        self.halo_rx_outer = 12
+        self.halo_ry_outer = 7
+        self.halo_cos_f = 1.0
+        self.halo_sin_f = 0.0
+        self.halo_top_x = 0
+        self.halo_top_y = 0
+        self.halo_verts = [(0, 0), (0, 0), (0, 0)]
+        self.third_eye_rx = 3
+        self.third_eye_ry = 2
+        self.third_eye_pupil_r = 1
 
         self.extra_fb = image.Image(self.sensor.width(), self.sensor.height(), csi.GRAYSCALE)
 
     def detect(self, img, global_variance):
-        if not self.config.get('TrackFace') and not self.config.get('TensorFlow'):
+        if not self.config.get('TrackFace') and not self.config.get('TensorFlow') and not self.config.get('BlazeFace'):
             self.face_object = [0, 0, img.width(), img.height()]
             self.has_face = False
             return
 
-        if global_variance >= self.config.get('TossThreshold'):
+        is_toss = global_variance >= self.config.get('TossThreshold')
+
+        if self.config.get('BlazeFace'):
+            if is_toss and self.blazeface_skip_counter > 8:
+                self.blazeface_skip_counter = 8
+
+            if self.blazeface_skip_counter > 0 and self.detector == "BlazeFace" and self.has_face:
+                self.blazeface_skip_counter -= 1
+                return
+
+        if is_toss:
             self.face_object = [0, 0, img.width(), img.height()]
-            self.has_face = False
+
+        self.has_face = False
+
+        if self.config.get('BlazeFace'):
+            if self.blazeface_model is None:
+                self.blazeface_model = ml.Model('/rom/blazeface_front_128.tflite', postprocess=BlazeFace(threshold=self.config.get('BlazeFaceConfidence')))
+
+            for r, score, keypoints in self.blazeface_model.predict([img]):
+                right_eye = (int(keypoints[0][0]), int(keypoints[0][1]))
+                left_eye = (int(keypoints[1][0]), int(keypoints[1][1]))
+                self.eye_centers = [right_eye, left_eye]
+
+                dx = left_eye[0] - right_eye[0]
+                dy = left_eye[1] - right_eye[1]
+                ipd_f = math.sqrt(dx * dx + dy * dy)
+                self.ipd = int(ipd_f)
+                self.face_angle = math.degrees(math.atan2(dy, dx))
+
+                if ipd_f > 0:
+                    abs_cos = abs(dx) / ipd_f
+                    abs_sin = abs(dy) / ipd_f
+                else:
+                    abs_cos, abs_sin = 1.0, 0.0
+
+                eye_cx = (right_eye[0] + left_eye[0]) // 2
+                eye_cy = (right_eye[1] + left_eye[1]) // 2
+                eye_w_aligned = ipd_f * 2.5
+                eye_h_aligned = ipd_f * 1.0
+                eye_w = max(int(eye_w_aligned * abs_cos + eye_h_aligned * abs_sin), 1)
+                eye_h = max(int(eye_w_aligned * abs_sin + eye_h_aligned * abs_cos), 1)
+                eye_x = max(eye_cx - eye_w // 2, 0)
+                eye_y = max(eye_cy - eye_h // 2, 0)
+                self.face_object = (eye_x, eye_y, eye_w, eye_h)
+
+                self.detector = "BlazeFace"
+                self.has_face = True
+                self.blazeface_skip_counter = max(128, 0)
+                self.compute_halo_geometry()
+                return
 
         if self.config.get('TensorFlow'):
             if self.ml_model == None:
@@ -75,12 +147,69 @@ class face_detection:
                     eyes_height = int(self.face_object[3] * 2/5)
                     self.face_object = [eyes_x, eyes_y, eyes_width, eyes_height]
         
+    def compute_halo_geometry(self):
+        right_eye, left_eye = self.eye_centers
+        self.halo_mid_x = (right_eye[0] + left_eye[0]) // 2
+        self.halo_mid_y = (right_eye[1] + left_eye[1]) // 2
+        self.halo_angle = int(self.face_angle)
+        self.halo_rx_inner = max(int(self.ipd * 1.00), 10)
+        self.halo_ry_inner = max(int(self.ipd * 0.55), 6)
+        self.halo_rx_outer = max(int(self.ipd * 1.10), 12)
+        self.halo_ry_outer = max(int(self.ipd * 0.62), 7)
+
+        face_rad = math.radians(self.face_angle)
+        self.halo_cos_f = math.cos(face_rad)
+        self.halo_sin_f = math.sin(face_rad)
+
+        top_x_f = self.halo_mid_x + self.halo_ry_outer * self.halo_sin_f
+        top_y_f = self.halo_mid_y - self.halo_ry_outer * self.halo_cos_f
+        self.halo_top_x = int(top_x_f)
+        self.halo_top_y = int(top_y_f)
+
+        if AJNA:
+            self.third_eye_rx = max(int(self.ipd * 0.10), 3)
+            self.third_eye_ry = max(int(self.ipd * 0.05), 2)
+            self.third_eye_pupil_r = max(int(self.ipd * 0.025), 1)
+        else:
+            tri_size = max(int(self.ipd * 0.06), 2)
+            verts_aligned = [
+                (0, -tri_size),
+                (-tri_size * 0.87, tri_size * 0.5),
+                (tri_size * 0.87, tri_size * 0.5),
+            ]
+            self.halo_verts = []
+            for vx, vy in verts_aligned:
+                rx = vx * self.halo_cos_f - vy * self.halo_sin_f
+                ry = vx * self.halo_sin_f + vy * self.halo_cos_f
+                self.halo_verts.append((int(top_x_f + rx), int(top_y_f + ry)))
+
     def draw_region(self, img):
         if not self.config.get('DrawFaceRegion'):
             return
 
         if self.face_object[2] == img.width():
             return
+
+        if self.detector == "BlazeFace" and self.ipd > 0 and self.has_face:
+            img.draw_ellipse(self.halo_mid_x, self.halo_mid_y, self.halo_rx_inner, self.halo_ry_inner, self.halo_angle, color=140, thickness=1)
+            img.draw_ellipse(self.halo_mid_x, self.halo_mid_y, self.halo_rx_outer, self.halo_ry_outer, self.halo_angle, color=180, thickness=1)
+
+            if AJNA:
+                img.draw_ellipse(self.halo_top_x, self.halo_top_y, self.third_eye_rx, self.third_eye_ry, self.halo_angle, color=140, thickness=1)
+                img.draw_circle(self.halo_top_x, self.halo_top_y, self.third_eye_pupil_r, color=140, thickness=1, fill=True)
+            else:
+                v = self.halo_verts
+                img.draw_line((v[0][0], v[0][1], v[1][0], v[1][1]), color=140, thickness=1)
+                img.draw_line((v[1][0], v[1][1], v[2][0], v[2][1]), color=140, thickness=1)
+                img.draw_line((v[2][0], v[2][1], v[0][0], v[0][1]), color=140, thickness=1)
+
+            for _ in range(0):
+                theta = random.uniform(0, 2 * math.pi)
+                ex = self.halo_rx_outer * math.cos(theta)
+                ey = self.halo_ry_outer * math.sin(theta)
+                px = int(self.halo_mid_x + ex * self.halo_cos_f - ey * self.halo_sin_f)
+                py = int(self.halo_mid_y + ex * self.halo_sin_f + ey * self.halo_cos_f)
+                img.set_pixel(px, py, random.randint(120, 255))
 
         if self.detector == "TensorFlow":
             img.draw_rectangle(self.face_object, color=(70, 130, 180))
