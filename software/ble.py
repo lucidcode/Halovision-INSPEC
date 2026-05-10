@@ -20,6 +20,8 @@ class inspec_comms:
         self.sending_image = False
         self.sending_file = False
         self.send_errors = False
+        self.ota_mode = False
+        self.ota_received = None
 
         self.ble = bluetooth.BLE()
         self.ble.config(gap_name="INSPEC")
@@ -65,8 +67,11 @@ class inspec_comms:
 
         if event == _IRQ_GATTS_WRITE:
             buffer = self.ble.gatts_read(self.rx)
-            message = buffer.decode('UTF-8')
-            self.message_received(message)
+            if self.ota_mode and self.ota_received:
+                self.ota_received(buffer)
+            else:
+                message = buffer.decode('UTF-8')
+                self.message_received(message)
 
     def advertise(self):
         self.payload = advertising_payload(

@@ -16,6 +16,7 @@ from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
 from version import version
+from ota import ota_updater
 from machine import LED
 
 class inspec_sensor:
@@ -27,6 +28,7 @@ class inspec_sensor:
         self.configure_sensor()
 
         self.comms = inspec_comms(self.ble_message_received)
+        self.ota = ota_updater(self.comms)
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
         self.face = face_detection(self.config, self.comms, self.sensor)
@@ -192,6 +194,21 @@ class inspec_sensor:
 
         if message == "restart":
             machine.reset()
+
+        if message.startswith('ota.begin:'):
+            parts = message.split(':')
+            self.ota.begin(parts[1], parts[2], parts[3])
+            self.comms.ota_mode = True
+            self.comms.ota_received = self.ota.receive_chunk
+
+        if message == 'ota.verify':
+            self.ota.verify()
+
+        if message == 'ota.apply':
+            self.ota.apply()
+
+        if message == 'ota.abort':
+            self.ota.abort()
 
     def detect_motion(self):
         if self.config.get('Algorithm') != "Motion Detection":
