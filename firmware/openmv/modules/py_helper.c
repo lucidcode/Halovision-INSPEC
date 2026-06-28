@@ -1,0 +1,338 @@
+/*
+ * SPDX-License-Identifier: MIT
+ *
+ * Copyright (C) 2013-2024 OpenMV, LLC.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * Python helper functions.
+ */
+#include "py/obj.h"
+#include "py/runtime.h"
+#include "framebuffer.h"
+#include "py_helper.h"
+#include "py_assert.h"
+#if defined(MODULE_ULAB_ENABLED)
+#include "ndarray.h"
+#endif // MODULE_ULAB_ENABLED
+#if MICROPY_PY_CSI
+#include "omv_csi.h"
+#endif
+
+extern void *py_image_cobj(mp_obj_t img_obj);
+
+mp_obj_t py_func_unavailable(size_t n_args, const mp_obj_t *args, mp_map_t *kw_args) {
+    PY_ASSERT_TRUE_MSG(false, "This function is unavailable on your OpenMV Cam.");
+    return mp_const_none;
+}
+MP_DEFINE_CONST_FUN_OBJ_KW(py_func_unavailable_obj, 0, py_func_unavailable);
+
+image_t *py_helper_arg_to_image(const mp_obj_t arg, uint32_t flags) {
+    image_t *image = NULL;
+    if ((flags & ARG_IMAGE_ALLOC) && MP_OBJ_IS_STR(arg)) {
+        #if defined(IMLIB_ENABLE_IMAGE_FILE_IO)
+        const char *path = mp_obj_str_get_str(arg);
+        file_t fp;
+        image = m_malloc(sizeof(image_t));
+        img_read_settings_t rs;
+        imlib_read_geometry(&fp, image, path, &rs);
+        file_close(&fp);
+        image_alloc(image, image_size(image));
+        imlib_load_image(image, path);
+        #else
+        mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Image I/O is not supported"));
+        #endif // IMLIB_ENABLE_IMAGE_FILE_IO
+    } else {
+        image = py_image_cobj(arg);
+    }
+    if (flags) {
+        if ((flags & ARG_IMAGE_MUTABLE) && !image->is_mutable) {
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a mutable image"));
+        } else if ((flags & ARG_IMAGE_UNCOMPRESSED) && image->is_compressed) {
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected an uncompressed image"));
+        } else if ((flags & ARG_IMAGE_GRAYSCALE) && image->pixfmt != PIXFORMAT_GRAYSCALE) {
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a grayscale image"));
+        }
+    }
+    return image;
+}
+
+const void *py_helper_arg_to_palette(const mp_obj_t arg, uint32_t pixfmt) {
+    const void *palette = NULL;
+    if (mp_obj_is_int(arg)) {
+        uint32_t type = mp_obj_get_int(arg);
+        if (type == COLOR_PALETTE_RAINBOW) {
+            palette = rainbow_table;
+        } else if (type == COLOR_PALETTE_IRONBOW) {
+            palette = ironbow_table;
+        #if (MICROPY_PY_TOF == 1)
+        } else if (type == COLOR_PALETTE_DEPTH) {
+            palette = depth_table;
+        #endif // MICROPY_PY_TOF == 1
+        #if (OMV_GENX320_ENABLE == 1)
+        } else if (type == COLOR_PALETTE_EVT_DARK) {
+            palette = evt_dark_table;
+        } else if (type == COLOR_PALETTE_EVT_LIGHT) {
+            palette = evt_light_table;
+        #endif // OMV_GENX320_ENABLE == 1
+        } else {
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid color palette"));
+        }
+    } else if (arg != mp_const_none) {
+        image_t *img = py_helper_arg_to_image(arg, ARG_IMAGE_MUTABLE);
+        if (img->pixfmt != pixfmt) {
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Unexpcted color palette format"));
+        }
+        if ((img->w * img->h) != 256) {
+            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Color palette must be 256 pixels"));
+        }
+        palette = img->data;
+    }
+    return palette;
+}
+
+void *py_helper_arg_to_transform(const mp_obj_t arg) {
+    if (arg == mp_const_none) {
+        return NULL;
+    }
+
+    #if defined(MODULE_ULAB_ENABLED) && defined(OPENMV_N6)
+    if (!MP_OBJ_IS_TYPE(arg, &ulab_ndarray_type)) {
+        mp_raise_msg(&mp_type_TypeError, MP_ERROR_TEXT("Expected a ndarray"));
+    }
+
+    ndarray_obj_t *ndarray = MP_OBJ_TO_PTR(arg);
+
+    if (ndarray->dtype != NDARRAY_FLOAT) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a ndarray with dtype float"));
+    }
+
+    if (!ndarray_is_dense(ndarray)) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a dense ndarray"));
+    }
+
+    if (ndarray->ndim != 2) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Expected a 2D ndarray"));
+    }
+
+    if ((ndarray->shape[ULAB_MAX_DIMS - 2] != 3) || (ndarray->shape[ULAB_MAX_DIMS - 1] != 3)) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Invalid matrix shape!"));
+    }
+
+    return ndarray->array;
+    #else
+    mp_raise_msg(&mp_type_TypeError, MP_ERROR_TEXT("Transform operations are not supported!"));
+    #endif // MODULE_ULAB_ENABLED
+}
+
+rectangle_t py_helper_arg_to_roi(const mp_obj_t arg, const image_t *img) {
+    rectangle_t roi = {0, 0, img->w, img->h};
+    if (arg != mp_const_none) {
+        mp_obj_t *arg_roi;
+        mp_obj_get_array_fixed_n(arg, 4, &arg_roi);
+        roi.x = mp_obj_get_int(arg_roi[0]);
+        roi.y = mp_obj_get_int(arg_roi[1]);
+        roi.w = mp_obj_get_int(arg_roi[2]);
+        roi.h = mp_obj_get_int(arg_roi[3]);
+
+        PY_ASSERT_TRUE_MSG((roi.w >= 1) && (roi.h >= 1), "Invalid ROI dimensions!");
+        rectangle_t bounds = {0, 0, img->w, img->h};
+        PY_ASSERT_TRUE_MSG(rectangle_overlap(&roi, &bounds), "ROI does not overlap on the image!");
+        rectangle_intersected(&roi, &bounds);
+    }
+    return roi;
+}
+
+void py_helper_arg_to_scale(const mp_obj_t arg_x_scale, const mp_obj_t arg_y_scale,
+                            float *x_scale, float *y_scale) {
+    if (arg_x_scale != mp_const_none) {
+        *x_scale = mp_obj_get_float_to_f(arg_x_scale);
+    }
+    if (arg_y_scale != mp_const_none) {
+        *y_scale = mp_obj_get_float_to_f(arg_y_scale);
+    }
+
+    if (arg_x_scale == mp_const_none && arg_y_scale != mp_const_none) {
+        *x_scale = *y_scale;
+    } else if (arg_y_scale == mp_const_none && arg_x_scale != mp_const_none) {
+        *y_scale = *x_scale;
+    }
+}
+
+void py_helper_arg_to_minmax(const mp_obj_t minmax, float *min, float *max,
+                             const mp_obj_t *array, size_t array_size) {
+    float min_out = FLT_MAX;
+    float max_out = -FLT_MAX;
+
+    if (minmax != mp_const_none) {
+        mp_obj_t *arg_scale;
+        mp_obj_get_array_fixed_n(minmax, 2, &arg_scale);
+        min_out = mp_obj_get_float_to_f(arg_scale[0]);
+        max_out = mp_obj_get_float_to_f(arg_scale[1]);
+    } else if (array && array_size) {
+        for (int i = 0; i < array_size; i++) {
+            float t = mp_obj_get_float_to_f(array[i]);
+            if (t < min_out) {
+                min_out = t;
+            }
+            if (t > max_out) {
+                max_out = t;
+            }
+        }
+    }
+
+    *min = min_out;
+    *max = max_out;
+}
+
+float py_helper_arg_to_float(const mp_obj_t arg, float default_value) {
+    if (arg != mp_const_none) {
+        return mp_obj_get_float_to_f(arg);
+    }
+    return default_value;
+}
+
+void py_helper_arg_to_float_array(const mp_obj_t arg, float *array, size_t size) {
+    if (arg != mp_const_none) {
+        mp_obj_t *arg_array;
+        mp_obj_get_array_fixed_n(arg, size, &arg_array);
+        for (int i = 0; i < size; i++) {
+            array[i] = mp_obj_get_float_to_f(arg_array[i]);
+        }
+    }
+}
+
+int py_helper_arg_to_color(image_t *img, mp_obj_t obj, int default_val) {
+    if (obj == mp_const_none) {
+        return default_val;
+    } else if (mp_obj_is_integer(obj)) {
+        return mp_obj_get_int(obj);
+    } else {
+        mp_obj_t *arg_color;
+        mp_obj_get_array_fixed_n(obj, 3, &arg_color);
+        int c = COLOR_R8_G8_B8_TO_RGB565(__USAT(mp_obj_get_int(arg_color[0]), 8),
+                                         __USAT(mp_obj_get_int(arg_color[1]), 8),
+                                         __USAT(mp_obj_get_int(arg_color[2]), 8));
+        switch (img->pixfmt) {
+            case PIXFORMAT_BINARY:
+                return COLOR_RGB565_TO_BINARY(c);
+            case PIXFORMAT_GRAYSCALE:
+                return COLOR_RGB565_TO_GRAYSCALE(c);
+            default:
+                return c;
+        }
+    }
+}
+
+void py_helper_arg_to_thresholds(const mp_obj_t arg, list_t *thresholds) {
+    mp_uint_t arg_thresholds_len;
+    mp_obj_t *arg_thresholds;
+    mp_obj_get_array(arg, &arg_thresholds_len, &arg_thresholds);
+    if (!arg_thresholds_len) {
+        return;
+    }
+    for (mp_uint_t i = 0; i < arg_thresholds_len; i++) {
+        mp_uint_t arg_threshold_len;
+        mp_obj_t *arg_threshold;
+        mp_obj_get_array(arg_thresholds[i], &arg_threshold_len, &arg_threshold);
+        if (arg_threshold_len) {
+            color_thresholds_list_lnk_data_t lnk_data;
+            lnk_data.LMin = (arg_threshold_len > 0) ? __USAT(mp_obj_get_int(arg_threshold[0]), 8) :
+                            IM_MIN(COLOR_L_MIN, COLOR_GRAYSCALE_MIN);
+            lnk_data.LMax = (arg_threshold_len > 1) ? __USAT(mp_obj_get_int(arg_threshold[1]), 8) :
+                            IM_MAX(COLOR_L_MAX, COLOR_GRAYSCALE_MAX);
+            lnk_data.AMin =
+                (arg_threshold_len > 2) ? __SSAT(mp_obj_get_int(arg_threshold[2]), 8) : COLOR_A_MIN;
+            lnk_data.AMax =
+                (arg_threshold_len > 3) ? __SSAT(mp_obj_get_int(arg_threshold[3]), 8) : COLOR_A_MAX;
+            lnk_data.BMin =
+                (arg_threshold_len > 4) ? __SSAT(mp_obj_get_int(arg_threshold[4]), 8) : COLOR_B_MIN;
+            lnk_data.BMax =
+                (arg_threshold_len > 5) ? __SSAT(mp_obj_get_int(arg_threshold[5]), 8) : COLOR_B_MAX;
+            color_thresholds_list_lnk_data_t lnk_data_tmp;
+            memcpy(&lnk_data_tmp, &lnk_data, sizeof(color_thresholds_list_lnk_data_t));
+            lnk_data.LMin = IM_MIN(lnk_data_tmp.LMin, lnk_data_tmp.LMax);
+            lnk_data.LMax = IM_MAX(lnk_data_tmp.LMin, lnk_data_tmp.LMax);
+            lnk_data.AMin = IM_MIN(lnk_data_tmp.AMin, lnk_data_tmp.AMax);
+            lnk_data.AMax = IM_MAX(lnk_data_tmp.AMin, lnk_data_tmp.AMax);
+            lnk_data.BMin = IM_MIN(lnk_data_tmp.BMin, lnk_data_tmp.BMax);
+            lnk_data.BMax = IM_MAX(lnk_data_tmp.BMin, lnk_data_tmp.BMax);
+            list_push_back(thresholds, &lnk_data);
+        }
+    }
+}
+
+int py_helper_arg_to_ksize(const mp_obj_t arg) {
+    int ksize = mp_obj_get_int(arg);
+    PY_ASSERT_TRUE_MSG(ksize >= 0, "KernelSize must be >= 0!");
+    return ksize;
+}
+
+bool py_helper_is_equal_to_framebuffer(image_t *img) {
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
+    vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_USED | FB_FLAG_PEEK);
+
+    return (buffer != NULL) && (img->data == buffer->data);
+}
+
+void py_helper_update_framebuffer(image_t *img) {
+    if (py_helper_is_equal_to_framebuffer(img)) {
+        framebuffer_from_image(framebuffer_get(FB_MAINFB_ID), img);
+    }
+}
+
+// TODO need to pass a CSI here.
+void py_helper_set_to_framebuffer(image_t *img) {
+    #if MICROPY_PY_CSI
+    omv_csi_t *csi = omv_csi_get(-1);
+    framebuffer_t *fb = csi->fb;
+
+    omv_csi_abort(csi, true, false);
+    #else
+    framebuffer_t *fb = framebuffer_get(FB_MAINFB_ID);
+    #endif
+
+    // Resize the frame buffer to fit the biggest uncompressed image.
+    framebuffer_resize(fb, 1, OMV_MAX(image_size(img), fb->u * fb->v * 2));
+
+    // This should never be NULL after resizing the frame buffer.
+    vbuffer_t *buffer = framebuffer_acquire(fb, FB_FLAG_FREE | FB_FLAG_PEEK);
+
+    PY_ASSERT_TRUE_MSG(buffer, "No free buffers!");
+    PY_ASSERT_TRUE_MSG((image_size(img) <= framebuffer_get_buffer_size(fb)),
+                       "The image doesn't fit in the frame buffer!");
+
+    framebuffer_from_image(fb, img);
+    img->data = buffer->data;
+
+    framebuffer_release(fb, FB_FLAG_FREE);
+}
+
+void py_helper_get_array_min_n(mp_obj_t obj, size_t min_n, mp_obj_t **items) {
+    size_t len;
+    if (mp_obj_is_tuple_compatible(obj)) {
+        mp_obj_tuple_get(obj, &len, items);
+    } else {
+        mp_obj_get_array(obj, &len, items);
+    }
+    if (len < min_n) {
+        mp_raise_msg_varg(&mp_type_TypeError,
+                          MP_ERROR_TEXT("expected tuple/list of at least %d elements"), (int) min_n);
+    }
+}

@@ -1,0 +1,11 @@
+testing tanhsinh
+True
+
+testing romberg
+True
+
+testing simpson
+True
+
+testing quad
+True

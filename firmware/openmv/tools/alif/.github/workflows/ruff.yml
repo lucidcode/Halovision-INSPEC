@@ -1,0 +1,11 @@
+name: Python code formatting with ruff
+
+on: [push, pull_request]
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: pipx install ruff==0.9.6
+    - run: ruff format --diff .

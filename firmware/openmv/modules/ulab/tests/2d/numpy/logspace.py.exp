@@ -1,0 +1,10 @@
+array([1, 100, 16, 64, 0], dtype=uint8)
+array([1, 60, 160, 120, 0], dtype=uint8)
+array([1, 100, 16, 64, 0], dtype=int8)
+array([1, 60, -96, 120, 0], dtype=int8)
+array([1, 100, 10000, 16960, 57600], dtype=uint16)
+array([1, 316, 34464, 34424, 0], dtype=uint16)
+array([1, 100, 10000, 16960, -7936], dtype=int16)
+array([1, 316, -31072, -31112, 0], dtype=int16)
+[True, True, True, True, True]
+[True, True, True, True, True]

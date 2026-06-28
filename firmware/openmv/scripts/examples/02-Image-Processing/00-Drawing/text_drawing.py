@@ -1,0 +1,49 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
+# Text Drawing
+#
+# This example shows off drawing text on the OpenMV Cam.
+
+import csi
+import time
+from random import randint
+
+csi0 = csi.CSI()
+csi0.reset()
+csi0.pixformat(csi.RGB565)  # or GRAYSCALE...
+csi0.framesize(csi.QVGA)  # or QQVGA...
+csi0.snapshot(time=2000)
+
+clock = time.clock()
+
+while True:
+    clock.tick()
+
+    img = csi0.snapshot()
+
+    for i in range(10):
+        x = randint(0, 2 * img.width()) - img.width() // 2
+        y = randint(0, 2 * img.height()) - img.height() // 2
+
+        r = randint(0, 127) + 128
+        g = randint(0, 127) + 128
+        b = randint(0, 127) + 128
+
+        # Character and string rotation can be done at 0, 90, 180, 270, and etc. degrees.
+        img.draw_string(
+            (x, y),
+            "Hello World!",
+            color=(r, g, b),
+            scale=2,
+            mono_space=False,
+            char_rotation=0,
+            char_hmirror=False,
+            char_vflip=False,
+            string_rotation=0,
+            string_hmirror=False,
+            string_vflip=False,
+        )
+
+    print(clock.fps())
