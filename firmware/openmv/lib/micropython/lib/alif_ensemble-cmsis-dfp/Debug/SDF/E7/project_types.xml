@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Copyright (C) 2009-2023 Arm Limited (or its affiliates). All rights reserved.--><platform_data xmlns="http://www.arm.com/project_type" xmlns:peripheral="http://com.arm.targetconfigurationeditor" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" info_url="" type="HARDWARE" xsi:schemaLocation="http://www.arm.com/project_type ../../../Schemas/platform_data-1.xsd">
+    <flash_config>CDB://mram55.xml</flash_config>    
+    <project_type_list>
+        <project_type type="BARE_METAL">
+            <name language="en">Bare Metal Debug</name>
+            <description language="en">This allows a bare-metal debug connection.</description>
+            <execution_environment id="BARE_METAL">
+                <name language="en">Bare Metal Debug</name>
+                <description language="en">Connect to a platform using a DSTREAM/RVI</description>
+                <xi:include href="../../../Include/hardware_address.xml"/>
+                <param default="CDB://Ensemble E7.sdf" id="config_file" type="string" visible="false"/>
+                <param default="CDB://dtsl_config_script.py" id="dtsl_config_script" type="string" visible="false"/>
+                <param default="DtslScript" id="dtsl_config" type="string" visible="false"/>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/dstream_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/dstream_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/dstream_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HE Cortex-M55</name>
+                    <xi:include href="../../../Include/dstream_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="RTSS-HE Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HE Cortex-M55</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="RTSS-HE Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HE Cortex-M55</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="RTSS-HE Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HE Cortex-M55</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="RTSS-HE Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HE Cortex-M55</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="RTSS-HE Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HE Cortex-M55</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="RTSS-HE Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HP Cortex-M55</name>
+                    <xi:include href="../../../Include/dstream_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="RTSS-HP Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HP Cortex-M55</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="RTSS-HP Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HP Cortex-M55</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="RTSS-HP Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HP Cortex-M55</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="RTSS-HP Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HP Cortex-M55</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="RTSS-HP Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">RTSS-HP Cortex-M55</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="RTSS-HP Cortex-M55">
+                        <core_definition>Cortex-M55</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.cortexM55.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/dstream_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/rvi_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/rvi_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Secure Enclave Cortex-M0+</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_bm.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="Secure Enclave Cortex-M0+">
+                        <core_definition>Cortex-M0+</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+            </execution_environment>
+        </project_type>
+        <project_type os_abstraction="LINUX_KERNEL" type="BARE_METAL">
+            <name language="en">Linux Kernel Debug</name>
+            <description language="en">Linux Kernel and/or Device Driver Debug</description>
+            <execution_environment id="LINUX_KERNEL">
+                <name language="en">Linux Kernel Debug</name>
+                <description language="en">Connect to a platform using a DSTREAM/RVI</description>
+                <xi:include href="../../../Include/hardware_address.xml"/>
+                <param default="CDB://Ensemble E7.sdf" id="config_file" type="string" visible="false"/>
+                <param default="CDB://dtsl_config_script.py" id="dtsl_config_script" type="string" visible="false"/>
+                <param default="DtslScript" id="dtsl_config" type="string" visible="false"/>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/dstream_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 0</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/dstream_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">APSS Cortex-A32 1</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="APSS Cortex-A32 1">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/dstream_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/dstream_st_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_st_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_ST" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/dstream_pt_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/dstream_pt_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DSTREAM_PT" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/ulinkpro_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulinkpro_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/ulinkprod_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulinkprod_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+                <activity id="ICE_DEBUG" type="Debug">
+                    <name language="en">Cortex-A32x2 SMP</name>
+                    <xi:include href="../../../Include/ulink2_activity_description_lk.xml"/>
+                    <xi:include href="../../../Include/ulink2_connection_type.xml"/>
+                    <core connection_id="SMP_Cluster0">
+                        <core_definition>Cortex-A32</core_definition>
+                    </core>
+                    <param default="DtslScript_DebugAndOnChipTrace" id="dtsl_config" type="string" visible="false"/>
+                    <param default="options.SMP_Cluster0.traceCapture" id="dtsl_tracecapture_option" type="string" visible="false"/>
+                    <rddi_dap_server>
+                        <rddi_dap_bin>rddidap_serverd</rddi_dap_bin>
+                    </rddi_dap_server>
+                </activity>
+            </execution_environment>
+        </project_type>
+    </project_type_list>
+</platform_data>

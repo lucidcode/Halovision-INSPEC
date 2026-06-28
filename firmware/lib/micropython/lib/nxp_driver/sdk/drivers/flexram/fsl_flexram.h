@@ -1,13 +1,13 @@
 /*
- * Copyright 2017-2021 NXP
+ * Copyright 2017-2023 NXP
  * All rights reserved.
  *
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_FLEXRAM_H_
-#define _FSL_FLEXRAM_H_
+#ifndef FSL_FLEXRAM_H_
+#define FSL_FLEXRAM_H_
 
 #include "fsl_common.h"
 #include "fsl_flexram_allocate.h"
@@ -22,10 +22,10 @@
  *****************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief Driver version 2.1.0. */
-#define FSL_FLEXRAM_DRIVER_VERSION (MAKE_VERSION(2U, 1U, 0U))
-/*@}*/
+/*! @{ */
+/*! @brief Driver version. */
+#define FSL_FLEXRAM_DRIVER_VERSION (MAKE_VERSION(2U, 3U, 0U))
+/*! @} */
 
 /*! @brief Get ECC error detailed information. */
 #ifndef FLEXRAM_ECC_ERROR_DETAILED_INFO
@@ -108,6 +108,29 @@ enum
 };
 
 #if (defined(FSL_FEATURE_FLEXRAM_HAS_ECC) && FSL_FEATURE_FLEXRAM_HAS_ECC)
+/*! @brief FLEXRAM memory type, such as OCRAM/ITCM/D0TCM/D1TCM */
+typedef enum _flexram_memory_type
+{
+    kFLEXRAM_OCRAM = 0U, /*!< Memory type OCRAM */
+    kFLEXRAM_ITCM  = 1U, /*!< Memory type ITCM */
+    kFLEXRAM_D0TCM = 2U, /*!< Memory type D0TCM */
+    kFLEXRAM_D1TCM = 3U, /*!< Memory type D1TCM */
+} flexram_memory_type_t;
+
+/*! @brief FLEXRAM error type, such as single bit error position, multi-bit error position */
+typedef struct _flexram_ecc_error_type
+{
+    uint8_t SingleBitPos;          /*!< Bit position of the bit to inject ECC Error. */
+    uint8_t SecondBitPos;          /*!< Bit position of the second bit to inject multi-bit ECC Error */
+    bool Fource1BitDataInversion;  /*!< Force One 1-Bit Data Inversion (single-bit ECC error) on memory write access */
+    bool FourceOneNCDataInversion; /*!< Force One Non-correctable Data Inversion(multi-bit ECC error) on memory write
+                                      access */
+    bool FourceConti1BitDataInversion; /*!< Force Continuous 1-Bit Data Inversions (single-bit ECC error) on memory
+                                          write access */
+    bool FourceContiNCDataInversion;   /*!< Force Continuous Non-correctable Data Inversions (multi-bit ECC error) on
+                                          memory write access */
+} flexram_ecc_error_type_t;
+
 /*! @brief FLEXRAM ocram ecc single error information, including single error information, error address, error data */
 typedef struct _flexram_ocram_ecc_single_error_info
 {
@@ -251,7 +274,7 @@ void FLEXRAM_Init(FLEXRAM_Type *base);
  */
 void FLEXRAM_Deinit(FLEXRAM_Type *base);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Status
@@ -300,7 +323,7 @@ static inline void FLEXRAM_DisableInterruptStatus(FLEXRAM_Type *base, uint32_t s
     base->INT_STAT_EN &= ~status;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -328,7 +351,7 @@ static inline void FLEXRAM_DisableInterruptSignal(FLEXRAM_Type *base, uint32_t s
 {
     base->INT_SIG_EN &= ~status;
 }
-/* @} */
+/*! @} */
 
 /*!
  * @brief FLEXRAM module sets TCM read access mode
@@ -421,6 +444,16 @@ static inline void FLEXRAM_SetITCMMagicAddr(FLEXRAM_Type *base, uint16_t magicAd
  * @param TcmECCEnable tcm(itcm/d0tcm/d1tcm) ecc enablement.
  */
 void FLEXRAM_EnableECC(FLEXRAM_Type *base, bool OcramECCEnable, bool TcmECCEnable);
+
+#if (defined(FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION) && (FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION))
+/*!
+ * @brief FLEXRAM ECC error injection.
+ * @param base  FLEXRAM base address.
+ * @param memory memory type, such as OCRAM/ITCM/DTCM.
+ * @param error ECC error type.
+ */
+void FLEXRAM_ErrorInjection(FLEXRAM_Type *base, flexram_memory_type_t memory, flexram_ecc_error_type_t *error);
+#endif /* FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION */
 
 /*!
  * @brief FLEXRAM get ocram ecc single error information.

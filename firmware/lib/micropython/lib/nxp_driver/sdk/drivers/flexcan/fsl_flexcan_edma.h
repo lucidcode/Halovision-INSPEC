@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_FLEXCAN_EDMA_H_
-#define _FSL_FLEXCAN_EDMA_H_
+#ifndef FSL_FLEXCAN_EDMA_H_
+#define FSL_FLEXCAN_EDMA_H_
 
 #include "fsl_flexcan.h"
 #include "fsl_edma.h"
@@ -21,10 +21,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief FlexCAN EDMA driver version. */
-#define FSL_FLEXCAN_EDMA_DRIVER_VERSION (MAKE_VERSION(2, 8, 1))
-/*@}*/
+#define FSL_FLEXCAN_EDMA_DRIVER_VERSION (MAKE_VERSION(2, 11, 3))
+/*! @} */
 
 /* Forward declaration of the handle typedef. */
 typedef struct _flexcan_edma_handle flexcan_edma_handle_t;
@@ -44,8 +44,8 @@ struct _flexcan_edma_handle
     void *userData;                            /*!< FlexCAN callback function parameter.*/
     edma_handle_t *rxFifoEdmaHandle;           /*!< The EDMA handler for Rx FIFO. */
     volatile uint8_t rxFifoState;              /*!< Rx FIFO transfer state. */
+    size_t frameNum;                           /*!< The number of messages that need to be received. */
 #if (defined(FSL_FEATURE_FLEXCAN_HAS_ENHANCED_RX_FIFO) && FSL_FEATURE_FLEXCAN_HAS_ENHANCED_RX_FIFO)
-    size_t frameNum;             /*!< The number of messages that need to be received. */
     flexcan_fd_frame_t *framefd; /*!< Point to the buffer of CAN Message to be received from Enhanced Rx FIFO. */
 #endif
 };
@@ -123,6 +123,17 @@ status_t FLEXCAN_TransferReceiveFifoEDMA(CAN_Type *base,
                                          flexcan_edma_handle_t *handle,
                                          flexcan_fifo_transfer_t *pFifoXfer);
 /*!
+ * @brief Gets the Legacy Rx Fifo transfer status during a interrupt non-blocking receive.
+ *
+ * @param base FlexCAN peripheral base address.
+ * @param handle FlexCAN handle pointer.
+ * @param count Number of CAN messages receive so far by the non-blocking transaction.
+ * @retval kStatus_InvalidArgument count is Invalid.
+ * @retval kStatus_Success Successfully return the count.
+ */
+
+status_t FLEXCAN_TransferGetReceiveFifoCountEMDA(CAN_Type *base, flexcan_edma_handle_t *handle, size_t *count);
+/*!
  * @brief Aborts the receive Legacy/Enhanced Rx FIFO process which used eDMA.
  *
  * This function aborts the receive Legacy/Enhanced Rx FIFO process which used eDMA.
@@ -158,10 +169,15 @@ status_t FLEXCAN_TransferReceiveEnhancedFifoEDMA(CAN_Type *base,
  * @retval kStatus_Success Successfully return the count.
  */
 
-status_t FLEXCAN_TransferGetReceiveEnhancedFifoCountEMDA(CAN_Type *base, flexcan_edma_handle_t *handle, size_t *count);
+static inline status_t FLEXCAN_TransferGetReceiveEnhancedFifoCountEMDA(CAN_Type *base,
+                                                                       flexcan_edma_handle_t *handle,
+                                                                       size_t *count)
+{
+    return FLEXCAN_TransferGetReceiveFifoCountEMDA(base, handle, count);
+}
 #endif
 
-/*@}*/
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -169,4 +185,4 @@ status_t FLEXCAN_TransferGetReceiveEnhancedFifoCountEMDA(CAN_Type *base, flexcan
 
 /*! @}*/
 
-#endif /* _FSL_FLEXCAN_EDMA_H_ */
+#endif /* FSL_FLEXCAN_EDMA_H_ */

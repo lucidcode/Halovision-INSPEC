@@ -1,0 +1,6 @@
+microdot.asgi.Microdot-redefinition
+microdot.jinja.Template.jinja_env
+microdot.microdot.Request.G.__getattr__
+microdot.microdot.Request.G.__setattr__
+microdot.session.Session.secret_key
+microdot.wsgi.Microdot-redefinition

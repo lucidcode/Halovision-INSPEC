@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 NXP
+ * Copyright 2017-2023 NXP
  * All rights reserved.
  *
  *
@@ -63,7 +63,7 @@ static uint32_t FLEXRAM_GetInstance(FLEXRAM_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_flexramBases); instance++)
     {
-        if (s_flexramBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_flexramBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -127,6 +127,57 @@ void FLEXRAM_EnableECC(FLEXRAM_Type *base, bool OcramECCEnable, bool TcmECCEnabl
         base->FLEXRAM_CTRL &= ~FLEXRAM_FLEXRAM_CTRL_TCM_ECC_EN_MASK;
     }
 }
+
+#if (defined(FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION) && (FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION))
+void FLEXRAM_ErrorInjection(FLEXRAM_Type *base, flexram_memory_type_t memory, flexram_ecc_error_type_t *error)
+{
+    assert(error != NULL);
+
+    switch (memory)
+    {
+        case kFLEXRAM_OCRAM:
+            base->OCRAM_ECC_ERROR_INJEC =
+                FLEXRAM_OCRAM_ECC_ERROR_INJEC_OCRAM_ERR1BIT(error->SingleBitPos) |
+                FLEXRAM_OCRAM_ECC_ERROR_INJEC_OCRAM_ERR2BIT(error->SecondBitPos) |
+                FLEXRAM_OCRAM_ECC_ERROR_INJEC_OCRAM_FR11BI(error->Fource1BitDataInversion) |
+                FLEXRAM_OCRAM_ECC_ERROR_INJEC_OCRAM_FR1NCI(error->FourceOneNCDataInversion) |
+                FLEXRAM_OCRAM_ECC_ERROR_INJEC_OCRAM_FRC1BI(error->FourceConti1BitDataInversion) |
+                FLEXRAM_OCRAM_ECC_ERROR_INJEC_OCRAM_FRCNCI(error->FourceContiNCDataInversion);
+            break;
+        case kFLEXRAM_ITCM:
+            base->ITCM_ECC_ERROR_INJEC = FLEXRAM_ITCM_ECC_ERROR_INJEC_ITCM_ERR1BIT(error->SingleBitPos) |
+                                         FLEXRAM_ITCM_ECC_ERROR_INJEC_ITCM_ERR2BIT(error->SecondBitPos) |
+                                         FLEXRAM_ITCM_ECC_ERROR_INJEC_ITCM_FR11BI(error->Fource1BitDataInversion) |
+                                         FLEXRAM_ITCM_ECC_ERROR_INJEC_ITCM_FR1NCI(error->FourceOneNCDataInversion) |
+                                         FLEXRAM_ITCM_ECC_ERROR_INJEC_ITCM_FRC1BI(error->FourceConti1BitDataInversion) |
+                                         FLEXRAM_ITCM_ECC_ERROR_INJEC_ITCM_FRCNCI(error->FourceContiNCDataInversion);
+            break;
+        case kFLEXRAM_D0TCM:
+            base->D0TCM_ECC_ERROR_INJEC =
+                FLEXRAM_D0TCM_ECC_ERROR_INJEC_D0TCM_ERR1BIT(error->SingleBitPos) |
+                FLEXRAM_D0TCM_ECC_ERROR_INJEC_D0TCM_ERR2BIT(error->SecondBitPos) |
+                FLEXRAM_D0TCM_ECC_ERROR_INJEC_D0TCM_FR11BI(error->Fource1BitDataInversion) |
+                FLEXRAM_D0TCM_ECC_ERROR_INJEC_D0TCM_FR1NCI(error->FourceOneNCDataInversion) |
+                FLEXRAM_D0TCM_ECC_ERROR_INJEC_D0TCM_FRC1BI(error->FourceConti1BitDataInversion) |
+                FLEXRAM_D0TCM_ECC_ERROR_INJEC_D0TCM_FRCNCI(error->FourceContiNCDataInversion);
+            break;
+        case kFLEXRAM_D1TCM:
+            base->D1TCM_ECC_ERROR_INJEC =
+                FLEXRAM_D1TCM_ECC_ERROR_INJEC_D1TCM_ERR1BIT(error->SingleBitPos) |
+                FLEXRAM_D1TCM_ECC_ERROR_INJEC_D1TCM_ERR2BIT(error->SecondBitPos) |
+                FLEXRAM_D1TCM_ECC_ERROR_INJEC_D1TCM_FR11BI(error->Fource1BitDataInversion) |
+                FLEXRAM_D1TCM_ECC_ERROR_INJEC_D1TCM_FR1NCI(error->FourceOneNCDataInversion) |
+                FLEXRAM_D1TCM_ECC_ERROR_INJEC_D1TCM_FRC1BI(error->FourceConti1BitDataInversion) |
+                FLEXRAM_D1TCM_ECC_ERROR_INJEC_D1TCM_FRCNCI(error->FourceContiNCDataInversion);
+            break;
+        default:
+            assert(NULL);
+            break;
+    }
+
+    __DSB();
+}
+#endif /* FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION */
 
 void FLEXRAM_GetOcramSingleErroInfo(FLEXRAM_Type *base, flexram_ocram_ecc_single_error_info_t *info)
 {

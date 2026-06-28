@@ -1,0 +1,47 @@
+BTSTACK_ROOT=../../..
+
+CC = @CC@
+LDFLAGS  = @LDFLAGS@ -lBTstack -L../src
+CFLAGS = @CFLAGS@ \
+	-I$(BTSTACK_ROOT)/platform/daemon/src \
+	-I$(BTSTACK_ROOT)/platform/posix \
+	-I$(BTSTACK_ROOT)/platform/windows \
+	-I$(BTSTACK_ROOT)/src \
+	-I..
+prefix = @prefix@
+
+VPATH += ${BTSTACK_ROOT}/platform/daemon/example
+
+all: test rfcomm_cat rfcomm_echo rfcomm_test inquiry l2cap_server l2cap_throughput le_scan
+
+test: test.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+l2cap_server: l2cap_server.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+l2cap_throughput: l2cap_throughput.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+inquiry: inquiry.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+rfcomm_cat: rfcomm_cat.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+rfcomm_echo: rfcomm_echo.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+rfcomm_test: rfcomm_test.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+le_scan: le_scan.c
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+
+clean:
+	rm -f test mitm rfcomm_cat rfcomm_echo rfcomm_test inquiry l2cap_server l2cap_throughput le_scan
+	rm -rf *.dSYM
+
+install:    
+	echo "nothing to be done"
+

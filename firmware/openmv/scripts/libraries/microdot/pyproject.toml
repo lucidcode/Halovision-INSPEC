@@ -1,0 +1,55 @@
+[project]
+name = "microdot"
+version = "2.6.2"
+authors = [
+    { name = "Miguel Grinberg", email = "miguel.grinberg@gmail.com" },
+]
+description = "The impossibly small web framework for MicroPython"
+classifiers = [
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: MicroPython",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/miguelgrinberg/microdot"
+"Bug Tracker" = "https://github.com/miguelgrinberg/microdot/issues"
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+]
+docs = [
+    "sphinx",
+    "furo",
+    "pyjwt",
+]
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]
+namespaces = false
+
+[build-system]
+requires = [
+    "setuptools>=61.2",
+]
+build-backend = "setuptools.build_meta"

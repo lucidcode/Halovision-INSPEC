@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2017, 2020 NXP
+ * Copyright 2016-2017, 2020-2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -17,8 +17,10 @@
  * Variables
  ******************************************************************************/
 
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /* Array of GPIO peripheral base address. */
 static GPIO_Type *const s_gpioBases[] = GPIO_BASE_PTRS;
+#endif
 
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /* Array of GPIO clock name. */
@@ -29,6 +31,7 @@ static const clock_ip_name_t s_gpioClock[] = GPIO_CLOCKS;
  * Prototypes
  ******************************************************************************/
 
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /*!
  * @brief Gets the GPIO instance according to the GPIO base
  *
@@ -48,7 +51,7 @@ static uint32_t GPIO_GetInstance(GPIO_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0U; instance < ARRAY_SIZE(s_gpioBases); instance++)
     {
-        if (s_gpioBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_gpioBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -58,6 +61,7 @@ static uint32_t GPIO_GetInstance(GPIO_Type *base)
 
     return instance;
 }
+#endif
 
 /*!
  * brief Initializes the GPIO peripheral according to the specified

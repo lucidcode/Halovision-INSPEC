@@ -1,0 +1,166 @@
+{
+    "categories": [
+     {
+       "title": "ignore",
+       "labels": ["github"]
+     },
+     {
+       "title": "## ⚠️  Breaking Changes",
+       "labels": ["breaking"]
+     },
+     {
+       "title": "## 🪄 Image",
+       "labels": ["imlib"]
+     },
+     {
+       "title": "## 🧬 Common",
+       "labels": ["common"]
+     },
+     {
+       "title": "## 📚 Libraries",
+       "labels": ["lib"]
+     },
+     {
+       "title": "## 🤖 Sensors",
+       "labels": ["sensors"]
+     },
+     {
+       "title": "## 💾 Drivers",
+       "labels": ["drivers"]
+     },
+     {
+       "title": "## 🧱 Modules",
+       "labels": ["modules"]
+     },
+     {
+       "title": "## 🐍 Micropython",
+       "labels": ["micropython"]
+     },
+     {
+       "title": "## 🧪 Ports",
+       "labels": ["ports"]
+     },
+     {
+       "title": "## ⚙️ Boards",
+       "labels": ["boards"]
+     },
+     {
+       "title": "## 📜 Scripts",
+       "labels": ["scripts"]
+     },
+     {
+       "title": "## 🛠 Tools",
+       "labels": ["tools"]
+     },
+     {
+       "title": "## 🥾 Bootloader",
+       "labels": ["bootloader"]
+     }
+    ],
+    "ignore_labels": [
+       "github"
+    ],
+    "label_extractor": [
+      {
+        "pattern": "^github",
+        "method": "match",
+        "on_property": "title"
+      },
+      {
+        "pattern": "^imlib",
+        "method": "match",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^common)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^lib)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^sensors)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^Lepton)(.+)",
+        "method": "replace",
+        "target": "sensors",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^drivers)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^modules)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^micropython)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^ports)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^boards)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^scripts)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^tools)(.+)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "title"
+      },
+      {
+        "pattern": "^(bootloader|Bootloader)(.+)",
+        "method": "replace",
+        "target": "bootloader",
+        "on_property": "title"
+      },
+      {
+        "pattern": "(^breaking)",
+        "method": "replace",
+        "target": "$1",
+        "on_property": "labels"
+      }
+    ],
+    "transformers": [
+      {
+        "pattern": "^(.*)\/(.+:.*)",
+        "target": "- $2"
+      }
+    ],
+    "sort": "DESC",
+    "template": "${{CHANGELOG}}\n\n## 🪛 Misc Fixes:\n\n${{UNCATEGORIZED}}\n",
+    "pr_template": "- ${{TITLE}}",
+    "empty_template": "- no changes",
+    "max_tags_to_fetch": 100,
+    "max_pull_requests": 100,
+    "max_back_track_time_days": 100
+}

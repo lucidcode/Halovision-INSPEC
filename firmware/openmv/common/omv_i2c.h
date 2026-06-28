@@ -1,0 +1,94 @@
+/*
+ * SPDX-License-Identifier: MIT
+ *
+ * Copyright (C) 2013-2026 OpenMV, LLC.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * I2C bus abstraction layer.
+ */
+#ifndef __OMV_I2C_H__
+#define __OMV_I2C_H__
+#include <stdint.h>
+#include <stdbool.h>
+#include "port_config.h"
+
+// Transfer speeds
+typedef enum _omv_i2c_speed {
+    OMV_I2C_SPEED_STANDARD = (0U),
+    OMV_I2C_SPEED_FULL     = (1U),
+    OMV_I2C_SPEED_FAST     = (2U),
+    OMV_I2C_SPEED_MAX      = (3U)
+} omv_i2c_speed_t;
+
+// Transfer flags for omv_i2c_read/write
+typedef enum omv_i2c_xfer_flags {
+    // Stop condition after the transfer.
+    // Normal transfer with start condition, address, data and stop condition.
+    OMV_I2C_XFER_NO_FLAGS =  (1 << 0),
+    // No stop condition after the transfer.
+    // This flag allows the next transfer to change direction with repeated start.
+    OMV_I2C_XFER_NO_STOP =   (1 << 1),
+    // No stop condition after the transfer.
+    // This flag allows chaining multiple writes or reads with the same direction.
+    OMV_I2C_XFER_SUSPEND =   (1 << 2),
+    // Generate a restart before the transfer.
+    // This flag generates a re-start condition before transfering the next byte.
+    OMV_I2C_XFER_RESTART =   (1 << 3),
+} omv_i2c_xfer_flags_t;
+
+typedef struct _omv_i2c {
+    uint32_t id;
+    uint32_t speed;
+    uint32_t initialized;
+    omv_gpio_t scl_pin;
+    omv_gpio_t sda_pin;
+    omv_i2c_dev_t inst;
+    #ifdef OMV_I2C_PORT_BITS
+    // Additional port-specific fields like device base pointer,
+    // dma handles, more I/Os etc... are included directly here,
+    // so that they can be accessible from this struct.
+    OMV_I2C_PORT_BITS
+    #endif
+} omv_i2c_t;
+
+int omv_i2c_init(omv_i2c_t *i2c, uint32_t bus_id, uint32_t speed);
+int omv_i2c_deinit(omv_i2c_t *i2c);
+int omv_i2c_scan(omv_i2c_t *i2c, uint8_t *list, uint8_t size);
+int omv_i2c_enable(omv_i2c_t *i2c, bool enable);
+int omv_i2c_gencall(omv_i2c_t *i2c, uint8_t cmd);
+int omv_i2c_pulse_scl(omv_i2c_t *i2c);
+
+// Low-level multi-byte transfers (ports must implement these)
+int omv_i2c_read(omv_i2c_t *i2c, uint8_t slv_addr, uint8_t *buf, uint32_t len, uint32_t flags);
+int omv_i2c_write(omv_i2c_t *i2c, uint8_t slv_addr, uint8_t *buf, uint32_t len, uint32_t flags);
+
+// SCCB protocol: 8-bit address/data and no repeated START
+int omv_i2c_read_sccb(omv_i2c_t *i2c, uint8_t slv_addr, uint8_t reg_addr, uint8_t *data);
+int omv_i2c_write_sccb(omv_i2c_t *i2c, uint8_t slv_addr, uint8_t reg_addr, uint8_t data);
+
+// Register access with configurable address/data sizes
+int omv_i2c_read_reg(omv_i2c_t *i2c, uint8_t slv_addr,
+                     uint32_t reg_addr, uint8_t addr_size,
+                     void *data, uint8_t data_size);
+int omv_i2c_write_reg(omv_i2c_t *i2c, uint8_t slv_addr,
+                      uint32_t reg_addr, uint8_t addr_size,
+                      uint32_t data, uint8_t data_size);
+
+#endif // __OMV_I2C_H__

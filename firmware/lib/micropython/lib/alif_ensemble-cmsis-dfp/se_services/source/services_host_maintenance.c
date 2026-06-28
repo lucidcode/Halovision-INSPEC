@@ -14,6 +14,7 @@
  * contact@alifsemi.com, or visit: https://alifsemi.com/license
  *
  * @ingroup host_services
+ * @ingroup services-host-maintenance
  */
 
 /******************************************************************************
@@ -45,8 +46,11 @@
 
 /**
  * @brief   Heart beat service call
+ * @fn uint32_t SERVICES_heartbeat(uint32_t)
+ * @param services_handle
  * @return  Errorcode
  * @note    No payload required.
+ * @ingroup services-host-maintenance
  */
 uint32_t SERVICES_heartbeat(uint32_t services_handle)
 {

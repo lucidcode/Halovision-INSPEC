@@ -88,11 +88,13 @@ static uint32_t test_services_dcdc_voltage(char *p_test_name,
                                            uint32_t services_handle);
 static uint32_t test_services_ldo_voltage(char *p_test_name,
                                           uint32_t services_handle);
+static uint32_t test_services_bor_en(char *p_test_name, uint32_t services_handle);
 
 static uint32_t test_services_get_bus_frequencies(char *p_test_name, uint32_t services_handle);
-static uint32_t test_services_get_eui(char *p_test_name, uint32_t services_handle);
 
-static uint32_t test_services_bor_en(char *p_test_name, uint32_t services_handle);
+static uint32_t test_services_get_eui(char *p_test_name, uint32_t services_handle);
+static uint32_t test_services_get_device_id(char *p_test_name, uint32_t services_handle);
+
 
 /*******************************************************************************
  *  M A C R O   D E F I N E S
@@ -104,6 +106,7 @@ static uint32_t test_services_bor_en(char *p_test_name, uint32_t services_handle
 #define A32_BOOT_WORKAROUND           1   /* Skip A32 boot tests that crash the current B0 device  */
 #define PLL_XTAL_TESTS_ENABLE         0
 #define CPU_BOOT_SEQUENCE_TEST_ENABLE 0   /* Boot a CPU core using the low level APIs */
+#define EXTSYS0_RELEASE_ENABLE        0   /* Test BLE subsystem release on SPARK */
 
 #if defined(M55_HE)
 #define CPU_STRING "M55_HE"
@@ -216,9 +219,10 @@ static services_test_t s_tests[] =
     { test_services_cpu_boot_sequence,       "Test CPU boot sequence "     , false},  /*49*/
     { test_services_dcdc_voltage,            "DCDC voltage control   "     , false},  /*50*/
     { test_services_ldo_voltage,             "LDO voltage control    "     , false},  /*51*/
-    { test_services_get_bus_frequencies,     "Get BUS frequencies    "     , false},  /*52*/
-    { test_services_get_eui,                 "Get EUI-48/EUI-64 extensions", false},  /*53*/
-    { test_services_bor_en,                  "BOR_EN control",               false},  /*54*/
+    { test_services_bor_en,                  "BOR_EN control",               false},  /*52*/
+    { test_services_get_bus_frequencies,     "Get BUS frequencies    "     , false},  /*53*/
+    { test_services_get_eui,                 "Get EUI-48/EUI-64 extensions", false},  /*54*/
+    { test_services_get_device_id,           "Get 64-bit unique Device ID ", false},  /*55*/
 };
 
 static SERVICES_toc_data_t     toc_info;    /*!< Global to test harness */
@@ -1888,6 +1892,49 @@ static uint32_t test_services_ldo_voltage(char *p_test_name,
   return error_code;
 }
 
+/**
+ * @brief Test the BOR_EN coontrol
+ */
+static uint32_t test_services_bor_en(char *p_test_name, uint32_t services_handle)
+{
+  uint32_t error_code = SERVICES_REQ_SUCCESS;
+  uint32_t service_error_code;
+
+  uint32_t bor_en = 0;
+  error_code = SERVICES_power_setting_get(services_handle,
+                                          POWER_SETTING_BOR_EN,
+                                          &bor_en,
+                                          &service_error_code);
+  PRINT_TEST_RESULT;
+
+  TEST_print(services_handle, "Current BOR_EN: %d\n", bor_en);
+  bor_en = !bor_en;
+  error_code = SERVICES_power_setting_configure(services_handle,
+                                                POWER_SETTING_BOR_EN,
+                                                bor_en,
+                                                &service_error_code);
+  PRINT_TEST_RESULT;
+
+  error_code = SERVICES_power_setting_get(services_handle,
+                                          POWER_SETTING_BOR_EN,
+                                          &bor_en,
+                                          &service_error_code);
+
+  PRINT_TEST_RESULT;
+  TEST_print(services_handle, "New BOR_EN: %d\n", bor_en);
+
+  // restore the original BOR_EN
+  TEST_print(services_handle, "Restore original BOR_EN\n");
+  bor_en = !bor_en;
+  error_code = SERVICES_power_setting_configure(services_handle,
+                                                POWER_SETTING_BOR_EN,
+                                                bor_en,
+                                                &service_error_code);
+  PRINT_TEST_RESULT;
+
+  return error_code;
+}
+
 static uint32_t test_services_get_bus_frequencies(char *p_test_name, uint32_t services_handle)
 {
   uint32_t error_code = SERVICES_REQ_SUCCESS;
@@ -1975,44 +2022,26 @@ static uint32_t test_services_get_eui(char *p_test_name, uint32_t services_handl
 }
 
 /**
- * @brief Test the BOR_EN coontrol
+ * @brief Test the service SERVICES_system_get_device_id64
  */
-static uint32_t test_services_bor_en(char *p_test_name, uint32_t services_handle)
+static uint32_t test_services_get_device_id(char *p_test_name, uint32_t services_handle)
 {
   uint32_t error_code = SERVICES_REQ_SUCCESS;
   uint32_t service_error_code;
 
-  uint32_t bor_en = 0;
-  error_code = SERVICES_power_setting_get(services_handle,
-                                          POWER_SETTING_BOR_EN,
-                                          &bor_en,
+  uint8_t device_id[8];
+  error_code = SERVICES_system_get_device_id64(services_handle,
+                                               device_id,
                                           &service_error_code);
-  PRINT_TEST_RESULT;
+  TEST_print(services_handle,
+              "** TEST %s error_code=%s service_resp=0x%08X\n",
+              p_test_name,
+              SERVICES_error_to_string(error_code),
+              service_error_code);
 
-  TEST_print(services_handle, "Current BOR_EN: %d\n", bor_en);
-  bor_en = !bor_en;
-  error_code = SERVICES_power_setting_configure(services_handle,
-                                                POWER_SETTING_BOR_EN,
-                                                bor_en,
-                                                &service_error_code);
-  PRINT_TEST_RESULT;
-
-  error_code = SERVICES_power_setting_get(services_handle,
-                                          POWER_SETTING_BOR_EN,
-                                          &bor_en,
-                                          &service_error_code);
-
-  PRINT_TEST_RESULT;
-  TEST_print(services_handle, "New BOR_EN: %d\n", bor_en);
-
-  // restore the original BOR_EN
-  TEST_print(services_handle, "Restore original BOR_EN\n");
-  bor_en = !bor_en;
-  error_code = SERVICES_power_setting_configure(services_handle,
-                                                POWER_SETTING_BOR_EN,
-                                                bor_en,
-                                                &service_error_code);
-  PRINT_TEST_RESULT;
+  TEST_print(services_handle, "Device ID: %02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X\n",
+      device_id[0], device_id[1], device_id[2], device_id[3],
+      device_id[4], device_id[5], device_id[6], device_id[7]);
 
   return error_code;
 }
@@ -2036,6 +2065,11 @@ static void setup_tests(void)
   s_tests[22].enabled = false; /*test_services_boot_cpu*/
   s_tests[23].enabled = false; /*test_services_boot_reset_cpu*/
 #endif // A32_BOOT_WORKAROUND
+
+#if EXTSYS0_RELEASE_ENABLE != 1
+  s_tests[24].enabled = false; /*test_services_boot_release_extsys0*/
+#endif
+
   // disable tests not part of the 'sanity tests' group
   s_tests[44].enabled = false; /*test_services_pll_xtal*/
 #endif // SANITY_TESTS_ENABLE

@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "path": "00-HelloWorld/blinky.py",
+      "boards": ["*"],
+      "exclude_boards": ["OPENMVPT"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "00-HelloWorld/helloworld.py",
+      "boards": ["*"],
+      "exclude_boards": ["OPENMVPT"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "01-Camera/00-Snapshot",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "01-Camera/01-Video-Recording",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "01-Camera/02-Optical-Flow",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "01-Camera/03-Event-Cameras/01-Frogeye2020",
+      "boards": ["*"],
+      "sensors": ["FROGEYE2020"]
+    },
+    {
+      "path": "01-Camera/03-Event-Cameras/02-Genx320",
+      "boards": ["*"],
+      "sensors": ["GENX320"]
+    },
+    {
+      "path": "01-Camera/04-Global-Shutter",
+      "boards": ["*"],
+      "sensors": ["MT9V0X2", "MT9V0X2-C", "MT9V0X4", "MT9V0X4-C"]
+    },
+    {
+      "path": "01-Camera/05-Thermal-Cameras/01-FLIR-Lepton",
+      "boards": ["*"],
+      "sensors": ["LEPTON", "LEPTON-1.5", "LEPTON-1.6", "LEPTON-2.0", "LEPTON-2.5", "LEPTON-3.0", "LEPTON-3.5"]
+    },
+    {
+      "path": "01-Camera/05-Thermal-Cameras/02-FLIR-Boson",
+      "boards": ["*"],
+      "sensors": ["BOSON", "BOSON-320", "BOSON-640"]
+    },
+    {
+      "path": "01-Camera/06-Time-of-Flight",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "01-Camera/07-Sensor-Control",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "01-Camera/08-Readout-Control",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "02-Image-Processing",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "03-Machine-Learning/00-TensorFlow",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "03-Machine-Learning/01-ST-CubeAI",
+      "boards": ["OPENMV2", "OPENMV3", "OPENMV4", "OPENMV4P", "OPENMVPT", "OPENMV_N6", "ARDUINO_GIGA", "ARDUINO_PORTENTA_H7", "ARDUINO_NICLA_VISION"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "03-Machine-Learning/02-Haar-Cascade",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "04-Barcodes",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "05-Feature-Detection",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "06-April-Tags",
+      "boards": ["*"],
+      "sensors": ["*"],
+      "exclude_sensors": ["None"]
+    },
+    {
+      "path": "07-Interface-Library/00-Arduino",
+      "boards": ["OPENMV2", "OPENMV3", "OPENMV4", "OPENMV4P", "OPENMVPT", "OPENMV_N6", "ARDUINO_GIGA", "ARDUINO_PORTENTA_H7", "ARDUINO_NICLA_VISION"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "07-Interface-Library/01-Pixy-Emulation",
+      "boards": ["OPENMV2", "OPENMV3", "OPENMV4", "OPENMV4P", "OPENMVPT", "OPENMV_N6", "ARDUINO_GIGA", "ARDUINO_PORTENTA_H7", "ARDUINO_NICLA_VISION"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "07-Interface-Library/02-MAVLink",
+      "boards": ["*"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "07-Interface-Library/03-Modbus",
+      "boards": ["*"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "08-RPC-Library",
+      "boards": ["*"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "09-WiFi",
+      "boards": ["*"],
+      "exclude_boards": ["ARDUINO_NANO_33_BLE_SENSE"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "09-WiFi/WINC1500",
+      "boards": ["OPENMV2", "OPENMV3", "OPENMV4", "OPENMV4P", "OPENMVPT"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "10-Bluetooth",
+      "boards": ["OPENMV_RT1060", "OPENMV_AE3", "OPENMV_N6", "ARDUINO_GIGA", "ARDUINO_PORTENTA_H7", "ARDUINO_NICLA_VISION", "ARDUINO_NANO_RP2040_CONNECT"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "11-Open-AMP",
+      "boards": ["ARDUINO_GIGA", "ARDUINO_PORTENTA_H7"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "12-Protocol",
+      "boards": ["*"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-OpenMV-Boards/50-STM32-Boards/*",
+      "boards": ["OPENMV2", "OPENMV3", "OPENMV4", "OPENMV4P", "OPENMVPT"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-OpenMV-Boards/50-IMXRT-Boards/*",
+      "boards": ["OPENMV_RT1060"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-OpenMV-Boards/51-Pure-Thermal/*",
+      "boards": ["OPENMVPT"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-OpenMV-Boards/52-Alif-Boards/*",
+      "boards": ["OPENMV_AE3"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-OpenMV-Boards/53-N6-Boards/*",
+      "boards": ["OPENMV_N6"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-OpenMV-Boards/60-Shields/*",
+      "boards": ["OPENMV1", "OPENMV2", "OPENMV3", "OPENMV4", "OPENMV4P", "OPENMVPT", "OPENMV_N6", "OPENMV_RT1060", "OPENMV_AE3"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-Arduino-Boards/Giga-H7",
+      "boards": ["ARDUINO_GIGA"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-Arduino-Boards/Nano-33-BLE-Sense",
+      "boards": ["ARDUINO_NANO_33_BLE_SENSE"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-Arduino-Boards/Nano-RP2040",
+      "boards": ["ARDUINO_NANO_RP2040_CONNECT"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-Arduino-Boards/Nicla-Vision",
+      "boards": ["ARDUINO_NICLA_VISION"],
+      "sensors": ["*"]
+    },
+    {
+      "path": "50-Arduino-Boards/Portenta-H7",
+      "boards": ["ARDUINO_PORTENTA_H7"],
+      "sensors": ["*"]
+    }
+  ]
+}

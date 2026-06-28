@@ -3,6 +3,7 @@
  *
  * @brief Extsys0 services service source file
  * @ingroup host_services
+ * @ingroup services-host-extsys0
  * @par
  *
  * Copyright (C) 2023 Alif Semiconductor - All Rights Reserved.
@@ -53,6 +54,7 @@
  * @param boot_args
  * @param error_code
  * @return
+ * @ingroup services-host-extsys0
  */
 uint32_t SERVICES_Boot_Net_Proc(uint32_t services_handle,
                                 net_proc_boot_args_t* boot_args,
@@ -85,6 +87,7 @@ uint32_t SERVICES_Boot_Net_Proc(uint32_t services_handle,
  * @param services_handle
  * @param error_code
  * @return
+ * @ingroup services-host-extsys0
  */
 uint32_t SERVICES_Shutdown_Net_Proc(uint32_t services_handle,
                                     uint32_t *error_code)
