@@ -52,6 +52,7 @@ CFLAGS += -D$(MCU) \
           -mfpu=$(FPU) \
           -mfloat-abi=hard \
           -DCMSIS_MCU_H='<$(MCU_LOWER).h>' \
+          -DOMV_CPU_FREQ_HZ=$(CPU_FREQ_HZ) \
           -DMP_PORT_NO_SOFTTIMER \
           $(OMV_BOARD_CFLAGS)
 
@@ -171,8 +172,9 @@ $(OMV_FIRM_OBJ): | MICROPYTHON
 
 # This target bulds the firmware.
 $(FIRMWARE): $(OMV_FIRM_OBJ)
-	$(CPP) -P -E -I$(COMMON_DIR) -I$(OMV_BOARD_CONFIG_DIR) \
-        ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
+	$(ECHO) "GEN linker script"
+	$(PYTHON) $(TOOLS_DIR)/$(GENLINK) --board $(TARGET) \
+        --ldscript ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
 	$(CC) $(LDFLAGS) $(OMV_FIRM_OBJ) $(MPY_FIRM_OBJ) -o $(FW_DIR)/$(FIRMWARE).elf $(LIBS) -lgcc
 	$(OBJCOPY) -Oihex   $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).hex
 	$(OBJCOPY) -Obinary $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).bin

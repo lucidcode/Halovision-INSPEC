@@ -19,16 +19,16 @@ csi0.framesize(csi.QVGA)  # Set frame size to QVGA (320x240)
 palette = image.Image(1, 256, csi.RGB565)
 
 for i in range(64):
-    palette.set_pixel(0, i, (0, 0, 0))
+    palette.set_pixel((0, i), (0, 0, 0))
 
 for i in range(64, 128):
-    palette.set_pixel(0, i, (255, 0, 0))
+    palette.set_pixel((0, i), (255, 0, 0))
 
 for i in range(128, 192):
-    palette.set_pixel(0, i, (0, 0, 255))
+    palette.set_pixel((0, i), (0, 0, 255))
 
 for i in range(192, 256):
-    palette.set_pixel(0, i, (0, 255, 0))
+    palette.set_pixel((0, i), (0, 255, 0))
 
 clock = time.clock()
 

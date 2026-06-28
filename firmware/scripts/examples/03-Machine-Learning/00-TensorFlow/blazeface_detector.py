@@ -14,6 +14,8 @@ csi0 = csi.CSI()
 csi0.reset()
 csi0.pixformat(csi.RGB565)
 csi0.framesize(csi.VGA)
+
+# BlazeFace requires a square image for the best results.
 csi0.window((400, 400))
 
 # Load built-in face detection model

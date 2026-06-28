@@ -110,7 +110,7 @@ static void spi_master_callback(LPSPI_Type *base, void *handle, status_t status,
     void *buf = spi->xfer_descr.rxData;
 
     if (buf == NULL) {
-        buf = spi->xfer_descr.txData;
+        buf = (void *) spi->xfer_descr.txData;
     }
 
     // The IMXRT doesn't support half complete transfer interrupts (in the lpspi driver) like the STM32
@@ -189,15 +189,16 @@ int omv_spi_transfer_start(omv_spi_t *spi, omv_spi_transfer_t *xfer) {
             return 0;
         }
 
-        // Blocking transfetr, wait for transfer complete or timeout.
+        // Blocking transfer, wait for transfer complete or timeout.
         mp_uint_t start = mp_hal_ticks_ms();
         while (!(spi->xfer_flags & (OMV_SPI_XFER_COMPLETE | OMV_SPI_XFER_FAILED))) {
+            mp_uint_t elapsed = mp_hal_ticks_ms() - start;
             if ((spi->xfer_flags & OMV_SPI_XFER_FAILED) ||
-                ((mp_hal_ticks_ms() - start) > xfer->timeout)) {
+                (elapsed > xfer->timeout)) {
                 // The SPI bus was aborted by spi_master_callback.
                 return -1;
             }
-            MICROPY_EVENT_POLL_HOOK
+            mp_event_wait_ms(xfer->timeout - elapsed);
         }
     } else {
         return -1;

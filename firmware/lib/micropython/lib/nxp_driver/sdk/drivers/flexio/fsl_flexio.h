@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2020, 2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_FLEXIO_H_
-#define _FSL_FLEXIO_H_
+#ifndef FSL_FLEXIO_H_
+#define FSL_FLEXIO_H_
 
 #include "fsl_common.h"
 
@@ -20,10 +20,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief FlexIO driver version. */
-#define FSL_FLEXIO_DRIVER_VERSION (MAKE_VERSION(2, 0, 4))
-/*@}*/
+#define FSL_FLEXIO_DRIVER_VERSION (MAKE_VERSION(2, 2, 2))
+/*! @} */
 
 /*! @brief Calculate FlexIO timer trigger.*/
 #define FLEXIO_TIMER_TRIGGER_SEL_PININPUT(x)   ((uint32_t)(x) << 1U)
@@ -83,14 +83,25 @@ typedef enum _flexio_timer_output
 /*! @brief Define type of timer decrement.*/
 typedef enum _flexio_timer_decrement_source
 {
-    kFLEXIO_TimerDecSrcOnFlexIOClockShiftTimerOutput = 0x0U,   /*!< Decrement counter on FlexIO clock, Shift clock
-                                                                equals Timer output. */
-    kFLEXIO_TimerDecSrcOnTriggerInputShiftTimerOutput = 0x1U,  /*!< Decrement counter on Trigger input (both edges),
+    kFLEXIO_TimerDecSrcOnFlexIOClockShiftTimerOutput = 0x0U, /*!< Decrement counter on FlexIO clock, Shift clock
+                                                              equals Timer output. */
+    kFLEXIO_TimerDecSrcOnTriggerInputShiftTimerOutput,       /*!< Decrement counter on Trigger input (both edges),
+                                                                     Shift clock equals Timer output. */
+    kFLEXIO_TimerDecSrcOnPinInputShiftPinInput,              /*!< Decrement counter on Pin input (both edges),
+                                                                     Shift clock equals Pin input. */
+    kFLEXIO_TimerDecSrcOnTriggerInputShiftTriggerInput       /*!< Decrement counter on Trigger input (both edges),
+                                                                     Shift clock equals Trigger input. */
+#if (defined(FSL_FEATURE_FLEXIO_TIMCFG_TIMDCE_FIELD_WIDTH) && (FSL_FEATURE_FLEXIO_TIMCFG_TIMDCE_FIELD_WIDTH == 3))
+    ,
+    kFLEXIO_TimerDecSrcDiv16OnFlexIOClockShiftTimerOutput,  /*!< Decrement counter on FlexIO clock divided by 16,
+                                                               Shift clock equals Timer output. */
+    kFLEXIO_TimerDecSrcDiv256OnFlexIOClockShiftTimerOutput, /*!< Decrement counter on FlexIO clock divided by 256,
                                                                 Shift clock equals Timer output. */
-    kFLEXIO_TimerDecSrcOnPinInputShiftPinInput = 0x2U,         /*!< Decrement counter on Pin input (both edges),
-                                                                Shift clock equals Pin input. */
-    kFLEXIO_TimerDecSrcOnTriggerInputShiftTriggerInput = 0x3U, /*!< Decrement counter on Trigger input (both edges),
-                                                                Shift clock equals Trigger input. */
+    kFLEXIO_TimerRisSrcOnPinInputShiftPinInput,             /*!< Decrement counter on Pin input (rising edges),
+                                                                     Shift clock equals Pin input. */
+    kFLEXIO_TimerRisSrcOnTriggerInputShiftTriggerInput /*!< Decrement counter on Trigger input (rising edges), Shift
+                                                          clock equals Trigger input. */
+#endif                                                 /* FSL_FEATURE_FLEXIO_TIMCFG_TIMDCE_FIELD_WIDTH */
 } flexio_timer_decrement_source_t;
 
 /*! @brief Define type of timer reset condition.*/
@@ -147,6 +158,13 @@ typedef enum _flexio_timer_start_bit_condition
     kFLEXIO_TimerStartBitDisabled = 0x0U, /*!< Start bit disabled. */
     kFLEXIO_TimerStartBitEnabled  = 0x1U, /*!< Start bit enabled. */
 } flexio_timer_start_bit_condition_t;
+
+/*! @brief FlexIO as PWM channel output state */
+typedef enum _flexio_timer_output_state
+{
+    kFLEXIO_PwmLow = 0, /*!< The output state of PWM channel is low */
+    kFLEXIO_PwmHigh,    /*!< The output state of PWM channel is high */
+} flexio_timer_output_state_t;
 
 /*! @brief Define type of timer polarity for shifter control. */
 typedef enum _flexio_shifter_timer_polarity
@@ -276,6 +294,38 @@ typedef struct _flexio_shifter_config
     flexio_shifter_start_bit_t shifterStart;   /*!< Shifter START bit. */
 } flexio_shifter_config_t;
 
+#if defined(FSL_FEATURE_FLEXIO_HAS_PIN_REGISTER) && FSL_FEATURE_FLEXIO_HAS_PIN_REGISTER
+/*! @brief FLEXIO gpio direction definition */
+typedef enum _flexio_gpio_direction
+{
+    kFLEXIO_DigitalInput  = 0U, /*!< Set current pin as digital input*/
+    kFLEXIO_DigitalOutput = 1U, /*!< Set current pin as digital output*/
+} flexio_gpio_direction_t;
+
+/*! @brief FLEXIO gpio input config */
+typedef enum _flexio_pin_input_config
+{
+    kFLEXIO_InputInterruptDisabled = 0x0U, /*!< Interrupt request is disabled. */
+    kFLEXIO_InputInterruptEnable   = 0x1U, /*!< Interrupt request is enable. */
+    kFLEXIO_FlagRisingEdgeEnable   = 0x2U, /*!< Input pin flag on rising edge. */
+    kFLEXIO_FlagFallingEdgeEnable  = 0x4U, /*!< Input pin flag on falling edge. */
+} flexio_pin_input_config_t;
+
+/*!
+ * @brief The FLEXIO pin configuration structure.
+ *
+ * Each pin can only be configured as either an output pin or an input pin at a time.
+ * If configured as an input pin, use inputConfig param.
+ * If configured as an output pin, use outputLogic.
+ */
+typedef struct _flexio_gpio_config
+{
+    flexio_gpio_direction_t pinDirection; /*!< FLEXIO pin direction, input or output */
+    uint8_t outputLogic;                  /*!< Set a default output logic, which has no use in input */
+    uint8_t inputConfig;                  /*!< Set an input config */
+} flexio_gpio_config_t;
+#endif /*FSL_FEATURE_FLEXIO_HAS_PIN_REGISTER*/
+
 /*! @brief typedef for FlexIO simulated driver interrupt handler.*/
 typedef void (*flexio_isr_t)(void *base, void *handle);
 
@@ -352,7 +402,7 @@ void FLEXIO_Deinit(FLEXIO_Type *base);
  */
 uint32_t FLEXIO_GetInstance(FLEXIO_Type *base);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name FlexIO Basic Operation
@@ -468,7 +518,25 @@ void FLEXIO_SetShifterConfig(FLEXIO_Type *base, uint8_t index, const flexio_shif
 */
 void FLEXIO_SetTimerConfig(FLEXIO_Type *base, uint8_t index, const flexio_timer_config_t *timerConfig);
 
-/* @} */
+/*!
+ * @brief This function set the value of the prescaler on flexio channels
+ *
+ * @param base       Pointer to the FlexIO simulated peripheral type.
+ * @param index      Timer index
+ * @param clocksource  Set clock value
+ */
+static inline void FLEXIO_SetClockMode(FLEXIO_Type *base, uint8_t index, flexio_timer_decrement_source_t clocksource)
+{
+    uint32_t reg = base->TIMCFG[index];
+
+    reg &= ~FLEXIO_TIMCFG_TIMDEC_MASK;
+
+    reg |= FLEXIO_TIMCFG_TIMDEC(clocksource);
+
+    base->TIMCFG[index] = reg;
+}
+
+/*! @} */
 
 /*!
  * @name FlexIO Interrupt Operation
@@ -553,7 +621,7 @@ static inline void FLEXIO_DisableTimerStatusInterrupts(FLEXIO_Type *base, uint32
     base->TIMIEN &= ~mask;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name FlexIO Status Operation
@@ -632,7 +700,7 @@ static inline void FLEXIO_ClearTimerStatusFlags(FLEXIO_Type *base, uint32_t mask
     base->TIMSTAT = mask;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name FlexIO DMA Operation
@@ -690,11 +758,160 @@ status_t FLEXIO_RegisterHandleIRQ(void *base, void *handle, flexio_isr_t isr);
  * @retval kStatus_OutOfRange The FlexIO type/handle/ISR table out of range.
  */
 status_t FLEXIO_UnregisterHandleIRQ(void *base);
-/* @} */
+/*! @} */
+
+#if defined(FSL_FEATURE_FLEXIO_HAS_PIN_REGISTER) && FSL_FEATURE_FLEXIO_HAS_PIN_REGISTER
+
+/*!
+ * @brief Configure a FLEXIO pin used by the board.
+ *
+ * To Config the FLEXIO PIN, define a pin configuration, as either input or output, in the user file.
+ * Then, call the FLEXIO_SetPinConfig() function.
+ *
+ * This is an example to define an input pin or an output pin configuration.
+ * @code
+ * Define a digital input pin configuration,
+ * flexio_gpio_config_t config =
+ * {
+ *   kFLEXIO_DigitalInput,
+ *   0U,
+ *   kFLEXIO_FlagRisingEdgeEnable | kFLEXIO_InputInterruptEnable,
+ * }
+ * Define a digital output pin configuration,
+ * flexio_gpio_config_t config =
+ * {
+ *   kFLEXIO_DigitalOutput,
+ *   0U,
+ *   0U
+ * }
+ * @endcode
+ * @param base   FlexIO peripheral base address
+ * @param pin    FLEXIO pin number.
+ * @param config FLEXIO pin configuration pointer.
+ */
+void FLEXIO_SetPinConfig(FLEXIO_Type *base, uint32_t pin, flexio_gpio_config_t *config);
+
+/*!
+ * @name GPIO Output Operations
+ * @{
+ */
+
+/*!
+ * @brief Sets the output level of the multiple FLEXIO pins to the logic 0.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param mask   FLEXIO pin number mask
+ */
+static inline void FLEXIO_ClearPortOutput(FLEXIO_Type *base, uint32_t mask)
+{
+    base->PINOUTCLR = mask;
+}
+
+/*!
+ * @brief Sets the output level of the multiple FLEXIO pins to the logic 1.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param mask   FLEXIO pin number mask
+ */
+static inline void FLEXIO_SetPortOutput(FLEXIO_Type *base, uint32_t mask)
+{
+    base->PINOUTSET = mask;
+}
+
+/*!
+ * @brief Reverses the current output logic of the multiple FLEXIO pins.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param mask   FLEXIO pin number mask
+ */
+static inline void FLEXIO_TogglePortOutput(FLEXIO_Type *base, uint32_t mask)
+{
+    base->PINOUTTOG = mask;
+}
+
+/*!
+ * @brief Sets the output level of the FLEXIO pins to the logic 1 or 0.
+ *
+ * @param base    FlexIO peripheral base address
+ * @param pin     FLEXIO pin number.
+ * @param output  FLEXIO pin output logic level.
+ *        - 0: corresponding pin output low-logic level.
+ *        - 1: corresponding pin output high-logic level.
+ */
+static inline void FLEXIO_PinWrite(FLEXIO_Type *base, uint32_t pin, uint8_t output)
+{
+    if (output == 0U)
+    {
+        FLEXIO_ClearPortOutput(base, 1UL << pin);
+    }
+    else
+    {
+        FLEXIO_SetPortOutput(base, 1UL << pin);
+    }
+}
+
+/*!
+ * @brief Enables the FLEXIO output pin function.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param pin    FLEXIO pin number.
+ */
+static inline void FLEXIO_EnablePinOutput(FLEXIO_Type *base, uint32_t pin)
+{
+    base->PINOUTE |= (1UL << pin);
+}
+/*! @} */
+
+/*!
+ * @name FLEXIO PIN Input Operations
+ * @{
+ */
+
+/*!
+ * @brief  Reads the current input value of the FLEXIO pin.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param pin    FLEXIO pin number.
+ * @retval FLEXIO port input value
+ *        - 0: corresponding pin input low-logic level.
+ *        - 1: corresponding pin input high-logic level.
+ */
+static inline uint32_t FLEXIO_PinRead(FLEXIO_Type *base, uint32_t pin)
+{
+    return (((base->PIN) >> pin) & 0x01U);
+}
+
+/*!
+ * @brief Gets the FLEXIO input pin status.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param pin    FLEXIO pin number.
+ * @retval FLEXIO port input status
+ *        - 0: corresponding pin input capture no status.
+ *        - 1: corresponding pin input capture rising or falling edge.
+ */
+static inline uint32_t FLEXIO_GetPinStatus(FLEXIO_Type *base, uint32_t pin)
+{
+    return (((base->PINSTAT) >> pin) & 0x01U);
+}
+
+/*!
+ * @brief Clears the multiple FLEXIO input pins status.
+ *
+ * @param base   FlexIO peripheral base address
+ * @param mask   FLEXIO pin number mask
+ */
+static inline void FLEXIO_ClearPortStatus(FLEXIO_Type *base, uint32_t mask)
+{
+    base->PINSTAT = mask;
+}
+/*! @} */
+
+#endif /*FSL_FEATURE_FLEXIO_HAS_PIN_REGISTER*/
 
 #if defined(__cplusplus)
 }
 #endif /*_cplusplus*/
-/*@}*/
+/*! @} */
 
-#endif /*_FSL_FLEXIO_H_*/
+#endif /*FSL_FLEXIO_H_*/

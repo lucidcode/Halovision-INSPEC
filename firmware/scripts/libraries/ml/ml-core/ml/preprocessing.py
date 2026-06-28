@@ -72,7 +72,7 @@ class Normalization:
         img = image.Image(w, h, pixfmt, buffer=memoryview(buffer)[offset:])
 
         # Copy and scale (if needed) the input image to the input buffer.
-        hints = image.BILINEAR | image.CENTER | image.SCALE_ASPECT_EXPAND | image.BLACK_BACKGROUND
+        hints = image.BILINEAR | image.CENTER | image.SCALE_ASPECT_IGNORE | image.BLACK_BACKGROUND
         img.draw_image(self._image, 0, 0, roi=self.roi, hint=hints)
 
         # Convert the image in-place into an ndarray input tensor.

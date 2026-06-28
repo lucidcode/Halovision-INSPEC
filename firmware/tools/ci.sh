@@ -2,12 +2,12 @@
 
 ########################################################################################
 # Install OpenMV SDK.
-SDK_VERSION="1.1.0"
+SDK_VERSION="$(cat "$(dirname "${BASH_SOURCE[0]}")/../SDK_VERSION")"
 SDK_DIR="${HOME}/openmv-sdk-${SDK_VERSION}"
 SDK_BASE_URL="https://download.openmv.io/sdk"
 SDK_OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
 SDK_ARCH="$(uname -m)"
-SDK_TARBALL="openmv-sdk-${SDK_VERSION}-${SDK_OS}-${SDK_ARCH}.tar.gz"
+SDK_TARBALL="openmv-sdk-${SDK_VERSION}-${SDK_OS}-${SDK_ARCH}.tar.xz"
 SDK_URL="${SDK_BASE_URL}/${SDK_TARBALL}"
 
 export SDK_DIR
@@ -37,9 +37,15 @@ ci_install_sdk() {
         echo "Checksum verification failed!"; return 1
     }
 
-    tar --strip-components=1 -xzf "$tmpfile" -C "${SDK_DIR}" || {
-        echo "Extraction failed!"; return 1
-    }
+    if command -v pv &>/dev/null; then
+        pv "$tmpfile" | tar --strip-components=1 -xf - -C "${SDK_DIR}" || {
+            echo "Extraction failed!"; return 1
+        }
+    else
+        tar --strip-components=1 -xf "$tmpfile" -C "${SDK_DIR}" || {
+            echo "Extraction failed!"; return 1
+        }
+    fi
 
     echo "OpenMV SDK ${SDK_VERSION} installed successfully."
 }
@@ -59,10 +65,10 @@ ci_build_target() {
         make -j$(nproc) -C docker TARGET=${BOARD}
     else
         make -j$(nproc) -C lib/micropython/mpy-cross
-        make -j$(nproc) TARGET=${1} PROFILE_ENABLE=${3}
+        make -j$(nproc) TARGET=${1} PROFILE_ENABLE=${3} PROFILE_HASH=64
         # Copy artifacts if enabled
         if [ "$4" == "true" ]; then
-            mv build/bin ${1}
+            mv build/${1}/bin ${1}
         fi
     fi
 }

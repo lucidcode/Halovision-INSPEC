@@ -30,6 +30,7 @@
 #include "py/mphal.h"
 #include "py/runtime.h"
 
+#include "imlib.h"
 #include "ethosu_driver.h"
 
 // SSE-300 Ethos-U NPU base address and IRQ.
@@ -89,11 +90,11 @@ uint64_t ethosu_address_remap(uint64_t address, int index) {
 }
 
 void ethosu_inference_begin(struct ethosu_driver *drv, void *user_arg) {
-    mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
+    imlib_poll_events_noexc();
 }
 
 void ethosu_inference_end(struct ethosu_driver *drv, void *user_arg) {
-    mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
+    imlib_poll_events_noexc();
 }
 
 static void ETHOSU_IRQ_Handler(void) {

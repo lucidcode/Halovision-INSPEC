@@ -33,13 +33,10 @@ while True:
     # You can invert what gets filled with "invert" and clear
     # everything but the filled area with "clear_background".
 
-    x = csi0.width() // 2
-    y = csi0.height() // 2
     img = csi0.snapshot().flood_fill(
-        x,
-        y,
+        (csi0.width() // 2, csi0.height() // 2),
         seed_threshold=0.05,
-        floating_thresholds=0.05,
+        floating_threshold=0.05,
         color=(255, 0, 0),
         invert=False,
         clear_background=False,

@@ -7,14 +7,14 @@ def unittest(data_path, temp_path):
     # Fill with gradient
     for y in range(100):
         for x in range(100):
-            img.set_pixel(x, y, (x + y) % 256)
+            img.set_pixel((x, y), (x + y) % 256)
 
     # Get statistics for ROI (region of interest)
     roi = (25, 25, 50, 50)  # x, y, w, h
     stats = img.get_statistics(roi=roi)
 
     # Verify stats are calculated
-    if stats.mean() < 0 or stats.mean() > 255:
+    if stats.mean < 0 or stats.mean > 255:
         return False
 
     # Test histogram with ROI

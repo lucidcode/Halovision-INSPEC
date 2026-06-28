@@ -1,4 +1,4 @@
-/* Copyright (C) 2022 Alif Semiconductor - All Rights Reserved.
+/* Copyright (C) 2024 Alif Semiconductor - All Rights Reserved.
  * Use, distribution and modification of this code is permitted under the
  * terms stated in the Alif Semiconductor Software License Agreement
  *
@@ -174,6 +174,34 @@ static void mhu_initialize(void)
 }
 
 /**
+ * @brief Make MRAM writable
+ */
+void enable_mram_write(void)
+{
+  // Find the MPU region for MRAM
+  int num_regions = (MPU->TYPE >> 8);
+  int mram_region = -1;
+  for (int i = 0; i < num_regions; i++)
+  {
+    MPU->RNR = i;
+    uint32_t base_addr = MPU->RBAR & ~0x1F;
+    if (base_addr == 0x80000000)
+    {
+      mram_region = i;
+      break;
+    }
+  }
+
+
+  if (mram_region == -1) return;
+
+  // Re-configure the region
+  ARM_MPU_Disable();
+  MPU->RBAR &= ~0x4; // clear BIT2 to make the region writable
+  ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk | MPU_CTRL_HFNMIENA_Msk);
+}
+
+/**
  * @brief Main function
  * @return
  */
@@ -189,6 +217,9 @@ int main(void)
        }
    }
    #endif
+  // Make MRAM writable
+  enable_mram_write();
+
   SERVICES_print("[SE SERVICES] %s Test harness - STARTS\n", CPU_STRING);
   
   /**
@@ -219,4 +250,3 @@ int main(void)
 
   return 0;
 }
-

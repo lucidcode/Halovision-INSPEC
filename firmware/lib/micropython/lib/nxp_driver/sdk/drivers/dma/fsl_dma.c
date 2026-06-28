@@ -56,7 +56,7 @@ static uint32_t DMA_GetInstance(DMA_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_dmaBases); instance++)
     {
-        if (s_dmaBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_dmaBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -344,7 +344,7 @@ void DMA_PrepareTransfer(dma_transfer_config_t *config,
     assert((srcWidth == 1UL) || (srcWidth == 2UL) || (srcWidth == 4UL));
     assert((destWidth == 1UL) || (destWidth == 2UL) || (destWidth == 4UL));
 
-    dma_addr_increment_t srcIncrement = false, destIncrement = false;
+    dma_addr_increment_t srcIncrement = kDMA_AddrNoIncrement, destIncrement = kDMA_AddrNoIncrement;
 
     if (type == kDMA_MemoryToMemory)
     {

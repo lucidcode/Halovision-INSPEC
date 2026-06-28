@@ -8,18 +8,18 @@ def unittest(data_path, temp_path):
     for y in range(100):
         for x in range(100):
             # Create gradient in narrow range
-            img.set_pixel(x, y, 100 + (x // 5))
+            img.set_pixel((x, y), 100 + (x // 5))
 
     # Get histogram before equalization
     stats_before = img.get_statistics()
-    range_before = stats_before.max() - stats_before.min()
+    range_before = stats_before.max - stats_before.min
 
     # Apply histogram equalization
     img.histeq()
 
     # Get histogram after equalization
     stats_after = img.get_statistics()
-    range_after = stats_after.max() - stats_after.min()
+    range_after = stats_after.max - stats_after.min
 
     # After histogram equalization:
     # Dynamic range should increase significantly (spread out the values)

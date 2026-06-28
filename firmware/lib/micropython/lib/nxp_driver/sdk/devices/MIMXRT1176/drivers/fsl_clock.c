@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 - 2021 NXP
+ * Copyright 2019-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -79,6 +79,91 @@ typedef uint64_t clock_64b_t;
 /*******************************************************************************
  * Variables
  ******************************************************************************/
+/* Clock Source Definitions */
+/* clang-format off */
+const clock_name_t s_clockSourceName[][8] = {
+        /*SRC0,               SRC1,             SRC2,             SRC3,            SRC4,             SRC5,              SRC6,              SRC7,                      name             index */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_ArmPllOut, kCLOCK_SysPll1Out, kCLOCK_SysPll3Out, kCLOCK_VideoPllOut},     /* M7               0    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Out, kCLOCK_SysPll1Div5},   /* M4               1    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Out, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},   /* BUS              2    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Out, kCLOCK_SysPll1Div5},   /* BUS_LPSR         3    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd1, kCLOCK_SysPll3Pfd0},  /* SEMC             4    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* CSSYS            5    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1, kCLOCK_SysPll2Out},  /* CSTRACE          6    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll1Div5},  /* M4_SYSTICK       7    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd0},  /* M7_SYSTICK       8    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* ADC1             9    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* ADC2            10    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Out, kCLOCK_SysPll1Div5, kCLOCK_AudioPllOut, kCLOCK_SysPll2Pfd3},  /* ACMP            11    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* FLEXIO1         12    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* FLEXIO2         13    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT1            14    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_AudioPllOut, kCLOCK_VideoPllOut}, /* GPT2            15    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_AudioPllOut, kCLOCK_VideoPllOut}, /* GPT3            16    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT4            17    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT5            18    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT6            19    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd0, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out},   /* FLEXSPI1        20    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd0, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out},   /* FLEXSPI2        21    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* CAN1            22    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* CAN2            23    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* CAN3            24    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART1         25    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART2         26    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART3         27    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART4         28    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART5         29    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART6         30    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART7         31    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART8         32    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART9         33    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART10        34    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPUART11        35    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPUART12        36    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C1          37    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C2          38    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C3          39    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C4          40    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPI2C5          41    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPI2C6          42    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI1          43    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI2          44    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI3          45    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI4          46    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5},  /* LPSPI5          47    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5},  /* LPSPI6          48    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* EMV1            49    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* EMV2            50    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET1           51    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET2           52    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_QOS        53    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_25M        54    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_TIMER1     55    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_TIMER2     56    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_TIMER3     57    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll1Div5, kCLOCK_ArmPllOut},   /* USDHC1          58    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll1Div5, kCLOCK_ArmPllOut},   /* USDHC2          59    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll2Pfd3}, /* ASRC            60    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll2Pfd3}, /* MQS             61    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5},  /* MIC             62    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll2Pfd3},  /* SPDIF           63    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd3}, /* SAI1            64    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd3}, /* SAI2            65    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd3}, /* SAI3            66    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5},  /* SAI4            67    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd1, kCLOCK_SysPll3Out, kCLOCK_VideoPllOut},   /* GC355           68    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* LCDIF           69    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* LCDIFV2         70    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* MIPI_REF        71    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* MIPI_ESC        72    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_VideoPllOut},  /* CSI2            73    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_VideoPllOut},  /* CSI2_ESC        74    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_VideoPllOut},  /* CSI2_UI         75    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd1, kCLOCK_VideoPllOut},  /* CSI             76    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll2Out, kCLOCK_SysPll3Pfd1, kCLOCK_SysPll1Div5},  /* CKO1            77    */ \
+        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd3, kCLOCK_OscRc48M, kCLOCK_SysPll3Pfd1, kCLOCK_AudioPllOut}     /* CKO2            78    */ \
+};
+/* clang-format on */
 
 /*******************************************************************************
  * Prototypes
@@ -122,11 +207,11 @@ void CLOCK_InitArmPll(const clock_arm_pll_config_t *config)
 
     uint32_t reg;
 
-    if (((ANADIG_PLL->ARM_PLL_CTRL & (ANADIG_PLL_ARM_PLL_CTRL_POWERUP_MASK)) != 0UL) &&
-        ((ANADIG_PLL->ARM_PLL_CTRL & (ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT(config->loopDivider))) ==
-         (ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT(config->loopDivider))) &&
-        ((ANADIG_PLL->ARM_PLL_CTRL & (ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL(config->postDivider))) ==
-         (ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL(config->postDivider))))
+    if (((ANADIG_PLL->ARM_PLL_CTRL & ANADIG_PLL_ARM_PLL_CTRL_POWERUP_MASK) != 0UL) &&
+        ((ANADIG_PLL->ARM_PLL_CTRL & ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT_MASK) ==
+         ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT(config->loopDivider)) &&
+        ((ANADIG_PLL->ARM_PLL_CTRL & ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL_MASK) ==
+         ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL(config->postDivider)))
     {
         /* no need to reconfigure the PLL if all the configuration is the same */
         if ((ANADIG_PLL->ARM_PLL_CTRL & ANADIG_PLL_ARM_PLL_CTRL_ENABLE_CLK_MASK) == 0UL)
@@ -155,12 +240,15 @@ void CLOCK_InitArmPll(const clock_arm_pll_config_t *config)
     reg &= ~(ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT_MASK | ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL_MASK);
     reg |= (ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT(config->loopDivider) |
             ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL(config->postDivider)) |
-           ANADIG_PLL_ARM_PLL_CTRL_ARM_PLL_GATE_MASK | ANADIG_PLL_ARM_PLL_CTRL_POWERUP_MASK;
+           ANADIG_PLL_ARM_PLL_CTRL_ARM_PLL_GATE_MASK | ANADIG_PLL_ARM_PLL_CTRL_POWERUP_MASK |
+           ANADIG_PLL_ARM_PLL_CTRL_HOLD_RING_OFF_MASK;
     ANADIG_PLL->ARM_PLL_CTRL = reg;
     __DSB();
     __ISB();
     SDK_DelayAtLeastUs(30, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
 
+    reg &= ~ANADIG_PLL_SYS_PLL2_CTRL_HOLD_RING_OFF_MASK;
+    ANADIG_PLL->ARM_PLL_CTRL = reg;
     /* Wait for the PLL stable, */
     while (0U == (ANADIG_PLL->ARM_PLL_CTRL & ANADIG_PLL_ARM_PLL_CTRL_ARM_PLL_STABLE_MASK))
     {
@@ -239,12 +327,14 @@ void CLOCK_InitSysPll2(const clock_sys_pll2_config_t *config)
     }
 
     /* REG_EN = 1, GATE = 1, DIV_SEL = 0, POWERUP = 0 */
-    reg                       = ANADIG_PLL_SYS_PLL2_CTRL_PLL_REG_EN(1) | ANADIG_PLL_SYS_PLL2_CTRL_SYS_PLL2_GATE(1);
+    reg &= ~(ANADIG_PLL_SYS_PLL2_CTRL_PLL_REG_EN_MASK | ANADIG_PLL_SYS_PLL2_CTRL_SYS_PLL2_GATE_MASK);
+    reg |= ANADIG_PLL_SYS_PLL2_CTRL_PLL_REG_EN(1) | ANADIG_PLL_SYS_PLL2_CTRL_SYS_PLL2_GATE(1);
     ANADIG_PLL->SYS_PLL2_CTRL = reg;
     /* Wait until LDO is stable */
     SDK_DelayAtLeastUs(30, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
 
     /* REG_EN = 1, GATE = 1, DIV_SEL = 0, POWERUP = 1, HOLDRING_OFF = 1 */
+    reg &= ~(ANADIG_PLL_SYS_PLL2_CTRL_POWERUP_MASK);
     reg |= ANADIG_PLL_SYS_PLL2_CTRL_POWERUP(1) | ANADIG_PLL_SYS_PLL2_CTRL_HOLD_RING_OFF_MASK;
     ANADIG_PLL->SYS_PLL2_CTRL = reg;
     SDK_DelayAtLeastUs(250, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
@@ -438,8 +528,6 @@ uint32_t CLOCK_GetPfdFreq(clock_pll_t pll, clock_pfd_t pfd)
 /* 480PLL */
 void CLOCK_InitSysPll3(void)
 {
-    uint32_t reg;
-
     if (0UL != (ANADIG_PLL->SYS_PLL3_CTRL & ANADIG_PLL_SYS_PLL3_CTRL_POWERUP_MASK))
     {
         /* no need to reconfigure the PLL if all the configuration is the same */
@@ -464,22 +552,19 @@ void CLOCK_InitSysPll3(void)
     /*
      * 1. configure PLL registres
      * 2. Enable internal LDO
-     * 3. Wati LDO stable
+     * 3. Wait LDO stable
      * 4. Power up PLL, assert hold_ring_off (only needed for avpll)
      * 5. At half lock time, de-asserted hold_ring_off (only needed for avpll)
      * 6. Wait PLL lock
      * 7. Enable clock output, release pfd_gate
      */
-    reg                       = ANADIG_PLL_SYS_PLL3_CTRL_PLL_REG_EN(1) | ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_GATE(1);
-    ANADIG_PLL->SYS_PLL3_CTRL = reg;
+    ANADIG_PLL->SYS_PLL3_CTRL |= ANADIG_PLL_SYS_PLL3_CTRL_PLL_REG_EN(1) | ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_GATE(1);
     SDK_DelayAtLeastUs(30, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
 
-    reg |= ANADIG_PLL_SYS_PLL3_CTRL_POWERUP(1) | ANADIG_PLL_SYS_PLL3_CTRL_HOLD_RING_OFF_MASK;
-    ANADIG_PLL->SYS_PLL3_CTRL = reg;
+    ANADIG_PLL->SYS_PLL3_CTRL |= ANADIG_PLL_SYS_PLL3_CTRL_POWERUP(1) | ANADIG_PLL_SYS_PLL3_CTRL_HOLD_RING_OFF_MASK;
     SDK_DelayAtLeastUs(30, SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY);
 
-    reg &= ~ANADIG_PLL_SYS_PLL3_CTRL_HOLD_RING_OFF_MASK;
-    ANADIG_PLL->SYS_PLL3_CTRL = reg;
+    ANADIG_PLL->SYS_PLL3_CTRL &= ~ANADIG_PLL_SYS_PLL3_CTRL_HOLD_RING_OFF_MASK;
 
     /* Wait for PLL stable */
     while (ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_STABLE_MASK !=
@@ -487,11 +572,9 @@ void CLOCK_InitSysPll3(void)
     {
     }
 
-    reg |= ANADIG_PLL_SYS_PLL3_CTRL_ENABLE_CLK(1) | ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_DIV2(1);
-    ANADIG_PLL->SYS_PLL3_CTRL = reg;
+    ANADIG_PLL->SYS_PLL3_CTRL |= ANADIG_PLL_SYS_PLL3_CTRL_ENABLE_CLK(1) | ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_DIV2(1);
 
-    reg &= ~ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_GATE_MASK;
-    ANADIG_PLL->SYS_PLL3_CTRL = reg;
+    ANADIG_PLL->SYS_PLL3_CTRL &= ~ANADIG_PLL_SYS_PLL3_CTRL_SYS_PLL3_GATE_MASK;
 }
 
 void CLOCK_DeinitSysPll3(void)
@@ -1059,11 +1142,6 @@ void CLOCK_InitSysPll1(const clock_sys_pll1_config_t *config)
     div         = 41U;
     numerator   = 178956970UL;
 
-    if (config->ssEnable && (config->ss != NULL))
-    {
-        return;
-    }
-
     /* configure pll */
     ANATOP_PllConfigure(kAI_Itf_1g, div, numerator, 0U, denominator,
                         (config->ssEnable && (config->ss != NULL)) ? config->ss : NULL);
@@ -1439,8 +1517,15 @@ uint32_t CLOCK_GetPllFreq(clock_pll_t pll)
                         ANADIG_PLL_ARM_PLL_CTRL_DIV_SELECT_SHIFT;
             postDiv = (ANADIG_PLL->ARM_PLL_CTRL & ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL_MASK) >>
                       ANADIG_PLL_ARM_PLL_CTRL_POST_DIV_SEL_SHIFT;
-            postDiv = (1UL << (postDiv + 1UL));
-            freq    = XTAL_FREQ / (2UL * postDiv);
+            if (postDiv == (uint32_t)kCLOCK_PllPostDiv1)
+            {
+                postDiv = 1UL;
+            }
+            else
+            {
+                postDiv = (1UL << (postDiv + 1UL));
+            }
+            freq = XTAL_FREQ / (2UL * postDiv);
             freq *= divSelect;
 #else
             freq = CLOCK_GetFreqFromObs(CCM_OBS_ARM_PLL_OUT);
@@ -1746,7 +1831,6 @@ bool CLOCK_EnableUsbhs0PhyPllClock(clock_usb_phy_src_t src, uint32_t freq)
     USBPHY1->PLL_SIC_SET = (USBPHY_PLL_SIC_PLL_EN_USB_CLKS_MASK);
 
     USBPHY1->CTRL_CLR = USBPHY_CTRL_CLR_CLKGATE_MASK;
-    USBPHY1->PWD_SET  = 0x0;
 
     while (0UL == (USBPHY1->PLL_SIC & USBPHY_PLL_SIC_PLL_LOCK_MASK))
     {
@@ -1852,7 +1936,6 @@ bool CLOCK_EnableUsbhs1PhyPllClock(clock_usb_phy_src_t src, uint32_t freq)
     USBPHY2->PLL_SIC_SET = (USBPHY_PLL_SIC_PLL_EN_USB_CLKS_MASK);
 
     USBPHY2->CTRL_CLR = USBPHY_CTRL_CLR_CLKGATE_MASK;
-    USBPHY2->PWD_SET  = 0x0;
 
     while (0UL == (USBPHY2->PLL_SIC & USBPHY_PLL_SIC_PLL_LOCK_MASK))
     {

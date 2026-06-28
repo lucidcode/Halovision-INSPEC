@@ -22,21 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * TV Python module.
+ * TV Shield Python module.
  */
 #include "board_config.h"
 
-#if MICROPY_PY_TV
+#if MICROPY_PY_DISPLAY && MICROPY_PY_TV
 
 #include "py/obj.h"
 #include "py/nlr.h"
 #include "py/mphal.h"
 #include "py/runtime.h"
 
+#include "py_display.h"
 #include "py_helper.h"
 #include "py_image.h"
 #include "omv_gpio.h"
 #include "omv_spi.h"
+#include "umalloc.h"
 
 #define TV_WIDTH      352
 #define TV_HEIGHT     240
@@ -230,9 +232,8 @@
 #define TV_TRIPLE_BUFFER_DEFAULT   (false)
 #endif
 
-static omv_spi_t spi_bus = {};
-
-static void SpiTransmitReceivePacket(uint8_t *txdata, uint8_t *rxdata, uint16_t size, bool end) {
+static void SpiTransmitReceivePacket(py_display_obj_t *self, uint8_t *txdata, uint8_t *rxdata,
+                                     uint16_t size, bool end) {
     omv_spi_transfer_t spi_xfer = {
         .txbuf = txdata,
         .rxbuf = rxdata,
@@ -242,109 +243,109 @@ static void SpiTransmitReceivePacket(uint8_t *txdata, uint8_t *rxdata, uint16_t 
     };
 
     omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 0);
-    omv_spi_transfer_start(&spi_bus, &spi_xfer);
+    omv_spi_transfer_start(&self->spi_bus, &spi_xfer);
 
     if (end) {
         omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
     }
 }
 
-static void SpiRamWriteByteRegister(int opcode, int data) {
+static void SpiRamWriteByteRegister(py_display_obj_t *self, int opcode, int data) {
     uint8_t packet[2] = {opcode, data};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), true);
 }
 
-static int SpiRamReadByteRegister(int opcode) {
+static int SpiRamReadByteRegister(py_display_obj_t *self, int opcode) {
     uint8_t packet[2] = {opcode, 0};
-    SpiTransmitReceivePacket(packet, packet, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, packet, sizeof(packet), true);
     return packet[1];
 }
 
-static void SpiRamWriteWordRegister(int opcode, int data) {
+static void SpiRamWriteWordRegister(py_display_obj_t *self, int opcode, int data) {
     uint8_t packet[3] = {opcode, data >> 8, data};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), true);
 }
 
-static void SpiClearRam() {
+static void SpiClearRam(py_display_obj_t *self) {
     uint8_t packet[4] = {WRITE_SRAM, 0, 0, 0};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), false);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), false);
     packet[0] = 0;
 
     for (int i = 0; i < (SPI_RAM_SIZE / sizeof(packet)); i++) {
-        SpiTransmitReceivePacket(packet, NULL, sizeof(packet), (i + 1) == (SPI_RAM_SIZE / sizeof(packet)));
+        SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), (i + 1) == (SPI_RAM_SIZE / sizeof(packet)));
     }
 }
 
-static void SpiRamWriteProgram(int data0, int data1, int data2, int data3) {
+static void SpiRamWriteProgram(py_display_obj_t *self, int data0, int data1, int data2, int data3) {
     uint8_t packet[5] = {PROGRAM, data3, data2, data1, data0};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), true);
 }
 
-static void SpiRamWriteLowPassFilter(int data) {
+static void SpiRamWriteLowPassFilter(py_display_obj_t *self, int data) {
     uint8_t packet[6] = {WRITE_BLOCKMVC1, 0, 0, 0, 0, data};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), true);
 }
 
-static void SpiRamWriteWord(int w_address, int data) {
+static void SpiRamWriteWord(py_display_obj_t *self, int w_address, int data) {
     int address = w_address * sizeof(uint16_t);
     uint8_t packet[6] = {WRITE_SRAM, address >> 16, address >> 8, address, data >> 8, data};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), true);
 }
 
-static void SpiRamWriteVSyncProtoLine(int line, int length_1, int length_2) {
+static void SpiRamWriteVSyncProtoLine(py_display_obj_t *self, int line, int length_1, int length_2) {
     int w0 = PROTOLINE_WORD_ADDRESS(line);
     for (int i = 0; i < COLORCLKS_PER_LINE; i++) {
-        SpiRamWriteWord(w0++, BLANK_LEVEL);
+        SpiRamWriteWord(self, w0++, BLANK_LEVEL);
     }
 
     int w1 = PROTOLINE_WORD_ADDRESS(line);
     for (int i = 0; i < length_1; i++) {
-        SpiRamWriteWord(w1++, SYNC_LEVEL);
+        SpiRamWriteWord(self, w1++, SYNC_LEVEL);
     }
 
     int w2 = PROTOLINE_WORD_ADDRESS(line) + COLORCLKS_LINE_HALF;
     for (int i = 0; i < length_2; i++) {
-        SpiRamWriteWord(w2++, SYNC_LEVEL);
+        SpiRamWriteWord(self, w2++, SYNC_LEVEL);
     }
 }
 
-static void SpiRamWriteLine(int line, int index) {
+static void SpiRamWriteLine(py_display_obj_t *self, int line, int index) {
     int address = INDEX_START_BYTES + (line * LINE_INDEX_BYTE_SIZE);
     int data = index << 7;
     uint8_t packet[7] = {WRITE_SRAM, address >> 16, address >> 8, address, data, data >> 8, data >> 16};
-    SpiTransmitReceivePacket(packet, NULL, sizeof(packet), true);
+    SpiTransmitReceivePacket(self, packet, NULL, sizeof(packet), true);
 }
 
-static void SpiRamVideoInit() {
+static void SpiRamVideoInit(py_display_obj_t *self) {
     // Select the first VS23 for following commands in case there
     // are several VS23 ICs connected to same SPI bus.
-    SpiRamWriteByteRegister(WRITE_MULTIIC, 0xe);
+    SpiRamWriteByteRegister(self, WRITE_MULTIIC, 0xe);
 
     // Set SPI memory address autoincrement
-    SpiRamWriteByteRegister(WRITE_STATUS, 0x40);
+    SpiRamWriteByteRegister(self, WRITE_STATUS, 0x40);
 
     // Reset the video display controller
-    SpiRamWriteWordRegister(VDCTRL1, 0);
-    SpiRamWriteWordRegister(VDCTRL2, 0);
+    SpiRamWriteWordRegister(self, VDCTRL1, 0);
+    SpiRamWriteWordRegister(self, VDCTRL2, 0);
 
     // Write picture start and end
-    SpiRamWriteWordRegister(PICSTART, (STARTPIX - 1));
-    SpiRamWriteWordRegister(PICEND, (ENDPIX - 1));
+    SpiRamWriteWordRegister(self, PICSTART, (STARTPIX - 1));
+    SpiRamWriteWordRegister(self, PICEND, (ENDPIX - 1));
 
     // Enable PLL clock
-    SpiRamWriteWordRegister(VDCTRL1, VDCTRL1_PLL_ENABLE | VDCTRL1_UVSKIP);
+    SpiRamWriteWordRegister(self, VDCTRL1, VDCTRL1_PLL_ENABLE | VDCTRL1_UVSKIP);
 
     // Clear the video memory
-    SpiClearRam();
+    SpiClearRam(self);
 
     // Set length of one complete line (unit: PLL clocks)
-    SpiRamWriteWordRegister(LINELEN, PLLCLKS_PER_LINE);
+    SpiRamWriteWordRegister(self, LINELEN, PLLCLKS_PER_LINE);
 
     // Set microcode program for picture lines
-    SpiRamWriteProgram(OP1, OP2, OP3, OP4);
+    SpiRamWriteProgram(self, OP1, OP2, OP3, OP4);
 
     // Define where Line Indexes are stored in memory
-    SpiRamWriteWordRegister(INDEXSTART, INDEX_START_LONGWORDS);
+    SpiRamWriteWordRegister(self, INDEXSTART, INDEX_START_LONGWORDS);
 
     // At this time, the chip would continuously output the proto line 0.
     // This protoline will become our most "normal" horizontal line.
@@ -357,45 +358,45 @@ static void SpiRamVideoInit() {
     // In protolines, each pixel is 8 PLLCLKs, which in TV-out modes means one color
     // subcarrier cycle. Each pixel has 16 bits (one word): VVVVUUUUYYYYYYYY.
 
-    SpiRamWriteVSyncProtoLine(0, SYNC, 0);
+    SpiRamWriteVSyncProtoLine(self, 0, SYNC, 0);
 
     int w = PROTOLINE_WORD_ADDRESS(0) + BURST;
     for (int i = 0; i < BURST_DUR; i++) {
-        SpiRamWriteWord(w++, BURST_LEVEL);
+        SpiRamWriteWord(self, w++, BURST_LEVEL);
     }
 
     // short_low + long_high + short_low + long_high
-    SpiRamWriteVSyncProtoLine(1, SHORTSYNC, SHORTSYNCM);
+    SpiRamWriteVSyncProtoLine(self, 1, SHORTSYNC, SHORTSYNCM);
 
     // long_low + short_high + long_low + short_high
-    SpiRamWriteVSyncProtoLine(2, LONGSYNC, LONGSYNCM);
+    SpiRamWriteVSyncProtoLine(self, 2, LONGSYNC, LONGSYNCM);
 
     for (int i = 0; i <= 2; i++) {
-        SpiRamWriteLine(i, PROTOLINE_BYTE_ADDRESS(1)); // short_low + long_high + short_low + long_high
+        SpiRamWriteLine(self, i, PROTOLINE_BYTE_ADDRESS(1)); // short_low + long_high + short_low + long_high
     }
 
     for (int i = 3; i <= 5; i++) {
-        SpiRamWriteLine(i, PROTOLINE_BYTE_ADDRESS(2)); // long_low + short_high + long_low + short_high
+        SpiRamWriteLine(self, i, PROTOLINE_BYTE_ADDRESS(2)); // long_low + short_high + long_low + short_high
     }
 
     for (int i = 6; i <= 8; i++) {
-        SpiRamWriteLine(i, PROTOLINE_BYTE_ADDRESS(1)); // short_low + long_high + short_low + long_high
+        SpiRamWriteLine(self, i, PROTOLINE_BYTE_ADDRESS(1)); // short_low + long_high + short_low + long_high
     }
 
     // Set pic line indexes to point to protoline 0 and their individual picture line.
     for (int i = 0; i < TV_HEIGHT; i++) {
-        SpiRamWriteLine(STARTLINE + i, PICLINE_BYTE_ADDRESS(i));
+        SpiRamWriteLine(self, STARTLINE + i, PICLINE_BYTE_ADDRESS(i));
     }
 
     // Set number of lines, length of pixel and enable video generation
-    SpiRamWriteWordRegister(VDCTRL2, (VDCTRL2_LINECOUNT * (TOTAL_LINES - 1))
+    SpiRamWriteWordRegister(self, VDCTRL2, (VDCTRL2_LINECOUNT * (TOTAL_LINES - 1))
                             | (VDCTRL2_PIXEL_WIDTH * (PLLCLKS_PER_PIXEL - 1))
                             | (VDCTRL2_ENABLE_VIDEO));
 
     // Enable the low-pass Y filter.
-    SpiRamWriteLowPassFilter(BLOCKMVC1_PYF);
+    SpiRamWriteLowPassFilter(self, BLOCKMVC1_PYF);
 }
-#endif
+#endif // OMV_SPI_DISPLAY_CONTROLLER
 
 // TV lines are converted from 16-bit RGB565 to 12-bit YUV.
 #define TV_WIDTH_RGB565      ((TV_WIDTH) * 2) // bytes
@@ -404,65 +405,12 @@ static void SpiRamVideoInit() {
 #error "PICLINE_LENGTH_BYTES > TV_WIDTH_RGB565"
 #endif
 
-#define FRAMEBUFFER_COUNT    3
-static int framebuffer_head = 0;
-static volatile int framebuffer_tail = 0;
-static uint16_t *framebuffers[FRAMEBUFFER_COUNT] = {};
-
-typedef enum tv_type {
-    TV_NONE,
-    TV_SHIELD,
-} tv_type_t;
-
-static tv_type_t tv_type = TV_NONE;
-static bool tv_triple_buffer = false;
-
 #ifdef OMV_SPI_DISPLAY_CONTROLLER
-static volatile enum {
-    SPI_TX_CB_IDLE,
-    SPI_TX_CB_MEMORY_WRITE_CMD,
-    SPI_TX_CB_MEMORY_WRITE
-} spi_tx_cb_state = SPI_TX_CB_IDLE;
-
-static void spi_config_deinit() {
-    if (tv_triple_buffer) {
-        omv_spi_transfer_abort(&spi_bus);
-        spi_tx_cb_state = SPI_TX_CB_IDLE;
-        fb_alloc_free_till_mark_past_mark_permanent();
-    }
-
-    omv_spi_deinit(&spi_bus);
-}
-
-static void spi_config_init(bool triple_buffer) {
-    omv_spi_config_t spi_config;
-    omv_spi_default_config(&spi_config, OMV_SPI_DISPLAY_CONTROLLER);
-
-    spi_config.baudrate = TV_BAUDRATE;
-    spi_config.nss_enable = false;
-    spi_config.dma_flags = triple_buffer ? OMV_SPI_DMA_NORMAL : 0;
-    omv_spi_init(&spi_bus, &spi_config);
-
-    omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
-
-    SpiRamVideoInit();
-
-    // Set default channel.
-    SpiRamWriteByteRegister(WRITE_GPIO, 0x77);
-
-    if (triple_buffer) {
-        fb_alloc_mark();
-
-        framebuffer_head = 0;
-        framebuffer_tail = 0;
-
-        for (int i = 0; i < FRAMEBUFFER_COUNT; i++) {
-            framebuffers[i] = (uint16_t *) fb_alloc0(TV_WIDTH_RGB565 * TV_HEIGHT, FB_ALLOC_CACHE_ALIGN);
-        }
-
-        fb_alloc_mark_permanent();
-    }
-}
+enum {
+    TV_IDLE = 0,
+    TV_WRITE_CMD,
+    TV_WRITE,
+};
 
 static const uint8_t write_sram[] = {
     // Cannot be allocated on the stack.
@@ -473,53 +421,50 @@ static const uint8_t write_sram[] = {
 };
 
 static void spi_tv_callback(omv_spi_t *spi, void *userdata, void *buf) {
-    if (tv_type == TV_SHIELD) {
-        static uint8_t *spi_tx_cb_state_memory_write_addr = NULL;
-        static size_t spi_tx_cb_state_memory_write_count = 0;
+    py_display_obj_t *self = (py_display_obj_t *) userdata;
 
-        switch (spi_tx_cb_state) {
-            case SPI_TX_CB_MEMORY_WRITE_CMD: {
-                omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
-                spi_tx_cb_state = SPI_TX_CB_MEMORY_WRITE;
-                spi_tx_cb_state_memory_write_addr = (uint8_t *) framebuffers[framebuffer_head];
-                spi_tx_cb_state_memory_write_count = PICLINE_LENGTH_BYTES * TV_HEIGHT;
-                framebuffer_tail = framebuffer_head;
-                omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 0);
-                // When starting the interrupt chain the first transfer is not executed
-                // in interrupt context. So, disable interrupts for the first transfer so
-                // that it completes first and unlocks the SPI bus before allowing the interrupt
-                // it causes to trigger starting the interrupt chain.
-                omv_spi_transfer_t spi_xfer = {
-                    .txbuf = (uint8_t *) write_sram,
-                    .size = sizeof(write_sram),
-                    .flags = OMV_SPI_XFER_NONBLOCK,
-                    .callback = spi_tv_callback,
-                };
-                uint32_t irq_state = MICROPY_BEGIN_ATOMIC_SECTION();
-                omv_spi_transfer_start(&spi_bus, &spi_xfer);
-                MICROPY_END_ATOMIC_SECTION(irq_state);
-                break;
-            }
-            case SPI_TX_CB_MEMORY_WRITE: {
-                uint8_t *addr = spi_tx_cb_state_memory_write_addr;
-                size_t count = IM_MIN(spi_tx_cb_state_memory_write_count, OMV_SPI_MAX_8BIT_XFER);
-                spi_tx_cb_state = (spi_tx_cb_state_memory_write_count > OMV_SPI_MAX_8BIT_XFER)
-                        ? SPI_TX_CB_MEMORY_WRITE
-                        : SPI_TX_CB_MEMORY_WRITE_CMD;
-                spi_tx_cb_state_memory_write_addr += count;
-                spi_tx_cb_state_memory_write_count -= count;
-                omv_spi_transfer_t spi_xfer = {
-                    .txbuf = addr,
-                    .size = count,
-                    .flags = OMV_SPI_XFER_DMA,
-                    .callback = spi_tv_callback,
-                };
-                omv_spi_transfer_start(&spi_bus, &spi_xfer);
-                break;
-            }
-            default: {
-                break;
-            }
+    switch (self->spi_state) {
+        case TV_WRITE_CMD: {
+            omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
+            self->spi_state = TV_WRITE;
+            self->spi_write_addr = (uint8_t *) self->framebuffers[self->framebuffer_head];
+            self->spi_write_count = PICLINE_LENGTH_BYTES * TV_HEIGHT;
+            self->framebuffer_tail = self->framebuffer_head;
+            omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 0);
+            // When starting the interrupt chain the first transfer is not executed
+            // in interrupt context. So, disable interrupts for the first transfer so
+            // that it completes first and unlocks the SPI bus before allowing the interrupt
+            // it causes to trigger starting the interrupt chain.
+            omv_spi_transfer_t spi_xfer = {
+                .txbuf = (uint8_t *) write_sram,
+                .size = sizeof(write_sram),
+                .flags = OMV_SPI_XFER_NONBLOCK,
+                .userdata = self,
+                .callback = spi_tv_callback,
+            };
+            uint32_t irq_state = MICROPY_BEGIN_ATOMIC_SECTION();
+            omv_spi_transfer_start(&self->spi_bus, &spi_xfer);
+            MICROPY_END_ATOMIC_SECTION(irq_state);
+            break;
+        }
+        case TV_WRITE: {
+            uint8_t *addr = self->spi_write_addr;
+            size_t count = IM_MIN(self->spi_write_count, OMV_SPI_MAX_8BIT_XFER);
+            self->spi_state = (self->spi_write_count > OMV_SPI_MAX_8BIT_XFER) ? TV_WRITE : TV_WRITE_CMD;
+            self->spi_write_addr += count;
+            self->spi_write_count -= count;
+            omv_spi_transfer_t spi_xfer = {
+                .txbuf = addr,
+                .size = count,
+                .flags = OMV_SPI_XFER_DMA,
+                .userdata = self,
+                .callback = spi_tv_callback,
+            };
+            omv_spi_transfer_start(&self->spi_bus, &spi_xfer);
+            break;
+        }
+        default: {
+            break;
         }
     }
 }
@@ -586,21 +531,22 @@ static void spi_tv_draw_image_cb_convert_rgb565(uint16_t *row_pointer_i, uint8_t
 }
 
 static void spi_tv_draw_image_cb_grayscale(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data) {
+    py_display_obj_t *self = (py_display_obj_t *) data->callback_arg;
     memset(((uint8_t *) data->dst_row_override) + x_end, 0, TV_WIDTH - x_end); // clear trailing bytes.
     spi_tv_draw_image_cb_convert_grayscale((uint8_t *) data->dst_row_override, (uint8_t *) data->dst_row_override);
-    SpiTransmitReceivePacket(data->dst_row_override, NULL, PICLINE_LENGTH_BYTES, false);
+    SpiTransmitReceivePacket(self, data->dst_row_override, NULL, PICLINE_LENGTH_BYTES, false);
 }
 
 static void spi_tv_draw_image_cb_rgb565(int x_start, int x_end, int y_row, imlib_draw_row_data_t *data) {
+    py_display_obj_t *self = (py_display_obj_t *) data->callback_arg;
     memset(data->dst_row_override, 0, x_start * sizeof(uint16_t)); // clear leading bytes.
     spi_tv_draw_image_cb_convert_rgb565((uint16_t *) data->dst_row_override, (uint8_t *) data->dst_row_override);
-    SpiTransmitReceivePacket(data->dst_row_override, NULL, PICLINE_LENGTH_BYTES, false);
+    SpiTransmitReceivePacket(self, data->dst_row_override, NULL, PICLINE_LENGTH_BYTES, false);
 }
 
-static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, float x_scale, float y_scale,
-                           rectangle_t *roi, int rgb_channel, int alpha,
-                           const uint16_t *color_palette, const uint8_t *alpha_palette,
-                           image_hint_t hint) {
+static void spi_tv_display(py_display_obj_t *self, image_t *src_img, int dst_x_start, int dst_y_start,
+                           float x_scale, float y_scale, rectangle_t *roi, int rgb_channel, int alpha,
+                           const uint16_t *color_palette, const uint8_t *alpha_palette, image_hint_t hint) {
     bool rgb565 = ((rgb_channel == -1) && src_img->is_color) || color_palette;
     imlib_draw_row_callback_t cb = rgb565 ? spi_tv_draw_image_cb_rgb565 : spi_tv_draw_image_cb_grayscale;
 
@@ -614,26 +560,26 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
                                 roi, alpha, alpha_palette, hint, &p0, &p1);
     bool black = p0.x == -1;
 
-    if (!tv_triple_buffer) {
-        dst_img.data = fb_alloc0(TV_WIDTH_RGB565, FB_ALLOC_NO_HINT);
+    if (!self->triple_buffer) {
+        dst_img.data = uma_calloc(TV_WIDTH_RGB565, UMA_FAST);
 
-        SpiTransmitReceivePacket((uint8_t *) write_sram, NULL, sizeof(write_sram), false);
+        SpiTransmitReceivePacket(self, (uint8_t *) write_sram, NULL, sizeof(write_sram), false);
 
         if (black) {
             // zero the whole image
             for (int i = 0; i < TV_HEIGHT; i++) {
-                SpiTransmitReceivePacket(dst_img.data, NULL, PICLINE_LENGTH_BYTES, false);
+                SpiTransmitReceivePacket(self, dst_img.data, NULL, PICLINE_LENGTH_BYTES, false);
             }
         } else {
             // Zero the top rows
             for (int i = 0; i < p0.y; i++) {
-                SpiTransmitReceivePacket(dst_img.data, NULL, PICLINE_LENGTH_BYTES, false);
+                SpiTransmitReceivePacket(self, dst_img.data, NULL, PICLINE_LENGTH_BYTES, false);
             }
 
             // Transmits left/right parts already zeroed...
             imlib_draw_image(&dst_img, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
                              rgb_channel, alpha, color_palette, alpha_palette, hint | IMAGE_HINT_BLACK_BACKGROUND,
-                             NULL, cb, NULL, dst_img.data);
+                             NULL, cb, self, dst_img.data);
 
             // Zero the bottom rows
             if (p1.y < TV_HEIGHT) {
@@ -641,21 +587,21 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
             }
 
             for (int i = p1.y; i < TV_HEIGHT; i++) {
-                SpiTransmitReceivePacket(dst_img.data, NULL, PICLINE_LENGTH_BYTES, false);
+                SpiTransmitReceivePacket(self, dst_img.data, NULL, PICLINE_LENGTH_BYTES, false);
             }
         }
 
         omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
-        fb_free();
+        uma_free(dst_img.data);
     } else {
         // For triple buffering we are never drawing where head or tail (which may instantly update to
         // to be equal to head) is.
-        int new_framebuffer_head = (framebuffer_head + 1) % FRAMEBUFFER_COUNT;
-        if (new_framebuffer_head == framebuffer_tail) {
+        int new_framebuffer_head = (self->framebuffer_head + 1) % FRAMEBUFFER_COUNT;
+        if (new_framebuffer_head == self->framebuffer_tail) {
             new_framebuffer_head = (new_framebuffer_head + 1) % FRAMEBUFFER_COUNT;
         }
 
-        dst_img.data = (uint8_t *) framebuffers[new_framebuffer_head];
+        dst_img.data = (uint8_t *) self->framebuffers[new_framebuffer_head];
 
         if (rgb565) {
             if (black) {
@@ -747,247 +693,145 @@ static void spi_tv_display(image_t *src_img, int dst_x_start, int dst_y_start, f
         #endif
 
         // Update head which means a new image is ready.
-        framebuffer_head = new_framebuffer_head;
+        self->framebuffer_head = new_framebuffer_head;
 
         // Kick off an update of the display.
-        if (spi_tx_cb_state == SPI_TX_CB_IDLE) {
-            spi_tx_cb_state = SPI_TX_CB_MEMORY_WRITE_CMD;
-            spi_tv_callback(&spi_bus, NULL, NULL);
+        if (self->spi_state == TV_IDLE) {
+            self->spi_state = TV_WRITE_CMD;
+            spi_tv_callback(&self->spi_bus, self, NULL);
         }
     }
 }
-#endif
+#endif // OMV_SPI_DISPLAY_CONTROLLER
 
-static mp_obj_t py_tv_deinit() {
-    switch (tv_type) {
-        #ifdef OMV_SPI_DISPLAY_CONTROLLER
-        case TV_SHIELD: {
-            spi_config_deinit();
-            break;
-        }
-        #endif
-        default:
-            break;
-    }
-
-    tv_type = TV_NONE;
-    tv_triple_buffer = false;
-
-    return mp_const_none;
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_deinit_obj, py_tv_deinit);
-
-static mp_obj_t py_tv_init(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
-    enum { ARG_type, ARG_triple_buffer };
-    static const mp_arg_t allowed_args[] = {
-        { MP_QSTR_type, MP_ARG_INT, {.u_int = TV_SHIELD } },
-        { MP_QSTR_triple_buffer, MP_ARG_BOOL | MP_ARG_KW_ONLY, {.u_bool = TV_TRIPLE_BUFFER_DEFAULT } },
-    };
-
-    // Parse args.
-    mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
-    mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
-
-    py_tv_deinit();
-    tv_type = args[ARG_type].u_int;
-    tv_triple_buffer = args[ARG_triple_buffer].u_bool;
-
-    switch (tv_type) {
-        #ifdef OMV_SPI_DISPLAY_CONTROLLER
-        case TV_SHIELD:
-            spi_config_init(tv_triple_buffer);
-            break;
-        #endif
-        default:
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Failed to detect a supported TV controller."));
-    }
-
-    return mp_const_none;
-}
-static MP_DEFINE_CONST_FUN_OBJ_KW(py_tv_init_obj, 0, py_tv_init);
-
-static mp_obj_t py_tv_width() {
-    if (tv_type != TV_NONE) {
-        return mp_obj_new_int(TV_WIDTH);
-    }
-
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_width_obj, py_tv_width);
-
-static mp_obj_t py_tv_height() {
-    if (tv_type != TV_NONE) {
-        return mp_obj_new_int(TV_HEIGHT);
-    }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_height_obj, py_tv_height);
-
-static mp_obj_t py_tv_type() {
-    if (tv_type != TV_NONE) {
-        return mp_obj_new_int(tv_type);
-    }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_type_obj, py_tv_type);
-
-static mp_obj_t py_tv_triple_buffer() {
-    if (tv_type != TV_NONE) {
-        return mp_obj_new_int(tv_triple_buffer);
-    }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_triple_buffer_obj, py_tv_triple_buffer);
-
-static mp_obj_t py_tv_refresh() {
-    if (tv_type != TV_NONE) {
-        return mp_obj_new_int(TV_REFRESH);
-    }
-    mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_refresh_obj, py_tv_refresh);
-
-static mp_obj_t py_tv_channel(size_t n_args, const mp_obj_t *args) {
-    if (tv_type == TV_NONE) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-    }
-
+static void tv_display_write(py_display_obj_t *self, image_t *src_img, int dst_x_start, int dst_y_start,
+                             float x_scale, float y_scale, rectangle_t *roi, int rgb_channel, int alpha,
+                             const uint16_t *color_palette, const uint8_t *alpha_palette, image_hint_t hint) {
     #ifdef OMV_SPI_DISPLAY_CONTROLLER
-    if (tv_triple_buffer) {
-        omv_spi_transfer_abort(&spi_bus);
-        spi_tx_cb_state = SPI_TX_CB_IDLE;
+    spi_tv_display(self, src_img, dst_x_start, dst_y_start, x_scale, y_scale, roi,
+                   rgb_channel, alpha, color_palette, alpha_palette, hint);
+    #endif
+}
+
+static void tv_display_clear(py_display_obj_t *self, bool display_off) {
+    #ifdef OMV_SPI_DISPLAY_CONTROLLER
+    spi_tv_display(self, NULL, 0, 0, 1.f, 1.f, NULL, 0, 0, NULL, NULL, 0);
+    #endif
+}
+
+static void tv_display_deinit(py_display_obj_t *self) {
+    #ifdef OMV_SPI_DISPLAY_CONTROLLER
+    if (self->triple_buffer) {
+        omv_spi_transfer_abort(&self->spi_bus);
+        self->spi_state = TV_IDLE;
+        for (int i = 0; i < FRAMEBUFFER_COUNT; i++) {
+            uma_free(self->framebuffers[i]);
+            self->framebuffers[i] = NULL;
+        }
+    }
+    omv_spi_deinit(&self->spi_bus);
+    #endif
+}
+
+static mp_obj_t tv_display_ioctl(py_display_obj_t *self, size_t n_args, const mp_obj_t *args) {
+    #ifdef OMV_SPI_DISPLAY_CONTROLLER
+    if (self->triple_buffer) {
+        omv_spi_transfer_abort(&self->spi_bus);
+        self->spi_state = TV_IDLE;
         omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
     }
 
-    if (n_args) {
-        int channel = mp_obj_get_int(*args);
+    if (!n_args || mp_obj_get_int(args[0]) != DISPLAY_IOCTL_CHANNEL) {
+        return mp_const_none;
+    }
+
+    if (n_args > 1) {
+        int channel = mp_obj_get_int(args[1]);
 
         if ((channel < 1) || (8 < channel)) {
             mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Channel ranges between 1 and 8"));
         }
 
-        SpiRamWriteByteRegister(WRITE_GPIO, 0x70 | (channel - 1));
+        SpiRamWriteByteRegister(self, WRITE_GPIO, 0x70 | (channel - 1));
         return mp_const_none;
     } else {
         #ifdef OMV_SPI_DISPLAY_RX_CLK_DIV
-        omv_spi_set_baudrate(&spi_bus, TV_BAUDRATE / OMV_SPI_DISPLAY_RX_CLK_DIV);
+        omv_spi_set_baudrate(&self->spi_bus, TV_BAUDRATE / OMV_SPI_DISPLAY_RX_CLK_DIV);
         #endif
-        int channel = SpiRamReadByteRegister(READ_GPIO);
+        int channel = SpiRamReadByteRegister(self, READ_GPIO);
         #ifdef OMV_SPI_DISPLAY_RX_CLK_DIV
-        omv_spi_set_baudrate(&spi_bus, TV_BAUDRATE);
+        omv_spi_set_baudrate(&self->spi_bus, TV_BAUDRATE);
         #endif
         return mp_obj_new_int((channel & 0x7) + 1);
     }
+    #else
+    return mp_const_none;
     #endif
 }
-static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_tv_channel_obj, 0, 1, py_tv_channel);
 
-static mp_obj_t py_tv_display(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
-    enum {
-        ARG_x, ARG_y, ARG_x_scale, ARG_y_scale, ARG_roi, ARG_channel, ARG_alpha,
-        ARG_color_palette, ARG_alpha_palette, ARG_hint
-    };
+mp_obj_t tv_display_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
+    enum { ARG_triple_buffer };
     static const mp_arg_t allowed_args[] = {
-        { MP_QSTR_x, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 0 } },
-        { MP_QSTR_y, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 0 } },
-        { MP_QSTR_x_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
-        { MP_QSTR_y_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
-        { MP_QSTR_roi, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
-        { MP_QSTR_rgb_channel, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = -1 } },
-        { MP_QSTR_alpha, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 255 } },
-        { MP_QSTR_color_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
-        { MP_QSTR_alpha_palette, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
-        { MP_QSTR_hint, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 0 } },
+        { MP_QSTR_triple_buffer, MP_ARG_BOOL | MP_ARG_KW_ONLY, {.u_bool = TV_TRIPLE_BUFFER_DEFAULT} },
     };
 
-    // Parse args.
     mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
-    mp_arg_parse_all(n_args - 1, pos_args + 1, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
+    mp_arg_parse_all_kw_array(n_args, n_kw, all_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
-    image_t *image = py_helper_arg_to_image(pos_args[0], 0);
-    rectangle_t roi = py_helper_arg_to_roi(args[ARG_roi].u_obj, image);
+    py_display_obj_t *self = mp_obj_malloc_with_finaliser(py_display_obj_t, &py_tv_display_type);
+    self->framebuffer_tail = 0;
+    self->framebuffer_head = 0;
+    self->width = TV_WIDTH;
+    self->height = TV_HEIGHT;
+    self->refresh = TV_REFRESH;
+    self->triple_buffer = args[ARG_triple_buffer].u_bool;
+    self->bgr = false;
+    self->byte_swap = false;
+    self->controller = mp_const_none;
+    self->bl_controller = mp_const_none;
 
-    if (args[ARG_channel].u_int < -1 || args[ARG_channel].u_int > 2) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("RGB channel can be 0, 1, or 2"));
-    }
+    #ifdef OMV_SPI_DISPLAY_CONTROLLER
+    omv_spi_config_t spi_config;
+    omv_spi_default_config(&spi_config, OMV_SPI_DISPLAY_CONTROLLER);
 
-    if (args[ARG_alpha].u_int < 0 || args[ARG_alpha].u_int > 255) {
-        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Alpha ranges between 0 and 255"));
-    }
+    self->spi_baudrate = TV_BAUDRATE;
+    spi_config.baudrate = TV_BAUDRATE;
+    spi_config.nss_enable = false;
+    spi_config.dma_flags = self->triple_buffer ? OMV_SPI_DMA_NORMAL : 0;
+    omv_spi_init(&self->spi_bus, &spi_config);
 
-    float x_scale = 1.0f;
-    float y_scale = 1.0f;
-    py_helper_arg_to_scale(args[ARG_x_scale].u_obj, args[ARG_y_scale].u_obj, &x_scale, &y_scale);
+    omv_gpio_write(OMV_SPI_DISPLAY_SSEL_PIN, 1);
 
-    const uint16_t *color_palette = py_helper_arg_to_palette(args[ARG_color_palette].u_obj, PIXFORMAT_RGB565);
-    const uint8_t *alpha_palette = py_helper_arg_to_palette(args[ARG_alpha_palette].u_obj, PIXFORMAT_GRAYSCALE);
+    SpiRamVideoInit(self);
 
-    switch (tv_type) {
-        #ifdef OMV_SPI_DISPLAY_CONTROLLER
-        case TV_SHIELD: {
-            fb_alloc_mark();
-            spi_tv_display(image, args[ARG_x].u_int, args[ARG_y].u_int, x_scale, y_scale, &roi,
-                           args[ARG_channel].u_int, args[ARG_alpha].u_int, color_palette, alpha_palette,
-                           args[ARG_hint].u_int);
-            fb_alloc_free_till_mark();
-            break;
+    // Set default channel.
+    SpiRamWriteByteRegister(self, WRITE_GPIO, 0x77);
+
+    if (self->triple_buffer) {
+        for (int i = 0; i < FRAMEBUFFER_COUNT; i++) {
+            self->framebuffers[i] = (uint16_t *) uma_calloc(TV_WIDTH_RGB565 * TV_HEIGHT,
+                                                            UMA_PERSIST | UMA_CACHE);
         }
-        #endif
-        default:
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
     }
+    #endif
 
-    return mp_const_none;
+    return MP_OBJ_FROM_PTR(self);
 }
-static MP_DEFINE_CONST_FUN_OBJ_KW(py_tv_display_obj, 1, py_tv_display);
 
-static mp_obj_t py_tv_clear() {
-    switch (tv_type) {
-        #ifdef OMV_SPI_DISPLAY_CONTROLLER
-        case TV_SHIELD: {
-            fb_alloc_mark();
-            spi_tv_display(NULL, 0, 0, 1.f, 1.f, NULL,
-                           0, 0, NULL, NULL, 0);
-            fb_alloc_free_till_mark();
-            break;
-        }
-        #endif
-        default: {
-            mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("TV controller is not initialized"));
-        }
-    }
-
-    return mp_const_none;
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_tv_clear_obj, py_tv_clear);
-
-static const mp_rom_map_elem_t globals_dict_table[] = {
-    { MP_ROM_QSTR(MP_QSTR___name__),        MP_OBJ_NEW_QSTR(MP_QSTR_tv)          },
-    { MP_ROM_QSTR(MP_QSTR_TV_NONE),         MP_ROM_INT(TV_NONE)                  },
-    { MP_ROM_QSTR(MP_QSTR_TV_SHIELD),       MP_ROM_INT(TV_SHIELD)                },
-    { MP_ROM_QSTR(MP_QSTR_init),            MP_ROM_PTR(&py_tv_init_obj)          },
-    { MP_ROM_QSTR(MP_QSTR_deinit),          MP_ROM_PTR(&py_tv_deinit_obj)        },
-    { MP_ROM_QSTR(MP_QSTR_width),           MP_ROM_PTR(&py_tv_width_obj)         },
-    { MP_ROM_QSTR(MP_QSTR_height),          MP_ROM_PTR(&py_tv_height_obj)        },
-    { MP_ROM_QSTR(MP_QSTR_type),            MP_ROM_PTR(&py_tv_type_obj)          },
-    { MP_ROM_QSTR(MP_QSTR_triple_buffer),   MP_ROM_PTR(&py_tv_triple_buffer_obj) },
-    { MP_ROM_QSTR(MP_QSTR_refresh),         MP_ROM_PTR(&py_tv_refresh_obj)       },
-    { MP_ROM_QSTR(MP_QSTR_channel),         MP_ROM_PTR(&py_tv_channel_obj)       },
-    { MP_ROM_QSTR(MP_QSTR_display),         MP_ROM_PTR(&py_tv_display_obj)       },
-    { MP_ROM_QSTR(MP_QSTR_clear),           MP_ROM_PTR(&py_tv_clear_obj)         },
+static const py_display_p_t py_tv_display_p = {
+    .deinit = tv_display_deinit,
+    .clear = tv_display_clear,
+    .write = tv_display_write,
+    .ioctl = tv_display_ioctl,
 };
 
-static MP_DEFINE_CONST_DICT(globals_dict, globals_dict_table);
+MP_DEFINE_CONST_OBJ_TYPE(
+    py_tv_display_type,
+    MP_QSTR_TVDisplay,
+    MP_TYPE_FLAG_NONE,
+    make_new, tv_display_make_new,
+    protocol, &py_tv_display_p,
+    locals_dict, &py_display_locals_dict
+    );
 
-const mp_obj_module_t tv_module = {
-    .base = { &mp_type_module },
-    .globals = (mp_obj_t) &globals_dict,
-};
-
-void py_tv_init0() {
-    py_tv_deinit();
-}
-
-MP_REGISTER_MODULE(MP_QSTR_tv, tv_module);
-
-#endif // MICROPY_PY_TV
+#endif // MICROPY_PY_DISPLAY && MICROPY_PY_TV

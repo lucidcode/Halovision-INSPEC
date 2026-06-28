@@ -71,23 +71,22 @@ while True:
     for blob in blobs:
         blob_stats.append(
             (
-                blob.x(),
-                blob.y(),
+                blob.x,
+                blob.y,
                 map_g_to_temp(
                     img.get_statistics(
-                        thresholds=threshold_list, roi=blob.rect()
-                    ).mean()
+                        thresholds=threshold_list, roi=blob.rect
+                    ).mean
                 ),
             )
         )
     img.to_rainbow(color_palette=image.PALETTE_IRONBOW)  # color it
     # Draw stuff on the colored image
     for blob in blobs:
-        img.draw_rectangle(blob.rect())
-        img.draw_cross(blob.cx(), blob.cy())
+        img.draw_detection(blob)
     for blob_stat in blob_stats:
         img.draw_string(
-            blob_stat[0], blob_stat[1] - 10, "%.2f C" % blob_stat[2], mono_space=False
+            (blob_stat[0], blob_stat[1] - 10), "%.2f C" % blob_stat[2], mono_space=False
         )
     lcd.write(img)
     print(

@@ -117,6 +117,10 @@
 #define NDARRAY_HAS_BINARY_OP_LESS_EQUAL    (1)
 #endif
 
+#ifndef NDARRAY_HAS_BINARY_OP_MODULO
+#define NDARRAY_HAS_BINARY_OP_MODULO        (1)
+#endif
+
 #ifndef NDARRAY_HAS_BINARY_OP_MORE
 #define NDARRAY_HAS_BINARY_OP_MORE          (1)
 #endif
@@ -159,6 +163,10 @@
 
 #ifndef NDARRAY_HAS_INPLACE_ADD
 #define NDARRAY_HAS_INPLACE_ADD             (1)
+#endif
+
+#ifndef NDARRAY_HAS_INPLACE_MODULO
+#define NDARRAY_HAS_INPLACE_MODULO          (1)
 #endif
 
 #ifndef NDARRAY_HAS_INPLACE_MULTIPLY
@@ -243,6 +251,10 @@
 
 #ifndef NDARRAY_HAS_ITEMSIZE
 #define NDARRAY_HAS_ITEMSIZE            (1)
+#endif
+
+#ifndef NDARRAY_HAS_NDIM
+#define NDARRAY_HAS_NDIM                (1)
 #endif
 
 #ifndef NDARRAY_HAS_RESHAPE
@@ -353,6 +365,10 @@
 #define ULAB_NUMPY_HAS_LOGSPACE         (1)
 #endif
 
+#ifndef ULAB_NUMPY_HAS_MESHGRID
+#define ULAB_NUMPY_HAS_MESHGRID         (1)
+#endif
+
 #ifndef ULAB_NUMPY_HAS_ONES
 #define ULAB_NUMPY_HAS_ONES             (1)
 #endif
@@ -362,6 +378,10 @@
 #endif
 
 // functions that compare arrays
+#ifndef ULAB_NUMPY_HAS_BINCOUNT
+#define ULAB_NUMPY_HAS_BINCOUNT         (1)
+#endif
+
 #ifndef ULAB_NUMPY_HAS_CLIP
 #define ULAB_NUMPY_HAS_CLIP             (1)
 #endif
@@ -401,7 +421,7 @@
 // the integrate module; functions of the integrate module still have
 // to be defined separately
 #ifndef ULAB_SCIPY_HAS_INTEGRATE_MODULE
-#define ULAB_SCIPY_HAS_INTEGRATE_MODULE        (1)
+#define ULAB_SCIPY_HAS_INTEGRATE_MODULE     (1)
 #endif
 
 #ifndef ULAB_INTEGRATE_HAS_TANHSINH

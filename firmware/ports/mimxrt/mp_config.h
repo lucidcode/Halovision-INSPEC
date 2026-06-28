@@ -23,10 +23,10 @@
  *
  * MicroPython port config.
  */
-#define MICROPY_VM_HOOK_EXC                    \
-    do {                                       \
-        extern void fb_alloc_free_till_mark(); \
-        fb_alloc_free_till_mark();             \
+#define MICROPY_VM_HOOK_EXC            \
+    do {                               \
+        extern void uma_collect(void); \
+        uma_collect();                 \
     } while (0);
 
 #define MICROPY_BOARD_BEFORE_PYTHON_EXEC(input_kind, exec_flags) \
@@ -52,5 +52,12 @@
 #define MICROPY_WRAP_TUD_CDC_RX_CB(name) __mp_ ## name
 #define MICROPY_WRAP_TUD_CDC_LINE_STATE_CB(name) __mp_ ## name
 #define MICROPY_WRAP_TUD_EVENT_HOOK_CB(name) __mp_ ## name
+
+// Place lwIP memory in a dedicated section to allow relocating it.
+// Note: alignment is enforced without adding trailing padding bytes.
+#if MICROPY_PY_LWIP_RELOCATE_MEM
+#define LWIP_DECLARE_MEMORY_ALIGNED(variable_name, size) \
+    __attribute__((section(".lwip"), aligned(MEM_ALIGNMENT))) u8_t variable_name[size]
+#endif
 
 #include <mpconfigport.h>

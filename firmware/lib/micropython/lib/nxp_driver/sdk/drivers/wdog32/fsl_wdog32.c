@@ -13,12 +13,67 @@
 #define FSL_COMPONENT_ID "platform.drivers.wdog32"
 #endif
 
+#if defined(WDOG_RSTS)
+#define WDOG_RESETS_ARRAY WDOG_RSTS
+#endif
+
+/*
+ * $Coverage Justification Reference$
+ *
+ * $Justification wdog32_c_ref_1$
+ * Function not covered. Test unfeasible, the reset state is too short to catch.
+ *
+ */
+
+/*******************************************************************************
+ * Prototypes
+ ******************************************************************************/
+#if defined(WDOG_RESETS_ARRAY)
+/*!
+ * @brief Get instance number for WDOG32_ module.
+ *
+ * @param base WDOG32_ peripheral base address.
+ */
+static uint32_t WDOG32_GetInstance(WDOG_Type *base);
+#endif
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+#if defined(WDOG_RESETS_ARRAY)
+static WDOG_Type *const s_wdogBases[] = WDOG_BASE_PTRS;
+
+/* Reset array */
+static const reset_ip_name_t s_wdogResets[] = WDOG_RESETS_ARRAY;
+#endif
 /*******************************************************************************
  * Code
  ******************************************************************************/
+#if defined(WDOG_RESETS_ARRAY)
+static uint32_t WDOG32_GetInstance(WDOG_Type *base)
+{
+    uint32_t instance;
+
+    /* Find the instance index from base address mappings. */
+    for (instance = 0; instance < ARRAY_SIZE(s_wdogBases); instance++)
+    {
+        if (MSDK_REG_SECURE_ADDR(s_wdogBases[instance]) == MSDK_REG_SECURE_ADDR(base))
+        {
+            break;
+        }
+    }
+
+    assert(instance < ARRAY_SIZE(s_wdogBases));
+
+    return instance;
+}
+#endif
 
 void WDOG32_ClearStatusFlags(WDOG_Type *base, uint32_t mask)
 {
+    
+    /* $Line Coverage Justification$ $ref wdog32_c_ref_1$. */
+    /* $Branch Coverage Justification$ $ref wdog32_c_ref_1$. */
     if (0U != (mask & (uint32_t)kWDOG32_InterruptFlag))
     {
         base->CS |= WDOG_CS_FLG_MASK;
@@ -78,6 +133,10 @@ void WDOG32_Init(WDOG_Type *base, const wdog32_config_t *config)
     register WDOG_Type *regBase               = base;
     register const wdog32_config_t *regConfig = config;
     uint32_t tempPrescaler                    = (uint32_t)regConfig->prescaler;
+
+#if defined(WDOG_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_wdogResets[WDOG32_GetInstance(base)]);
+#endif
 
     value = WDOG_CS_EN((uint32_t)regConfig->enableWdog32) | WDOG_CS_CLK((uint32_t)regConfig->clockSource) |
             WDOG_CS_INT((uint32_t)regConfig->enableInterrupt) | WDOG_CS_WIN((uint32_t)regConfig->enableWindowMode) |

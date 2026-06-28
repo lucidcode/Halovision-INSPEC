@@ -7,13 +7,13 @@ def unittest(data_path, temp_path):
     # Fill with known values
     for y in range(50):
         for x in range(50):
-            img.set_pixel(x, y, 100)
+            img.set_pixel((x, y), 100)
 
     # Apply negate
     img.negate()
 
     # Verify pixels are inverted (255 - 100 = 155)
-    pixel = img.get_pixel(25, 25)
+    pixel = img.get_pixel((25, 25))
     if pixel != 155:
         return False
 
@@ -23,13 +23,13 @@ def unittest(data_path, temp_path):
     # Fill with known color
     for y in range(50):
         for x in range(50):
-            img2.set_pixel(x, y, (100, 100, 100))
+            img2.set_pixel((x, y), (100, 100, 100))
 
     # Apply negate
     img2.negate()
 
     # Get negated pixel
-    r, g, b = img2.get_pixel(25, 25)
+    r, g, b = img2.get_pixel((25, 25))
 
     # Verify RGB components are inverted (approximately)
     # Allow tolerance for RGB565 conversion losses

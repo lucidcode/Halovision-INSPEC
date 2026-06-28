@@ -31,7 +31,7 @@ def draw_fft(img, fft_buf):
     fft_buf = np.log10(fft_buf + 1) * 20
     color = (0xFF, 0x0F, 0x00)
     for i in range(0, SIZE):
-        img.draw_line(i, SIZE, i, SIZE - int(fft_buf[i]), color, 1)
+        img.draw_line((i, SIZE, i, SIZE - int(fft_buf[i])), color=color, thickness=1)
 
 
 def draw_audio_bar(img, level, offset):
@@ -40,10 +40,7 @@ def draw_audio_bar(img, level, offset):
     blk_space = blk_size // 4
     for i in range(0, int(round(level / 10))):
         fb.draw_rectangle(
-            SIZE + offset,
-            SIZE - ((i + 1) * blk_size) + blk_space,
-            20,
-            blk_size - blk_space,
+            (SIZE + offset, SIZE - ((i + 1) * blk_size) + blk_space, 20, blk_size - blk_space),
             color,
             1,
             True,

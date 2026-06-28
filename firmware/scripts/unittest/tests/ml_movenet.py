@@ -10,7 +10,7 @@ def unittest(data_path, temp_path):
 
     img = image.Image(data_path + "/person.bmp", copy_to_fb=True)
 
-    model = ml.Model("/rom/movenet_singlepose_192.tflite", postprocess=MoveNet(threshold=0.4))
+    model = ml.Model(data_path + "/movenet_singlepose_192.tflite", postprocess=MoveNet(threshold=0.4))
     detections = model.predict([img])
 
     if len(detections) != 1:

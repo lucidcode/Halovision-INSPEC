@@ -46,16 +46,18 @@
 
 #define OMV_PROTOCOL_VERSION_MAJOR          (1)
 #define OMV_PROTOCOL_VERSION_MINOR          (0)
-#define OMV_PROTOCOL_VERSION_PATCH          (0)
+#define OMV_PROTOCOL_VERSION_PATCH          (2)
 
 #define OMV_PROTOCOL_SYNC_SIZE              (2)
 #define OMV_PROTOCOL_SYNC_WORD              (0xD5AA)
 #define OMV_PROTOCOL_HEADER_SIZE            (10)    // SYNC[2] SEQ[1] CHAN[1] FLAGS[1] OPCODE[1] LEN[2] CRC[2]
 
 #define OMV_PROTOCOL_MAX_CHANNELS           (32)
+#define OMV_PROTOCOL_DEF_POLL_MS            (50)
 #define OMV_PROTOCOL_DEF_RTX_RETRIES        (3)
 #define OMV_PROTOCOL_DEF_RTX_TIMEOUT_MS     (500)   // Doubled after each timeout
 #define OMV_PROTOCOL_MIN_LOCK_INTERVAL_MS   (10)
+
 #define OMV_PROTOCOL_MAGIC_BAUDRATE         (921600)
 
 #ifndef OMV_PROTOCOL_DEFAULT_CHANNELS
@@ -148,7 +150,8 @@ typedef enum {
     OMV_PROTOCOL_OPCODE_SYS_BOOT            = 0x11,  // Jump to bootloader
     OMV_PROTOCOL_OPCODE_SYS_INFO            = 0x12,  // Get system info
     OMV_PROTOCOL_OPCODE_SYS_EVENT           = 0x13,  // System event
-    OMV_PROTOCOL_OPCODE_SYS_LAST            = 0x13,  // Last system command
+    OMV_PROTOCOL_OPCODE_SYS_MEMORY          = 0x14,  // Get memory statistics
+    OMV_PROTOCOL_OPCODE_SYS_LAST            = 0x14,  // Last system command
 
     // Data Channels Commands (0x20-0x2F)
     OMV_PROTOCOL_OPCODE_CHANNEL_LIST        = 0x20,  // List registered channels
@@ -224,6 +227,25 @@ typedef struct __attribute__((packed)) {
 } omv_protocol_channel_entry_t;
 OMV_PROTOCOL_ASSERT_SIZE(omv_protocol_channel_entry_t, 16);
 
+// Memory pool type
+typedef enum {
+    OMV_PROTOCOL_MEM_TYPE_GC            = 0x00, // MicroPython garbage collector
+    OMV_PROTOCOL_MEM_TYPE_UMA           = 0x01, // Unified memory allocator pool
+} omv_protocol_mem_type_t;
+
+// Memory pool entry structure
+typedef struct __attribute__((packed)) {
+    uint8_t type;                               // omv_protocol_mem_type_t
+    uint8_t reserved;                           // Reserved for future use
+    uint16_t flags;                             // Pool flags
+    uint32_t total;                             // Total bytes in pool
+    uint32_t used;                              // Bytes allocated
+    uint32_t free;                              // Bytes free
+    uint32_t persist;                           // Persistent bytes (0 for GC)
+    uint32_t peak;                              // Peak usage in bytes (0 for GC)
+} omv_protocol_mem_entry_t;
+OMV_PROTOCOL_ASSERT_SIZE(omv_protocol_mem_entry_t, 24);
+
 // Protocol capabilities structure
 typedef struct __attribute__((packed)) {
     uint32_t crc_enabled : 1;
@@ -279,6 +301,14 @@ typedef struct __attribute__((packed)) {
 } omv_protocol_sys_info_t;
 OMV_PROTOCOL_ASSERT_SIZE(omv_protocol_sys_info_t, 76);
 
+// Memory statistics response structure
+typedef struct __attribute__((packed)) {
+    uint8_t count;                              // Number of entries
+    uint8_t reserved[3];
+    omv_protocol_mem_entry_t entries[];
+} omv_protocol_mem_stats_t;
+OMV_PROTOCOL_ASSERT_SIZE(omv_protocol_mem_stats_t, 4);
+
 /***************************************************************************
 * Protocol Context
 ***************************************************************************/
@@ -301,10 +331,10 @@ typedef struct {
     bool event_enabled;
     uint16_t max_payload;
     // Transport configuration (local only)
-    bool soft_reboot;
     uint16_t rtx_retries;
     uint16_t rtx_timeout_ms;
     uint16_t lock_intval_ms;
+    uint16_t poll_ms;
 } omv_protocol_config_t;
 
 // Protocol context
@@ -368,7 +398,7 @@ int omv_protocol_send_event(uint8_t channel_id, uint16_t event, bool wait_ack);
 int omv_protocol_send_packet(uint8_t opcode, uint8_t channel_id, size_t size, const void *data, uint8_t flags);
 
 // Call on events or periodically to process events
-int omv_protocol_task(void);
+int omv_protocol_poll(void);
 
 // Process assembled packet
 void omv_protocol_process(const omv_protocol_packet_t *packet);

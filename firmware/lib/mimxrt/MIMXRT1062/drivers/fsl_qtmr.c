@@ -47,7 +47,7 @@ static uint32_t QTMR_GetInstance(TMR_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_qtmrBases); instance++)
     {
-        if (s_qtmrBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_qtmrBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -681,12 +681,12 @@ void QTMR_SetPwmOutputToIdle(TMR_Type *base, qtmr_channel_selection_t channel, b
     if (0U != (reg & ((uint16_t)TMR_SCTRL_OPS_MASK)))
     {
         /* Inverted polarity. */
-        reg |= (TMR_SCTRL_FORCE_MASK | TMR_SCTRL_VAL(!idleStatus));
+        reg |= (uint16_t)(TMR_SCTRL_FORCE_MASK | TMR_SCTRL_VAL(!idleStatus));
     }
     else
     {
         /* True polarity. */
-        reg |= (TMR_SCTRL_FORCE_MASK | TMR_SCTRL_VAL(idleStatus));
+        reg |= (uint16_t)(TMR_SCTRL_FORCE_MASK | TMR_SCTRL_VAL(idleStatus));
     }
     base->CHANNEL[channel].SCTRL = reg;
 

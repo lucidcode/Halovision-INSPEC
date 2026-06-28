@@ -126,6 +126,17 @@ const uint8_t *tud_descriptor_configuration_cb(uint8_t index) {
     return result ? result : &mp_usbd_builtin_desc_cfg;
 }
 
+#if (CFG_TUD_MAX_SPEED == OPT_MODE_HIGH_SPEED)
+uint8_t const *tud_descriptor_device_qualifier_cb(void) {
+    mp_obj_usb_device_t *usbd = MP_OBJ_TO_PTR(MP_STATE_VM(usbd));
+    const void *result = NULL;
+    if (usbd) {
+        result = usbd_get_buffer_in_cb(usbd->desc_qual, MP_BUFFER_READ);
+    }
+    return result ? result : &mp_usbd_builtin_desc_qual;
+}
+#endif
+
 const char *mp_usbd_runtime_string_cb(uint8_t index) {
     mp_obj_usb_device_t *usbd = MP_OBJ_TO_PTR(MP_STATE_VM(usbd));
     nlr_buf_t nlr;

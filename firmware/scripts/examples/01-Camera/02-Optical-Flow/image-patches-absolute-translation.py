@@ -62,9 +62,9 @@ while True:
             )
 
             # Below 0.1 or so (YMMV) and the results are just noise.
-            if displacement.response() > 0.1:
-                pixel_x = x + (BLOCK_W // 2) + int(displacement.x_translation())
-                pixel_y = y + (BLOCK_H // 2) + int(displacement.y_translation())
+            if displacement.response > 0.1:
+                pixel_x = x + (BLOCK_W // 2) + int(displacement.x_translation)
+                pixel_y = y + (BLOCK_H // 2) + int(displacement.y_translation)
                 img.draw_line(
                     (x + BLOCK_W // 2, y + BLOCK_H // 2, pixel_x, pixel_y), color=255
                 )

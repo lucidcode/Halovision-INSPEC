@@ -1,12 +1,12 @@
 /*
- * Copyright 2017-2021 NXP
+ * Copyright 2017-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_USART_H_
-#define _FSL_USART_H_
+#ifndef FSL_USART_H_
+#define FSL_USART_H_
 
 #include "fsl_common.h"
 
@@ -19,10 +19,10 @@
  * Definitions
  ******************************************************************************/
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief USART driver version. */
-#define FSL_USART_DRIVER_VERSION (MAKE_VERSION(2, 4, 0))
-/*@}*/
+#define FSL_USART_DRIVER_VERSION (MAKE_VERSION(2, 5, 1))
+/*! @} */
 
 /*! @brief Macro gate for enable transaction API.  1 for enable, 0 for disable. */
 #ifndef FSL_SDK_ENABLE_USART_DRIVER_TRANSACTIONAL_APIS
@@ -85,6 +85,9 @@ enum
     kStatus_USART_BaudrateNotSupport =
         MAKE_STATUS(kStatusGroup_LPC_USART, 11), /*!< Baudrate is not support in current clock source */
     kStatus_USART_Timeout = MAKE_STATUS(kStatusGroup_LPC_USART, 12), /*!< USART times out. */
+#if defined(FSL_FEATURE_USART_HAS_RXIDLETO_CHECK) && FSL_FEATURE_USART_HAS_RXIDLETO_CHECK
+    kStatus_USART_RxIdleTimeout = MAKE_STATUS(kStatusGroup_LPC_USART, 13), /*!< USART receive idle times out. */
+#endif
 };
 
 /*! @brief USART parity mode. */
@@ -142,6 +145,9 @@ enum _usart_interrupt_enable
     kUSART_FramErrorInterruptEnable       = (USART_INTENSET_FRAMERREN_MASK),    /*!< Receive start interrupt. */
     kUSART_ParityErrorInterruptEnable     = (USART_INTENSET_PARITYERREN_MASK),  /*!< Receive frame error interrupt. */
     kUSART_RxNoiseInterruptEnable         = (USART_INTENSET_RXNOISEEN_MASK),    /*!< Receive noise error interrupt. */
+#if defined(FSL_FEATURE_USART_HAS_RXIDLETO_CHECK) && FSL_FEATURE_USART_HAS_RXIDLETO_CHECK
+    kUSART_RxIdleTimeoutInterruptEnable = (USART_INTENSET_RXIDLETOEN_MASK), /*!< Receive idle timeout interrupt. */
+#endif
 #if defined(FSL_FEATURE_USART_HAS_ABERR_CHECK) && FSL_FEATURE_USART_HAS_ABERR_CHECK
     kUSART_AutoBaudErrorInterruptEnable = (USART_INTENSET_ABERREN_MASK), /*!< Receive auto baud error interrupt. */
 #endif
@@ -182,6 +188,9 @@ enum _usart_flags
 #if defined(FSL_FEATURE_USART_HAS_ABERR_CHECK) && FSL_FEATURE_USART_HAS_ABERR_CHECK
     kUSART_AutoBaudErrorFlag = (USART_STAT_ABERR_MASK), /*!< Auto baud error flag. */
 #endif
+#if defined(FSL_FEATURE_USART_HAS_RXIDLETO_CHECK) && FSL_FEATURE_USART_HAS_RXIDLETO_CHECK
+    kUSART_RxIdleTimeoutFlag = (USART_STAT_RXIDLETO_MASK), /*!< Receive idle timeout flag. */
+#endif
 };
 
 /*! @brief USART configuration structure. */
@@ -198,6 +207,10 @@ typedef struct _usart_config
     usart_data_len_t bitCountPerChar;     /*!< Data length - 7 bit, 8 bit  */
     usart_sync_mode_t syncMode;           /*!< Transfer mode - asynchronous, synchronous master, synchronous slave. */
     usart_clock_polarity_t clockPolarity; /*!< Selects the clock polarity and sampling edge in sync mode. */
+#if defined(FSL_FEATURE_USART_HAS_RXIDLETO_CHECK) && FSL_FEATURE_USART_HAS_RXIDLETO_CHECK
+    uint8_t rxIdleTimeout; /*!< Receive idle bytes. Value [0,7]. Set the value to n then the idle byte count will be
+                                 the (n)th power of 2.*/
+#endif
 } usart_config_t;
 
 #if defined(FSL_SDK_ENABLE_USART_DRIVER_TRANSACTIONAL_APIS) && (FSL_SDK_ENABLE_USART_DRIVER_TRANSACTIONAL_APIS)
@@ -261,7 +274,7 @@ extern "C" {
 
 /*! @brief Returns instance number for USART peripheral base address. */
 uint32_t USART_GetInstance(USART_Type *base);
-/* @} */
+/*! @} */
 
 /*!
  * @name Initialization and deinitialization
@@ -334,7 +347,7 @@ void USART_GetDefaultConfig(usart_config_t *config);
  * @retval kStatus_InvalidArgument One or more arguments are invalid.
  */
 status_t USART_SetBaudRate(USART_Type *base, uint32_t baudrate_Bps, uint32_t srcClock_Hz);
-/* @} */
+/*! @} */
 
 /*!
  * @name Status
@@ -379,7 +392,7 @@ static inline void USART_ClearStatusFlags(USART_Type *base, uint32_t mask)
 {
     base->STAT = mask;
 }
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -401,9 +414,8 @@ static inline void USART_ClearStatusFlags(USART_Type *base, uint32_t mask)
  */
 static inline void USART_EnableInterrupts(USART_Type *base, uint32_t mask)
 {
-    base->INTENSET = mask & 0x0001FFFFU;
+    base->INTENSET = mask & 0x0003FFFFU;
 }
-
 /*!
  * @brief Disables USART interrupts according to a provided mask.
  *
@@ -419,9 +431,26 @@ static inline void USART_EnableInterrupts(USART_Type *base, uint32_t mask)
  */
 static inline void USART_DisableInterrupts(USART_Type *base, uint32_t mask)
 {
-    base->INTENCLR = mask & 0x0001FFFFU;
+    base->INTENCLR = mask & 0x0003FFFFU;
 }
-
+#if defined(FSL_FEATURE_USART_HAS_RXIDLETO_CHECK) && FSL_FEATURE_USART_HAS_RXIDLETO_CHECK
+/*!
+ * @brief Config the USART instance rx idle timeout.
+ *
+ * This function configures the number idle character of USART rx idle.
+ * For 115200,8n1, 1 character timing is 86.81uS = 1/ (115200/(1start+8data+0parity+1stop))
+ * @code
+ *    USART_SetRxIdleTimeout(USART1, 1);
+ * @endcode
+ *
+ * @param base USART peripheral base address.
+ * @param rxIdleTimeout The configuration of UART rx idle .
+ */
+static inline void USART_SetRxIdleTimeout(USART_Type *base, uint8_t rxIdleTimeout)
+{
+    base->CTL = (base->CTL & ~USART_CTL_RXIDLETOCFG_MASK) | USART_CTL_RXIDLETOCFG((uint32_t)rxIdleTimeout);
+}
+#endif
 /*!
  * @brief Returns enabled USART interrupts.
  *
@@ -433,7 +462,7 @@ static inline uint32_t USART_GetEnabledInterrupts(USART_Type *base)
 {
     return base->INTENSET;
 }
-/* @} */
+/*! @} */
 
 /*!
  * @name Bus Operations
@@ -605,7 +634,7 @@ status_t USART_WriteBlocking(USART_Type *base, const uint8_t *data, size_t lengt
  */
 status_t USART_ReadBlocking(USART_Type *base, uint8_t *data, size_t length);
 
-/* @} */
+/*! @} */
 
 #if defined(FSL_SDK_ENABLE_USART_DRIVER_TRANSACTIONAL_APIS) && (FSL_SDK_ENABLE_USART_DRIVER_TRANSACTIONAL_APIS)
 /*!
@@ -783,7 +812,7 @@ status_t USART_TransferGetReceiveCount(USART_Type *base, usart_handle_t *handle,
  */
 void USART_TransferHandleIRQ(USART_Type *base, usart_handle_t *handle);
 
-/* @} */
+/*! @} */
 #endif
 
 #if defined(__cplusplus)
@@ -792,4 +821,4 @@ void USART_TransferHandleIRQ(USART_Type *base, usart_handle_t *handle);
 
 /*! @}*/
 
-#endif /* _FSL_USART_H_ */
+#endif /* FSL_USART_H_ */

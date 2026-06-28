@@ -44,6 +44,8 @@
 #define OMV_OV5640_PLL_CTRL3                (0x13)
 
 #define OMV_MT9V0XX_ENABLE                  (1)
+#define OMV_MT9V0XX_FSYNC_PIN               (&omv_pin_D4_GPIO)
+
 #define OMV_LEPTON_ENABLE                   (1)
 #define OMV_PAG7936_ENABLE                  (1)
 #define OMV_PAG7936_MIPI_CSI2               (1)
@@ -56,8 +58,6 @@
 #define OMV_FIR_MLX90641_ENABLE             (1)
 #define OMV_FIR_AMG8833_ENABLE              (1)
 
-// UMM heap block size
-#define OMV_UMM_BLOCK_SIZE                  256
 
 // USB IRQn.
 #define OMV_USB_IRQN                        (USB1_OTG_HS_IRQn)
@@ -143,20 +143,13 @@
 // Power supply configuration
 #define OMV_PWR_SUPPLY                      (PWR_SMPS_SUPPLY)
 
-// Linker script constants (see the linker script template stm32fxxx.ld.S).
-// Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
-// The maximum available fb_alloc memory = FB_ALLOC_SIZE + FB_SIZE - (w*h*bpp).
+// Linker script constants (see common.ld.S).
 #define OMV_MAIN_MEMORY                     SRAM1  // Data/BSS memory
 #define OMV_STACK_MEMORY                    SRAM1  // stack memory
 #define OMV_RAMFUNC_MEMORY                  ITCM
 #define OMV_STACK_SIZE                      (64K)
 #define OMV_HEAP_MEMORY                     SRAM1  // libc/sbrk heap memory
-#define OMV_HEAP_SIZE                       (256K)
-#define OMV_FB_MEMORY                       DRAM   // Framebuffer, fb_alloc
-#define OMV_FB_SIZE                         (20M)  // FB memory.
-#define OMV_FB_ALLOC_SIZE                   (11M)  // minimum fb_alloc size
-#define OMV_FB_OVERLAY_MEMORY               SRAM1  // Fast fb_alloc memory.
-#define OMV_FB_OVERLAY_SIZE                 (400K) // Fast fb_alloc memory size.
+#define OMV_HEAP_SIZE                       (128K)
 #define OMV_SB_MEMORY                       DRAM   // Streaming buffer memory.
 #define OMV_SB_SIZE                         (1M)   // Streaming buffer size.
 #define OMV_DMA_MEMORY                      SRAM1  // Misc DMA buffers memory.
@@ -165,6 +158,18 @@
 #define OMV_GC_BLOCK0_SIZE                  (1M)
 #define OMV_GC_BLOCK1_MEMORY                DRAM   // Main GC block
 #define OMV_GC_BLOCK1_SIZE                  (24M)
+#define OMV_UMA_BLOCK0_MEMORY               DRAM   // Default UMA pool.
+#define OMV_UMA_BLOCK0_SIZE                 (31M)
+#define OMV_UMA_BLOCK0_FLAGS                (0)
+#define OMV_UMA_BLOCK1_MEMORY               SRAM1  // Fast UMA pool.
+#define OMV_UMA_BLOCK1_SIZE                 (590K)
+#define OMV_UMA_BLOCK1_FLAGS                (UMA_FAST | UMA_DTCM)
+#define OMV_UMA_BLOCK2_MEMORY               DTCM   // DTCM UMA pool.
+#define OMV_UMA_BLOCK2_SIZE                 (128K)
+#define OMV_UMA_BLOCK2_FLAGS                (UMA_DTCM)
+#define OMV_UMA_BLOCK3_MEMORY               SRAM3 // NPU AXI SRAM pool.
+#define OMV_UMA_BLOCK3_SIZE                 (1792K)
+#define OMV_UMA_BLOCK3_FLAGS                (UMA_FAST | UMA_DTCM | UMA_TRANSIENT)
 #define OMV_MSC_BUF_SIZE                    (4K)   // USB MSC bot data
 #define OMV_VOSPI_DMA_BUFFER                ".d2_dma_buffer"
 
@@ -177,14 +182,8 @@
 #define OMV_SRAM1_LENGTH                    1M          // 1MB
 #define OMV_SRAM2_ORIGIN                    0x34100000  // AXISRAM2
 #define OMV_SRAM2_LENGTH                    1M          // 1MB
-#define OMV_SRAM3_ORIGIN                    0x34200000  // AXISRAM3
-#define OMV_SRAM3_LENGTH                    448K        // 448KB
-#define OMV_SRAM4_ORIGIN                    0x34270000  // AXISRAM4
-#define OMV_SRAM4_LENGTH                    448K        // 448KB
-#define OMV_SRAM5_ORIGIN                    0x342E0000  // AXISRAM5
-#define OMV_SRAM5_LENGTH                    448K        // 448KB
-#define OMV_SRAM6_ORIGIN                    0x34350000  // AXISRAM6
-#define OMV_SRAM6_LENGTH                    448K        // 448KB
+#define OMV_SRAM3_ORIGIN                    0x34200000  // AXISRAM3-6 (NPU AXI SRAMs)
+#define OMV_SRAM3_LENGTH                    1792K       // 4 x 448KB
 #define OMV_SRAM7_ORIGIN                    0x38000000  // AHBSRAM1 + AHBSRAM2 combined
 #define OMV_SRAM7_LENGTH                    32K         // 16KB + 16KB = 32KB
 #define OMV_DRAM_ORIGIN                     0x90000000  // XSPI1
@@ -319,6 +318,7 @@
 #define OMV_CSI_HW_CROP_ENABLE              (1)
 #define OMV_CSI_MAX_DEVICES                 (3)
 #define OMV_CSI_STATS_ENABLE                (1)
+#define OMV_CSI_HW_SCALE_ENABLE             (1)
 
 #define OMV_CSI_D0_PIN                      (&omv_pin_A1_DCMI)
 #define OMV_CSI_D1_PIN                      (&omv_pin_A10_DCMI)
@@ -334,7 +334,7 @@
 #define OMV_CSI_PXCLK_PIN                   (&omv_pin_G1_DCMI)
 #define OMV_CSI_RESET_PIN                   (&omv_pin_E3_GPIO)
 #define OMV_CSI_POWER_PIN                   (&omv_pin_E1_GPIO)
-//#define OMV_CSI_FSYNC_PIN                   (&omv_pin_B4_GPIO)
+#define OMV_CSI_FSYNC_PIN                   (&omv_pin_D6_GPIO)
 
 #define OMV_XSPI1_IO00_PIN                  (&omv_pin_P0_XSPIM_P1)
 #define OMV_XSPI1_IO01_PIN                  (&omv_pin_P1_XSPIM_P1)

@@ -30,8 +30,7 @@ while True:
             copy_to_fb=True,
             color_palette=image.PALETTE_DEPTH,
         )
-        img.flush()
-    except RuntimeError as e:
-        tof.reset()
+    except RuntimeError:
+        continue
 
     print(clock.fps())

@@ -42,7 +42,6 @@ while True:
     for blob in img.find_blobs(
         threshold_list, pixels_threshold=200, area_threshold=200, merge=True
     ):
-        img.draw_rectangle(blob.rect(), color=127)
-        img.draw_cross(blob.cx(), blob.cy(), color=127)
+        img.draw_detection(blob, color1=127)
     lcd.write(img)
     print(clock.fps())

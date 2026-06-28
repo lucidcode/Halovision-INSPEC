@@ -1,12 +1,11 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
- * All rights reserved.
+ * Copyright 2016-2023 NXP
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_ENET_H_
-#define _FSL_ENET_H_
+#ifndef FSL_ENET_H_
+#define FSL_ENET_H_
 
 #include "fsl_common.h"
 
@@ -20,13 +19,13 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief Defines the driver version. */
-#define FSL_ENET_DRIVER_VERSION (MAKE_VERSION(2, 2, 0))
-/*@}*/
+#define FSL_ENET_DRIVER_VERSION (MAKE_VERSION(2, 3, 4))
+/*! @} */
 
 /*! @name Control and status region bit masks of the receive buffer descriptor. */
-/*@{*/
+/*! @{ */
 /*! @brief Defines for read format. */
 #define ENET_RXDESCRIP_RD_BUFF1VALID_MASK (1UL << 24) /*!< Buffer1 address valid. */
 #define ENET_RXDESCRIP_RD_BUFF2VALID_MASK (1UL << 25) /*!< Buffer2 address valid. */
@@ -53,10 +52,10 @@
 #define ENET_RXDESCRIP_WR_FD_MASK         (1UL << 29)
 #define ENET_RXDESCRIP_WR_CTXT_MASK       (1UL << 30)
 #define ENET_RXDESCRIP_WR_OWN_MASK        (1UL << 31)
-/*@}*/
+/*! @} */
 
 /*! @name Control and status bit masks of the transmit buffer descriptor. */
-/*@{*/
+/*! @{ */
 /*! @brief Defines for read format. */
 #define ENET_TXDESCRIP_RD_BL1_MASK  (0x3fffU)
 #define ENET_TXDESCRIP_RD_BL2_MASK  (ENET_TXDESCRIP_RD_BL1_MASK << 16)
@@ -80,10 +79,10 @@
 
 /*! @brief Defines for write back format. */
 #define ENET_TXDESCRIP_WB_TTSS_MASK (1UL << 17)
-/*@}*/
+/*! @} */
 
 /*! @name Bit mask for interrupt enable type. */
-/*@{*/
+/*! @{ */
 #define ENET_ABNORM_INT_MASK                                                      \
     (ENET_DMA_CH_DMA_CHX_INT_EN_TSE_MASK | ENET_DMA_CH_DMA_CHX_INT_EN_RBUE_MASK | \
      ENET_DMA_CH_DMA_CHX_INT_EN_RSE_MASK | ENET_DMA_CH_DMA_CHX_INT_EN_RWTE_MASK | \
@@ -91,10 +90,10 @@
 #define ENET_NORM_INT_MASK                                                        \
     (ENET_DMA_CH_DMA_CHX_INT_EN_TIE_MASK | ENET_DMA_CH_DMA_CHX_INT_EN_TBUE_MASK | \
      ENET_DMA_CH_DMA_CHX_INT_EN_RIE_MASK | ENET_DMA_CH_DMA_CHX_INT_EN_ERIE_MASK)
-/*@}*/
+/*! @} */
 
 /*! @name Defines some Ethernet parameters. */
-/*@{*/
+/*! @{ */
 #define ENET_FRAME_MAX_FRAMELEN      (1518U) /*!< Default maximum ethernet frame size. */
 #define ENET_FCS_LEN                 (4U)    /*!< Ethernet Rx frame FCS length. */
 #define ENET_ADDR_ALIGNMENT          (0x3U)  /*!< Recommended ethernet buffer alignment. */
@@ -105,7 +104,7 @@
 #define ENET_MACINT_ENUM_OFFSET      (16U)   /*!< The offset for mac interrupt in enum type. */
 #define ENET_FRAME_TX_LEN_LIMITATION (ENET_TXDESCRIP_RD_BL1_MASK) /*!< The Tx frame length software limitation. */
 #define ENET_FRAME_RX_ERROR_BITS(x)  (((x) >> 19U) & 0x3FU)       /*!< The Rx frame error bits field. */
-/*@}*/
+/*! @} */
 
 /*! @brief Defines the status return codes for transaction. */
 enum
@@ -207,11 +206,12 @@ typedef enum _enet_special_config
     /**************************MTL************************************/
     kENET_StoreAndForward = 0x0002U, /*!< The Rx/Tx store and forward enable. */
     /***********************MAC****************************************/
-    kENET_PromiscuousEnable  = 0x0004U, /*!< The promiscuous enabled. */
-    kENET_FlowControlEnable  = 0x0008U, /*!< The flow control enabled. */
-    kENET_BroadCastRxDisable = 0x0010U, /*!< The broadcast disabled. */
-    kENET_MulticastAllEnable = 0x0020U, /*!< All multicast are passed. */
-    kENET_8023AS2KPacket     = 0x0040U  /*!< 8023as support for 2K packets. */
+    kENET_PromiscuousEnable       = 0x0004U, /*!< The promiscuous enabled. */
+    kENET_FlowControlEnable       = 0x0008U, /*!< The flow control enabled. */
+    kENET_BroadCastRxDisable      = 0x0010U, /*!< The broadcast disabled. */
+    kENET_MulticastAllEnable      = 0x0020U, /*!< All multicast are passed. */
+    kENET_8023AS2KPacket          = 0x0040U, /*!< 8023as support for 2K packets. */
+    kENET_RxChecksumOffloadEnable = 0x0080U, /*!< The Rx checksum offload enabled. */
 } enet_special_config_t;
 
 /*! @brief List of DMA interrupts supported by the ENET interrupt. This
@@ -291,6 +291,15 @@ typedef enum _enet_ptp_event_type
     kENET_PtpGnrlPort     = 320U  /*!< PTP general port number. */
 } enet_ptp_event_type_t;
 
+/*! @brief Define the Tx checksum offload options. */
+typedef enum _enet_tx_offload
+{
+    kENET_TxOffloadDisable             = 0U, /*!< Disable Tx checksum offload. */
+    kENET_TxOffloadIPHeader            = 1U, /*!< Enable IP header checksum calculation and insertion. */
+    kENET_TxOffloadIPHeaderPlusPayload = 2U, /*!< Enable IP header and payload checksum calculation and insertion. */
+    kENET_TxOffloadAll = 3U, /*!< Enable IP header, payload and pseudo header checksum calculation and insertion. */
+} enet_tx_offload_t;
+
 /*! @brief Defines the receive descriptor structure
  *  It has the read-format and write-back format structures. They both
  *  have the same size with different region definition. So we define
@@ -322,6 +331,21 @@ typedef struct _enet_tx_bd_struct
     __IO uint32_t tdes2; /*!< Transmit descriptor 2 */
     __IO uint32_t tdes3; /*!< Transmit descriptor 3 */
 } enet_tx_bd_struct_t;
+
+/*! @brief Defines the Tx BD configuration structure. */
+typedef struct _enet_tx_bd_config_struct
+{
+    void *buffer1;                  /*!< The first buffer address in the descriptor. */
+    uint32_t bytes1;                /*!< The bytes in the fist buffer. */
+    void *buffer2;                  /*!< The second buffer address in the descriptor. */
+    uint32_t bytes2;                /*!< The bytes in the second buffer. */
+    uint32_t framelen;              /*!< The length of the frame to be transmitted. */
+    bool intEnable;                 /*!< Interrupt enable flag. */
+    bool tsEnable;                  /*!< The timestamp enable. */
+    enet_tx_offload_t txOffloadOps; /*!< The Tx checksum offload option, only vaild for Queue 0. */
+    enet_desc_flag_t flag;          /*!< The flag of this tx desciriptor, see "enet_qos_desc_flag". */
+    uint8_t slotNum;                /*!< The slot number used for AV mode only. */
+} enet_tx_bd_config_struct_t;
 
 #ifdef ENET_PTP1588FEATURE_REQUIRED
 /*! @brief Defines the ENET PTP configuration structure. */
@@ -480,6 +504,7 @@ struct _enet_handle
     enet_tx_dirty_ring_t txDirtyRing[ENET_RING_NUM_MAX]; /*!< Transmit dirty buffers addresses.  */
     uint32_t *rxBufferStartAddr[ENET_RING_NUM_MAX];      /*!< The Init-Rx buffers used for reinit corrupted BD due to
                                                             write-back operation. */
+    uint32_t txLenLimitation[ENET_RING_NUM_MAX];         /*!< Tx frame length limitation. */
     enet_callback_t callback;                            /*!< Callback function. */
     void *userData;                                      /*!< Callback function parameter.*/
     enet_rx_alloc_callback_t rxBuffAlloc; /*!< Callback to alloc memory, must be provided for zero-copy Rx. */
@@ -521,9 +546,10 @@ typedef struct _enet_rx_frame_struct
 
 typedef struct _enet_tx_config_struct
 {
-    uint8_t intEnable : 1; /*!< Enable interrupt every time one BD is completed. */
-    uint8_t tsEnable : 1;  /*!< Transmit timestamp enable. */
-    uint8_t slotNum : 4;   /*!< Slot number control bits in AV mode. */
+    uint8_t intEnable : 1;          /*!< Enable interrupt every time one BD is completed. */
+    uint8_t tsEnable : 1;           /*!< Transmit timestamp enable. */
+    uint8_t slotNum : 4;            /*!< Slot number control bits in AV mode. */
+    enet_tx_offload_t txOffloadOps; /*!< Tx checksum offload option. */
 } enet_tx_config_struct_t;
 
 typedef struct _enet_tx_frame_struct
@@ -666,7 +692,7 @@ void ENET_StartRxTx(ENET_Type *base, uint8_t txRingNum, uint8_t rxRingNum);
  */
 void ENET_SetISRHandler(ENET_Type *base, enet_isr_t ISRHandler);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name MII interface operation
@@ -720,26 +746,48 @@ static inline uint16_t ENET_ReadSMIData(ENET_Type *base)
 }
 
 /*!
- * @brief Starts an SMI read command.
- * support both MDIO IEEE802.3 Clause 22 and clause 45.
+ * @brief Sends the MDIO IEEE802.3 Clause 22 format write command.
  *
  * @param base  ENET peripheral base address.
  * @param phyAddr The PHY address.
- * @param phyReg The PHY register.
- */
-void ENET_StartSMIRead(ENET_Type *base, uint32_t phyAddr, uint32_t phyReg);
-
-/*!
- * @brief Starts a SMI write command.
- * support both MDIO IEEE802.3 Clause 22 and clause 45.
- *
- * @param base  ENET peripheral base address.
- * @param phyAddr The PHY address.
- * @param phyReg The PHY register.
+ * @param regAddr The PHY register.
  * @param data The data written to PHY.
  */
-void ENET_StartSMIWrite(ENET_Type *base, uint32_t phyAddr, uint32_t phyReg, uint32_t data);
-/* @} */
+void ENET_StartSMIWrite(ENET_Type *base, uint8_t phyAddr, uint8_t regAddr, uint16_t data);
+
+/*!
+ * @brief Sends the MDIO IEEE802.3 Clause 22 format read command.
+ *
+ * @param base  ENET peripheral base address.
+ * @param phyAddr The PHY address.
+ * @param regAddr The PHY register.
+ */
+void ENET_StartSMIRead(ENET_Type *base, uint8_t phyAddr, uint8_t regAddr);
+
+/*!
+ * @brief MDIO write with IEEE802.3 Clause 22 format.
+ *
+ * @param base  ENET peripheral base address.
+ * @param phyAddr  The PHY address.
+ * @param regAddr  The PHY register.
+ * @param data  The data written to PHY.
+ * @return kStatus_Success  MDIO access succeeds.
+ * @return kStatus_Timeout  MDIO access timeout.
+ */
+status_t ENET_MDIOWrite(ENET_Type *base, uint8_t phyAddr, uint8_t regAddr, uint16_t data);
+
+/*!
+ * @brief MDIO read with IEEE802.3 Clause 22 format.
+ *
+ * @param base  ENET peripheral base address.
+ * @param phyAddr  The PHY address.
+ * @param regAddr  The PHY register.
+ * @param pData  The data read from PHY.
+ * @return kStatus_Success  MDIO access succeeds.
+ * @return kStatus_Timeout  MDIO access timeout.
+ */
+status_t ENET_MDIORead(ENET_Type *base, uint8_t phyAddr, uint8_t regAddr, uint16_t *pData);
+/*! @} */
 
 /*!
  * @name Other basic operation
@@ -838,7 +886,7 @@ static inline void ENET_ExitPowerDown(ENET_Type *base)
     base->MAC_CONFIG |= ENET_MAC_CONFIG_TE_MASK;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts.
@@ -934,7 +982,7 @@ static inline uint32_t ENET_GetMacInterruptStatus(ENET_Type *base)
  */
 void ENET_ClearMacInterruptStatus(ENET_Type *base, uint32_t mask);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Functional operation.
@@ -1055,7 +1103,7 @@ static inline uint32_t ENET_GetRxDescriptor(enet_rx_bd_struct_t *rxDesc)
 void ENET_UpdateRxDescriptor(
     enet_rx_bd_struct_t *rxDesc, void *buffer1, void *buffer2, bool intEnable, bool doubleBuffEnable);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Transactional operation
@@ -1154,10 +1202,7 @@ status_t ENET_ReadFrame(ENET_Type *base,
  * this function, driver will allocate new buffers for the BDs whose buffers have been taken by application.
  * @note This function will drop current frame and update related BDs as available for DMA if new buffers allocating
  * fails. Application must provide a memory pool including at least BD number + 1 buffers(+2 if enable double buffer)
- * to make this function work normally. If user calls this function in Rx interrupt handler, be careful that this
- * function makes Rx BD ready with allocating new buffer(normal) or updating current BD(out of memory). If there's
- * always new Rx frame input, Rx interrupt will be triggered forever. Application need to disable Rx interrupt according
- * to specific design in this case.
+ * to make this function work normally.
  *
  * @param base   ENET peripheral base address.
  * @param handle The ENET handler pointer. This is the same handler pointer used in the ENET_Init.
@@ -1211,7 +1256,7 @@ void ENET_ReclaimTxDescriptor(ENET_Type *base, enet_handle_t *handle, uint8_t ch
  */
 void ENET_IRQHandler(ENET_Type *base, enet_handle_t *handle);
 
-/* @} */
+/*! @} */
 
 #ifdef ENET_PTP1588FEATURE_REQUIRED
 /*!
@@ -1279,7 +1324,7 @@ void ENET_Ptp1588GetTimerNoIrqDisable(ENET_Type *base, uint64_t *second, uint32_
  */
 void ENET_Ptp1588GetTimer(ENET_Type *base, uint64_t *second, uint32_t *nanosecond);
 #endif /* ENET_PTP1588FEATURE_REQUIRED */
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -1287,4 +1332,4 @@ void ENET_Ptp1588GetTimer(ENET_Type *base, uint64_t *second, uint32_t *nanosecon
 
 /*! @}*/
 
-#endif /* _FSL_ENET_H_ */
+#endif /* FSL_ENET_H_ */

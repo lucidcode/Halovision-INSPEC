@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_ECSPI_H_
-#define _FSL_ECSPI_H_
+#ifndef FSL_ECSPI_H_
+#define FSL_ECSPI_H_
 
 #include "fsl_common.h"
 
@@ -20,14 +20,14 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief ECSPI driver version. */
-#define FSL_ECSPI_DRIVER_VERSION (MAKE_VERSION(2, 2, 0))
-/*@}*/
+#define FSL_ECSPI_DRIVER_VERSION (MAKE_VERSION(2, 3, 3))
+/*! @} */
 
 #ifndef ECSPI_DUMMYDATA
 /*! @brief ECSPI dummy transfer data, the data is sent while txBuff is NULL. */
-#define ECSPI_DUMMYDATA (0xFFFFFFFFU)
+#define ECSPI_DUMMYDATA (0x00U)
 #endif
 
 /*! @brief Retry times for waiting flag. */
@@ -166,7 +166,7 @@ typedef struct _ecspi_master_config
     ecspi_channel_config_t channelConfig;                 /*!< Channel configuration */
     ecspi_sample_period_clock_source_t samplePeriodClock; /*!< Sample period clock source */
 
-    uint8_t burstLength;     /*!< Burst length */
+    uint16_t burstLength;    /*!< Burst length. The length shall be less than 4096 bits */
     uint8_t chipSelectDelay; /*!< SS delay time */
     uint16_t samplePeriod;   /*!< Sample period */
     uint8_t txFifoThreshold; /*!< TX Threshold */
@@ -179,7 +179,7 @@ typedef struct _ecspi_master_config
 typedef struct _ecspi_slave_config
 {
     ecspi_channel_source_t channel;       /*Channel number */
-    uint8_t burstLength;                  /*!< Burst length */
+    uint16_t burstLength;                 /*!< Burst length. The length shall be less than 4096 bits */
     uint8_t txFifoThreshold;              /*!< TX Threshold */
     uint8_t rxFifoThreshold;              /*!< RX Threshold */
     ecspi_channel_config_t channelConfig; /*!< Channel configuration */
@@ -188,7 +188,7 @@ typedef struct _ecspi_slave_config
 /*! @brief ECSPI transfer structure */
 typedef struct _ecspi_transfer
 {
-    uint32_t *txData;               /*!< Send buffer */
+    const uint32_t *txData;         /*!< Send buffer */
     uint32_t *rxData;               /*!< Receive buffer */
     size_t dataSize;                /*!< Transfer bytes */
     ecspi_channel_source_t channel; /*!< ECSPI channel select */
@@ -211,7 +211,7 @@ typedef void (*ecspi_slave_callback_t)(ECSPI_Type *base, ecspi_slave_handle_t *h
 struct _ecspi_master_handle
 {
     ecspi_channel_source_t channel;   /*!< Channel number */
-    uint32_t *volatile txData;        /*!< Transfer buffer */
+    const uint32_t *volatile txData;  /*!< Transfer buffer */
     uint32_t *volatile rxData;        /*!< Receive buffer */
     volatile size_t txRemainingBytes; /*!< Send data remaining in bytes */
     volatile size_t rxRemainingBytes; /*!< Receive data remaining in bytes */
@@ -562,7 +562,7 @@ void ECSPI_SetBaudRate(ECSPI_Type *base, uint32_t baudRate_Bps, uint32_t srcCloc
  * @retval kStatus_Success Successfully start a transfer.
  * @retval kStatus_ECSPI_Timeout The transfer timed out and was aborted.
  */
-status_t ECSPI_WriteBlocking(ECSPI_Type *base, uint32_t *buffer, size_t size);
+status_t ECSPI_WriteBlocking(ECSPI_Type *base, const uint32_t *buffer, size_t size);
 
 /*!
  * @brief Writes a data into the ECSPI data register.
@@ -737,4 +737,4 @@ void ECSPI_SlaveTransferHandleIRQ(ECSPI_Type *base, ecspi_slave_handle_t *handle
 
 /*! @} */
 
-#endif /* _FSL_ECSPI_H_*/
+#endif /* FSL_ECSPI_H_*/

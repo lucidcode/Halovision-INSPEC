@@ -31,22 +31,22 @@ hint |= 0  # image.EXTRACT_RGB_CHANNEL_FIRST
 hint |= 0  # image.APPLY_COLOR_PALETTE_FIRST
 
 small_img = image.Image(4, 4, csi.RGB565)
-small_img.set_pixel(0, 0, (0, 0, 127))
-small_img.set_pixel(1, 0, (47, 255, 199))
-small_img.set_pixel(2, 0, (0, 188, 255))
-small_img.set_pixel(3, 0, (0, 0, 127))
-small_img.set_pixel(0, 1, (0, 176, 255))
-small_img.set_pixel(1, 1, (222, 0, 0))
-small_img.set_pixel(2, 1, (50, 255, 195))
-small_img.set_pixel(3, 1, (86, 255, 160))
-small_img.set_pixel(0, 2, (255, 211, 0))
-small_img.set_pixel(1, 2, (83, 255, 163))
-small_img.set_pixel(2, 2, (255, 211, 0))
-small_img.set_pixel(3, 2, (0, 80, 255))
-small_img.set_pixel(0, 3, (255, 118, 0))
-small_img.set_pixel(1, 3, (127, 0, 0))
-small_img.set_pixel(2, 3, (0, 144, 255))
-small_img.set_pixel(3, 3, (50, 255, 195))
+small_img.set_pixel((0, 0), (0, 0, 127))
+small_img.set_pixel((1, 0), (47, 255, 199))
+small_img.set_pixel((2, 0), (0, 188, 255))
+small_img.set_pixel((3, 0), (0, 0, 127))
+small_img.set_pixel((0, 1), (0, 176, 255))
+small_img.set_pixel((1, 1), (222, 0, 0))
+small_img.set_pixel((2, 1), (50, 255, 195))
+small_img.set_pixel((3, 1), (86, 255, 160))
+small_img.set_pixel((0, 2), (255, 211, 0))
+small_img.set_pixel((1, 2), (83, 255, 163))
+small_img.set_pixel((2, 2), (255, 211, 0))
+small_img.set_pixel((3, 2), (0, 80, 255))
+small_img.set_pixel((0, 3), (255, 118, 0))
+small_img.set_pixel((1, 3), (127, 0, 0))
+small_img.set_pixel((2, 3), (0, 144, 255))
+small_img.set_pixel((3, 3), (50, 255, 195))
 # small_img.to_grayscale()
 # small_img.to_bitmap()
 
@@ -57,7 +57,7 @@ big_img.draw_image(small_img, 0, 0, x_scale=32, y_scale=32, hint=hint)
 
 alpha_lut = image.Image(256, 1, csi.GRAYSCALE)
 for i in range(256):
-    alpha_lut.set_pixel(i, 0, 255 if i > 127 else 0)
+    alpha_lut.set_pixel((i, 0), 255 if i > 127 else 0)
 
 alpha_div = 1
 alpha_value = 0

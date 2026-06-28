@@ -8,9 +8,9 @@ def unittest(data_path, temp_path):
     for y in range(64):
         for x in range(64):
             if (x % 8 == 0) or (y % 8 == 0):
-                img.set_pixel(x, y, 255)
+                img.set_pixel((x, y), 255)
             else:
-                img.set_pixel(x, y, 0)
+                img.set_pixel((x, y), 0)
 
     # Apply lens distortion correction
     img.lens_corr(strength=1.0, zoom=1.0)
@@ -21,7 +21,7 @@ def unittest(data_path, temp_path):
 
     # Verify image was modified
     stats = img.get_statistics()
-    if stats.min() == 0 and stats.max() == 255:
+    if stats.min == 0 and stats.max == 255:
         # Still has contrast, good
         return True
 

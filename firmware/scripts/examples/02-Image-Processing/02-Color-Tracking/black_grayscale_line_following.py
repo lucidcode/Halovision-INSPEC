@@ -59,13 +59,12 @@ while True:
 
         if blobs:
             # Find the blob with the most pixels.
-            largest_blob = max(blobs, key=lambda b: b.pixels())
+            largest_blob = max(blobs, key=lambda b: b.pixels)
 
             # Draw a rect around the blob.
-            img.draw_rectangle(largest_blob.rect())
-            img.draw_cross(largest_blob.cx(), largest_blob.cy())
+            img.draw_detection(largest_blob)
 
-            centroid_sum += largest_blob.cx() * r[4]  # r[4] is the roi weight.
+            centroid_sum += largest_blob.cx * r[4]  # r[4] is the roi weight.
 
     center_pos = centroid_sum / weight_sum  # Determine center of line.
 

@@ -160,7 +160,6 @@ static mp_obj_t py_display_write(size_t n_args, const mp_obj_t *pos_args, mp_map
     mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
     mp_arg_parse_all(n_args - 1, pos_args + 1, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
-    fb_alloc_mark();
     image_t *image = py_helper_arg_to_image(args[ARG_image].u_obj, ARG_IMAGE_ANY | ARG_IMAGE_ALLOC);
     rectangle_t roi = py_helper_arg_to_roi(args[ARG_roi].u_obj, image);
 
@@ -186,8 +185,6 @@ static mp_obj_t py_display_write(size_t n_args, const mp_obj_t *pos_args, mp_map
     py_display_p_t *display_p = (py_display_p_t *) MP_OBJ_TYPE_GET_SLOT(self->base.type, protocol);
     display_p->write(self, image, args[ARG_x].u_int, args[ARG_y].u_int, x_scale, y_scale, &roi,
                      args[ARG_channel].u_int, args[ARG_alpha].u_int, color_palette, alpha_palette, args[ARG_hint].u_int);
-    fb_alloc_free_till_mark();
-
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(py_display_write_obj, 2, py_display_write);
@@ -256,6 +253,16 @@ static mp_obj_t py_display_bus_read(size_t n_args, const mp_obj_t *pos_args, mp_
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(py_display_bus_read_obj, 1, py_display_bus_read);
 
+static mp_obj_t py_display_ioctl(size_t n_args, const mp_obj_t *args) {
+    py_display_obj_t *self = MP_OBJ_TO_PTR(args[0]);
+    py_display_p_t *display_p = (py_display_p_t *) MP_OBJ_TYPE_GET_SLOT(self->base.type, protocol);
+    if (display_p->ioctl == NULL) {
+        mp_raise_msg(&mp_type_ValueError, MP_ERROR_TEXT("Display does not support ioctl."));
+    }
+    return display_p->ioctl(self, n_args - 1, args + 1);
+}
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(py_display_ioctl_obj, 2, 3, py_display_ioctl);
+
 static const mp_rom_map_elem_t py_display_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__),            MP_ROM_QSTR(MP_QSTR_display)              },
     { MP_ROM_QSTR(MP_QSTR___del__),             MP_ROM_PTR(&py_display_deinit_obj)        },
@@ -271,6 +278,7 @@ static const mp_rom_map_elem_t py_display_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_write),               MP_ROM_PTR(&py_display_write_obj)         },
     { MP_ROM_QSTR(MP_QSTR_bus_write),           MP_ROM_PTR(&py_display_bus_write_obj)     },
     { MP_ROM_QSTR(MP_QSTR_bus_read),            MP_ROM_PTR(&py_display_bus_read_obj)      },
+    { MP_ROM_QSTR(MP_QSTR_ioctl),               MP_ROM_PTR(&py_display_ioctl_obj)         },
 };
 MP_DEFINE_CONST_DICT(py_display_locals_dict, py_display_locals_dict_table);
 
@@ -294,7 +302,13 @@ static const mp_rom_map_elem_t globals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_UXGA),                MP_ROM_INT(DISPLAY_RESOLUTION_UXGA)     },
     { MP_ROM_QSTR(MP_QSTR_HD),                  MP_ROM_INT(DISPLAY_RESOLUTION_HD)       },
     { MP_ROM_QSTR(MP_QSTR_FHD),                 MP_ROM_INT(DISPLAY_RESOLUTION_FHD)      },
+    #if MICROPY_PY_TV
+    { MP_ROM_QSTR(MP_QSTR_IOCTL_CHANNEL),       MP_ROM_INT(DISPLAY_IOCTL_CHANNEL)       },
+    #endif
 
+    #if MICROPY_PY_TV
+    { MP_ROM_QSTR(MP_QSTR_TVDisplay),           MP_ROM_PTR(&py_tv_display_type)         },
+    #endif
     #ifdef OMV_SPI_DISPLAY_CONTROLLER
     { MP_ROM_QSTR(MP_QSTR_SPIDisplay),          MP_ROM_PTR(&py_spi_display_type)        },
     #endif

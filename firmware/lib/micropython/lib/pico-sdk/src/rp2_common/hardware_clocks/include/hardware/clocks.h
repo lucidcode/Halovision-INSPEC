@@ -231,7 +231,7 @@ extern "C" {
 #endif
 #endif // PICO_RP2040 && SYS_CLK_KHZ == 200000 && XOSC_KHZ == 12000 && PLL_COMMON_REFDIV == 1
 
-// PICO_CONFIG: SYS_CLK_VREG_VOLTAGE_AUTO_ADJUST_DELAY_US, Number of microseconds to wait after updating regulator voltage due to SYS_CLK_VREG_VOLTAGE_MIN to allow voltage to settle, type=bool, default=1000, advanced=true, group=hardware_clocks
+// PICO_CONFIG: SYS_CLK_VREG_VOLTAGE_AUTO_ADJUST_DELAY_US, Number of microseconds to wait after updating regulator voltage due to SYS_CLK_VREG_VOLTAGE_MIN to allow voltage to settle, type=int, default=1000, advanced=true, group=hardware_clocks
 #ifndef SYS_CLK_VREG_VOLTAGE_AUTO_ADJUST_DELAY_US
 #define SYS_CLK_VREG_VOLTAGE_AUTO_ADJUST_DELAY_US 1000
 #endif
@@ -399,7 +399,18 @@ void clocks_enable_resus(resus_callback_t resus_callback);
 /*! \brief Output an optionally divided clock to the specified gpio pin.
  *  \ingroup hardware_clocks
  *
- * \param gpio The GPIO pin to output the clock to. Valid GPIOs are: 21, 23, 24, 25. These GPIOs are connected to the GPOUT0-3 clock generators.
+ * \if rp2040_specific
+ * On RP2040 valid GPIOs are 21, 23, 24, 25.
+ * These GPIOs are connected to the GPOUT0-3 clock generators.
+ * \endif
+ * \if rp2350_specific
+ * On RP2350 valid GPIOs are 13, 15, 21, 23, 24, 25.
+ * GPIOs 13 and 21 are connected to the GPOUT0 clock generator.
+ * GPIOs 15 and 23 are connected to the GPOUT1 clock generator.
+ * GPIOs 24 and 25 are connected to the GPOUT2-3 clock generators.
+ * \endif
+ *
+ * \param gpio The GPIO pin to output the clock to.
  * \param src  The source clock. See the register field CLOCKS_CLK_GPOUT0_CTRL_AUXSRC for a full list. The list is the same for each GPOUT clock generator.
  * \param div_int  The integer part of the value to divide the source clock by. This is useful to not overwhelm the GPIO pin with a fast clock. This is in range of 1..2^24-1 on RP2040
  *                 and 1..2^16-1 on RP2350
@@ -410,7 +421,18 @@ void clock_gpio_init_int_frac16(uint gpio, uint src, uint32_t div_int, uint16_t 
 /*! \brief Output an optionally divided clock to the specified gpio pin.
  *  \ingroup hardware_clocks
  *
- * \param gpio The GPIO pin to output the clock to. Valid GPIOs are: 21, 23, 24, 25. These GPIOs are connected to the GPOUT0-3 clock generators.
+ *  * \if rp2040_specific
+ * On RP2040 valid GPIOs are 21, 23, 24, 25.
+ * These GPIOs are connected to the GPOUT0-3 clock generators.
+ * \endif
+ * \if rp2350_specific
+ * On RP2350 valid GPIOs are 13, 15, 21, 23, 24, 25.
+ * GPIOs 13 and 21 are connected to the GPOUT0 clock generator.
+ * GPIOs 15 and 23 are connected to the GPOUT1 clock generator.
+ * GPIOs 24 and 25 are connected to the GPOUT2-3 clock generators.
+ * \endif
+ *
+ * \param gpio The GPIO pin to output the clock to.
  * \param src  The source clock. See the register field CLOCKS_CLK_GPOUT0_CTRL_AUXSRC for a full list. The list is the same for each GPOUT clock generator.
  * \param div_int  The integer part of the value to divide the source clock by. This is useful to not overwhelm the GPIO pin with a fast clock. This is in range of 1..2^24-1 on RP2040
  *                 and 1..2^16-1 on RP2350
@@ -428,7 +450,18 @@ static inline void clock_gpio_init_int_frac(uint gpio, uint src, uint32_t div_in
 /*! \brief Output an optionally divided clock to the specified gpio pin.
  *  \ingroup hardware_clocks
  *
- * \param gpio The GPIO pin to output the clock to. Valid GPIOs are: 21, 23, 24, 25. These GPIOs are connected to the GPOUT0-3 clock generators.
+ * \if rp2040_specific
+ * On RP2040 valid GPIOs are 21, 23, 24, 25.
+ * These GPIOs are connected to the GPOUT0-3 clock generators.
+ * \endif
+ * \if rp2350_specific
+ * On RP2350 valid GPIOs are 13, 15, 21, 23, 24, 25.
+ * GPIOs 13 and 21 are connected to the GPOUT0 clock generator.
+ * GPIOs 15 and 23 are connected to the GPOUT1 clock generator.
+ * GPIOs 24 and 25 are connected to the GPOUT2-3 clock generators.
+ * \endif
+ *
+ * \param gpio The GPIO pin to output the clock to.
  * \param src  The source clock. See the register field CLOCKS_CLK_GPOUT0_CTRL_AUXSRC for a full list. The list is the same for each GPOUT clock generator.
  * \param div  The float amount to divide the source clock by. This is useful to not overwhelm the GPIO pin with a fast clock.
  */
@@ -544,6 +577,42 @@ static inline bool set_sys_clock_khz(uint32_t freq_khz, bool required) {
     return false;
 }
 
+#define GPIO_TO_GPOUT_CLOCK_HANDLE_RP2040(gpio, default_clk_handle) \
+    ((gpio) == 21 ? clk_gpout0 :                        \
+        ((gpio) == 23 ? clk_gpout1 :                    \
+            ((gpio) == 24 ? clk_gpout2 :                \
+                ((gpio) == 25 ? clk_gpout3 :            \
+                    (default_clk_handle)))))
+
+#define GPIO_TO_GPOUT_CLOCK_HANDLE_RP2350(gpio, default_clk_handle) \
+    ((gpio) == 13 ? clk_gpout0 :                        \
+        ((gpio) == 15 ? clk_gpout1 :                    \
+            (GPIO_TO_GPOUT_CLOCK_HANDLE_RP2040(gpio, default_clk_handle))))
+
+/**
+ * \def GPIO_TO_GPOUT_CLOCK_HANDLE(gpio, default_clk_handle)
+ * \ingroup hardware_clocks
+ * \hideinitializer
+ * \brief Returns the GPOUT clock number associated with a particular GPIO if there is one, or default_clk_handle otherwise
+ *
+ * Note this macro is intended to resolve at compile time, and does no parameter checking
+ */
+#ifndef GPIO_TO_GPOUT_CLOCK_HANDLE
+#if PICO_RP2040
+#define GPIO_TO_GPOUT_CLOCK_HANDLE GPIO_TO_GPOUT_CLOCK_HANDLE_RP2040
+#else
+#define GPIO_TO_GPOUT_CLOCK_HANDLE GPIO_TO_GPOUT_CLOCK_HANDLE_RP2350
+#endif
+#endif
+    
+/**
+ * \brief return the associated GPOUT clock for a given GPIO if any
+ * \ingroup hardware_clocks
+ * \return the GPOUT clock number associated with a particular GPIO or default_clk_handle otherwise
+ */
+static inline clock_handle_t gpio_to_gpout_clock_handle(uint gpio, clock_handle_t default_clk_handle) {
+    return GPIO_TO_GPOUT_CLOCK_HANDLE(gpio, ({invalid_params_if(HARDWARE_CLOCKS, true); default_clk_handle;}));
+}
 #ifdef __cplusplus
 }
 #endif

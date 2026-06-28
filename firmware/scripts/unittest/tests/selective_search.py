@@ -15,9 +15,9 @@ def unittest(data_path, temp_path):
                 color = 0x001F  # Blue
             else:
                 color = 0xFFFF  # White
-            img.set_pixel(x, y, color)
+            img.set_pixel((x, y), color)
 
     # Perform selective search segmentation
-    regions = img.selective_search(threshold=200, min_size=10)
+    regions = img.selective_search(threshold=200, size=10)
 
     return regions[0] == (0, 0, 63, 31) and regions[1] == (0, 0, 63, 63)

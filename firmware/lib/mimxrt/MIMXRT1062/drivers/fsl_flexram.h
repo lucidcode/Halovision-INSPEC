@@ -1,13 +1,13 @@
 /*
- * Copyright 2017-2022 NXP
+ * Copyright 2017-2023 NXP
  * All rights reserved.
  *
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_FLEXRAM_H_
-#define _FSL_FLEXRAM_H_
+#ifndef FSL_FLEXRAM_H_
+#define FSL_FLEXRAM_H_
 
 #include "fsl_common.h"
 #include "fsl_flexram_allocate.h"
@@ -22,10 +22,10 @@
  *****************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief Driver version. */
-#define FSL_FLEXRAM_DRIVER_VERSION (MAKE_VERSION(2U, 2U, 0U))
-/*@}*/
+#define FSL_FLEXRAM_DRIVER_VERSION (MAKE_VERSION(2U, 3U, 0U))
+/*! @} */
 
 /*! @brief Get ECC error detailed information. */
 #ifndef FLEXRAM_ECC_ERROR_DETAILED_INFO
@@ -274,7 +274,7 @@ void FLEXRAM_Init(FLEXRAM_Type *base);
  */
 void FLEXRAM_Deinit(FLEXRAM_Type *base);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Status
@@ -323,7 +323,7 @@ static inline void FLEXRAM_DisableInterruptStatus(FLEXRAM_Type *base, uint32_t s
     base->INT_STAT_EN &= ~status;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -351,7 +351,7 @@ static inline void FLEXRAM_DisableInterruptSignal(FLEXRAM_Type *base, uint32_t s
 {
     base->INT_SIG_EN &= ~status;
 }
-/* @} */
+/*! @} */
 
 /*!
  * @brief FLEXRAM module sets TCM read access mode
@@ -445,6 +445,7 @@ static inline void FLEXRAM_SetITCMMagicAddr(FLEXRAM_Type *base, uint16_t magicAd
  */
 void FLEXRAM_EnableECC(FLEXRAM_Type *base, bool OcramECCEnable, bool TcmECCEnable);
 
+#if (defined(FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION) && (FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION))
 /*!
  * @brief FLEXRAM ECC error injection.
  * @param base  FLEXRAM base address.
@@ -452,6 +453,7 @@ void FLEXRAM_EnableECC(FLEXRAM_Type *base, bool OcramECCEnable, bool TcmECCEnabl
  * @param error ECC error type.
  */
 void FLEXRAM_ErrorInjection(FLEXRAM_Type *base, flexram_memory_type_t memory, flexram_ecc_error_type_t *error);
+#endif /* FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION */
 
 /*!
  * @brief FLEXRAM get ocram ecc single error information.

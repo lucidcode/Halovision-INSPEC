@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -37,6 +37,18 @@ enum
  ******************************************************************************/
 
 /* Array of LPUART handle. */
+#if (defined(LPUART12))
+#define LPUART_HANDLE_ARRAY_SIZE 13
+#else /* LPUART12 */
+#if (defined(LPUART11))
+#define LPUART_HANDLE_ARRAY_SIZE 12
+#else /* LPUART11 */
+#if (defined(LPUART10))
+#define LPUART_HANDLE_ARRAY_SIZE 11
+#else /* LPUART10 */
+#if (defined(LPUART9))
+#define LPUART_HANDLE_ARRAY_SIZE 10
+#else /* LPUART9 */
 #if (defined(LPUART8))
 #define LPUART_HANDLE_ARRAY_SIZE 9
 #else /* LPUART8 */
@@ -74,6 +86,10 @@ enum
 #endif /* LPUART 6 */
 #endif /* LPUART 7 */
 #endif /* LPUART 8 */
+#endif /* LPUART 9 */
+#endif /* LPUART 10 */
+#endif /* LPUART 11 */
+#endif /* LPUART 12 */
 
 /*<! Private handle only used for internally. */
 static lpuart_dma_private_handle_t s_dmaPrivateHandle[LPUART_HANDLE_ARRAY_SIZE];
@@ -204,7 +220,7 @@ void LPUART_TransferCreateHandleDMA(LPUART_Type *base,
     /* Save the handle in global variables to support the double weak mechanism. */
     s_lpuartHandle[instance] = handle;
     /* Set LPUART_TransferDMAHandleIRQ as DMA IRQ handler */
-    s_lpuartIsr = LPUART_TransferDMAHandleIRQ;
+    s_lpuartIsr[instance] = LPUART_TransferDMAHandleIRQ;
     /* Disable all LPUART internal interrupts */
     LPUART_DisableInterrupts(base, (uint32_t)kLPUART_AllInterruptEnable);
     /* Enable interrupt in NVIC. */

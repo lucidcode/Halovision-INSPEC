@@ -9,14 +9,17 @@ def unittest(data_path, temp_path):
     from ml.postprocessing.mediapipe import BlazeFace
 
     img = image.Image(data_path + "/faces.bmp", copy_to_fb=True)
-    model = ml.Model("/rom/blazeface_front_128.tflite", postprocess=BlazeFace(threshold=0.4))
+    # BlazeFace requires square input, so crop the center of the image.
+    s = min(img.width(), img.height())
+    img = img.crop(roi=((img.width() - s) // 2, (img.height() - s) // 2, s, s))
+    model = ml.Model(data_path + "/blazeface_front_128.tflite", postprocess=BlazeFace(threshold=0.4))
     output = model.predict([img])
 
     expected = [
-        ([140, 14, 46, 46], 0.7783118),
-        ([234, 157, 34, 34], 0.6603524),
-        ([66, 97, 38, 38], 0.6350756),
-        ([234, 2, 40, 40], 0.5184602),
+        ([76, 14, 48, 48], 0.796841),
+        ([163, 155, 36, 36], 0.7004726),
+        ([170, 2, 40, 40], 0.5),
+        ([4, 97, 36, 36], 0.5),
     ]
 
     if len(output) != len(expected):

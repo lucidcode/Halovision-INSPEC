@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2017, 2020 NXP
+ * Copyright 2016-2017, 2020, 2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_GINT_H_
-#define _FSL_GINT_H_
+#ifndef FSL_GINT_H_
+#define FSL_GINT_H_
 
 #include "fsl_common.h"
 
@@ -23,9 +23,9 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-#define FSL_GINT_DRIVER_VERSION (MAKE_VERSION(2, 0, 3)) /*!< Version 2.0.3. */
-/*@}*/
+/*! @{ */
+#define FSL_GINT_DRIVER_VERSION (MAKE_VERSION(2, 1, 0)) /*!< Driver version. */
+/*! @} */
 
 /*! @brief GINT combine inputs type */
 typedef enum _gint_comb
@@ -45,7 +45,9 @@ typedef enum _gint_trig
 typedef enum _gint_port
 {
     kGINT_Port0 = 0U,
+#if !(defined(FSL_FEATURE_GINT_PORT_COUNT) && (FSL_FEATURE_GINT_PORT_COUNT <= 1U))
     kGINT_Port1 = 1U,
+#endif
 #if defined(FSL_FEATURE_GINT_PORT_COUNT) && (FSL_FEATURE_GINT_PORT_COUNT > 2U)
     kGINT_Port2 = 2U,
 #endif
@@ -217,6 +219,6 @@ void GINT_Deinit(GINT_Type *base);
 }
 #endif
 
-/*@}*/
+/*! @} */
 
-#endif /* _FSL_GINT_H_ */
+#endif /* FSL_GINT_H_ */

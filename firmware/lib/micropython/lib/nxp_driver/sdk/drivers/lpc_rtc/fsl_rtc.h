@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_RTC_H_
-#define _FSL_RTC_H_
+#ifndef FSL_RTC_H_
+#define FSL_RTC_H_
 
 #include "fsl_common.h"
 
@@ -22,9 +22,9 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-#define FSL_RTC_DRIVER_VERSION (MAKE_VERSION(2, 1, 2)) /*!< Version 2.1.2 */
-/*@}*/
+/*! @{ */
+#define FSL_RTC_DRIVER_VERSION (MAKE_VERSION(2, 2, 0)) /*!< Version 2.2.0 */
+/*! @} */
 
 /*! @brief List of RTC interrupts */
 typedef enum _rtc_interrupt_enable
@@ -185,6 +185,51 @@ static inline uint32_t RTC_GetEnabledWakeupTimer(RTC_Type *base)
 
 /*! @}*/
 
+#if (defined(FSL_FEATURE_RTC_HAS_SUBSEC) && FSL_FEATURE_RTC_HAS_SUBSEC)
+
+/*!
+ * @name SUBSEC counter
+ * @{
+ */
+
+/*!
+ * @brief Enable the RTC Sub-second counter (32KHZ).
+ *
+ * @note Only enable sub-second counter after RTC_ENA bit has been set to 1.
+ *
+ * @param base   RTC peripheral base address
+ * @param enable Enable/Disable RTC sub-second counter.
+ *               - true: Enable RTC sub-second counter.
+ *               - false: Disable RTC sub-second counter.
+ */
+static inline void RTC_EnableSubsecCounter(RTC_Type *base, bool enable)
+{
+    if (enable)
+    {
+        base->CTRL |= RTC_CTRL_RTC_SUBSEC_ENA_MASK;
+    }
+    else
+    {
+        base->CTRL &= ~RTC_CTRL_RTC_SUBSEC_ENA_MASK;
+    }
+}
+
+/*!
+ * @brief A read of 32KHZ sub-seconds counter
+ *
+ * @param base RTC peripheral base address
+ *
+ * @return Current value of the SUBSEC register
+ */
+static inline uint32_t RTC_GetSubsecValue(const RTC_Type *base)
+{
+    return (base->SUBSEC);
+}
+
+/*! @}*/
+
+#endif /* FSL_FEATURE_RTC_HAS_SUBSEC */
+
 /*!
  * @brief Set the RTC seconds timer (1HZ) MATCH value.
  *
@@ -246,7 +291,7 @@ static inline uint32_t RTC_GetSecondsTimerCount(RTC_Type *base)
 /*!
  * @brief Enable the RTC wake-up timer (1KHZ) and set countdown value to the RTC WAKE register.
  *
- * @param base        RTC peripheral base address
+ * @param base RTC peripheral base address
  * @param wakeupValue The value to be loaded into the WAKE register in RTC wake-up timer (1KHZ).
  */
 static inline void RTC_SetWakeupCount(RTC_Type *base, uint16_t wakeupValue)
@@ -259,16 +304,26 @@ static inline void RTC_SetWakeupCount(RTC_Type *base, uint16_t wakeupValue)
 }
 
 /*!
- * @brief Read the actual value from the WAKE register value in RTC wake-up timer (1KHZ).
+ * @brief Read the actual value from the WAKE register value in RTC wake-up timer (1KHZ)
  *
- * @param base        RTC peripheral base address
+ * Read the WAKE register twice and compare the result, if the value match,the time can be used.
  *
- * @return The actual value of the WAKE register value in RTC wake-up timer (1HZ).
+ * @param base RTC peripheral base address
+ *
+ * @return The actual value of the WAKE register value in RTC wake-up timer (1KHZ).
  */
 static inline uint16_t RTC_GetWakeupCount(RTC_Type *base)
 {
-    /* Read current wake-up countdown value */
-    return (uint16_t)((base->WAKE & RTC_WAKE_VAL_MASK) >> RTC_WAKE_VAL_SHIFT);
+    uint16_t WakeupCountFirst = 0U, WakeupCountSecond = 0U;
+
+    /* Read wake-up countdown value twice until matched*/
+    do
+    {
+        WakeupCountFirst  = (uint16_t)((base->WAKE & RTC_WAKE_VAL_MASK) >> RTC_WAKE_VAL_SHIFT);
+        WakeupCountSecond = (uint16_t)((base->WAKE & RTC_WAKE_VAL_MASK) >> RTC_WAKE_VAL_SHIFT);
+    } while (WakeupCountFirst != WakeupCountSecond);
+
+    return WakeupCountSecond;
 }
 
 /*!
@@ -490,4 +545,4 @@ static inline void RTC_Reset(RTC_Type *base)
 
 /*! @}*/
 
-#endif /* _FSL_RTC_H_ */
+#endif /* FSL_RTC_H_ */

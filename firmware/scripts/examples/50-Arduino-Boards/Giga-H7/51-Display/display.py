@@ -50,10 +50,8 @@ while True:
         n, points = touch.read_points()
         for i in range(0, n):
             img.draw_circle(
-                points[i][0] - IMG_OFFSET,
-                points[i][1],
-                points[i][2] * 3,
-                points_colors[points[i][3]],
+                (points[i][0] - IMG_OFFSET, points[i][1], points[i][2] * 3),
+                color=points_colors[points[i][3]],
                 thickness=2,
             )
         touch_detected = False

@@ -193,14 +193,13 @@ static void esp32_rmt_deactivate(esp32_rmt_obj_t *self) {
     if (self->enabled) {
         // FIXME: panics in ESP32 if called while TX is ongoing and TX sequence is long (>300ms)
         // Does not panic in ESP32-S3, ESP32-C3 and ESP32-C6.
-        // Tested with ESP-IDF up to 5.5
-        // ESP-IDF issue: https://github.com/espressif/esp-idf/issues/17692
+        // Happens with ESP-IDF up to 5.5.1. Fixed in ESP-IDF 5.5.2.
+        // ESP-IDF GitHub issue: https://github.com/espressif/esp-idf/issues/17692
         //
-        // Cause is Interrupt WDT to trigger because ESP-IDF rmt_disable() disables
-        // interrupts and spinlocks until the ongoing TX sequence is finished.
-        //
-        // Workaround is never try to stop RMT sequences longer than 300ms (which are unusual
-        // anyway). Or apply the patch mentioned at the GitHub issue to ESP-IDF.
+        // Workarounds:
+        // - recompile with ESP-IDF 5.5.2 or better
+        // - never try to stop RMT sequences longer than 300ms
+        // - apply to ESP-IDF the patch mentioned at the GitHub issue
         rmt_disable(self->channel);
         self->enabled = false;
     }
@@ -276,16 +275,24 @@ static mp_obj_t esp32_rmt_wait_done(size_t n_args, const mp_obj_t *pos_args, mp_
     mp_arg_parse_all(n_args, pos_args, kw_args, MP_ARRAY_SIZE(allowed_args), allowed_args, args);
 
     esp32_rmt_obj_t *self = MP_OBJ_TO_PTR(args[0].u_obj);
+    mp_int_t timeout = args[1].u_int;
     if (self->pin == -1) {
         mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("already deinitialized"));
     } else if (!self->enabled) {
         return mp_const_true;
-    } else if (args[1].u_int == 0 && self->tx_ongoing > 0) {
+    } else if (timeout == 0 && self->tx_ongoing > 0) {
         // shortcut to avoid console spamming with timeout msgs by rmt_tx_wait_all_done()
         return mp_const_false;
     }
 
-    esp_err_t err = rmt_tx_wait_all_done(self->channel, args[1].u_int);
+    if (timeout != 0) {
+        MP_THREAD_GIL_EXIT();
+    }
+    esp_err_t err = rmt_tx_wait_all_done(self->channel, timeout);
+    if (timeout != 0) {
+        MP_THREAD_GIL_ENTER();
+    }
+
     return err == ESP_OK ? mp_const_true : mp_const_false;
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(esp32_rmt_wait_done_obj, 1, esp32_rmt_wait_done);

@@ -39,13 +39,13 @@ while True:
     # Find eyes !
     # Note: Lower scale factor scales-down the image more and detects smaller objects.
     # Higher threshold results in a higher detection rate, with more false positives.
-    eyes = img.find_features(eyes_cascade, threshold=0.5, scale_factor=1.5)
+    eyes = img.find_features(eyes_cascade, threshold=0.5, scale=1.5)
 
     # Find iris
     for e in eyes:
-        iris = img.find_eye(e)
+        iris = img.find_eye(roi=e)
         img.draw_rectangle(e)
-        img.draw_cross(iris[0], iris[1])
+        img.draw_cross(iris)
 
     # Print FPS.
     # Note: Actual FPS is higher, streaming the FB makes it slower.

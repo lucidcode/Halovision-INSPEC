@@ -98,6 +98,9 @@ void mp_usbd_hex_str(char *out_str, const uint8_t *bytes, size_t bytes_len);
 // Built-in USB device and configuration descriptor values
 extern const tusb_desc_device_t mp_usbd_builtin_desc_dev;
 extern const uint8_t mp_usbd_builtin_desc_cfg[MP_USBD_BUILTIN_DESC_CFG_LEN];
+#if (CFG_TUD_MAX_SPEED == OPT_MODE_HIGH_SPEED)
+extern const tusb_desc_device_qualifier_t mp_usbd_builtin_desc_qual;
+#endif
 
 void mp_usbd_task_callback(mp_sched_node_t *node);
 
@@ -130,6 +133,7 @@ typedef struct {
     mp_obj_t desc_dev; // Device descriptor bytes
     mp_obj_t desc_cfg; // Configuration descriptor bytes
     mp_obj_t desc_strs; // List/dict/similar to look up string descriptors by index
+    mp_obj_t desc_qual; // Device qualifier descriptor for high-speed devices.
 
     // Runtime device driver callback functions
     mp_obj_t open_itf_cb;

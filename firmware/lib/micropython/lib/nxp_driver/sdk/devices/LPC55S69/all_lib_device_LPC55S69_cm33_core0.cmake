@@ -7,7 +7,6 @@ list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/RTOS2/Include
     ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/RTOS2/RTX/Library
     ${CMAKE_CURRENT_LIST_DIR}/../../cmsis_drivers/flexcomm
-    ${CMAKE_CURRENT_LIST_DIR}/../../cmsis_drivers/lpc_gpio
     ${CMAKE_CURRENT_LIST_DIR}/../../components/audio
     ${CMAKE_CURRENT_LIST_DIR}/../../components/codec
     ${CMAKE_CURRENT_LIST_DIR}/../../components/codec/i2c
@@ -23,6 +22,7 @@ list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_LIST_DIR}/../../components/log
     ${CMAKE_CURRENT_LIST_DIR}/../../components/osa
     ${CMAKE_CURRENT_LIST_DIR}/../../components/panic
+    ${CMAKE_CURRENT_LIST_DIR}/../../components/rtt
     ${CMAKE_CURRENT_LIST_DIR}/../../components/serial_manager
     ${CMAKE_CURRENT_LIST_DIR}/../../components/timer
     ${CMAKE_CURRENT_LIST_DIR}/../../components/uart
@@ -58,14 +58,20 @@ list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_LIST_DIR}/../../drivers/wwdt
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/fatfs
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/maestro
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/maestro/mcu-audio/ogg
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/maestro/mcu-audio/opus
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/maestro/mcu-audio/opusfile
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/maestro/streamer
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/mbedtls
+    ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/mcuboot_opensource/boot/bootutil
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/multicore
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/sdmmc
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/usb
     ${CMAKE_CURRENT_LIST_DIR}/../../../rtos/azure-rtos
-    ${CMAKE_CURRENT_LIST_DIR}/../../../rtos/freertos/freertos_kernel
+    ${CMAKE_CURRENT_LIST_DIR}/../../../rtos/freertos/freertos-kernel
+    ${CMAKE_CURRENT_LIST_DIR}/../../utilities
     ${CMAKE_CURRENT_LIST_DIR}/../../utilities/assert
-    ${CMAKE_CURRENT_LIST_DIR}/../../utilities/debug_console
-    ${CMAKE_CURRENT_LIST_DIR}/../../utilities/debug_console_lite
     ${CMAKE_CURRENT_LIST_DIR}/../../utilities/misc_utilities
     ${CMAKE_CURRENT_LIST_DIR}/drivers
     ${CMAKE_CURRENT_LIST_DIR}/utilities
@@ -80,11 +86,13 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_sdmmc_osa_bm)
 #    include(component_codec_i2c_LPC55S69_cm33_core0)
 #    include(utility_shell)
+#    include(middleware_maestro_framework_opusfile)
 #    include(driver_lpc_gpio)
-#    include(middleware_sdmmc_host_sdif_azurertos)
+#    include(middleware_maestro_framework)
 #    include(driver_lpadc)
-#    include(driver_cmsis_lpc_gpio)
+#    include(middleware_azure_rtos_ux_template_LPC55S69_cm33_core0)
 #    include(middleware_freertos-kernel_cm33_nonsecure_port)
+#    include(middleware_maestro_framework_opus)
 #    include(driver_lpc_crc)
 #    include(middleware_azure_rtos_nxd_sp)
 #    include(middleware_multicore_rpmsg_lite_bm)
@@ -92,6 +100,7 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_baremetal)
 #    include(component_audio_flexcomm_i2s_dma_adapter)
 #    include(middleware_sdmmc_host_sdif)
+#    include(middleware_mcuboot_bootutil)
 #    include(component_log_backend_ringbuffer)
 #    include(driver_flexcomm_usart)
 #    include(middleware_sdmmc_host_sdif_freertos)
@@ -103,15 +112,15 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(driver_inputmux)
 #    include(driver_flexcomm_i2c)
 #    include(component_serial_manager)
+#    include(middleware_multicore_rpmsg_lite)
 #    include(middleware_usb_device_cdc_external)
 #    include(driver_lpc_dma)
-#    include(component_serial_manager_uart)
+#    include(middleware_mbedtls_port_ksdk)
 #    include(driver_flexcomm_i2s)
 #    include(component_log_backend_debugconsole)
 #    include(driver_flexcomm_spi_dma)
 #    include(driver_flexcomm_spi_freertos)
 #    include(middleware_freertos-kernel_cm33_secure_port)
-#    include(CMSIS_DSP_Library)
 #    include(driver_ili9341)
 #    include(driver_pint)
 #    include(driver_sctimer)
@@ -120,6 +129,7 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_multicore_rpmsg_lite_lpcxpresso55s69_bm)
 #    include(middleware_freertos-kernel_secure_context)
 #    include(driver_casper)
+#    include(middleware_sdmmc_host_sdif_azurertos)
 #    include(component_panic)
 #    include(utility_assert)
 #    include(driver_rng_1)
@@ -137,6 +147,7 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_azure_rtos_ux_sp)
 #    include(component_serial_manager_usb_cdc)
 #    include(driver_clock)
+#    include(middleware_multicore_erpc_eRPC_rpmsg_lite_rtos_transport)
 #    include(driver_prince)
 #    include(device_CMSIS)
 #    include(middleware_multicore_rpmsg_lite_freertos)
@@ -154,13 +165,14 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_freertos-kernel_LPC55S69_cm33_core0)
 #    include(driver_inputmux_connections)
 #    include(component_osa_free_rtos)
-#    include(CMSIS_Driver_Include_GPIO)
 #    include(middleware_sdmmc_sd)
 #    include(middleware_usb_device_controller_driver_LPC55S69_cm33_core0)
 #    include(CMSIS_Include_core_cm)
 #    include(middleware_freertos-kernel_heap_4)
+#    include(middleware_usb_host_printer)
 #    include(middleware_azure_rtos_fx_sp)
 #    include(driver_hashcrypt)
+#    include(CMSIS_DSP_Source)
 #    include(component_usart_adapter)
 #    include(middleware_usb_host_msd)
 #    include(driver_wwdt)
@@ -175,20 +187,21 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(driver_flexcomm_i2s_dma)
 #    include(component_mrt_adapter)
 #    include(driver_mailbox)
-#    include(middleware_usb_host_printer)
 #    include(middleware_multicore_mcmgr_lpc55s69)
 #    include(driver_cmp_1)
+#    include(middleware_usb_device_ip3511hs)
 #    include(driver_flexcomm_i2c_dma)
 #    include(component_flexcomm_i2c_adapter)
 #    include(middleware_multicore_rpmsg_lite_lpcxpresso55s69_freertos)
 #    include(middleware_fatfs)
+#    include(driver_rtt_LPC55S69_cm33_core0)
 #    include(middleware_usb_host_audio)
-#    include(middleware_usb_device_ip3511hs_LPC55S69_cm33_core0)
+#    include(middleware_usb_host_ip3516hs)
 #    include(middleware_azure_rtos_nxd_template_LPC55S69_cm33_core0)
-#    include(middleware_multicore_rpmsg_lite_LPC55S69_cm33_core0)
-#    include(middleware_azure_rtos_ux_template_LPC55S69_cm33_core0)
+#    include(utility_debug_console)
 #    include(middleware_usb_host_hid)
 #    include(component_osa_thread)
+#    include(middleware_fatfs_ram)
 #    include(middleware_multicore_erpc_eRPC_rpmsg_lite_master_c_wrapper)
 #    include(middleware_multicore_mcmgr)
 #    include(component_mflash_common)
@@ -203,8 +216,10 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(driver_sysctl)
 #    include(driver_power)
 #    include(middleware_usb_phy)
+#    include(CMSIS_DSP_Include)
 #    include(CMSIS_Device_API_RTOS2)
 #    include(middleware_fatfs_usb)
+#    include(component_serial_manager_uart_LPC55S69_cm33_core0)
 #    include(middleware_freertos-kernel_mpu_wrappers)
 #    include(driver_lpc_rtc)
 #    include(middleware_sdmmc_common)
@@ -214,26 +229,29 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_usb_host_video)
 #    include(component_lists)
 #    include(driver_mrt)
+#    include(middleware_maestro_framework_ogg)
 #    include(CMSIS_RTOS2_NonSecure)
 #    include(middleware_multicore_erpc_eRPC_rpmsg_lite_transport)
 #    include(component_osa)
 #    include(middleware_azure_rtos_tx_sp)
 #    include(driver_sdif)
+#    include(middleware_mbedtls_lpc1)
 #    include(middleware_sdmmc_host_sdif_interrupt)
 #    include(driver_flexcomm_usart_dma)
-#    include(middleware_usb_host_ip3516hs_LPC55S69_cm33_core0)
-#    include(utility_debug_console)
 #    include(component_mflash_lpc55xxx)
 #    include(middleware_multicore_erpc_eRPC_rpmsg_lite_rtos_master_c_wrapper)
 #    include(driver_flexcomm_i2c_freertos)
-#    include(middleware_multicore_erpc_eRPC_rpmsg_lite_rtos_transport)
+#    include(driver_powerquad_cmsis)
 #    include(driver_powerquad)
 #    include(middleware_azure_rtos_fx_template_LPC55S69_cm33_core0)
 #    include(middleware_usb_host_phdc)
 #    include(driver_flexcomm_usart_freertos)
+#    include(middleware_maestro_framework_streamer)
 #    include(middleware_azure_rtos_lx)
 #    include(device_startup_LPC55S69_cm33_core0)
 #    include(CMSIS_Device_API_OSTick)
+#    include(middleware_mbedtls_LPC55S69_cm33_core0)
+#    include(middleware_maestro_framework_doc)
 #    include(middleware_usb_host_stack_LPC55S69_cm33_core0)
 #    include(component_wm8904_adapter)
 #    include(driver_reset)

@@ -8,9 +8,9 @@ def unittest(data_path, temp_path):
     for y in range(64):
         for x in range(64):
             if x < 32:
-                img.set_pixel(x, y, 50)
+                img.set_pixel((x, y), 50)
             else:
-                img.set_pixel(x, y, 200)
+                img.set_pixel((x, y), 200)
 
     # Find HOG (Histogram of Oriented Gradients)
     hog = img.find_hog(roi=(0, 0, 64, 64))

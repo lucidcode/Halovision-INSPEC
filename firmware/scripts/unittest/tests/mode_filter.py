@@ -9,16 +9,16 @@ def unittest(data_path, temp_path):
         for x in range(50):
             # Create regions with dominant values
             if x < 25:
-                img.set_pixel(x, y, 100)
+                img.set_pixel((x, y), 100)
             else:
-                img.set_pixel(x, y, 200)
+                img.set_pixel((x, y), 200)
 
     # Apply mode filter (most common value in kernel)
     img.mode(1, threshold=False)
 
     # Verify image is modified
     stats = img.get_statistics()
-    if stats.mean() < 50 or stats.mean() > 250:
+    if stats.mean < 50 or stats.mean > 250:
         return False
 
     return True

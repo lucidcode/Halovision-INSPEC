@@ -39,6 +39,7 @@
 
 #include "omv_csi.h"
 #include "omv_gpio.h"
+#include "genx320.h"
 
 #include "imlib.h"
 #include "py_assert.h"
@@ -63,6 +64,7 @@
 typedef struct _py_csi_obj_t {
     mp_obj_base_t base;
     omv_csi_t *csi;
+    void *raw;
     mp_obj_t vsync_cb;
     mp_obj_t frame_cb;
 } py_csi_obj_t;
@@ -123,8 +125,13 @@ static mp_obj_t py_csi_deinit(mp_obj_t self_in) {
     // Abort any ongoing capture.
     omv_csi_abort(self->csi, true, false);
 
-    // Reset FB pointer (realloc'd in make_new).
-    if (self->csi->fb->dynamic) {
+    // Free the framebuffer for auxiliary sensors.
+    if (self->csi->auxiliary) {
+        framebuffer_t *fb = self->csi->fb;
+        if (fb) {
+            uma_free(fb->raw_base);
+        }
+        self->raw = NULL;
         self->csi->fb = NULL;
     }
 
@@ -186,11 +193,10 @@ static mp_obj_t py_csi_flush(mp_obj_t self_in) {
 static MP_DEFINE_CONST_FUN_OBJ_1(py_csi_flush_obj, py_csi_flush);
 
 static mp_obj_t py_csi_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
-    enum { ARG_time, ARG_frames, ARG_update, ARG_blocking, ARG_image };
+    enum { ARG_time, ARG_frames, ARG_blocking, ARG_image };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_time, MP_ARG_INT | MP_ARG_KW_ONLY, {.u_int = -1} },
         { MP_QSTR_frames, MP_ARG_INT | MP_ARG_KW_ONLY, {.u_int = -1} },
-        { MP_QSTR_update, MP_ARG_BOOL | MP_ARG_KW_ONLY,  {.u_bool = true} },
         { MP_QSTR_blocking, MP_ARG_BOOL | MP_ARG_KW_ONLY,  {.u_bool = true} },
         { MP_QSTR_image, MP_ARG_OBJ | MP_ARG_KW_ONLY,  {.u_rom_obj = MP_ROM_NONE} },
     };
@@ -203,10 +209,6 @@ static mp_obj_t py_csi_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_
     image_t image = {0};
     mp_int_t time = args[ARG_time].u_int;
     mp_int_t frames = args[ARG_frames].u_int;
-
-    if (args[ARG_update].u_bool) {
-        flags |= OMV_CSI_FLAG_UPDATE_FB;
-    }
 
     if (!args[ARG_blocking].u_bool) {
         flags |= OMV_CSI_FLAG_NON_BLOCK;
@@ -225,10 +227,8 @@ static mp_obj_t py_csi_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_
         // If an image is provided update it and return.
         if (args[ARG_image].u_obj != mp_const_none) {
             image_t *other = py_helper_arg_to_image(args[ARG_image].u_obj, ARG_IMAGE_MUTABLE);
-            fb_alloc_mark();
             imlib_draw_image(other, &image, 0, 0, 1.f, 1.f, NULL, -1, 255, NULL, NULL,
                              IMAGE_HINT_SCALE_ASPECT_IGNORE, NULL, NULL, NULL, NULL);
-            fb_alloc_free_till_mark();
             return mp_const_none;
         }
 
@@ -1065,8 +1065,8 @@ static mp_obj_t py_csi_ioctl(size_t n_args, const mp_obj_t *args) {
         }
 
         case OMV_CSI_IOCTL_LEPTON_SET_MODE:
-            if (n_args == 2) {
-                int high_temp = (n_args == 2) ? false : mp_obj_get_int(args[1]);
+            if (n_args >= 1) {
+                int high_temp = (n_args < 2) ? false : mp_obj_get_int(args[1]);
                 error = omv_csi_ioctl(self->csi, request, mp_obj_get_int(args[0]), high_temp);
             }
             break;
@@ -1256,8 +1256,15 @@ static mp_obj_t py_csi_ioctl(size_t n_args, const mp_obj_t *args) {
             }
             break;
         }
+        case OMV_CSI_IOCTL_GENX320_READ_EVENTS_RAW: {
+            image_t img;
+            error = omv_csi_ioctl(self->csi, request, &img);
+            if (error == 0) {
+                ret_obj = py_image_from_struct(&img);
+            }
+            break;
+        }
         #endif // (OMV_GENX320_ENABLE == 1)
-
         default: {
             omv_csi_raise_error(OMV_CSI_ERROR_CTL_UNSUPPORTED);
             break;
@@ -1341,12 +1348,12 @@ static mp_obj_t py_csi_read_reg(mp_obj_t self_in, mp_obj_t addr) {
 static MP_DEFINE_CONST_FUN_OBJ_2(py_csi_read_reg_obj, py_csi_read_reg);
 
 mp_obj_t py_csi_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *all_args) {
-    enum { ARG_id, ARG_delays, ARG_fflush, ARG_fb_size };
+    enum { ARG_id, ARG_delays, ARG_fflush, ARG_stream };
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_cid, MP_ARG_INT | MP_ARG_KW_ONLY, {.u_int = -1 } },
         { MP_QSTR_delays, MP_ARG_BOOL | MP_ARG_KW_ONLY,  {.u_bool = true} },
         { MP_QSTR_fflush, MP_ARG_BOOL | MP_ARG_KW_ONLY,  {.u_bool = true} },
-        { MP_QSTR_fb_size, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 2 * 1024 * 1024} },
+        { MP_QSTR_stream, MP_ARG_OBJ | MP_ARG_KW_ONLY,  {.u_rom_obj = MP_ROM_NONE} },
     };
 
     // Parse args.
@@ -1367,9 +1374,20 @@ mp_obj_t py_csi_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, 
     csi->disable_full_flush = !args[ARG_fflush].u_bool;
 
     if (csi->fb == NULL) {
-        size_t fb_size = args[ARG_fb_size].u_int;
         csi->fb = (framebuffer_t *) m_malloc(sizeof(framebuffer_t));
-        framebuffer_init(csi->fb, m_malloc(fb_size), fb_size, true, true);
+        // Prevent GC from collecting the auxiliary framebuffer.
+        self->raw = csi->fb;
+        framebuffer_init(csi->fb, NULL, 0, true, true);
+    }
+
+    // Set the streaming source.
+    framebuffer_t *stream_fb = framebuffer_get(FB_STREAM_ID);
+    if (args[ARG_stream].u_obj == mp_const_none) {
+        if (!csi->auxiliary) {
+            stream_fb->source = csi->chip_id;
+        }
+    } else if (mp_obj_is_true(args[ARG_stream].u_obj)) {
+        stream_fb->source = csi->chip_id;
     }
 
     #if MICROPY_PY_IMU
@@ -1596,6 +1614,7 @@ static const mp_rom_map_elem_t globals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_GENX320_MODE_EVENT),           MP_ROM_INT(OMV_CSI_GENX320_MODE_EVENT) },
     { MP_ROM_QSTR(MP_QSTR_IOCTL_GENX320_READ_EVENTS),    MP_ROM_INT(OMV_CSI_IOCTL_GENX320_READ_EVENTS)},
     { MP_ROM_QSTR(MP_QSTR_IOCTL_GENX320_CALIBRATE),      MP_ROM_INT(OMV_CSI_IOCTL_GENX320_CALIBRATE)},
+    { MP_ROM_QSTR(MP_QSTR_IOCTL_GENX320_READ_EVENTS_RAW), MP_ROM_INT(OMV_CSI_IOCTL_GENX320_READ_EVENTS_RAW)},
     { MP_ROM_QSTR(MP_QSTR_PIX_OFF_EVENT),                MP_ROM_INT(EC_PIX_OFF_EVENT)},
     { MP_ROM_QSTR(MP_QSTR_PIX_ON_EVENT),                 MP_ROM_INT(EC_PIX_ON_EVENT)},
     { MP_ROM_QSTR(MP_QSTR_RST_TRIGGER_RISING),           MP_ROM_INT(EC_RST_TRIGGER_RISING)},

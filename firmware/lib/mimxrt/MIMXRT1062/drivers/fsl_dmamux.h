@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_DMAMUX_H_
-#define _FSL_DMAMUX_H_
+#ifndef FSL_DMAMUX_H_
+#define FSL_DMAMUX_H_
 
 #include "fsl_common.h"
 
@@ -21,10 +21,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief DMAMUX driver version 2.0.5. */
-#define FSL_DMAMUX_DRIVER_VERSION (MAKE_VERSION(2, 0, 5))
-/*@}*/
+/*! @{ */
+/*! @brief DMAMUX driver version 2.1.0. */
+#define FSL_DMAMUX_DRIVER_VERSION (MAKE_VERSION(2, 1, 0))
+/*! @} */
 
 /*******************************************************************************
  * API
@@ -58,7 +58,7 @@ void DMAMUX_Init(DMAMUX_Type *base);
  */
 void DMAMUX_Deinit(DMAMUX_Type *base);
 
-/* @} */
+/*! @} */
 /*!
  * @name DMAMUX Channel Operation
  * @{
@@ -104,9 +104,10 @@ static inline void DMAMUX_DisableChannel(DMAMUX_Type *base, uint32_t channel)
  *
  * @param base DMAMUX peripheral base address.
  * @param channel DMAMUX channel number.
- * @param source Channel source, which is used to trigger the DMA transfer.
+ * @param source Channel source, which is used to trigger the DMA transfer.User need to use the 
+ *               dma_request_source_t type as the input parameter.
  */
-static inline void DMAMUX_SetSource(DMAMUX_Type *base, uint32_t channel, uint32_t source)
+static inline void DMAMUX_SetSource(DMAMUX_Type *base, uint32_t channel, int32_t source)
 {
     assert(channel < (uint32_t)FSL_FEATURE_DMAMUX_MODULE_CHANNEL);
 
@@ -178,12 +179,12 @@ static inline void DMAMUX_EnableAlwaysOn(DMAMUX_Type *base, uint32_t channel, bo
 }
 #endif /* FSL_FEATURE_DMAMUX_HAS_A_ON */
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 
-/* @} */
+/*! @} */
 
-#endif /* _FSL_DMAMUX_H_ */
+#endif /* FSL_DMAMUX_H_ */

@@ -9,7 +9,7 @@ def unittest(data_path, temp_path):
     from ml.postprocessing.darknet import YoloLC
 
     img = image.Image(data_path + "/person.bmp", copy_to_fb=True)
-    model = ml.Model("/rom/yolo_lc_192.tflite", postprocess=YoloLC(threshold=0.2))
+    model = ml.Model(data_path + "/yolo_lc_192.tflite", postprocess=YoloLC(threshold=0.2))
     output = model.predict([img])
 
     # Check if any class has detections.

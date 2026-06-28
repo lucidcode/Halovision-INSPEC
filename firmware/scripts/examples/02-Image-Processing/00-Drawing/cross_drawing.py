@@ -33,6 +33,6 @@ while True:
 
         # If the first argument is a scaler then this method expects
         # to see x and y. Otherwise, it expects a (x,y) tuple.
-        img.draw_cross(x, y, color=(r, g, b), size=10, thickness=2)
+        img.draw_cross((x, y), color=(r, g, b), size=10, thickness=2)
 
     print(clock.fps())

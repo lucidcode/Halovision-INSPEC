@@ -24,6 +24,6 @@ while True:
     img = csi0.snapshot()
     img.lens_corr(1.8)  # strength of 1.8 is good for the 2.8mm lens.
     for code in img.find_qrcodes():
-        img.draw_rectangle(code.rect(), color=(255, 0, 0))
+        img.draw_rectangle(code.rect, color=(255, 0, 0))
         print(code)
     print(clock.fps())

@@ -8,4 +8,4 @@ def unittest(data_path, temp_path):
 
     # Verify edge detection produced output
     stats = img.difference(data_path + "/edges2.pgm").get_statistics()
-    return stats.max() == 0 and stats.min() == 0
+    return stats.max == 0 and stats.min == 0

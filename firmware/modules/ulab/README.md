@@ -36,7 +36,7 @@ detected and handled.
 ## ndarray methods
 
 `ulab` implements `numpy`'s `ndarray` with the `==`, `!=`, `<`, `<=`, `>`, `>=`, `+`, `-`, `/`, `*`, `**`,
-`+=`, `-=`, `*=`, `/=`, `**=` binary operators, and the `len`, `~`, `-`, `+`, `abs` unary operators that
+`%`, `+=`, `-=`, `*=`, `/=`, `**=`, `%=` binary operators, and the `len`, `~`, `-`, `+`, `abs` unary operators that
 operate element-wise. Type-aware `ndarray`s can be initialised from any `micropython` iterable, lists of
 iterables via the `array` constructor, or by means of the `arange`, `concatenate`, `diag`, `eye`,
 `frombuffer`, `full`, `linspace`, `logspace`, `ones`, or `zeros`  functions.
@@ -112,6 +112,7 @@ of the user manual.
 1. `MaixPy` https://github.com/sipeed/MaixPy
 1. `OpenMV` https://github.com/openmv/openmv
 1. `pimoroni-pico` https://github.com/pimoroni/pimoroni-pico
+1. `Tulip Creative Computer` https://github.com/shorepine/tulipcc 
 
 ## Compiling
 

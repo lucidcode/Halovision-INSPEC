@@ -59,6 +59,9 @@
 #if MICROPY_PY_NETWORK
 #include "extmod/modnetwork.h"
 #endif
+#if MICROPY_PY_MACHINE_CAN
+#include "extmod/machine_can.h"
+#endif
 #if MICROPY_PY_BLUETOOTH
 #include "mpbthciport.h"
 #include "extmod/modbluetooth.h"
@@ -90,13 +93,10 @@
 
 #include "sdram.h"
 #include "stm_xspi.h"
-#include "fb_alloc.h"
-#include "dma_alloc.h"
 #include "file_utils.h"
 
 #include "py_image.h"
 #include "py_fir.h"
-#include "py_tv.h"
 #include "py_imu.h"
 #include "py_audio.h"
 
@@ -137,9 +137,6 @@ void NORETURN __stack_chk_fail(void) {
 #endif
 
 int main(void) {
-    #if MICROPY_HW_SDRAM_SIZE
-    bool sdram_ok = false;
-    #endif
     bool first_soft_reset = true;
 
     // Initialize SysTick.
@@ -164,7 +161,9 @@ int main(void) {
     HAL_Init();
 
     #if MICROPY_HW_SDRAM_SIZE
-    sdram_ok = sdram_init();
+    if (!sdram_init()) {
+        __fatal_error("Failed to init sdram!");
+    }
     #endif
 
     #if MICROPY_HW_SDRAM_STARTUP_TEST
@@ -219,9 +218,7 @@ soft_reset:
     #if MICROPY_PY_FIR
     py_fir_init0();
     #endif // MICROPY_PY_FIR
-    #if MICROPY_PY_TV
-    py_tv_init0();
-    #endif
+    uma_init();
     imlib_init();
     readline_init0();
     pin_init0();
@@ -235,14 +232,10 @@ soft_reset:
     #endif
     spi_init0();
     uart_init0();
-    fb_alloc_init0();
     omv_gpio_init0();
     framebuffer_init0();
     #if MICROPY_PY_CSI
     omv_csi_init0();
-    #endif
-    #if OMV_DMA_ALLOC
-    dma_alloc_init0();
     #endif
     #if MICROPY_HW_ENABLE_SERVO
     servo_init();
@@ -277,6 +270,10 @@ soft_reset:
     cyw43_wifi_ap_set_password(&cyw43_state, 8, (const uint8_t *) "pybd0123");
     #endif
 
+    #if MICROPY_PY_NETWORK
+    mod_network_init();
+    #endif
+
     #if MICROPY_HW_STM_USB_STACK && MICROPY_HW_ENABLE_USB
     pyb_usb_init0();
     #endif
@@ -296,13 +293,6 @@ soft_reset:
     #if MICROPY_PY_IMU
     py_imu_init();
     #endif // MICROPY_PY_IMU
-
-    #if MICROPY_PY_NETWORK
-    mod_network_init();
-    #endif
-
-    // Initialize OpenMV protocol
-    omv_protocol_init_default();
 
     // Execute _boot.py to set up the filesystem.
     pyexec_frozen_module("_boot.py", false);
@@ -332,12 +322,8 @@ soft_reset:
     mp_usbd_init();
     #endif
 
-    // report if SDRAM failed
-    #if MICROPY_HW_SDRAM_SIZE
-    if (first_soft_reset && !sdram_ok) {
-        __fatal_error("Failed to init sdram!");
-    }
-    #endif
+    // Initialize OpenMV protocol
+    omv_protocol_init_default();
 
     // Run boot.py every reset and main.py on first soft-reset
     if (pyexec_file_if_exists("boot.py") && first_soft_reset) {
@@ -367,6 +353,7 @@ soft_reset:
     // soft reset
     mp_hal_set_interrupt_char(-1);
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
+    omv_protocol_deinit();
     #if MICROPY_PY_CSI
     omv_csi_abort_all();
     #endif
@@ -393,6 +380,18 @@ soft_reset:
     uart_deinit_all();
     #if MICROPY_HW_ENABLE_CAN
     pyb_can_deinit_all();
+    #if MICROPY_PY_MACHINE_CAN
+    machine_can_deinit_all();
+    #endif
+    #endif // MICROPY_HW_ENABLE_CAN
+    #if MICROPY_HW_ENABLE_DAC
+    dac_deinit_all();
+    #endif
+    #if MICROPY_PY_MACHINE_PWM
+    machine_pwm_deinit_all();
+    #endif
+    #if MICROPY_PY_MACHINE
+    machine_deinit();
     #endif
     #if MICROPY_PY_THREAD
     pyb_thread_deinit();

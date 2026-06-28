@@ -25,7 +25,7 @@ import time
 # "show more options" when you open the network stream in VLC. You can reduce this to like 10ms
 # to make the video real-time.
 
-csi0 = csi.CSI()
+csi0 = csi.CSI(stream=False)
 csi0.reset()
 csi0.pixformat(csi.RGB565)
 csi0.framesize(csi.VGA)
@@ -82,7 +82,7 @@ server.register_teardown_cb(teardown_callback)
 def image_callback(pathname, session):
     global csi0
     global clock
-    img = csi0.snapshot(update=False)
+    img = csi0.snapshot()
     # Markup image and/or do various things.
     print(clock.fps())
     clock.tick()

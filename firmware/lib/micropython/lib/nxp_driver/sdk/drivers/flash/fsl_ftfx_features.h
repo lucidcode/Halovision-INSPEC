@@ -49,15 +49,15 @@
 #define FTFx_DRIVER_IS_EXPORTED 0U /*!< Used for the MCUXpresso SDK application. */
 #endif
 #endif
-/*@}*/
+/*! @} */
 
 /*! @brief Indicates whether the secondary flash is supported in the Flash driver */
 #if defined(FSL_FEATURE_FLASH_HAS_MULTIPLE_FLASH) || defined(FSL_FEATURE_FLASH_PFLASH_1_START_ADDRESS)
 #define FTFx_DRIVER_HAS_FLASH1_SUPPORT (1U)
-#define FTFx_FLASH_COUNT (2U)
+#define FTFx_FLASH_COUNT               (2U)
 #else
 #define FTFx_DRIVER_HAS_FLASH1_SUPPORT (0U)
-#define FTFx_FLASH_COUNT (1U)
+#define FTFx_FLASH_COUNT               (1U)
 #endif
 
 /*!
@@ -77,7 +77,7 @@
 #else
 #define FTFx_FLASH1_HAS_XACC_CONTROL (0U)
 #endif
-/*@}*/
+/*! @} */
 
 #if FTFx_FLASH1_HAS_XACC_CONTROL || FTFx_FLASH1_HAS_PROT_CONTROL
 #define FTFx_FLASH1_IS_INDEPENDENT_BLOCK (1U)

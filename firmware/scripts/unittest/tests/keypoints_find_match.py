@@ -1,10 +1,9 @@
 def unittest(data_path, temp_path):
     import omv
+    import image
 
     if "MPS3" in omv.arch():
         return "skip"
-
-    import image
 
     # Load image and find keypoints
     img = image.Image(data_path + "/graffiti.pgm", copy_to_fb=True)
@@ -16,12 +15,12 @@ def unittest(data_path, temp_path):
     # Match keypoints
     match = image.match_descriptor(kpts1, kpts2, threshold=85)
     return (
-        match.cx() == 143
-        and match.cy() == 108
-        and match.x() == 36
-        and match.y() == 34
-        and match.w() == 251
-        and match.h() == 141
-        and match.count() == 50
-        and match.theta() == 0
+        match.cx == 143
+        and match.cy == 108
+        and match.x == 36
+        and match.y == 34
+        and match.w == 251
+        and match.h == 141
+        and match.count == 50
+        and match.theta == 0
     )

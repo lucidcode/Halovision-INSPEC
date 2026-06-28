@@ -5,6 +5,10 @@ if (NOT TARGET pico_standard_link)
         target_link_libraries(pico_standard_link INTERFACE boot_stage2_headers)
     endif()
 
+    # pico_add_link_depend(TARGET dependency)
+    # \brief\ Add a link time dependency to the target
+    #
+    # \param\ dependency The dependency to add
     function(pico_add_link_depend TARGET dependency)
         get_target_property(target_type ${TARGET} TYPE)
         if (${target_type} STREQUAL "INTERFACE_LIBRARY")
@@ -21,15 +25,60 @@ if (NOT TARGET pico_standard_link)
         set_target_properties(${TARGET} PROPERTIES ${PROP} "${_LINK_DEPENDS}")
     endfunction()
 
-    # need this because cmake does not appear to have a way to override an INTERFACE variable
+    # pico_check_linker_script(LDSCRIPT)
+    # \brief_nodesc\ Check the linker script for compatibility
+    #
+    # Checks the linker script for compatibility with the current SDK version,
+    # and if not, raises warnings and enables workarounds to maintain
+    # compatibility where possible.
+    #
+    # \param\ LDSCRIPT Full path to the linker script to check
+    function(pico_check_linker_script TARGET LDSCRIPT)
+        if (EXISTS ${LDSCRIPT})
+            file(READ ${LDSCRIPT} LDSCRIPT_CONTENTS)
+        else()
+            return()
+        endif()
+
+        # Check if the linker script uses KEEP to keep the .stack and .heap sections
+        # and if not, set PICO_CRT0_ALLOCATE_SPACERS to 0 to maintain compatibility
+        string(FIND "${LDSCRIPT_CONTENTS}" "KEEP(*(.stack*))" KEEP_STACK_FOUND)
+        string(FIND "${LDSCRIPT_CONTENTS}" "KEEP(*(.heap*))" KEEP_HEAP_FOUND)
+        string(FIND "${LDSCRIPT_CONTENTS}" "*(.stack*)" STACK_FOUND)
+        string(FIND "${LDSCRIPT_CONTENTS}" "*(.heap*)" HEAP_FOUND)
+        set(PICO_CRT0_ALLOCATE_SPACERS TRUE)
+        if ((${STACK_FOUND} GREATER -1) AND NOT (${KEEP_STACK_FOUND} GREATER -1))
+            message(WARNING "Linker script ${LDSCRIPT} does not KEEP the .stack section - replace `*(.stack*)` with `KEEP(*(.stack*))`")
+            set(PICO_CRT0_ALLOCATE_SPACERS FALSE)
+        endif()
+        if ((${HEAP_FOUND} GREATER -1) AND NOT (${KEEP_HEAP_FOUND} GREATER -1))
+            message(WARNING "Linker script ${LDSCRIPT} does not KEEP the .heap section - replace `*(.heap*)` with `KEEP(*(.heap*))`")
+            set(PICO_CRT0_ALLOCATE_SPACERS FALSE)
+        endif()
+        if (NOT ${PICO_CRT0_ALLOCATE_SPACERS})
+            message(WARNING "Linker script ${LDSCRIPT} is incompatible with certain Pico SDK >2.1.1 features; setting PICO_CRT0_ALLOCATE_SPACERS=0 as a workaround")
+            target_compile_definitions(${TARGET} PRIVATE PICO_CRT0_ALLOCATE_SPACERS=0)
+        endif()
+    endfunction()
+
+    # pico_set_linker_script(TARGET LDSCRIPT)
+    # \brief\ Set the linker script for the target
+    #
+    # \param\ LDSCRIPT Full path to the linker script to set
     function(pico_set_linker_script TARGET LDSCRIPT)
+        pico_check_linker_script(${TARGET} ${LDSCRIPT})
         set_target_properties(${TARGET} PROPERTIES PICO_TARGET_LINKER_SCRIPT ${LDSCRIPT})
     endfunction()
 
+    # pico_set_binary_type(TARGET TYPE)
+    # \brief\ Set the binary type for the target
+    #
+    # \param\ TYPE The binary type to set
     function(pico_set_binary_type TARGET TYPE)
         set_target_properties(${TARGET} PROPERTIES PICO_TARGET_BINARY_TYPE ${TYPE})
     endfunction()
 
+    # slightly messy as we support both the preferred PICO_DEFAULT_BINARY_TYPE and the individual variables
     if (NOT PICO_DEFAULT_BINARY_TYPE)
         if (PICO_NO_FLASH)
             set(PICO_DEFAULT_BINARY_TYPE no_flash)
@@ -40,6 +89,23 @@ if (NOT TARGET pico_standard_link)
         else()
             set(PICO_DEFAULT_BINARY_TYPE default)
         endif()
+    else()
+        # we must set the individual variables here, as they are used in generator expressions,
+        # but also for our checks below
+        if (PICO_DEFAULT_BINARY_TYPE STREQUAL no_flash)
+            set(PICO_NO_FLASH 1)
+        endif()
+        if (PICO_DEFAULT_BINARY_TYPE STREQUAL blocked_ram)
+            set(PICO_USE_BLOCKED_RAM 1)
+        endif()
+        if (PICO_DEFAULT_BINARY_TYPE STREQUAL copy_to_ram)
+            set(PICO_COPY_TO_RAM 1)
+        endif()
+    endif()
+    if ((PICO_NO_FLASH AND PICO_USE_BLOCKED_RAM) OR
+        (PICO_USE_BLOCKED_RAM AND PICO_COPY_TO_RAM) OR
+        (PICO_COPY_TO_RAM AND PICO_NO_FLASH))
+        message(FATAL_ERROR "Conflicting binary types specified amongst PICO_DEFAULT_BINARY_TYPE, PICO_NO_FLASH, PICO_USE_BLOCKED_RAM and PICO_COPY_TO_RAM")
     endif()
 
     # todo only needed if not using a custom linker script

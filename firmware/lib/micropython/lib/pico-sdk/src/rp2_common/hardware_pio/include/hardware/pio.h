@@ -680,7 +680,7 @@ static inline void sm_config_set_out_shift(pio_sm_config *c, bool shift_right, b
  *  \ingroup sm_config
  *
  * \param c Pointer to the configuration structure to modify
- * \param join Specifies the join type. \see enum pio_fifo_join
+ * \param join Specifies the join type. See \ref pio_fifo_join
  */
 static inline void sm_config_set_fifo_join(pio_sm_config *c, enum pio_fifo_join join) {
     valid_params_if(HARDWARE_PIO, join == PIO_FIFO_JOIN_NONE || join == PIO_FIFO_JOIN_TX || join == PIO_FIFO_JOIN_RX
@@ -720,7 +720,7 @@ static inline void sm_config_set_out_special(pio_sm_config *c, bool sticky, bool
  *  \ingroup sm_config
  *
  * \param c Pointer to the configuration structure to modify
- * \param status_sel the status operation selector. \see enum pio_mov_status_type
+ * \param status_sel the status operation selector. See \ref pio_mov_status_type
  * \param status_n parameter for the mov status operation (currently a bit count)
  */
 static inline void sm_config_set_mov_status(pio_sm_config *c, enum pio_mov_status_type status_sel, uint status_n) {
@@ -849,7 +849,7 @@ static inline uint pio_get_index(PIO pio) {
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
  * \return the PIO instance number (0, 1, ...)
- * \see gpio_function
+ * \see gpio_function_t
  */
 static inline uint pio_get_funcsel(PIO pio) {
     check_pio_param(pio);
@@ -872,9 +872,25 @@ static inline PIO pio_get_instance(uint instance) {
  *
  * PIO appears as an alternate function in the GPIO muxing, just like an SPI
  * or UART. This function configures that multiplexing to connect a given PIO
- * instance to a GPIO. Note that this is not necessary for a state machine to
- * be able to read the *input* value from a GPIO, but only for it to set the
- * output value or output enable.
+ * instance to a GPIO. It also configures the GPIO pad to pass signals in and
+ * out, by:
+ *
+ * * Clearing the pad output disable (OD) bit
+ * * Setting the pad input enable (IE) bit
+ * * (Non-RP2040) removing pad isolation
+ *
+ * This function achieves this low-level pad setup by calling gpio_set_function()
+ * internally.
+ *
+ * Note that, if your PIO program only needs the *input* from a given GPIO,
+ * it's not necessary to select the PIO GPIO function, because PIO input
+ * paths ignore the GPIO muxing. However, you must still configure the GPIO
+ * pad itself for input.
+ *
+ * Conversely, if using PIO for both input and output on a given pin, you must
+ * select the PIO GPIO function for the given PIO instance, as well as
+ * configuring the pad for input and output. Calling this function is
+ * sufficient for both the input-only and input/output case.
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
  * \param pin the GPIO pin whose function select to set
@@ -948,7 +964,7 @@ bool pio_can_add_program_at_offset(PIO pio, const pio_program_t *program, uint o
 /*! \brief Attempt to load the program
  *  \ingroup hardware_pio
  *
- * \see pio_can_add_program() if you need to check whether the program can be loaded
+ * See pio_can_add_program() if you need to check whether the program can be loaded
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
  * \param program the program definition
@@ -960,7 +976,7 @@ int pio_add_program(PIO pio, const pio_program_t *program);
 /*! \brief Attempt to load the program at the specified instruction memory offset
  *  \ingroup hardware_pio
  *
- * \see pio_can_add_program_at_offset() if you need to check whether the program can be loaded
+ * See pio_can_add_program_at_offset() if you need to check whether the program can be loaded
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
  * \param program the program definition
@@ -998,7 +1014,7 @@ void pio_clear_instruction_memory(PIO pio);
  *
  * The state machine is left disabled on return from this call.
  *
-* * \if rp2350_specific
+ * \if rp2350_specific
  * See \ref sm_config_pins "sm_config_ pins" for more detail on why this method might fail on RP2350B
  * \endif
  * 
@@ -1006,7 +1022,7 @@ void pio_clear_instruction_memory(PIO pio);
  * \param sm State machine index (0..3)
  * \param initial_pc the initial program memory offset to run from
  * \param config the configuration to apply (or NULL to apply defaults)
- * \return PICO_OK, or < 0 for an error (see \enum pico_error_codes)
+ * \return PICO_OK, or < 0 for an error (see \ref pico_error_codes)
  */
 int pio_sm_init(PIO pio, uint sm, uint initial_pc, const pio_sm_config *config);
 
@@ -1029,7 +1045,7 @@ static inline void pio_sm_set_enabled(PIO pio, uint sm, bool enabled) {
  * Note that this method just sets the enabled state of the state machine;
  * if now enabled they continue exactly from where they left off.
  *
- * \see pio_enable_sm_mask_in_sync() if you wish to enable multiple state machines
+ * See pio_enable_sm_mask_in_sync() if you wish to enable multiple state machines
  * and ensure their clock dividers are in sync.
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
@@ -1049,7 +1065,7 @@ static inline void pio_set_sm_mask_enabled(PIO pio, uint32_t mask, bool enabled)
  * Note that this method just sets the enabled state of the state machine;
  * if now enabled they continue exactly from where they left off.
  *
- * \see pio_enable_sm_mask_in_sync() if you wish to enable multiple state machines
+ * See pio_enable_sm_mask_in_sync() if you wish to enable multiple state machines
  * and ensure their clock dividers are in sync.
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
@@ -1419,7 +1435,7 @@ static inline uint8_t pio_sm_get_pc(PIO pio, uint sm) {
  *
  * This instruction is executed instead of the next instruction in the normal control flow on the state machine.
  * Subsequent calls to this method replace the previous executed
- * instruction if it is still running. \see pio_sm_is_exec_stalled() to see if an executed instruction
+ * instruction if it is still running. See pio_sm_is_exec_stalled() to see if an executed instruction
  * is still running (i.e. it is stalled on some condition)
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
@@ -1450,7 +1466,7 @@ static inline bool pio_sm_is_exec_stalled(PIO pio, uint sm) {
  *
  * This instruction is executed instead of the next instruction in the normal control flow on the state machine.
  * Subsequent calls to this method replace the previous executed
- * instruction if it is still running. \see pio_sm_is_exec_stalled() to see if an executed instruction
+ * instruction if it is still running. See pio_sm_is_exec_stalled() to see if an executed instruction
  * is still running (i.e. it is stalled on some condition)
  *
  * \param pio The PIO instance; e.g. \ref pio0 or \ref pio1
@@ -1982,7 +1998,7 @@ bool pio_sm_is_claimed(PIO pio, uint sm);
  * \param sm Returns the index of the PIO state machine that was claimed
  * \param offset Returns the instruction memory offset of the start of the program
  * \return true on success, false otherwise
- * \see pio_remove_program_unclaim_sm
+ * \see pio_remove_program_and_unclaim_sm
  */
 bool pio_claim_free_sm_and_add_program(const pio_program_t *program, PIO *pio, uint *sm, uint *offset);
 
@@ -1994,7 +2010,7 @@ bool pio_claim_free_sm_and_add_program(const pio_program_t *program, PIO *pio, u
  * PIO instance can interact with both pins 0->15 or 32->47 at the same time.
  *
  * This method takes additional information about the GPIO pins needed (via gpio_base and gpio_count),
- * and optionally will set the GPIO base (\see pio_set_gpio_base) of an unused PIO instance if necessary
+ * and optionally will set the GPIO base (see \ref pio_set_gpio_base) of an unused PIO instance if necessary
  *
  * \param program PIO program to add
  * \param pio Returns the PIO hardware instance or NULL if no PIO is available
@@ -2006,7 +2022,7 @@ bool pio_claim_free_sm_and_add_program(const pio_program_t *program, PIO *pio, u
  *                      instance, then that PIO will be reconfigured so that this method can succeed
  *
  * \return true on success, false otherwise
- * \see pio_remove_program_unclaim_sm
+ * \see pio_remove_program_and_unclaim_sm
  */
 bool pio_claim_free_sm_and_add_program_for_gpio_range(const pio_program_t *program, PIO *pio, uint *sm, uint *offset, uint gpio_base, uint gpio_count, bool set_gpio_base);
 

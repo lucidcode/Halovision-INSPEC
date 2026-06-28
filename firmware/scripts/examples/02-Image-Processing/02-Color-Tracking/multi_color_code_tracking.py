@@ -43,20 +43,12 @@ while True:
     for blob in img.find_blobs(
         thresholds, pixels_threshold=100, area_threshold=100, merge=True
     ):
-        if blob.code() == 3:  # r/g code
-            img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
-            img.draw_string(blob.x() + 2, blob.y() + 2, "r/g")
-        if blob.code() == 5:  # r/b code
-            img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
-            img.draw_string(blob.x() + 2, blob.y() + 2, "r/b")
-        if blob.code() == 6:  # g/b code
-            img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
-            img.draw_string(blob.x() + 2, blob.y() + 2, "g/b")
-        if blob.code() == 7:  # r/g/b code
-            img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
-            img.draw_string(blob.x() + 2, blob.y() + 2, "r/g/b")
+        if blob.code == 3:  # r/g code
+            img.draw_detection(blob, label="r/g", label_offset=(2, 2))
+        if blob.code == 5:  # r/b code
+            img.draw_detection(blob, label="r/b", label_offset=(2, 2))
+        if blob.code == 6:  # g/b code
+            img.draw_detection(blob, label="g/b", label_offset=(2, 2))
+        if blob.code == 7:  # r/g/b code
+            img.draw_detection(blob, label="r/g/b", label_offset=(2, 2))
     print(clock.fps())

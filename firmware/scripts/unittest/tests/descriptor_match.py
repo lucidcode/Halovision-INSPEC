@@ -8,8 +8,8 @@ def unittest(data_path, temp_path):
     # Create same pattern in both
     for y in range(64):
         for x in range(64):
-            img1.set_pixel(x, y, 128)
-            img2.set_pixel(x, y, 128)
+            img1.set_pixel((x, y), 128)
+            img2.set_pixel((x, y), 128)
 
     # Add same features
     for i in range(15, 50, 15):
@@ -17,8 +17,8 @@ def unittest(data_path, temp_path):
             for dy in range(-2, 3):
                 for dx in range(-2, 3):
                     if 0 <= i+dx < 64 and 0 <= j+dy < 64:
-                        img1.set_pixel(i+dx, j+dy, 255)
-                        img2.set_pixel(i+dx, j+dy, 255)
+                        img1.set_pixel((i+dx, j+dy), 255)
+                        img2.set_pixel((i+dx, j+dy), 255)
 
     # Find keypoints in both images
     kpts1 = img1.find_keypoints(threshold=10, normalized=True, max_keypoints=20)

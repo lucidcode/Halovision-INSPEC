@@ -7,12 +7,12 @@ def unittest(data_path, temp_path):
     # Fill with black
     for y in range(50):
         for x in range(50):
-            img.set_pixel(x, y, 0)
+            img.set_pixel((x, y), 0)
 
     # Create white square in center (20x20)
     for y in range(15, 35):
         for x in range(15, 35):
-            img.set_pixel(x, y, 255)
+            img.set_pixel((x, y), 255)
 
     # Test erode - should shrink white region
     img_erode = img.copy()
@@ -22,7 +22,7 @@ def unittest(data_path, temp_path):
     stats_erode = img_erode.get_statistics()
 
     # After erosion, should have less white (lower mean)
-    if stats_erode.mean() >= stats_orig.mean():
+    if stats_erode.mean >= stats_orig.mean:
         return False
 
     # Test dilate - should expand white region
@@ -32,7 +32,7 @@ def unittest(data_path, temp_path):
     stats_dilate = img_dilate.get_statistics()
 
     # After dilation, should have more white (higher mean)
-    if stats_dilate.mean() <= stats_orig.mean():
+    if stats_dilate.mean <= stats_orig.mean:
         return False
 
     # Test open and close complete successfully

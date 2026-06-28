@@ -8,7 +8,7 @@ def unittest(data_path, temp_path):
     for y in range(64):
         for x in range(64):
             color = ((x * 8) << 8) | ((y * 4) << 3) | ((x + y) >> 3)
-            img.set_pixel(x, y, color)
+            img.set_pixel((x, y), color)
 
     # Compress to JPEG with quality 50
     img = img.to_jpeg(quality=50)

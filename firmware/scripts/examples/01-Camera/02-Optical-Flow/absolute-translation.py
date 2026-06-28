@@ -48,15 +48,15 @@ while True:
     displacement = extra_fb.find_displacement(img)
 
     # Offset results are noisy without filtering so we drop some accuracy.
-    sub_pixel_x = int(displacement.x_translation() * 5) / 5.0
-    sub_pixel_y = int(displacement.y_translation() * 5) / 5.0
+    sub_pixel_x = int(displacement.x_translation * 5) / 5.0
+    sub_pixel_y = int(displacement.y_translation * 5) / 5.0
 
     if (
-        displacement.response() > 0.1
+        displacement.response > 0.1
     ):  # Below 0.1 or so (YMMV) and the results are just noise.
         print(
             "{0:+f}x {1:+f}y {2} {3} FPS".format(
-                sub_pixel_x, sub_pixel_y, displacement.response(), clock.fps()
+                sub_pixel_x, sub_pixel_y, displacement.response, clock.fps()
             )
         )
     else:

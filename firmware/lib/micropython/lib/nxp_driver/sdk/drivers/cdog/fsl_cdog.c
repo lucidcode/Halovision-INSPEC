@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 NXP
+ * Copyright 2020-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -16,6 +16,22 @@
 #define FSL_COMPONENT_ID "platform.drivers.cdog"
 #endif
 
+/* Reset CONTROL mask */
+#define RESERVED_CTRL_MASK 0x800u
+
+#if defined(CDOG_IRQS)
+/* Array of IRQs */
+static const IRQn_Type s_CdogIrqs[] = CDOG_IRQS;
+#endif /* CDOG_IRQS */
+
+#ifdef CDOG_CLOCKS
+static const clock_ip_name_t s_CdogClocks[] = CDOG_CLOCKS;
+#endif /* CDOG_CLOCKS */
+
+#ifdef CDOG_BASE_PTRS
+static const CDOG_Type* s_cdogBases[] = CDOG_BASE_PTRS;
+#endif /* CDOG_BASE_PTRS */
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -23,6 +39,24 @@
 /*******************************************************************************
  * Code
  ******************************************************************************/
+
+static uint32_t CDOG_GetInstance(CDOG_Type *base)
+{
+    uint32_t instance;
+ 
+    /* Find the instance index from base address mappings. */
+    for (instance = 0; instance < ARRAY_SIZE(s_cdogBases); instance++)
+    {
+        if (s_cdogBases[instance] == base)
+        {
+            break;
+        }
+    }
+ 
+    assert(instance < ARRAY_SIZE(s_cdogBases));
+ 
+    return instance;
+} 
 
 /*!
  * brief Sets the default configuration of CDOG
@@ -38,7 +72,6 @@ void CDOG_GetDefaultConfig(cdog_config_t *conf)
     conf->timeout    = (uint8_t)kCDOG_FaultCtrl_NoAction; /* Timeout control */
     conf->miscompare = (uint8_t)kCDOG_FaultCtrl_NoAction; /* Miscompare control */
     conf->sequence   = (uint8_t)kCDOG_FaultCtrl_NoAction; /* Sequence control */
-    conf->control    = (uint8_t)kCDOG_FaultCtrl_NoAction; /* Control */
     conf->state      = (uint8_t)kCDOG_FaultCtrl_NoAction; /* State control */
     conf->address    = (uint8_t)kCDOG_FaultCtrl_NoAction; /* Address control */
     conf->irq_pause  = (uint8_t)kCDOG_IrqPauseCtrl_Run;   /* IRQ pause control */
@@ -205,7 +238,13 @@ void CDOG_Sub256(CDOG_Type *base)
  */
 void CDOG_Check(CDOG_Type *base, uint32_t check)
 {
+#if defined(FLS_FEATURE_CDOG_USE_RESTART)
     base->RESTART = check;
+#else
+    base->STOP = check;
+    base->RELOAD = base->RELOAD;
+    base->START= check;
+#endif
 }
 
 /*!
@@ -233,7 +272,7 @@ uint32_t CDOG_ReadPersistent(CDOG_Type *base)
 /*!
  * brief Initialize CDOG
  *
- * This function initializes CDOG block and setting.
+ * This function initializes CDOG setting and enable all interrupts.
  *
  * param base CDOG peripheral base address
  * param conf CDOG configuration structure
@@ -243,7 +282,9 @@ status_t CDOG_Init(CDOG_Type *base, cdog_config_t *conf)
 {
     /* Ungate clock to CDOG engine and reset it */
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-    CLOCK_EnableClock(kCLOCK_Cdog);
+#ifdef CDOG_CLOCKS
+    CLOCK_EnableClock(s_CdogClocks[CDOG_GetInstance(base)]);
+#endif /* CDOG_CLOCKS */
 #endif /* !FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
 #if !(defined(FSL_FEATURE_CDOG_HAS_NO_RESET) && FSL_FEATURE_CDOG_HAS_NO_RESET)
@@ -263,13 +304,32 @@ status_t CDOG_Init(CDOG_Type *base, cdog_config_t *conf)
         ((base->CONTROL & CDOG_CONTROL_LOCK_CTRL_MASK) >> CDOG_CONTROL_LOCK_CTRL_SHIFT))
 
     {
-        CDOG->FLAGS = CDOG_FLAGS_TO_FLAG(1U) | CDOG_FLAGS_MISCOM_FLAG(1U) | CDOG_FLAGS_SEQ_FLAG(1U) |
+        base->FLAGS = CDOG_FLAGS_TO_FLAG(1U) | CDOG_FLAGS_MISCOM_FLAG(1U) | CDOG_FLAGS_SEQ_FLAG(1U) |
                       CDOG_FLAGS_CNT_FLAG(1U) | CDOG_FLAGS_STATE_FLAG(1U) | CDOG_FLAGS_ADDR_FLAG(1U) |
                       CDOG_FLAGS_POR_FLAG(1U);
     }
     else
     {
-        CDOG->FLAGS = CDOG_FLAGS_TO_FLAG(0U) | CDOG_FLAGS_MISCOM_FLAG(0U) | CDOG_FLAGS_SEQ_FLAG(0U) |
+/* load default values for CDOG->CONTROL before flags clear */
+#if defined(FSL_FEATURE_CDOG_NEED_LOAD_DEFAULT_CONF) && (FSL_FEATURE_CDOG_NEED_LOAD_DEFAULT_CONF > 0)
+        cdog_config_t default_conf;
+
+        /* Initialize CDOG */
+        CDOG_GetDefaultConfig(&default_conf);
+
+        /* Write default value to CDOG->CONTROL*/
+        base->CONTROL = 
+            CDOG_CONTROL_TIMEOUT_CTRL(default_conf.timeout) |       /* Action if the timeout event is triggered  */
+            CDOG_CONTROL_MISCOMPARE_CTRL(default_conf.miscompare) | /* Action if the miscompare error event is triggered  */
+            CDOG_CONTROL_SEQUENCE_CTRL(default_conf.sequence) |     /* Action if the sequence error event is triggered  */
+            CDOG_CONTROL_STATE_CTRL(default_conf.state) |           /* Action if the state error event is triggered  */
+            CDOG_CONTROL_ADDRESS_CTRL(default_conf.address) |       /* Action if the address error event is triggered */
+            CDOG_CONTROL_IRQ_PAUSE(default_conf.irq_pause) |        /* Pause running during interrupts setup */
+            CDOG_CONTROL_DEBUG_HALT_CTRL(default_conf.debug_halt) | /* Halt CDOG timer during debug */
+            CDOG_CONTROL_LOCK_CTRL(default_conf.lock) | RESERVED_CTRL_MASK; /* Lock control register, RESERVED */
+#endif /* FSL_FEATURE_CDOG_NEED_LOAD_DEFAULT_CONF */
+
+        base->FLAGS = CDOG_FLAGS_TO_FLAG(0U) | CDOG_FLAGS_MISCOM_FLAG(0U) | CDOG_FLAGS_SEQ_FLAG(0U) |
                       CDOG_FLAGS_CNT_FLAG(0U) | CDOG_FLAGS_STATE_FLAG(0U) | CDOG_FLAGS_ADDR_FLAG(0U) |
                       CDOG_FLAGS_POR_FLAG(0U);
     }
@@ -278,15 +338,16 @@ status_t CDOG_Init(CDOG_Type *base, cdog_config_t *conf)
         CDOG_CONTROL_TIMEOUT_CTRL(conf->timeout) |       /* Action if the timeout event is triggered  */
         CDOG_CONTROL_MISCOMPARE_CTRL(conf->miscompare) | /* Action if the miscompare error event is triggered  */
         CDOG_CONTROL_SEQUENCE_CTRL(conf->sequence) |     /* Action if the sequence error event is triggered  */
-        CDOG_CONTROL_CONTROL_CTRL(conf->control) |       /* Action if the control error event is triggered  */
         CDOG_CONTROL_STATE_CTRL(conf->state) |           /* Action if the state error event is triggered  */
         CDOG_CONTROL_ADDRESS_CTRL(conf->address) |       /* Action if the address error event is triggered */
         CDOG_CONTROL_IRQ_PAUSE(conf->irq_pause) |        /* Pause running during interrupts setup */
-        CDOG_CONTROL_DEBUG_HALT_CTRL(
-            conf->debug_halt) |             /* Halt CDOG timer during debug so we have chance to debug code */
-        CDOG_CONTROL_LOCK_CTRL(conf->lock); /* Lock control register */
+        CDOG_CONTROL_DEBUG_HALT_CTRL(conf->debug_halt) | /* Halt CDOG timer during debug */
+        CDOG_CONTROL_LOCK_CTRL(conf->lock) | RESERVED_CTRL_MASK; /* Lock control register, RESERVED */
 
-    NVIC_EnableIRQ(CDOG_IRQn);
+#if defined(CDOG_IRQS)
+    /* Enable peripheral IRQ */
+    NVIC_EnableIRQ(s_CdogIrqs[CDOG_GetInstance(base)]);
+#endif /* CDOG_IRQS */
 
     return kStatus_Success;
 }
@@ -300,13 +361,18 @@ status_t CDOG_Init(CDOG_Type *base, cdog_config_t *conf)
  */
 void CDOG_Deinit(CDOG_Type *base)
 {
-    NVIC_DisableIRQ(CDOG_IRQn);
+#if defined(CDOG_IRQS)
+    /* Disable peripheral IRQ */
+    NVIC_DisableIRQ(s_CdogIrqs[CDOG_GetInstance(base)]);
+#endif /* CDOG_IRQS */
 
 #if !(defined(FSL_FEATURE_CDOG_HAS_NO_RESET) && FSL_FEATURE_CDOG_HAS_NO_RESET)
     RESET_SetPeripheralReset(kCDOG_RST_SHIFT_RSTn);
 #endif /* !FSL_FEATURE_CDOG_HAS_NO_RESET */
 
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-    CLOCK_DisableClock(kCLOCK_Cdog);
+#ifdef CDOG_CLOCKS
+    CLOCK_DisableClock(s_CdogClocks[CDOG_GetInstance(base)]);
+#endif /* CDOG_CLOCKS */
 #endif /* !FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 }

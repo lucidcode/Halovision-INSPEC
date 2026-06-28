@@ -49,8 +49,8 @@ while True:
     )
 
     if len(blobs):
-        most_dense_blob = max(blobs, key=lambda x: x.density())
-        img.draw_rectangle(most_dense_blob.rect())
+        most_dense_blob = max(blobs, key=lambda x: x.density)
+        img.draw_rectangle(most_dense_blob.rect)
 
         def get_mapped_centroid(b):
             # By default the readout window is set the whole sensor pixel array with x/y==0.
@@ -63,14 +63,14 @@ while True:
             ratio = min(w / float(csi0.width()), h / float(csi0.height()))
 
             # Reference cx() to the center of the viewport and then scale to the readout.
-            mapped_cx = (b.cx() - (csi0.width() / 2.0)) * ratio
+            mapped_cx = (b.cx - (csi0.width() / 2.0)) * ratio
             # Since we are keeping the aspect ratio there might be an offset in x.
             mapped_cx += (w - (csi0.width() * ratio)) / 2.0
             # Add in our displacement from the sensor center
             mapped_cx += x + (sensor_w / 2.0)
 
             # Reference cy() to the center of the viewport and then scale to the readout.
-            mapped_cy = (b.cy() - (csi0.height() / 2.0)) * ratio
+            mapped_cy = (b.cy - (csi0.height() / 2.0)) * ratio
             # Since we are keeping the aspect ratio there might be an offset in y.
             mapped_cy += (h - (csi0.height() * ratio)) / 2.0
             # Add in our displacement from the sensor center
@@ -131,15 +131,15 @@ while True:
                 break
 
             # Narrow down the blob list and highlight the blob.
-            most_dense_blob = max(blobs, key=lambda x: x.density())
-            img.draw_rectangle(most_dense_blob.rect())
+            most_dense_blob = max(blobs, key=lambda x: x.density)
+            img.draw_rectangle(most_dense_blob.rect)
 
             print(
                 clock.fps(), "BLOB cx:%d, cy:%d" % get_mapped_centroid(most_dense_blob)
             )
 
-            x_diff = most_dense_blob.cx() - (csi0.width() / 2.0)
-            y_diff = most_dense_blob.cy() - (csi0.height() / 2.0)
+            x_diff = most_dense_blob.cx - (csi0.width() / 2.0)
+            y_diff = most_dense_blob.cy - (csi0.height() / 2.0)
 
             w_threshold = (csi0.width() / 2.0) * TRACKING_EDGE_TOLERANCE
             h_threshold = (csi0.height() / 2.0) * TRACKING_EDGE_TOLERANCE

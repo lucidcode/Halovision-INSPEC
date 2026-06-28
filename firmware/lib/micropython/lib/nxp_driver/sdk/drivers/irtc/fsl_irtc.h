@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2019 NXP
+ * Copyright 2016-2019, 2022-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_IRTC_H_
-#define _FSL_IRTC_H_
+#ifndef FSL_IRTC_H_
+#define FSL_IRTC_H_
 
 #include "fsl_common.h"
 
@@ -20,10 +20,26 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-#define FSL_IRTC_DRIVER_VERSION (MAKE_VERSION(2, 1, 0)) /*!< Version. */
-/*@}*/
+/*! @{ */
+#define FSL_IRTC_DRIVER_VERSION (MAKE_VERSION(2, 3, 1))
+/*! @} */
 
+#if !(defined(FSL_FEATURE_RTC_IS_SLAVE) && (FSL_FEATURE_RTC_IS_SLAVE != 0U))
+#define IRTC_STATUS_W1C_BITS ((uint16_t)(RTC_STATUS_BUS_ERR_MASK) | (uint16_t)(RTC_STATUS_CMP_DONE_MASK))
+#else
+#define IRTC_STATUS_W1C_BITS ((uint16_t)(RTC_STATUS_BUS_ERR_MASK))
+#endif
+
+#if defined(FSL_FEATURE_RTC_HAS_CLOCK_SELECT) && FSL_FEATURE_RTC_HAS_CLOCK_SELECT
+/*! @brief IRTC clock select. */
+typedef enum _irtc_clock_select
+{
+    kIRTC_Clk16K = 0x0U, /*!< 16.384 kHz clock is selected.*/
+    kIRTC_Clk32K = 0x1U, /*!< 32.768 kHz clock is selected.*/
+} irtc_clock_select_t;
+#endif
+
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
 /*! @brief IRTC filter clock source options. */
 typedef enum _irtc_filter_clock_source
 {
@@ -45,25 +61,28 @@ typedef enum _irtc_tamper_pins
     kIRTC_Tamper_2,      /*!< External Tamper 2 */
     kIRTC_Tamper_3       /*!< Internal tamper, does not have filter configuration */
 } irtc_tamper_pins_t;
+#endif
 
 /*! @brief List of IRTC interrupts */
 typedef enum _irtc_interrupt_enable
 {
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
     kIRTC_TamperInterruptEnable = RTC_IER_TAMPER_IE_MASK, /*!< Tamper Interrupt Enable */
-    kIRTC_AlarmInterruptEnable  = RTC_IER_ALM_IE_MASK,    /*!< Alarm Interrupt Enable */
-    kIRTC_DayInterruptEnable    = RTC_IER_DAY_IE_MASK,    /*!< Days Interrupt Enable */
-    kIRTC_HourInterruptEnable   = RTC_IER_HOUR_IE_MASK,   /*!< Hours Interrupt Enable */
-    kIRTC_MinInterruptEnable    = RTC_IER_MIN_IE_MASK,    /*!< Minutes Interrupt Enable */
-    kIRTC_1hzInterruptEnable    = RTC_IER_IE_1HZ_MASK,    /*!< 1 Hz interval Interrupt Enable */
-    kIRTC_2hzInterruptEnable    = RTC_IER_IE_2HZ_MASK,    /*!< 2 Hz interval Interrupt Enable */
-    kIRTC_4hzInterruptEnable    = RTC_IER_IE_4HZ_MASK,    /*!< 4 Hz interval Interrupt Enable */
-    kIRTC_8hzInterruptEnable    = RTC_IER_IE_8HZ_MASK,    /*!< 8 Hz interval Interrupt Enable */
-    kIRTC_16hzInterruptEnable   = RTC_IER_IE_16HZ_MASK,   /*!< 16 Hz interval Interrupt Enable */
-    kIRTC_32hzInterruptEnable   = RTC_IER_IE_32HZ_MASK,   /*!< 32 Hz interval Interrupt Enable */
-    kIRTC_64hzInterruptEnable   = RTC_IER_IE_64HZ_MASK,   /*!< 64 Hz interval Interrupt Enable */
-    kIRTC_128hzInterruptEnable  = RTC_IER_IE_128HZ_MASK,  /*!< 128 Hz interval Interrupt Enable */
-    kIRTC_256hzInterruptEnable  = RTC_IER_IE_256HZ_MASK,  /*!< 256 Hz interval Interrupt Enable */
-    kIRTC_512hzInterruptEnable  = RTC_IER_IE_512HZ_MASK,  /*!< 512 Hz interval Interrupt Enable */
+#endif
+    kIRTC_AlarmInterruptEnable = RTC_IER_ALM_IE_MASK,   /*!< Alarm Interrupt Enable */
+    kIRTC_DayInterruptEnable   = RTC_IER_DAY_IE_MASK,   /*!< Days Interrupt Enable */
+    kIRTC_HourInterruptEnable  = RTC_IER_HOUR_IE_MASK,  /*!< Hours Interrupt Enable */
+    kIRTC_MinInterruptEnable   = RTC_IER_MIN_IE_MASK,   /*!< Minutes Interrupt Enable */
+    kIRTC_1hzInterruptEnable   = RTC_IER_IE_1HZ_MASK,   /*!< 1 Hz interval Interrupt Enable */
+    kIRTC_2hzInterruptEnable   = RTC_IER_IE_2HZ_MASK,   /*!< 2 Hz interval Interrupt Enable */
+    kIRTC_4hzInterruptEnable   = RTC_IER_IE_4HZ_MASK,   /*!< 4 Hz interval Interrupt Enable */
+    kIRTC_8hzInterruptEnable   = RTC_IER_IE_8HZ_MASK,   /*!< 8 Hz interval Interrupt Enable */
+    kIRTC_16hzInterruptEnable  = RTC_IER_IE_16HZ_MASK,  /*!< 16 Hz interval Interrupt Enable */
+    kIRTC_32hzInterruptEnable  = RTC_IER_IE_32HZ_MASK,  /*!< 32 Hz interval Interrupt Enable */
+    kIRTC_64hzInterruptEnable  = RTC_IER_IE_64HZ_MASK,  /*!< 64 Hz interval Interrupt Enable */
+    kIRTC_128hzInterruptEnable = RTC_IER_IE_128HZ_MASK, /*!< 128 Hz interval Interrupt Enable */
+    kIRTC_256hzInterruptEnable = RTC_IER_IE_256HZ_MASK, /*!< 256 Hz interval Interrupt Enable */
+    kIRTC_512hzInterruptEnable = RTC_IER_IE_512HZ_MASK, /*!< 512 Hz interval Interrupt Enable */
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
     kIRTC_WakeTimerInterruptEnable = (RTC_WAKE_TIMER_CTRL_INTR_EN_MASK << 16U), /*!< Wake timer Interrupt Enable */
 #endif
@@ -76,28 +95,36 @@ typedef enum _irtc_interrupt_enable
 /*! @brief List of IRTC flags */
 typedef enum _irtc_status_flags
 {
-    kIRTC_TamperFlag     = RTC_ISR_TAMPER_IS_MASK,                 /*!< Tamper Status flag*/
-    kIRTC_AlarmFlag      = RTC_ISR_ALM_IS_MASK,                    /*!< Alarm Status flag */
-    kIRTC_DayFlag        = RTC_ISR_DAY_IS_MASK,                    /*!< Days Status flag */
-    kIRTC_HourFlag       = RTC_ISR_HOUR_IS_MASK,                   /*!< Hour Status flag */
-    kIRTC_MinFlag        = RTC_ISR_MIN_IS_MASK,                    /*!< Minutes Status flag */
-    kIRTC_1hzFlag        = RTC_ISR_IS_1HZ_MASK,                    /*!< 1 Hz interval status flag */
-    kIRTC_2hzFlag        = RTC_ISR_IS_2HZ_MASK,                    /*!< 2 Hz interval status flag*/
-    kIRTC_4hzFlag        = RTC_ISR_IS_4HZ_MASK,                    /*!< 4 Hz interval status flag*/
-    kIRTC_8hzFlag        = RTC_ISR_IS_8HZ_MASK,                    /*!< 8 Hz interval status flag*/
-    kIRTC_16hzFlag       = RTC_ISR_IS_16HZ_MASK,                   /*!< 16 Hz interval status flag*/
-    kIRTC_32hzFlag       = RTC_ISR_IS_32HZ_MASK,                   /*!< 32 Hz interval status flag*/
-    kIRTC_64hzFlag       = RTC_ISR_IS_64HZ_MASK,                   /*!< 64 Hz interval status flag*/
-    kIRTC_128hzFlag      = RTC_ISR_IS_128HZ_MASK,                  /*!< 128 Hz interval status flag*/
-    kIRTC_256hzFlag      = RTC_ISR_IS_256HZ_MASK,                  /*!< 256 Hz interval status flag*/
-    kIRTC_512hzFlag      = RTC_ISR_IS_512HZ_MASK,                  /*!< 512 Hz interval status flag*/
-    kIRTC_InvalidFlag    = (RTC_STATUS_INVAL_BIT_MASK << 16U),     /*!< Indicates if time/date counters are invalid */
-    kIRTC_WriteProtFlag  = (RTC_STATUS_WRITE_PROT_EN_MASK << 16U), /*!< Write protect enable status flag */
-    kIRTC_CpuLowVoltFlag = (RTC_STATUS_CPU_LOW_VOLT_MASK << 16U),  /*!< CPU low voltage warning flag */
-    kIRTC_ResetSrcFlag   = (RTC_STATUS_RST_SRC_MASK << 16U),       /*!< Reset source flag */
-    kIRTC_CmpIntFlag     = (RTC_STATUS_CMP_INT_MASK << 16U),       /*!< Compensation interval status flag */
-    kIRTC_BusErrFlag     = (RTC_STATUS_BUS_ERR_MASK << 16U),       /*!< Bus error flag */
-    kIRTC_CmpDoneFlag    = (RTC_STATUS_CMP_DONE_MASK << 16U),      /*!< Compensation done flag */
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
+    kIRTC_TamperFlag = RTC_ISR_TAMPER_IS_MASK, /*!< Tamper Status flag*/
+#endif
+    kIRTC_AlarmFlag     = RTC_ISR_ALM_IS_MASK,                    /*!< Alarm Status flag */
+    kIRTC_DayFlag       = RTC_ISR_DAY_IS_MASK,                    /*!< Days Status flag */
+    kIRTC_HourFlag      = RTC_ISR_HOUR_IS_MASK,                   /*!< Hour Status flag */
+    kIRTC_MinFlag       = RTC_ISR_MIN_IS_MASK,                    /*!< Minutes Status flag */
+    kIRTC_1hzFlag       = RTC_ISR_IS_1HZ_MASK,                    /*!< 1 Hz interval status flag */
+    kIRTC_2hzFlag       = RTC_ISR_IS_2HZ_MASK,                    /*!< 2 Hz interval status flag*/
+    kIRTC_4hzFlag       = RTC_ISR_IS_4HZ_MASK,                    /*!< 4 Hz interval status flag*/
+    kIRTC_8hzFlag       = RTC_ISR_IS_8HZ_MASK,                    /*!< 8 Hz interval status flag*/
+    kIRTC_16hzFlag      = RTC_ISR_IS_16HZ_MASK,                   /*!< 16 Hz interval status flag*/
+    kIRTC_32hzFlag      = RTC_ISR_IS_32HZ_MASK,                   /*!< 32 Hz interval status flag*/
+    kIRTC_64hzFlag      = RTC_ISR_IS_64HZ_MASK,                   /*!< 64 Hz interval status flag*/
+    kIRTC_128hzFlag     = RTC_ISR_IS_128HZ_MASK,                  /*!< 128 Hz interval status flag*/
+    kIRTC_256hzFlag     = RTC_ISR_IS_256HZ_MASK,                  /*!< 256 Hz interval status flag*/
+    kIRTC_512hzFlag     = RTC_ISR_IS_512HZ_MASK,                  /*!< 512 Hz interval status flag*/
+    kIRTC_InvalidFlag   = (RTC_STATUS_INVAL_BIT_MASK << 16U),     /*!< Indicates if time/date counters are invalid */
+    kIRTC_WriteProtFlag = (RTC_STATUS_WRITE_PROT_EN_MASK << 16U), /*!< Write protect enable status flag */
+#if !defined(FSL_FEATURE_RTC_HAS_NO_CPU_LOW_VOLT_FLAG) || (!FSL_FEATURE_RTC_HAS_NO_CPU_LOW_VOLT_FLAG)
+    kIRTC_CpuLowVoltFlag = (RTC_STATUS_CPU_LOW_VOLT_MASK << 16U), /*!< CPU low voltage warning flag */
+#endif
+#if !defined(FSL_FEATURE_RTC_HAS_NO_RST_SRC_FLAG) || (!FSL_FEATURE_RTC_HAS_NO_RST_SRC_FLAG)
+    kIRTC_ResetSrcFlag = (RTC_STATUS_RST_SRC_MASK << 16U), /*!< Reset source flag */
+#endif
+#if !(defined(FSL_FEATURE_RTC_IS_SLAVE) && (FSL_FEATURE_RTC_IS_SLAVE != 0U))
+    kIRTC_CmpIntFlag  = (RTC_STATUS_CMP_INT_MASK << 16U),  /*!< Compensation interval status flag */
+    kIRTC_CmpDoneFlag = (RTC_STATUS_CMP_DONE_MASK << 16U), /*!< Compensation done flag */
+#endif
+    kIRTC_BusErrFlag  = (RTC_STATUS_BUS_ERR_MASK << 16U),  /*!< Bus error flag */
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
     kIRTC_WakeTimerFlag = (RTC_WAKE_TIMER_CTRL_WAKE_FLAG_MASK << 28U) /*!< Wake timer status flag */
 #endif
@@ -112,6 +139,7 @@ typedef enum _irtc_alarm_match
     kRTC_MatchSecMinHrDayMnthYr = 3U  /*!< Only match second, minute, hour, day, month and year */
 } irtc_alarm_match_t;
 
+#if !defined(FSL_FEATURE_RTC_HAS_NO_GP_DATA_REG) || (!FSL_FEATURE_RTC_HAS_NO_GP_DATA_REG)
 /*! @brief List of RTC Oscillator capacitor load settings */
 typedef enum _irtc_osc_cap_load
 {
@@ -120,6 +148,7 @@ typedef enum _irtc_osc_cap_load
     kIRTC_Capacitor8p  = (1U << 3U), /*!< 8pF capacitor load */
     kIRTC_Capacitor16p = (1U << 4U)  /*!< 16pF capacitor load */
 } irtc_osc_cap_load_t;
+#endif
 
 /*! @brief IRTC clockout select. */
 typedef enum _irtc_clockout_sel
@@ -153,6 +182,7 @@ typedef struct _irtc_daylight_time
     uint8_t endHour;    /*!< Range from 0 to 23 */
 } irtc_daylight_time_t;
 
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
 /*! @brief Structure is used to define the parameters to configure a RTC tamper event. */
 typedef struct _irtc_tamper_config
 {
@@ -166,6 +196,7 @@ typedef struct _irtc_tamper_config
     irtc_filter_clock_source_t filterClk; /*!< Clock source for the tamper filter */
     uint8_t filterDuration;               /*!< Tamper filter duration.*/
 } irtc_tamper_config_t;
+#endif
 
 /*!
  * @brief RTC config structure
@@ -178,11 +209,22 @@ typedef struct _irtc_tamper_config
  */
 typedef struct _irtc_config
 {
-    bool wakeupSelect;            /*!< true: Tamper pin 0 is used to wakeup the chip;
-                                       false: Tamper pin 0 is used as the tamper pin */
-    bool timerStdMask;            /*!< true: Sampling clocks gated in standby mode;
-                                       false: Sampling clocks not gated */
+#if !defined(FSL_FEATURE_RTC_HAS_NO_CTRL2_WAKEUP_MODE) || (!FSL_FEATURE_RTC_HAS_NO_CTRL2_WAKEUP_MODE)
+    bool wakeupSelect; /*!< true: Tamper pin 0 is used to wakeup the chip;
+                            false: Tamper pin 0 is used as the tamper pin */
+#endif
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TIMER_STB_MASK) || (!FSL_FEATURE_RTC_HAS_NO_TIMER_STB_MASK)
+    bool timerStdMask; /*!< true: Sampling clocks gated in standby mode;
+                            false: Sampling clocks not gated */
+#endif
     irtc_alarm_match_t alrmMatch; /*!< Pick one option from enumeration :: irtc_alarm_match_t */
+#if defined(FSL_FEATURE_RTC_HAS_CLOCK_SELECT) && FSL_FEATURE_RTC_HAS_CLOCK_SELECT
+    irtc_clock_select_t clockSelect; /*!< Pick one option from enumeration :: irtc_clock_select_t */
+#endif
+#if defined(FSL_FEATURE_RTC_HAS_CLOCK_OUTPUT_DISABLE) && FSL_FEATURE_RTC_HAS_CLOCK_OUTPUT_DISABLE
+    bool disableClockOutput; /*!< true: The selected clock is not output to other peripherals;
+                                  false: The selected clock is output to other peripherals */
+#endif
 } irtc_config_t;
 
 /*******************************************************************************
@@ -209,7 +251,9 @@ extern "C" {
  * @param base   IRTC peripheral base address
  * @param config Pointer to user's IRTC config structure.
  *
+ * @return kStatus_Success If the driver is initialized successfully.
  * @return kStatus_Fail if we cannot disable register write protection
+ * @return kStatus_InvalidArgument If the input parameters are wrong.
  */
 status_t IRTC_Init(RTC_Type *base, const irtc_config_t *config);
 
@@ -217,13 +261,10 @@ status_t IRTC_Init(RTC_Type *base, const irtc_config_t *config);
  * @brief Gate the IRTC clock
  *
  * @param base IRTC peripheral base address
+ * @return kStatus_Success If the driver is initialized successfully.
+ * @return kStatus_InvalidArgument If the input parameters are wrong.
  */
-static inline void IRTC_Deinit(RTC_Type *base)
-{
-#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-    CLOCK_DisableClock(kCLOCK_Rtc0);
-#endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-}
+status_t IRTC_Deinit(RTC_Type *base);
 
 /*!
  * @brief Fill in the IRTC config struct with the default settings
@@ -245,6 +286,7 @@ void IRTC_GetDefaultConfig(irtc_config_t *config);
  * @{
  */
 
+#if !(defined(FSL_FEATURE_RTC_IS_SLAVE) && (FSL_FEATURE_RTC_IS_SLAVE != 0U))
 /*!
  * @brief Sets the IRTC date and time according to the given time structure.
  *
@@ -257,6 +299,7 @@ void IRTC_GetDefaultConfig(irtc_config_t *config);
  *         kStatus_InvalidArgument: failure. An error occurs because the datetime format is incorrect.
  */
 status_t IRTC_SetDatetime(RTC_Type *base, const irtc_datetime_t *datetime);
+#endif /* FSL_FEATURE_RTC_IS_SLAVE  */
 
 /*!
  * @brief Gets the IRTC time and stores it in the given time structure.
@@ -305,16 +348,18 @@ static inline void IRTC_EnableInterrupts(RTC_Type *base, uint32_t mask)
 {
     base->IER |= (uint16_t)mask;
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
-    if (0U != (mask & kIRTC_WakeTimerInterruptEnable))
+    if (0U != (mask & (uint32_t)kIRTC_WakeTimerInterruptEnable))
     {
         base->WAKE_TIMER_CTRL |= RTC_WAKE_TIMER_CTRL_INTR_EN_MASK;
     }
 #endif
-#if defined(FSL_FEATURE_RTC_HAS_TAMPER_QUEUE) && FSL_FEATURE_RTC_HAS_TAMPER_QUEUE
-    if (0U != (mask & kIRTC_TamperQueueFullInterruptEnable))
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
+#if defined(FSL_FEATURE_RTC_HAS_TAMPER_QUEUE) && (FSL_FEATURE_RTC_HAS_TAMPER_QUEUE)
+    if (0U != (mask & (uint32_t)kIRTC_TamperQueueFullInterruptEnable))
     {
         base->TAMPER_QSCR |= RTC_TAMPER_QSCR_Q_FULL_INT_EN_MASK;
     }
+#endif
 #endif
 }
 
@@ -329,16 +374,18 @@ static inline void IRTC_DisableInterrupts(RTC_Type *base, uint32_t mask)
 {
     base->IER &= ~(uint16_t)mask;
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
-    if (0U != (mask & kIRTC_WakeTimerInterruptEnable))
+    if (0U != (mask & (uint32_t)kIRTC_WakeTimerInterruptEnable))
     {
-        base->WAKE_TIMER_CTRL &= ~RTC_WAKE_TIMER_CTRL_INTR_EN_MASK;
+        base->WAKE_TIMER_CTRL &= ~(uint16_t)RTC_WAKE_TIMER_CTRL_INTR_EN_MASK;
     }
 #endif
-#if defined(FSL_FEATURE_RTC_HAS_TAMPER_QUEUE) && FSL_FEATURE_RTC_HAS_TAMPER_QUEUE
-    if (0U != (mask & kIRTC_TamperQueueFullInterruptEnable))
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
+#if defined(FSL_FEATURE_RTC_HAS_TAMPER_QUEUE) && (FSL_FEATURE_RTC_HAS_TAMPER_QUEUE)
+    if (0U != (mask & (uint32_t)kIRTC_TamperQueueFullInterruptEnable))
     {
-        base->TAMPER_QSCR &= ~RTC_TAMPER_QSCR_Q_FULL_INT_EN_MASK;
+        base->TAMPER_QSCR &= ~(uint16_t)RTC_TAMPER_QSCR_Q_FULL_INT_EN_MASK;
     }
+#endif
 #endif
 }
 
@@ -354,10 +401,12 @@ static inline uint32_t IRTC_GetEnabledInterrupts(RTC_Type *base)
 {
     uint32_t intsEnabled = base->IER;
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
-    intsEnabled |= (base->WAKE_TIMER_CTRL & RTC_WAKE_TIMER_CTRL_INTR_EN_MASK) << 16U;
+    intsEnabled |= (base->WAKE_TIMER_CTRL & (uint32_t)RTC_WAKE_TIMER_CTRL_INTR_EN_MASK) << 16U;
 #endif
-#if defined(FSL_FEATURE_RTC_HAS_TAMPER_QUEUE) && FSL_FEATURE_RTC_HAS_TAMPER_QUEUE
-    intsEnabled |= (base->TAMPER_QSCR & RTC_TAMPER_QSCR_Q_FULL_INT_EN_MASK) << 24U;
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
+#if defined(FSL_FEATURE_RTC_HAS_TAMPER_QUEUE) && (FSL_FEATURE_RTC_HAS_TAMPER_QUEUE)
+    intsEnabled |= (base->TAMPER_QSCR & (uint32_t)RTC_TAMPER_QSCR_Q_FULL_INT_EN_MASK) << 24U;
+#endif
 #endif
 
     return intsEnabled;
@@ -397,10 +446,17 @@ static inline uint32_t IRTC_GetStatusFlags(RTC_Type *base)
 static inline void IRTC_ClearStatusFlags(RTC_Type *base, uint32_t mask)
 {
     base->ISR    = (uint16_t)mask;
-    base->STATUS = (base->STATUS & ~((uint16_t)RTC_STATUS_BUS_ERR_MASK | (uint16_t)RTC_STATUS_CMP_DONE_MASK)) |
+    base->STATUS = (base->STATUS & ~IRTC_STATUS_W1C_BITS) |
                    ((uint16_t)(mask >> 16U));
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
+    /* TAMPER flag need clear TAMPER_SCR[TMPR_STS] filed */
+    if (0U != (mask & (uint32_t)kIRTC_TamperFlag))
+    {
+        base->TAMPER_SCR |= RTC_TAMPER_SCR_TMPR_STS_MASK;
+    }
+#endif
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
-    if (0U != (mask & kIRTC_WakeTimerFlag))
+    if (0U != (mask & (uint32_t)kIRTC_WakeTimerFlag))
     {
         base->WAKE_TIMER_CTRL |= RTC_WAKE_TIMER_CTRL_WAKE_FLAG_MASK;
     }
@@ -408,6 +464,8 @@ static inline void IRTC_ClearStatusFlags(RTC_Type *base, uint32_t mask)
 }
 
 /*! @}*/
+
+#if !defined(FSL_FEATURE_RTC_HAS_NO_GP_DATA_REG) || (!FSL_FEATURE_RTC_HAS_NO_GP_DATA_REG)
 
 /*!
  * @brief This function sets the specified capacitor configuration for the RTC oscillator.
@@ -426,6 +484,8 @@ static inline void IRTC_SetOscCapLoad(RTC_Type *base, uint16_t capLoad)
 
     base->GP_DATA_REG = reg;
 }
+
+#endif
 
 /*!
  * @brief Locks or unlocks IRTC registers for write access.
@@ -457,6 +517,8 @@ static inline void IRTC_Reset(RTC_Type *base)
     base->CTRL |= RTC_CTRL_SWR_MASK;
 }
 
+#if !defined(FSL_FEATURE_RTC_HAS_NO_GP_DATA_REG) || (!FSL_FEATURE_RTC_HAS_NO_GP_DATA_REG)
+
 /*!
  * @brief Enable/disable 32 kHz RTC OSC clock during RTC register write
  *
@@ -479,6 +541,8 @@ static inline void IRTC_Enable32kClkDuringRegisterWrite(RTC_Type *base, bool ena
     }
 }
 
+#endif
+
 /*!
  * @brief Select which clock to output from RTC.
  *
@@ -486,9 +550,50 @@ static inline void IRTC_Enable32kClkDuringRegisterWrite(RTC_Type *base, bool ena
  * RTC subsystem needs RTC to output 1HZ clock for sub-second counter.
  *
  * @param base IRTC peripheral base address
- * @param cloOut select clock to use for output,
+ * @param clkOut select clock to use for output,
  */
 void IRTC_ConfigClockOut(RTC_Type *base, irtc_clockout_sel_t clkOut);
+
+#if defined(FSL_FEATURE_RTC_HAS_CLOCK_SELECT) && FSL_FEATURE_RTC_HAS_CLOCK_SELECT
+
+/*!
+ * @brief Select which clock is used by RTC.
+ *
+ * Select which clock is used by RTC to output to the peripheral
+ * and divided to generate a 512 Hz clock and a 1 Hz clock.
+ *
+ * @param base IRTC peripheral base address
+ * @param clkSelect select clock used by RTC
+ */
+void IRTC_ConfigClockSelect(RTC_Type *base, irtc_clock_select_t clkSelect);
+
+#endif /* FSL_FEATURE_RTC_HAS_CLOCK_SELECT */
+
+#if defined(FSL_FEATURE_RTC_HAS_CLOCK_OUTPUT_DISABLE) && FSL_FEATURE_RTC_HAS_CLOCK_OUTPUT_DISABLE
+
+/*!
+ * @brief Determines whether the selected clock is output to other peripherals.
+ *
+ * Determines whether the selected clock is output to other peripherals.
+ *
+ * @param base IRTC peripheral base address
+ * @param enable determine whether the selected clock is output to other peripherals
+ */
+static inline void IRTC_EnableClockOutputToPeripheral(RTC_Type *base, bool enable)
+{
+    if (enable)
+    {
+        base->CTRL &= ~(uint16_t)RTC_CTRL_CLKO_DIS_MASK;
+    }
+    else
+    {
+        base->CTRL |= RTC_CTRL_CLKO_DIS_MASK;
+    }
+}
+
+#endif /* FSL_FEATURE_RTC_HAS_CLOCK_OUTPUT_DISABLE */
+
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
 
 /*!
  * @brief Gets the IRTC Tamper status flags
@@ -529,11 +634,14 @@ static inline void IRTC_SetTamperConfigurationOver(RTC_Type *base)
     base->CTRL2 |= RTC_CTRL2_TAMP_CFG_OVER_MASK;
 }
 
+#endif
+
 /*!
  * @name Daylight Savings Interface
  * @{
  */
 
+#if !(defined(FSL_FEATURE_RTC_IS_SLAVE) && (FSL_FEATURE_RTC_IS_SLAVE != 0U))
 /*!
  * @brief Sets the IRTC daylight savings start and stop date and time.
  *
@@ -543,6 +651,7 @@ static inline void IRTC_SetTamperConfigurationOver(RTC_Type *base)
  * @param datetime Pointer to a structure where the date and time details are stored.
  */
 void IRTC_SetDaylightTime(RTC_Type *base, const irtc_daylight_time_t *datetime);
+#endif /* FSL_FEATURE_RTC_IS_SLAVE  */
 
 /*!
  * @brief Gets the IRTC daylight savings time and stores it in the given time structure.
@@ -554,6 +663,7 @@ void IRTC_GetDaylightTime(RTC_Type *base, irtc_daylight_time_t *datetime);
 
 /*! @}*/
 
+#if !(defined(FSL_FEATURE_RTC_IS_SLAVE) && (FSL_FEATURE_RTC_IS_SLAVE != 0U))
 /*!
  * @name Time Compensation Interface
  * @{
@@ -582,6 +692,9 @@ void IRTC_SetCoarseCompensation(RTC_Type *base, uint8_t compensationValue, uint8
 void IRTC_SetFineCompensation(RTC_Type *base, uint8_t integralValue, uint8_t fractionValue, bool accumulateFractional);
 
 /*! @}*/
+#endif /* FSL_FEATURE_RTC_IS_SLAVE  */
+
+#if !defined(FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE) || (!FSL_FEATURE_RTC_HAS_NO_TAMPER_FEATURE)
 
 /*!
  * @name Tamper Interface
@@ -648,12 +761,15 @@ static inline void IRTC_ClearTamperQueueFullStatus(RTC_Type *base)
 
 /*! @}*/
 
+#endif
+
 #if defined(FSL_FEATURE_RTC_HAS_SUBSYSTEM) && FSL_FEATURE_RTC_HAS_SUBSYSTEM
 /*!
  * @name RTC subsystem Interface
  * @{
  */
 
+#if !(defined(FSL_FEATURE_RTC_HAS_SUBSECOND) && (FSL_FEATURE_RTC_HAS_SUBSECOND == 0))
 /*!
  * @brief Enable the RTC wake-up timer.
  *
@@ -697,6 +813,8 @@ static inline uint32_t IRTC_GetSubsecondCount(RTC_Type *base)
 
     return b;
 }
+#endif /* FSL_FEATURE_RTC_HAS_SUBSECOND */
+
 /*!
  * @brief Set countdown value to the RTC wake timer counter register.
  *
@@ -747,4 +865,4 @@ static inline uint32_t IRTC_GetWakeupCount(RTC_Type *base)
 
 /*! @}*/
 
-#endif /* _FSL_IRTC_H_ */
+#endif /* FSL_IRTC_H_ */

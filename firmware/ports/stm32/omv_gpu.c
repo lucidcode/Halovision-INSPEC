@@ -184,7 +184,7 @@ int omv_gpu_draw_image(image_t *src_img,
     HAL_ICACHE_WaitForInvalidateComplete();
 
     nema_cl_submit(&cl);
-    nema_cl_wait(&cl);
+    int ret = nema_cl_wait(&cl);
 
     #if !OMV_GPU_NEMA_MM_STATIC
     nema_cl_destroy(&cl);
@@ -195,7 +195,7 @@ int omv_gpu_draw_image(image_t *src_img,
     HAL_ICACHE_Invalidate_IT();
 
     SCB_InvalidateDCache_by_Addr(dst_img->data, image_size(dst_img));
-    return 0;
+    return ret;
 }
 #else
 int omv_gpu_draw_image(image_t *src_img,

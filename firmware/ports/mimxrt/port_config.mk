@@ -52,6 +52,7 @@ CFLAGS += -DCPU_$(MCU) \
           -D__FPU_PRESENT=1 \
           -D__VFP_FP__ \
           -DHSE_VALUE=$(OMV_HSE_VALUE) \
+          -DOMV_CPU_FREQ_HZ=$(CPU_FREQ_HZ) \
           -DMICROPY_PY_MACHINE_SDCARD=1 \
           -DXIP_EXTERNAL_FLASH=1 \
 	      -DXIP_BOOT_HEADER_ENABLE=1 \
@@ -63,6 +64,7 @@ CFLAGS += -DCPU_$(MCU) \
 	      -DCMSIS_MCU_H='<$(MCU_SERIES).h>' \
 	      -DCLOCK_CONFIG_H='<boards/$(MCU_SERIES)_clock_config.h>' \
           -DCSI_DRIVER_FRAG_MODE=1 \
+          -DOMV_NOSYS_STUBS_ENABLE=1 \
           -D__START=main \
           -D__STARTUP_CLEAR_BSS \
           -D__STARTUP_INITIALIZE_RAMFUNCTION \
@@ -89,27 +91,7 @@ OMV_CFLAGS += -I$(TOP_DIR)/ports/$(PORT)/modules
 OMV_CFLAGS += -I$(OMV_BOARD_CONFIG_DIR)
 
 MPY_CFLAGS += -I$(MP_BOARD_CONFIG_DIR)
-MPY_CFLAGS += -I$(BUILD)/$(MICROPY_DIR)
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/py
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/oofatfs
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/tinyusb/src
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/lwip/src/include
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/tinyusb
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/mimxrt
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/mimxrt/lwip_inc
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/runtime
-
-MPY_CFLAGS += -DMICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
-MPY_CFLAGS += -DMICROPY_PY_SSL=$(MICROPY_PY_SSL)
-MPY_CFLAGS += -DMICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
-MPY_CFLAGS += -DMICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
-MPY_CFLAGS += -DMICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
-MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
-MPY_CFLAGS += -DMICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
-MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH_USE_SYNC_EVENTS=1
-MPY_CFLAGS += -DMICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)
-MPY_CFLAGS += -DMICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC) 
 MPY_CFLAGS += -DMICROPY_VFS_FAT=1
 
 MPY_MKARGS += CMSIS_DIR=$(TOP_DIR)/$(CMSIS_DIR)
@@ -117,17 +99,12 @@ MPY_MKARGS += MCU_DIR=$(TOP_DIR)/$(HAL_DIR)
 MPY_MKARGS += SUPPORTS_HARDWARE_FP_SINGLE=1
 MPY_MKARGS += MICROPY_VFS_LFS2=0
 MPY_MKARGS += CFLAGS_EXTRA="-std=gnu11"
-MPY_MKARGS += MICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
-MPY_MKARGS += MICROPY_PY_SSL=$(MICROPY_PY_SSL)
-MPY_MKARGS += MICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
-MPY_MKARGS += MICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
-MPY_MKARGS += MICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
-MPY_MKARGS += MICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
-MPY_MKARGS += MICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
-MPY_MKARGS += MICROPY_PY_OPENAMP=$(MICROPY_PY_OPENAMP)
-MPY_MKARGS += MICROPY_PY_OPENAMP_REMOTEPROC=$(MICROPY_PY_OPENAMP_REMOTEPROC)
 
 CFLAGS += $(HAL_CFLAGS) $(MPY_CFLAGS) $(OMV_CFLAGS)
+
+MPY_LIB_EXCLUDE = ! -name 'board_init.*' ! -name 'fsl_flexspi_nor_boot.*' \
+                   ! -name 'resethandler*' ! -name 'help.*' \
+                   ! -path '*/nxp_driver/*'
 
 # Firmware objects from .mk files.
 include lib/cmsis/cmsis.mk
@@ -138,55 +115,8 @@ include lib/imlib/imlib.mk
 include lib/apriltag/apriltag.mk
 include lib/tflm/tflm.mk
 include ports/ports.mk
-include common/micropy.mk
 include protocol/protocol.mk
-
-# Firmware objects from port.
-MPY_FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
-	boards/$(MCU_SERIES)_clock_config.o \
-	dma_manager.o                       \
-	eth.o                               \
-	fatfs_port.o                        \
-	frozen_content.o                    \
-	flash.o                             \
-	led.o                               \
-	machine_bitstream.o                 \
-	machine_can.o                       \
-	machine_i2c.o                       \
-	machine_led.o                       \
-	machine_pin.o                       \
-	machine_rtc.o                       \
-	machine_sdcard.o                    \
-	machine_spi.o                       \
-	mimxrt_flash.o                      \
-	mimxrt_sdram.o                      \
-	modmimxrt.o                         \
-	msc_disk.o                          \
-	network_lan.o                       \
-	mphalport.o                         \
-	pin.o                               \
-	pins_gen.o                          \
-	sdcard.o                            \
-	sdio.o                              \
-	systick.o                           \
-	ticks.o                             \
-	usbd.o                              \
-	hal/pwm_backport.o                  \
-	hal/flexspi_nor_flash.o             \
-	hal/qspi_nor_flash_config.o         \
-)
-
-# Ethernet physical driver.
-ifeq ($(MICROPY_PY_LWIP), 1)
-MPY_FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/hal/,\
-	phy/mdio/enet/fsl_enet_mdio.o           \
-	phy/device/phydp83825/fsl_phydp83825.o  \
-	phy/device/phydp83848/fsl_phydp83848.o  \
-	phy/device/phyksz8081/fsl_phyksz8081.o  \
-	phy/device/phylan8720/fsl_phylan8720.o  \
-	phy/device/phyrtl8211f/fsl_phyrtl8211f.o\
-)
-endif
+include common/micropy.mk
 
 # Libraries
 ifeq ($(MICROPY_PY_AUDIO), 1)
@@ -201,17 +131,12 @@ endif
 all: $(ROMFS_IMAGE)
 	$(SIZE) $(FW_DIR)/$(FIRMWARE).elf
 
-# This target builds MicroPython.
-MICROPYTHON: | FIRM_DIRS
-	$(MAKE) -C $(MICROPY_DIR)/ports/$(PORT) BUILD=$(BUILD)/$(MICROPY_DIR) $(MPY_MKARGS)
-
-$(OMV_FIRM_OBJ): | MICROPYTHON
-
 # This target builds the firmware.
 $(FIRMWARE): $(OMV_FIRM_OBJ)
-	$(CPP) -P -E -DLINKER_SCRIPT -I$(COMMON_DIR) -I$(OMV_BOARD_CONFIG_DIR) \
-        ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
-	$(CC) $(LDFLAGS) $(OMV_FIRM_OBJ) $(MPY_FIRM_OBJ) -o $(FW_DIR)/$(FIRMWARE).elf $(LIBS) -lm
+	$(ECHO) "GEN linker script"
+	$(PYTHON) $(TOOLS_DIR)/$(GENLINK) --board $(TARGET) \
+        --ldscript ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
+	$(CC) $(LDFLAGS) $(OMV_FIRM_OBJ) -o $(FW_DIR)/$(FIRMWARE).elf $(LIBS) -lm
 	$(OBJCOPY) -Obinary -R .big_const* $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).bin
 
 # This target generates the romfs image.

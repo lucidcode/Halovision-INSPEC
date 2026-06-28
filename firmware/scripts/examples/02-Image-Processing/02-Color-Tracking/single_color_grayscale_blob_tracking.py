@@ -34,16 +34,15 @@ while True:
         [thresholds], pixels_threshold=100, area_threshold=100, merge=True
     ):
         # These values depend on the blob not being circular - otherwise they will be shaky.
-        if blob.elongation() > 0.5:
-            img.draw_edges(blob.min_corners(), color=0)
-            img.draw_line(blob.major_axis_line(), color=0)
-            img.draw_line(blob.minor_axis_line(), color=0)
+        if blob.elongation > 0.5:
+            img.draw_edges(blob.min_corners, color=0)
+            img.draw_line(image.get_major_axis_line(blob), color=0)
+            img.draw_line(image.get_minor_axis_line(blob), color=0)
         # These values are stable all the time.
-        img.draw_rectangle(blob.rect(), color=127)
-        img.draw_cross(blob.cx(), blob.cy(), color=127)
+        img.draw_detection(blob, color1=127)
         # Note - the blob rotation is unique to 0-180 only.
         img.draw_keypoints(
-            [(blob.cx(), blob.cy(), int(math.degrees(blob.rotation())))],
+            [(blob.cx, blob.cy, int(math.degrees(blob.rotation)))],
             size=40,
             color=127,
         )

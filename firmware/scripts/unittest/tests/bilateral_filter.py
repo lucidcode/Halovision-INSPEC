@@ -8,9 +8,9 @@ def unittest(data_path, temp_path):
     for y in range(50):
         for x in range(50):
             if x < 25:
-                img.set_pixel(x, y, 50)
+                img.set_pixel((x, y), 50)
             else:
-                img.set_pixel(x, y, 200)
+                img.set_pixel((x, y), 200)
 
     # Get original stats
     stats_orig = img.get_statistics()
@@ -22,7 +22,7 @@ def unittest(data_path, temp_path):
     stats_filtered = img.get_statistics()
 
     # Check that contrast is still high (edges preserved)
-    if stats_filtered.max() - stats_filtered.min() < 100:
+    if stats_filtered.max - stats_filtered.min < 100:
         return False
 
     return True

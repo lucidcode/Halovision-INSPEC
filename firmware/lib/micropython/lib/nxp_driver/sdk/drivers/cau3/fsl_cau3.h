@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_CAU3_H_
-#define _FSL_CAU3_H_
+#ifndef FSL_CAU3_H_
+#define FSL_CAU3_H_
 
 #include "fsl_common.h"
 
@@ -20,10 +20,10 @@
  * @{
  */
 /*! @name Driver version */
-/*@{*/
-/*! @brief CAU3 driver version. Version 2.0.4.
+/*! @{ */
+/*! @brief CAU3 driver version. Version 2.0.5.
  *
- * Current version: 2.0.4
+ * Current version: 2.0.5
  *
  * Change log:
  * - Version 2.0.0
@@ -38,9 +38,11 @@
  *   - Fix MISRA C-2012 issue.
  * - Version 2.0.4
  *   - Fix MISRA C-2012 issue.
+ * - Version 2.0.5
+ *   - Fix MISRA-C 2012 issue.
  */
-#define FSL_CAU3_DRIVER_VERSION (MAKE_VERSION(2, 0, 4))
-/*@}*/
+#define FSL_CAU3_DRIVER_VERSION (MAKE_VERSION(2, 0, 5))
+/*! @} */
 
 /*! @brief Hardware semaphore usage by driver functions.
  *  This macro can be enabled for mutual exclusive calls to CAU3 APIs
@@ -1254,4 +1256,4 @@ status_t CAU3_PKHA_ECT_PointAdd(CAU3_Type *base,
 }
 #endif
 
-#endif /* _FSL_CAU3_H_ */
+#endif /* FSL_CAU3_H_ */

@@ -97,8 +97,8 @@ extern void board_enter_bootloader(void);
 #define MICROPY_HW_LED3             (pin_C1) // blue
 #define MICROPY_HW_LED4             (pin_E2) // IR 
 #define MICROPY_HW_LED_OTYPE        (GPIO_MODE_OUTPUT_PP)
-#define MICROPY_HW_LED_ON(pin)      (pin->gpio->BSRR = (pin->pin_mask << 16))
-#define MICROPY_HW_LED_OFF(pin)     (pin->gpio->BSRR = pin->pin_mask)
+#define MICROPY_HW_LED_ON(pin)      (mp_hal_pin_write((pin), ((pin) == MICROPY_HW_LED4)))
+#define MICROPY_HW_LED_OFF(pin)     (mp_hal_pin_write((pin), ((pin) != MICROPY_HW_LED4)))
 
 // Servos
 #define PYB_SERVO_NUM (2)

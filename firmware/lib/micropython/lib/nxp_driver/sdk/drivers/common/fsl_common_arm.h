@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2015-2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2022, 2024 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_COMMON_ARM_H_
-#define _FSL_COMMON_ARM_H_
+#ifndef FSL_COMMON_ARM_H_
+#define FSL_COMMON_ARM_H_
 
 /*
  * For CMSIS pack RTE.
@@ -28,13 +28,7 @@
  * These macros are used for atomic access, such as read-modify-write
  * to the peripheral registers.
  *
- * - SDK_ATOMIC_LOCAL_ADD
- * - SDK_ATOMIC_LOCAL_SET
- * - SDK_ATOMIC_LOCAL_CLEAR
- * - SDK_ATOMIC_LOCAL_TOGGLE
- * - SDK_ATOMIC_LOCAL_CLEAR_AND_SET
- *
- * Take SDK_ATOMIC_LOCAL_CLEAR_AND_SET as an example: the parameter @c addr
+ * Take @ref SDK_ATOMIC_LOCAL_CLEAR_AND_SET as an example: the parameter @c addr
  * means the address of the peripheral register or variable you want to modify
  * atomically, the parameter @c clearBits is the bits to clear, the parameter
  * @c setBits it the bits to set.
@@ -57,6 +51,27 @@
  * guarantee exclusive access if necessary.
  *
  * @{
+ */
+
+/*!
+ * @def SDK_ATOMIC_LOCAL_ADD(addr, val)
+ * Add value \a val from the variable at address \a address.
+ *
+ * @def SDK_ATOMIC_LOCAL_SUB(addr, val)
+ * Subtract value \a val to the variable at address \a address.
+ *
+ * @def SDK_ATOMIC_LOCAL_SET(addr, bits)
+ * Set the bits specifiled by \a bits to the variable at address \a address.
+ *
+ * @def SDK_ATOMIC_LOCAL_CLEAR(addr, bits)
+ * Clear the bits specifiled by \a bits to the variable at address \a address.
+ *
+ * @def SDK_ATOMIC_LOCAL_TOGGLE(addr, bits)
+ * Toggle the bits specifiled by \a bits to the variable at address \a address.
+ *
+ * @def SDK_ATOMIC_LOCAL_CLEAR_AND_SET(addr, clearBits, setBits)
+ * For the variable at address \a address, clear the bits specifiled by \a clearBits
+ * and set the bits specifiled by \a setBits.
  */
 
 /* clang-format off */
@@ -220,6 +235,12 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
          ((2UL == sizeof(*(addr))) ? _SDK_AtomicLocalAdd2Byte((volatile uint16_t *)(volatile void *)(addr), (uint16_t)(val)) : \
                                      _SDK_AtomicLocalAdd4Byte((volatile uint32_t *)(volatile void *)(addr), (uint32_t)(val))))
 
+#define SDK_ATOMIC_LOCAL_SUB(addr, val)                                                                                        \
+    ((1UL == sizeof(*(addr))) ?                                                                                                \
+         _SDK_AtomicLocalSub1Byte((volatile uint8_t *)(volatile void *)(addr), (uint8_t)(val)) :                               \
+         ((2UL == sizeof(*(addr))) ? _SDK_AtomicLocalSub2Byte((volatile uint16_t *)(volatile void *)(addr), (uint16_t)(val)) : \
+                                     _SDK_AtomicLocalSub4Byte((volatile uint32_t *)(volatile void *)(addr), (uint32_t)(val))))
+
 #define SDK_ATOMIC_LOCAL_SET(addr, bits)                                                                                        \
     ((1UL == sizeof(*(addr))) ?                                                                                                 \
          _SDK_AtomicLocalSet1Byte((volatile uint8_t *)(volatile void *)(addr), (uint8_t)(bits)) :                               \
@@ -255,7 +276,16 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
         s_atomicOldInt = DisableGlobalIRQ(); \
         *(addr) += (val);                    \
         EnableGlobalIRQ(s_atomicOldInt);     \
-    } while (0)
+    } while (false)
+
+#define SDK_ATOMIC_LOCAL_SUB(addr, val)      \
+    do                                       \
+    {                                        \
+        uint32_t s_atomicOldInt;             \
+        s_atomicOldInt = DisableGlobalIRQ(); \
+        *(addr) -= (val);                    \
+        EnableGlobalIRQ(s_atomicOldInt);     \
+    } while (false)
 
 #define SDK_ATOMIC_LOCAL_SET(addr, bits)     \
     do                                       \
@@ -264,7 +294,7 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
         s_atomicOldInt = DisableGlobalIRQ(); \
         *(addr) |= (bits);                   \
         EnableGlobalIRQ(s_atomicOldInt);     \
-    } while (0)
+    } while (false)
 
 #define SDK_ATOMIC_LOCAL_CLEAR(addr, bits)   \
     do                                       \
@@ -273,7 +303,7 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
         s_atomicOldInt = DisableGlobalIRQ(); \
         *(addr) &= ~(bits);                  \
         EnableGlobalIRQ(s_atomicOldInt);     \
-    } while (0)
+    } while (false)
 
 #define SDK_ATOMIC_LOCAL_TOGGLE(addr, bits)  \
     do                                       \
@@ -282,7 +312,7 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
         s_atomicOldInt = DisableGlobalIRQ(); \
         *(addr) ^= (bits);                   \
         EnableGlobalIRQ(s_atomicOldInt);     \
-    } while (0)
+    } while (false)
 
 #define SDK_ATOMIC_LOCAL_CLEAR_AND_SET(addr, clearBits, setBits) \
     do                                                           \
@@ -291,13 +321,13 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
         s_atomicOldInt = DisableGlobalIRQ();                     \
         *(addr)        = (*(addr) & ~(clearBits)) | (setBits);   \
         EnableGlobalIRQ(s_atomicOldInt);                         \
-    } while (0)
+    } while (false)
 
 #endif
-/* @} */
+/*! @} */
 
 /*! @name Timer utilities */
-/* @{ */
+/*! @{ */
 /*! Macro to convert a microsecond period to raw count value */
 #define USEC_TO_COUNT(us, clockFreqInHz) (uint64_t)(((uint64_t)(us) * (clockFreqInHz)) / 1000000U)
 /*! Macro to convert a raw count value to microsecond */
@@ -307,7 +337,7 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
 #define MSEC_TO_COUNT(ms, clockFreqInHz) (uint64_t)((uint64_t)(ms) * (clockFreqInHz) / 1000U)
 /*! Macro to convert a raw count value to millisecond */
 #define COUNT_TO_MSEC(count, clockFreqInHz) (uint64_t)((uint64_t)(count)*1000U / (clockFreqInHz))
-/* @} */
+/*! @} */
 
 /*! @name ISR exit barrier
  * @{
@@ -324,10 +354,10 @@ static inline void _SDK_AtomicLocalClearAndSet4Byte(volatile uint32_t *addr, uin
 #define SDK_ISR_EXIT_BARRIER
 #endif
 
-/* @} */
+/*! @} */
 
 /*! @name Alignment variable definition macros */
-/* @{ */
+/*! @{ */
 #if (defined(__ICCARM__))
 /*
  * Workaround to disable MISRA C message suppress warnings for IAR compiler.
@@ -341,7 +371,7 @@ _Pragma("diag_suppress=Pm120")
 #elif defined(__CC_ARM) || defined(__ARMCC_VERSION)
 /*! Macro to define a variable with alignbytes alignment */
 #define SDK_ALIGN(var, alignbytes) __attribute__((aligned(alignbytes))) var
-#elif defined(__GNUC__)
+#elif defined(__GNUC__) || defined(DOXYGEN_OUTPUT)
 /*! Macro to define a variable with alignbytes alignment */
 #define SDK_ALIGN(var, alignbytes) var __attribute__((aligned(alignbytes)))
 #else
@@ -360,15 +390,37 @@ _Pragma("diag_suppress=Pm120")
 /*! Macro to change a value to a given size aligned value */
 #define SDK_SIZEALIGN(var, alignbytes) \
     ((unsigned int)((var) + ((alignbytes)-1U)) & (unsigned int)(~(unsigned int)((alignbytes)-1U)))
-/* @} */
+/*! @} */
 
-/*! @name Non-cacheable region definition macros */
-/* For initialized non-zero non-cacheable variables, please using "AT_NONCACHEABLE_SECTION_INIT(var) ={xx};" or
- * "AT_NONCACHEABLE_SECTION_ALIGN_INIT(var) ={xx};" in your projects to define them, for zero-inited non-cacheable
- * variables, please using "AT_NONCACHEABLE_SECTION(var);" or "AT_NONCACHEABLE_SECTION_ALIGN(var);" to define them,
+/*!
+ * @name Non-cacheable region definition macros
+ *
+ * For initialized non-zero non-cacheable variables, please use "AT_NONCACHEABLE_SECTION_INIT(var) ={xx};" or
+ * "AT_NONCACHEABLE_SECTION_ALIGN_INIT(var) ={xx};" in your projects to define them. For zero-inited non-cacheable
+ * variables, please use "AT_NONCACHEABLE_SECTION(var);" or "AT_NONCACHEABLE_SECTION_ALIGN(var);" to define them,
  * these zero-inited variables will be initialized to zero in system startup.
+ *
+ * @note For GCC, when the non-cacheable section is required, please define "__STARTUP_INITIALIZE_NONCACHEDATA"
+ * in your projects to make sure the non-cacheable section variables will be initialized in system startup.
+ *
+ * @{
  */
-/* @{ */
+
+/*!
+ * @def AT_NONCACHEABLE_SECTION(var)
+ * Define a variable \a var, and place it in non-cacheable section.
+ *
+ * @def AT_NONCACHEABLE_SECTION_ALIGN(var, alignbytes)
+ * Define a variable \a var, and place it in non-cacheable section, the start address
+ * of the variable is aligned to \a alignbytes.
+ *
+ * @def AT_NONCACHEABLE_SECTION_INIT(var)
+ * Define a variable \a var with initial value, and place it in non-cacheable section.
+ *
+ * @def AT_NONCACHEABLE_SECTION_ALIGN_INIT(var, alignbytes)
+ * Define a variable \a var with initial value, and place it in non-cacheable section,
+ * the start address of the variable is aligned to \a alignbytes.
+ */
 
 #if ((!(defined(FSL_FEATURE_HAS_NO_NONCACHEABLE_SECTION) && FSL_FEATURE_HAS_NO_NONCACHEABLE_SECTION)) && \
      defined(FSL_FEATURE_L1ICACHE_LINESIZE_BYTE))
@@ -394,7 +446,7 @@ _Pragma("diag_suppress=Pm120")
     __attribute__((section(".bss.NonCacheable"))) __attribute__((aligned(alignbytes))) var
 #endif
 
-#elif (defined(__GNUC__))
+#elif (defined(__GNUC__)) || defined(DOXYGEN_OUTPUT)
 /* For GCC, when the non-cacheable section is required, please define "__STARTUP_INITIALIZE_NONCACHEDATA"
  * in your projects to make sure the non-cacheable section variables will be initialized in system startup.
  */
@@ -417,11 +469,23 @@ _Pragma("diag_suppress=Pm120")
 
 #endif
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Time sensitive region
  * @{
+ */
+
+/*!
+ * @def AT_QUICKACCESS_SECTION_CODE(func)
+ * Place function in a section which can be accessed quickly by core.
+ *
+ * @def AT_QUICKACCESS_SECTION_DATA(var)
+ * Place data in a section which can be accessed quickly by core.
+ *
+ * @def AT_QUICKACCESS_SECTION_DATA_ALIGN(var, alignbytes)
+ * Place data in a section which can be accessed quickly by core, and the variable
+ * address is set to align with \a alignbytes.
  */
 #if (defined(__ICCARM__))
 #define AT_QUICKACCESS_SECTION_CODE(func) func @"CodeQuickAccess"
@@ -433,7 +497,7 @@ _Pragma("diag_suppress=Pm120")
 #define AT_QUICKACCESS_SECTION_DATA(var)  __attribute__((section("DataQuickAccess"))) var
 #define AT_QUICKACCESS_SECTION_DATA_ALIGN(var, alignbytes) \
     __attribute__((section("DataQuickAccess"))) __attribute__((aligned(alignbytes))) var
-#elif (defined(__GNUC__))
+#elif (defined(__GNUC__)) || defined(DOXYGEN_OUTPUT)
 #define AT_QUICKACCESS_SECTION_CODE(func) __attribute__((section("CodeQuickAccess"), __noinline__)) func
 #define AT_QUICKACCESS_SECTION_DATA(var)  __attribute__((section("DataQuickAccess"))) var
 #define AT_QUICKACCESS_SECTION_DATA_ALIGN(var, alignbytes) \
@@ -441,18 +505,41 @@ _Pragma("diag_suppress=Pm120")
 #else
 #error Toolchain not supported.
 #endif /* defined(__ICCARM__) */
+/*! @} */
 
-/*! @name Ram Function */
+/*!
+ * @name Ram Function
+ * @{
+ *
+ * @def RAMFUNCTION_SECTION_CODE(func)
+ * Place function in ram.
+ */
 #if (defined(__ICCARM__))
 #define RAMFUNCTION_SECTION_CODE(func) func @"RamFunction"
 #elif (defined(__CC_ARM) || defined(__ARMCC_VERSION))
 #define RAMFUNCTION_SECTION_CODE(func) __attribute__((section("RamFunction"))) func
-#elif (defined(__GNUC__))
+#elif (defined(__GNUC__)) || defined(DOXYGEN_OUTPUT)
 #define RAMFUNCTION_SECTION_CODE(func) __attribute__((section("RamFunction"))) func
 #else
 #error Toolchain not supported.
 #endif /* defined(__ICCARM__) */
-/* @} */
+/*! @} */
+
+/*!
+ * @def MSDK_REG_SECURE_ADDR(x)
+ * Convert the register address to the one used in secure mode.
+ *
+ * @def MSDK_REG_NONSECURE_ADDR(x)
+ * Convert the register address to the one used in non-secure mode.
+ */
+
+#if (defined(__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE & 0x2))
+#define MSDK_REG_SECURE_ADDR(x) ((uintptr_t)(x) | (0x1UL << 28))
+#define MSDK_REG_NONSECURE_ADDR(x) ((uintptr_t)(x) & ~(0x1UL << 28))
+#else
+#define MSDK_REG_SECURE_ADDR(x) (x)
+#define MSDK_REG_NONSECURE_ADDR(x) (x)
+#endif
 
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
         void DefaultISR(void);
@@ -569,6 +656,144 @@ static inline status_t DisableIRQ(IRQn_Type interrupt)
 }
 
 /*!
+ * @brief Enable the IRQ, and also set the interrupt priority.
+ *
+ * Only handle LEVEL1 interrupt. For some devices, there might be multiple interrupt
+ * levels. For example, there are NVIC and intmux. Here the interrupts connected
+ * to NVIC are the LEVEL1 interrupts, because they are routed to the core directly.
+ * The interrupts connected to intmux are the LEVEL2 interrupts, they are routed
+ * to NVIC first then routed to core.
+ *
+ * This function only handles the LEVEL1 interrupts. The number of LEVEL1 interrupts
+ * is indicated by the feature macro FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS.
+ *
+ * @param interrupt The IRQ to Enable.
+ * @param priNum Priority number set to interrupt controller register.
+ * @retval kStatus_Success Interrupt priority set successfully
+ * @retval kStatus_Fail Failed to set the interrupt priority.
+ */
+static inline status_t EnableIRQWithPriority(IRQn_Type interrupt, uint8_t priNum)
+{
+    status_t status = kStatus_Success;
+
+    if (NotAvail_IRQn == interrupt)
+    {
+        status = kStatus_Fail;
+    }
+
+#if defined(FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS) && (FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS > 0)
+    else if ((int32_t)interrupt >= (int32_t)FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS)
+    {
+        status = kStatus_Fail;
+    }
+#endif
+
+    else
+    {
+#if defined(__GIC_PRIO_BITS)
+        GIC_SetPriority(interrupt, priNum);
+        GIC_EnableIRQ(interrupt);
+#else
+        NVIC_SetPriority(interrupt, priNum);
+        NVIC_EnableIRQ(interrupt);
+#endif
+    }
+
+    return status;
+}
+
+/*!
+ * @brief Set the IRQ priority.
+ *
+ * Only handle LEVEL1 interrupt. For some devices, there might be multiple interrupt
+ * levels. For example, there are NVIC and intmux. Here the interrupts connected
+ * to NVIC are the LEVEL1 interrupts, because they are routed to the core directly.
+ * The interrupts connected to intmux are the LEVEL2 interrupts, they are routed
+ * to NVIC first then routed to core.
+ *
+ * This function only handles the LEVEL1 interrupts. The number of LEVEL1 interrupts
+ * is indicated by the feature macro FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS.
+ *
+ * @param interrupt The IRQ to set.
+ * @param priNum Priority number set to interrupt controller register.
+ *
+ * @retval kStatus_Success Interrupt priority set successfully
+ * @retval kStatus_Fail Failed to set the interrupt priority.
+ */
+static inline status_t IRQ_SetPriority(IRQn_Type interrupt, uint8_t priNum)
+{
+    status_t status = kStatus_Success;
+
+    if (NotAvail_IRQn == interrupt)
+    {
+        status = kStatus_Fail;
+    }
+
+#if defined(FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS) && (FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS > 0)
+    else if ((int32_t)interrupt >= (int32_t)FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS)
+    {
+        status = kStatus_Fail;
+    }
+#endif
+
+    else
+    {
+#if defined(__GIC_PRIO_BITS)
+        GIC_SetPriority(interrupt, priNum);
+#else
+        NVIC_SetPriority(interrupt, priNum);
+#endif
+    }
+
+    return status;
+}
+
+/*!
+ * @brief Clear the pending IRQ flag.
+ *
+ * Only handle LEVEL1 interrupt. For some devices, there might be multiple interrupt
+ * levels. For example, there are NVIC and intmux. Here the interrupts connected
+ * to NVIC are the LEVEL1 interrupts, because they are routed to the core directly.
+ * The interrupts connected to intmux are the LEVEL2 interrupts, they are routed
+ * to NVIC first then routed to core.
+ *
+ * This function only handles the LEVEL1 interrupts. The number of LEVEL1 interrupts
+ * is indicated by the feature macro FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS.
+ *
+ * @param interrupt The flag which IRQ to clear.
+ *
+ * @retval kStatus_Success Interrupt priority set successfully
+ * @retval kStatus_Fail Failed to set the interrupt priority.
+ */
+static inline status_t IRQ_ClearPendingIRQ(IRQn_Type interrupt)
+{
+    status_t status = kStatus_Success;
+
+    if (NotAvail_IRQn == interrupt)
+    {
+        status = kStatus_Fail;
+    }
+
+#if defined(FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS) && (FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS > 0)
+    else if ((int32_t)interrupt >= (int32_t)FSL_FEATURE_NUMBER_OF_LEVEL1_INT_VECTORS)
+    {
+        status = kStatus_Fail;
+    }
+#endif
+
+    else
+    {
+#if defined(__GIC_PRIO_BITS)
+        GIC_ClearPendingIRQ(interrupt);
+#else
+        NVIC_ClearPendingIRQ(interrupt);
+#endif
+    }
+
+    return status;
+}
+
+/*!
  * @brief Disable the global IRQ
  *
  * Disable the global interrupt and return the current primask register. User is required to provided the primask
@@ -578,19 +803,18 @@ static inline status_t DisableIRQ(IRQn_Type interrupt)
  */
 static inline uint32_t DisableGlobalIRQ(void)
 {
+    uint32_t mask;
+
 #if defined(CPSR_I_Msk)
-    uint32_t cpsr = __get_CPSR() & CPSR_I_Msk;
-
-    __disable_irq();
-
-    return cpsr;
+    mask = __get_CPSR() & CPSR_I_Msk;
+#elif defined(DAIF_I_BIT)
+    mask = __get_DAIF() & DAIF_I_BIT;
 #else
-    uint32_t regPrimask = __get_PRIMASK();
-
+    mask = __get_PRIMASK();
+#endif
     __disable_irq();
 
-    return regPrimask;
-#endif
+    return mask;
 }
 
 /*!
@@ -607,6 +831,11 @@ static inline void EnableGlobalIRQ(uint32_t primask)
 {
 #if defined(CPSR_I_Msk)
     __set_CPSR((__get_CPSR() & ~CPSR_I_Msk) | primask);
+#elif defined(DAIF_I_BIT)
+    if (0UL == primask)
+    {
+        __enable_irq();
+    }
 #else
     __set_PRIMASK(primask);
 #endif
@@ -662,10 +891,24 @@ void DisableDeepSleepIRQ(IRQn_Type interrupt);
 #endif /* FSL_FEATURE_POWERLIB_EXTEND */
 #endif /* FSL_FEATURE_SOC_SYSCON_COUNT */
 
+#if defined(DWT)
+/*!
+ * @brief Enable the counter to get CPU cycles.
+ */
+void MSDK_EnableCpuCycleCounter(void);
+
+/*!
+ * @brief Get the current CPU cycle count.
+ *
+ * @return Current CPU cycle count.
+ */
+uint32_t MSDK_GetCpuCycleCount(void);
+#endif
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus*/
 
 /*! @} */
 
-#endif /* _FSL_COMMON_ARM_H_ */
+#endif /* FSL_COMMON_ARM_H_ */

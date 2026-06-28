@@ -78,11 +78,11 @@ interface = rpc.rpc_uart_slave(baudrate=115200)
 
 def draw_detections(img, dects):
     for d in dects:
-        c = d.corners()
+        c = d.corners
         c_len = len(c)
         for i in range(c_len):
             img.draw_line(c[(i + 0) % c_len] + c[(i + 1) % c_len], color=(0, 255, 0))
-        img.draw_rectangle(d.rect(), color=(255, 0, 0))
+        img.draw_rectangle(d.rect, color=(255, 0, 0))
 
 
 # Remote control works via call back methods that the controller
@@ -125,7 +125,7 @@ def qrcode_detection(data):
     if not codes:
         return bytes()  # No detections.
     draw_detections(img, codes)
-    return max(codes, key=lambda c: c.w() * c.h()).payload().encode()
+    return max(codes, key=lambda c: c.w * c.h).payload.encode()
 
 
 # When called returns a json list of json qrcode objects for all qrcodes in view.
@@ -192,7 +192,7 @@ def datamatrix_detection(data):
     if not codes:
         return bytes()  # No detections.
     draw_detections(img, codes)
-    return max(codes, key=lambda c: c.w() * c.h()).payload().encode()
+    return max(codes, key=lambda c: c.w * c.h).payload.encode()
 
 
 # When called returns a json list of json datamatrix objects for all datamatrices in view.
@@ -222,7 +222,7 @@ def barcode_detection(data):
     codes = img.find_barcodes()
     if not codes:
         return bytes()  # No detections.
-    return max(codes, key=lambda c: c.w() * c.h()).payload().encode()
+    return max(codes, key=lambda c: c.w * c.h).payload.encode()
 
 
 # When called returns a json list of json barcode objects for all barcodes in view.
@@ -254,10 +254,9 @@ def color_detection(data):
     if not blobs:
         return bytes()  # No detections.
     for b in blobs:
-        img.draw_rectangle(b.rect(), color=(255, 0, 0))
-        img.draw_cross(b.cx(), b.cy(), color=(0, 255, 0))
-    out_blob = max(blobs, key=lambda b: b.density())
-    return struct.pack("<HH", out_blob.cx(), out_blob.cy())
+        img.draw_detection(b, color1=(255, 0, 0), color2=(0, 255, 0))
+    out_blob = max(blobs, key=lambda b: b.density)
+    return struct.pack("<HH", out_blob.cx, out_blob.cy)
 
 
 # When called returns a jpeg compressed image from the OpenMV

@@ -72,6 +72,12 @@
 #if !defined(MICROPY_EMIT_ARM) && defined(__arm__) && !defined(__thumb2__)
     #define MICROPY_EMIT_ARM        (1)
 #endif
+#if !defined(MICROPY_EMIT_RV32) && defined(__riscv) && __riscv_xlen == 32
+    #define MICROPY_EMIT_RV32       (1)
+#endif
+#if !defined(MICROPY_PERSISTENT_CODE_LOAD_NATIVE) && defined(__riscv) && __riscv_xlen == 64
+    #define MICROPY_PERSISTENT_CODE_LOAD_NATIVE (1)
+#endif
 
 // Cannot include <sys/types.h>, as it may lead to symbol name clashes
 #if _FILE_OFFSET_BITS == 64 && !defined(__LP64__)
@@ -93,7 +99,7 @@ typedef long mp_off_t;
 // Always enable GC.
 #define MICROPY_ENABLE_GC           (1)
 
-#if !(defined(MICROPY_GCREGS_SETJMP) || defined(__x86_64__) || defined(__i386__) || defined(__thumb2__) || defined(__thumb__) || defined(__arm__) || (defined(__riscv) && (__riscv_xlen == 64)))
+#if !(defined(MICROPY_GCREGS_SETJMP) || defined(__x86_64__) || defined(__i386__) || defined(__thumb2__) || defined(__thumb__) || defined(__arm__) || (defined(__riscv) && __riscv_xlen <= 64))
 // Fall back to setjmp() implementation for discovery of GC pointers in registers.
 #define MICROPY_GCREGS_SETJMP (1)
 #endif
@@ -174,10 +180,10 @@ void mp_unix_free_exec(void *ptr, size_t size);
 // If enabled, configure how to seed random on init.
 #ifdef MICROPY_PY_RANDOM_SEED_INIT_FUNC
 #include <stddef.h>
-void mp_hal_get_random(size_t n, void *buf);
+void mp_hal_get_random(size_t n, uint8_t *buf);
 static inline unsigned long mp_random_seed_init(void) {
     unsigned long r;
-    mp_hal_get_random(sizeof(r), &r);
+    mp_hal_get_random(sizeof(r), (uint8_t *)&r);
     return r;
 }
 #endif

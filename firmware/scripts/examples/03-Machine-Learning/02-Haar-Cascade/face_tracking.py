@@ -35,7 +35,7 @@ kpts1 = None
 # Find a face!
 while kpts1 is None:
     img = csi0.snapshot()
-    img.draw_string(0, 0, "Looking for a face...")
+    img.draw_string((0, 0), "Looking for a face...")
     # Find faces
     objects = img.find_features(face_cascade, threshold=0.5, scale=1.25)
     if objects:
@@ -76,8 +76,8 @@ while True:
         match = c[6]  # C[6] contains the number of matches.
         if match > 5:
             img.draw_rectangle(c[2:6])
-            img.draw_cross(c[0], c[1], size=10)
+            img.draw_cross((c[0], c[1]), size=10)
             print(kpts2, "matched:%d dt:%d" % (match, c[7]))
 
     # Draw FPS
-    img.draw_string(0, 0, "FPS:%.2f" % (clock.fps()))
+    img.draw_string((0, 0), "FPS:%.2f" % (clock.fps()))

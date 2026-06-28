@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 NXP
+ * Copyright 2017-2024 NXP
  * All rights reserved.
  *
  *
@@ -78,7 +78,7 @@ static uint32_t ELCDIF_GetInstance(const LCDIF_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_elcdifBases); instance++)
     {
-        if (s_elcdifBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_elcdifBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -210,7 +210,8 @@ void ELCDIF_RgbModeSetPixelFormat(LCDIF_Type *base, elcdif_pixel_format_t pixelF
                                  LCDIF_CTRL_DATA_FORMAT_18_BIT_MASK | LCDIF_CTRL_DATA_FORMAT_16_BIT_MASK)) |
                  s_pixelFormatReg[(uint32_t)pixelFormat].regCtrl;
 
-    base->CTRL1 = s_pixelFormatReg[(uint32_t)pixelFormat].regCtrl1;
+    base->CTRL1 = (base->CTRL1 & ~(LCDIF_CTRL1_BYTE_PACKING_FORMAT_MASK)) |
+                  s_pixelFormatReg[(uint32_t)pixelFormat].regCtrl1;
 }
 
 /*!
@@ -242,7 +243,7 @@ void ELCDIF_RgbModeStop(LCDIF_Type *base)
     base->CTRL_CLR = LCDIF_CTRL_DOTCLK_MODE_MASK;
 
     /* Wait for data transfer finished. */
-    while (0U != (base->CTRL & LCDIF_CTRL_DOTCLK_MODE_MASK))
+    while (0U != (base->CTRL & (LCDIF_CTRL_DOTCLK_MODE_MASK | LCDIF_CTRL_RUN_MASK)))
     {
     }
 }

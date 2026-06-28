@@ -16,7 +16,7 @@ import image
 csi0 = csi.CSI()
 csi0.reset()
 csi0.pixformat(csi.RGB565)
-csi0.framesize(csi.LCD)
+csi0.framesize((128, 160))
 
 # Initialize the lcd screen.
 # Note: A DAC or a PWM backlight controller can be used to control the

@@ -31,6 +31,7 @@
 
 #if (MICROPY_PY_TOF == 1)
 #include "omv_i2c.h"
+#include "umalloc.h"
 #include "py_assert.h"
 #include "py_helper.h"
 #include "py_image.h"
@@ -106,23 +107,70 @@ static void tof_fill_image_float_obj(image_t *img, mp_obj_t *data, float min, fl
 }
 
 #if OMV_TOF_VL53LX_ENABLE
-static void tof_vl53lx_get_depth(vl53lx_dev_t *vl53lx_dev, float *frame, uint32_t timeout) {
+static int tof_vl53lx_start(vl53lx_dev_t *vl53lx_dev) {
+    int error = 0;
+    uint8_t isAlive = 0;
+
+    // Check sensor and initialize.
+    error |= vl53lx_is_alive(vl53lx_dev, &isAlive);
+    error |= vl53lx_init(vl53lx_dev);
+
+    // Set resolution (number of zones).
+    // NOTE: This function must be called before updating the ranging frequency.
+    error |= vl53lx_set_resolution(vl53lx_dev, VL53LX_RESOLUTION_8X8);
+
+    // Set ranging frequency (FPS).
+    // For 4x4 the allowed ranging frequency range is 1 -> 60.
+    // For 8x8 the allowed ranging frequency range is 1 -> 15.
+    error |= vl53lx_set_ranging_frequency_hz(vl53lx_dev, 15);
+
+    // Set ranging mode to continuous:
+    // The device continuously grabs frames with the set ranging frequency.
+    // Maximum ranging depth and ambient immunity are better.
+    // This mode is advised for fast ranging measurements or high performances.
+    error |= vl53lx_set_ranging_mode(vl53lx_dev, VL53LX_RANGING_MODE_CONTINUOUS);
+
+    error |= vl53lx_set_sharpener_percent(vl53lx_dev, 50);
+
+    // Start ranging.
+    error |= vl53lx_start_ranging(vl53lx_dev);
+    mp_hal_delay_ms(10);
+
+    return error;
+}
+
+static int tof_vl53lx_recover(vl53lx_dev_t *vl53lx_dev) {
+    // Deinit I2C, hard-reset device and reinit I2C
+    omv_i2c_deinit(&tof_bus);
+    vl53lx_reset(&vl53lx_dev->platform);
+    omv_i2c_init(&tof_bus, OMV_TOF_I2C_ID, OMV_TOF_I2C_SPEED);
+
+    return tof_vl53lx_start(vl53lx_dev);
+}
+
+static void tof_vl53lx_get_depth(vl53lx_dev_t *vl53lx_dev, float *frame, int timeout) {
     uint8_t frame_ready = 0;
     // Note depending on the config in platform.h, this struct can be too big to alloc on the stack.
     vl53lx_data_t ranging_data;
 
-    for (mp_uint_t start = mp_hal_ticks_ms(); !frame_ready; mp_hal_delay_ms(1)) {
-        if (vl53lx_check_data_ready(vl53lx_dev, &frame_ready) != 0) {
+    for (mp_uint_t start = mp_hal_ticks_ms(); ; mp_hal_delay_ms(1)) {
+        uint8_t status = vl53lx_check_data_ready(vl53lx_dev, &frame_ready);
+
+        if (status == 0 && frame_ready) {
+            status = vl53lx_get_ranging_data(vl53lx_dev, &ranging_data);
+        }
+
+        if (status == 0 && frame_ready) {
+            break;
+        }
+
+        // - Corrupted frame (header/footer mismatch), the read raced with
+        //   a sensor update. Wait for the next data_ready and retry read.
+        // - GO2 errors (other non-zero status) are transient, keep polling.
+        if ((timeout > 0) && (mp_hal_ticks_ms() - start) >= timeout) {
+            tof_vl53lx_recover(vl53lx_dev);
             mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("VL53LX ranging failed"));
         }
-
-        if ((mp_hal_ticks_ms() - start) >= timeout) {
-            mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("VL53LX ranging timeout"));
-        }
-    }
-
-    if (vl53lx_get_ranging_data(vl53lx_dev, &ranging_data) != 0) {
-        mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("VL53LX ranging failed"));
     }
 
     for (int i = 0, ii = OMV_TOF_VL53LX_WIDTH * OMV_TOF_VL53LX_HEIGHT; i < ii; i++) {
@@ -231,8 +279,12 @@ static mp_obj_t py_tof_deinit() {
     tof_height = 0;
     tof_transposed = false;
     #if OMV_TOF_VL53LX_ENABLE
-    vl53lx_shutdown(&vl53lx_dev.platform);
+    if (tof_sensor == OMV_TOF_VL53LX_ID) {
+        vl53lx_shutdown(&vl53lx_dev.platform);
+    }
     #endif
+    omv_i2c_deinit(&tof_bus);
+    tof_sensor = OMV_TOF_NONE;
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_tof_deinit_obj, py_tof_deinit);
@@ -286,34 +338,12 @@ mp_obj_t py_tof_init(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args)
         #if OMV_TOF_VL53LX_ENABLE
         case OMV_TOF_VL53LX_ID: {
             int error = 0;
-            uint8_t isAlive = 0;
             TOF_VL53LX_RETRY:
             // Initialize I2C bus.
             omv_i2c_init(&tof_bus, OMV_TOF_I2C_ID, OMV_TOF_I2C_SPEED);
 
-            // Check sensor and initialize.
-            error |= vl53lx_is_alive(&vl53lx_dev, &isAlive);
-            error |= vl53lx_init(&vl53lx_dev);
-
-            // Set resolution (number of zones).
-            // NOTE: This function must be called before updating the ranging frequency.
-            error |= vl53lx_set_resolution(&vl53lx_dev, VL53LX_RESOLUTION_8X8);
-
-            // Set ranging frequency (FPS).
-            // For 4x4 the allowed ranging frequency range is 1 -> 60.
-            // For 8x8 the allowed ranging frequency range is 1 -> 15.
-            error |= vl53lx_set_ranging_frequency_hz(&vl53lx_dev, 15);
-
-            // Set ranging mode to continuous:
-            // The device continuously grabs frames with the set ranging frequency.
-            // Maximum ranging depth and ambient immunity are better.
-            // This mode is advised for fast ranging measurements or high performances.
-            error |= vl53lx_set_ranging_mode(&vl53lx_dev, VL53LX_RANGING_MODE_CONTINUOUS);
-
-            error |= vl53lx_set_sharpener_percent(&vl53lx_dev, 50);
-
-            // Start ranging.
-            error |= vl53lx_start_ranging(&vl53lx_dev);
+            // Configure VL53lx and start ranging.
+            error = tof_vl53lx_start(&vl53lx_dev);
 
             if (error != 0 && first_init) {
                 first_init = false;
@@ -381,7 +411,7 @@ mp_obj_t py_tof_read_depth(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
         { MP_QSTR_hmirror, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_bool = false } },
         { MP_QSTR_vflip, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_bool = false } },
         { MP_QSTR_transpose, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_bool = false } },
-        { MP_QSTR_timeout, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = -1 } },
+        { MP_QSTR_timeout, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 100 } },
     };
 
     // Parse args.
@@ -393,14 +423,12 @@ mp_obj_t py_tof_read_depth(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
     switch (tof_sensor) {
         #if OMV_TOF_VL53LX_ENABLE
         case OMV_TOF_VL53LX_ID: {
-            fb_alloc_mark();
-            float *frame = fb_alloc(OMV_TOF_VL53LX_WIDTH * OMV_TOF_VL53LX_HEIGHT * sizeof(float),
-                                    FB_ALLOC_PREFER_SPEED);
+            float *frame = uma_malloc(OMV_TOF_VL53LX_WIDTH * OMV_TOF_VL53LX_HEIGHT * sizeof(float), UMA_DTCM);
             tof_vl53lx_get_depth(&vl53lx_dev, frame, args[ARG_timeout].u_int);
             mp_obj_t result = tof_get_depth_obj(OMV_TOF_VL53LX_WIDTH, OMV_TOF_VL53LX_HEIGHT, frame,
                                                 !args[ARG_hmirror].u_bool, args[ARG_vflip].u_bool,
                                                 args[ARG_transpose].u_bool, true);
-            fb_alloc_free_till_mark();
+            uma_free(frame);
             return result;
         }
         #endif
@@ -473,15 +501,14 @@ mp_obj_t py_tof_draw_depth(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw
     const uint16_t *color_palette = py_helper_arg_to_palette(args[ARG_color_palette].u_obj, PIXFORMAT_RGB565);
     const uint8_t *alpha_palette = py_helper_arg_to_palette(args[ARG_alpha_palette].u_obj, PIXFORMAT_GRAYSCALE);
 
-    fb_alloc_mark();
-    src_img.data = fb_alloc(src_img.w * src_img.h * sizeof(uint8_t), FB_ALLOC_NO_HINT);
+    src_img.data = uma_malloc(src_img.w * src_img.h * sizeof(uint8_t), UMA_DTCM);
     tof_fill_image_float_obj(&src_img, depth_array, min, max);
 
     imlib_draw_image(dst_img, &src_img, args[ARG_x].u_int, args[ARG_y].u_int, x_scale, y_scale, &roi,
                      args[ARG_channel].u_int, args[ARG_alpha].u_int, color_palette, alpha_palette,
                      args[ARG_hint].u_int, NULL, NULL, NULL, NULL);
 
-    fb_alloc_free_till_mark();
+    uma_free(src_img.data);
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_KW(py_tof_draw_depth_obj, 2, py_tof_draw_depth);
@@ -507,7 +534,7 @@ mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
         { MP_QSTR_scale, MP_ARG_OBJ | MP_ARG_KW_ONLY, {.u_rom_obj = MP_ROM_NONE} },
         { MP_QSTR_pixformat, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = PIXFORMAT_RGB565 } },
         { MP_QSTR_copy_to_fb, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_bool = false } },
-        { MP_QSTR_timeout, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = -1 } },
+        { MP_QSTR_timeout, MP_ARG_INT | MP_ARG_KW_ONLY,  {.u_int = 100 } },
     };
 
     // Parse args.
@@ -558,15 +585,13 @@ mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
     const uint16_t *color_palette = py_helper_arg_to_palette(args[ARG_color_palette].u_obj, PIXFORMAT_RGB565);
     const uint8_t *alpha_palette = py_helper_arg_to_palette(args[ARG_alpha_palette].u_obj, PIXFORMAT_GRAYSCALE);
 
-    fb_alloc_mark();
     // Allocate source image data.
-    src_img.data = fb_alloc(src_img.w * src_img.h * sizeof(uint8_t), FB_ALLOC_NO_HINT);
+    src_img.data = uma_malloc(src_img.w * src_img.h * sizeof(uint8_t), UMA_DTCM);
 
     switch (tof_sensor) {
         #if OMV_TOF_VL53LX_ENABLE
         case OMV_TOF_VL53LX_ID: {
-            float *frame = fb_alloc(OMV_TOF_VL53LX_WIDTH * OMV_TOF_VL53LX_HEIGHT * sizeof(float),
-                                    FB_ALLOC_PREFER_SPEED);
+            float *frame = uma_malloc(OMV_TOF_VL53LX_WIDTH * OMV_TOF_VL53LX_HEIGHT * sizeof(float), UMA_DTCM);
             tof_vl53lx_get_depth(&vl53lx_dev, frame, args[ARG_timeout].u_int);
             if (args[ARG_scale].u_obj == mp_const_none) {
                 fast_get_min_max(frame, OMV_TOF_VL53LX_WIDTH * OMV_TOF_VL53LX_HEIGHT, &min, &max);
@@ -575,6 +600,7 @@ mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
                                         frame, min, max,
                                         !args[ARG_hmirror].u_bool, args[ARG_vflip].u_bool,
                                         args[ARG_transpose].u_bool, true);
+            uma_free(frame);
             break;
         }
         #endif
@@ -587,7 +613,7 @@ mp_obj_t py_tof_snapshot(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_a
                      (args[ARG_hint].u_int & (~IMAGE_HINT_CENTER)) | IMAGE_HINT_BLACK_BACKGROUND,
                      NULL, NULL, NULL, NULL);
 
-    fb_alloc_free_till_mark();
+    uma_free(src_img.data);
 
     if (args[ARG_copy_to_fb].u_bool) {
         framebuffer_update_preview(&dst_img);

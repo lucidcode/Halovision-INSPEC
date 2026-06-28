@@ -8,7 +8,6 @@ MIMXRT1064_EVK boards.
 Features:
   - REPL over USB VCP
   - machine.ADC
-  - machine.CAN
   - machine.I2C
   - machine.LED
   - machine.Pin
@@ -28,7 +27,7 @@ Features:
 Known issues:
 
 TODO:
-  - More peripherals (Counter, I2S, etc)
+  - More peripherals (Counter, I2S, CAN, etc)
   - More Python options
 
 ## Build Instructions

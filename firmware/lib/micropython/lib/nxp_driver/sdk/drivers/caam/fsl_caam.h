@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_CAAM_H_
-#define _FSL_CAAM_H_
+#ifndef FSL_CAAM_H_
+#define FSL_CAAM_H_
 
 #include "fsl_common.h"
 
@@ -29,10 +29,10 @@ enum
  *******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief CAAM driver version. Version 2.1.5.
+/*! @{ */
+/*! @brief CAAM driver version. Version 2.3.2.
  *
- * Current version: 2.1.4
+ * Current version: 2.3.2
  *
  * Change log:
  * - Version 2.0.0
@@ -58,9 +58,28 @@ enum
  * - Version 2.1.5
  *   - Support EXTENDED data size for all AES, HASH and RNG operations.
  *   - Support multiple De-Initialization/Initialization of CAAM driver within one POR event.
+ * - Version 2.1.6
+ *   - Improve DCACHE handling. Requires CAAM used and cached memory set in write-trough mode.
+ * - Version 2.2.0
+ *   - Added API for Blob functions and CRC
+ * - Version 2.2.1
+ *   - Fixed AES-CCM decrypt failing with TAG length bigger than 8 byte.
+ * - Version 2.2.2
+ *   - Modify RNG to not reseed with each request.
+ * - Version 2.2.3
+ *   - Fix DCACHE invalidation in CAAM_HASH_Finish().
+ * - Version 2.2.4
+ *   - Fix issue where the outputSize parameter of CAAM_HASH_Finish() has impact on hash calculation.
+ * - Version 2.3.0
+ *   - Add support for SHA HMAC.
+ * - Version 2.3.1
+ *   - Modified function caam_aes_ccm_check_input_args() to allow payload be empty as is specified in NIST800-38C
+ * Section 5.3.
+ * - Version 2.3.2
+ *   - Fix MISRA-2012 issues.
  */
-#define FSL_CAAM_DRIVER_VERSION (MAKE_VERSION(2, 1, 5))
-/*@}*/
+#define FSL_CAAM_DRIVER_VERSION (MAKE_VERSION(2, 3, 2))
+/*! @} */
 
 /*! @brief CAAM callback function. */
 typedef struct _caam_job_callback
@@ -129,6 +148,13 @@ typedef uint32_t caam_desc_pkha_t[64];
 /*! @brief Memory buffer to hold CAAM descriptor for PKHA ECC jobs */
 typedef uint32_t caam_desc_pkha_ecc_t[64];
 
+/*! @brief Memory buffer to hold CAAM descriptor for performing key blackening jobs */
+typedef uint32_t caam_desc_key_black_t[64];
+
+/*! @brief Memory buffer to hold CAAM descriptor for performing generating dek blob jobs */
+typedef uint32_t caam_desc_gen_enc_blob_t[64];
+typedef uint32_t caam_desc_gen_dep_blob_t[64];
+
 typedef struct _caam_job_ring_interface
 {
     uint32_t inputJobRing[4];
@@ -182,7 +208,7 @@ typedef enum _caam_ext_key_xfr_source
     kCAAM_ExtKeyXfr_KeyRegisterClass2 = 2U, /*!< The Class 2 Key Register is the source. */
     kCAAM_ExtKeyXfr_PkhaRamE          = 3U, /*!< The PKHA E RAM is the source. */
 } caam_ext_key_xfr_source_t;
-/*! @} */ /* end of caam_driver */
+/*! @} */                                   /* end of caam_driver */
 
 /*******************************************************************************
  * AES Definitions
@@ -236,6 +262,11 @@ typedef enum _caam_hash_algo_t
     kCAAM_Sha256,      /*!< SHA_256 (MDHA engine)  */
     kCAAM_Sha384,      /*!< SHA_384 (MDHA engine)  */
     kCAAM_Sha512,      /*!< SHA_512 (MDHA engine)  */
+    kCAAM_HmacSha1,    /*!< HMAC_SHA_1   (MDHA engine)  */
+    kCAAM_HmacSha224,  /*!< HMAC_SHA_224 (MDHA engine)  */
+    kCAAM_HmacSha256,  /*!< HMAC_SHA_256 (MDHA engine)  */
+    kCAAM_HmacSha384,  /*!< HMAC_SHA_384 (MDHA engine)  */
+    kCAAM_HmacSha512,  /*!< HMAC_SHA_512 (MDHA engine)  */
 } caam_hash_algo_t;
 
 /*! @brief CAAM HASH Context size. */
@@ -243,7 +274,7 @@ typedef enum _caam_hash_algo_t
 #define CAAM_HASH_BLOCK_SIZE CAAM_SHA_BLOCK_SIZE /*!< CAAM hash block size  */
 
 /*! @brief CAAM HASH Context size. */
-#define CAAM_HASH_CTX_SIZE 58
+#define CAAM_HASH_CTX_SIZE 83
 
 /*! @brief Storage type used to save hash context. */
 typedef uint32_t caam_hash_ctx_t[CAAM_HASH_CTX_SIZE];
@@ -251,6 +282,35 @@ typedef uint32_t caam_hash_ctx_t[CAAM_HASH_CTX_SIZE];
 /*!
  *@}
  */ /* end of caam_driver_hash */
+
+/*******************************************************************************
+ * CRC Definitions
+ ******************************************************************************/
+/*! @brief Supported CRC modes */
+typedef enum _caam_crc_algo_t
+{
+    kCAAM_CrcIEEE,     /*!< IEE 802 CRC32 (CRCA engine)  */
+    kCAAM_CrciSCSI,    /*!< iSCSI CRC32 (CRCA engine)  */
+    kCAAM_CrcCUSTPOLY, /*!< Custom polynomial mode (CRCA engine)  */
+} caam_crc_algo_t;
+
+/*! @brief CAAM AAI CRC modes*/
+typedef enum _caam_aai_crc_alg
+{
+    kCAAM_CRC_ModeIEEE802  = 0x01U << 4, /* IEE 802 mode */
+    kCAAM_CRC_ModeIETF3385 = 0x02U << 4, /* iSCSI mode */
+    kCAAM_CRC_ModeCUSTPOLY =
+        0x04U << 4, /* Custom polynomial programmed into Key register. Can be 1-32bits. Must be left justified */
+    kCAAM_CRC_ModeDefault = 0x0U << 4, /* Input data is bit-swapped, Out data is bit and byte swapped and complemented
+                                          and init value is FFFFFFFFh*/
+    kCAAM_CRC_ModeDIS = 0x10U << 4,    /* Turn off input bit-swapping */
+    kCAAM_CRC_ModeDOS = 0x20U << 4,    /* Turn off output bit-swapping */
+    kCAAM_CRC_ModeDOC = 0x40U << 4,    /* Turn of complementing CRC output data*/
+    kCAAM_CRC_ModeIVZ = 0x80U << 4,    /* Initial value is zero */
+} caam_aai_crc_alg_t;
+
+/*! @brief Storage type used to save crc context. */
+#define caam_crc_ctx_t caam_hash_ctx_t
 
 /*******************************************************************************
  * RNG Definitions
@@ -289,6 +349,46 @@ typedef struct _caam_rng_user_config
 /*!
  *@}
  */ /* end of caam_driver_rng */
+
+/*******************************************************************************
+ * BLLOBS Definitions
+ ******************************************************************************/
+/*!
+ * @addtogroup caam_driver_blob
+ * @{
+ */
+
+/*! @brief CAAM FIFOST types. */
+typedef enum _caam_fifost_type
+{
+    kCAAM_FIFOST_Type_Kek_Kek = 0x24,      /*!< Key Register, encrypted using AES-ECB with the job
+     descriptor key encryption key. */
+    kCAAM_FIFOST_Type_Kek_TKek = 0x25,     /*!< Key Register, encrypted using AES-ECB with the
+    trusted descriptor key encryption key. */
+    kCAAM_FIFOST_Type_Kek_Cmm_Jkek = 0x14, /*!< Key Register, encrypted using AES-CCM with the
+job descriptor key encryption key. */
+    kCAAM_FIFOST_Type_Kek_Cmm_Tkek = 0x15, /*!< Key register, encrypted using AES-CCM with the
+trusted descriptor key encryption key. */
+} caam_fifost_type_t;
+
+/*! @brief CAAM descriptor types. */
+typedef enum _caam_desc_type
+{
+    kCAAM_Descriptor_Type_Kek_Kek = 0x0,      /*!< Key Register, encrypted using AES-ECB with the job
+     descriptor key encryption key. */
+    kCAAM_Descriptor_Type_Kek_TKek = 0x2,     /*!< Key Register, encrypted using AES-ECB with the
+    trusted descriptor key encryption key. */
+    kCAAM_Descriptor_Type_Kek_Ccm_Jkek = 0x1, /*!< Key Register, encrypted using AES-CCM with the
+job descriptor key encryption key. */
+    kCAAM_Descriptor_Type_Kek_Ccm_Tkek = 0x3, /*!< Key register, encrypted using AES-CCM with the
+trusted descriptor key encryption key. */
+} caam_desc_type_t;
+
+// #define KEYBLOB_USE_SECURE_MEMORY 1  // Define when secure memory mode is used
+
+/*!
+ *@}
+ */ /* end of caam_driver_blob */
 
 /*******************************************************************************
  * PKHA Definitions
@@ -1198,6 +1298,258 @@ status_t CAAM_HASH_NonBlocking(CAAM_Type *base,
  */ /* end of caam_nonblocking_driver_hash */
 
 /*******************************************************************************
+ * HMAC API
+ ******************************************************************************/
+
+/*!
+ * @addtogroup caam_driver_hmac
+ * @{
+ */
+/*!
+ * @brief Initialize HMAC context
+ *
+ * This function initializes the HMAC.
+ *
+ * For XCBC-MAC, the key length must be 16. For CMAC, the key length can be
+ * the AES key lengths supported by AES engine. For MDHA the key length argument
+ * is ignored.
+ *
+ * This functions is used to initialize the context for both blocking and non-blocking
+ * CAAM_HMAC API.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request.
+ * @param[out] ctx Output HMAC context
+ * @param algo Underlaying algorithm to use for HMAC computation.
+ * @param key Input key
+ * @param keySize Size of input key in bytes
+ * @return Status of initialization
+ */
+status_t CAAM_HMAC_Init(CAAM_Type *base,
+                        caam_handle_t *handle,
+                        caam_hash_ctx_t *ctx,
+                        caam_hash_algo_t algo,
+                        const uint8_t *key,
+                        size_t keySize);
+
+/*!
+ * @brief Create Message Authentication Code (MAC) on given data
+ *
+ * Perform the full keyed XCBC-MAC/CMAC, or HMAC-SHA in one function call.
+ *
+ * Key shall be supplied if the underlaying algoritm is AES XCBC-MAC, CMAC, or SHA HMAC.
+ *
+ * For XCBC-MAC, the key length must be 16. For CMAC, the key length can be
+ * the AES key lengths supported by AES engine. For HMAC, the key can have
+ * any size.
+ *
+ * \param base CAAM peripheral base address
+ * \param handle Handle used for this request.
+ * \param algo Underlaying algorithm to use for MAC computation.
+ * \param input Input data
+ * \param inputSize Size of input data in bytes
+ * \param key Input key
+ * \param keySize Size of input key in bytes
+ * \param[out] output Output MAC data
+ * \param[out] outputSize Output parameter storing the size of the output MAC in bytes
+ * \return Status of the one call hash operation.
+ */
+status_t CAAM_HMAC(CAAM_Type *base,
+                   caam_handle_t *handle,
+                   caam_hash_algo_t algo,
+                   const uint8_t *input,
+                   size_t inputSize,
+                   const uint8_t *key,
+                   size_t keySize,
+                   uint8_t *output,
+                   size_t *outputSize);
+/*!
+ *@}
+ */ /* end of caam_driver_hmac */
+
+/*!
+ * @addtogroup caam_nonblocking_driver_hmac
+ * @{
+ */
+/*!
+ * @brief Create Message Authentication Code (MAC) on given data
+ *
+ * Perform the full keyed XCBC-MAC/CMAC, or HMAC-SHA in one function call.
+ *
+ * Key shall be supplied if the underlaying algoritm is AES XCBC-MAC, CMAC, or SHA HMAC.
+ *
+ * For XCBC-MAC, the key length must be 16. For CMAC, the key length can be
+ * the AES key lengths supported by AES engine. For HMAC, the key can have
+ * any size, however the function will block if the supplied key is bigger than
+ * the block size of the underlying hashing algorithm (e.g. >64 bytes for SHA256).
+ *
+ * The function is not blocking with the exception of supplying large key sizes.
+ * In that case the function will block until the large key is hashed down with the
+ * supplied hashing algorithm (as per FIPS 198-1), after which operation is resumed
+ * to calling non-blocking HMAC.
+ *
+ * \param base CAAM peripheral base address
+ * \param handle Handle used for this request.
+ * @param[out] descriptor Memory for the CAAM descriptor.
+ * \param algo Underlaying algorithm to use for MAC computation.
+ * \param input Input data
+ * \param inputSize Size of input data in bytes
+ * \param key Input key
+ * \param keySize Size of input key in bytes
+ * \param[out] output Output MAC data
+ * \param[out] outputSize Output parameter storing the size of the output MAC in bytes
+ * \return Status of the one call hash operation.
+ */
+status_t CAAM_HMAC_NonBlocking(CAAM_Type *base,
+                               caam_handle_t *handle,
+                               caam_desc_hash_t descriptor,
+                               caam_hash_algo_t algo,
+                               const uint8_t *input,
+                               size_t inputSize,
+                               const uint8_t *key,
+                               size_t keySize,
+                               uint8_t *output,
+                               size_t *outputSize);
+/*!
+ *@}
+ */ /* end of caam_nonblocking_driver_hmac */
+
+/*******************************************************************************
+ * CRC API
+ ******************************************************************************/
+
+/*!
+ * @addtogroup caam_driver_crc
+ * @{
+ */
+/*!
+ * @brief Initialize CRC context
+ *
+ * This function initializes the CRC context.
+ * polynomial shall be supplied if the underlaying algoritm is kCAAM_CrcCUSTPOLY.
+ * polynomial shall be NULL if the underlaying algoritm is kCAAM_CrcIEEE or kCAAM_CrciSCSI.
+ *
+ * This functions is used to initialize the context for CAAM_CRC API
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request.
+ * @param[out] ctx Output crc context
+ * @param algo Underlaying algorithm to use for CRC computation
+ * @param polynomial CRC polynomial (NULL if underlaying algorithm is kCAAM_CrcIEEE or kCAAM_CrciSCSI)
+ * @param polynomialSize Size of polynomial in bytes (0u if underlaying algorithm is kCAAM_CrcIEEE or kCAAM_CrciSCSI)
+ * @param mode Specify how CRC engine manipulates its input and output data
+ * @return Status of initialization
+ */
+status_t CAAM_CRC_Init(CAAM_Type *base,
+                       caam_handle_t *handle,
+                       caam_crc_ctx_t *ctx,
+                       caam_crc_algo_t algo,
+                       const uint8_t *polynomial,
+                       size_t polynomialSize,
+                       caam_aai_crc_alg_t mode);
+
+/*!
+ * @brief Add data to current CRC
+ *
+ * Add data to current CRC. This can be called repeatedly. The functions blocks. If it returns kStatus_Success, the
+ * running CRC has been updated (CAAM has processed the input data), so the memory at input pointer can be released back
+ * to system. The context is updated with the running CRC and with all necessary information to support possible context
+ * switch.
+ *
+ * @param[in,out] ctx CRC context
+ * @param input Input data
+ * @param inputSize Size of input data in bytes
+ * @return Status of the crc update operation
+ */
+status_t CAAM_CRC_Update(caam_crc_ctx_t *ctx, const uint8_t *input, size_t inputSize);
+
+/*!
+ * @brief Finalize CRC
+ *
+ * Outputs the final CRC (computed by CAAM_CRC_Update()) and erases the context.
+ *
+ * @param[in,out] ctx Input crc context
+ * @param[out] output Output crc data
+ * @param[out] outputSize Output parameter storing the size of the output crc in bytes
+ * @return Status of the crc finish operation
+ */
+status_t CAAM_CRC_Finish(caam_crc_ctx_t *ctx, uint8_t *output, size_t *outputSize);
+
+/*!
+ * @brief Create CRC on given data
+ *
+ * Perform CRC in one function call.
+ *
+ * Polynomial shall be supplied if underlaying algorithm is kCAAM_CrcCUSTPOLY.
+ * Polynomial shall be NULL if underlaying algorithm is kCAAM_CrcIEEE or kCAAM_CrciSCSI.
+ *
+ *
+ * The function is blocking.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request.
+ * @param algo Underlaying algorithm to use for crc computation.
+ * @param mode Specify how CRC engine manipulates its input and output data.
+ * @param input Input data
+ * @param inputSize Size of input data in bytes
+ * @param polynomial CRC polynomial (NULL if underlaying algorithm is kCAAM_CrcIEEE or kCAAM_CrciSCSI)
+ * @param polynomialSize Size of input polynomial in bytes (0U if underlaying algorithm is kCAAM_CrcIEEE or
+ * kCAAM_CrciSCSI)
+ * @param[out] output Output crc data
+ * @param[out] outputSize Output parameter storing the size of the output crc in bytes
+ * @return Status of the one call crc operation.
+ */
+status_t CAAM_CRC(CAAM_Type *base,
+                  caam_handle_t *handle,
+                  caam_crc_algo_t algo,
+                  caam_aai_crc_alg_t mode,
+                  const uint8_t *input,
+                  size_t inputSize,
+                  const uint8_t *polynomial,
+                  size_t polynomialSize,
+                  uint8_t *output,
+                  size_t *outputSize);
+
+/*!
+ * @brief Create CRC on given data
+ *
+ * Perform CRC in one function call.
+ *
+ * Polynomial shall be supplied if underlaying algorithm is kCAAM_CrcCUSTPOLY.
+ * Polynomial shall be NULL if underlaying algorithm is kCAAM_CrcIEEE or kCAAM_CrciSCSI.
+ *
+ * The function is non-blocking. The request is scheduled at CAAM.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request.
+ * @param[out] descriptor Memory for the CAAM descriptor.
+ * @param algo Underlaying algorithm to use for crc computation.
+ * @param mode Specify how CRC engine manipulates its input and output data.
+ * @param input Input data
+ * @param inputSize Size of input data in bytes
+ * @param polynomial CRC polynomial (NULL if underlaying algorithm is kCAAM_CrcIEEE or kCAAM_CrciSCSI)
+ * @param polynomialSize Size of input polynomial in bytes (0U if underlaying algorithm is kCAAM_CrcIEEE or
+ * kCAAM_CrciSCSI)
+ * @param[out] output Output crc data
+ * @param[out] outputSize Output parameter storing the size of the output crc in bytes
+ * @return Status of the one call crc operation.
+ */
+status_t CAAM_CRC_NonBlocking(CAAM_Type *base,
+                              caam_handle_t *handle,
+                              caam_desc_hash_t descriptor,
+                              caam_crc_algo_t algo,
+                              caam_aai_crc_alg_t mode,
+                              const uint8_t *input,
+                              size_t inputSize,
+                              const uint8_t *polynomial,
+                              size_t polynomialSize,
+                              uint8_t *output,
+                              size_t *outputSize);
+
+/*!
+ *@}
+ */ /* end of caam_driver_crc */
+/*******************************************************************************
  * RNG API
  ******************************************************************************/
 
@@ -1305,7 +1657,7 @@ status_t CAAM_RNG_Reseed(CAAM_Type *base,
 status_t CAAM_RNG_GetRandomData(CAAM_Type *base,
                                 caam_handle_t *handle,
                                 caam_rng_state_handle_t stateHandle,
-                                void *data,
+                                uint8_t *data,
                                 size_t dataSize,
                                 caam_rng_random_type_t dataType,
                                 caam_rng_generic256_t additionalEntropy);
@@ -1348,6 +1700,144 @@ status_t CAAM_RNG_GetRandomDataNonBlocking(CAAM_Type *base,
 /*!
  *@}
  */ /* end of caam_nonblocking_driver_rng */
+
+/*******************************************************************************
+ * Black key API
+ ******************************************************************************/
+/*!
+ * @addtogroup caam_driver_black
+ * @{
+ */
+
+/*!
+ * @brief Construct a black key
+ *
+ * This function constructs a job descriptor capable of performing
+ * a key blackening operation on a plaintext secure memory resident object.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle jobRing used for this request
+ * @param data Pointer address uses to pointed the plaintext.
+ * @param dataSize Size of the buffer pointed by the data parameter
+ * @param fifostType Type of AES-CBC or AEC-CCM to encrypt plaintext
+ * @param[out] blackdata Pointer address uses to pointed the black key
+ * @return Status of the request
+ */
+status_t CAAM_BLACK_GetKeyBlacken(CAAM_Type *base,
+                                  caam_handle_t *handle,
+                                  const uint8_t *data,
+                                  size_t dataSize,
+                                  caam_fifost_type_t fifostType,
+                                  uint8_t *blackdata);
+
+/*!
+ *@}
+ */ /* end of caam_driver_black */
+
+/*******************************************************************************
+ * Key blob API
+ ******************************************************************************/
+/*!
+ * @addtogroup caam_driver_blob
+ * @{
+ */
+/*!
+ * @brief Construct a encrypted Red Blob
+ *
+ * This function constructs a job descriptor capable of performing
+ * a encrypted blob operation on a plaintext object.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request. Specifies jobRing.
+ * @param keyModifier Address of the random key modifier generated by RNG
+ * @param keyModifierSize Size of keyModifier buffer in bytes
+ * @param data Data adress
+ * @param dataSize Size of the buffer pointed by the data parameter
+ * @param[out] blob_data Output blob data adress
+ * @return Status of the request
+ */
+status_t CAAM_RedBlob_Encapsule(CAAM_Type *base,
+                                caam_handle_t *handle,
+                                const uint8_t *keyModifier,
+                                size_t keyModifierSize,
+                                const uint8_t *data,
+                                size_t dataSize,
+                                uint8_t *blob_data);
+
+/*! @brief Decrypt red blob
+ *
+ * This function constructs a job descriptor capable of performing
+ * decrypting red blob .
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request. Specifies jobRing.
+ * @param keyModifier Address of the random key modifier generated by RNG
+ * @param keyModifierSize Size of keyModifier buffer in bytes
+ * @param blob_data Address of blob data
+ * @param[out] data Output data adress.
+ * @param dataSize Size of the buffer pointed by the data parameter in bytes
+ * @return Status of the request
+ */
+status_t CAAM_RedBlob_Decapsule(CAAM_Type *base,
+                                caam_handle_t *handle,
+                                const uint8_t *keyModifier,
+                                size_t keyModifierSize,
+                                const uint8_t *blob_data,
+                                uint8_t *data,
+                                size_t dataSize);
+
+/*!
+ * @brief Construct a encrypted  Black Blob
+ *
+ * This function constructs a job descriptor capable of performing
+ * a encrypted blob operation on a plaintext object.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request. Specifies jobRing.
+ * @param keyModifier Address of the random key modifier generated by RNG
+ * @param keyModifierSize Size of keyModifier buffer in bytes
+ * @param data Data adress
+ * @param dataSize Size of the buffer pointed by the data parameter
+ * @param[out] blob_data Output blob data adress
+ * @param blackKeyType  Type of black key see enum caam_desc_type_t for more info
+ * @return Status of the request
+ */
+status_t CAAM_BlackBlob_Encapsule(CAAM_Type *base,
+                                  caam_handle_t *handle,
+                                  const uint8_t *keyModifier,
+                                  size_t keyModifierSize,
+                                  const uint8_t *data,
+                                  size_t dataSize,
+                                  uint8_t *blob_data,
+                                  caam_desc_type_t blackKeyType);
+
+/*! @brief Construct a decrypted black blob
+ *
+ * This function constructs a job descriptor capable of performing
+ * decrypting black blob.
+ *
+ * @param base CAAM peripheral base address
+ * @param handle Handle used for this request. Specifies jobRing.
+ * @param keyModifier Address of the random key modifier generated by RNG
+ * @param keyModifierSize Size of keyModifier buffer in bytes
+ * @param blob_data Address of blob data
+ * @param[out] data Output data adress.
+ * @param dataSize Size of the buffer pointed by the data parameter in bytes
+ * @param blackKeyType   Type of black key see enum caam_desc_type_t for more info
+ * @return Status of the request
+ */
+status_t CAAM_BlackBlob_Decapsule(CAAM_Type *base,
+                                  caam_handle_t *handle,
+                                  const uint8_t *keyModifier,
+                                  size_t keyModifierSize,
+                                  const uint8_t *blob_data,
+                                  uint8_t *data,
+                                  size_t dataSize,
+                                  caam_desc_type_t blackKeyType);
+
+/*!
+ *@}
+ */ /* end of caam_driver_blob */
 
 /*******************************************************************************
  * DES API
@@ -3040,4 +3530,4 @@ status_t CAAM_PKHA_ECC_PointMul(CAAM_Type *base,
 }
 #endif
 
-#endif /* _FSL_CAAM_H_ */
+#endif /* FSL_CAAM_H_ */

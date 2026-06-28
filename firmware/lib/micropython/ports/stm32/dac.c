@@ -198,10 +198,6 @@ static void dac_start_dma(uint32_t dac_channel, const dma_descr_t *dma_descr, ui
     #endif
     }
 
-    #ifdef __DCACHE_PRESENT
-    MP_HAL_CLEAN_DCACHE(buf, len);
-    #endif
-
     dma_nohal_deinit(dma_descr);
     dma_nohal_init(dma_descr, DMA_MEMORY_TO_PERIPH | dma_mode | dma_align);
     dma_nohal_start(dma_descr, (uint32_t)buf, base + dac_align, len);

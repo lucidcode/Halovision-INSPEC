@@ -8,7 +8,7 @@ def unittest(data_path, temp_path):
     import image
 
     img = image.Image(data_path + "/person.bmp", copy_to_fb=True)
-    model = ml.Model("/rom/person_detect.tflite")
+    model = ml.Model(data_path + "/person_detect.tflite")
     output = model.predict([img])
 
     scores = sorted(

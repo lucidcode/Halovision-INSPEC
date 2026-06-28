@@ -8,9 +8,9 @@ def unittest(data_path, temp_path):
     for y in range(64):
         for x in range(64):
             if 20 <= x <= 30 and 20 <= y <= 30:
-                img1.set_pixel(x, y, 255)
+                img1.set_pixel((x, y), 255)
             else:
-                img1.set_pixel(x, y, 0)
+                img1.set_pixel((x, y), 0)
 
     # Create second image with pattern shifted
     img2 = image.Image(64, 64, image.GRAYSCALE)
@@ -18,9 +18,9 @@ def unittest(data_path, temp_path):
     for y in range(64):
         for x in range(64):
             if 25 <= x <= 35 and 25 <= y <= 35:
-                img2.set_pixel(x, y, 255)
+                img2.set_pixel((x, y), 255)
             else:
-                img2.set_pixel(x, y, 0)
+                img2.set_pixel((x, y), 0)
 
     # Find displacement using phase correlation
     # img2 has pattern shifted by (+5, +5) in pixel coordinates relative to img1
@@ -32,15 +32,15 @@ def unittest(data_path, temp_path):
     # For a (+5, +5) pixel shift, expect approximately (-5, +5)
 
     # Check X translation magnitude and sign
-    if abs(abs(result.x_translation()) - 5) > 0.5:
+    if abs(abs(result.x_translation) - 5) > 0.5:
         return False
 
     # Check Y translation magnitude and sign
-    if abs(abs(result.y_translation()) - 5) > 0.5:
+    if abs(abs(result.y_translation) - 5) > 0.5:
         return False
 
     # Verify we got a valid response (high confidence match)
-    if result.response() < 0.5:
+    if result.response < 0.5:
         return False
 
     return True

@@ -33,6 +33,7 @@
 
 #include "fmath.h"
 #include "imlib.h"
+#include "umalloc.h"
 #include "unittest.h"
 
 // Test imlib_ksize_to_n
@@ -233,6 +234,173 @@ static mp_obj_t test_imlib_sincos_table(void) {
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sincos_table_obj, test_imlib_sincos_table);
 
+// Test sepconv3: impulse response. All pixels processed including borders.
+static mp_obj_t test_imlib_sepconv3_impulse(void) {
+    image_t img = { .w = 5, .h = 5, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc0(&img, image_size(&img));
+    img.data[2 * 5 + 2] = 255;
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    // Check symmetric Gaussian spread from center.
+    int pass = (img.data[2 * 5 + 2] == 63)    // center
+               && (img.data[1 * 5 + 2] == 31) // above
+               && (img.data[3 * 5 + 2] == 31) // below
+               && (img.data[2 * 5 + 1] == 31) // left
+               && (img.data[2 * 5 + 3] == 31) // right
+               && (img.data[1 * 5 + 1] == 15) // diagonal
+               && (img.data[0 * 5 + 0] == 0); // far corner
+    return pass ? mp_const_true : mp_const_false;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_impulse_obj, test_imlib_sepconv3_impulse);
+
+// Test sepconv3: uniform 128 -> every pixel stays 128.
+static mp_obj_t test_imlib_sepconv3_uniform(void) {
+    image_t img = { .w = 8, .h = 8, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    memset(img.data, 128, image_size(&img));
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    for (size_t i = 0; i < image_size(&img); i++) {
+        if (img.data[i] != 128) {
+            return mp_const_false;
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_uniform_obj, test_imlib_sepconv3_uniform);
+
+// Test sepconv3: all 255 stays 255 (no overflow, all pixels).
+static mp_obj_t test_imlib_sepconv3_saturate(void) {
+    image_t img = { .w = 6, .h = 6, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    memset(img.data, 255, image_size(&img));
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    for (size_t i = 0; i < image_size(&img); i++) {
+        if (img.data[i] != 255) {
+            return mp_const_false;
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_saturate_obj, test_imlib_sepconv3_saturate);
+
+// Test sepconv3: 3x3 uniform -> still works (border clamping).
+static mp_obj_t test_imlib_sepconv3_min_size(void) {
+    image_t img = { .w = 3, .h = 3, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    memset(img.data, 100, image_size(&img));
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    // Uniform input -> every pixel should stay 100.
+    for (size_t i = 0; i < image_size(&img); i++) {
+        if (img.data[i] != 100) {
+            return mp_const_false;
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_min_size_obj, test_imlib_sepconv3_min_size);
+
+// Test sepconv3: wide step edge to exercise SIMD path.
+// Checks x positions at vector boundaries (4, 16, 32).
+static mp_obj_t test_imlib_sepconv3_wide(void) {
+    int w = 64, h = 8;
+    image_t img = { .w = w, .h = h, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    for (int y = 0; y < h; y++) {
+        memset(img.data + y * w, (y >= 4) ? 255 : 0, w);
+    }
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    // Vert on y=3: rows{2,3,4}={0,0,255} -> v=255. Horiz uniform: 4*255/16=63.
+    // Vert on y=4: rows{3,4,5}={0,255,255} -> v=765. Horiz: 4*765/16=191.
+    int check[] = {0, 1, 3, 4, 15, 16, 31, 32, 62, 63};
+    for (int i = 0; i < 10; i++) {
+        int x = check[i];
+        if (img.data[3 * w + x] != 63 || img.data[4 * w + x] != 191) {
+            return mp_const_false;
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_wide_obj, test_imlib_sepconv3_wide);
+
+// Test sepconv3: 1x1 image -- must not crash.
+static mp_obj_t test_imlib_sepconv3_1x1(void) {
+    image_t img = { .w = 1, .h = 1, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    img.data[0] = 200;
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    // 1x1 uniform: border clamp makes all neighbors equal -> identity.
+    return (img.data[0] == 200) ? mp_const_true : mp_const_false;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_1x1_obj, test_imlib_sepconv3_1x1);
+
+// Test sepconv3: 2x2 image -- smaller than kernel.
+static mp_obj_t test_imlib_sepconv3_2x2(void) {
+    image_t img = { .w = 2, .h = 2, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    memset(img.data, 50, image_size(&img));
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    for (size_t i = 0; i < image_size(&img); i++) {
+        if (img.data[i] != 50) {
+            return mp_const_false;
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_2x2_obj, test_imlib_sepconv3_2x2);
+
+// Test sepconv3: odd widths not a multiple of SIMD vector size (5, 7, 13).
+// Uniform input so we can check all pixels easily.
+static mp_obj_t test_imlib_sepconv3_odd_sizes(void) {
+    int sizes[] = {5, 7, 13};
+    for (int s = 0; s < 3; s++) {
+        int w = sizes[s], h = sizes[s];
+        image_t img = { .w = w, .h = h, .pixfmt = PIXFORMAT_GRAYSCALE };
+        image_alloc(&img, image_size(&img));
+        memset(img.data, 77, image_size(&img));
+
+        imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+        for (int i = 0; i < w * h; i++) {
+            if (img.data[i] != 77) {
+                return mp_const_false;
+            }
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_odd_sizes_obj, test_imlib_sepconv3_odd_sizes);
+
+// Test sepconv3: tall narrow image (2xN) -- width < SIMD vector size,
+// only scalar path runs for horizontal, vertical has many rows.
+static mp_obj_t test_imlib_sepconv3_tall_narrow(void) {
+    image_t img = { .w = 2, .h = 32, .pixfmt = PIXFORMAT_GRAYSCALE };
+    image_alloc(&img, image_size(&img));
+    memset(img.data, 180, image_size(&img));
+
+    imlib_sepconv3(&img, kernel_gauss_3, 1.0f / 16.0f, 0);
+
+    for (size_t i = 0; i < image_size(&img); i++) {
+        if (img.data[i] != 180) {
+            return mp_const_false;
+        }
+    }
+    return mp_const_true;
+}
+static MP_DEFINE_CONST_FUN_OBJ_0(test_imlib_sepconv3_tall_narrow_obj, test_imlib_sepconv3_tall_narrow);
+
 // Module definition
 static const mp_rom_map_elem_t unittest_imlib_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_unittest_imlib) },
@@ -243,6 +411,15 @@ static const mp_rom_map_elem_t unittest_imlib_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_test_imlib_point), MP_ROM_PTR(&test_imlib_point_obj) },
     { MP_ROM_QSTR(MP_QSTR_test_imlib_point_equal), MP_ROM_PTR(&test_imlib_point_equal_obj) },
     { MP_ROM_QSTR(MP_QSTR_test_imlib_sincos_table), MP_ROM_PTR(&test_imlib_sincos_table_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_impulse), MP_ROM_PTR(&test_imlib_sepconv3_impulse_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_uniform), MP_ROM_PTR(&test_imlib_sepconv3_uniform_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_saturate), MP_ROM_PTR(&test_imlib_sepconv3_saturate_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_min_size), MP_ROM_PTR(&test_imlib_sepconv3_min_size_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_wide), MP_ROM_PTR(&test_imlib_sepconv3_wide_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_1x1), MP_ROM_PTR(&test_imlib_sepconv3_1x1_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_odd_sizes), MP_ROM_PTR(&test_imlib_sepconv3_odd_sizes_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_2x2), MP_ROM_PTR(&test_imlib_sepconv3_2x2_obj) },
+    { MP_ROM_QSTR(MP_QSTR_test_imlib_sepconv3_tall_narrow), MP_ROM_PTR(&test_imlib_sepconv3_tall_narrow_obj) },
 };
 
 static MP_DEFINE_CONST_DICT(unittest_imlib_module_globals, unittest_imlib_module_globals_table);

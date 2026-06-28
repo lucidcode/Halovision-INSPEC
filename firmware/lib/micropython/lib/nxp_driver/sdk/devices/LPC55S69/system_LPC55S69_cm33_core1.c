@@ -2,6 +2,7 @@
 ** ###################################################################
 **     Processors:          LPC55S69JBD100_cm33_core1
 **                          LPC55S69JBD64_cm33_core1
+**                          LPC55S69JEV59_cm33_core1
 **                          LPC55S69JEV98_cm33_core1
 **
 **     Compilers:           GNU C Compiler
@@ -11,7 +12,7 @@
 **
 **     Reference manual:    LPC55S6x/LPC55S2x/LPC552x User manual(UM11126) Rev.1.3  16 May 2019
 **     Version:             rev. 1.1, 2019-05-16
-**     Build:               b200418
+**     Build:               b231019
 **
 **     Abstract:
 **         Provides a system configuration function and a global variable that
@@ -19,9 +20,7 @@
 **         the oscillator (PLL) that is part of the microcontroller device.
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2020 NXP
-**     All rights reserved.
-**
+**     Copyright 2016-2023 NXP
 **     SPDX-License-Identifier: BSD-3-Clause
 **
 **     http:                 www.nxp.com
@@ -116,7 +115,7 @@ static float findPll0MMult(void)
                        (float)(uint32_t)(1UL << PLL_SSCG_MD_INT_P));
         mMult       = (float)mMult_int + mMult_fract;
     }
-    if (mMult == 0.0F)
+    if (0ULL == ((uint64_t)mMult))
     {
         mMult = 1.0F;
     }
@@ -238,7 +237,7 @@ uint32_t SystemCoreClock = DEFAULT_SYSTEM_CLOCK;
    -- SystemInit()
    ---------------------------------------------------------------------------- */
 
-__attribute__((weak)) void SystemInit (void) {
+__attribute__ ((weak)) void SystemInit (void) {
 
   SCB->CPACR |= ((3UL << 0*2) | (3UL << 1*2));    /* set CP0, CP1 Full Access in Secure mode (enable PowerQuad) */
 #if defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)

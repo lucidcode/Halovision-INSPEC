@@ -1,22 +1,26 @@
 /*
 ** ###################################################################
 **     Processors:          MIMXRT1062CVJ5A
+**                          MIMXRT1062CVJ5B
 **                          MIMXRT1062CVL5A
+**                          MIMXRT1062CVL5B
 **                          MIMXRT1062DVJ6A
+**                          MIMXRT1062DVJ6B
 **                          MIMXRT1062DVL6A
+**                          MIMXRT1062DVL6B
+**                          MIMXRT1062DVN6B
+**                          MIMXRT1062XVN5B
 **
 **     Compiler:            GNU C Compiler
-**     Reference manual:    IMXRT1060RM Rev.1, 12/2018 | IMXRT1060SRM Rev.3
-**     Version:             rev. 0.1, 2017-01-10
-**     Build:               b210709
+**     Reference manual:    IMXRT1060RM Rev.3, 07/2021 | IMXRT106XSRM Rev.0
+**     Version:             rev. 0.2, 2022-03-25
+**     Build:               b230508
 **
 **     Abstract:
 **         Linker file for the GNU C Compiler
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2021 NXP
-**     All rights reserved.
-**
+**     Copyright 2016-2023 NXP
 **     SPDX-License-Identifier: BSD-3-Clause
 **
 **     http:                 www.nxp.com
@@ -28,11 +32,12 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-HEAP_SIZE  = DEFINED(__heap_size__)  ? __heap_size__  : 0x80000;
-STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x10000;
+HEAP_SIZE  = DEFINED(__heap_size__)  ? __heap_size__  : 0x0400;
+STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x0400;
 VECTOR_RAM_SIZE = DEFINED(__ram_vector_table__) ? 0x00000400 : 0;
 NCACHE_HEAP_START = DEFINED(__heap_noncacheable__) ? 0x82000000 - HEAP_SIZE : 0x81E00000 - HEAP_SIZE;
 NCACHE_HEAP_SIZE  = DEFINED(__heap_noncacheable__) ? HEAP_SIZE : 0x0000;
+TEXT_SIZE = DEFINED(__use_flash16MB__) ? 0x00FFDC00 : 0x007FDC00;
 
 /* Specify the memory areas */
 MEMORY
@@ -40,7 +45,7 @@ MEMORY
   m_flash_config        (RX)  : ORIGIN = 0x60000000, LENGTH = 0x00001000
   m_ivt                 (RX)  : ORIGIN = 0x60001000, LENGTH = 0x00001000
   m_interrupts          (RX)  : ORIGIN = 0x60002000, LENGTH = 0x00000400
-  m_text                (RX)  : ORIGIN = 0x60002400, LENGTH = 0x007FDC00
+  m_text                (RX)  : ORIGIN = 0x60002400, LENGTH = TEXT_SIZE
   m_qacode              (RX)  : ORIGIN = 0x00000000, LENGTH = 0x00020000
   m_data                (RW)  : ORIGIN = 0x80000000, LENGTH = DEFINED(__heap_noncacheable__) ? 0x01E00000 : 0x01E00000 - HEAP_SIZE
   m_ncache              (RW)  : ORIGIN = 0x81E00000, LENGTH = DEFINED(__heap_noncacheable__) ? 0x00200000 - HEAP_SIZE : 0x00200000

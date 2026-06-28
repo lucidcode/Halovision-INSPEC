@@ -289,45 +289,57 @@ static int omv_i2c_transfer_timeout(omv_i2c_t *i2c, i2c_transfer_t *xfer, uint32
     i2c_clear_all_interrupt(base);
     i2c_set_target_addr(base, xfer->address, I2C_7BIT_ADDRESS, 0);
 
+    // Don't delay or handle pending events in FIFO loops otherwise
+    // the FIFO could underflow, which will generate a STOP condition.
+
     // Write buffered transfer (if any) first.
+    mp_uint_t tick_start = mp_hal_ticks_ms();
     for (size_t cw_idx = 0; cw_idx < i2c->cw_size;) {
-        // Write data to FIFO
         if (base->I2C_STATUS & I2C_IC_STATUS_TFNF) {
             base->I2C_DATA_CMD = (uint16_t) i2c->cw_buf[cw_idx++];
             I2C_CHECK_ERRORS(base);
+            tick_start = mp_hal_ticks_ms();
+        }
+        if ((mp_hal_ticks_ms() - tick_start) >= timeout) {
+            return -1;
         }
     }
 
     size_t tx_size = (xfer->direction == I2C_TRANSFER_WRITE) ? xfer->size : 0;
-    for (size_t tx_idx = 0; tx_idx < tx_size; ) {
-        // Write data to FIFO
+    tick_start = mp_hal_ticks_ms();
+    for (size_t tx_idx = 0; tx_idx < tx_size;) {
         if (base->I2C_STATUS & I2C_IC_STATUS_TFNF) {
             base->I2C_DATA_CMD = (uint16_t) xfer->data[tx_idx++];
             I2C_CHECK_ERRORS(base);
+            tick_start = mp_hal_ticks_ms();
         }
-        // Wait for TX FIFO empty
-        if (tx_idx == tx_size && i2c_poll_flags(base, I2C_IC_STATUS_TFE, 10) != 0) {
+        if ((mp_hal_ticks_ms() - tick_start) >= timeout) {
             return -1;
         }
     }
 
+    // Wait for TX FIFO empty after write.
+    if (tx_size > 0 && i2c_poll_flags(base, I2C_IC_STATUS_TFE, timeout) != 0) {
+        return -1;
+    }
+
+    // Pipeline read commands as fast as FIFO allows.
     size_t rx_size = (xfer->direction == I2C_TRANSFER_READ) ? xfer->size : 0;
-    for (size_t tx_idx = 0, rx_idx = 0; rx_idx < rx_size; ) {
-        // Write command to FIFO
-        if ((base->I2C_STATUS & I2C_IC_STATUS_TFNF) &&
-            !(base->I2C_STATUS & I2C_IC_STATUS_RFNE) && tx_idx++ < rx_size) {
+    tick_start = mp_hal_ticks_ms();
+    for (size_t tx_idx = 0, rx_idx = 0; rx_idx < rx_size;) {
+        if (tx_idx < rx_size && (base->I2C_STATUS & I2C_IC_STATUS_TFNF)) {
             base->I2C_DATA_CMD = I2C_IC_DATA_CMD_READ_REQ;
             I2C_CHECK_ERRORS(base);
+            ++tx_idx;
         }
 
-        // Wait for RX FIFO not empty
-        if (i2c_poll_flags(base, I2C_IC_STATUS_RFNE, timeout) != 0) {
-            return -1;
-        }
-
-        // Read data from FIFO
-        while ((base->I2C_STATUS & I2C_IC_STATUS_RFNE) && rx_idx < rx_size) {
+        while (rx_idx < rx_size && (base->I2C_STATUS & I2C_IC_STATUS_RFNE)) {
             xfer->data[rx_idx++] = base->I2C_DATA_CMD & 0xFF;
+            tick_start = mp_hal_ticks_ms();
+        }
+
+        if ((mp_hal_ticks_ms() - tick_start) >= timeout) {
+            return -1;
         }
     }
 

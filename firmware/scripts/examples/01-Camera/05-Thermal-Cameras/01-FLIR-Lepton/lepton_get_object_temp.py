@@ -63,15 +63,8 @@ while True:
     for blob in img.find_blobs(
         threshold_list, pixels_threshold=200, area_threshold=200, merge=True
     ):
-        stats = img.get_statistics(thresholds=threshold_list, roi=blob.rect())
-        img.draw_rectangle(blob.rect())
-        img.draw_cross(blob.cx(), blob.cy())
-        img.draw_string(
-            blob.x(),
-            blob.y() - 10,
-            "%.2f C" % map_g_to_temp(stats.mean()),
-            mono_space=False,
-        )
+        stats = img.get_statistics(thresholds=threshold_list, roi=blob.rect)
+        img.draw_detection(blob, label="%.2f C" % map_g_to_temp(stats.mean))
     print(
         "FPS %f - Lepton Temp: %f C"
         % (clock.fps(), csi0.ioctl(csi.IOCTL_LEPTON_GET_FPA_TEMP))

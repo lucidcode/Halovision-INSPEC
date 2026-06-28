@@ -138,6 +138,7 @@ list(APPEND MICROPY_SOURCE_PORT
     esp32_pcnt.c
     esp32_rmt.c
     esp32_ulp.c
+    esp32_ldo.c
     modesp32.c
     machine_hw_spi.c
     mpthreadport.c
@@ -168,7 +169,6 @@ list(APPEND IDF_COMPONENTS
     esp_app_format
     esp_mm
     esp_common
-    esp_driver_touch_sens
     esp_eth
     esp_event
     esp_hw_support
@@ -196,6 +196,11 @@ list(APPEND IDF_COMPONENTS
     usb
     vfs
 )
+
+if($ENV{IDF_VERSION} VERSION_GREATER_EQUAL "5.4")
+    list(APPEND IDF_COMPONENTS
+        esp_driver_touch_sens)
+endif()
 
 # Provide the default LD fragment if not set
 if (MICROPY_USER_LDFRAGMENTS)
@@ -244,7 +249,11 @@ set(MICROPY_TARGET ${COMPONENT_TARGET})
 if(CONFIG_IDF_TARGET_ARCH_XTENSA)
     set(MICROPY_CROSS_FLAGS -march=xtensawin)
 elseif(CONFIG_IDF_TARGET_ARCH_RISCV)
-    set(MICROPY_CROSS_FLAGS -march=rv32imc)
+    if (CONFIG_IDF_TARGET_ESP32P4)
+        set(MICROPY_CROSS_FLAGS "-march=rv32imc -march-flags=zcmp")
+    else()
+        set(MICROPY_CROSS_FLAGS -march=rv32imc)
+    endif()
 endif()
 
 # Set compile options for this port.
@@ -268,22 +277,20 @@ target_compile_options(${MICROPY_TARGET} PUBLIC
     -Wno-missing-field-initializers
 )
 
+# User C modules don't pick up certain compile options set by the IDF, most
+# importantly the optimisation level.  So set them here.
+idf_build_get_property(idf_compile_options COMPILE_OPTIONS)
+target_compile_options(usermod INTERFACE ${idf_compile_options})
+
 # Additional include directories needed for private NimBLE headers.
 target_include_directories(${MICROPY_TARGET} PUBLIC
     ${IDF_PATH}/components/bt/host/nimble/nimble
 )
-if (IDF_VERSION VERSION_LESS "5.3")
-# Additional include directories needed for private RMT header.
-#  IDF 5.x versions before 5.3.1
-  message(STATUS "Using private rmt headers for ${IDF_VERSION}")
-  target_include_directories(${MICROPY_TARGET} PRIVATE
-    ${IDF_PATH}/components/driver/rmt
-  )
-endif()
 
 # Add additional extmod and usermod components.
 if (MICROPY_PY_BTREE)
     target_link_libraries(${MICROPY_TARGET} $<TARGET_OBJECTS:micropy_extmod_btree>)
+    target_link_libraries(${MICROPY_TARGET} "-u abort_")  # micropy_extmod_btree links to this symbol found in MICROPY_TARGET
 endif()
 target_link_libraries(${MICROPY_TARGET} usermod)
 

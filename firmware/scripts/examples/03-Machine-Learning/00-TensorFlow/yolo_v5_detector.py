@@ -22,7 +22,6 @@ csi0 = csi.CSI()
 csi0.reset()
 csi0.pixformat(csi.RGB565)
 csi0.framesize(csi.VGA)
-csi0.window((400, 400))
 
 # Load YOLO V5 model from ROM FS.
 model = ml.Model("/rom/<model_file_name>", postprocess=YoloV5(threshold=0.4))

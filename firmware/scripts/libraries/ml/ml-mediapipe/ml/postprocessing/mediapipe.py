@@ -227,7 +227,7 @@ class MoveNet:
             return _NO_DETECTION
 
         arg_y = arg_pred // ow
-        arg_x = mod(arg_pred, ow)
+        arg_x = arg_pred % ow
 
         # Build keypoints array in pixel coordinates [x, y, score]
         ib, ih, iw, ic = model.input_shape[0]

@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2019 NXP
+ * Copyright 2016-2019, 2022, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_RTC_H_
-#define _FSL_RTC_H_
+#ifndef FSL_RTC_H_
+#define FSL_RTC_H_
 
 #include "fsl_common.h"
 
@@ -20,9 +20,9 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-#define FSL_RTC_DRIVER_VERSION (MAKE_VERSION(2, 2, 1)) /*!< Version 2.2.1 */
-/*@}*/
+/*! @{ */
+#define FSL_RTC_DRIVER_VERSION (MAKE_VERSION(2, 3, 0)) /*!< Version 2.3.0 */
+/*! @} */
 
 /*! @brief List of RTC interrupts */
 typedef enum _rtc_interrupt_enable
@@ -30,10 +30,10 @@ typedef enum _rtc_interrupt_enable
     kRTC_TimeInvalidInterruptEnable  = (1U << 0U), /*!< Time invalid interrupt.*/
     kRTC_TimeOverflowInterruptEnable = (1U << 1U), /*!< Time overflow interrupt.*/
     kRTC_AlarmInterruptEnable        = (1U << 2U), /*!< Alarm interrupt.*/
-    kRTC_SecondsInterruptEnable      = (1U << 3U), /*!< Seconds interrupt.*/
 #if defined(FSL_FEATURE_RTC_HAS_MONOTONIC) && (FSL_FEATURE_RTC_HAS_MONOTONIC)
-    kRTC_MonotonicOverflowInterruptEnable = (1U << 4U), /*!< Monotonic Overflow Interrupt Enable */
+    kRTC_MonotonicOverflowInterruptEnable = (1U << 3U), /*!< Monotonic Overflow Interrupt Enable */
 #endif                                                  /* FSL_FEATURE_RTC_HAS_MONOTONIC */
+    kRTC_SecondsInterruptEnable      = (1U << 4U), /*!< Seconds interrupt.*/
 #if (defined(FSL_FEATURE_RTC_HAS_TIR) && FSL_FEATURE_RTC_HAS_TIR)
     kRTC_TestModeInterruptEnable      = (1U << 5U), /* test mode interrupt */
     kRTC_FlashSecurityInterruptEnable = (1U << 6U), /* flash security interrupt */
@@ -315,10 +315,38 @@ void RTC_ClearStatusFlags(RTC_Type *base, uint32_t mask);
 
 /*! @}*/
 
+/*!
+ * @name Clock Source Configuration
+ * @{
+ */
+
 #if !(defined(FSL_FEATURE_RTC_HAS_NO_CR_OSCE) && FSL_FEATURE_RTC_HAS_NO_CR_OSCE)
+
+/*!
+ * @brief Enable/Disable RTC 32kHz Oscillator clock.
+ *
+ * @param base RTC peripheral base address
+ * @param enable Enable/Disable RTC 32.768 kHz clock
+ *
+ * @note After setting this bit, wait the oscillator startup time before enabling
+ *       the time counter to allow the 32.768 kHz clock time to stabilize.
+ */
+static inline void RTC_EnableOscillatorClock(RTC_Type *base, bool enable)
+{
+    if (enable)
+    {
+        base->CR |= RTC_CR_OSCE_MASK;
+    }
+    else
+    {
+        base->CR &= ~RTC_CR_OSCE_MASK;
+    }
+}
+
 /*!
  * @brief Set RTC clock source.
- *
+ * @deprecated Do not use this function. It has been superceded by @ref RTC_EnableOscillatorClock
+
  * @param base RTC peripheral base address
  *
  * @note After setting this bit, wait the oscillator startup time before enabling
@@ -329,7 +357,35 @@ static inline void RTC_SetClockSource(RTC_Type *base)
     /* Enable the RTC 32KHz oscillator */
     base->CR |= RTC_CR_OSCE_MASK;
 }
+
 #endif /* FSL_FEATURE_RTC_HAS_NO_CR_OSCE */
+
+#if (defined(FSL_FEATURE_RTC_HAS_LPO_ADJUST) && FSL_FEATURE_RTC_HAS_LPO_ADJUST)
+
+/*!
+ * @brief Enable/Disable RTC 1kHz LPO clock.
+ *
+ * @param base RTC peripheral base address
+ * @param enable Enable/Disable RTC 1kHz LPO clock
+ *
+ * @note After setting this bit, RTC prescaler increments using the LPO 1kHz clock
+ *       and not the RTC 32kHz crystal clock.
+ */
+static inline void RTC_EnableLPOClock(RTC_Type *base, bool enable)
+{
+    if (enable)
+    {
+        base->CR |= RTC_CR_LPOS_MASK;
+    }
+    else
+    {
+        base->CR &= ~RTC_CR_LPOS_MASK;
+    }
+}
+
+#endif /* FSL_FEATURE_RTC_HAS_LPO_ADJUST */
+
+/*! @}*/
 
 #if (defined(FSL_FEATURE_RTC_HAS_TTSR) && FSL_FEATURE_RTC_HAS_TTSR)
 
@@ -487,4 +543,4 @@ static inline void RTC_EnableWakeUpPin(RTC_Type *base, bool enable)
 
 /*! @}*/
 
-#endif /* _FSL_RTC_H_ */
+#endif /* FSL_RTC_H_ */

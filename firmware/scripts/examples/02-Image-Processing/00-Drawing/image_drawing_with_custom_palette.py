@@ -58,10 +58,7 @@ while True:
         y_scale=8,
     )
     img.draw_rectangle(
-        palette_boundary_inset,
-        palette_boundary_inset,
-        int(palette.width() * palette_scale_x),
-        8,
+        (palette_boundary_inset, palette_boundary_inset, int(palette.width() * palette_scale_x), 8),
         color=(255, 255, 255),
         thickness=1,
     )

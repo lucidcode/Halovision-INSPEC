@@ -31,7 +31,7 @@ print(face_cascade)
 # Note: This takes more time when exec from the IDE.
 for i in range(0, 30):
     img = csi0.snapshot()
-    img.draw_string(0, 0, "Please wait...")
+    img.draw_string((0, 0), "Please wait...")
 
 d0 = None
 # d0 = image.load_descriptor("desc.lbp")
@@ -41,16 +41,16 @@ while True:
     clock.tick()
     img = csi0.snapshot()
 
-    objects = img.find_features(face_cascade, threshold=0.5, scale_factor=1.25)
+    objects = img.find_features(face_cascade, threshold=0.5, scale=1.25)
     if objects:
         face = objects[0]
-        d1 = img.find_lbp(face)
+        d1 = img.find_lbp(roi=face)
         if d0 is None:
             d0 = d1
         else:
             dist = image.match_descriptor(d0, d1)
-            img.draw_string(0, 10, "Match %d%%" % (dist))
+            img.draw_string((0, 10), "Match %d%%" % (dist))
 
         img.draw_rectangle(face)
     # Draw FPS
-    img.draw_string(0, 0, "FPS:%.2f" % (clock.fps()))
+    img.draw_string((0, 0), "FPS:%.2f" % (clock.fps()))

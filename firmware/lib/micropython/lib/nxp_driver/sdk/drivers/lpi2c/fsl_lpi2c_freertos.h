@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef __FSL_LPI2C_FREERTOS_H__
-#define __FSL_LPI2C_FREERTOS_H__
+#ifndef FSL_LPI2C_FREERTOS_H__
+#define FSL_LPI2C_FREERTOS_H__
 
 #include "FreeRTOS.h"
 #include "portable.h"
@@ -24,10 +24,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief LPI2C FreeRTOS driver version. */
-#define FSL_LPI2C_FREERTOS_DRIVER_VERSION (MAKE_VERSION(2, 3, 0))
-/*@}*/
+#define FSL_LPI2C_FREERTOS_DRIVER_VERSION (MAKE_VERSION(2, 3, 2))
+/*! @} */
 
 /*!
  * @cond RTOS_PRIVATE
@@ -104,4 +104,4 @@ status_t LPI2C_RTOS_Transfer(lpi2c_rtos_handle_t *handle, lpi2c_master_transfer_
  * @}
  */
 
-#endif /* __FSL_LPI2C_FREERTOS_H__ */
+#endif /* FSL_LPI2C_FREERTOS_H__ */

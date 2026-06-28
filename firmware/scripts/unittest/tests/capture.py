@@ -22,4 +22,4 @@ def unittest(data_path, temp_path):
     stats_gs = img.difference(data_path + "/csi.pgm").get_statistics()
 
     # Compare with reference image
-    return (stats_rgb.max() + stats_rgb.min() + stats_gs.max() + stats_gs.min()) == 0
+    return (stats_rgb.max + stats_rgb.min + stats_gs.max + stats_gs.min) == 0

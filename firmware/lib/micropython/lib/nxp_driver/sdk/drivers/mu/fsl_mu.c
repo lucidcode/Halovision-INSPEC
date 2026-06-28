@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2020, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -8,9 +8,16 @@
 
 #include "fsl_mu.h"
 
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
 /* Component ID definition, used by tools. */
 #ifndef FSL_COMPONENT_ID
 #define FSL_COMPONENT_ID "platform.drivers.mu"
+#endif
+
+#if defined(MU_RSTS)
+#define MU_RESETS_ARRAY MU_RSTS
 #endif
 
 /*******************************************************************************
@@ -19,13 +26,19 @@
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /*! @brief Pointers to mu clocks for each instance. */
 static const clock_ip_name_t s_muClocks[] = MU_CLOCKS;
-#endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 /*! @brief Pointers to mu bases for each instance. */
 static MU_Type *const s_muBases[] = MU_BASE_PTRS;
+#endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
+
+#if defined(MU_RESETS_ARRAY)
+/* Reset array */
+static const reset_ip_name_t s_muResets[] = MU_RESETS_ARRAY;
+#endif
 
 /******************************************************************************
  * Code
  *****************************************************************************/
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 static uint32_t MU_GetInstance(MU_Type *base)
 {
     uint32_t instance;
@@ -33,7 +46,7 @@ static uint32_t MU_GetInstance(MU_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0U; instance < (sizeof(s_muBases) / sizeof(s_muBases[0])); instance++)
     {
-        if (s_muBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_muBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -43,6 +56,7 @@ static uint32_t MU_GetInstance(MU_Type *base)
 
     return instance;
 }
+#endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
 /*!
  * brief Initializes the MU module.
@@ -56,6 +70,10 @@ void MU_Init(MU_Type *base)
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
     (void)CLOCK_EnableClock(s_muClocks[MU_GetInstance(base)]);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
+
+#if defined(MU_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_muResets[MU_GetInstance(base)]);
+#endif
 }
 
 /*!

@@ -1,17 +1,17 @@
 /*
- * Copyright 2017-2021 NXP
+ * Copyright 2017-2023 NXP
  * All rights reserved.
  *
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_ELCDIF_H_
-#define _FSL_ELCDIF_H_
+#ifndef FSL_ELCDIF_H_
+#define FSL_ELCDIF_H_
 
 #include "fsl_common.h"
 
-#if defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET
+#if (defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && (0 != FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET))
 #include "fsl_memory.h"
 #endif
 
@@ -25,10 +25,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief eLCDIF driver version */
-#define FSL_ELCDIF_DRIVER_VERSION (MAKE_VERSION(2, 0, 4))
-/*@}*/
+#define FSL_ELCDIF_DRIVER_VERSION (MAKE_VERSION(2, 0, 7))
+/*! @} */
 
 /* All IRQ flags in CTRL1 register. */
 #define ELCDIF_CTRL1_IRQ_MASK                                                                         \
@@ -54,7 +54,8 @@
 #define ELCDIF_AS_CTRL_IRQ_EN_MASK 0U
 #endif
 
-#if ((ELCDIF_CTRL1_IRQ_MASK & ELCDIF_AS_CTRL_IRQ_MASK) || (ELCDIF_AS_CTRL_IRQ_MASK & ELCDIF_AS_CTRL_IRQ_EN_MASK))
+#if ((0 != (ELCDIF_CTRL1_IRQ_MASK & ELCDIF_AS_CTRL_IRQ_MASK)) || \
+     (0 != (ELCDIF_AS_CTRL_IRQ_MASK & ELCDIF_AS_CTRL_IRQ_EN_MASK)))
 #error Interrupt bits overlap, need to update the interrupt functions.
 #endif
 
@@ -64,7 +65,7 @@
 #define FSL_FEATURE_LCDIF_HAS_PXP_HANDSHAKE 0
 #endif
 
-#if defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET
+#if (defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && (0 != FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET))
 #define ELCDIF_ADDR_CPU_2_IP(addr) (MEMORY_ConvertMemoryMapAddress((uint32_t)(addr), kMEMORY_Local2DMA))
 #else
 #define ELCDIF_ADDR_CPU_2_IP(addr) (addr)
@@ -78,14 +79,15 @@
  */
 enum _elcdif_polarity_flags
 {
-    kELCDIF_VsyncActiveLow            = 0U,                            /*!< VSYNC active low. */
-    kELCDIF_VsyncActiveHigh           = LCDIF_VDCTRL0_VSYNC_POL_MASK,  /*!< VSYNC active high. */
-    kELCDIF_HsyncActiveLow            = 0U,                            /*!< HSYNC active low. */
-    kELCDIF_HsyncActiveHigh           = LCDIF_VDCTRL0_HSYNC_POL_MASK,  /*!< HSYNC active high. */
-    kELCDIF_DataEnableActiveLow       = 0U,                            /*!< Data enable line active low. */
-    kELCDIF_DataEnableActiveHigh      = LCDIF_VDCTRL0_ENABLE_POL_MASK, /*!< Data enable line active high. */
+    kELCDIF_VsyncActiveLow            = 0U, /*!< VSYNC active low. */
+    kELCDIF_HsyncActiveLow            = 0U, /*!< HSYNC active low. */
+    kELCDIF_DataEnableActiveLow       = 0U, /*!< Data enable line active low. */
     kELCDIF_DriveDataOnFallingClkEdge = 0U, /*!< Drive data on falling clock edge, capture data
                                                  on rising clock edge. */
+
+    kELCDIF_VsyncActiveHigh          = LCDIF_VDCTRL0_VSYNC_POL_MASK,  /*!< VSYNC active high. */
+    kELCDIF_HsyncActiveHigh          = LCDIF_VDCTRL0_HSYNC_POL_MASK,  /*!< HSYNC active high. */
+    kELCDIF_DataEnableActiveHigh     = LCDIF_VDCTRL0_ENABLE_POL_MASK, /*!< Data enable line active high. */
     kELCDIF_DriveDataOnRisingClkEdge = LCDIF_VDCTRL0_DOTCLK_POL_MASK, /*!< Drive data on falling
                                                                         clock edge, capture data
                                                                         on rising clock edge. */
@@ -350,7 +352,7 @@ void ELCDIF_RgbModeGetDefaultConfig(elcdif_rgb_mode_config_t *config);
  */
 void ELCDIF_Deinit(LCDIF_Type *base);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Module operation
@@ -400,7 +402,7 @@ static inline void ELCDIF_SetNextBufferAddr(LCDIF_Type *base, uint32_t bufferAdd
  */
 void ELCDIF_Reset(LCDIF_Type *base);
 
-#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_RESET_PIN) && FSL_FEATURE_LCDIF_HAS_NO_RESET_PIN)
+#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_RESET_PIN) && (0 != FSL_FEATURE_LCDIF_HAS_NO_RESET_PIN))
 /*!
  * @brief Pull up or down the reset pin for the externel LCD controller.
  *
@@ -420,7 +422,7 @@ static inline void ELCDIF_PullUpResetPin(LCDIF_Type *base, bool pullUp)
 }
 #endif
 
-#if defined(FSL_FEATURE_LCDIF_HAS_PXP_HANDSHAKE) && FSL_FEATURE_LCDIF_HAS_PXP_HANDSHAKE
+#if (defined(FSL_FEATURE_LCDIF_HAS_PXP_HANDSHAKE) && (0 != FSL_FEATURE_LCDIF_HAS_PXP_HANDSHAKE))
 /*!
  * @brief Enable or disable the hand shake with PXP.
  *
@@ -440,7 +442,7 @@ static inline void ELCDIF_EnablePxpHandShake(LCDIF_Type *base, bool enable)
 }
 #endif
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Status
@@ -458,7 +460,7 @@ static inline void ELCDIF_EnablePxpHandShake(LCDIF_Type *base, bool enable)
  *
  * @note The CRC value is dependent on the LCD_DATABUS_WIDTH.
  */
-static inline uint32_t ELCDIF_GetCrcValue(LCDIF_Type *base)
+static inline uint32_t ELCDIF_GetCrcValue(const LCDIF_Type *base)
 {
     return base->CRC_STAT;
 }
@@ -473,7 +475,7 @@ static inline uint32_t ELCDIF_GetCrcValue(LCDIF_Type *base)
  * @param base eLCDIF peripheral base address.
  * @return The error virtual address.
  */
-static inline uint32_t ELCDIF_GetBusMasterErrorAddr(LCDIF_Type *base)
+static inline uint32_t ELCDIF_GetBusMasterErrorAddr(const LCDIF_Type *base)
 {
     return base->BM_ERROR_STAT;
 }
@@ -500,7 +502,7 @@ static inline uint32_t ELCDIF_GetBusMasterErrorAddr(LCDIF_Type *base)
  * @param base eLCDIF peripheral base address.
  * @return The mask value of status flags, it is OR'ed value of @ref _elcdif_status_flags.
  */
-static inline uint32_t ELCDIF_GetStatus(LCDIF_Type *base)
+static inline uint32_t ELCDIF_GetStatus(const LCDIF_Type *base)
 {
     return base->STAT & (LCDIF_STAT_LFIFO_FULL_MASK | LCDIF_STAT_LFIFO_EMPTY_MASK | LCDIF_STAT_TXFIFO_FULL_MASK |
                          LCDIF_STAT_TXFIFO_EMPTY_MASK
@@ -519,12 +521,12 @@ static inline uint32_t ELCDIF_GetStatus(LCDIF_Type *base)
  * @param base eLCDIF peripheral base address.
  * @return The LFIFO current count
  */
-static inline uint32_t ELCDIF_GetLFifoCount(LCDIF_Type *base)
+static inline uint32_t ELCDIF_GetLFifoCount(const LCDIF_Type *base)
 {
     return (base->STAT & LCDIF_STAT_LFIFO_COUNT_MASK) >> LCDIF_STAT_LFIFO_COUNT_SHIFT;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -540,7 +542,7 @@ static inline uint32_t ELCDIF_GetLFifoCount(LCDIF_Type *base)
 static inline void ELCDIF_EnableInterrupts(LCDIF_Type *base, uint32_t mask)
 {
     base->CTRL1_SET = (mask & ELCDIF_CTRL1_IRQ_EN_MASK);
-#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && FSL_FEATURE_LCDIF_HAS_NO_AS)
+#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && (0 != FSL_FEATURE_LCDIF_HAS_NO_AS))
     base->AS_CTRL |= (mask & ELCDIF_AS_CTRL_IRQ_EN_MASK);
 #endif
 }
@@ -554,7 +556,7 @@ static inline void ELCDIF_EnableInterrupts(LCDIF_Type *base, uint32_t mask)
 static inline void ELCDIF_DisableInterrupts(LCDIF_Type *base, uint32_t mask)
 {
     base->CTRL1_CLR = (mask & ELCDIF_CTRL1_IRQ_EN_MASK);
-#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && FSL_FEATURE_LCDIF_HAS_NO_AS)
+#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && (0 != FSL_FEATURE_LCDIF_HAS_NO_AS))
     base->AS_CTRL &= ~(mask & ELCDIF_AS_CTRL_IRQ_EN_MASK);
 #endif
 }
@@ -565,12 +567,12 @@ static inline void ELCDIF_DisableInterrupts(LCDIF_Type *base, uint32_t mask)
  * @param base eLCDIF peripheral base address.
  * @return Interrupt pending status, OR'ed value of _elcdif_interrupt_flags.
  */
-static inline uint32_t ELCDIF_GetInterruptStatus(LCDIF_Type *base)
+static inline uint32_t ELCDIF_GetInterruptStatus(const LCDIF_Type *base)
 {
     uint32_t flags;
 
     flags = (base->CTRL1 & ELCDIF_CTRL1_IRQ_MASK);
-#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && FSL_FEATURE_LCDIF_HAS_NO_AS)
+#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && (0 != FSL_FEATURE_LCDIF_HAS_NO_AS))
     flags |= (base->AS_CTRL & ELCDIF_AS_CTRL_IRQ_MASK);
 #endif
 
@@ -586,14 +588,14 @@ static inline uint32_t ELCDIF_GetInterruptStatus(LCDIF_Type *base)
 static inline void ELCDIF_ClearInterruptStatus(LCDIF_Type *base, uint32_t mask)
 {
     base->CTRL1_CLR = (mask & ELCDIF_CTRL1_IRQ_MASK);
-#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && FSL_FEATURE_LCDIF_HAS_NO_AS)
+#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && (0 != FSL_FEATURE_LCDIF_HAS_NO_AS))
     base->AS_CTRL &= ~(mask & ELCDIF_AS_CTRL_IRQ_MASK);
 #endif
 }
 
-/* @} */
+/*! @} */
 
-#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && FSL_FEATURE_LCDIF_HAS_NO_AS)
+#if !(defined(FSL_FEATURE_LCDIF_HAS_NO_AS) && (0 != FSL_FEATURE_LCDIF_HAS_NO_AS))
 /*!
  * @name Alpha surface
  * @{
@@ -702,10 +704,10 @@ static inline void ELCDIF_EnableProcessSurface(LCDIF_Type *base, bool enable)
     }
 }
 
-/* @} */
+/*! @} */
 #endif /* FSL_FEATURE_LCDIF_HAS_NO_AS */
 
-#if (defined(FSL_FEATURE_LCDIF_HAS_LUT) && FSL_FEATURE_LCDIF_HAS_LUT)
+#if (defined(FSL_FEATURE_LCDIF_HAS_LUT) && (0 != FSL_FEATURE_LCDIF_HAS_LUT))
 /*!
  * @name LUT
  *
@@ -753,13 +755,13 @@ static inline void ELCDIF_EnableLut(LCDIF_Type *base, bool enable)
 status_t ELCDIF_UpdateLut(
     LCDIF_Type *base, elcdif_lut_t lut, uint16_t startIndex, const uint32_t *lutData, uint16_t count);
 
-/* @} */
+/*! @} */
 #endif /* FSL_FEATURE_LCDIF_HAS_LUT */
 
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 
-/* @} */
+/*! @} */
 
-#endif /*_FSL_ELCDIF_H_*/
+#endif /*FSL_ELCDIF_H_*/

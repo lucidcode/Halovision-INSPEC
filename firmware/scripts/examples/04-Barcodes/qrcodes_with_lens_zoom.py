@@ -24,6 +24,6 @@ while True:
     clock.tick()
     img = csi0.snapshot()
     for code in img.find_qrcodes():
-        img.draw_rectangle(code.rect(), color=127)
+        img.draw_rectangle(code.rect, color=127)
         print(code)
     print(clock.fps())

@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_DSPI_EDMA_H_
-#define _FSL_DSPI_EDMA_H_
+#ifndef FSL_DSPI_EDMA_H_
+#define FSL_DSPI_EDMA_H_
 
 #include "fsl_dspi.h"
 #include "fsl_edma.h"
@@ -20,10 +20,10 @@
  **********************************************************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief DSPI EDMA driver version 2.2.4 */
-#define FSL_DSPI_EDMA_DRIVER_VERSION (MAKE_VERSION(2, 2, 4))
-/*@}*/
+/*! @{ */
+/*! @brief DSPI EDMA driver version 2.2.6 */
+#define FSL_DSPI_EDMA_DRIVER_VERSION (MAKE_VERSION(2, 2, 6))
+/*! @} */
 
 /*! @brief DSPI EDMA max transfer data size calculate
  * @param base DSPI peripheral base address.
@@ -83,7 +83,7 @@ struct _dspi_master_edma_handle
     uint8_t nbytes;         /*!< eDMA minor byte transfer count initially configured. */
     volatile uint8_t state; /*!< DSPI transfer state, see @ref _dspi_transfer_state.*/
 
-    uint8_t *volatile txData;                  /*!< Send buffer. */
+    const uint8_t *volatile txData; /*!< Send buffer. */
     uint8_t *volatile rxData;                  /*!< Receive buffer. */
     volatile size_t remainingSendByteCount;    /*!< A number of bytes remaining to send.*/
     volatile size_t remainingReceiveByteCount; /*!< A number of bytes remaining to receive.*/
@@ -107,7 +107,7 @@ struct _dspi_slave_edma_handle
 {
     uint32_t bitsPerFrame; /*!< The desired number of bits per frame. */
 
-    uint8_t *volatile txData;                  /*!< Send buffer. */
+    const uint8_t *volatile txData;            /*!< Send buffer. */
     uint8_t *volatile rxData;                  /*!< Receive buffer. */
     volatile size_t remainingSendByteCount;    /*!< A number of bytes remaining to send.*/
     volatile size_t remainingReceiveByteCount; /*!< A number of bytes remaining to receive.*/
@@ -297,4 +297,4 @@ status_t DSPI_SlaveTransferGetCountEDMA(SPI_Type *base, dspi_slave_edma_handle_t
  *@}
  */
 
-#endif /*_FSL_DSPI_EDMA_H_*/
+#endif /*FSL_DSPI_EDMA_H_*/

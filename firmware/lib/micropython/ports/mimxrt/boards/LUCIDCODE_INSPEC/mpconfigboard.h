@@ -18,8 +18,6 @@ extern void mimxrt_hal_bootloader(void);
 
 #define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "openmvrt1060"
 
-#define MICROPY_PY_MACHINE_CAN      (1)
-
 #define MICROPY_HW_USB_MSC          (1)
 #define MICROPY_HW_USB_VID          0x37c5
 #define MICROPY_HW_USB_PID          0x1060

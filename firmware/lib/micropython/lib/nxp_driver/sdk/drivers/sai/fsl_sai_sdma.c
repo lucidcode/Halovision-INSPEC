@@ -104,7 +104,12 @@ static void SAI_TxSDMACallback(sdma_handle_t *handle, void *userData, bool trans
     /* If all data finished, just stop the transfer */
     if (saiHandle->saiQueue[saiHandle->queueDriver].data == NULL)
     {
-        SAI_TransferAbortSendSDMA(privHandle->base, saiHandle);
+        /* Disable dma */
+        SDMA_AbortTransfer(handle);
+        /* Disable DMA enable bit */
+        SAI_TxEnableDMA(privHandle->base, kSAI_FIFORequestDMAEnable, false);
+        /* Set the handle state */
+        saiHandle->state = (uint32_t)kSAI_Idle;
     }
 }
 
@@ -124,7 +129,12 @@ static void SAI_RxSDMACallback(sdma_handle_t *handle, void *userData, bool trans
     /* If all data finished, just stop the transfer */
     if (saiHandle->saiQueue[saiHandle->queueDriver].data == NULL)
     {
-        SAI_TransferAbortReceiveSDMA(privHandle->base, saiHandle);
+        /* Disable dma */
+        SDMA_AbortTransfer(handle);
+        /* Disable DMA enable bit */
+        SAI_RxEnableDMA(privHandle->base, kSAI_FIFORequestDMAEnable, false);
+        /* Set the handle state */
+        saiHandle->state = (uint32_t)kSAI_Idle;
     }
 }
 
@@ -219,72 +229,6 @@ void SAI_TransferRxCreateHandleSDMA(I2S_Type *base,
 }
 
 /*!
- * brief Configures the SAI Tx audio format.
- *
- * The audio format can be changed at run-time. This function configures the sample rate and audio data
- * format to be transferred. This function also sets the SDMA parameter according to formatting requirements.
- *
- * param base SAI base pointer.
- * param handle SAI SDMA handle pointer.
- * param format Pointer to SAI audio data format structure.
- * param mclkSourceClockHz SAI master clock source frequency in Hz.
- * param bclkSourceClockHz SAI bit clock source frequency in Hz. If bit clock source is master
- * clock, this value should equals to masterClockHz in format.
- * retval kStatus_Success Audio format set successfully.
- * retval kStatus_InvalidArgument The input argument is invalid.
- */
-void SAI_TransferTxSetFormatSDMA(I2S_Type *base,
-                                 sai_sdma_handle_t *handle,
-                                 sai_transfer_format_t *format,
-                                 uint32_t mclkSourceClockHz,
-                                 uint32_t bclkSourceClockHz)
-{
-    assert((handle != NULL) && (format != NULL));
-
-    /* Configure the audio format to SAI registers */
-    SAI_TxSetFormat(base, format, mclkSourceClockHz, bclkSourceClockHz);
-
-    /* Get the transfer size from format, this should be used in SDMA configuration */
-    if (format->bitWidth == 24U)
-    {
-        handle->bytesPerFrame = 4U;
-    }
-    else
-    {
-        handle->bytesPerFrame = (uint8_t)(format->bitWidth / 8U);
-    }
-
-    /* Update the data channel SAI used */
-    handle->channel = format->channel;
-
-    if (format->channelNums == 0U)
-    {
-        format->channelNums = 1U;
-    }
-    handle->channelNums = format->channelNums;
-    handle->channelMask = format->channelMask;
-    if (format->channelNums > 1U)
-    {
-        /* fifo address offset, 4U is the address offset between each fifo */
-        handle->fifoOffset = ((format->endChannel - format->channel) * 4U) / (format->channelNums - 1U);
-    }
-    else
-    {
-        handle->fifoOffset = 0U;
-    }
-
-#if defined(FSL_FEATURE_SAI_FIFO_COUNT) && (FSL_FEATURE_SAI_FIFO_COUNT > 1)
-    handle->count =
-        ((uint32_t)FSL_FEATURE_SAI_FIFO_COUNT - (uint32_t)format->watermark) * (uint32_t)format->channelNums;
-#else
-    handle->count = 1U * format->channelNums;
-#endif /* FSL_FEATURE_SAI_FIFO_COUNT */
-
-    /* Clear the channel enable bits until do a send/receive */
-    base->TCR3 &= ~I2S_TCR3_TCE_MASK;
-}
-
-/*!
  * brief Configures the SAI Tx audio.
  *
  * param base SAI base pointer.
@@ -319,82 +263,15 @@ void SAI_TransferTxSetConfigSDMA(I2S_Type *base, sai_sdma_handle_t *handle, sai_
         handle->fifoOffset = 0U;
     }
 
-#if defined(FSL_FEATURE_SAI_FIFO_COUNT) && (FSL_FEATURE_SAI_FIFO_COUNT > 1)
-    handle->count = ((uint32_t)FSL_FEATURE_SAI_FIFO_COUNT - (uint32_t)saiConfig->fifo.fifoWatermark) *
+#if defined(FSL_FEATURE_SAI_HAS_FIFO) && (FSL_FEATURE_SAI_HAS_FIFO)
+    handle->count = ((uint32_t)FSL_FEATURE_SAI_FIFO_COUNTn(base) - (uint32_t)saiConfig->fifo.fifoWatermark) *
                     (uint32_t)saiConfig->channelNums;
 #else
     handle->count = 1U * saiConfig->channelNums;
-#endif /* FSL_FEATURE_SAI_FIFO_COUNT */
+#endif /* FSL_FEATURE_SAI_HAS_FIFO */
 
     /* Clear the channel enable bits until do a send/receive */
     base->TCR3 &= ~I2S_TCR3_TCE_MASK;
-}
-
-/*!
- * brief Configures the SAI Rx audio format.
- *
- * The audio format can be changed at run-time. This function configures the sample rate and audio data
- * format to be transferred. This function also sets the SDMA parameter according to formatting requirements.
- *
- * param base SAI base pointer.
- * param handle SAI SDMA handle pointer.
- * param format Pointer to SAI audio data format structure.
- * param mclkSourceClockHz SAI master clock source frequency in Hz.
- * param bclkSourceClockHz SAI bit clock source frequency in Hz. If a bit clock source is the master
- * clock, this value should equal to masterClockHz in format.
- * retval kStatus_Success Audio format set successfully.
- * retval kStatus_InvalidArgument The input argument is invalid.
- */
-void SAI_TransferRxSetFormatSDMA(I2S_Type *base,
-                                 sai_sdma_handle_t *handle,
-                                 sai_transfer_format_t *format,
-                                 uint32_t mclkSourceClockHz,
-                                 uint32_t bclkSourceClockHz)
-{
-    assert((handle != NULL) && (format != NULL));
-
-    /* Configure the audio format to SAI registers */
-    SAI_RxSetFormat(base, format, mclkSourceClockHz, bclkSourceClockHz);
-
-    /* Get the transfer size from format, this should be used in SDMA configuration */
-    if (format->bitWidth == 24U)
-    {
-        handle->bytesPerFrame = 4U;
-    }
-    else
-    {
-        handle->bytesPerFrame = (uint8_t)(format->bitWidth / 8U);
-    }
-
-    /* configurations for multififo */
-    if (format->channelNums == 0U)
-    {
-        format->channelNums = 1U;
-    }
-
-    handle->channelNums = format->channelNums;
-    handle->channelMask = format->channelMask;
-
-    if (format->channelNums > 1U)
-    {
-        /* fifo address offset, 4U is the address offset between each fifo */
-        handle->fifoOffset = ((format->endChannel - format->channel) * 4U) / (format->channelNums - 1U);
-    }
-    else
-    {
-        handle->fifoOffset = 0U;
-    }
-    /* Update the data channel SAI used */
-    handle->channel = format->channel;
-
-#if defined(FSL_FEATURE_SAI_FIFO_COUNT) && (FSL_FEATURE_SAI_FIFO_COUNT > 1)
-    handle->count = (uint32_t)format->watermark * (uint32_t)format->channelNums;
-#else
-    handle->count = 1U * format->channelNums;
-#endif /* FSL_FEATURE_SAI_FIFO_COUNT */
-
-    /* Clear the channel enable bits until do a send/receive */
-    base->RCR3 &= ~I2S_RCR3_RCE_MASK;
 }
 
 /*!
@@ -434,11 +311,11 @@ void SAI_TransferRxSetConfigSDMA(I2S_Type *base, sai_sdma_handle_t *handle, sai_
     /* Update the data channel SAI used */
     handle->channel = saiConfig->startChannel;
 
-#if defined(FSL_FEATURE_SAI_FIFO_COUNT) && (FSL_FEATURE_SAI_FIFO_COUNT > 1)
+#if defined(FSL_FEATURE_SAI_HAS_FIFO) && (FSL_FEATURE_SAI_HAS_FIFO)
     handle->count = (uint32_t)saiConfig->fifo.fifoWatermark * (uint32_t)saiConfig->channelNums;
 #else
     handle->count = 1U * saiConfig->channelNums;
-#endif /* FSL_FEATURE_SAI_FIFO_COUNT */
+#endif /* FSL_FEATURE_SAI_HAS_FIFO */
 
     /* Clear the channel enable bits until do a send/receive */
     base->RCR3 &= ~I2S_RCR3_RCE_MASK;
@@ -671,8 +548,37 @@ void SAI_TransferAbortSendSDMA(I2S_Type *base, sai_sdma_handle_t *handle)
     /* Disable Tx */
     SAI_TxEnable(base, false);
 
+    /* Handle the queue index */
+    (void)memset(&handle->saiQueue[handle->queueDriver], 0, sizeof(sai_transfer_t));
+    handle->queueDriver = (handle->queueDriver + 1U) % (uint8_t)SAI_XFER_QUEUE_SIZE;
+
     /* Set the handle state */
     handle->state = (uint32_t)kSAI_Idle;
+}
+
+/*!
+ * brief Terminate all the SAI sdma send transfer.
+ *
+ * param base SAI base pointer.
+ * param handle SAI SDMA handle pointer.
+ */
+void SAI_TransferTerminateSendSDMA(I2S_Type *base, sai_sdma_handle_t *handle)
+{
+    assert(handle != NULL);
+
+    /* abort current transfer */
+    SAI_TransferAbortSendSDMA(base, handle);
+
+    /* Clear all the internal information */
+    (void)memset(handle->bdPool, 0, sizeof(handle->bdPool));
+    (void)memset(handle->saiQueue, 0, sizeof(handle->saiQueue));
+    (void)memset(handle->transferSize, 0, sizeof(handle->transferSize));
+
+    handle->queueUser   = 0U;
+    handle->queueDriver = 0U;
+
+    /* Reset the internal state of bd pool */
+    SDMA_InstallBDMemory(handle->dmaHandle, handle->bdPool, handle->dmaHandle->bdCount);
 }
 
 /*!
@@ -701,6 +607,35 @@ void SAI_TransferAbortReceiveSDMA(I2S_Type *base, sai_sdma_handle_t *handle)
     base->RCSR |= (I2S_RCSR_FR_MASK | I2S_RCSR_SR_MASK);
     base->RCSR &= ~I2S_RCSR_SR_MASK;
 
+    /* Handle the queue index */
+    (void)memset(&handle->saiQueue[handle->queueDriver], 0, sizeof(sai_transfer_t));
+    handle->queueDriver = (handle->queueDriver + 1U) % (uint8_t)SAI_XFER_QUEUE_SIZE;
+
     /* Set the handle state */
     handle->state = (uint32_t)kSAI_Idle;
+}
+
+/*!
+ * brief Terminate all the SAI sdma receive transfer.
+ *
+ * param base SAI base pointer.
+ * param handle SAI SDMA handle pointer.
+ */
+void SAI_TransferTerminateReceiveSDMA(I2S_Type *base, sai_sdma_handle_t *handle)
+{
+    assert(handle != NULL);
+
+    /* abort current transfer */
+    SAI_TransferAbortReceiveSDMA(base, handle);
+
+    /* Clear all the internal information */
+    (void)memset(handle->bdPool, 0, sizeof(handle->bdPool));
+    (void)memset(handle->saiQueue, 0, sizeof(handle->saiQueue));
+    (void)memset(handle->transferSize, 0, sizeof(handle->transferSize));
+
+    handle->queueUser   = 0U;
+    handle->queueDriver = 0U;
+
+    /* Reset the internal state of bd pool */
+    SDMA_InstallBDMemory(handle->dmaHandle, handle->bdPool, handle->dmaHandle->bdCount);
 }

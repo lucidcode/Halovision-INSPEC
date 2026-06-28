@@ -12,7 +12,7 @@
 # You may enable triple buffering at the cost of 372 KB to make display updates non-blocking.
 
 import csi
-import tv
+import display
 import time
 
 csi0 = csi.CSI()
@@ -22,10 +22,10 @@ csi0.framesize(csi.SIF)
 
 clock = time.clock()
 
-tv.init(triple_buffer=False)  # Initialize the tv.
-tv.channel(8)  # For wireless video transmitter shield
+tv = display.TVDisplay(triple_buffer=False)  # Initialize the TV shield.
+tv.ioctl(display.IOCTL_CHANNEL, 8)  # For wireless video transmitter shield
 
 while True:
     clock.tick()
-    tv.display(csi0.snapshot())  # Take a picture and display the image.
+    tv.write(csi0.snapshot())  # Take a picture and display the image.
     print(clock.fps())

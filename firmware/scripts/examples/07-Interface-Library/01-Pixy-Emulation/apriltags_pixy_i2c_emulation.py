@@ -242,8 +242,7 @@ while True:
 
             if id_map[tag.id] <= max_blocks_per_id:
                 dat_buf += to_object_block_format(tag)
-                img.draw_rectangle(tag.rect)
-                img.draw_cross(tag.cx, tag.cy)
+                img.draw_detection(tag)
 
             if dac and not first_b:
                 x_scale = 255 / (img.width() - 1)

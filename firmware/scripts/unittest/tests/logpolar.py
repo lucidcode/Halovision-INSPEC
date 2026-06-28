@@ -10,7 +10,7 @@ def unittest(data_path, temp_path):
             dx = x - 32
             dy = y - 32
             dist = int((dx*dx + dy*dy) ** 0.5)
-            img.set_pixel(x, y, (dist * 8) % 256)
+            img.set_pixel((x, y), (dist * 8) % 256)
 
     # Apply log-polar transform
     img.logpolar(reverse=False)

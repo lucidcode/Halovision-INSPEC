@@ -3,6 +3,7 @@
  *
  * @brief Clocks services service source file
  * @ingroup host_services
+ * @ingroup services-host-clocks
  * @par
  *
  * Copyright (C) 2023 Alif Semiconductor - All Rights Reserved.
@@ -37,6 +38,7 @@
  * @param target            SYSCLK (HF), PERIPHCLK (HF), S32K (LF)
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_select_osc_source(uint32_t services_handle,
                                            oscillator_source_t source,
@@ -68,6 +70,7 @@ uint32_t SERVICES_clocks_select_osc_source(uint32_t services_handle,
  * @param target            SYSREFCLK, SYSCLK, ExtSus0, ExtSys1
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_select_pll_source(uint32_t services_handle,
                                            pll_source_t source,
@@ -99,6 +102,7 @@ uint32_t SERVICES_clocks_select_pll_source(uint32_t services_handle,
  * @param enable            Enable/Disable flag
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_enable_clock(uint32_t services_handle,
                                       clock_enable_t clock,
@@ -128,6 +132,7 @@ uint32_t SERVICES_clocks_enable_clock(uint32_t services_handle,
  * @param frequency         Clock frequency
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_set_ES0_frequency(uint32_t services_handle,
                                            clock_frequency_t frequency,
@@ -155,6 +160,7 @@ uint32_t SERVICES_clocks_set_ES0_frequency(uint32_t services_handle,
  * @param frequency         Clock frequency
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_set_ES1_frequency(uint32_t services_handle,
                                            clock_frequency_t frequency,
@@ -170,6 +176,7 @@ uint32_t SERVICES_clocks_set_ES1_frequency(uint32_t services_handle,
       SERVICE_CLOCK_ES1_SET_FREQ, DEFAULT_TIMEOUT);
 
   *error_code = p_svc->resp_error_code;
+
   return ret;
 }
 
@@ -182,6 +189,7 @@ uint32_t SERVICES_clocks_set_ES1_frequency(uint32_t services_handle,
  * @param source            Clock source
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_select_a32_source(uint32_t services_handle,
                                            a32_source_t source,
@@ -197,6 +205,7 @@ uint32_t SERVICES_clocks_select_a32_source(uint32_t services_handle,
       SERVICE_CLOCK_SELECT_A32_SOURCE, DEFAULT_TIMEOUT);
 
   *error_code = p_svc->resp_error_code;
+
   return ret;
 }
 
@@ -209,6 +218,7 @@ uint32_t SERVICES_clocks_select_a32_source(uint32_t services_handle,
  * @param source            Clock source
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_select_aclk_source(uint32_t services_handle,
                                             aclk_source_t source,
@@ -224,6 +234,7 @@ uint32_t SERVICES_clocks_select_aclk_source(uint32_t services_handle,
       SERVICE_CLOCK_SELECT_ACLK_SOURCE, DEFAULT_TIMEOUT);
 
   *error_code = p_svc->resp_error_code;
+
   return ret;
 }
 
@@ -238,6 +249,7 @@ uint32_t SERVICES_clocks_select_aclk_source(uint32_t services_handle,
  * @param value             Divider value
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_set_divider(uint32_t services_handle,
                                      clock_divider_t divider,
@@ -255,6 +267,7 @@ uint32_t SERVICES_clocks_set_divider(uint32_t services_handle,
       SERVICE_CLOCK_SET_DIVIDER, DEFAULT_TIMEOUT);
 
   *error_code = p_svc->resp_error_code;
+
   return ret;
 }
 
@@ -265,6 +278,7 @@ uint32_t SERVICES_clocks_set_divider(uint32_t services_handle,
  * @param services_handle
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_initialize(uint32_t services_handle,
                                  uint32_t * error_code)
@@ -276,6 +290,7 @@ uint32_t SERVICES_pll_initialize(uint32_t services_handle,
       SERVICE_PLL_INITIALIZE, DEFAULT_TIMEOUT);
 
   *error_code = p_svc->resp_error_code;
+
   return ret;
 }
 
@@ -286,6 +301,7 @@ uint32_t SERVICES_pll_initialize(uint32_t services_handle,
  * @param services_handle
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_deinit(uint32_t services_handle, uint32_t * error_code)
 {
@@ -312,6 +328,7 @@ uint32_t SERVICES_pll_deinit(uint32_t services_handle, uint32_t * error_code)
  * @param delay_count       Wait time
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_xtal_start(uint32_t services_handle,
                                  bool faststart,
@@ -340,6 +357,7 @@ uint32_t SERVICES_pll_xtal_start(uint32_t services_handle,
  * @param services_handle
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_xtal_stop(uint32_t services_handle,
                                 uint32_t * error_code)
@@ -363,6 +381,7 @@ uint32_t SERVICES_pll_xtal_stop(uint32_t services_handle,
  * @param is_started
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_xtal_is_started(uint32_t services_handle,
                                       bool * is_started,
@@ -390,6 +409,7 @@ uint32_t SERVICES_pll_xtal_is_started(uint32_t services_handle,
  * @param delay_count       Wait time
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_clkpll_start(uint32_t services_handle,
                                    bool faststart,
@@ -416,6 +436,7 @@ uint32_t SERVICES_pll_clkpll_start(uint32_t services_handle,
  * @param services_handle
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_clkpll_stop(uint32_t services_handle,
                                   uint32_t * error_code)
@@ -439,6 +460,7 @@ uint32_t SERVICES_pll_clkpll_stop(uint32_t services_handle,
  * @param is_locked         Which divider
  * @param error_code        Service error code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_pll_clkpll_is_locked(uint32_t services_handle,
                                        bool * is_locked,
@@ -456,13 +478,14 @@ uint32_t SERVICES_pll_clkpll_is_locked(uint32_t services_handle,
 }
 
 /**
- * @fn  uint32_t SERVICES_clocks_setting_get(uint32_t services_handle,
- *                                           clock_setting_t setting_type,
- *                                           uint32_t *value,
- *                                           uint32_t * error_code)
+ * @fn uint32_t SERVICES_clocks_setting_get(uint32_t, clock_setting_t, uint32_t*, uint32_t*)
  * @brief                   Get a clock setting from the 'clock_setting_t' enumeration
- * @param error_code        Service error code
+ * @param services_handle
+ * @param setting_type
+ * @param value
+ * @param error_code
  * @return                  Transport layer error code
+ * @ingroup services-host-clocks
  */
 uint32_t SERVICES_clocks_setting_get(uint32_t services_handle,
                                      clock_setting_t setting_type,

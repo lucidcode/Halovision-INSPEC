@@ -102,6 +102,7 @@ typedef const imxrt_gpio_t *omv_gpio_t;
 typedef LPI2C_Type *omv_i2c_dev_t;
 #define OMV_I2C_MAX_8BIT_XFER   (1024U)
 #define OMV_I2C_MAX_16BIT_XFER  (512U)
+#define OMV_I2C_PORT_BITS       bool i2c_suspended;
 
 // omv_spi_t definitions
 #define OMV_SPI_MODE_SLAVE      (0)

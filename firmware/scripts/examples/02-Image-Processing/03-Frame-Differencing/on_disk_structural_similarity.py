@@ -15,7 +15,7 @@ import csi
 import os
 import time
 
-# The image has likely changed if the sim.min() is lower than this.
+# The image has likely changed if the sim.min is lower than this.
 MIN_TRIGGER_THRESHOLD = -0.4
 
 csi0 = csi.CSI()
@@ -38,6 +38,6 @@ while True:
     clock.tick()  # Track elapsed milliseconds between snapshots().
     img = csi0.snapshot()  # Take a picture and return the image.
     sim = img.get_similarity("temp/bg.bmp")
-    change = "- Change -" if sim.min() < MIN_TRIGGER_THRESHOLD else "- No Change -"
+    change = "- Change -" if sim.min < MIN_TRIGGER_THRESHOLD else "- No Change -"
 
     print(clock.fps(), change, sim)

@@ -61,7 +61,6 @@ static int hydro_hash_init_with_tweak(hydro_hash_state *state,
 /* ---------------- */
 
 #define hydro_secretbox_NONCEBYTES 20
-#define hydro_secretbox_MACBYTES   16
 
 /* ---------------- */
 

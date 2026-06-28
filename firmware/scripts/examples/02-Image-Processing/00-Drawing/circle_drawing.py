@@ -32,8 +32,6 @@ while True:
         g = randint(0, 127) + 128
         b = randint(0, 127) + 128
 
-        # If the first argument is a scaler then this method expects
-        # to see x, y, and radius. Otherwise, it expects a (x,y,radius) tuple.
-        img.draw_circle(x, y, radius, color=(r, g, b), thickness=2, fill=False)
+        img.draw_circle((x, y, radius), color=(r, g, b), thickness=2, fill=False)
 
     print(clock.fps())

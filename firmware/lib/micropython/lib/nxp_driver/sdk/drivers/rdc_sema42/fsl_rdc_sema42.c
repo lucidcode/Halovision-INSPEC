@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 NXP
+ * Copyright 2017-2020, 2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -65,7 +65,7 @@ uint32_t RDC_SEMA42_GetInstance(RDC_SEMAPHORE_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_sema42Bases); instance++)
     {
-        if (s_sema42Bases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_sema42Bases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -162,23 +162,8 @@ status_t RDC_SEMA42_TryLock(RDC_SEMAPHORE_Type *base, uint8_t gateNum, uint8_t m
  */
 void RDC_SEMA42_Lock(RDC_SEMAPHORE_Type *base, uint8_t gateNum, uint8_t masterIndex, uint8_t domainId)
 {
-    assert(gateNum < RDC_SEMA42_GATE_COUNT);
-
-    uint8_t regGate;
-
-    ++masterIndex;
-
-    regGate = (uint8_t)(RDC_SEMAPHORE_GATE_LDOM(domainId) | RDC_SEMAPHORE_GATE_GTFSM(masterIndex));
-
-    while (regGate != RDC_SEMA42_GATEn(base, gateNum))
+    while (kStatus_Success != RDC_SEMA42_TryLock(base, gateNum, masterIndex, domainId))
     {
-        /* Wait for unlocked status. */
-        while (0U != (RDC_SEMA42_GATEn(base, gateNum) & RDC_SEMAPHORE_GATE_GTFSM_MASK))
-        {
-        }
-
-        /* Lock the gate. */
-        RDC_SEMA42_GATEn(base, gateNum) = masterIndex;
     }
 }
 

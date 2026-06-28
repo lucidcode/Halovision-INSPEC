@@ -7,14 +7,14 @@ def unittest(data_path, temp_path):
     # Create image with small bright features on dark background
     for y in range(50):
         for x in range(50):
-            img.set_pixel(x, y, 50)
+            img.set_pixel((x, y), 50)
 
     # Add small bright spots
     for i in range(5, 45, 10):
         for j in range(5, 45, 10):
-            img.set_pixel(i, j, 200)
-            img.set_pixel(i+1, j, 200)
-            img.set_pixel(i, j+1, 200)
+            img.set_pixel((i, j), 200)
+            img.set_pixel((i+1, j), 200)
+            img.set_pixel((i, j+1), 200)
 
     # Apply top-hat (extracts small bright features)
     # Top-hat = image - opening

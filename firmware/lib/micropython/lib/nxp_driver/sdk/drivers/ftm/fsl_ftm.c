@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -8,23 +8,21 @@
 
 #include "fsl_ftm.h"
 
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
 /* Component ID definition, used by tools. */
 #ifndef FSL_COMPONENT_ID
 #define FSL_COMPONENT_ID "platform.drivers.ftm"
 #endif
 
+#if defined(FTM_RSTS)
+#define FTM_RESETS_ARRAY FTM_RSTS
+#endif
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
-/*!
- * @brief Gets the instance from the base address
- *
- * @param base FTM peripheral base address
- *
- * @return The FTM instance
- */
-static uint32_t FTM_GetInstance(FTM_Type *base);
-
 /*!
  * @brief Sets the FTM register PWM synchronization method
  *
@@ -34,8 +32,14 @@ static uint32_t FTM_GetInstance(FTM_Type *base);
  * @param base       FTM peripheral base address
  * @param syncMethod Synchronization methods to use to update buffered registers. This is a logical
  *                   OR of members of the enumeration ::ftm_pwm_sync_method_t
+ * @param swRstCnt   true:Enable FTM counter synchronization activated by software trigger, avtive when (syncMethod &
+ *                   FTM_SYNC_SWSYNC_MASK) != 0U;
+ *                   false:The software trigger does not activate the FTM counter synchronization.
+ * @param hwRstCnt   true:Enable FTM counter synchronization activated by hardware trigger, avtive when (syncMethod &
+ *                   (FTM_SYNC_TRIG0_MASK | FTM_SYNC_TRIG1_MASK | FTM_SYNC_TRIG2_MASK)) != 0U;
+ *                   false:Hardware trigger does not activate FTM counter synchronization
  */
-static void FTM_SetPwmSync(FTM_Type *base, uint32_t syncMethod);
+static void FTM_SetPwmSync(FTM_Type *base, uint32_t syncMethod, bool swRstCnt, bool hwRstCnt);
 
 /*!
  * @brief Sets the reload points used as loading points for register update
@@ -59,11 +63,15 @@ static FTM_Type *const s_ftmBases[] = FTM_BASE_PTRS;
 /*! @brief Pointers to FTM clocks for each instance. */
 static const clock_ip_name_t s_ftmClocks[] = FTM_CLOCKS;
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
+#if defined(FTM_RESETS_ARRAY)
+/* Reset array */
+static const reset_ip_name_t s_ftmResets[] = FTM_RESETS_ARRAY;
+#endif
 
 /*******************************************************************************
  * Code
  ******************************************************************************/
-static uint32_t FTM_GetInstance(FTM_Type *base)
+uint32_t FTM_GetInstance(FTM_Type *base)
 {
     uint32_t instance;
     uint32_t ftmArrayCount = (sizeof(s_ftmBases) / sizeof(s_ftmBases[0]));
@@ -82,7 +90,7 @@ static uint32_t FTM_GetInstance(FTM_Type *base)
     return instance;
 }
 
-static void FTM_SetPwmSync(FTM_Type *base, uint32_t syncMethod)
+static void FTM_SetPwmSync(FTM_Type *base, uint32_t syncMethod, bool swRstCnt, bool hwRstCnt)
 {
     uint8_t chnlNumber = 0;
     uint32_t reg = 0, syncReg = 0;
@@ -110,15 +118,23 @@ static void FTM_SetPwmSync(FTM_Type *base, uint32_t syncMethod)
     if ((syncMethod & FTM_SYNC_SWSYNC_MASK) != 0U)
     {
         /* Enable needed bits for software trigger to update registers with its buffer value */
-        reg |= (FTM_SYNCONF_SWRSTCNT_MASK | FTM_SYNCONF_SWWRBUF_MASK | FTM_SYNCONF_SWINVC_MASK |
-                FTM_SYNCONF_SWSOC_MASK | FTM_SYNCONF_SWOM_MASK);
+        reg |= (FTM_SYNCONF_SWWRBUF_MASK | FTM_SYNCONF_SWINVC_MASK | FTM_SYNCONF_SWSOC_MASK | FTM_SYNCONF_SWOM_MASK);
+        /* Enable software trigger synchronization count. */
+        if (swRstCnt)
+        {
+            reg |= FTM_SYNCONF_SWRSTCNT_MASK;
+        }
     }
 
     if ((syncMethod & (FTM_SYNC_TRIG0_MASK | FTM_SYNC_TRIG1_MASK | FTM_SYNC_TRIG2_MASK)) != 0U)
     {
         /* Enable needed bits for hardware trigger to update registers with its buffer value */
-        reg |= (FTM_SYNCONF_HWRSTCNT_MASK | FTM_SYNCONF_HWWRBUF_MASK | FTM_SYNCONF_HWINVC_MASK |
-                FTM_SYNCONF_HWSOC_MASK | FTM_SYNCONF_HWOM_MASK);
+        reg |= (FTM_SYNCONF_HWWRBUF_MASK | FTM_SYNCONF_HWINVC_MASK | FTM_SYNCONF_HWSOC_MASK | FTM_SYNCONF_HWOM_MASK);
+        /* Enable hardware trigger synchronization count */
+        if (hwRstCnt)
+        {
+            reg |= FTM_SYNCONF_HWRSTCNT_MASK;
+        }
 
         /* Enable the appropriate hardware trigger that is used for PWM sync */
         if ((syncMethod & FTM_SYNC_TRIG0_MASK) != 0U)
@@ -240,6 +256,10 @@ status_t FTM_Init(FTM_Type *base, const ftm_config_t *config)
     (void)CLOCK_EnableClock(s_ftmClocks[FTM_GetInstance(base)]);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
+#if defined(FTM_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_ftmResets[FTM_GetInstance(base)]);
+#endif
+
 #if (defined(FSL_FEATURE_FTM_HAS_BASIC_FEATURE_ONLY_INSTANCE) && FSL_FEATURE_FTM_HAS_BASIC_FEATURE_ONLY_INSTANCE)
     if (0 != FSL_FEATURE_FTM_IS_BASIC_FEATURE_ONLY_INSTANCEn(base))
     {
@@ -257,7 +277,7 @@ status_t FTM_Init(FTM_Type *base, const ftm_config_t *config)
 #endif
 
     /* Configure the update mechanism for buffered registers */
-    FTM_SetPwmSync(base, config->pwmSyncMode);
+    FTM_SetPwmSync(base, config->pwmSyncMode, config->swTriggerResetCount, config->hwTriggerResetCount);
 
     /* Setup intermediate register reload points */
     FTM_SetReloadPoints(base, config->reloadPoints);
@@ -348,6 +368,8 @@ void FTM_Deinit(FTM_Type *base)
  *   config->chnlInitState = 0;
  *   config->chnlPolarity = 0;
  *   config->useGlobalTimeBase = false;
+ *   config->hwTriggerResetCount = false;
+ *   config->swTriggerResetCount = true;
  * endcode
  * param config Pointer to the user configuration structure.
  */
@@ -382,6 +404,10 @@ void FTM_GetDefaultConfig(ftm_config_t *config)
     config->chnlPolarity = 0;
     /* Use internal FTM counter as timebase */
     config->useGlobalTimeBase = false;
+    /* Set hardware trigger activation counter sync to false */
+    config->hwTriggerResetCount = false;
+    /* Set software trigger activation counter sync to true */
+    config->swTriggerResetCount = true;
 }
 
 /*!

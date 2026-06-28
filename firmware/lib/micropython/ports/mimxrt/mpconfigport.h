@@ -35,13 +35,20 @@ uint32_t trng_random_u32(void);
 // Config level
 #define MICROPY_CONFIG_ROM_LEVEL (MICROPY_CONFIG_ROM_LEVEL_FULL_FEATURES)
 
+#ifndef MICROPY_HW_ENABLE_PSRAM
+#define MICROPY_HW_ENABLE_PSRAM (0)
+#endif
+
 // Memory allocation policies
-#if MICROPY_HW_SDRAM_AVAIL
+#if MICROPY_HW_SDRAM_AVAIL || MICROPY_HW_ENABLE_PSRAM
 #define MICROPY_GC_STACK_ENTRY_TYPE         uint32_t
 #else
 #define MICROPY_GC_STACK_ENTRY_TYPE         uint16_t
 #endif
 #define MICROPY_ALLOC_PATH_MAX              (256)
+#ifndef MICROPY_GC_SPLIT_HEAP
+#define MICROPY_GC_SPLIT_HEAP               MICROPY_HW_ENABLE_PSRAM
+#endif
 
 // MicroPython emitters
 #define MICROPY_PERSISTENT_CODE_LOAD        (1)
@@ -49,6 +56,8 @@ uint32_t trng_random_u32(void);
 #define MICROPY_EMIT_INLINE_THUMB           (1)
 
 // Optimisations
+
+// Compiler configuration
 
 // Python internal features
 #define MICROPY_TRACKED_ALLOC               (MICROPY_SSL_MBEDTLS)
@@ -121,9 +130,6 @@ uint32_t trng_random_u32(void);
 #define MICROPY_PY_MACHINE_SPI              (1)
 #define MICROPY_PY_MACHINE_SOFTSPI          (1)
 #define MICROPY_PY_MACHINE_TIMER            (1)
-#ifndef MICROPY_PY_MACHINE_CAN
-#define MICROPY_PY_MACHINE_CAN              (0)
-#endif
 #define MICROPY_PY_MACHINE_WDT              (1)
 #define MICROPY_PY_MACHINE_WDT_INCLUDEFILE  "ports/mimxrt/machine_wdt.c"
 #define MICROPY_PY_MACHINE_WDT_TIMEOUT_MS   (1)
@@ -185,7 +191,7 @@ uint32_t trng_random_u32(void);
 
 // Hooks to add builtins
 
-#if defined(IOMUX_TABLE_ENET)
+#if defined(ENET_PHY_ADDRESS) || defined(ENET_1_PHY_ADDRESS)
 extern const struct _mp_obj_type_t network_lan_type;
 #define MICROPY_HW_NIC_ETH                  { MP_ROM_QSTR(MP_QSTR_LAN), MP_ROM_PTR(&network_lan_type) },
 #else
@@ -223,8 +229,7 @@ extern const struct _mp_obj_type_t network_lan_type;
 #ifndef  MICROPY_EVENT_POLL_HOOK
 #define MICROPY_EVENT_POLL_HOOK \
     do { \
-        extern void mp_handle_pending(bool); \
-        mp_handle_pending(true); \
+        mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS); \
         __WFE(); \
     } while (0);
 #endif

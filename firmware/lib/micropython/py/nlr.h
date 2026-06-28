@@ -192,11 +192,7 @@ MP_NORETURN void nlr_jump_fail(void *val);
 
 // use nlr_raise instead of nlr_jump so that debugging is easier
 #ifndef MICROPY_DEBUG_NLR
-#define nlr_raise(val) \
-    do { \
-        MICROPY_NLR_RAISE_HOOK \
-        nlr_jump(MP_OBJ_TO_PTR(val)); \
-    } while (0)
+#define nlr_raise(val) nlr_jump(MP_OBJ_TO_PTR(val))
 #else
 
 #define nlr_raise(val) \
@@ -204,7 +200,6 @@ MP_NORETURN void nlr_jump_fail(void *val);
         void *_val = MP_OBJ_TO_PTR(val); \
         assert(_val != NULL); \
         assert(mp_obj_is_exception_instance(val)); \
-        MICROPY_NLR_RAISE_HOOK \
         nlr_jump(_val); \
     } while (0)
 

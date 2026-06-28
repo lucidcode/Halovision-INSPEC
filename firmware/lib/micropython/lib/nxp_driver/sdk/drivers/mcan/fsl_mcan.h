@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_MCAN_H_
-#define _FSL_MCAN_H_
+#ifndef FSL_MCAN_H_
+#define FSL_MCAN_H_
 
 #include "fsl_common.h"
 
@@ -20,10 +20,10 @@
  *****************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief MCAN driver version. */
-#define FSL_MCAN_DRIVER_VERSION (MAKE_VERSION(2, 1, 5))
-/*@}*/
+#define FSL_MCAN_DRIVER_VERSION (MAKE_VERSION(2, 4, 2))
+/*! @} */
 
 #ifndef MCAN_RETRY_TIMES
 /* Define to 0 by default means to retry infinitely until the flag is assert/de-assert.
@@ -340,6 +340,32 @@ typedef struct _mcan_timing_config
 #endif
 } mcan_timing_config_t;
 
+/*! @brief MCAN bit timing parameter configuration structure. */
+typedef struct _mcan_timing_param
+{
+    uint32_t busLength;         /*!< Maximum Bus length in meter. */
+    uint32_t propTxRx;          /*!< Transceiver propagation delay in nanosecond. */
+    uint32_t nominalbaudRate;   /*!< Baud rate of Arbitration phase in bps. */
+    uint32_t nominalSP;         /*!< Sample point of Arbitration phase, range in 10 ~ 990, 800 means 80%. */
+#if (defined(FSL_FEATURE_CAN_SUPPORT_CANFD) && FSL_FEATURE_CAN_SUPPORT_CANFD)
+    uint32_t databaudRate;      /*!< Baud rate of Data phase in bps. */
+    uint32_t dataSP;            /*!< Sample point of Data phase, range in 0 ~ 1000, 800 means 80%. */
+#endif
+} mcan_timing_param_t;
+
+/*! @brief MCAN Message RAM related configuration structure. */
+typedef struct _mcan_memory_config
+{
+    uint32_t baseAddr;                        /*!< Message RAM base address, should be 4k alignment. */
+    mcan_frame_filter_config_t *stdFilterCfg; /* Standard message ID filter configure */
+    mcan_frame_filter_config_t *extFilterCfg; /* Extended message ID filter configure */
+    mcan_rx_fifo_config_t *rxFifo0Cfg;        /* Rx FIFO 0 configuration */
+    mcan_rx_fifo_config_t *rxFifo1Cfg;        /* Rx FIFO 1 configuration */
+    mcan_rx_buffer_config_t *rxBufferCfg;     /* Rx buffer configuration */
+    mcan_tx_fifo_config_t *txFifoCfg;         /* Tx event FIFO configuration */
+    mcan_tx_buffer_config_t *txBufferCfg;     /* Tx buffer configuration */
+} mcan_memory_config_t;
+
 /*! @brief MCAN module configuration structure. */
 typedef struct _mcan_config
 {
@@ -389,7 +415,6 @@ struct _mcan_handle
     void *userData;                                      /*!< MCAN callback function parameter.*/
     mcan_tx_buffer_frame_t *volatile bufferFrameBuf[64]; /*!< The buffer for received data from Buffers. */
     mcan_rx_buffer_frame_t *volatile rxFifoFrameBuf;     /*!< The buffer for received data from Rx FIFO. */
-    volatile uint8_t txbufferIdx;                        /*!< Message Buffer transfer state. */
     volatile uint8_t bufferState[64];                    /*!< Message Buffer transfer state. */
     volatile uint8_t rxFifoState;                        /*!< Rx FIFO transfer state. */
 };
@@ -458,6 +483,23 @@ void MCAN_Deinit(CAN_Type *base);
 void MCAN_GetDefaultConfig(mcan_config_t *config);
 
 /*!
+ * @brief MCAN enters initialization mode.
+ *
+ * After enter initialization mode, users can write access to the protected conﬁguration registers.
+ *
+ * @param base MCAN peripheral base address.
+ */
+static inline void MCAN_EnterInitialMode(CAN_Type *base)
+{
+    /* Enable write access to the protected conﬁguration registers */
+    base->CCCR |= CAN_CCCR_INIT_MASK;
+    while (0U == (base->CCCR & CAN_CCCR_INIT_MASK))
+    {
+    }
+    base->CCCR |= CAN_CCCR_CCE_MASK;
+}
+
+/*!
  * @brief MCAN enters normal mode.
  *
  * After initialization, INIT bit in CCCR register must be cleared to enter
@@ -465,7 +507,14 @@ void MCAN_GetDefaultConfig(mcan_config_t *config);
  *
  * @param base MCAN peripheral base address.
  */
-void MCAN_EnterNormalMode(CAN_Type *base);
+static inline void MCAN_EnterNormalMode(CAN_Type *base)
+{
+    /* Reset INIT bit to enter normal mode. */
+    base->CCCR &= ~CAN_CCCR_INIT_MASK;
+    while (0U != (base->CCCR & CAN_CCCR_INIT_MASK))
+    {
+    }
+}
 
 /*!
  * @name Configuration.
@@ -512,6 +561,40 @@ static inline uint32_t MCAN_GetMsgRAMBase(CAN_Type *base)
 bool MCAN_CalculateImprovedTimingValues(uint32_t baudRate, uint32_t sourceClock_Hz, mcan_timing_config_t *pconfig);
 
 /*!
+ * @brief Calculates the specified timing values for classical CAN with user-defined settings.
+ *
+ *  User can specify baudrates, sample point position, bus length, and transceiver propagation
+ *  delay. This example shows how to set up the mcan_timing_param_t parameters and how to call
+ *  the this function by passing in these parameters.
+ *  @code
+ *   mcan_timing_config_t timing_config;
+ *   mcan_timing_param_t timing_param;
+ *   timing_param.busLength = 1U;
+ *   timing_param.propTxRx = 230U;
+ *   timing_param.nominalbaudRate = 500000U;
+ *   timing_param.nominalSP = 800U;
+ *   MCAN_CalculateSpecifiedTimingValues(MCAN_CLK_FREQ, &timing_config, &timing_param);
+ *  @endcode
+ *
+ *  Note that due to integer division will sacrifice the precision, actual sample point may not
+ *  equal to expected. If actual sample point is not in allowed 2% range, this function will
+ *  return false. So it is better to select higher source clock when baudrate is relatively high.
+ *  This will ensure more time quanta and higher precision of sample point.
+ *  Parameter busLength and propTxRx are optional and intended to verify whether propagation
+ *  delay is too long to corrupt sample point. User can set these parameter zero if you do not
+ *  want to consider this factor.
+ * 
+ * @param sourceClock_Hz The Source clock data speed in bps.
+ * @param pconfig Pointer to the MCAN timing configuration structure.
+ * @param config Pointer to the MCAN timing parameters structure.
+ *
+ * @return TRUE if timing configuration found, FALSE if failed to find configuration
+ */
+bool MCAN_CalculateSpecifiedTimingValues(uint32_t sourceClock_Hz,
+                                         mcan_timing_config_t *pconfig,
+                                         const mcan_timing_param_t *pParamConfig);
+
+/*!
  * @brief Sets the MCAN protocol arbitration phase timing characteristic.
  *
  * This function gives user settings to CAN bus timing characteristic.
@@ -526,6 +609,18 @@ bool MCAN_CalculateImprovedTimingValues(uint32_t baudRate, uint32_t sourceClock_
  * @param config Pointer to the timing configuration structure.
  */
 void MCAN_SetArbitrationTimingConfig(CAN_Type *base, const mcan_timing_config_t *config);
+
+/*!
+ * @brief Set Baud Rate of MCAN classic mode.
+ *
+ * This function set the baud rate of MCAN base on MCAN_CalculateImprovedTimingValues() API calculated timing values.
+ *
+ * @param base MCAN peripheral base address.
+ * @param sourceClock_Hz Source Clock in Hz.
+ * @param baudRate_Bps Baud Rate in Bps.
+ * @return kStatus_Success - Set CAN baud rate (only has Nominal phase) successfully.
+ */
+status_t MCAN_SetBaudRate(CAN_Type *base, uint32_t sourceClock_Hz, uint32_t baudRate_Bps);
 
 #if (defined(FSL_FEATURE_CAN_SUPPORT_CANFD) && FSL_FEATURE_CAN_SUPPORT_CANFD)
 /*!
@@ -542,6 +637,57 @@ bool MCAN_FDCalculateImprovedTimingValues(uint32_t baudRate,
                                           uint32_t baudRateFD,
                                           uint32_t sourceClock_Hz,
                                           mcan_timing_config_t *pconfig);
+
+/*!
+ * @brief Calculates the specified timing values for CANFD with user-defined settings.
+ *
+ *  User can specify baudrates, sample point position, bus length, and transceiver propagation
+ *  delay. This example shows how to set up the mcan_timing_param_t parameters and how to call
+ *  the this function by passing in these parameters.
+ *  @code
+ *   mcan_timing_config_t timing_config;
+ *   mcan_timing_param_t timing_param;
+ *   timing_param.busLength = 1U;
+ *   timing_param.propTxRx = 230U;
+ *   timing_param.nominalbaudRate = 500000U;
+ *   timing_param.nominalSP = 800U;
+ *   timing_param.databaudRate = 4000000U;
+ *   timing_param.dataSP = 700U;
+ *   MCAN_FDCalculateSpecifiedTimingValues(MCAN_CLK_FREQ, &timing_config, &timing_param);
+ *  @endcode
+ *
+ *  Note that due to integer division will sacrifice the precision, actual sample point may not
+ *  equal to expected. So it is better to select higher source clock when baudrate is relatively
+ *  high. Select higher nominal baudrate when source clock is relatively high because large clock
+ *  predivider will lead to less time quanta in data phase. This function will set predivider in
+ *  arbitration phase equal to data phase. These methods will ensure more time quanta and higher
+ *  precision of sample point.
+ *  Parameter busLength and propTxRx are optional and intended to verify whether propagation
+ *  delay is too long to corrupt sample point. User can set these parameter zero if you do not
+ *  want to consider this factor.
+ * 
+ * @param sourceClock_Hz The Source clock data speed in bps.
+ * @param pconfig Pointer to the MCAN timing configuration structure.
+ * @param config Pointer to the MCAN timing parameters structure.
+ *
+ * @return TRUE if timing configuration found, FALSE if failed to find configuration
+ */
+bool MCAN_FDCalculateSpecifiedTimingValues(uint32_t sourceClock_Hz,
+                                           mcan_timing_config_t *pconfig,
+                                           const mcan_timing_param_t *pParamConfig);
+
+/*!
+ * @brief Set Baud Rate of MCAN FD mode.
+ *
+ * This function set the baud rate of MCAN FD base on MCAN_FDCalculateImprovedTimingValues API calculated timing values.
+ *
+ * @param base MCAN peripheral base address.
+ * @param sourceClock_Hz Source Clock in Hz.
+ * @param baudRateN_Bps Nominal Baud Rate in Bps.
+ * @param baudRateD_Bps Data Baud Rate in Bps.
+ * @return kStatus_Success - Set CAN FD baud rate (include Nominal and Data phase) successfully.
+ */
+status_t MCAN_SetBaudRateFD(CAN_Type *base, uint32_t sourceClock_Hz, uint32_t baudRateN_Bps, uint32_t baudRateD_Bps);
 /*!
  * @brief Sets the MCAN protocol data phase timing characteristic.
  *
@@ -622,6 +768,18 @@ void MCAN_SetTxBufferConfig(CAN_Type *base, const mcan_tx_buffer_config_t *confi
  * @param config The MCAN filter configuration.
  */
 void MCAN_SetFilterConfig(CAN_Type *base, const mcan_frame_filter_config_t *config);
+
+/*!
+ * @brief Set Message RAM related configuration.
+ *
+ * @note This function include Standard/extended ID filter, Rx FIFO 0/1, Rx buffer, Tx event FIFO and Tx buffer
+ *      configurations
+ * @param base MCAN peripheral base address.
+ * @param config The MCAN filter configuration.
+ * @retval kStatus_Success - Message RAM related configuration Successfully.
+ * @retval kStatus_Fail    - Message RAM related configure fail due to wrong address parameter.
+ */
+status_t MCAN_SetMessageRamConfig(CAN_Type *base, const mcan_memory_config_t *config);
 
 /*!
  * @brief Set standard message ID filter element configuration.
@@ -723,15 +881,15 @@ static inline void MCAN_ClearRxBufferStatusFlag(CAN_Type *base, uint8_t idx)
 
     if (idx <= 31U)
     {
-        base->NDAT1 &= ~((uint32_t)1U << idx);
+        base->NDAT1 = ((uint32_t)1U << idx);
     }
     else
     {
-        base->NDAT2 &= ~((uint32_t)1U << (idx - 32U));
+        base->NDAT2 = ((uint32_t)1U << (idx - 32U));
     }
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -802,7 +960,7 @@ static inline void MCAN_DisableInterrupts(CAN_Type *base, uint32_t mask)
     base->IE &= ~mask;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Bus Operations
@@ -866,7 +1024,7 @@ status_t MCAN_ReadRxBuffer(CAN_Type *base, uint8_t idx, mcan_rx_buffer_frame_t *
  */
 status_t MCAN_ReadRxFifo(CAN_Type *base, uint8_t fifoBlock, mcan_rx_buffer_frame_t *pRxFrame);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Transactional
@@ -883,7 +1041,7 @@ status_t MCAN_ReadRxFifo(CAN_Type *base, uint8_t fifoBlock, mcan_rx_buffer_frame
  */
 static inline void MCAN_TransmitAddRequest(CAN_Type *base, uint8_t idx)
 {
-    base->TXBAR |= ((uint32_t)1U << idx);
+    base->TXBAR = ((uint32_t)1U << idx);
 }
 
 /*!
@@ -896,7 +1054,7 @@ static inline void MCAN_TransmitAddRequest(CAN_Type *base, uint8_t idx)
  */
 static inline void MCAN_TransmitCancelRequest(CAN_Type *base, uint8_t idx)
 {
-    base->TXBCR |= ((uint32_t)1U << idx);
+    base->TXBCR = ((uint32_t)1U << idx);
 }
 
 /*!
@@ -1021,7 +1179,7 @@ void MCAN_TransferAbortReceiveFifo(CAN_Type *base, uint8_t fifoBlock, mcan_handl
  */
 void MCAN_TransferHandleIRQ(CAN_Type *base, mcan_handle_t *handle);
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -1029,4 +1187,4 @@ void MCAN_TransferHandleIRQ(CAN_Type *base, mcan_handle_t *handle);
 
 /*! @}*/
 
-#endif /* _FSL_MCAN_H_ */
+#endif /* FSL_MCAN_H_ */

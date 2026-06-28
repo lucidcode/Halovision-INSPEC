@@ -1,4 +1,4 @@
-#include <zephyr/random/rand32.h>
+#include <zephyr/random/random.h>
 
 static int
 hydro_random_init(void)

@@ -24,15 +24,18 @@
  * STM32 Nema HAL layer.
  */
 #include <stdlib.h>
+#include <stdio.h>
 #include STM32_HAL_H
 
 #include "board_config.h"
 
 #if (OMV_GPU_NEMA == 1)
 #include "py/mphal.h"
+#include "py/runtime.h"
 #include "irq.h"
 
 #include "omv_common.h"
+#include "imlib.h"
 #include "nema_core.h"
 #include "nema_sys_defs.h"
 
@@ -40,11 +43,27 @@
 #define OMV_GPU_NEMA_RING_SIZE 1024
 #endif
 
+#ifndef OMV_GPU_NEMA_TIMEOUT_MS
+#define OMV_GPU_NEMA_TIMEOUT_MS 500
+#endif
+
 volatile static int last_cl_id = -1;
 static GPU2D_HandleTypeDef gpu2d = { 0 };
 static nema_ringbuffer_t ring_buf = {{0}};
 #if OMV_GPU_NEMA_MM_STATIC
 uint8_t OMV_ATTR_SECTION(OMV_ATTR_ALIGNED(RING_BUFFER[OMV_GPU_NEMA_RING_SIZE], 32), ".dma_buffer");
+#endif
+
+#ifdef NDEBUG
+#define nema_assert(expr) ((void) 0)
+#else
+static void nema_assert_fail(const char *expr, const char *file, int line) {
+    printf("nema ASSERT: %s at %s:%d\n", expr, file, line);
+    //__asm volatile ("bkpt #0");
+    for (;;) {
+    }
+}
+#define nema_assert(expr) do { if (!(expr)) nema_assert_fail(#expr, __FILE__, __LINE__); } while (0)
 #endif
 
 int32_t nema_sys_init(void) {
@@ -66,6 +85,10 @@ int32_t nema_sys_init(void) {
     ring_buf.bo.base_virt = RING_BUFFER;
     ring_buf.bo.base_phys = (uint32_t) RING_BUFFER;
     #else
+    // Free previous ring buffer on re-init (soft-reset).
+    if (ring_buf.bo.base_virt) {
+        nema_buffer_destroy(&ring_buf.bo);
+    }
     ring_buf.bo = nema_buffer_create(OMV_GPU_NEMA_RING_SIZE);
     #endif
 
@@ -85,8 +108,13 @@ int32_t nema_sys_init(void) {
 }
 
 int nema_wait_irq_cl(int cl_id) {
+    mp_uint_t tick_start = mp_hal_ticks_ms();
     while (last_cl_id < cl_id) {
-        __WFI();
+        mp_uint_t elapsed = mp_hal_ticks_ms() - tick_start;
+        if (elapsed >= OMV_GPU_NEMA_TIMEOUT_MS) {
+            return -1;
+        }
+        imlib_poll_events_noexc();
     }
     return 0;
 }
@@ -107,11 +135,10 @@ void nema_reg_write(uint32_t reg, uint32_t value) {
 }
 
 nema_buffer_t nema_buffer_create(int size) {
-    nema_buffer_t bo = {
-        .base_virt = nema_host_malloc(size),
-        .base_phys = (uint32_t) bo.base_virt,
-        .size = size,
-    };
+    nema_buffer_t bo;
+    bo.base_virt = nema_host_malloc(size);
+    bo.base_phys = (uint32_t) bo.base_virt;
+    bo.size = size;
     return bo;
 }
 
@@ -142,13 +169,13 @@ void nema_buffer_flush(nema_buffer_t *bo) {
 }
 
 void nema_host_free(void *ptr) {
-    if (ptr) {
-        free(ptr);
-    }
+    free(ptr);
 }
 
 void *nema_host_malloc(unsigned size) {
-    return aligned_alloc(OMV_CACHE_LINE_SIZE, OMV_ALIGN_TO(size, OMV_CACHE_LINE_SIZE));
+    void *ptr = aligned_alloc(OMV_CACHE_LINE_SIZE, OMV_ALIGN_TO(size, OMV_CACHE_LINE_SIZE));
+    nema_assert(ptr);
+    return ptr;
 }
 
 int nema_mutex_lock(int mutex_id) {

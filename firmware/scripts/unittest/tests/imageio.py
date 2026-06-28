@@ -12,7 +12,7 @@ def unittest(data_path, temp_path):
             g = (y * 4) & 0xFC
             b = ((x + y) * 8) & 0xF8
             color = ((r << 8) & 0xF800) | ((g << 3) & 0x07E0) | (b >> 3)
-            img1.set_pixel(x, y, color)
+            img1.set_pixel((x, y), color)
 
     img2 = image.Image(40, 40, image.RGB565)
     for y in range(40):
@@ -21,14 +21,14 @@ def unittest(data_path, temp_path):
             g = ((40 - y) * 4) & 0xFC
             b = ((x ^ y) * 8) & 0xF8
             color = ((r << 8) & 0xF800) | ((g << 3) & 0x07E0) | (b >> 3)
-            img2.set_pixel(x, y, color)
+            img2.set_pixel((x, y), color)
 
     img3 = image.Image(40, 40, image.RGB565)
     for y in range(40):
         for x in range(40):
             val = ((x + y) % 2) * 31
             color = ((val << 11) & 0xF800) | ((val << 5) & 0x07E0) | val
-            img3.set_pixel(x, y, color)
+            img3.set_pixel((x, y), color)
 
     # Write images to file
     stream = image.ImageIO(test_file, "w")
@@ -49,15 +49,15 @@ def unittest(data_path, temp_path):
         return False
 
     stats1 = img1.difference(read_img1).get_statistics()
-    if stats1.max() != 0 or stats1.min() != 0:
+    if stats1.max != 0 or stats1.min != 0:
         return False
 
     stats2 = img2.difference(read_img2).get_statistics()
-    if stats2.max() != 0 or stats2.min() != 0:
+    if stats2.max != 0 or stats2.min != 0:
         return False
 
     stats3 = img3.difference(read_img3).get_statistics()
-    if stats3.max() != 0 or stats3.min() != 0:
+    if stats3.max != 0 or stats3.min != 0:
         return False
 
     # Test 2: Memory stream with seek
@@ -79,15 +79,15 @@ def unittest(data_path, temp_path):
         return False
 
     stats1 = img1.difference(mem_img1).get_statistics()
-    if stats1.max() != 0 or stats1.min() != 0:
+    if stats1.max != 0 or stats1.min != 0:
         return False
 
     stats2 = img2.difference(mem_img2).get_statistics()
-    if stats2.max() != 0 or stats2.min() != 0:
+    if stats2.max != 0 or stats2.min != 0:
         return False
 
     stats3 = img3.difference(mem_img3).get_statistics()
-    if stats3.max() != 0 or stats3.min() != 0:
+    if stats3.max != 0 or stats3.min != 0:
         return False
 
     # Test 3: Seek to specific frame
@@ -96,7 +96,7 @@ def unittest(data_path, temp_path):
     mem_img2_direct = mem_stream.read(copy_to_fb=False)
 
     stats2 = img2.difference(mem_img2_direct).get_statistics()
-    if stats2.max() != 0 or stats2.min() != 0:
+    if stats2.max != 0 or stats2.min != 0:
         return False
 
     # Test 4: Grayscale images
@@ -105,12 +105,12 @@ def unittest(data_path, temp_path):
     gray1 = image.Image(30, 30, image.GRAYSCALE)
     for y in range(30):
         for x in range(30):
-            gray1.set_pixel(x, y, (x * y) % 256)
+            gray1.set_pixel((x, y), (x * y) % 256)
 
     gray2 = image.Image(30, 30, image.GRAYSCALE)
     for y in range(30):
         for x in range(30):
-            gray2.set_pixel(x, y, (x + y) % 256)
+            gray2.set_pixel((x, y), (x + y) % 256)
 
     # Write and read grayscale
     gray_stream = image.ImageIO(gray_file, "w")
@@ -127,11 +127,11 @@ def unittest(data_path, temp_path):
         return False
 
     stats_g1 = gray1.difference(read_gray1).get_statistics()
-    if stats_g1.max() != 0 or stats_g1.min() != 0:
+    if stats_g1.max != 0 or stats_g1.min != 0:
         return False
 
     stats_g2 = gray2.difference(read_gray2).get_statistics()
-    if stats_g2.max() != 0 or stats_g2.min() != 0:
+    if stats_g2.max != 0 or stats_g2.min != 0:
         return False
 
     return True

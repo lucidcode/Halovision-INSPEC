@@ -218,213 +218,26 @@ void py_helper_arg_to_float_array(const mp_obj_t arg, float *array, size_t size)
     }
 }
 
-image_t *py_helper_keyword_to_image(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                    mp_map_t *kw_args, mp_obj_t kw, image_t *default_val) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        default_val = py_helper_arg_to_image(kw_arg->value, ARG_IMAGE_MUTABLE);
-    } else if (n_args > arg_index) {
-        default_val = py_helper_arg_to_image(args[arg_index], ARG_IMAGE_MUTABLE);
-    }
-
-    return default_val;
-}
-
-void py_helper_keyword_rectangle(image_t *img, size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                 mp_map_t *kw_args, mp_obj_t kw, rectangle_t *r) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        mp_obj_t *arg_rectangle;
-        mp_obj_get_array_fixed_n(kw_arg->value, 4, &arg_rectangle);
-        r->x = mp_obj_get_int(arg_rectangle[0]);
-        r->y = mp_obj_get_int(arg_rectangle[1]);
-        r->w = mp_obj_get_int(arg_rectangle[2]);
-        r->h = mp_obj_get_int(arg_rectangle[3]);
-    } else if (n_args > arg_index) {
-        mp_obj_t *arg_rectangle;
-        mp_obj_get_array_fixed_n(args[arg_index], 4, &arg_rectangle);
-        r->x = mp_obj_get_int(arg_rectangle[0]);
-        r->y = mp_obj_get_int(arg_rectangle[1]);
-        r->w = mp_obj_get_int(arg_rectangle[2]);
-        r->h = mp_obj_get_int(arg_rectangle[3]);
+int py_helper_arg_to_color(image_t *img, mp_obj_t obj, int default_val) {
+    if (obj == mp_const_none) {
+        return default_val;
+    } else if (mp_obj_is_integer(obj)) {
+        return mp_obj_get_int(obj);
     } else {
-        r->x = 0;
-        r->y = 0;
-        r->w = img->w;
-        r->h = img->h;
-    }
-
-    PY_ASSERT_TRUE_MSG((r->w >= 1) && (r->h >= 1), "Invalid ROI dimensions!");
-    rectangle_t temp;
-    temp.x = 0;
-    temp.y = 0;
-    temp.w = img->w;
-    temp.h = img->h;
-
-    PY_ASSERT_TRUE_MSG(rectangle_overlap(r, &temp), "ROI does not overlap on the image!");
-    rectangle_intersected(r, &temp);
-}
-
-void py_helper_keyword_rectangle_roi(image_t *img, size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                     mp_map_t *kw_args, rectangle_t *r) {
-    py_helper_keyword_rectangle(img, n_args, args, arg_index, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_roi), r);
-}
-
-int py_helper_keyword_int(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                          mp_map_t *kw_args, mp_obj_t kw, int default_val) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        default_val = mp_obj_get_int(kw_arg->value);
-    } else if (n_args > arg_index) {
-        default_val = mp_obj_get_int(args[arg_index]);
-    }
-
-    return default_val;
-}
-
-bool py_helper_keyword_int_maybe(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                 mp_map_t *kw_args, mp_obj_t kw, int *value) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        return mp_obj_get_int_maybe(kw_arg->value, value);
-    } else if (n_args > arg_index) {
-        return mp_obj_get_int_maybe(args[arg_index], value);
-    }
-
-    return false;
-}
-
-float py_helper_keyword_float(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                              mp_map_t *kw_args, mp_obj_t kw, float default_val) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        default_val = mp_obj_get_float_to_f(kw_arg->value);
-    } else if (n_args > arg_index) {
-        default_val = mp_obj_get_float_to_f(args[arg_index]);
-    }
-
-    return default_val;
-}
-
-void py_helper_keyword_int_array(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                 mp_map_t *kw_args, mp_obj_t kw, int *x, int size) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        mp_obj_t *arg_array;
-        mp_obj_get_array_fixed_n(kw_arg->value, size, &arg_array);
-        for (int i = 0; i < size; i++) {
-            x[i] = mp_obj_get_int(arg_array[i]);
-        }
-    } else if (n_args > arg_index) {
-        mp_obj_t *arg_array;
-        mp_obj_get_array_fixed_n(args[arg_index], size, &arg_array);
-        for (int i = 0; i < size; i++) {
-            x[i] = mp_obj_get_int(arg_array[i]);
+        mp_obj_t *arg_color;
+        mp_obj_get_array_fixed_n(obj, 3, &arg_color);
+        int c = COLOR_R8_G8_B8_TO_RGB565(__USAT(mp_obj_get_int(arg_color[0]), 8),
+                                         __USAT(mp_obj_get_int(arg_color[1]), 8),
+                                         __USAT(mp_obj_get_int(arg_color[2]), 8));
+        switch (img->pixfmt) {
+            case PIXFORMAT_BINARY:
+                return COLOR_RGB565_TO_BINARY(c);
+            case PIXFORMAT_GRAYSCALE:
+                return COLOR_RGB565_TO_GRAYSCALE(c);
+            default:
+                return c;
         }
     }
-}
-
-float *py_helper_keyword_corner_array(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                      mp_map_t *kw_args, mp_obj_t kw) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        mp_obj_t *arg_array;
-        mp_obj_get_array_fixed_n(kw_arg->value, 4, &arg_array);
-        float *corners = m_malloc(sizeof(float) * 8);
-        for (int i = 0; i < 4; i++) {
-            mp_obj_t *arg_point;
-            mp_obj_get_array_fixed_n(arg_array[i], 2, &arg_point);
-            corners[(i * 2) + 0] = mp_obj_get_float_to_f(arg_point[0]);
-            corners[(i * 2) + 1] = mp_obj_get_float_to_f(arg_point[1]);
-        }
-        return corners;
-    } else if (n_args > arg_index) {
-        mp_obj_t *arg_array;
-        mp_obj_get_array_fixed_n(args[arg_index], 4, &arg_array);
-        float *corners = m_malloc(sizeof(float) * 8);
-        for (int i = 0; i < 4; i++) {
-            mp_obj_t *arg_point;
-            mp_obj_get_array_fixed_n(arg_array[i], 2, &arg_point);
-            corners[(i * 2) + 0] = mp_obj_get_float_to_f(arg_point[0]);
-            corners[(i * 2) + 1] = mp_obj_get_float_to_f(arg_point[1]);
-        }
-        return corners;
-    }
-
-    return NULL;
-}
-
-uint py_helper_consume_array(size_t n_args, const mp_obj_t *args, size_t arg_index, size_t len, const mp_obj_t **items) {
-    if (MP_OBJ_IS_TYPE(args[arg_index], &mp_type_tuple) || MP_OBJ_IS_TYPE(args[arg_index], &mp_type_list)) {
-        mp_obj_get_array_fixed_n(args[arg_index], len, (mp_obj_t **) items);
-        return arg_index + 1;
-    } else {
-        PY_ASSERT_TRUE_MSG((n_args - arg_index) >= len, "Not enough positional arguments!");
-        *items = args + arg_index;
-        return arg_index + len;
-    }
-}
-
-int py_helper_keyword_color(image_t *img, size_t n_args, const mp_obj_t *args, size_t arg_index,
-                            mp_map_t *kw_args, int default_val) {
-    mp_map_elem_t *kw_arg = kw_args ? mp_map_lookup(kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_color), MP_MAP_LOOKUP) : NULL;
-
-    if (kw_arg) {
-        if (mp_obj_is_integer(kw_arg->value)) {
-            default_val = mp_obj_get_int(kw_arg->value);
-        } else {
-            mp_obj_t *arg_color;
-            mp_obj_get_array_fixed_n(kw_arg->value, 3, &arg_color);
-            default_val = COLOR_R8_G8_B8_TO_RGB565(__USAT(mp_obj_get_int(arg_color[0]), 8),
-                                                   __USAT(mp_obj_get_int(arg_color[1]), 8),
-                                                   __USAT(mp_obj_get_int(arg_color[2]), 8));
-            switch (img->pixfmt) {
-                case PIXFORMAT_BINARY: {
-                    default_val = COLOR_RGB565_TO_BINARY(default_val);
-                    break;
-                }
-                case PIXFORMAT_GRAYSCALE: {
-                    default_val = COLOR_RGB565_TO_GRAYSCALE(default_val);
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-        }
-    } else if (n_args > arg_index) {
-        if (mp_obj_is_integer(args[arg_index])) {
-            default_val = mp_obj_get_int(args[arg_index]);
-        } else {
-            mp_obj_t *arg_color;
-            mp_obj_get_array_fixed_n(args[arg_index], 3, &arg_color);
-            default_val = COLOR_R8_G8_B8_TO_RGB565(__USAT(mp_obj_get_int(arg_color[0]), 8),
-                                                   __USAT(mp_obj_get_int(arg_color[1]), 8),
-                                                   __USAT(mp_obj_get_int(arg_color[2]), 8));
-            switch (img->pixfmt) {
-                case PIXFORMAT_BINARY: {
-                    default_val = COLOR_RGB565_TO_BINARY(default_val);
-                    break;
-                }
-                case PIXFORMAT_GRAYSCALE: {
-                    default_val = COLOR_RGB565_TO_GRAYSCALE(default_val);
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-        }
-    }
-
-    return default_val;
 }
 
 void py_helper_arg_to_thresholds(const mp_obj_t arg, list_t *thresholds) {
@@ -465,109 +278,10 @@ void py_helper_arg_to_thresholds(const mp_obj_t arg, list_t *thresholds) {
     }
 }
 
-void py_helper_keyword_thresholds(size_t n_args, const mp_obj_t *args, size_t arg_index,
-                                  mp_map_t *kw_args, list_t *thresholds) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_thresholds), MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        py_helper_arg_to_thresholds(kw_arg->value, thresholds);
-    } else if (n_args > arg_index) {
-        py_helper_arg_to_thresholds(args[arg_index], thresholds);
-    }
-}
-
 int py_helper_arg_to_ksize(const mp_obj_t arg) {
     int ksize = mp_obj_get_int(arg);
     PY_ASSERT_TRUE_MSG(ksize >= 0, "KernelSize must be >= 0!");
     return ksize;
-}
-
-mp_obj_t py_helper_keyword_object(size_t n_args, const mp_obj_t *args,
-                                  size_t arg_index, mp_map_t *kw_args, mp_obj_t kw, mp_obj_t default_val) {
-    mp_map_elem_t *kw_arg = mp_map_lookup(kw_args, kw, MP_MAP_LOOKUP);
-
-    if (kw_arg) {
-        return kw_arg->value;
-    } else if (n_args > arg_index) {
-        return args[arg_index];
-    } else {
-        return default_val;
-    }
-}
-
-const uint16_t *py_helper_keyword_color_palette(size_t n_args, const mp_obj_t *args,
-                                                size_t arg_index, mp_map_t *kw_args, const uint16_t *default_color_palette) {
-    int palette;
-
-    mp_map_elem_t *kw_arg =
-        mp_map_lookup(kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_color_palette), MP_MAP_LOOKUP);
-
-    if (kw_arg && (kw_arg->value == mp_const_none)) {
-        default_color_palette = NULL;
-    } else if ((n_args > arg_index) && (args[arg_index] == mp_const_none)) {
-        default_color_palette = NULL;
-    } else if (py_helper_keyword_int_maybe(n_args, args, arg_index, kw_args,
-                                           MP_OBJ_NEW_QSTR(MP_QSTR_color_palette), &palette)) {
-        if (palette == COLOR_PALETTE_RAINBOW) {
-            default_color_palette = rainbow_table;
-        } else if (palette == COLOR_PALETTE_IRONBOW) {
-            default_color_palette = ironbow_table;
-        #if (MICROPY_PY_TOF == 1)
-        } else if (palette == COLOR_PALETTE_DEPTH) {
-            default_color_palette = depth_table;
-        #endif // MICROPY_PY_TOF == 1
-        #if (OMV_GENX320_ENABLE == 1)
-        } else if (palette == COLOR_PALETTE_EVT_DARK) {
-            default_color_palette = evt_dark_table;
-        } else if (palette == COLOR_PALETTE_EVT_LIGHT) {
-            default_color_palette = evt_light_table;
-        #endif // OMV_GENX320_ENABLE == 1
-        } else {
-            mp_raise_msg(&mp_type_ValueError,
-                         MP_ERROR_TEXT("Invalid pre-defined color palette!"));
-        }
-    } else {
-        image_t *arg_color_palette =
-            py_helper_keyword_to_image(n_args, args, arg_index, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_color_palette), NULL);
-
-        if (arg_color_palette) {
-            if (arg_color_palette->pixfmt != PIXFORMAT_RGB565) {
-                mp_raise_msg(&mp_type_ValueError,
-                             MP_ERROR_TEXT("Color palette must be RGB565!"));
-            }
-
-            if ((arg_color_palette->w * arg_color_palette->h) != 256) {
-                mp_raise_msg(&mp_type_ValueError,
-                             MP_ERROR_TEXT("Color palette must be 256 pixels!"));
-            }
-
-            default_color_palette = (uint16_t *) arg_color_palette->data;
-        }
-    }
-
-    return default_color_palette;
-}
-
-const uint8_t *py_helper_keyword_alpha_palette(size_t n_args, const mp_obj_t *args,
-                                               size_t arg_index, mp_map_t *kw_args, const uint8_t *default_alpha_palette) {
-    image_t *arg_alpha_palette =
-        py_helper_keyword_to_image(n_args, args, 9, kw_args, MP_OBJ_NEW_QSTR(MP_QSTR_alpha_palette), NULL);
-
-    if (arg_alpha_palette) {
-        if (arg_alpha_palette->pixfmt != PIXFORMAT_GRAYSCALE) {
-            mp_raise_msg(&mp_type_ValueError,
-                         MP_ERROR_TEXT("Alpha palette must be GRAYSCALE!"));
-        }
-
-        if ((arg_alpha_palette->w * arg_alpha_palette->h) != 256) {
-            mp_raise_msg(&mp_type_ValueError,
-                         MP_ERROR_TEXT("Alpha palette must be 256 pixels!"));
-        }
-
-        default_alpha_palette = (uint8_t *) arg_alpha_palette->data;
-    }
-
-    return default_alpha_palette;
 }
 
 bool py_helper_is_equal_to_framebuffer(image_t *img) {
@@ -608,4 +322,17 @@ void py_helper_set_to_framebuffer(image_t *img) {
     img->data = buffer->data;
 
     framebuffer_release(fb, FB_FLAG_FREE);
+}
+
+void py_helper_get_array_min_n(mp_obj_t obj, size_t min_n, mp_obj_t **items) {
+    size_t len;
+    if (mp_obj_is_tuple_compatible(obj)) {
+        mp_obj_tuple_get(obj, &len, items);
+    } else {
+        mp_obj_get_array(obj, &len, items);
+    }
+    if (len < min_n) {
+        mp_raise_msg_varg(&mp_type_TypeError,
+                          MP_ERROR_TEXT("expected tuple/list of at least %d elements"), (int) min_n);
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2019 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -62,7 +62,6 @@ static void DMIC_TransferReceiveDMACallback(dma_handle_t *handle, void *param, b
  * User should be take care about the address of DMA descriptor pool which required align with 512BYTE.
  *
  * param handle Pointer to DMA channel transfer handle.
- * param headAddr DMA head descriptor address.
  * param linkAddr DMA link descriptor address.
  * param num DMA link descriptor number.
  */
@@ -142,12 +141,19 @@ status_t DMIC_TransferReceiveDMA(DMIC_Type *base, dmic_dma_handle_t *handle, dmi
         return kStatus_DMIC_Busy;
     }
 
+    /* Initialize DMIC channel */
+    if(handle->isChannelValid == false)
+    {
+        handle->isChannelValid = true;
+        handle->channel        = channel;
+    }
+
     while (currentTransfer != NULL)
     {
         /* set up linked descriptor */
         DMA_SetupDescriptor(&handle->desLink[desNum],
-                            DMA_CHANNEL_XFER(currentTransfer->linkTransfer != NULL ? 1UL : 0UL, 0UL, intA, !intA,
-                                             currentTransfer->dataWidth, interleaveWidth,
+                            DMA_CHANNEL_XFER(currentTransfer->linkTransfer != NULL ? true : false, false, intA, !intA,
+                                             currentTransfer->dataWidth, (uint8_t)interleaveWidth,
                                              currentTransfer->dataAddrInterleaveSize, currentTransfer->dataSize),
                             (uint32_t *)srcAddr, currentTransfer->data, linkDesc);
 
@@ -195,8 +201,8 @@ status_t DMIC_TransferReceiveDMA(DMIC_Type *base, dmic_dma_handle_t *handle, dmi
     /* prepare channel tranfer */
     DMA_PrepareChannelTransfer(
         &transferConfig, (uint32_t *)srcAddr, xfer->data,
-        DMA_CHANNEL_XFER(xfer->linkTransfer == NULL ? 0UL : 1UL, 0UL, intA, !intA, xfer->dataWidth, interleaveWidth,
-                         xfer->dataAddrInterleaveSize, xfer->dataSize),
+        DMA_CHANNEL_XFER(xfer->linkTransfer == NULL ? false : true, false, intA, !intA, xfer->dataWidth,
+                         (uint8_t)interleaveWidth, xfer->dataAddrInterleaveSize, xfer->dataSize),
         kDMA_PeripheralToMemory, NULL, handle->desLink);
     /* Submit transfer. */
     if (DMA_SubmitChannelTransfer(handle->rxDmaHandle, &transferConfig) == kStatus_DMA_Busy)
@@ -232,6 +238,14 @@ void DMIC_TransferAbortReceiveDMA(DMIC_Type *base, dmic_dma_handle_t *handle)
 
     /* Stop transfer. */
     DMA_AbortTransfer(handle->rxDmaHandle);
+
+    /* Disable channel */
+    base->CHANEN &= ~(1UL << (handle->channel));
+
+    /* Disable dmic channel dma request */
+    DMIC_EnableChannelDma(base, (dmic_channel_t)(handle->channel), false);
+
+    /* Set the handle state */
     handle->state = kDMIC_Idle;
 }
 

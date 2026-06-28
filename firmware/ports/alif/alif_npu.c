@@ -39,6 +39,7 @@
 
 #include "alif_hal.h"
 #include "board_config.h"
+#include "imlib.h"
 #include "ethosu_driver.h"
 
 #define ETHOSU_SEC_ENABLED      (1)
@@ -140,11 +141,11 @@ uint64_t ethosu_address_remap(uint64_t address, int index) {
 }
 
 void ethosu_inference_begin(struct ethosu_driver *drv, void *user_arg) {
-    mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
+    imlib_poll_events_noexc();
 }
 
 void ethosu_inference_end(struct ethosu_driver *drv, void *user_arg) {
-    mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
+    imlib_poll_events_noexc();
 }
 
 void ETHOSU_IRQ_HANDLER(void) {

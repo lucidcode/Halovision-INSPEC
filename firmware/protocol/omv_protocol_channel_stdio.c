@@ -40,10 +40,15 @@
 #define OMV_PROTOCOL_STDIO_BUFFER_SIZE  (1024)
 #endif
 
+#ifndef OMV_PROTOCOL_STDIO_FLUSH_MS
+#define OMV_PROTOCOL_STDIO_FLUSH_MS     (50)
+#endif
 
 typedef struct {
     vstr_t vstrbuf;
     bool script_running;
+    bool notified;
+    uint32_t last_notify_ms;
     ringbuf_t ringbuf;
     uint8_t rawbuf[OMV_PROTOCOL_STDIO_BUFFER_SIZE];
 } stdio_channel_context_t;
@@ -59,6 +64,7 @@ static int stdin_channel_init(const omv_protocol_channel_t *channel) {
 
 static int stdout_channel_init(const omv_protocol_channel_t *channel) {
     stdio_channel_context_t *ctx = channel->priv;
+    ctx->last_notify_ms = 0;
 
     // Initialize ring buffer once to keep output from previous runs.
     if (ctx->ringbuf.buf == NULL) {
@@ -94,7 +100,9 @@ static int stdio_channel_read(const omv_protocol_channel_t *channel,
     stdio_channel_context_t *ctx = channel->priv;
 
     size = OMV_MIN(size, ringbuf_avail(&ctx->ringbuf));
-    return !ringbuf_get_bytes(&ctx->ringbuf, data, size) ? size : -1;
+    int ret = !ringbuf_get_bytes(&ctx->ringbuf, data, size) ? size : -1;
+    ctx->notified = false;
+    return ret;
 }
 
 static int stdio_channel_write(const omv_protocol_channel_t *channel,
@@ -183,15 +191,31 @@ mp_uint_t __wrap_mp_hal_stdout_tx_strn(const char *str, mp_uint_t len) {
     const omv_protocol_channel_t *channel = omv_protocol_find_channel(OMV_PROTOCOL_CHANNEL_ID_STDOUT);
     stdio_channel_context_t *ctx = channel->priv;
 
-    // On overflow, reset the ring buffer, if this string fits
-    // entirely in the buffer, to recover from broken strings.
-    for (int i = 0; i < len; i++) {
-        if (ringbuf_put(&ctx->ringbuf, str[i]) == -1 && len <= ctx->ringbuf.size) {
-            ctx->ringbuf.iget = 0;
-            ctx->ringbuf.iput = 0;
-            ringbuf_put(&ctx->ringbuf, str[i]);
-        }
+    ringbuf_t *rb = &ctx->ringbuf;
+    size_t free = ringbuf_free(rb);
+
+    if (len <= free) {
+        // Enough space for the entire string.
+        ringbuf_memcpy_put_internal(rb, (const uint8_t *) str, len);
+    } else {
+        // Not enough free space, reset and keep the tail of the string.
+        size_t cap = rb->size - 1;
+        size_t offset = (len > cap) ? len - cap : 0;
+
+        rb->iget = 0;
+        rb->iput = 0;
+        ringbuf_memcpy_put_internal(rb, (const uint8_t *) str + offset, len - offset);
+        ctx->notified = false;
     }
+
+    // Notify the host once when the buffer crosses the 50% threshold.
+    // Cleared when the host reads, or when the ringbuffer overflows.
+    if (!ctx->notified && ringbuf_avail(rb) > (rb->size / 2)) {
+        ctx->notified = true;
+        ctx->last_notify_ms = mp_hal_ticks_ms();
+        omv_protocol_send_event(OMV_PROTOCOL_CHANNEL_ID_STDOUT, OMV_PROTOCOL_EVENT_NOTIFY, false);
+    }
+
     return len;
 }
 
@@ -207,6 +231,15 @@ const omv_protocol_channel_t omv_stdin_channel = {
     .exec = stdin_channel_exec
 };
 
+static void stdout_channel_tick(const omv_protocol_channel_t *channel) {
+    stdio_channel_context_t *ctx = channel->priv;
+    if (ringbuf_avail(&ctx->ringbuf)
+        && (mp_hal_ticks_ms() - ctx->last_notify_ms) >= OMV_PROTOCOL_STDIO_FLUSH_MS) {
+        ctx->last_notify_ms = mp_hal_ticks_ms();
+        omv_protocol_send_event(OMV_PROTOCOL_CHANNEL_ID_STDOUT, OMV_PROTOCOL_EVENT_NOTIFY, false);
+    }
+}
+
 const omv_protocol_channel_t omv_stdout_channel = {
     .priv = &stdio_channel_ctx,
     .id = OMV_PROTOCOL_CHANNEL_ID_STDOUT,
@@ -216,4 +249,5 @@ const omv_protocol_channel_t omv_stdout_channel = {
     .poll = stdout_channel_poll,
     .size = stdio_channel_size,
     .read = stdio_channel_read,
+    .tick = stdout_channel_tick,
 };

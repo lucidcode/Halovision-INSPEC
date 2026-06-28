@@ -9,7 +9,7 @@ def unittest(data_path, temp_path):
     for y in range(60):
         for x in range(60):
             color = ((x * 8) << 8) | ((y * 4) << 3) | ((x + y) >> 3)
-            img.set_pixel(x, y, color)
+            img.set_pixel((x, y), color)
 
     # Test BMP save/load
     bmp_path = temp_path + "/test_image.bmp"

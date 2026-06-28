@@ -1,11 +1,11 @@
 /*
- * Copyright 2020 NXP
+ * Copyright 2020-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_CDOG_H_
-#define _FSL_CDOG_H_
+#ifndef FSL_CDOG_H_
+#define FSL_CDOG_H_
 
 #include "fsl_common.h"
 
@@ -21,10 +21,18 @@
  *******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief Defines CDOG driver version 2.1.0.
+/*! @{ */
+/*! @brief Defines CDOG driver version 2.1.3.
  *
  * Change log:
+ * - Version 2.1.3
+ *   - Re-design multiple instance IRQs and Clocks
+ *   - Add fix for RESTART command errata
+ * - Version 2.1.2
+ *   - Support multiple IRQs
+ *   - Fix default CONTROL values
+ * - Version 2.1.1
+ *   - Remove bit CONTROL[CONTROL_CTRL]
  * - Version 2.1.0
  *   - Rename CWT to CDOG
  * - Version 2.0.2
@@ -34,8 +42,8 @@
  * - Version 2.0.0
  *   - initial version
  */
-#define FSL_CDOG_DRIVER_VERSION (MAKE_VERSION(2, 1, 0))
-/*@}*/
+#define FSL_CDOG_DRIVER_VERSION (MAKE_VERSION(2, 1, 3))
+/*! @} */
 
 typedef struct
 {
@@ -43,7 +51,6 @@ typedef struct
     uint8_t timeout : 3;
     uint8_t miscompare : 3;
     uint8_t sequence : 3;
-    uint8_t control : 3;
     uint8_t state : 3;
     uint8_t address : 3;
     uint8_t reserved : 8;
@@ -135,8 +142,6 @@ typedef uint32_t secure_counter_t;
 /*******************************************************************************
  * API
  *******************************************************************************/
-
-extern void CDOG_DriverIRQHandler(void);
 
 #if defined(__cplusplus)
 extern "C" {
@@ -321,4 +326,4 @@ uint32_t CDOG_ReadPersistent(CDOG_Type *base);
 
 /*! @}*/ /* end of group cdog */
 
-#endif /* _FSL_CDOG_H_ */
+#endif /* FSL_CDOG_H_ */

@@ -1,13 +1,13 @@
 /*
- * Copyright  2017-2021 NXP
+ * Copyright 2017-2021, 2023 NXP
  * All rights reserved.
  *
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_IOCON_H_
-#define _FSL_IOCON_H_
+#ifndef FSL_IOCON_H_
+#define FSL_IOCON_H_
 
 #include "fsl_common.h"
 
@@ -28,10 +28,10 @@
 #endif
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief IOCON driver version 2.0.1. */
-#define LPC_IOCON_DRIVER_VERSION (MAKE_VERSION(2, 0, 1))
-/*@}*/
+/*! @{ */
+/*! @brief IOCON driver version 2.0.2. */
+#define LPC_IOCON_DRIVER_VERSION (MAKE_VERSION(2, 0, 2))
+/*! @} */
 
 /**
  * @brief Array of IOCON pin definitions passed to IOCON_SetPinMuxing() must be in this format
@@ -117,14 +117,14 @@ __STATIC_INLINE void IOCON_SetPinMuxing(IOCON_Type *base, const iocon_group_t *p
 
     for (i = 0; i < arrayLength; i++)
     {
-        IOCON_PinMuxSet(base, pinArray[i].ionumber, pinArray[i].modefunc);
+        IOCON_PinMuxSet(base, (uint8_t)pinArray[i].ionumber, pinArray[i].modefunc);
     }
 }
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
 #endif
 
-#endif /* _FSL_IOCON_H_ */
+#endif /* FSL_IOCON_H_ */

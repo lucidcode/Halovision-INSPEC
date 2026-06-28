@@ -24,13 +24,14 @@ clock = time.clock()
 
 while True:
     clock.tick()
+
     # Capture an image
     img = csi0.snapshot()
+
     # Capture TOF data [depth map, min distance, max distance]
     try:
         depth, dmin, dmax = tof.read_depth(vflip=True, hmirror=True)
     except RuntimeError:
-        tof.reset()
         continue
 
     # Scale the image and belnd it with the framebuffer
@@ -47,7 +48,7 @@ while True:
 
     # Draw min and max distance.
     img.draw_string(
-        0, 0, f"Distance min: {int(dmin):4d}mm max: {int(dmax):4d}mm", color=(255, 0, 0), mono_space=False
+        (0, 0), f"Distance min: {int(dmin):4d}mm max: {int(dmax):4d}mm", color=(255, 0, 0), mono_space=False
     )
 
     # Print FPS.

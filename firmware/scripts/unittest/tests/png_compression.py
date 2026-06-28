@@ -8,7 +8,7 @@ def unittest(data_path, temp_path):
     for y in range(48):
         for x in range(48):
             color = ((x * 8) << 8) | ((y * 4) << 3) | ((x + y) >> 3)
-            img.set_pixel(x, y, color)
+            img.set_pixel((x, y), color)
 
     # Compress to PNG
     img = img.to_png()
@@ -32,7 +32,7 @@ def unittest(data_path, temp_path):
     for y in range(48):
         for x in range(48):
             original_color = ((x * 8) << 8) | ((y * 4) << 3) | ((x + y) >> 3)
-            r, g, b = img.get_pixel(x, y)
+            r, g, b = img.get_pixel((x, y))
 
             # Extract original RGB565 components
             orig_r = (original_color >> 8) & 0xF8

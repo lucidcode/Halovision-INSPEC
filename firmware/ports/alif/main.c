@@ -28,6 +28,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include <stdio.h>
 #include "py/compile.h"
 #include "py/runtime.h"
 #include "py/gc.h"
@@ -38,7 +39,8 @@
 #include "shared/runtime/gchelper.h"
 #include "shared/runtime/pyexec.h"
 #include "shared/runtime/softtimer.h"
-#include "tusb.h"
+#include "lptimer_ext.h"
+#include "modmachine.h"
 #include "mpuart.h"
 #include "ospi_flash.h"
 #include "pendsv.h"
@@ -48,6 +50,10 @@
 #include "extmod/vfs.h"
 #include "extmod/vfs_fat.h"
 #include "extmod/modmachine.h"
+
+#if OMV_USB_STACK_TINYUSB
+#include "tusb.h"
+#endif
 
 #if MICROPY_PY_LWIP
 #include "lwip/init.h"
@@ -69,7 +75,6 @@
 
 #include "board_config.h"
 #include "framebuffer.h"
-#include "fb_alloc.h"
 #include "file_utils.h"
 #include "mp_utils.h"
 #include "omv_csi.h"
@@ -82,6 +87,7 @@
 #include "omv_protocol.h"
 
 NORETURN void __fatal_error(const char *msg);
+extern void machine_pwm_deinit_all(void);
 extern void machine_pin_irq_deinit(void);
 
 int main(void) {
@@ -91,6 +97,8 @@ int main(void) {
     alif_hal_init();
 
     pendsv_init();
+    lptimer_init();
+    machine_rtc_init();
 
     #if MICROPY_HW_ENABLE_UART_REPL
     mp_uart_init_repl();
@@ -115,8 +123,8 @@ soft_reset:
     mp_init();
 
     // Initialise sub-systems.
+    uma_init();
     readline_init0();
-    fb_alloc_init0();
     framebuffer_init0();
     #if MICROPY_PY_CSI
     omv_csi_init0();
@@ -161,6 +169,9 @@ soft_reset:
     mod_network_init();
     #endif
 
+    // Execute _boot.py.
+    pyexec_frozen_module("_boot.py", false);
+
     // Initialize TinyUSB after the filesystem is mounted.
     #if MICROPY_HW_ENABLE_USBDEV
     if (!tusb_inited()) {
@@ -172,9 +183,6 @@ soft_reset:
     // Initialize OpenMV protocol
     omv_protocol_init_default();
     #endif
-
-    // Execute _boot.py.
-    pyexec_frozen_module("_boot.py", false);
 
     // Run boot.py every reset and main.py on first soft-reset
     if (pyexec_file_if_exists("boot.py") && first_soft_reset) {
@@ -210,6 +218,7 @@ soft_reset_exit:
 #endif
     mp_hal_set_interrupt_char(-1);
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
+    omv_protocol_deinit();
     #if MICROPY_PY_CSI
     omv_csi_abort_all();
     #endif
@@ -228,6 +237,7 @@ soft_reset_exit:
     #if MICROPY_PY_MACHINE_I2C_TARGET
     mp_machine_i2c_target_deinit_all();
     #endif
+    machine_pwm_deinit_all();
     machine_pin_irq_deinit();
     imlib_deinit();
     soft_timer_deinit();

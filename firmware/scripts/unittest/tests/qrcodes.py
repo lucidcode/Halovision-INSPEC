@@ -3,7 +3,7 @@ def unittest(data_path, temp_path):
 
     img = image.Image(data_path + "/qrcode.pgm", copy_to_fb=True)
     codes = img.find_qrcodes()
-    return len(codes) == 1 and codes[0][0:] == (
+    return len(codes) == 1 and codes[0][0:10] == (
         76,
         36,
         168,

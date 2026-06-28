@@ -23,8 +23,8 @@ csi0.snapshot(time=2000)
 
 clock = time.clock()
 
-# All lines also have `x1()`, `y1()`, `x2()`, and `y2()` methods to get their end-points
-# and a `line()` method to get all the above as one 4 value tuple for `draw_line()`.
+# All lines also have `x1`, `y1`, `x2`, and `y2` attributes to get their end-points.
+# Line objects can be passed directly to `draw_line()`.
 
 while True:
     clock.tick()
@@ -41,7 +41,7 @@ while True:
     # any two lines about to be merged. The default setting allows for 15 degrees.
 
     for l in img.find_line_segments(merge_distance=0, max_theta_diff=5):
-        img.draw_line(l.line(), color=(255, 0, 0))
+        img.draw_line(l, color=(255, 0, 0))
         # print(l)
 
     print("FPS %f" % clock.fps())

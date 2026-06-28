@@ -312,11 +312,25 @@ static inline void mp_hal_pin_open_drain(mp_hal_pin_obj_t pin) {
     gpio_set_direction_output(pin->gpio, pin->pin);
 }
 
+static inline void mp_hal_pin_config_irq_rising(mp_hal_pin_obj_t pin, bool enable) {
+    if (enable) {
+        gpio_enable_interrupt(pin->gpio, pin->pin);
+        gpio_unmask_interrupt(pin->gpio, pin->pin);
+        gpio_interrupt_set_edge_trigger(pin->gpio, pin->pin);
+        gpio_interrupt_set_polarity_high(pin->gpio, pin->pin);
+        gpio_interrupt_eoi(pin->gpio, pin->pin);
+    } else {
+        gpio_disable_interrupt(pin->gpio, pin->pin);
+    }
+}
+
 static inline void mp_hal_pin_config_irq_falling(mp_hal_pin_obj_t pin, bool enable) {
     if (enable) {
         gpio_enable_interrupt(pin->gpio, pin->pin);
+        gpio_unmask_interrupt(pin->gpio, pin->pin);
         gpio_interrupt_set_edge_trigger(pin->gpio, pin->pin);
         gpio_interrupt_set_polarity_low(pin->gpio, pin->pin);
+        gpio_interrupt_eoi(pin->gpio, pin->pin);
     } else {
         gpio_disable_interrupt(pin->gpio, pin->pin);
     }
@@ -375,3 +389,5 @@ void mp_hal_get_mac(int idx, uint8_t buf[6]);
 void mp_hal_get_mac_ascii(int idx, size_t chr_off, size_t chr_len, char *dest);
 
 uint32_t mp_hal_time_get(uint32_t *microseconds);
+
+void mp_hal_get_random(size_t n, uint8_t *buf);

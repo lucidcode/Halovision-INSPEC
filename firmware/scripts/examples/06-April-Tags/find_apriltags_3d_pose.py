@@ -60,8 +60,7 @@ while True:
     for tag in img.find_apriltags(
         fx=f_x, fy=f_y, cx=c_x, cy=c_y
     ):  # defaults to TAG36H11
-        img.draw_rectangle(tag.rect, color=(255, 0, 0))
-        img.draw_cross(tag.cx, tag.cy, color=(0, 255, 0))
+        img.draw_detection(tag, color1=(255, 0, 0), color2=(0, 255, 0))
         print_args = (
             tag.x_translation,
             tag.y_translation,

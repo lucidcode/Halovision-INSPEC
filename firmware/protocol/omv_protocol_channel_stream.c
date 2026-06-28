@@ -107,6 +107,9 @@ static int stream_channel_ioctl(const omv_protocol_channel_t *channel, uint32_t 
         case OMV_CHANNEL_IOCTL_STREAM_RAW_CTRL:
             fb->raw_enabled = u.args[0];
             return 0;
+        case OMV_CHANNEL_IOCTL_STREAM_SOURCE:
+            fb->source = u.args[0];
+            return 0;
         default:
             return -1;
     }

@@ -46,7 +46,7 @@ typedef struct py_mjpeg_obj {
     uint32_t frames;
     uint32_t bytes;
     uint32_t us_old;
-    uint32_t us_avg;
+    uint64_t us_total;
     uint32_t width;
     uint32_t height;
     bool closed;
@@ -140,14 +140,7 @@ static mp_obj_t py_mjpeg_write(size_t n_args, const mp_obj_t *pos_args, mp_map_t
     uint32_t ticks = mp_hal_ticks_us();
 
     if (self->frames > 1) {
-        uint32_t ticks_diff = mp_hal_ticks_us() - self->us_old;
-
-        if (self->frames <= 2) {
-            self->us_avg = ticks_diff;
-        } else {
-            uint64_t cumulative_average_n = ((uint64_t) self->us_avg) * (self->frames - 1);
-            self->us_avg = (cumulative_average_n + ticks_diff) / self->frames;
-        }
+        self->us_total += ticks - self->us_old;
     }
 
     self->us_old = ticks;
@@ -161,7 +154,8 @@ static mp_obj_t py_mjpeg_sync(mp_obj_t self_in) {
     if (self->closed) {
         mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("MJPEG stream is closed"));
     }
-    mjpeg_sync(&self->fp, self->frames, self->bytes, self->us_avg);
+    uint32_t us_avg = (self->frames > 1) ? (self->us_total / (self->frames - 1)) : 0;
+    mjpeg_sync(&self->fp, self->frames, self->bytes, us_avg);
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_1(py_mjpeg_sync_obj, py_mjpeg_sync);
@@ -169,7 +163,8 @@ static MP_DEFINE_CONST_FUN_OBJ_1(py_mjpeg_sync_obj, py_mjpeg_sync);
 static mp_obj_t py_mjpeg_close(mp_obj_t self_in) {
     py_mjpeg_obj_t *self = MP_OBJ_TO_PTR(self_in);
     if (!self->closed) {
-        mjpeg_close(&self->fp, self->frames, self->bytes, self->us_avg);
+        uint32_t us_avg = (self->frames > 1) ? (self->us_total / (self->frames - 1)) : 0;
+        mjpeg_close(&self->fp, self->frames, self->bytes, us_avg);
     }
     self->closed = true;
     return mp_const_none;
@@ -194,7 +189,7 @@ static mp_obj_t py_mjpeg_open(size_t n_args, const mp_obj_t *pos_args, mp_map_t 
     mjpeg->frames = 0;
     mjpeg->bytes = 0;
     mjpeg->us_old = 0;
-    mjpeg->us_avg = 0;
+    mjpeg->us_total = 0;
     mjpeg->closed = 0;
     mjpeg->width = (args[ARG_width].u_int == -1) ? fb->w : args[ARG_width].u_int;
     mjpeg->height = (args[ARG_height].u_int == -1) ? fb->h : args[ARG_height].u_int;

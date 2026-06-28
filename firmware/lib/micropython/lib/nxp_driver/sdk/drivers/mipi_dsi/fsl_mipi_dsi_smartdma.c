@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 NXP
+ * Copyright 2019-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -60,8 +60,8 @@ status_t DSI_TransferCreateHandleSMARTDMA(MIPI_DSI_HOST_Type *base,
     handle->userData = userData;
     handle->isBusy   = false;
 
-    SMARTDMA_InstallFirmware(SMARTDMA_FLEXIO_MCULCD_MEM_ADDR, s_smartdmaFlexioMcuLcdFirmware,
-                             SMARTDMA_FLEXIO_MCULCD_FIRMWARE_SIZE);
+    SMARTDMA_InstallFirmware(SMARTDMA_DISPLAY_MEM_ADDR, s_smartdmaDisplayFirmware,
+                             SMARTDMA_DISPLAY_FIRMWARE_SIZE);
 
     SMARTDMA_InstallCallback(DSI_SMARTDMA_Callback, handle);
 
@@ -116,7 +116,8 @@ status_t DSI_TransferWriteMemorySMARTDMA(MIPI_DSI_HOST_Type *base,
     else
     {
         if (((xfer->inputFormat == kDSI_SMARTDMA_InputPixelFormatRGB565) &&
-             (xfer->outputFormat == kDSI_SMARTDMA_OutputPixelFormatRGB565)) ||
+             ((xfer->outputFormat == kDSI_SMARTDMA_OutputPixelFormatRGB565) ||
+              (xfer->outputFormat == kDSI_SMARTDMA_OutputPixelFormatRGB888))) ||
             ((xfer->inputFormat == kDSI_SMARTDMA_InputPixelFormatRGB888) &&
              (xfer->outputFormat == kDSI_SMARTDMA_OutputPixelFormatRGB888)) ||
             ((xfer->inputFormat == kDSI_SMARTDMA_InputPixelFormatXRGB8888) &&
@@ -124,7 +125,14 @@ status_t DSI_TransferWriteMemorySMARTDMA(MIPI_DSI_HOST_Type *base,
         {
             if (xfer->inputFormat == kDSI_SMARTDMA_InputPixelFormatRGB565)
             {
-                smartdmaApi = (uint32_t)kSMARTDMA_MIPI_RGB565_DMA;
+                if (xfer->outputFormat == kDSI_SMARTDMA_OutputPixelFormatRGB565)
+                {
+                    smartdmaApi = (uint32_t)kSMARTDMA_MIPI_RGB565_DMA;
+                }
+                else
+                {
+                    smartdmaApi = (uint32_t)kSMARTDMA_MIPI_RGB5652RGB888_DMA;
+                }
             }
             else if (xfer->inputFormat == kDSI_SMARTDMA_InputPixelFormatRGB888)
             {
@@ -135,16 +143,41 @@ status_t DSI_TransferWriteMemorySMARTDMA(MIPI_DSI_HOST_Type *base,
                 smartdmaApi = (uint32_t)kSMARTDMA_MIPI_XRGB2RGB_DMA;
             }
 
-            handle->param.p_buffer             = xfer->data;
-            handle->param.buffersize           = xfer->dataSize;
-            handle->param.smartdma_stack       = handle->smartdmaStack;
-            handle->param.disablePixelByteSwap = (uint32_t)xfer->disablePixelByteSwap;
+            if (xfer->twoDimension)
+            {
+                if (smartdmaApi == (uint32_t)kSMARTDMA_MIPI_RGB5652RGB888_DMA)
+                {
+                    return kStatus_DSI_NotSupported;
+                }
+                handle->param2d.p_buffer             = xfer->data;
+                handle->param2d.minorLoop            = xfer->minorLoop;
+                handle->param2d.minorLoopOffset      = xfer->minorLoopOffset;
+                handle->param2d.majorLoop            = xfer->majorLoop;
+                handle->param2d.smartdma_stack       = handle->smartdmaStack;
+                handle->param2d.disablePixelByteSwap = (uint32_t)xfer->disablePixelByteSwap;
+            }
+            else
+            {
+                handle->param.p_buffer             = xfer->data;
+                handle->param.buffersize           = xfer->dataSize;
+                handle->param.smartdma_stack       = handle->smartdmaStack;
+                handle->param.disablePixelByteSwap = (uint32_t)xfer->disablePixelByteSwap;
+            }
 
             handle->isBusy = true;
             DSI_EnableInterrupts(base, (uint32_t)kDSI_InterruptGroup1ApbTxDone | (uint32_t)kDSI_InterruptGroup1HtxTo,
                                  0U);
             SMARTDMA_Reset();
-            SMARTDMA_Boot(smartdmaApi, &handle->param, 0);
+
+            if (xfer->twoDimension)
+            {
+                smartdmaApi += 1U;
+                SMARTDMA_Boot(smartdmaApi, &handle->param2d, 0);
+            }
+            else
+            {
+                SMARTDMA_Boot(smartdmaApi, &handle->param, 0);
+            }
 
             status = kStatus_Success;
         }

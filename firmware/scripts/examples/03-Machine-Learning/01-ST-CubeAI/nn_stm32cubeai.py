@@ -44,7 +44,7 @@ while True:
     # [CUBE.AI] Run the inference
     out = net.predict(img)
     print("Network argmax output: {}".format(out.index(max(out))))
-    img.draw_string(0, 0, str(out.index(max(out))))
+    img.draw_string((0, 0), str(out.index(max(out))))
     print(
         "FPS {}".format(clock.fps())
     )  # Note: OpenMV Cam runs about half as fast when connected

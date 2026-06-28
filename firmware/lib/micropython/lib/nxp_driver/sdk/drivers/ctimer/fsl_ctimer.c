@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -76,7 +76,7 @@ static uint32_t CTIMER_GetInstance(CTIMER_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ctimerArrayCount; instance++)
     {
-        if (s_ctimerBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_ctimerBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -207,7 +207,7 @@ status_t CTIMER_SetupPwm(CTIMER_Type *base,
         return kStatus_Fail;
     }
 
-    /* Enable PWM mode on the channel */
+    /* Enable PWM mode on the match channel */
     base->PWMC |= (1UL << (uint32_t)matchChannel);
 
     /* Clear the stop, reset and interrupt bits for this channel */
@@ -222,8 +222,8 @@ status_t CTIMER_SetupPwm(CTIMER_Type *base,
         reg |= (((uint32_t)CTIMER_MCR_MR0I_MASK) << (CTIMER_MCR_MR0I_SHIFT + ((uint32_t)matchChannel * 3U)));
     }
 
-    /* Reset the counter when match on channel 3 */
-    reg |= CTIMER_MCR_MR3R_MASK;
+    /* Reset the counter when match on PWM period channel (pwmPeriodChannel)  */
+    reg |= ((uint32_t)((uint32_t)CTIMER_MCR_MR0R_MASK) << ((uint32_t)pwmPeriodChannel * 3U));
 
     base->MCR = reg;
 
@@ -572,6 +572,33 @@ void CTIMER4_DriverIRQHandler(void);
 void CTIMER4_DriverIRQHandler(void)
 {
     CTIMER_GenericIRQHandler(4);
+    SDK_ISR_EXIT_BARRIER;
+}
+#endif
+
+#if defined(CTIMER5)
+void CTIMER5_DriverIRQHandler(void);
+void CTIMER5_DriverIRQHandler(void)
+{
+    CTIMER_GenericIRQHandler(5);
+    SDK_ISR_EXIT_BARRIER;
+}
+#endif
+
+#if defined(CTIMER6)
+void CTIMER6_DriverIRQHandler(void);
+void CTIMER6_DriverIRQHandler(void)
+{
+    CTIMER_GenericIRQHandler(6);
+    SDK_ISR_EXIT_BARRIER;
+}
+#endif
+
+#if defined(CTIMER7)
+void CTIMER7_DriverIRQHandler(void);
+void CTIMER7_DriverIRQHandler(void)
+{
+    CTIMER_GenericIRQHandler(7);
     SDK_ISR_EXIT_BARRIER;
 }
 #endif

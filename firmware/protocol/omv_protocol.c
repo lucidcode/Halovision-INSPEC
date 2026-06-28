@@ -30,6 +30,10 @@
 #include <stddef.h>
 
 #include "py/mphal.h"
+#include "py/gc.h"
+#include "py/runtime.h"
+#include "shared/runtime/softtimer.h"
+#include "umalloc.h"
 #include "omv_csi.h"
 #include "omv_crc.h"
 #include "omv_protocol.h"
@@ -43,6 +47,9 @@
 // Static global protocol context
 static omv_protocol_context_t ctx;
 static omv_protocol_config_t default_config;
+static soft_timer_entry_t protocol_timer;
+static mp_sched_node_t protocol_sched_node;
+static void omv_protocol_poll_callback(soft_timer_entry_t *self);
 
 int omv_protocol_init(const omv_protocol_config_t *config) {
     if (!config) {
@@ -75,6 +82,13 @@ int omv_protocol_init(const omv_protocol_config_t *config) {
     // Initialize buffer
     omv_buffer_init(&ctx.buffer, ctx.rawbuf, sizeof(ctx.rawbuf));
 
+    // Start periodic poll timer if configured.
+    if (config->poll_ms > 0) {
+        soft_timer_static_init(&protocol_timer, SOFT_TIMER_MODE_PERIODIC,
+                               config->poll_ms, omv_protocol_poll_callback);
+        soft_timer_insert(&protocol_timer, config->poll_ms);
+    }
+
     return 0;
 }
 
@@ -85,10 +99,10 @@ int omv_protocol_init_default() {
         .ack_enabled = true,
         .event_enabled = true,
         .max_payload = OMV_PROTOCOL_MAX_PAYLOAD_SIZE,
-        .soft_reboot = true,
         .rtx_retries = OMV_PROTOCOL_DEF_RTX_RETRIES,
         .rtx_timeout_ms = OMV_PROTOCOL_DEF_RTX_TIMEOUT_MS,
         .lock_intval_ms = OMV_PROTOCOL_MIN_LOCK_INTERVAL_MS,
+        .poll_ms = OMV_PROTOCOL_DEF_POLL_MS,
     };
 
     if (omv_protocol_init(&config) != 0) {
@@ -115,11 +129,20 @@ int omv_protocol_init_default() {
 }
 
 void omv_protocol_deinit(void) {
-    // Deinitialize all channels (including transport at index 0)
+    if (ctx.config.poll_ms > 0) {
+        soft_timer_remove(&protocol_timer);
+    }
+
+    // Deinitialize all channels, unregister dynamic ones.
     for (int i = 0; i < OMV_PROTOCOL_MAX_CHANNELS; i++) {
-        if (ctx.channels[i] && ctx.channels[i]->deinit) {
-            ctx.channels[i]->deinit(ctx.channels[i]);
-            ctx.channels[i] = NULL;
+        if (ctx.channels[i]) {
+            if (ctx.channels[i]->deinit) {
+                ctx.channels[i]->deinit(ctx.channels[i]);
+            }
+            if (ctx.channels[i]->flags & OMV_PROTOCOL_CHANNEL_FLAG_DYNAMIC) {
+                ctx.channels[i] = NULL;
+                ctx.channels_count--;
+            }
         }
     }
 }
@@ -149,6 +172,21 @@ bool omv_protocol_is_active(void) {
     return transport && transport->is_active(transport);
 }
 
+static void omv_protocol_task(mp_sched_node_t *node) {
+    for (int i = 0; i < ctx.channels_count; i++) {
+        const omv_protocol_channel_t *channel = ctx.channels[i];
+        if (channel && channel->tick) {
+            channel->tick(channel);
+        }
+    }
+
+    omv_protocol_poll();
+}
+
+static void omv_protocol_poll_callback(soft_timer_entry_t *self) {
+    mp_sched_schedule_node(&protocol_sched_node, omv_protocol_task);
+}
+
 bool omv_protocol_exec_script(void) {
     const omv_protocol_channel_t *channel = omv_protocol_find_channel(OMV_PROTOCOL_CHANNEL_ID_STDIN);
     if (!channel || !channel->exec) {
@@ -160,12 +198,7 @@ bool omv_protocol_exec_script(void) {
         omv_protocol_send_event(0, OMV_PROTOCOL_EVENT_SOFT_REBOOT, false);
     }
 
-    if (result) {
-        // A script was executed - return true if the transport allows soft-reboot
-        return ctx.config.soft_reboot;
-    }
-
-    return false;
+    return result;
 }
 
 int omv_protocol_register_channel(const omv_protocol_channel_t *channel) {
@@ -306,14 +339,6 @@ int omv_protocol_send_event(uint8_t channel_id, uint16_t event, bool wait_ack) {
         ret = omv_protocol_send_packet(opcode, channel_id, sizeof(event), &event, flags);
     }
 
-    // The state machine returns immediately after finding an event ACK so we need
-    // to run it one more time to handle any buffered commands. This is especially
-    // important for the USB transport, as it schedules the task on receive IRQs,
-    // which may not occur again if the host is waiting on a reply.
-    if (ret != -1 && wait_ack) {
-        omv_protocol_task();
-    }
-
     return ret;
 }
 
@@ -375,8 +400,9 @@ int omv_protocol_send_packet(uint8_t opcode, uint8_t channel_id, size_t size, co
                 sent += transport->write(transport, 0, 4, crc32_bytes);
             }
 
-            if (transport->flush) {
-                transport->flush(transport);
+            if (transport->flush && transport->flush(transport) < 0) {
+                ctx.stats.transport_errors++;
+                return -1;
             }
 
             if (sent != OMV_PROTOCOL_HEADER_SIZE + frag_len + (frag_len > 0 ? 4 : 0)) {
@@ -385,7 +411,7 @@ int omv_protocol_send_packet(uint8_t opcode, uint8_t channel_id, size_t size, co
             }
 
             for (uint32_t start = OMV_PROTOCOL_TICKS_MS(); ctx.wait_for_ack; OMV_PROTOCOL_EVENT_POLL()) {
-                if (omv_protocol_task() == -1) {
+                if (omv_protocol_poll() == -1) {
                     return -1;
                 }
 
@@ -429,9 +455,16 @@ int omv_protocol_send_packet(uint8_t opcode, uint8_t channel_id, size_t size, co
     return 0;
 }
 
-int omv_protocol_task(void) {
+int omv_protocol_poll(void) {
     size_t available = 0;
     const omv_protocol_channel_t *transport = omv_protocol_find_transport();
+
+    // Guard against re-entrancy from PendSV. lwip is dispatched from
+    // PendSV which can preempt the protocol task mid-call, leading to
+    // re-entrancy (e.g. lwip -> handle_pending -> protocol -> lwip).
+    if (__get_IPSR() != 0) {
+        return -1;
+    }
 
     if (!transport || !transport->is_active(transport)) {
         return -1;
@@ -736,6 +769,42 @@ void omv_protocol_process(const omv_protocol_packet_t *packet) {
             sysinfo.stream_buffer_size_kb = framebuffer_get(FB_STREAM_ID)->raw_size / 1024;
 
             omv_protocol_send_packet(OMV_PROTOCOL_OPCODE_SYS_INFO, packet->channel, sizeof(sysinfo), &sysinfo, 0);
+            break;
+        }
+
+        case OMV_PROTOCOL_OPCODE_SYS_MEMORY: {
+            gc_info_t gc;
+            int count = uma_pool_count() + 1;
+            uint8_t resp_buf[sizeof(omv_protocol_mem_stats_t)
+                             + (UMA_MAX_POOLS + 1) * sizeof(omv_protocol_mem_entry_t)];
+
+            memset(resp_buf, 0, sizeof(resp_buf));
+            omv_protocol_mem_stats_t *resp = (omv_protocol_mem_stats_t *) resp_buf;
+
+            // GC stats
+            gc_info_fast(&gc);
+
+            resp->count = count;
+            resp->entries[0].type = OMV_PROTOCOL_MEM_TYPE_GC;
+            resp->entries[0].total = (uint32_t) gc.total;
+            resp->entries[0].used = (uint32_t) gc.used;
+            resp->entries[0].free = (uint32_t) gc.free;
+
+            // UMA per-pool stats
+            for (int i = 0; i < count - 1; i++) {
+                uma_stats_t uma;
+                uma_get_stats(i, false, &uma);
+                resp->entries[i + 1].type = OMV_PROTOCOL_MEM_TYPE_UMA;
+                resp->entries[i + 1].flags = (uint16_t) uma_pool_get(i)->flags;
+                resp->entries[i + 1].total = (uint32_t) uma_pool_get(i)->size;
+                resp->entries[i + 1].used = (uint32_t) uma.used_bytes;
+                resp->entries[i + 1].free = (uint32_t) uma.free_bytes;
+                resp->entries[i + 1].persist = (uint32_t) uma.persist_bytes;
+                resp->entries[i + 1].peak = (uint32_t) uma.peak_bytes;
+            }
+
+            size_t resp_size = sizeof(omv_protocol_mem_stats_t) + count * sizeof(omv_protocol_mem_entry_t);
+            omv_protocol_send_packet(OMV_PROTOCOL_OPCODE_SYS_MEMORY, packet->channel, resp_size, resp_buf, 0);
             break;
         }
 

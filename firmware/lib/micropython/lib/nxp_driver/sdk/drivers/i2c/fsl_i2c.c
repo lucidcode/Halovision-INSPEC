@@ -149,7 +149,7 @@ uint32_t I2C_GetInstance(I2C_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_i2cBases); instance++)
     {
-        if (s_i2cBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_i2cBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -529,7 +529,7 @@ static void I2C_TransferCommonIRQHandler(I2C_Type *base, void *handle)
     {
         s_i2cSlaveIsr(base, handle);
     }
-    __DSB();
+    SDK_ISR_EXIT_BARRIER;
 }
 
 /*!

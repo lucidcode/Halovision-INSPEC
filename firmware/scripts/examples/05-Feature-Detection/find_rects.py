@@ -31,9 +31,9 @@ while True:
     # have larger edge magnitudes the larger and more contrasty they are...
 
     for r in img.find_rects(threshold=10000):
-        img.draw_rectangle(r.rect(), color=(255, 0, 0))
-        for p in r.corners():
-            img.draw_circle(p[0], p[1], 5, color=(0, 255, 0))
+        img.draw_rectangle(r, color=(255, 0, 0))
+        for p in r.corners:
+            img.draw_circle((p[0], p[1], 5), color=(0, 255, 0))
         print(r)
 
     print("FPS %f" % clock.fps())

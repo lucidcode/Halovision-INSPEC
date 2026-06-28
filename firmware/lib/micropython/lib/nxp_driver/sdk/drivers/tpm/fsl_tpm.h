@@ -1,14 +1,22 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2021, 2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_TPM_H_
-#define _FSL_TPM_H_
+#ifndef FSL_TPM_H_
+#define FSL_TPM_H_
 
 #include "fsl_common.h"
+
+/*
+ * $Coverage Justification Reference$
+ *
+ * $Justification tpm_h_ref_1$
+ * Hardware limitations make this code impossible to implement.
+ *
+ */
 
 /*!
  * @addtogroup tpm
@@ -20,10 +28,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief TPM driver version 2.2.0. */
-#define FSL_TPM_DRIVER_VERSION (MAKE_VERSION(2, 2, 0))
-/*@}*/
+/*! @{ */
+/*! @brief TPM driver version 2.3.1. */
+#define FSL_TPM_DRIVER_VERSION (MAKE_VERSION(2, 3, 1))
+/*! @} */
 
 /*! @brief Help macro to get the max counter value */
 #define TPM_MAX_COUNTER_VALUE(x) ((1U != (uint8_t)FSL_FEATURE_TPM_HAS_32BIT_COUNTERn(x)) ? 0xFFFFU : 0xFFFFFFFFU)
@@ -337,6 +345,13 @@ typedef enum _tpm_status_flags
     kTPM_TimeOverflowFlag = (1U << 8)  /*!< Time overflow flag */
 } tpm_status_flags_t;
 
+/*! 
+ * @brief TPM callback function pointer
+ *
+ * @param base   TPM peripheral base address.
+ */
+typedef void (*tpm_callback_t)(TPM_Type *base);
+
 /*******************************************************************************
  * API
  ******************************************************************************/
@@ -349,6 +364,14 @@ extern "C" {
  * @name Initialization and deinitialization
  * @{
  */
+
+/*!
+ * @brief Gets the instance from the base address
+ *
+ * @param base TPM peripheral base address
+ * @return The TPM instance
+ */
+uint32_t TPM_GetInstance(TPM_Type *base);
 
 /*!
  * @brief Ungates the TPM clock and configures the peripheral for basic operation.
@@ -504,6 +527,13 @@ static inline void TPM_DisableChannel(TPM_Type *base, tpm_chnl_t chnlNumber)
         base->CONTROLS[chnlNumber].CnSC &=
             ~(TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK);
         /* Wait till mode change to disable channel is acknowledged */
+        /*
+         * $Branch Coverage Justification$
+         * (0U != (base->CONTROLS[chnlNumber].CnSC &
+         *           (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)))
+         * not covered.  $ref tpm_h_ref_1$.
+         */
+
     } while (0U != (base->CONTROLS[chnlNumber].CnSC &
                     (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)));
 }
@@ -532,6 +562,13 @@ static inline void TPM_EnableChannel(TPM_Type *base, tpm_chnl_t chnlNumber, uint
              ~(TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)) |
             (control & (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK));
         /* Wait till mode change is acknowledged */
+        /*
+         * $Branch Coverage Justification$
+         * ((control & (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)) !=
+         *    (uint8_t)(base->CONTROLS[chnlNumber].CnSC &
+         *              (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)))
+         * not covered. $ref tpm_h_ref_1$.
+         */
     } while ((control & (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)) !=
              (uint8_t)(base->CONTROLS[chnlNumber].CnSC &
                        (TPM_CnSC_MSA_MASK | TPM_CnSC_MSB_MASK | TPM_CnSC_ELSA_MASK | TPM_CnSC_ELSB_MASK)));
@@ -685,6 +722,17 @@ void TPM_DisableInterrupts(TPM_Type *base, uint32_t mask);
  */
 uint32_t TPM_GetEnabledInterrupts(TPM_Type *base);
 
+/*!
+ * @brief Register callback.
+ * 
+ * If channel or overflow interrupt is enabled by the user, then a callback can be registered
+ * which will be invoked when the interrupt is triggered.
+ *
+ * @param base       TPM peripheral base address
+ * @param callback   Callback function
+ */
+void TPM_RegisterCallBack(TPM_Type *base, tpm_callback_t callback);
+
 /*! @}*/
 
 /*!
@@ -727,7 +775,7 @@ static inline uint32_t TPM_GetStatusFlags(TPM_Type *base)
         statusFlags |= (uint32_t)kTPM_TimeOverflowFlag;
     }
 
-    for (chanlNumber = 0; chanlNumber < FSL_FEATURE_TPM_CHANNEL_COUNTn(base); chanlNumber++)
+    for (chanlNumber = 0; (int8_t)chanlNumber < FSL_FEATURE_TPM_CHANNEL_COUNTn(base); chanlNumber++)
     {
         /* Check the channel flag */
         if (0U != (base->CONTROLS[chanlNumber].CnSC & TPM_CnSC_CHF_MASK))
@@ -831,7 +879,6 @@ static inline uint32_t TPM_GetCurrentTimerCount(TPM_Type *base)
 /*!
  * @brief Starts the TPM counter.
  *
- *
  * @param base        TPM peripheral base address
  * @param clockSource TPM clock source; once clock source is set the counter will start running
  */
@@ -899,4 +946,4 @@ static inline void TPM_Reset(TPM_Type *base)
 
 /*! @}*/
 
-#endif /* _FSL_TPM_H_ */
+#endif /* FSL_TPM_H_ */

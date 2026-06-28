@@ -16,7 +16,6 @@ csi0 = csi.CSI()
 csi0.reset()
 csi0.pixformat(csi.RGB565)
 csi0.framesize(csi.VGA)
-csi0.window((400, 400))
 
 # Load built-in person detection model
 model = ml.Model("/rom/yolo_lc_192.tflite", postprocess=YoloLC(threshold=0.4))

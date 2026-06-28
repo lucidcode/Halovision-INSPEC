@@ -1,7 +1,7 @@
 /**
- * @file services_host_padcontrol.c
+ * @file services_host_application.c
  *
- * @brief Pad control service source file
+ * @brief Application service source file
  * @ingroup host_services
  * @par
  *
@@ -92,6 +92,7 @@ uint32_t SERVICES_uart_write(uint32_t services_handle,
  * @param revision_data
  * @param error_code
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_get_se_revision(uint32_t services_handle,
                                   uint8_t *revision_data,

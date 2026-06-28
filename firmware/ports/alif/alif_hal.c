@@ -400,7 +400,7 @@ void alif_hal_mpu_init(void) {
     static const ARM_MPU_Region_t MPU_CONFIG_TABLE[] __STARTUP_RO_DATA_ATTRIBUTE = {
         [MPU_REGION_SRAM0] = {   /* SRAM0 - 4MB : RO-0, NP-1, XN-0 */
             .RBAR = ARM_MPU_RBAR(0x02000000, ARM_MPU_SH_NON, 0, 1, 0),
-            .RLAR = ARM_MPU_RLAR(0x023FFFFF, MPU_ATTR_NORMAL_WT_RA_TRANSIENT)
+            .RLAR = ARM_MPU_RLAR(0x023FFFFF, MPU_ATTR_NORMAL_WB_RA_WA)
         },
         [MPU_REGION_SRAM1] = {   /* SRAM1 - 2.5MB : RO-0, NP-1, XN-0 */
             .RBAR = ARM_MPU_RBAR(0x08000000, ARM_MPU_SH_NON, 0, 1, 0),

@@ -8,8 +8,8 @@ def unittest(data_path, temp_path):
     # Fill with similar patterns
     for y in range(50):
         for x in range(50):
-            img1.set_pixel(x, y, 100 + (x + y) % 50)
-            img2.set_pixel(x, y, 100 + (x + y) % 50)
+            img1.set_pixel((x, y), 100 + (x + y) % 50)
+            img2.set_pixel((x, y), 100 + (x + y) % 50)
 
     # Get similarity (SSIM)
     similarity = img1.get_similarity(img2)

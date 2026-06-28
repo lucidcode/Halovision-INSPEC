@@ -34,7 +34,7 @@
 #endif
 
 //! @name Alignment macros
-//@{
+//! @{
 /*! @brief Alignment(down) utility. */
 #if !defined(ALIGN_DOWN)
 #define ALIGN_DOWN(x, a) (((uint32_t)(x)) & ~((uint32_t)(a)-1u))
@@ -44,7 +44,7 @@
 #if !defined(ALIGN_UP)
 #define ALIGN_UP(x, a) ALIGN_DOWN((uint32_t)(x) + (uint32_t)(a)-1u, a)
 #endif
-//@}
+//! @}
 
 /*! @brief bytes2word utility. */
 #define B1P4(b) (((uint32_t)(b)&0xFFU) << 24U)
@@ -57,12 +57,12 @@
 #define B3P2(b) (((uint32_t)(b)&0xFFFFFFU) << 8U)
 #define B3P1(b) ((uint32_t)(b)&0xFFFFFFU)
 
-#define BYTE2WORD_1_3(x, y) (B1P4(x) | B3P1(y))
-#define BYTE2WORD_2_2(x, y) (B2P3(x) | B2P1(y))
-#define BYTE2WORD_3_1(x, y) (B3P2(x) | B1P1(y))
-#define BYTE2WORD_1_1_2(x, y, z) (B1P4(x) | B1P3(y) | B2P1(z))
-#define BYTE2WORD_1_2_1(x, y, z) (B1P4(x) | B2P2(y) | B1P1(z))
-#define BYTE2WORD_2_1_1(x, y, z) (B2P3(x) | B1P2(y) | B1P1(z))
+#define BYTE2WORD_1_3(x, y)           (B1P4(x) | B3P1(y))
+#define BYTE2WORD_2_2(x, y)           (B2P3(x) | B2P1(y))
+#define BYTE2WORD_3_1(x, y)           (B3P2(x) | B1P1(y))
+#define BYTE2WORD_1_1_2(x, y, z)      (B1P4(x) | B1P3(y) | B2P1(z))
+#define BYTE2WORD_1_2_1(x, y, z)      (B1P4(x) | B2P2(y) | B1P1(z))
+#define BYTE2WORD_2_1_1(x, y, z)      (B2P3(x) | B1P2(y) | B1P1(z))
 #define BYTE2WORD_1_1_1_1(x, y, z, w) (B1P4(x) | B1P3(y) | B1P2(z) | B1P1(w))
 
 /*! @}*/

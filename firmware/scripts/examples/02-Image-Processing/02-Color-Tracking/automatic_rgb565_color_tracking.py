@@ -45,17 +45,16 @@ for i in range(60):
         0.99
     )  # Get the CDF of the histogram at the 99% range (ADJUST AS NECESSARY)!
     # Average in percentile values.
-    threshold[0] = (threshold[0] + lo.l_value()) // 2
-    threshold[1] = (threshold[1] + hi.l_value()) // 2
-    threshold[2] = (threshold[2] + lo.a_value()) // 2
-    threshold[3] = (threshold[3] + hi.a_value()) // 2
-    threshold[4] = (threshold[4] + lo.b_value()) // 2
-    threshold[5] = (threshold[5] + hi.b_value()) // 2
+    threshold[0] = (threshold[0] + lo.l_value) // 2
+    threshold[1] = (threshold[1] + hi.l_value) // 2
+    threshold[2] = (threshold[2] + lo.a_value) // 2
+    threshold[3] = (threshold[3] + hi.a_value) // 2
+    threshold[4] = (threshold[4] + lo.b_value) // 2
+    threshold[5] = (threshold[5] + hi.b_value) // 2
     for blob in img.find_blobs(
         [threshold], pixels_threshold=100, area_threshold=100, merge=True, margin=10
     ):
-        img.draw_rectangle(blob.rect())
-        img.draw_cross(blob.cx(), blob.cy())
+        img.draw_detection(blob)
         img.draw_rectangle(r)
 
 print("Thresholds learned...")
@@ -67,6 +66,5 @@ while True:
     for blob in img.find_blobs(
         [threshold], pixels_threshold=100, area_threshold=100, merge=True, margin=10
     ):
-        img.draw_rectangle(blob.rect())
-        img.draw_cross(blob.cx(), blob.cy())
+        img.draw_detection(blob)
     print(clock.fps())

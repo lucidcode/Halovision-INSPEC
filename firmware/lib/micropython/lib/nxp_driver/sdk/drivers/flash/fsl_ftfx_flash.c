@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2016 Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2020, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -86,11 +86,11 @@ static status_t flash_validate_swap_indicator_address(ftfx_config_t *config, uin
 
 static volatile uint32_t *const kFPROTL = (volatile uint32_t *)(uint32_t)&FTFx_FPROT_LOW_REG;
 #if defined(FTFx_FLASH0_HAS_HIGH_PROT_REG) && FTFx_FLASH0_HAS_HIGH_PROT_REG
-static volatile uint32_t *const kFPROTH = (volatile uint32_t *)&FTFx_FPROT_HIGH_REG;
+static volatile uint32_t *const kFPROTH = (volatile uint32_t *)(uint32_t)&FTFx_FPROT_HIGH_REG;
 #endif /* FTFx_FLASH0_HAS_HIGH_PROT_REG */
 #if defined(FTFx_FLASH1_HAS_INT_PROT_REG) && FTFx_FLASH1_HAS_INT_PROT_REG
-volatile uint8_t *const kFPROTSL = (volatile uint8_t *)&FTFx_FPROTSL_REG;
-volatile uint8_t *const kFPROTSH = (volatile uint8_t *)&FTFx_FPROTSH_REG;
+volatile uint8_t *const kFPROTSL = (volatile uint8_t *)(uint32_t)&FTFx_FPROTSL_REG;
+volatile uint8_t *const kFPROTSH = (volatile uint8_t *)(uint32_t)&FTFx_FPROTSH_REG;
 #endif /* FTFx_FLASH1_HAS_INT_PROT_REG */
 
 /*!
@@ -124,7 +124,7 @@ static const uint16_t kPFlashDensities[] = {
     0u,    /* 0x8 - undefined */
     0u,    /* 0x9 - undefined */
     256u,  /* 0xa - 262144, 256KB */
-    0u,    /* 0xb - undefined */
+    512u,  /* 0xb - 524288, 512KB */
     1024u, /* 0xc - 1048576, 1MB */
     0u,    /* 0xd - undefined */
     0u,    /* 0xe - undefined */

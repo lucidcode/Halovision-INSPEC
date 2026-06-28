@@ -43,7 +43,6 @@
 #include "modmimxrt.h"
 
 #include "py_fir.h"
-#include "py_tv.h"
 
 #if MICROPY_PY_LWIP
 #include "lwip/init.h"
@@ -68,8 +67,6 @@
 #include "board_config.h"
 #include "framebuffer.h"
 #include "omv_csi.h"
-#include "fb_alloc.h"
-#include "dma_alloc.h"
 #include "file_utils.h"
 #include "mp_utils.h"
 #include "mimxrt_hal.h"
@@ -97,15 +94,11 @@ soft_reset:
     #if MICROPY_PY_FIR
     py_fir_init0();
     #endif // MICROPY_PY_FIR
-    #if MICROPY_PY_TV
-    py_tv_init0();
-    #endif
+    uma_init();
     imlib_init();
     readline_init0();
-    fb_alloc_init0();
     framebuffer_init0();
     omv_csi_init0();
-    //dma_alloc_init0();
     machine_adc_init();
     #if MICROPY_PY_MACHINE_SDCARD
     machine_sdcard_init0();
@@ -114,7 +107,6 @@ soft_reset:
     machine_i2s_init0();
     #endif
     machine_rtc_start();
-    omv_protocol_init_default();
 
     #if MICROPY_PY_LWIP
     // lwIP can only be initialized once, because the system timeout
@@ -169,6 +161,9 @@ soft_reset:
         tusb_init();
     }
 
+    // Initialize OpenMV protocol
+    omv_protocol_init_default();
+
     // Run boot.py every reset and main.py on first soft-reset
     if (pyexec_file_if_exists("boot.py") && first_soft_reset) {
         pyexec_file_if_exists("main.py");
@@ -197,6 +192,7 @@ soft_reset:
     // soft reset
     mp_hal_set_interrupt_char(-1);
     mp_printf(MP_PYTHON_PRINTER, "MPY: soft reboot\n");
+    omv_protocol_deinit();
     #if MICROPY_PY_CSI
     omv_csi_abort_all();
     #endif

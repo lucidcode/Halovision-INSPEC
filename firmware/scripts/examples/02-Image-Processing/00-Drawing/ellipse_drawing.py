@@ -34,11 +34,6 @@ while True:
         g = randint(0, 127) + 128
         b = randint(0, 127) + 128
 
-        # If the first argument is a scaler then this method expects
-        # to see x, y, radius x, and radius y.
-        # Otherwise, it expects a (x,y,rx,ry) tuple.
-        img.draw_ellipse(
-            x, y, rx, ry, rot, color=(r, g, b), thickness=2, fill=False
-        )
+        img.draw_ellipse((x, y, rx, ry, rot), color=(r, g, b), thickness=2, fill=False)
 
     print(clock.fps())

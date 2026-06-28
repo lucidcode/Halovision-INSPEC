@@ -126,6 +126,31 @@ static bool stm_csi_is_active(omv_csi_t *csi) {
     return (DCMI->CR & DCMI_CR_ENABLE);
 }
 
+#if USE_DCMIPP
+// Map a numeric MIPI bitrate (Mb/s) to the closest DCMIPP_CSI_PHY_BT_* enum.
+static uint32_t stm_csi_mipi_bitrate(uint32_t mbps) {
+    static const uint16_t bitrates[] = {
+        80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, // +10
+        205, 220, 235, 250, // +15
+        275, 300, 325, 350, // +25
+        400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, // +50
+        1000, 1050, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450, 1500, 1550, // +50
+        1600, 1650, 1700, 1750, 1800, 1850, 1900, 1950, 2000, 2050, 2100, 2150, // +50
+        2200, 2250, 2300, 2350, 2400, 2450, 2500 // +50
+    };
+    size_t best = 0;
+    uint32_t best_diff = abs((int) mbps - (int) bitrates[0]);
+    for (size_t i = 1; i < OMV_ARRAY_SIZE(bitrates); i++) {
+        uint32_t diff = abs((int) mbps - (int) bitrates[i]);
+        if (diff < best_diff) {
+            best = i;
+            best_diff = diff;
+        }
+    }
+    return best;
+}
+#endif // USE_DCMIPP
+
 int stm_csi_isp_reset(omv_csi_t *csi) {
     #if USE_DCMIPP
     if (csi->mipi_if) {
@@ -203,7 +228,7 @@ static int stm_csi_config(omv_csi_t *csi, omv_csi_config_t config) {
             DCMIPP_CSI_ConfTypeDef scfg = {
                 .NumberOfLanes = DCMIPP_CSI_TWO_DATA_LANES,
                 .DataLaneMapping = DCMIPP_CSI_PHYSICAL_DATA_LANES,
-                .PHYBitrate = (csi->mipi_brate == 850) ? DCMIPP_CSI_PHY_BT_850 : DCMIPP_CSI_PHY_BT_1200,
+                .PHYBitrate = stm_csi_mipi_bitrate(csi->mipi_brate),
             };
 
             if (HAL_DCMIPP_CSI_SetConfig(&csi->dcmipp, &scfg) != HAL_OK) {
@@ -404,6 +429,14 @@ static void stm_csi_frame_event(omv_csi_t *csi, uint32_t pipe) {
     HAL_NVIC_EnableIRQ(csi->dma_irqn);
     #endif
 
+    // The ISP AWB stats lag by one frame. So, drop the first frame when not initialized.
+    #if defined(OMV_CSI_STATS_ENABLE)
+    if (csi->raw_output && csi->stats_enabled && !csi->stats.initialized) {
+        stm_isp_update_awb(csi, DCMIPP_PIPE);
+        csi->drop_frame = true;
+    }
+    #endif // OMV_CSI_STATS_ENABLE
+
     csi->first_line = false;
     if (csi->drop_frame) {
         csi->drop_frame = false;
@@ -458,7 +491,7 @@ void DCMI_DMAConvCpltUser(DCMI_HandleTypeDef *hdcmi, uint32_t addr) {
 
     if (csi->drop_frame) {
         #if USE_MDMA
-        if (!csi->transpose) {
+        if (!csi->transpose && csi->pixformat != PIXFORMAT_JPEG) {
             HAL_NVIC_DisableIRQ(csi->dma_irqn);
         }
         #endif
@@ -557,15 +590,7 @@ static int stm_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
                 return OMV_CSI_ERROR_INVALID_FRAMESIZE;
             }
 
-            // Configure crop
-            DCMIPP_CropConfTypeDef ccfg = {
-                .HStart = fb->x,
-                .VStart = fb->y,
-                .HSize = fb->u,
-                .VSize = fb->v,
-            };
-            if (HAL_DCMIPP_PIPE_SetCropConfig(&csi->dcmipp, DCMIPP_PIPE, &ccfg) != HAL_OK ||
-                HAL_DCMIPP_PIPE_EnableCrop(&csi->dcmipp, DCMIPP_PIPE) != HAL_OK) {
+            if (stm_isp_set_scaler(csi, DCMIPP_PIPE)) {
                 return OMV_CSI_ERROR_CSI_INIT_FAILED;
             }
 
@@ -765,7 +790,7 @@ static int stm_csi_snapshot(omv_csi_t *csi, image_t *image, uint32_t flags) {
 
     #if USE_DCMIPP
     if (csi->raw_output) {
-        float luminance = stm_isp_update_awb(csi, DCMIPP_PIPE, fb->u * fb->v);
+        float luminance = stm_isp_update_awb(csi, DCMIPP_PIPE);
         if (csi->ioctl) {
             omv_csi_ioctl(csi, OMV_CSI_IOCTL_UPDATE_AGC_AEC, fast_floorf(luminance));
         }

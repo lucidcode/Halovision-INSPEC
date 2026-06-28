@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 NXP
+ * Copyright 2017-2023 NXP
  * All rights reserved.
  *
  *
@@ -63,7 +63,7 @@ static uint32_t FLEXRAM_GetInstance(FLEXRAM_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_flexramBases); instance++)
     {
-        if (s_flexramBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_flexramBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -128,6 +128,7 @@ void FLEXRAM_EnableECC(FLEXRAM_Type *base, bool OcramECCEnable, bool TcmECCEnabl
     }
 }
 
+#if (defined(FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION) && (FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION))
 void FLEXRAM_ErrorInjection(FLEXRAM_Type *base, flexram_memory_type_t memory, flexram_ecc_error_type_t *error)
 {
     assert(error != NULL);
@@ -176,6 +177,7 @@ void FLEXRAM_ErrorInjection(FLEXRAM_Type *base, flexram_memory_type_t memory, fl
 
     __DSB();
 }
+#endif /* FSL_FEATURE_FLEXRAM_HAS_ECC_ERROR_INJECTION */
 
 void FLEXRAM_GetOcramSingleErroInfo(FLEXRAM_Type *base, flexram_ocram_ecc_single_error_info_t *info)
 {

@@ -47,7 +47,7 @@ while True:
         r_max=100,
         r_step=2,
     ):
-        img.draw_circle(c.x(), c.y(), c.r(), color=(255, 0, 0))
+        img.draw_circle(c, color=(255, 0, 0))
         print(c)
 
     print("FPS %f" % clock.fps())

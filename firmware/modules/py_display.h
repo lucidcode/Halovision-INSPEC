@@ -54,6 +54,10 @@ typedef enum {
     DISPLAY_RESOLUTION_MAX
 } display_resolution_t;
 
+typedef enum {
+    DISPLAY_IOCTL_CHANNEL = 0,
+} display_ioctl_t;
+
 typedef struct _py_display_obj_t {
     mp_obj_base_t base;
     uint32_t vcid;
@@ -72,6 +76,11 @@ typedef struct _py_display_obj_t {
     omv_spi_t spi_bus;
     bool spi_tx_running;
     uint32_t spi_baudrate;
+    #if MICROPY_PY_TV
+    volatile uint32_t spi_state;
+    #endif
+    uint8_t *spi_write_addr;
+    size_t spi_write_count;
     #endif
     bool triple_buffer;
     uint32_t framebuffer_tail;
@@ -89,8 +98,12 @@ typedef struct _py_display_p_t {
     void (*set_backlight) (py_display_obj_t *self, uint32_t intensity);
     int (*bus_write) (py_display_obj_t *self, uint8_t cmd, uint8_t *args, size_t n_args, bool dcs);
     int (*bus_read) (py_display_obj_t *self, uint8_t cmd, uint8_t *args, size_t n_args, uint8_t *buf, size_t len, bool dcs);
+    mp_obj_t (*ioctl) (py_display_obj_t *self, size_t n_args, const mp_obj_t *args);
 } py_display_p_t;
 
+#if MICROPY_PY_TV
+extern const mp_obj_type_t py_tv_display_type;
+#endif
 extern const mp_obj_type_t py_spi_display_type;
 extern const mp_obj_type_t py_rgb_display_type;
 extern const mp_obj_type_t py_dsi_display_type;

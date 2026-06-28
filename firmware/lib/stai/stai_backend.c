@@ -43,6 +43,7 @@
 #include "py/binary.h"
 #include "py/gc.h"
 #include "py_ml.h"
+#include "umalloc.h"
 
 #include "ll_aton_runtime.h"
 #include "ll_aton_platform.h"
@@ -248,6 +249,8 @@ int ml_backend_run_inference(py_ml_model_obj_t *model) {
     LL_ATON_RT_RetValues_t ll_aton_rt_ret;
     ml_backend_state_t *state = (ml_backend_state_t *) model->state;
 
+    uma_transient_acquire();
+
     // Flush input buffers.
     for (size_t i = 0; i < model->inputs_size; i++) {
         const LL_Buffer_InfoTypeDef *buf = ll_aton_reloc_get_input_buffers_info(&state->nn_inst, i);
@@ -257,21 +260,35 @@ int ml_backend_run_inference(py_ml_model_obj_t *model) {
     LL_ATON_RT_RuntimeInit();
     LL_ATON_RT_Init_Network(&state->nn_inst);
 
+    mp_obj_t exc = MP_OBJ_NULL;
     do {
-        // Execute first/next runtime step
         ll_aton_rt_ret = LL_ATON_RT_RunEpochBlock(&state->nn_inst);
 
-        // Handle pending events (TinyUSB, OMV Protocol etc..)
-        mp_handle_pending_internal(MP_HANDLE_PENDING_CALLBACKS_ONLY);
-
-        // Wait for the next event
         if (ll_aton_rt_ret == LL_ATON_RT_WFE) {
             LL_ATON_OSAL_WFE();
+        } else if (ll_aton_rt_ret == LL_ATON_RT_NO_WFE && exc == MP_OBJ_NULL) {
+            // NPU is idle between epoch blocks, safe to handle
+            // events including flash I/O (MSC) that exits XIP mode.
+            nlr_buf_t nlr;
+            if (nlr_push(&nlr) == 0) {
+                LL_ATON_OSAL_ENTER_CS();
+                mp_event_handle_nowait();
+                LL_ATON_OSAL_EXIT_CS();
+                nlr_pop();
+            } else {
+                exc = nlr.ret_val;
+                LL_ATON_OSAL_EXIT_CS();
+            }
         }
     } while (ll_aton_rt_ret != LL_ATON_RT_DONE);
 
     LL_ATON_RT_DeInit_Network(&state->nn_inst);
     LL_ATON_RT_RuntimeDeInit();
+    uma_transient_release();
+
+    if (exc != MP_OBJ_NULL) {
+        nlr_raise(exc);
+    }
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#define MICROPY_HW_BOARD_NAME       "OpenMV N6"
+#define MICROPY_HW_BOARD_NAME       "lucidcode INSPEC N6"
 #define MICROPY_HW_MCU_NAME         "STM32N657X0"
 
 #define MICROPY_GC_STACK_ENTRY_TYPE uint32_t

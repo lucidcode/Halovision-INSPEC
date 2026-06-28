@@ -39,6 +39,7 @@
 
 #include "omv_csi.h"
 #include "omv_gpio.h"
+#include "genx320.h"
 
 #include "imlib.h"
 #include "py_assert.h"
@@ -155,10 +156,12 @@ static mp_obj_t py_omv_csi_snapshot(size_t n_args, const mp_obj_t *args, mp_map_
     // We're not setting the full range on roll to prevent oscillation.
     #endif // MICROPY_PY_IMU
 
-    mp_obj_t image = py_image(0, 0, 0, 0, 0);
-    uint32_t flags = OMV_CSI_FLAG_UPDATE_FB;
+    // Always set the main CSI as the stream source.
+    framebuffer_t *stream_fb = framebuffer_get(FB_STREAM_ID);
+    stream_fb->source = csi->chip_id;
 
-    int error = omv_csi_snapshot(csi, (image_t *) py_image_cobj(image), flags);
+    mp_obj_t image = py_image(0, 0, 0, 0, 0);
+    int error = omv_csi_snapshot(csi, (image_t *) py_image_cobj(image), 0);
     if (error != 0) {
         omv_csi_raise_error(error);
     }
@@ -235,29 +238,14 @@ static mp_obj_t py_omv_csi_get_frame_available() {
 static MP_DEFINE_CONST_FUN_OBJ_0(py_omv_csi_get_frame_available_obj, py_omv_csi_get_frame_available);
 
 static mp_obj_t py_omv_csi_alloc_extra_fb(mp_obj_t w_obj, mp_obj_t h_obj, mp_obj_t pixfmt_obj) {
-    int w = mp_obj_get_int(w_obj);
-    PY_ASSERT_TRUE_MSG(w > 0, "Width must be > 0");
-
-    int h = mp_obj_get_int(h_obj);
-    PY_ASSERT_TRUE_MSG(h > 0, "Height must be > 0");
-
-    pixformat_t pixfmt = mp_obj_get_int(pixfmt_obj);
-    PY_ASSERT_TRUE_MSG(IMLIB_PIXFORMAT_IS_VALID(pixfmt), "Invalid Pixel Format");
-
-    image_t img = {.w = w, .h = h, .pixfmt = pixfmt, .size = 0, .pixels = 0};
-
-    // Alloc image first (could fail) then alloc RAM so that there's no leak on failure.
-    mp_obj_t r = py_image_from_struct(&img);
-
-    fb_alloc_mark();
-    ((image_t *) py_image_cobj(r))->pixels = fb_alloc0(image_size(&img), FB_ALLOC_NO_HINT);
-    fb_alloc_mark_permanent(); // pixels will not be popped on exception
-    return r;
+    // Deprecated: use csi_ng module instead.
+    mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("alloc_extra_fb is deprecated"));
+    return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_3(py_omv_csi_alloc_extra_fb_obj, py_omv_csi_alloc_extra_fb);
 
 static mp_obj_t py_omv_csi_dealloc_extra_fb() {
-    fb_alloc_free_till_mark_past_mark_permanent();
+    mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("dealloc_extra_fb is deprecated"));
     return mp_const_none;
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_omv_csi_dealloc_extra_fb_obj, py_omv_csi_dealloc_extra_fb);

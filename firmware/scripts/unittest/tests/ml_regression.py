@@ -7,7 +7,7 @@ def unittest(data_path, temp_path):
     import ml
     from ulab import numpy as np
 
-    model = ml.Model("/rom/force_int_quant.tflite")
+    model = ml.Model(data_path + "/force_int_quant.tflite")
 
     i = np.array([-3, -1, -2, 5, -2, 10, -1, 9, 0,
                    2,  0,  9, 1, 10,  2, -1, 3, 5,

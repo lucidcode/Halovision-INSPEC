@@ -8,7 +8,7 @@ def unittest(data_path, temp_path):
     img = image.Image(data_path + "/dennis.pgm", copy_to_fb=True)
 
     # Find objects
-    objects = img.find_features(cascade, threshold=0.75, scale_factor=1.25)
+    objects = img.find_features(cascade, threshold=0.75, scale=1.25)
     return (
         objects and objects[0] == (189, 53, 88, 88) and objects[1] == (12, 11, 107, 107)
     )

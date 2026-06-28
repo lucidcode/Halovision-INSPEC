@@ -7,7 +7,7 @@ def unittest(data_path, temp_path):
     # Fill with gradient
     for y in range(50):
         for x in range(50):
-            img.set_pixel(x, y, (x + y) * 2)
+            img.set_pixel((x, y), (x + y) * 2)
 
     # Get original stats
     stats_orig = img.get_statistics()
@@ -19,7 +19,7 @@ def unittest(data_path, temp_path):
     stats_filtered = img.get_statistics()
 
     # Filtered image should have different stats
-    if stats_filtered.mean() == stats_orig.mean():
+    if stats_filtered.mean == stats_orig.mean:
         return False
 
     return True

@@ -248,6 +248,105 @@ mp_obj_t ndarray_binary_add(ndarray_obj_t *lhs, ndarray_obj_t *rhs,
 }
 #endif /* NDARRAY_HAS_BINARY_OP_ADD */
 
+#if NDARRAY_HAS_BINARY_OP_MODULO
+mp_obj_t ndarray_binary_modulo(ndarray_obj_t *lhs, ndarray_obj_t *rhs,
+                                        uint8_t ndim, size_t *shape, int32_t *lstrides, int32_t *rstrides) {
+
+    ndarray_obj_t *results = NULL;
+    uint8_t *larray = (uint8_t *)lhs->array;
+    uint8_t *rarray = (uint8_t *)rhs->array;
+
+    if(lhs->dtype == NDARRAY_UINT8) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_UINT8);
+            BINARY_LOOP(results, uint8_t, uint8_t, uint8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, uint8_t, int8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_UINT16);
+            BINARY_LOOP(results, uint16_t, uint8_t, uint16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, uint8_t, int16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_FLOAT) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, uint8_t, mp_float_t, larray, lstrides, rarray, rstrides);
+        }
+    } else if(lhs->dtype == NDARRAY_INT8) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, int8_t, uint8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT8);
+            BINARY_LOOP(results, int8_t, int8_t, int8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, int8_t, int16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, int8_t, int16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_FLOAT) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, int8_t, mp_float_t, larray, lstrides, rarray, rstrides);
+        }
+    } else if(lhs->dtype == NDARRAY_UINT16) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_UINT16);
+            BINARY_LOOP(results, uint16_t, uint16_t, uint8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            BINARY_LOOP(results, mp_float_t, uint16_t, int8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_UINT16);
+            BINARY_LOOP(results, uint16_t, uint16_t, uint16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            BINARY_LOOP(results, mp_float_t, uint16_t, int16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_FLOAT) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, uint16_t, mp_float_t, larray, lstrides, rarray, rstrides);
+        }
+    } else if(lhs->dtype == NDARRAY_INT16) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, int16_t, uint8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, int16_t, int8_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            BINARY_LOOP(results, mp_float_t, int16_t, uint16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_INT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_INT16);
+            BINARY_LOOP(results, int16_t, int16_t, int16_t, larray, lstrides, rarray, rstrides, %);
+        } else if(rhs->dtype == NDARRAY_FLOAT) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, int16_t, mp_float_t, larray, lstrides, rarray, rstrides);
+        }
+    } else if(lhs->dtype == NDARRAY_FLOAT) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, mp_float_t, uint8_t, larray, lstrides, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, mp_float_t, int8_t, larray, lstrides, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, mp_float_t, uint16_t, larray, lstrides, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_INT16) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, mp_float_t, int16_t, larray, lstrides, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_FLOAT) {
+            results = ndarray_new_dense_ndarray(ndim, shape, NDARRAY_FLOAT);
+            MODULO_FLOAT_LOOP(results, mp_float_t, mp_float_t, mp_float_t, larray, lstrides, rarray, rstrides);
+        }
+    }
+
+    return MP_OBJ_FROM_PTR(results);
+}
+#endif /* NDARRAY_HAS_BINARY_OP_MODULO */
+
 #if NDARRAY_HAS_BINARY_OP_MULTIPLY
 mp_obj_t ndarray_binary_multiply(ndarray_obj_t *lhs, ndarray_obj_t *rhs,
                                             uint8_t ndim, size_t *shape, int32_t *lstrides, int32_t *rstrides) {
@@ -1073,6 +1172,72 @@ mp_obj_t ndarray_inplace_ams(ndarray_obj_t *lhs, ndarray_obj_t *rhs, int32_t *rs
     return MP_OBJ_FROM_PTR(lhs);
 }
 #endif /* NDARRAY_HAS_INPLACE_ADD || NDARRAY_HAS_INPLACE_MULTIPLY || NDARRAY_HAS_INPLACE_SUBTRACT */
+
+
+#if NDARRAY_HAS_INPLACE_MODULO
+mp_obj_t ndarray_inplace_modulo(ndarray_obj_t *lhs, ndarray_obj_t *rhs, int32_t *rstrides) {
+    if((lhs->dtype != NDARRAY_FLOAT) && (rhs->dtype == NDARRAY_FLOAT)) {
+        mp_raise_TypeError(MP_ERROR_TEXT("cannot cast output with casting rule"));
+    }
+    uint8_t *larray = (uint8_t *)lhs->array;
+    uint8_t *rarray = (uint8_t *)rhs->array;
+    if(lhs->dtype == NDARRAY_FLOAT) {
+        // Float lhs: use fmod since C does not support %= for floating-point types.
+        if(rhs->dtype == NDARRAY_UINT8) {
+            INLINE_MODULO_FLOAT_LOOP(lhs, uint8_t, larray, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            INLINE_MODULO_FLOAT_LOOP(lhs, int8_t, larray, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            INLINE_MODULO_FLOAT_LOOP(lhs, uint16_t, larray, rarray, rstrides);
+        } else if(rhs->dtype == NDARRAY_INT16) {
+            INLINE_MODULO_FLOAT_LOOP(lhs, int16_t, larray, rarray, rstrides);
+        } else {
+            INLINE_MODULO_FLOAT_LOOP(lhs, mp_float_t, larray, rarray, rstrides);
+        }
+    } else if(lhs->dtype == NDARRAY_UINT8) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            INPLACE_LOOP(lhs, uint8_t, uint8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            INPLACE_LOOP(lhs, uint8_t, int8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            INPLACE_LOOP(lhs, uint8_t, uint16_t, larray, rarray, rstrides, %=);
+        } else {
+            INPLACE_LOOP(lhs, uint8_t, int16_t, larray, rarray, rstrides, %=);
+        }
+    } else if(lhs->dtype == NDARRAY_INT8) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            INPLACE_LOOP(lhs, int8_t, uint8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            INPLACE_LOOP(lhs, int8_t, int8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            INPLACE_LOOP(lhs, int8_t, uint16_t, larray, rarray, rstrides, %=);
+        } else {
+            INPLACE_LOOP(lhs, int8_t, int16_t, larray, rarray, rstrides, %=);
+        }
+    } else if(lhs->dtype == NDARRAY_UINT16) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            INPLACE_LOOP(lhs, uint16_t, uint8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            INPLACE_LOOP(lhs, uint16_t, int8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            INPLACE_LOOP(lhs, uint16_t, uint16_t, larray, rarray, rstrides, %=);
+        } else {
+            INPLACE_LOOP(lhs, uint16_t, int16_t, larray, rarray, rstrides, %=);
+        }
+    } else if(lhs->dtype == NDARRAY_INT16) {
+        if(rhs->dtype == NDARRAY_UINT8) {
+            INPLACE_LOOP(lhs, int16_t, uint8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_INT8) {
+            INPLACE_LOOP(lhs, int16_t, int8_t, larray, rarray, rstrides, %=);
+        } else if(rhs->dtype == NDARRAY_UINT16) {
+            INPLACE_LOOP(lhs, int16_t, uint16_t, larray, rarray, rstrides, %=);
+        } else {
+            INPLACE_LOOP(lhs, int16_t, int16_t, larray, rarray, rstrides, %=);
+        }
+    }
+    return MP_OBJ_FROM_PTR(lhs);
+}
+#endif /* NDARRAY_HAS_INPLACE_MODULO */
 
 #if NDARRAY_HAS_INPLACE_TRUE_DIVIDE
 mp_obj_t ndarray_inplace_divide(ndarray_obj_t *lhs, ndarray_obj_t *rhs, int32_t *rstrides) {

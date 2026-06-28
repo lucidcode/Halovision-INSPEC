@@ -7,6 +7,6 @@ def unittest(data_path, temp_path):
     # Fill with value 100
     for y in range(40):
         for x in range(40):
-            img.set_pixel(x, y, 100)
+            img.set_pixel((x, y), 100)
 
     return True

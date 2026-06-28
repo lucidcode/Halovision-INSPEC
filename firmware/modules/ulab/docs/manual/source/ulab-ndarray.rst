@@ -1564,6 +1564,9 @@ dimensions is larger than 1.
     
 
 
+The method also accepts the ``axes`` keyword argument, if permutation of
+the returned axes is required.
+
 The transpose of the array can also be gotten through the ``T``
 property:
 
@@ -1814,12 +1817,12 @@ array.
 Binary operators
 ================
 
-``ulab`` implements the ``+``, ``-``, ``*``, ``/``, ``**``, ``<``,
-``>``, ``<=``, ``>=``, ``==``, ``!=``, ``+=``, ``-=``, ``*=``, ``/=``,
-``**=`` binary operators, as well as the ``AND``, ``OR``, ``XOR``
-bit-wise operators that work element-wise. Note that the bit-wise
-operators will raise an exception, if either of the operands is of
-``float`` or ``complex`` type.
+``ulab`` implements the ``+``, ``-``, ``*``, ``/``, ``**``, ``%``,
+``<``, ``>``, ``<=``, ``>=``, ``==``, ``!=``, ``+=``, ``-=``, ``*=``,
+``/=``, ``**=``, ``%=`` binary operators, as well as the ``AND``,
+``OR``, ``XOR`` bit-wise operators that work element-wise. Note that the
+bit-wise operators will raise an exception, if either of the operands is
+of ``float`` or ``complex`` type.
 
 Broadcasting is available, meaning that the two operands do not even
 have to have the same shape. If the lengths along the respective axes

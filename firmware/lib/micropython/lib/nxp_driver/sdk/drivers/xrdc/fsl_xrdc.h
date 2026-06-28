@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2020, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_XRDC_H_
-#define _FSL_XRDC_H_
+#ifndef FSL_XRDC_H_
+#define FSL_XRDC_H_
 
 #include "fsl_common.h"
 
@@ -19,7 +19,7 @@
 /******************************************************************************
  * Definitions
  *****************************************************************************/
-#define FSL_XRDC_DRIVER_VERSION (MAKE_VERSION(2, 0, 4))
+#define FSL_XRDC_DRIVER_VERSION (MAKE_VERSION(2, 0, 5))
 
 #ifndef FSL_CLOCK_XRDC_GATE_COUNT
 #define FSL_CLOCK_XRDC_GATE_COUNT 1U
@@ -575,7 +575,7 @@ status_t XRDC_GetAndClearFirstDomainError(XRDC_Type *base, xrdc_error_t *error);
  */
 status_t XRDC_GetAndClearFirstSpecificDomainError(XRDC_Type *base, xrdc_error_t *error, uint8_t domainId);
 
-/*@}*/
+/*! @} */
 
 /*!
  * @name XRDC Master Domain Assignment Controller (XRDC_MDAC).
@@ -788,7 +788,7 @@ static inline void XRDC_SetMasterDomainAssignmentValid(XRDC_Type *base,
     }
 }
 
-/*@}*/
+/*! @} */
 
 /*!
  * @name XRDC Memory Region Controller (XRDC_MRC)
@@ -995,7 +995,7 @@ static inline uint8_t XRDC_GetMemExclAccessLockDomainOwner(XRDC_Type *base, xrdc
 void XRDC_SetMemAccsetLock(XRDC_Type *base, xrdc_mem_t mem, xrdc_mem_accset_t accset, bool lock);
 #endif /* FSL_FEATURE_XRDC_HAS_MRGD_ACCSET */
 
-/*@}*/
+/*! @} */
 
 /*!
  * @name XRDC Peripheral Access Controller (XRDC_PAC)
@@ -1185,7 +1185,7 @@ static inline uint8_t XRDC_GetPeriphExclAccessLockDomainOwner(XRDC_Type *base, x
     return (uint8_t)((base->PDAC_W[periph][0U] & XRDC_PDAC_W_EALO_MASK) >> XRDC_PDAC_W_EALO_SHIFT);
 }
 #endif /* FSL_FEATURE_XRDC_HAS_PDAC_EAL */
-/*@}*/
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -1195,4 +1195,4 @@ static inline uint8_t XRDC_GetPeriphExclAccessLockDomainOwner(XRDC_Type *base, x
  * @}
  */
 
-#endif /* _FSL_XRDC_H_ */
+#endif /* FSL_XRDC_H_ */

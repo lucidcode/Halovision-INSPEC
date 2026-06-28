@@ -298,13 +298,6 @@ int alif_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
         cpi->CAM_CTRL = (CAM_CTRL_SNAPSHOT | CAM_CTRL_START | CAM_CTRL_FIFO_CLK_SEL);
     }
 
-    // Let the camera know we want to trigger it now.
-    #if defined(OMV_CSI_FSYNC_PIN)
-    if (csi->frame_sync) {
-        omv_gpio_write(OMV_CSI_FSYNC_PIN, 1);
-    }
-    #endif
-
     // One shot DMA transfers must be invalidated.
     framebuffer_flags_t fb_flags = FB_FLAG_USED | FB_FLAG_PEEK | FB_FLAG_INVALIDATE;
 
@@ -371,8 +364,8 @@ int alif_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
 
         // Offset the pixels buffer for the debayer code.
         if (csi->pixformat == PIXFORMAT_RGB565) {
-            src_cimage.pixels += omv_csi_get_fb_offset(csi);
-            dst_cimage.pixels += omv_csi_get_fb_offset(csi);
+            src_cimage.data += omv_csi_get_fb_offset(csi);
+            dst_cimage.data += omv_csi_get_fb_offset(csi);
         }
 
         rectangle_t srect = { fb->x, fb->y, fb->u, fb->v };
@@ -388,7 +381,7 @@ int alif_csi_snapshot(omv_csi_t *csi, image_t *dst_image, uint32_t flags) {
 
         // Offset the pixels buffer for the debayer code.
         if (csi->pixformat == PIXFORMAT_RGB565) {
-            src_image.pixels += omv_csi_get_fb_offset(csi);
+            src_image.data += omv_csi_get_fb_offset(csi);
         }
 
         // Set the target pixel format before debayer.

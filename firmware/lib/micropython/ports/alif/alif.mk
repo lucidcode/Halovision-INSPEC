@@ -30,7 +30,6 @@ ALIF_DFP_REL_HERE ?= $(TOP)/lib/alif_ensemble-cmsis-dfp
 CMSIS_DIR ?= $(TOP)/lib/cmsis/inc
 
 MCU_CORE ?= M55_HP
-ALIF_CONFIG ?= mcu/$(MCU_CORE)_cfg.json
 LD_FILE ?= mcu/ensemble.ld.S
 
 INC += -I.
@@ -114,6 +113,7 @@ SRC_C = \
 	alif_flash.c \
 	cyw43_port_spi.c \
 	fatfs_port.c \
+	lptimer_ext.c \
 	machine_pin.c \
 	machine_i2c.c \
 	machine_spi.c \

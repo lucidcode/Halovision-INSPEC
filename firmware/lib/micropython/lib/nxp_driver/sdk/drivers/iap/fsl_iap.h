@@ -1,12 +1,12 @@
 /*
- * Copyright 2018-2021 NXP
+ * Copyright 2018-2021, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_IAP_H_
-#define _FSL_IAP_H_
+#ifndef FSL_IAP_H_
+#define FSL_IAP_H_
 
 #include "fsl_common.h"
 
@@ -22,9 +22,9 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-#define FSL_IAP_DRIVER_VERSION (MAKE_VERSION(2, 0, 6))
-/*@}*/
+/*! @{ */
+#define FSL_IAP_DRIVER_VERSION (MAKE_VERSION(2, 0, 7))
+/*! @} */
 
 /*!
  * @brief iap status codes.
@@ -176,7 +176,7 @@ status_t IAP_ReadUniqueID(uint32_t *uniqueID);
 status_t IAP_ReadFactorySettings(uint32_t dstRegAddr, uint32_t *factoryValue);
 #endif /* FSL_FEATURE_IAP_HAS_READ_FACTORY_SETTINGS_FUNCTION */
 
-/*@}*/
+/*! @} */
 
 #if defined(FSL_FEATURE_IAP_HAS_FLASH_FUNCTION) && FSL_FEATURE_IAP_HAS_FLASH_FUNCTION
 /*!
@@ -218,14 +218,15 @@ status_t IAP_PrepareSectorForWrite(uint32_t startSector, uint32_t endSector);
  * @brief Copy RAM to flash.
  *
  * This function programs the flash memory. Corresponding sectors must be prepared via IAP_PrepareSectorForWrite before
- * calling this function. The addresses should be a 256 byte boundary and the number of bytes should be 256 | 512 |
- * 1024 | 4096.
+ * calling this function. 
  *
- * @param dstAddr Destination flash address where data bytes are to be written.
+ * @param dstAddr Destination flash address where data bytes are to be written, the address should be multiples 
+ *      of FSL_FEATURE_SYSCON_FLASH_PAGE_SIZE_BYTES boundary.
  * @param srcAddr Source ram address from where data bytes are to be read.
- * @param numOfBytes Number of bytes to be written.
+ * @param numOfBytes Number of bytes to be written, it should be multiples of FSL_FEATURE_SYSCON_FLASH_PAGE_SIZE_BYTES, 
+ *      and ranges from FSL_FEATURE_SYSCON_FLASH_PAGE_SIZE_BYTES to FSL_FEATURE_SYSCON_FLASH_SECTOR_SIZE_BYTES.
  * @param systemCoreClock SystemCoreClock in Hz. It is converted to KHz before calling the rom IAP function. When the
- * flash controller has a fixed reference clock, this parameter is bypassed.
+ *      flash controller has a fixed reference clock, this parameter is bypassed.
  *
  * @retval kStatus_IAP_Success Api has been executed successfully.
  * @retval kStatus_IAP_NoPower Flash memory block is powered down.
@@ -345,7 +346,7 @@ status_t IAP_ExtendedFlashSignatureRead(uint32_t startPage,
 status_t IAP_ReadFlashSignature(uint32_t *signature);
 #endif /* FSL_FEATURE_IAP_HAS_FLASH_SIGNATURE_READ */
 
-/*@}*/
+/*! @} */
 #endif /* FSL_FEATURE_IAP_HAS_FLASH_FUNCTION */
 
 #if (defined(FSL_FEATURE_IAP_HAS_EEPROM_FUNCTION) && (FSL_FEATURE_IAP_HAS_EEPROM_FUNCTION == 1))
@@ -388,7 +389,7 @@ status_t IAP_ReadEEPROMPage(uint32_t pageNumber, uint32_t *dstAddr, uint32_t sys
  */
 status_t IAP_WriteEEPROMPage(uint32_t pageNumber, uint32_t *srcAddr, uint32_t systemCoreClock);
 
-/*@}*/
+/*! @} */
 #endif /* FSL_FEATURE_IAP_HAS_EEPROM_FUNCTION */
 
 #if defined(FSL_FEATURE_IAP_HAS_FAIM_FUNCTION) && FSL_FEATURE_IAP_HAS_FAIM_FUNCTION
@@ -424,12 +425,12 @@ status_t IAP_ReadFAIMPage(uint32_t pageNumber, uint32_t *dstAddr);
 status_t IAP_WriteFAIMPage(uint32_t pageNumber, uint32_t *srcAddr);
 #endif /* FSL_FEATURE_IAP_HAS_FAIM_FUNCTION */
 
-/*@}*/
+/*! @} */
 
 #ifdef __cplusplus
 }
 #endif
 
-/*@}*/
+/*! @} */
 
-#endif /* _FSL_IAP_H_ */
+#endif /* FSL_IAP_H_ */

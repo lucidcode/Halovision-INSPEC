@@ -32,8 +32,7 @@ while True:
     for blob in img.find_blobs(
         [thresholds], pixels_threshold=200, area_threshold=200, merge=True
     ):
-        ratio = blob.w() / blob.h()
+        ratio = blob.w / blob.h
         if (ratio >= 0.5) and (ratio <= 1.5):  # filter out non-squarish blobs
-            img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
+            img.draw_detection(blob)
     print(clock.fps())

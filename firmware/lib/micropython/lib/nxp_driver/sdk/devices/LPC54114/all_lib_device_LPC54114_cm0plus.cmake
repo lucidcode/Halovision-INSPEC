@@ -1,6 +1,7 @@
 list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_LIST_DIR}/.
-    ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/Include
+    ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/Core/Include
+    ${CMAKE_CURRENT_LIST_DIR}/../../CMSIS/DSP
     ${CMAKE_CURRENT_LIST_DIR}/../../components/lists
     ${CMAKE_CURRENT_LIST_DIR}/../../components/serial_manager
     ${CMAKE_CURRENT_LIST_DIR}/../../components/uart
@@ -13,17 +14,18 @@ list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_LIST_DIR}/../../drivers/utick
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware
     ${CMAKE_CURRENT_LIST_DIR}/../../../middleware/multicore
-    ${CMAKE_CURRENT_LIST_DIR}/../../../rtos/freertos/freertos_kernel
+    ${CMAKE_CURRENT_LIST_DIR}/../../../rtos/freertos/freertos-kernel
     ${CMAKE_CURRENT_LIST_DIR}/../../utilities/assert
-    ${CMAKE_CURRENT_LIST_DIR}/../../utilities/debug_console
-    ${CMAKE_CURRENT_LIST_DIR}/../../utilities/debug_console_lite
+    ${CMAKE_CURRENT_LIST_DIR}/../../utilities
+    ${CMAKE_CURRENT_LIST_DIR}/../../utilities
     ${CMAKE_CURRENT_LIST_DIR}/../../utilities/misc_utilities
     ${CMAKE_CURRENT_LIST_DIR}/drivers
 )
 
 
 # Copy the cmake components into projects
-#    include(CMSIS_Include_dsp)
+#    include(utilities_misc_utilities_LPC54114_cm0plus)
+#    include(CMSIS_DSP_Include)
 #    include(component_usart_adapter)
 #    include(component_lists)
 #    include(driver_lpc_gpio)
@@ -40,7 +42,7 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(driver_mailbox)
 #    include(middleware_multicore_rpmsg_lite_LPC54114_cm0plus)
 #    include(middleware_freertos-kernel_extension)
-#    include(CMSIS_Include_core_cm0plus)
+#    include(CMSIS_Include_core_cm)
 #    include(middleware_baremetal)
 #    include(driver_utick)
 #    include(utility_debug_console)
@@ -52,9 +54,7 @@ list(APPEND CMAKE_MODULE_PATH
 #    include(middleware_multicore_erpc_doc)
 #    include(device_startup_LPC54114_cm0plus)
 #    include(middleware_multicore_erpc_common)
-#    include(utilities_misc_utilities)
 #    include(middleware_multicore_erpc_eRPC_rpmsg_lite_remote_c_wrapper)
-#    include(CMSIS_Include_common)
 #    include(driver_common)
 #    include(middleware_multicore_erpc_eRPC_port_freertos)
 #    include(utility_assert)

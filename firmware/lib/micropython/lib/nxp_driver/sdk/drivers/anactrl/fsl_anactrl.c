@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020, NXP
+ * Copyright 2018-2021, NXP
  * All rights reserved.
  *
  *
@@ -213,6 +213,7 @@ void ANACTRL_GetDefaultXo32MConfig(anactrl_xo32M_config_t *config)
 #endif /* FSL_FEATURE_ANACTRL_HAS_XO32M_ADC_CLK_MODE_BIF_FIELD */
 }
 
+#if !(defined(FSL_FEATURE_ANACTRL_HAS_NO_FREQ_ME_CTRL) && FSL_FEATURE_ANACTRL_HAS_NO_FREQ_ME_CTRL)
 /*!
  * brief Measures the frequency of the target clock source.
  *
@@ -243,7 +244,8 @@ uint32_t ANACTRL_MeasureFrequency(ANACTRL_Type *base, uint8_t scale, uint32_t re
 
     /* Calculate the target clock frequency. */
     capval        = (base->FREQ_ME_CTRL & ANACTRL_FREQ_ME_CTRL_CAPVAL_SCALE_MASK);
-    targetClkFreq = (capval * refClkFreq) / ((1UL << scale) - 1UL);
+    targetClkFreq = (uint32_t)(uint64_t)(((uint64_t)capval * (uint64_t)refClkFreq) / ((1ULL << scale) - 1ULL));
 
     return targetClkFreq;
 }
+#endif /* FSL_FEATURE_ANACTRL_HAS_NO_FREQ_ME_CTRL */

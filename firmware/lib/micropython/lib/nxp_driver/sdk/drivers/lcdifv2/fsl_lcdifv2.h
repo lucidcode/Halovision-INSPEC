@@ -1,17 +1,17 @@
 /*
- * Copyright 2019-2021 NXP
+ * Copyright 2019-2022 NXP
  * All rights reserved.
  *
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_LCDIFV2_H_
-#define _FSL_LCDIFV2_H_
+#ifndef FSL_LCDIFV2_H_
+#define FSL_LCDIFV2_H_
 
 #include "fsl_common.h"
 
-#if defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET
+#if (defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && (0 != FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET))
 #include "fsl_memory.h"
 #endif
 
@@ -25,10 +25,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief LCDIF v2 driver version */
-#define FSL_LCDIFV2_DRIVER_VERSION (MAKE_VERSION(2, 2, 3))
-/*@}*/
+#define FSL_LCDIFV2_DRIVER_VERSION (MAKE_VERSION(2, 3, 2))
+/*! @} */
 
 #if defined(FSL_FEATURE_LCDIFV2_LAYER_COUNT) && (!defined(LCDIFV2_LAYER_COUNT))
 #define LCDIFV2_LAYER_COUNT FSL_FEATURE_LCDIFV2_LAYER_COUNT
@@ -38,18 +38,18 @@
 #define LCDIFV2_LAYER_CSC_COUNT FSL_FEATURE_LCDIFV2_LAYER_CSC_COUNT
 #endif
 
-#if defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET
+#if (defined(FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET) && (0 != FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET))
 #define LCDIFV2_ADDR_CPU_2_IP(addr) (MEMORY_ConvertMemoryMapAddress((uint32_t)(addr), kMEMORY_Local2DMA))
 #else
 #define LCDIFV2_ADDR_CPU_2_IP(addr) (addr)
 #endif /* FSL_FEATURE_MEMORY_HAS_ADDRESS_OFFSET */
 
 /*! @brief LCDIF v2 FIFO empty interrupt. */
-#define LCDIFV2_MAKE_FIFO_EMPTY_INTERRUPT(layer) (1U << ((uint32_t)(layer) + 24U))
+#define LCDIFV2_MAKE_FIFO_EMPTY_INTERRUPT(layer) (1UL << ((uint32_t)(layer) + 24U))
 /*! @brief LCDIF v2 DMA done interrupt. */
-#define LCDIFV2_MAKE_DMA_DONE_INTERRUPT(layer) (1U << ((uint32_t)(layer) + 16U))
+#define LCDIFV2_MAKE_DMA_DONE_INTERRUPT(layer) (1UL << ((uint32_t)(layer) + 16U))
 /*! @brief LCDIF v2 DMA error interrupt. */
-#define LCDIFV2_MAKE_DMA_ERROR_INTERRUPT(layer) (1U << ((uint32_t)(layer) + 8U))
+#define LCDIFV2_MAKE_DMA_ERROR_INTERRUPT(layer) (1UL << ((uint32_t)(layer) + 8U))
 
 /* LUT memory entery number. */
 #define LCDIFV2_LUT_ENTRY_NUM 256U
@@ -59,18 +59,19 @@
  */
 enum _lcdifv2_polarity_flags
 {
+    kLCDIFV2_VsyncActiveHigh          = 0U, /*!< VSYNC active high. */
+    kLCDIFV2_HsyncActiveHigh          = 0U, /*!< HSYNC active high. */
+    kLCDIFV2_DataEnableActiveHigh     = 0U, /*!< Data enable line active high. */
+    kLCDIFV2_DriveDataOnRisingClkEdge = 0U, /*!< Output data on rising clock edge, capture data
+                                                 on falling clock edge. */
+    kLCDIFV2_DataActiveHigh = 0U,           /*!< Data active high. */
+
     kLCDIFV2_VsyncActiveLow            = LCDIFV2_CTRL_INV_VS_MASK,   /*!< VSYNC active low. */
-    kLCDIFV2_VsyncActiveHigh           = 0U,                         /*!< VSYNC active high. */
     kLCDIFV2_HsyncActiveLow            = LCDIFV2_CTRL_INV_HS_MASK,   /*!< HSYNC active low. */
-    kLCDIFV2_HsyncActiveHigh           = 0U,                         /*!< HSYNC active high. */
     kLCDIFV2_DataEnableActiveLow       = LCDIFV2_CTRL_INV_DE_MASK,   /*!< Data enable line active low. */
-    kLCDIFV2_DataEnableActiveHigh      = 0U,                         /*!< Data enable line active high. */
     kLCDIFV2_DriveDataOnFallingClkEdge = LCDIFV2_CTRL_INV_PXCK_MASK, /*!< Output data on falling clock edge, capture
                                                                         data on rising clock edge. */
-    kLCDIFV2_DriveDataOnRisingClkEdge = 0U,                          /*!< Output data on rising clock edge, capture data
-                                                                          on falling clock edge. */
-    kLCDIFV2_DataActiveLow  = LCDIFV2_CTRL_NEG_MASK,                 /*!< Data active high. */
-    kLCDIFV2_DataActiveHigh = 0U,                                    /*!< Data active high. */
+    kLCDIFV2_DataActiveLow = LCDIFV2_CTRL_NEG_MASK,                  /*!< Data active high. */
 };
 
 /*!
@@ -304,7 +305,7 @@ void LCDIFV2_Deinit(LCDIFV2_Type *base);
  */
 void LCDIFV2_Reset(LCDIFV2_Type *base);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Display
@@ -360,7 +361,7 @@ static inline void LCDIFV2_EnableDisplay(LCDIFV2_Type *base, bool enable)
     }
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -415,7 +416,7 @@ static inline void LCDIFV2_ClearInterruptStatus(LCDIFV2_Type *base, uint8_t doma
     base->INT[domain].INT_STATUS = mask;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name LUT
@@ -441,7 +442,7 @@ static inline void LCDIFV2_ClearInterruptStatus(LCDIFV2_Type *base, uint8_t doma
 status_t LCDIFV2_SetLut(
     LCDIFV2_Type *base, uint8_t layerIndex, const uint32_t *lutData, uint16_t count, bool useShadowLoad);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Layer operation
@@ -570,7 +571,7 @@ void LCDIFV2_SetLayerBlendConfig(LCDIFV2_Type *base, uint8_t layerIndex, const l
  */
 void LCDIFV2_SetCscMode(LCDIFV2_Type *base, uint8_t layerIndex, lcdifv2_csc_mode_t mode);
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Porter Duff
@@ -604,12 +605,51 @@ status_t LCDIFV2_GetPorterDuffConfig(lcdifv2_pd_blend_mode_t mode,
                                      lcdifv2_pd_layer_t layer,
                                      lcdifv2_blend_config_t *config);
 
-/* @} */
+/*! @} */
+
+/*!
+ * @name Misc
+ * @{
+ */
+
+/*!
+ * @brief Get the global alpha values for multiple layer blend.
+ *
+ * This function calculates the global alpha value for each layer based on the
+ * desired blended alpha.
+ *
+ * When all layers use the global alpha, the relationship of blended alpha
+ * and global alpha of each layer is:
+ *
+ * Layer 7: ba7 = ga7
+ * Layer 6: ba6 = ga6 * (1-ga7)
+ * Layer 5: ba5 = ga5 * (1-ga6) * (1-ga7)
+ * Layer 4: ba4 = ga4 * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 3: ba3 = ga3 * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 2: ba2 = ga2 * (1-ga3) * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 1: ba1 = ga1 * (1-ga2) * (1-ga3) * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 0: ba0 =   1 * (1-ga1) * (1-ga2) * (1-ga3) * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ *
+ * Here baN is the blended alpha of layer N, gaN is the global alpha configured to layer N.
+ *
+ * This function calculates the global alpha based on the blended alpha. The @p blendedAlpha and
+ * @p globalAlpha are all arrays of size @p layerCount. The first layer is a background layer,
+ * so blendedAlpha[0] is useless, globalAlpha[0] is always 255.
+ *
+ * @param[in] blendedAlpha The desired blended alpha value, alpha range 0~255.
+ * @param[out] globalAlpha Calculated global alpha set to each layer register.
+ * @param[in] layerCount Total layer count.
+ * @retval kStatus_Success Get successfully.
+ * @retval kStatus_InvalidArgument The argument is invalid.
+ */
+status_t LCDIFV2_GetMultiLayerGlobalAlpha(const uint8_t blendedAlpha[], uint8_t globalAlpha[], uint8_t layerCount);
+
+/*! @} */
 
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 
-/* @} */
+/*! @} */
 
-#endif /*_FSL_LCDIFV2_H_*/
+#endif /*FSL_LCDIFV2_H_*/

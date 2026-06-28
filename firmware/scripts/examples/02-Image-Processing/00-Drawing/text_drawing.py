@@ -31,13 +31,9 @@ while True:
         g = randint(0, 127) + 128
         b = randint(0, 127) + 128
 
-        # If the first argument is a scaler then this method expects
-        # to see x, y, and text. Otherwise, it expects a (x,y,text) tuple.
-
         # Character and string rotation can be done at 0, 90, 180, 270, and etc. degrees.
         img.draw_string(
-            x,
-            y,
+            (x, y),
             "Hello World!",
             color=(r, g, b),
             scale=2,

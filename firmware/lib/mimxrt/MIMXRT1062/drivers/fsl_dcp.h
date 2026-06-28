@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_DCP_H_
-#define _FSL_DCP_H_
+#ifndef FSL_DCP_H_
+#define FSL_DCP_H_
 
 #include "fsl_common.h"
 
@@ -20,13 +20,17 @@
  * @{
  */
 /*! @name Driver version */
-/*@{*/
-/*! @brief DCP driver version. Version 2.1.6.
+/*! @{ */
+/*! @brief DCP driver version. Version 2.1.7.
  *
- * Current version: 2.1.6
+ * Current version: 2.1.7
  *
  * Change log:
  *
+ * - Version 2.1.7
+ *  - Bug Fix
+ *   - Reduce optimization level for critical functions working with SRF.
+ * 
  * - Version 2.1.6
  *  - Bug Fix
  *   - MISRA C-2012 issue fix.
@@ -55,8 +59,8 @@
  * - Version 2.0.0
  *   - Initial version
  */
-#define FSL_DCP_DRIVER_VERSION (MAKE_VERSION(2, 1, 6))
-/*@}*/
+#define FSL_DCP_DRIVER_VERSION (MAKE_VERSION(2, 1, 7))
+/*! @} */
 
 /*! @brief DCP status return codes. */
 enum _dcp_status
@@ -577,4 +581,4 @@ status_t DCP_HASH(DCP_Type *base,
 }
 #endif
 
-#endif /* _FSL_DCP_H_ */
+#endif /* FSL_DCP_H_ */

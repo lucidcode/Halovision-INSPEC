@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2021 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_ADC16_H_
-#define _FSL_ADC16_H_
+#ifndef FSL_ADC16_H_
+#define FSL_ADC16_H_
 
 #include "fsl_common.h"
 
@@ -21,11 +21,11 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief ADC16 driver version 2.2.0. */
-#define FSL_ADC16_DRIVER_VERSION (MAKE_VERSION(2, 2, 0))
+/*! @{ */
+/*! @brief ADC16 driver version 2.3.0. */
+#define FSL_ADC16_DRIVER_VERSION (MAKE_VERSION(2, 3, 0))
 
-/*@}*/
+/*! @} */
 
 /*!
  * @brief Channel status flags.
@@ -286,7 +286,7 @@ void ADC16_Deinit(ADC_Type *base);
  * @code
  *   config->referenceVoltageSource     = kADC16_ReferenceVoltageSourceVref;
  *   config->clockSource                = kADC16_ClockSourceAsynchronousClock;
- *   config->enableAsynchronousClock    = true;
+ *   config->enableAsynchronousClock    = false;
  *   config->clockDivider               = kADC16_ClockDivider8;
  *   config->resolution                 = kADC16_ResolutionSE12Bit;
  *   config->longSampleMode             = kADC16_LongSampleDisabled;
@@ -331,7 +331,7 @@ static inline void ADC16_SetOffsetValue(ADC_Type *base, int16_t value)
 }
 #endif /* FSL_FEATURE_ADC16_HAS_OFFSET_CORRECTION */
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Advanced Features
@@ -444,7 +444,28 @@ uint32_t ADC16_GetStatusFlags(ADC_Type *base);
  */
 void ADC16_ClearStatusFlags(ADC_Type *base, uint32_t mask);
 
-/* @} */
+/*!
+ * @brief Enable/disable ADC Asynchronous clock output to other modules.
+ *
+ * @param base ADC16 peripheral base address.
+ * @param enable Used to enable/disable ADC ADACK output.
+ *          - \b true Asynchronous clock and clock output is enabled regardless of the state of the ADC.
+ *          - \b false Asynchronous clock output disabled, asynchronous clock is enabled only if it is selected as
+ *                     input clock and a conversion is active.
+ */
+static inline void ADC16_EnableAsynchronousClockOutput(ADC_Type *base, bool enable)
+{
+    if (enable)
+    {
+        base->CFG2 |= ADC_CFG2_ADACKEN_MASK;
+    }
+    else
+    {
+        base->CFG2 &= ~ADC_CFG2_ADACKEN_MASK;
+    }
+}
+
+/*! @} */
 
 /*!
  * @name Conversion Channel
@@ -505,7 +526,7 @@ static inline uint32_t ADC16_GetChannelConversionValue(ADC_Type *base, uint32_t 
  */
 uint32_t ADC16_GetChannelStatusFlags(ADC_Type *base, uint32_t channelGroup);
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -513,4 +534,4 @@ uint32_t ADC16_GetChannelStatusFlags(ADC_Type *base, uint32_t channelGroup);
 /*!
  * @}
  */
-#endif /* _FSL_ADC16_H_ */
+#endif /* FSL_ADC16_H_ */

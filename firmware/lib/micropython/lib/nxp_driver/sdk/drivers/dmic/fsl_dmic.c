@@ -59,7 +59,7 @@ uint32_t DMIC_GetInstance(DMIC_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_dmicBases); instance++)
     {
-        if (s_dmicBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_dmicBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -92,8 +92,11 @@ void DMIC_Init(DMIC_Type *base)
     /* reset FIFO configuration */
     base->CHANNEL[0].FIFO_CTRL = 0U;
     base->CHANNEL[1].FIFO_CTRL = 0U;
-#if defined(FSL_FEATURE_DMIC_CHANNEL_NUM) && (FSL_FEATURE_DMIC_CHANNEL_NUM == 8U)
+#if defined(FSL_FEATURE_DMIC_CHANNEL_NUM) && (FSL_FEATURE_DMIC_CHANNEL_NUM > 2U)
+    base->CHANNEL[2].FIFO_CTRL = 0U;
     base->CHANNEL[3].FIFO_CTRL = 0U;
+#endif
+#if defined(FSL_FEATURE_DMIC_CHANNEL_NUM) && (FSL_FEATURE_DMIC_CHANNEL_NUM > 4U)
     base->CHANNEL[4].FIFO_CTRL = 0U;
     base->CHANNEL[5].FIFO_CTRL = 0U;
     base->CHANNEL[6].FIFO_CTRL = 0U;
@@ -257,12 +260,13 @@ void DMIC_ResetChannelDecimator(DMIC_Type *base, uint32_t channelMask, bool rese
     {
         decReset |= 1U;
     }
-#if defined(FSL_FEATURE_DMIC_CHANNEL_NUM) && (FSL_FEATURE_DMIC_CHANNEL_NUM == 8U)
+#if defined(FSL_FEATURE_DMIC_CHANNEL_NUM) && (FSL_FEATURE_DMIC_CHANNEL_NUM > 2U)
     if ((channelMask & ((uint32_t)kDMIC_EnableChannel3 | (uint32_t)kDMIC_EnableChannel2)) != 0U)
     {
         decReset |= 2U;
     }
-
+#endif
+#if defined(FSL_FEATURE_DMIC_CHANNEL_NUM) && (FSL_FEATURE_DMIC_CHANNEL_NUM > 4U)
     if ((channelMask & ((uint32_t)kDMIC_EnableChannel5 | (uint32_t)kDMIC_EnableChannel4)) != 0U)
     {
         decReset |= 4U;

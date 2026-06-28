@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -90,22 +90,25 @@ static void MCAN_Reset(CAN_Type *base);
  * @param tqNum Number of time quantas per bit, range in 4~385
  * @param pconfig Pointer to the MCAN timing configuration structure.
  */
+static void MCAN_CalculateSegments(uint32_t tqNum, mcan_timing_config_t *pconfig);
+
+/*!
+ * @brief Get the segment values for a single bit time for classical CAN
+ *
+ * @param baudRate The data speed in bps
+ * @param tqNum Number of time quantas per bit, range in 4~385
+ * @param pconfig Pointer to the MCAN timing configuration structure.
+ */
 static void MCAN_GetSegments(uint32_t baudRate, uint32_t tqNum, mcan_timing_config_t *pconfig);
 
 /*!
- * @brief Set Baud Rate of MCAN.
+ * @brief Get the specified segment values for a single bit time for classical CAN
  *
- * This function set the baud rate of MCAN.
- *
- * @param base MCAN peripheral base address.
- * @param sourceClock_Hz Source Clock in Hz.
- * @param baudRate_Bps Baud Rate in Bps.
- * @param timingConfig MCAN timingConfig.
+ * @param ideal_sp Sample point in arbitration phase
+ * @param tqNum Number of time quantas per bit, range in 4~385
+ * @param pconfig Pointer to the MCAN timing configuration structure.
  */
-static void MCAN_SetBaudRate(CAN_Type *base,
-                             uint32_t sourceClock_Hz,
-                             uint32_t baudRateA_Bps,
-                             mcan_timing_config_t timingConfig);
+static void MCAN_GetSpecifiedSegments(uint32_t ideal_sp, uint32_t tqNum, mcan_timing_config_t *pconfig);
 
 #if (defined(FSL_FEATURE_CAN_SUPPORT_CANFD) && FSL_FEATURE_CAN_SUPPORT_CANFD)
 /*!
@@ -115,22 +118,25 @@ static void MCAN_SetBaudRate(CAN_Type *base,
  * @param tqNum Number of time quanta per bit, range in 3 ~ 33
  * @param pconfig Pointer to the MCAN timing configuration structure.
  */
+static void MCAN_FDCalculateSegments(uint32_t tqNum, mcan_timing_config_t *pconfig);
+
+/*!
+ * @brief Get the segment values for a single bit time for CANFD bus data baud Rate
+ *
+ * @param baudRate The canfd bus data speed in bps
+ * @param tqNum Number of time quanta per bit, range in 3 ~ 33
+ * @param pconfig Pointer to the MCAN timing configuration structure.
+ */
 static void MCAN_FDGetSegments(uint32_t baudRateFD, uint32_t tqNum, mcan_timing_config_t *pconfig);
 
 /*!
- * @brief Set Baud Rate of MCAN FD.
+ * @brief Get the specified segment values for a single bit time for CANFD data phase
  *
- * This function set the baud rate of MCAN FD.
- *
- * @param base MCAN peripheral base address.
- * @param sourceClock_Hz Source Clock in Hz.
- * @param baudRateD_Bps Baud Rate in Bps.
- * @param timingConfig MCAN timingConfig.
+ * @param ideal_sp Sample point in data phase
+ * @param tqNum Number of time quanta per bit, range in 3 ~ 33
+ * @param pconfig Pointer to the MCAN timing configuration structure.
  */
-static void MCAN_SetBaudRateFD(CAN_Type *base,
-                               uint32_t sourceClock_Hz,
-                               uint32_t baudRateD_Bps,
-                               mcan_timing_config_t timingConfig);
+static void MCAN_FDGetSpecifiedSegments(uint32_t ideal_sp, uint32_t tqNum, mcan_timing_config_t *pconfig);
 
 #endif /* FSL_FEATURE_CAN_SUPPORT_CANFD */
 
@@ -233,74 +239,6 @@ static void MCAN_Reset(CAN_Type *base)
     base->CCCR |= CAN_CCCR_CCE_MASK;
 }
 
-static void MCAN_SetBaudRate(CAN_Type *base,
-                             uint32_t sourceClock_Hz,
-                             uint32_t baudRateA_Bps,
-                             mcan_timing_config_t timingConfig)
-{
-    /* MCAN timing setting formula:
-     * quantum = 1 + (NTSEG1 + 1) + (NTSEG2 + 1);
-     */
-    uint32_t quantum = (1U + ((uint32_t)timingConfig.seg1 + 1U) + ((uint32_t)timingConfig.seg2 + 1U));
-    uint32_t preDivA = baudRateA_Bps * quantum;
-
-    /* Assertion: Source clock should greater than baud rate * quantum. */
-    assert(preDivA <= sourceClock_Hz);
-
-    if (0U == preDivA)
-    {
-        preDivA = 1U;
-    }
-
-    preDivA = (sourceClock_Hz / preDivA) - 1U;
-
-    /* Desired baud rate is too low. */
-    if (preDivA > 0x1FFU)
-    {
-        preDivA = 0x1FFU;
-    }
-
-    timingConfig.preDivider = (uint16_t)preDivA;
-
-    /* Update actual timing characteristic. */
-    MCAN_SetArbitrationTimingConfig(base, &timingConfig);
-}
-
-#if (defined(FSL_FEATURE_CAN_SUPPORT_CANFD) && FSL_FEATURE_CAN_SUPPORT_CANFD)
-static void MCAN_SetBaudRateFD(CAN_Type *base,
-                               uint32_t sourceClock_Hz,
-                               uint32_t baudRateD_Bps,
-                               mcan_timing_config_t timingConfig)
-{
-    /* MCAN timing setting formula:
-     * quantum = 1 + (NTSEG1 + 1) + (NTSEG2 + 1);
-     */
-    uint32_t quantum = (1U + ((uint32_t)timingConfig.dataseg1 + 1U) + ((uint32_t)timingConfig.dataseg2 + 1U));
-    uint32_t preDivD = baudRateD_Bps * quantum;
-
-    /* Assertion: Source clock should greater than baud rate * quantum. */
-    assert(preDivD <= sourceClock_Hz);
-
-    if (0U == preDivD)
-    {
-        preDivD = 1U;
-    }
-
-    preDivD = (sourceClock_Hz / preDivD) - 1U;
-
-    /* Desired baud rate is too low. */
-    if (preDivD > 0x1FU)
-    {
-        preDivD = 0x1FU;
-    }
-
-    timingConfig.datapreDivider = (uint16_t)preDivD;
-
-    /* Update actual timing characteristic. */
-    MCAN_SetDataTimingConfig(base, &timingConfig);
-}
-#endif
-
 /*!
  * brief Initializes an MCAN instance.
  *
@@ -325,6 +263,10 @@ static void MCAN_SetBaudRateFD(CAN_Type *base,
  */
 void MCAN_Init(CAN_Type *base, const mcan_config_t *config, uint32_t sourceClock_Hz)
 {
+    mcan_timing_config_t timingCfg = config->timingConfig;
+    uint32_t quantum               = 0U;
+    uint32_t tqFre                 = 0U;
+
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
     /* Enable MCAN clock. */
     CLOCK_EnableClock(s_mcanClock[MCAN_GetInstance(base)]);
@@ -351,8 +293,25 @@ void MCAN_Init(CAN_Type *base, const mcan_config_t *config, uint32_t sourceClock
     {
         base->CCCR |= CAN_CCCR_MON_MASK;
     }
-    /* Set baud rate of arbitration phase. */
-    MCAN_SetBaudRate(base, sourceClock_Hz, config->baudRateA, config->timingConfig);
+
+    /* Nominal quantum = 1 + (NTSEG1 + 1) + (NTSEG2 + 1) */
+    quantum = (1U + ((uint32_t)timingCfg.seg1 + 1U) + ((uint32_t)timingCfg.seg2 + 1U));
+    tqFre   = config->baudRateA * quantum;
+
+    /* Assertion: Source clock should greater than baud rate * quantum. */
+    assert((tqFre != 0U) && (tqFre <= sourceClock_Hz));
+
+    /* Check whether Nominal Bit Rate Prescaler is overflow. */
+    if ((sourceClock_Hz / tqFre - 1U) > 0x1FFU)
+    {
+        timingCfg.preDivider = 0x1FFU;
+    }
+    else
+    {
+        timingCfg.preDivider = (uint16_t)(sourceClock_Hz / tqFre) - 1U;
+    }
+    /* Update actual timing characteristic to set baud rate of arbitration phase. */
+    MCAN_SetArbitrationTimingConfig(base, &timingCfg);
 
 #if (defined(FSL_FEATURE_CAN_SUPPORT_CANFD) && FSL_FEATURE_CAN_SUPPORT_CANFD)
     if (config->enableCanfdNormal)
@@ -363,8 +322,24 @@ void MCAN_Init(CAN_Type *base, const mcan_config_t *config, uint32_t sourceClock
     {
         /* Enable the CAN FD mode and Bit Rate Switch feature. */
         base->CCCR |= CAN_CCCR_FDOE_MASK | CAN_CCCR_BRSE_MASK;
-        /* Set baud rate of date phase when enable the CAN FD mode and Bit Rate Switch feature. */
-        MCAN_SetBaudRateFD(base, sourceClock_Hz, config->baudRateD, config->timingConfig);
+
+        /* Data quantum = 1 + (NTSEG1 + 1) + (NTSEG2 + 1) */
+        quantum = (1U + ((uint32_t)timingCfg.dataseg1 + 1U) + ((uint32_t)timingCfg.dataseg2 + 1U));
+        tqFre   = config->baudRateD * quantum;
+        assert((tqFre != 0U) && (tqFre <= sourceClock_Hz));
+
+        /* Check whether Data Bit Rate Prescaler is overflow. */
+        if ((sourceClock_Hz / tqFre - 1U) > 0x1FU)
+        {
+            timingCfg.datapreDivider = 0x1FU;
+        }
+        else
+        {
+            timingCfg.datapreDivider = (uint16_t)(sourceClock_Hz / tqFre) - 1U;
+        }
+
+        /* Update actual timing characteristic to set baud rate of data phase. */
+        MCAN_SetDataTimingConfig(base, &timingCfg);
         if (!config->enableLoopBackInt && !config->enableLoopBackExt)
         {
             /* Enable the Transceiver Delay Compensation. */
@@ -372,11 +347,9 @@ void MCAN_Init(CAN_Type *base, const mcan_config_t *config, uint32_t sourceClock
             /* Cleaning previous TDCO Setting. */
             base->TDCR &= ~CAN_TDCR_TDCO_MASK;
             /* The TDC offset should be configured as shown in this equation : offset = (DTSEG1 + 2) * (DBRP + 1) */
-            if (((uint32_t)config->timingConfig.dataseg1 + 2U) * (config->timingConfig.datapreDivider + 1U) <
-                MAX_TDCOFF)
+            if (((uint32_t)timingCfg.dataseg1 + 2U) * (timingCfg.datapreDivider + 1U) < MAX_TDCOFF)
             {
-                base->TDCR |= CAN_TDCR_TDCO(((uint32_t)config->timingConfig.dataseg1 + 2U) *
-                                            (config->timingConfig.datapreDivider + 1U));
+                base->TDCR |= CAN_TDCR_TDCO(((uint32_t)timingCfg.dataseg1 + 2U) * (timingCfg.datapreDivider + 1U));
             }
             else
             {
@@ -404,23 +377,6 @@ void MCAN_Deinit(CAN_Type *base)
     /* Disable MCAN clock. */
     CLOCK_DisableClock(s_mcanClock[MCAN_GetInstance(base)]);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-}
-
-/*!
- * brief MCAN enters normal mode.
- *
- * After initialization, INIT bit in CCCR register must be cleared to enter
- * normal mode thus synchronizes to the CAN bus and ready for communication.
- *
- * param base MCAN peripheral base address.
- */
-void MCAN_EnterNormalMode(CAN_Type *base)
-{
-    /* Reset INIT bit to enter normal mode. */
-    base->CCCR &= ~CAN_CCCR_INIT_MASK;
-    while (0U != (base->CCCR & CAN_CCCR_INIT_MASK))
-    {
-    }
 }
 
 /*!
@@ -467,35 +423,15 @@ void MCAN_GetDefaultConfig(mcan_config_t *config)
 
 #if (defined(FSL_FEATURE_CAN_SUPPORT_CANFD) && FSL_FEATURE_CAN_SUPPORT_CANFD)
 /*!
- * @brief Calculates the segment values for a single bit time for CANFD bus data baud Rate
+ * brief Calculates the segment values for a single bit time for CANFD bus data baud Rate
  *
- * @param baudRate The canfd bus data speed in bps
- * @param tqNum Number of time quanta per bit, range in 3 ~ 33
- * @param pconfig Pointer to the MCAN timing configuration structure.
+ * param baudRate The canfd bus data speed in bps
+ * param tqNum Number of time quanta per bit, range in 3 ~ 33
+ * param pconfig Pointer to the MCAN timing configuration structure.
  */
-static void MCAN_FDGetSegments(uint32_t baudRateFD, uint32_t tqNum, mcan_timing_config_t *pconfig)
+static void MCAN_FDCalculateSegments(uint32_t tqNum, mcan_timing_config_t *pconfig)
 {
-    uint32_t ideal_sp, seg1Temp;
-
-    /* get ideal sample point. */
-    if (baudRateFD <= 1000000U)
-    {
-        ideal_sp = IDEAL_DATA_SP_1;
-    }
-    else if (baudRateFD <= 2000000U)
-    {
-        ideal_sp = IDEAL_DATA_SP_2;
-    }
-    else if (baudRateFD <= 4000000U)
-    {
-        ideal_sp = IDEAL_DATA_SP_3;
-    }
-    else
-    {
-        ideal_sp = IDEAL_DATA_SP_4;
-    }
-    /* distribute time quanta. */
-    pconfig->dataseg2 = (uint8_t)(tqNum - (tqNum * ideal_sp) / (uint32_t)IDEAL_SP_FACTOR - 1U);
+    uint32_t seg1Temp;   
 
     if (pconfig->dataseg2 > MAX_DTSEG2)
     {
@@ -519,7 +455,41 @@ static void MCAN_FDGetSegments(uint32_t baudRateFD, uint32_t tqNum, mcan_timing_
     if (pconfig->datarJumpwidth > (uint8_t)MAX_DSJW)
     {
         pconfig->datarJumpwidth = (uint8_t)MAX_DSJW;
+    }        
+}
+
+/*!
+ * brief Get the segment values for a single bit time for CANFD bus data baud Rate
+ *
+ * param baudRate The canfd bus data speed in bps
+ * param tqNum Number of time quanta per bit, range in 3 ~ 33
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ */
+static void MCAN_FDGetSegments(uint32_t baudRateFD, uint32_t tqNum, mcan_timing_config_t *pconfig)
+{
+    uint32_t ideal_sp;
+
+    /* get ideal sample point. */
+    if (baudRateFD <= 1000000U)
+    {
+        ideal_sp = IDEAL_DATA_SP_1;
     }
+    else if (baudRateFD <= 2000000U)
+    {
+        ideal_sp = IDEAL_DATA_SP_2;
+    }
+    else if (baudRateFD <= 4000000U)
+    {
+        ideal_sp = IDEAL_DATA_SP_3;
+    }
+    else
+    {
+        ideal_sp = IDEAL_DATA_SP_4;
+    }
+    /* distribute time quanta. */
+    pconfig->dataseg2 = (uint8_t)(tqNum - (tqNum * ideal_sp) / (uint32_t)IDEAL_SP_FACTOR - 1U);
+
+    MCAN_FDCalculateSegments(tqNum, pconfig);
 }
 
 /*!
@@ -715,6 +685,167 @@ bool MCAN_FDCalculateImprovedTimingValues(uint32_t baudRate,
 }
 
 /*!
+ * brief Get the specified segment values for a single bit time for CANFD data phase
+ *
+ * param ideal_sp Sample point in data phase
+ * param tqNum Number of time quanta per bit, range in 3 ~ 33
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ */
+static void MCAN_FDGetSpecifiedSegments(uint32_t ideal_sp, uint32_t tqNum, mcan_timing_config_t *pconfig)
+{
+    /* distribute time quanta. */
+    uint32_t tqTemp = 0;
+
+    tqTemp = (tqNum * ideal_sp) / (uint32_t)IDEAL_SP_FACTOR;
+    tqTemp = ((tqNum * ideal_sp) % (uint32_t)IDEAL_SP_FACTOR) < 500U ? tqTemp : (tqTemp + 1U);
+    if (tqTemp <= 2U)
+    {  
+        tqTemp = 2U;
+    }
+    if (tqTemp > (tqNum - 1U))
+    {
+        tqTemp = tqNum - 1U;
+    }
+
+    pconfig->dataseg2 = (uint8_t)(tqNum - tqTemp - 1U);
+
+    MCAN_FDCalculateSegments(tqNum, pconfig);
+}
+
+/*!
+ * brief Calculates the specified timing values for CANFD with user-defined settings.
+ *
+ *  User can specify baudrates, sample point position, bus length, and transceiver propagation
+ *  delay. This example shows how to set up the mcan_timing_param_t parameters and how to call
+ *  the this function by passing in these parameters.
+ *  code
+ *   mcan_timing_config_t timing_config;
+ *   mcan_timing_param_t timing_param;
+ *   timing_param.busLength = 1U;
+ *   timing_param.propTxRx = 230U;
+ *   timing_param.nominalbaudRate = 500000U;
+ *   timing_param.nominalSP = 800U;
+ *   timing_param.databaudRate = 4000000U;
+ *   timing_param.dataSP = 700U;
+ *   MCAN_FDCalculateSpecifiedTimingValues(MCAN_CLK_FREQ, &timing_config, &timing_param);
+ *   endcode
+ *
+ *  Note that due to integer division will sacrifice the precision, actual sample point may not
+ *  equal to expected. So it is better to select higher source clock when baudrate is relatively
+ *  high. Select higher nominal baudrate when source clock is relatively high because large clock
+ *  predivider will lead to less time quanta in data phase. This function will set predivider in
+ *  arbitration phase equal to data phase. These methods will ensure more time quanta and higher
+ *  precision of sample point.
+ *  Parameter busLength and propTxRx are optional and intended to verify whether propagation
+ *  delay is too long to corrupt sample point. User can set these parameter zero if you do not
+ *  want to consider this factor.
+ * 
+ * param sourceClock_Hz The Source clock data speed in bps.
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ * param config Pointer to the MCAN timing parameters structure.
+ *
+ * return TRUE if timing configuration found, FALSE if failed to find configuration
+ */
+bool MCAN_FDCalculateSpecifiedTimingValues(uint32_t sourceClock_Hz,
+                                           mcan_timing_config_t *pconfig,
+                                           const mcan_timing_param_t *pParamConfig)
+{
+    uint32_t clk;
+    uint32_t tqNum; /* Numbers of TQ. */
+    bool fgRet              = false;
+    uint16_t preDividerTemp = 1U;
+    /* observe baud rate maximums */
+    assert(pParamConfig->nominalbaudRate <= MAX_CAN_BAUDRATE);
+    assert(pParamConfig->databaudRate <= MAX_CANFD_BAUDRATE);
+    /* Data phase bit rate need greater or equal to nominal phase bit rate. */
+    assert(pParamConfig->nominalbaudRate <= pParamConfig->databaudRate);
+    /* Sample ponit should between 1% and 99%. */
+    assert((pParamConfig->nominalSP >= 10U) && (pParamConfig->nominalSP <= 990U));
+    assert((pParamConfig->dataSP >= 10U) && (pParamConfig->dataSP <= 990U));
+
+    if (pParamConfig->nominalbaudRate < pParamConfig->databaudRate)
+    {
+        /* To minimize errors when processing FD frames, try to get the same bit rate prescaler value for nominal phase
+           and data phase. */
+        while (MCAN_CalculateSpecifiedTimingValues(sourceClock_Hz / preDividerTemp, pconfig, pParamConfig))
+        {
+            pconfig->datapreDivider = 0U;
+            for (tqNum = DBTP_MAX_TIME_QUANTA; tqNum >= DBTP_MIN_TIME_QUANTA; tqNum--)
+            {
+                clk = pParamConfig->databaudRate * tqNum;
+                if (clk > sourceClock_Hz)
+                {
+                    continue; /* tqNumbrs too large, clk x tqNumbrs has been exceed sourceClock_Hz. */
+                }
+
+                if ((sourceClock_Hz / clk * clk) != sourceClock_Hz)
+                {
+                    continue; /* Non-supporting: the frequency of clock source is not divisible by target bit rate. */
+                }
+
+                pconfig->datapreDivider = (uint16_t)(sourceClock_Hz / clk - 1U);
+                if (pconfig->datapreDivider > MAX_DBRP)
+                {
+                    break; /* The frequency of source clock is too large or the bit rate is too small, the pre-divider
+                              could not handle it. */
+                }
+
+                if (pconfig->datapreDivider < ((pconfig->preDivider + 1U) * preDividerTemp - 1U))
+                {
+                    continue; /* try to get the same bit rate prescaler value for nominal phase and data phase. */
+                }
+                else if (pconfig->datapreDivider == ((pconfig->preDivider + 1U) * preDividerTemp - 1U))
+                {
+                    /* Calculates the best data phase timing configuration under current tqNum. */
+                    MCAN_FDGetSpecifiedSegments(pParamConfig->dataSP, tqNum, pconfig);
+                    fgRet = true;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (fgRet)
+            {
+                /* Find same bit rate prescaler (BRP) configuration in both nominal and data bit timing configurations.
+                 */
+                pconfig->preDivider = (pconfig->preDivider + 1U) * preDividerTemp - 1U;
+                break;
+            }
+            else
+            {
+                if ((pconfig->datapreDivider <= MAX_DBRP) && (pconfig->datapreDivider != 0U))
+                {
+                    /* Can't find same data bit rate prescaler (BRP) configuration under current nominal phase bit rate
+                       prescaler, double the nominal phase bit rate prescaler and recalculate. */
+                    preDividerTemp++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (MCAN_CalculateSpecifiedTimingValues(sourceClock_Hz, pconfig, pParamConfig))
+        {
+            /* No need data phase timing configuration, data phase rate equal to nominal phase rate, user don't use Brs
+               feature. */
+            pconfig->datapreDivider = 0U;
+            pconfig->datarJumpwidth = 0U;
+            pconfig->dataseg1       = 0U;
+            pconfig->dataseg2       = 0U;
+            fgRet                   = true;
+        }
+    }
+    return fgRet;
+}
+
+/*!
  * brief Sets the MCAN protocol data phase timing characteristic.
  *
  * This function gives user settings to CAN bus timing characteristic.
@@ -740,36 +871,65 @@ void MCAN_SetDataTimingConfig(CAN_Type *base, const mcan_timing_config_t *config
     base->DBTP |= (CAN_DBTP_DBRP(config->datapreDivider) | CAN_DBTP_DSJW(config->datarJumpwidth) |
                    CAN_DBTP_DTSEG1(config->dataseg1) | CAN_DBTP_DTSEG2(config->dataseg2));
 }
-#endif /* FSL_FEATURE_CAN_SUPPORT_CANFD */
 
 /*!
- * @brief Calculates the segment values for a single bit time for classical CAN
+ * brief Set Baud Rate of MCAN FD mode.
  *
- * @param baudRate The data speed in bps
- * @param tqNum Number of time quantas per bit, range in 4~385
- * @param pconfig Pointer to the MCAN timing configuration structure.
+ * This function set the baud rate of MCAN FD base on MCAN_FDCalculateImprovedTimingValues API calculated timing values.
+ *
+ * param base MCAN peripheral base address.
+ * param sourceClock_Hz Source Clock in Hz.
+ * param baudRateN_Bps Nominal Baud Rate in Bps.
+ * param baudRateD_Bps Data Baud Rate in Bps.
+ * return kStatus_Success - Set CAN FD baud rate (include Nominal and Data phase) successfully.
  */
-static void MCAN_GetSegments(uint32_t baudRate, uint32_t tqNum, mcan_timing_config_t *pconfig)
+status_t MCAN_SetBaudRateFD(CAN_Type *base, uint32_t sourceClock_Hz, uint32_t baudRateN_Bps, uint32_t baudRateD_Bps)
 {
-    uint32_t ideal_sp, seg1Temp;
+    mcan_timing_config_t timingCfg;
 
-    /* get ideal sample point. */
-    if (baudRate >= 1000000U)
+    if (MCAN_FDCalculateImprovedTimingValues(baudRateN_Bps, baudRateD_Bps, sourceClock_Hz, &timingCfg))
     {
-        ideal_sp = IDEAL_SP_LOW;
-    }
-    else if (baudRate >= 800000U)
-    {
-        ideal_sp = IDEAL_SP_MID;
+        MCAN_EnterInitialMode(base);
+        /* Update actual timing characteristic. */
+        MCAN_SetArbitrationTimingConfig(base, &timingCfg);
+        MCAN_SetDataTimingConfig(base, &timingCfg);
+        /* Update TDCO value when not enable loopback mode */
+        if (0U == (base->TEST & CAN_TEST_LBCK_MASK))
+        {
+            /* Cleaning previous TDCO Setting. */
+            base->TDCR &= ~CAN_TDCR_TDCO_MASK;
+            /* The TDC offset should be configured as shown in this equation : offset = (DTSEG1 + 2) * (DBRP + 1) */
+            if (((uint32_t)timingCfg.dataseg1 + 2U) * (timingCfg.datapreDivider + 1U) < MAX_TDCOFF)
+            {
+                base->TDCR |= CAN_TDCR_TDCO(((uint32_t)timingCfg.dataseg1 + 2U) * (timingCfg.datapreDivider + 1U));
+            }
+            else
+            {
+                /* Set the Transceiver Delay Compensation offset to max value. */
+                base->TDCR |= CAN_TDCR_TDCO(MAX_TDCOFF);
+            }
+        }
+        MCAN_EnterNormalMode(base);
+        return kStatus_Success;
     }
     else
     {
-        ideal_sp = IDEAL_SP_HIGH;
+        return kStatus_Fail;
     }
+}
+#endif /* FSL_FEATURE_CAN_SUPPORT_CANFD */
 
-    /* distribute time quanta. */
-    pconfig->seg2 = (uint8_t)(tqNum - (tqNum * ideal_sp) / (uint32_t)IDEAL_SP_FACTOR - 1U);
-
+/*!
+ * brief Calculates the segment values for a single bit time for classical CAN
+ *
+ * param baudRate The data speed in bps
+ * param tqNum Number of time quantas per bit, range in 4~385
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ */
+static void MCAN_CalculateSegments(uint32_t tqNum, mcan_timing_config_t *pconfig)
+{
+    uint32_t seg1Temp;
+    
     if (pconfig->seg2 > MAX_NTSEG2)
     {
         pconfig->seg2 = MAX_NTSEG2;
@@ -796,13 +956,44 @@ static void MCAN_GetSegments(uint32_t baudRate, uint32_t tqNum, mcan_timing_conf
 }
 
 /*!
- * @brief Calculates the improved timing values by specific baudrates for classical CAN
+ * brief Get the segment values for a single bit time for classical CAN
  *
- * @param baudRate  The classical CAN speed in bps defined by user
- * @param sourceClock_Hz The Source clock data speed in bps. Zero to disable baudrate switching
- * @param pconfig Pointer to the MCAN timing configuration structure.
+ * param baudRate The data speed in bps
+ * param tqNum Number of time quantas per bit, range in 4~385
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ */
+static void MCAN_GetSegments(uint32_t baudRate, uint32_t tqNum, mcan_timing_config_t *pconfig)
+{
+    uint32_t ideal_sp;
+
+    /* get ideal sample point. */
+    if (baudRate >= 1000000U)
+    {
+        ideal_sp = IDEAL_SP_LOW;
+    }
+    else if (baudRate >= 800000U)
+    {
+        ideal_sp = IDEAL_SP_MID;
+    }
+    else
+    {
+        ideal_sp = IDEAL_SP_HIGH;
+    }
+
+    /* distribute time quanta. */
+    pconfig->seg2 = (uint8_t)(tqNum - (tqNum * ideal_sp) / (uint32_t)IDEAL_SP_FACTOR - 1U);
+
+    MCAN_CalculateSegments(tqNum, pconfig);
+}
+
+/*!
+ * brief Calculates the improved timing values by specific baudrates for classical CAN
  *
- * @return TRUE if timing configuration found, FALSE if failed to find configuration
+ * param baudRate  The classical CAN speed in bps defined by user
+ * param sourceClock_Hz The Source clock data speed in bps. Zero to disable baudrate switching
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ *
+ * return TRUE if timing configuration found, FALSE if failed to find configuration
  */
 bool MCAN_CalculateImprovedTimingValues(uint32_t baudRate, uint32_t sourceClock_Hz, mcan_timing_config_t *pconfig)
 {
@@ -849,6 +1040,181 @@ bool MCAN_CalculateImprovedTimingValues(uint32_t baudRate, uint32_t sourceClock_
         fgRet = true;
     }
     return fgRet;
+}
+
+/*!
+ * brief Get the specified segment values for a single bit time for classical CAN
+ *
+ * param ideal_sp Sample point in arbitration phase
+ * param tqNum Number of time quantas per bit, range in 4~385
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ */
+static void MCAN_GetSpecifiedSegments(uint32_t ideal_sp, uint32_t tqNum, mcan_timing_config_t *pconfig)
+{
+    /* distribute time quanta. */
+    uint32_t tqTemp = 0;
+
+    tqTemp = (tqNum * ideal_sp) / (uint32_t)IDEAL_SP_FACTOR;
+    tqTemp = ((tqNum * ideal_sp) % (uint32_t)IDEAL_SP_FACTOR) < 500U ? tqTemp : (tqTemp + 1U);
+    if (tqTemp <= 2U)
+    {
+        tqTemp = 2U;
+    }
+    if (tqTemp > (tqNum - 1U))
+    {
+        tqTemp = tqNum - 1U;
+    }
+
+    pconfig->seg2 = (uint8_t)(tqNum - tqTemp - 1U);
+
+    MCAN_CalculateSegments(tqNum, pconfig);
+}
+
+/*!
+ * brief Calculates the specified timing values for classical CAN with user-defined settings.
+ *
+ *  User can specify baudrates, sample point position, bus length, and transceiver propagation
+ *  delay. This example shows how to set up the mcan_timing_param_t parameters and how to call
+ *  the this function by passing in these parameters.
+ *  code
+ *   mcan_timing_config_t timing_config;
+ *   mcan_timing_param_t timing_param;
+ *   timing_param.busLength = 1U;
+ *   timing_param.propTxRx = 230U;
+ *   timing_param.nominalbaudRate = 500000U;
+ *   timing_param.nominalSP = 800U;
+ *   MCAN_CalculateSpecifiedTimingValues(MCAN_CLK_FREQ, &timing_config, &timing_param);
+ *   endcode
+ *
+ *  Note that due to integer division will sacrifice the precision, actual sample point may not
+ *  equal to expected. If actual sample point is not in allowed 2% range, this function will
+ *  return false. So it is better to select higher source clock when baudrate is relatively high.
+ *  This will ensure more time quanta and higher precision of sample point.
+ *  Parameter busLength and propTxRx are optional and intended to verify whether propagation
+ *  delay is too long to corrupt sample point. User can set these parameter zero if you do not
+ *  want to consider this factor.
+ * 
+ * param sourceClock_Hz The Source clock data speed in bps.
+ * param pconfig Pointer to the MCAN timing configuration structure.
+ * param config Pointer to the MCAN timing parameters structure.
+ *
+ * return TRUE if timing configuration found, FALSE if failed to find configuration
+ */
+bool MCAN_CalculateSpecifiedTimingValues(uint32_t sourceClock_Hz,
+                                         mcan_timing_config_t *pconfig,
+                                         const mcan_timing_param_t *pParamConfig)
+{
+    uint32_t clk;   /* the clock is tqNumb x baudRate. */
+    uint32_t tqNum; /* Numbers of TQ. */
+    bool fgRet                      = false;
+    uint32_t spOld                  = 0;
+    uint32_t spNew                  = 0;
+    uint64_t propDealy              = 0;
+    uint64_t tqPropDealy            = 0;
+    mcan_timing_config_t configTemp = {0};
+    /* observe baud rate maximums. */
+    assert(pParamConfig->nominalbaudRate <= MAX_CAN_BAUDRATE);
+    /* Sample ponit should between 1% and 99%. */
+    assert((pParamConfig->nominalSP >= 10U) && (pParamConfig->nominalSP <= 990U));
+
+    if (pParamConfig->nominalSP < 980U)
+    {
+        spOld = pParamConfig->nominalSP + 20U;
+    }
+    else
+    {
+        spOld = pParamConfig->nominalSP - 20U;
+    }
+
+    /*  Auto Improved Protocal timing for NBTP. */
+    for (tqNum = NBTP_MAX_TIME_QUANTA; tqNum >= NBTP_MIN_TIME_QUANTA; tqNum--)
+    {
+        clk = pParamConfig->nominalbaudRate * tqNum;
+        if (clk > sourceClock_Hz)
+        {
+            continue; /* tqNum too large, clk has been exceed sourceClock_Hz. */
+        }
+
+        if ((sourceClock_Hz / clk * clk) != sourceClock_Hz)
+        {
+            continue; /*  Non-supporting: the frequency of clock source is not divisible by target baud rate, the user
+                      should change a divisible baud rate. */
+        }
+
+        configTemp.preDivider = (uint16_t)(sourceClock_Hz / clk - 1U);
+        if (configTemp.preDivider > MAX_NBRP)
+        {
+            break; /* The frequency of source clock is too large or the baud rate is too small, the pre-divider could
+                      not handle it. */
+        }
+ 
+        /* Calculates the best timing configuration under current tqNum. */
+        MCAN_GetSpecifiedSegments(pParamConfig->nominalSP, tqNum, &configTemp);
+        spNew = (2U + (uint32_t)configTemp.seg1) * 1000U / tqNum;
+
+        /* Determine whether the calculated timing configuration can get the optimal sampling point. */
+        if (spNew == pParamConfig->nominalSP)
+        {
+            pconfig->preDivider = configTemp.preDivider;
+            pconfig->rJumpwidth = configTemp.rJumpwidth;
+            pconfig->seg1       = configTemp.seg1;
+            pconfig->seg2       = configTemp.seg2;
+            fgRet = true;
+            break;
+        }
+        else if (abs((int)spNew - (int)pParamConfig->nominalSP) < abs((int)spOld - (int)pParamConfig->nominalSP))
+        {
+            pconfig->preDivider = configTemp.preDivider;
+            pconfig->rJumpwidth = configTemp.rJumpwidth;
+            pconfig->seg1       = configTemp.seg1;
+            pconfig->seg2       = configTemp.seg2;
+            spOld = spNew;
+            fgRet = true;
+        }
+        else
+        {
+            /* Intentional empty */
+        }
+    }
+
+    if (fgRet == true)
+    {
+        propDealy = 2U * ((uint64_t)pParamConfig->busLength * 5U + (uint64_t)pParamConfig->propTxRx);
+        tqPropDealy = propDealy * (uint64_t)sourceClock_Hz / (1000000000UL * ((uint64_t)pconfig->preDivider + 1U));
+        if (tqPropDealy > pconfig->seg1)
+        {
+            fgRet = false;
+        }
+    }
+    return fgRet;
+}
+
+/*!
+ * brief Set Baud Rate of MCAN classic mode.
+ *
+ * This function set the baud rate of MCAN base on MCAN_CalculateImprovedTimingValues() API calculated timing values.
+ *
+ * param base MCAN peripheral base address.
+ * param sourceClock_Hz Source Clock in Hz.
+ * param baudRate_Bps Baud Rate in Bps.
+ * return kStatus_Success - Set CAN baud rate (only has Nominal phase) successfully.
+ */
+status_t MCAN_SetBaudRate(CAN_Type *base, uint32_t sourceClock_Hz, uint32_t baudRate_Bps)
+{
+    mcan_timing_config_t timingCfg;
+
+    if (MCAN_CalculateImprovedTimingValues(baudRate_Bps, sourceClock_Hz, &timingCfg))
+    {
+        MCAN_EnterInitialMode(base);
+        /* Update actual timing characteristic. */
+        MCAN_SetArbitrationTimingConfig(base, &timingCfg);
+        MCAN_EnterNormalMode(base);
+        return kStatus_Success;
+    }
+    else
+    {
+        return kStatus_Fail;
+    }
 }
 
 /*!
@@ -987,6 +1353,129 @@ void MCAN_SetTxBufferConfig(CAN_Type *base, const mcan_tx_buffer_config_t *confi
                   CAN_TXBC_TFQS(config->fqSize) | CAN_TXBC_TFQM(config->mode);
     /* Set Tx Buffer data field size */
     base->TXESC |= CAN_TXESC_TBDS(config->datafieldSize);
+}
+
+/*!
+ * brief Set Message RAM related configuration.
+ *
+ * note This function include Standard/extended ID filter, Rx FIFO 0/1, Rx buffer, Tx event FIFO and Tx buffer
+ *      configurations
+ * param base MCAN peripheral base address.
+ * param config The MCAN filter configuration.
+ * retval kStatus_Success - Message RAM related configuration Successfully.
+ * retval kStatus_Fail    - Message RAM related configure fail due to wrong address parameter.
+ */
+status_t MCAN_SetMessageRamConfig(CAN_Type *base, const mcan_memory_config_t *config)
+{
+    uint32_t temp   = 0U;
+    uint32_t eSize  = 0U;
+    status_t result = kStatus_Success;
+
+    MCAN_EnterInitialMode(base);
+    if (0U == (config->baseAddr % 4096U))
+    {
+        MCAN_SetMsgRAMBase(base, config->baseAddr);
+    }
+    else
+    {
+        result = kStatus_Fail;
+    }
+    if ((config->stdFilterCfg != NULL) && (kStatus_Success == result))
+    {
+        if ((config->stdFilterCfg->idFormat == kMCAN_FrameIDStandard) && (0U == (config->stdFilterCfg->address % 4U)))
+        {
+            temp = config->stdFilterCfg->listSize * 4U;
+            MCAN_SetFilterConfig(base, config->stdFilterCfg);
+        }
+        else
+        {
+            result = kStatus_Fail;
+        }
+    }
+    if ((config->extFilterCfg != NULL) && (kStatus_Success == result))
+    {
+        if ((config->extFilterCfg->idFormat == kMCAN_FrameIDExtend) && (config->extFilterCfg->address >= temp) &&
+            (0U == (config->extFilterCfg->address % 4U)))
+        {
+            temp = config->extFilterCfg->address + config->extFilterCfg->listSize * 8U;
+            MCAN_SetFilterConfig(base, config->extFilterCfg);
+        }
+        else
+        {
+            result = kStatus_Fail;
+        }
+    }
+    if ((config->rxFifo0Cfg != NULL) && (kStatus_Success == result))
+    {
+        eSize = ((uint32_t)config->rxFifo0Cfg->datafieldSize < 5U) ?
+                    ((uint32_t)config->rxFifo0Cfg->datafieldSize + 4U) :
+                    ((uint32_t)config->rxFifo0Cfg->datafieldSize * 4U - 10U);
+        if ((config->rxFifo0Cfg->address >= temp) && (0U == (config->rxFifo0Cfg->address % 4U)))
+        {
+            temp = config->rxFifo0Cfg->address + config->rxFifo0Cfg->elementSize * eSize * 4U;
+            MCAN_SetRxFifo0Config(base, config->rxFifo0Cfg);
+        }
+        else
+        {
+            result = kStatus_Fail;
+        }
+    }
+    if ((config->rxFifo1Cfg != NULL) && (kStatus_Success == result))
+    {
+        eSize = ((uint32_t)config->rxFifo1Cfg->datafieldSize < 5U) ?
+                    ((uint32_t)config->rxFifo1Cfg->datafieldSize + 4U) :
+                    ((uint32_t)config->rxFifo1Cfg->datafieldSize * 4U - 10U);
+        if ((config->rxFifo1Cfg->address >= temp) && (0U == (config->rxFifo1Cfg->address % 4U)))
+        {
+            temp = config->rxFifo1Cfg->address + config->rxFifo1Cfg->elementSize * eSize * 4U;
+            MCAN_SetRxFifo1Config(base, config->rxFifo1Cfg);
+        }
+        else
+        {
+            result = kStatus_Fail;
+        }
+    }
+    if ((config->rxBufferCfg != NULL) && (kStatus_Success == result))
+    {
+        eSize = ((uint32_t)config->rxBufferCfg->datafieldSize < 5U) ?
+                    ((uint32_t)config->rxBufferCfg->datafieldSize + 4U) :
+                    ((uint32_t)config->rxBufferCfg->datafieldSize * 4U - 10U);
+        if ((config->rxBufferCfg->address >= temp) && (0U == (config->rxBufferCfg->address % 4U)))
+        {
+            temp = config->rxBufferCfg->address + 64U * eSize * 4U;
+            MCAN_SetRxBufferConfig(base, config->rxBufferCfg);
+        }
+        else
+        {
+            result = kStatus_Fail;
+        }
+    }
+    if ((config->txFifoCfg != NULL) && (kStatus_Success == result))
+    {
+        if ((config->txFifoCfg->address >= temp) && (0U == (config->txFifoCfg->address % 4U)))
+        {
+            temp = config->txFifoCfg->address + config->txFifoCfg->elementSize * 8U;
+            MCAN_SetTxEventFifoConfig(base, config->txFifoCfg);
+        }
+        else
+        {
+            result = kStatus_Fail;
+        }
+    }
+    if ((config->txBufferCfg != NULL) && (kStatus_Success == result))
+    {
+        if ((config->txBufferCfg->address < temp) || (0U != (config->txBufferCfg->address % 4U)))
+        {
+            result = kStatus_Fail;
+        }
+        else
+        {
+            MCAN_SetTxBufferConfig(base, config->txBufferCfg);
+        }
+    }
+    MCAN_EnterNormalMode(base);
+
+    return result;
 }
 
 /*!
@@ -1199,13 +1688,28 @@ status_t MCAN_ReadRxFifo(CAN_Type *base, uint8_t fifoBlock, mcan_rx_buffer_frame
     assert(NULL != pRxFrame);
 
     mcan_rx_buffer_frame_t *elementAddress = NULL;
+
     if (0U == fifoBlock)
     {
-        elementAddress = (mcan_rx_buffer_frame_t *)(MCAN_GetMsgRAMBase(base) + MCAN_GetRxFifo0ElementAddress(base));
+        if ((base->RXF0S & CAN_RXF0S_F0FL_MASK) != 0U)
+        {
+            elementAddress = (mcan_rx_buffer_frame_t *)(MCAN_GetMsgRAMBase(base) + MCAN_GetRxFifo0ElementAddress(base));
+        }
+        else
+        {
+            return kStatus_Fail;
+        }
     }
     else
     {
-        elementAddress = (mcan_rx_buffer_frame_t *)(MCAN_GetMsgRAMBase(base) + MCAN_GetRxFifo1ElementAddress(base));
+        if ((base->RXF1S & CAN_RXF1S_F1FL_MASK) != 0U)
+        {
+            elementAddress = (mcan_rx_buffer_frame_t *)(MCAN_GetMsgRAMBase(base) + MCAN_GetRxFifo1ElementAddress(base));
+        }
+        else
+        {
+            return kStatus_Fail;
+        }
     }
     (void)memcpy(pRxFrame, elementAddress, 8U);
     pRxFrame->data = (uint8_t *)((uint32_t)elementAddress + 8U);
@@ -1418,9 +1922,8 @@ status_t MCAN_TransferSendNonBlocking(CAN_Type *base, mcan_handle_t *handle, mca
     /* Check if Tx Buffer is idle. */
     if ((uint8_t)kMCAN_StateIdle == handle->bufferState[xfer->bufferIdx])
     {
-        handle->txbufferIdx = xfer->bufferIdx;
         /* Distinguish transmit type. */
-        if ((uint8_t)kMCAN_FrameTypeRemote == xfer->frame->xtd)
+        if ((uint8_t)kMCAN_FrameTypeRemote == xfer->frame->rtr)
         {
             handle->bufferState[xfer->bufferIdx] = (uint8_t)kMCAN_StateTxRemote;
 
@@ -1524,9 +2027,8 @@ void MCAN_TransferAbortSend(CAN_Type *base, mcan_handle_t *handle, uint8_t buffe
     assert(NULL != handle);
     assert(bufferIdx <= 63U);
 
-    /* Disable Buffer Interrupt. */
+    /* Disable Message Buffer Interrupt. */
     MCAN_DisableTransmitBufferInterrupts(base, bufferIdx);
-    MCAN_DisableInterrupts(base, CAN_IE_TCE_MASK);
 
     /* Cancel send request. */
     MCAN_TransmitCancelRequest(base, bufferIdx);
@@ -1594,16 +2096,27 @@ void MCAN_TransferHandleIRQ(CAN_Type *base, mcan_handle_t *handle)
                               (uint32_t)kMCAN_BusOffIntFlag)))
         {
             /* Solve error. */
-            result = (uint32_t)kMCAN_ErrorWarningIntFlag | (uint32_t)kMCAN_ErrorPassiveIntFlag |
-                     (uint32_t)kMCAN_BusOffIntFlag;
+            result = (valueIR & ((uint32_t)kMCAN_ErrorWarningIntFlag | (uint32_t)kMCAN_ErrorPassiveIntFlag |
+                                 (uint32_t)kMCAN_BusOffIntFlag));
             status = kStatus_MCAN_ErrorStatus;
         }
         else if (0U != (valueIR & (uint32_t)kMCAN_TxTransmitCompleteFlag))
         {
             /* Solve Tx interrupt. */
+            uint8_t idx = 0U;
+            for (; idx < (uint8_t)((base->TXBC & CAN_TXBC_NDTB_MASK) >> CAN_TXBC_NDTB_SHIFT); idx++)
+            {
+                /* Get the lowest unhandled Tx Message Buffer */
+                if (0U != MCAN_IsTransmitOccurred(base, idx))
+                {
+                    if ((base->TXBTIE & ((uint32_t)1U << idx)) != 0U)
+                    {
+                        MCAN_TransferAbortSend(base, handle, idx);
+                    }
+                }
+            }
             result = (uint32_t)kMCAN_TxTransmitCompleteFlag;
             status = kStatus_MCAN_TxIdle;
-            MCAN_TransferAbortSend(base, handle, handle->txbufferIdx);
         }
         else if (0U != (valueIR & (uint32_t)kMCAN_RxFifo0NewFlag))
         {
@@ -1627,7 +2140,7 @@ void MCAN_TransferHandleIRQ(CAN_Type *base, mcan_handle_t *handle)
         else if (0U != (valueIR & (uint32_t)kMCAN_RxFifo1LostFlag))
         {
             result = (uint32_t)kMCAN_RxFifo1LostFlag;
-            status = kStatus_MCAN_RxFifo0Lost;
+            status = kStatus_MCAN_RxFifo1Lost;
         }
         else
         {

@@ -97,7 +97,7 @@ void board_enter_bootloader(unsigned int n_args, const void *args) {
     NVIC_SystemReset();
 }
 
-static char _boot_mem[128] __attribute__((aligned(1024)));
+static char _boot_mem[128] __attribute__((aligned(1024), section(".ram_function_data")));
 
 __attribute__((naked, noreturn, section(".ram_function"))) void ram_reset(void) {
     // NVIC_SystemReset doesn't get inlined here.
@@ -119,7 +119,7 @@ void board_early_init(void) {
 
 void board_enter_standby(void) {
     HAL_PWREx_EnableTCMRetention();
-    HAL_PWREx_EnableTCMFLXRetention();
+    HAL_PWREx_DisableTCMFLXRetention();
 
     uint32_t *boot_mem = (uint32_t *)_boot_mem;
     boot_mem[0] = (uint32_t)(_boot_mem + sizeof(_boot_mem));

@@ -28,12 +28,12 @@ while True:
 
     matrices = img.find_datamatrices()
     for matrix in matrices:
-        img.draw_rectangle(matrix.rect(), color=(255, 0, 0))
+        img.draw_rectangle(matrix.rect, color=(255, 0, 0))
         print_args = (
-            matrix.rows(),
-            matrix.columns(),
-            matrix.payload(),
-            (180 * matrix.rotation()) / math.pi,
+            matrix.rows,
+            matrix.columns,
+            matrix.payload,
+            (180 * matrix.rotation) / math.pi,
             clock.fps(),
         )
         print(

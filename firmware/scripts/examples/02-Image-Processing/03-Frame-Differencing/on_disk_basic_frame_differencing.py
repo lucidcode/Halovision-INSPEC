@@ -44,7 +44,7 @@ while True:
     # non-outlier max value against the 90th percentile value (e.g. a non-max
     # value. The difference between the two values will grow as the difference
     # image seems more pixels change.
-    diff = hist.get_percentile(0.99).l_value() - hist.get_percentile(0.90).l_value()
+    diff = hist.get_percentile(0.99).l_value - hist.get_percentile(0.90).l_value
     triggered = diff > TRIGGER_THRESHOLD
 
     print(clock.fps(), triggered)  # Note: Your OpenMV Cam runs about half as fast while

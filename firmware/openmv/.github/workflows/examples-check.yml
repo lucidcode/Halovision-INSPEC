@@ -1,0 +1,25 @@
+name: '🔎 Check Examples Index'
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches:
+      - 'master'
+    paths:
+      - 'scripts/examples/**.py'
+
+jobs:
+  check-examples-index:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: '⏳ Checkout repository'
+        uses: actions/checkout@v6
+        with:
+          submodules: false
+          persist-credentials: false
+
+      - name: '🔎 Check examples index coverage'
+        run: python3 tools/check_examples_index.py

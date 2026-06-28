@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2017 NXP
+ * Copyright 2016-2017, 2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -8,9 +8,16 @@
 
 #include "fsl_lpit.h"
 
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
 /* Component ID definition, used by tools. */
 #ifndef FSL_COMPONENT_ID
 #define FSL_COMPONENT_ID "platform.drivers.lpit"
+#endif
+
+#if defined(LPIT_RSTS)
+#define LPIT_RESETS_ARRAY LPIT_RSTS
 #endif
 
 /*******************************************************************************
@@ -30,6 +37,11 @@ static const clock_ip_name_t s_lpitPeriphClocks[] = LPIT_PERIPH_CLOCKS;
 #endif
 
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
+
+#if defined(LPIT_RESETS_ARRAY)
+/* Reset array */
+static const reset_ip_name_t s_lpitResets[] = LPIT_RESETS_ARRAY;
+#endif
 
 /*******************************************************************************
  * Prototypes
@@ -51,9 +63,19 @@ uint32_t LPIT_GetInstance(LPIT_Type *base)
     uint32_t instance;
 
     /* Find the instance index from base address mappings. */
+    /*
+     * $Branch Coverage Justification$
+     * (instance >= ARRAY_SIZE(s_lpitBases)) not covered. The peripheral base
+     * address is always valid and checked by assert.
+     */
     for (instance = 0U; instance < ARRAY_SIZE(s_lpitBases); instance++)
     {
-        if (s_lpitBases[instance] == base)
+        /*
+         * $Branch Coverage Justification$
+         * (s_lpitBases[instance] != base) not covered. The peripheral base
+         * address is always valid and checked by assert.
+         */
+        if (MSDK_REG_SECURE_ADDR(s_lpitBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -90,6 +112,10 @@ void LPIT_Init(LPIT_Type *base, const lpit_config_t *config)
 #endif
 
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
+
+#if defined(LPIT_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_lpitResets[LPIT_GetInstance(base)]);
+#endif
 
     /* Reset the timer channels and registers except the MCR register */
     LPIT_Reset(base);

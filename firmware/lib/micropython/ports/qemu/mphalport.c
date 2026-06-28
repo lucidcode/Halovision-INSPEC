@@ -25,6 +25,7 @@
  */
 
 #include "py/mphal.h"
+#include "py/runtime.h"
 #include "py/stream.h"
 #include "shared/runtime/semihosting_arm.h"
 #include "uart.h"
@@ -82,8 +83,12 @@ mp_uint_t mp_hal_ticks_us(void) {
 }
 
 void mp_hal_delay_ms(mp_uint_t ms) {
-    mp_uint_t start = mp_hal_ticks_ms();
-    while (mp_hal_ticks_ms() - start < ms) {
+    if (ms) {
+        mp_uint_t start = mp_hal_ticks_ms();
+        while (mp_hal_ticks_ms() - start < ms) {
+        }
+    } else {
+        mp_handle_pending(true);
     }
 }
 
@@ -95,4 +100,13 @@ void mp_hal_delay_us(mp_uint_t us) {
 
 mp_uint_t mp_hal_ticks_cpu(void) {
     return 0;
+}
+
+// Provide a dummy version of mp_hal_get_random() using a LCG
+static uint32_t random_state;
+void mp_hal_get_random(size_t n, uint8_t *buf) {
+    for (size_t i = 0; i < n; ++i) {
+        random_state = random_state * 1664525 + 1013904223;
+        buf[i] = random_state >> 24;
+    }
 }

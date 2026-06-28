@@ -75,12 +75,7 @@ void led_init(void) {
     for (int led = 0; led < NUM_LEDS; led++) {
         const machine_pin_obj_t *led_pin = pyb_led_obj[led].led_pin;
         mp_hal_gpio_clock_enable(led_pin->gpio);
-        if (led == 3) {
-            //IR is inverted
-            MICROPY_HW_LED_ON(led_pin);
-        } else {
-            MICROPY_HW_LED_OFF(led_pin);
-        }
+        MICROPY_HW_LED_OFF(led_pin);
         mp_hal_pin_output(led_pin);
     }
 }
@@ -219,18 +214,10 @@ void led_state(pyb_led_t led, int state) {
     const machine_pin_obj_t *led_pin = pyb_led_obj[led - 1].led_pin;
     if (state == 0) {
         // turn LED off
-        if (led == 4) {
-            MICROPY_HW_LED_ON(led_pin);
-        } else {
-            MICROPY_HW_LED_OFF(led_pin);
-        }
+        MICROPY_HW_LED_OFF(led_pin);
     } else {
         // turn LED on
-        if (led == 4) {
-            MICROPY_HW_LED_OFF(led_pin);
-        } else {
-            MICROPY_HW_LED_ON(led_pin);
-        }
+        MICROPY_HW_LED_ON(led_pin);
     }
 
     #if LED_PWM_ENABLED

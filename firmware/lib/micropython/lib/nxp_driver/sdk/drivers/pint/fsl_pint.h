@@ -1,13 +1,12 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
- * All rights reserved.
+ * Copyright 2016-2023 NXP
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_PINT_H_
-#define _FSL_PINT_H_
+#ifndef FSL_PINT_H_
+#define FSL_PINT_H_
 
 #include "fsl_common.h"
 
@@ -23,18 +22,9 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-#define FSL_PINT_DRIVER_VERSION (MAKE_VERSION(2, 1, 9)) /*!< Version 2.1.9 */
-/*@}*/
-
-/* Number of interrupt line supported by PINT */
-#define PINT_PIN_INT_COUNT 8U
-
-/* Number of interrupt line supported by SECURE PINT */
-#define SEC_PINT_PIN_INT_COUNT 2U
-
-/* Number of input sources supported by PINT */
-#define PINT_INPUT_COUNT 8U
+/*! @{ */
+#define FSL_PINT_DRIVER_VERSION (MAKE_VERSION(2, 1, 13))
+/*! @} */
 
 /* PININT Bit slice source register bits */
 #define PININT_BITSLICE_SRC_START 8U
@@ -576,6 +566,6 @@ void PINT_DisableCallbackByIndex(PINT_Type *base, pint_pin_int_t pintIdx);
 }
 #endif
 
-/*@}*/
+/*! @} */
 
-#endif /* _FSL_PINT_H_ */
+#endif /* FSL_PINT_H_ */

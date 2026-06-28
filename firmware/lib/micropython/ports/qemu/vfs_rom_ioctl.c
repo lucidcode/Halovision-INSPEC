@@ -79,4 +79,5 @@ mp_obj_t mp_vfs_rom_ioctl(size_t n_args, const mp_obj_t *args) {
 
     return MP_OBJ_NEW_SMALL_INT(-MP_EINVAL);
 }
+
 #endif // MICROPY_VFS_ROM_IOCTL

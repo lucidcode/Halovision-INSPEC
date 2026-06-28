@@ -548,6 +548,45 @@ static mp_obj_t extra_coverage(void) {
         mp_printf(&mp_plat_print, "%x%08x\n", (uint32_t)(value_ll >> 32), (uint32_t)value_ll);
     }
 
+    // list argument helpers
+    {
+        mp_printf(&mp_plat_print, "# list argument helpers\n");
+
+        // Create a list to test with
+        mp_obj_t list_items[] = { mp_const_none, MP_OBJ_NEW_SMALL_INT(77), mp_obj_new_str_from_cstr("hello") };
+        size_t list_len = MP_ARRAY_SIZE(list_items);
+        mp_obj_t list = mp_obj_new_list(list_len, list_items);
+
+        // mp_obj_list_ensure
+        nlr_buf_t nlr;
+        if (nlr_push(&nlr) == 0) {
+            mp_obj_list_ensure(MP_OBJ_NEW_SMALL_INT(-1), 5); // Not a list
+            nlr_pop();
+        } else {
+            mp_obj_print_exception(&mp_plat_print, MP_OBJ_FROM_PTR(nlr.ret_val));
+        }
+
+        if (nlr_push(&nlr) == 0) {
+            mp_obj_list_ensure(list, list_len + 2); // List shorter than minimum length
+            nlr_pop();
+        } else {
+            mp_obj_print_exception(&mp_plat_print, MP_OBJ_FROM_PTR(nlr.ret_val));
+        }
+
+        mp_obj_list_t *as_ptr = mp_obj_list_ensure(list, list_len);  // Acceptable!
+        mp_printf(&mp_plat_print, "mp_obj_list_ensure same list? %d\n", MP_OBJ_TO_PTR(list) == as_ptr);
+
+        // mp_obj_list_optional_arg()
+        as_ptr = mp_obj_list_optional_arg(list, list_len);
+        mp_printf(&mp_plat_print, "mp_obj_list_optional_arg same list? %d\n", MP_OBJ_TO_PTR(list) == as_ptr);
+
+        as_ptr = mp_obj_list_optional_arg(mp_const_none, list_len);
+        mp_printf(&mp_plat_print, "mp_obj_list_optional_arg new list len %d\n", as_ptr->len);
+
+        as_ptr = mp_obj_list_optional_arg(MP_OBJ_NULL, list_len);
+        mp_printf(&mp_plat_print, "mp_obj_list_optional_arg new list from NULL len %d\n", as_ptr->len);
+    }
+
     // runtime utils
     {
         mp_printf(&mp_plat_print, "# runtime utils\n");
@@ -675,7 +714,7 @@ static mp_obj_t extra_coverage(void) {
         mp_sched_unlock();
 
         // shouldn't do anything while scheduler is locked
-        mp_handle_pending(true);
+        mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS);
 
         // unlock scheduler
         mp_sched_unlock();
@@ -691,7 +730,7 @@ static mp_obj_t extra_coverage(void) {
         mp_sched_keyboard_interrupt();
         nlr_buf_t nlr;
         if (nlr_push(&nlr) == 0) {
-            mp_handle_pending(true);
+            mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS);
             nlr_pop();
         } else {
             mp_obj_print_exception(&mp_plat_print, MP_OBJ_FROM_PTR(nlr.ret_val));
@@ -700,30 +739,30 @@ static mp_obj_t extra_coverage(void) {
         // setting the keyboard interrupt (twice) and cancelling it during mp_handle_pending
         mp_sched_keyboard_interrupt();
         mp_sched_keyboard_interrupt();
-        mp_handle_pending(false);
+        mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_CLEAR_EXCEPTIONS);
 
         // setting keyboard interrupt and a pending event (intr should be handled first)
         mp_sched_schedule(MP_OBJ_FROM_PTR(&mp_builtin_print_obj), MP_OBJ_NEW_SMALL_INT(10));
         mp_sched_keyboard_interrupt();
         if (nlr_push(&nlr) == 0) {
-            mp_handle_pending(true);
+            mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS);
             nlr_pop();
         } else {
             mp_obj_print_exception(&mp_plat_print, MP_OBJ_FROM_PTR(nlr.ret_val));
         }
-        mp_handle_pending(true);
+        mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS);
 
         coverage_sched_function_continue = true;
         mp_sched_schedule_node(&mp_coverage_sched_node, coverage_sched_function);
         for (int i = 0; i < 3; ++i) {
             mp_printf(&mp_plat_print, "loop\n");
-            mp_handle_pending(true);
+            mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS);
         }
         // Clear this flag to prevent the function scheduling itself again
         coverage_sched_function_continue = false;
         // Will only run the first time through this loop, then not scheduled again
         for (int i = 0; i < 3; ++i) {
-            mp_handle_pending(true);
+            mp_handle_pending(MP_HANDLE_PENDING_CALLBACKS_AND_EXCEPTIONS);
         }
     }
 

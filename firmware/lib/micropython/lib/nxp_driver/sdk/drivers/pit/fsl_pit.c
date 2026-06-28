@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2017 NXP
+ * Copyright 2016-2024 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -23,15 +23,17 @@
  *
  * @return The PIT instance
  */
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 static uint32_t PIT_GetInstance(PIT_Type *base);
+#endif
 
 /*******************************************************************************
  * Variables
  ******************************************************************************/
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /*! @brief Pointers to PIT bases for each instance. */
 static PIT_Type *const s_pitBases[] = PIT_BASE_PTRS;
 
-#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /*! @brief Pointers to PIT clocks for each instance. */
 static const clock_ip_name_t s_pitClocks[] = PIT_CLOCKS;
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
@@ -39,6 +41,7 @@ static const clock_ip_name_t s_pitClocks[] = PIT_CLOCKS;
 /*******************************************************************************
  * Code
  ******************************************************************************/
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 static uint32_t PIT_GetInstance(PIT_Type *base)
 {
     uint32_t instance;
@@ -46,7 +49,7 @@ static uint32_t PIT_GetInstance(PIT_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_pitBases); instance++)
     {
-        if (s_pitBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_pitBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -56,6 +59,7 @@ static uint32_t PIT_GetInstance(PIT_Type *base)
 
     return instance;
 }
+#endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
 /*!
  * brief Ungates the PIT clock, enables the PIT module, and configures the peripheral for basic operations.
@@ -75,6 +79,15 @@ void PIT_Init(PIT_Type *base, const pit_config_t *config)
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
 #if defined(FSL_FEATURE_PIT_HAS_MDIS) && FSL_FEATURE_PIT_HAS_MDIS
+#if defined(FSL_FEATURE_PIT_HAS_ERRATA_7914) && FSL_FEATURE_PIT_HAS_ERRATA_7914
+    /*
+     * If a write to the MCR[MDIS] bit occurs within two bus clock cycles of enabling the PIT clock 
+     * in the SIM_CG register, the write will be ignored and the PIT will fail to enable.
+     * Insert a read of the MCR register before writing to the MCR register. This guarantees a minimum
+     * delay of two bus clocks to guarantee the write is not ignored.
+     */
+    (void)base->MCR;
+#endif
     /* Enable PIT timers */
     base->MCR &= ~PIT_MCR_MDIS_MASK;
 #endif

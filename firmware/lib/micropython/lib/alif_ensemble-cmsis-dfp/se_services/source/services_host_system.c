@@ -14,6 +14,7 @@
  * contact@alifsemi.com, or visit: https://alifsemi.com/license
  *
  * @ingroup host_services
+ * @ingroup services-host-system
  */
 
 /******************************************************************************
@@ -41,6 +42,8 @@
  *  G L O B A L   V A R I A B L E S
  ******************************************************************************/
 
+static const uint8_t s_alif_oid[] = {0x78, 0x59, 0x94};
+
 /*******************************************************************************
  *  C O D E
  ******************************************************************************/
@@ -48,10 +51,14 @@
 /**
  * @fn      uint32_t SERVICES_system_get_toc_version(uint32_t * toc_version)
  * @brief   Retrieves the SES SW Version number
+ *
+ * Number is encoded as Major Minor and Patch
+ *
  * @param   services_handle
  * @param   toc_version
  * @param   error_code
  * @return  SES SW version (Semantc versioning format).
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_get_toc_version(uint32_t services_handle, 
                                          uint32_t *toc_version,
@@ -73,8 +80,12 @@ uint32_t SERVICES_system_get_toc_version(uint32_t services_handle,
 /**
  * @fn      uint32_t SERVICES_system_get_toc_number(uint32_t toc_version)
  * @brief   get the TOC number
+ *
+ * Returns the number of Table of contents entries in MRAM
+ *
  * @param   services_handle
- * @param   toc_number
+ * @param   toc_number         Number of TOCs
+ * @ingroup services-host-system
  * @return
  */
 uint32_t SERVICES_system_get_toc_number(uint32_t services_handle, 
@@ -96,11 +107,16 @@ uint32_t SERVICES_system_get_toc_number(uint32_t services_handle,
 
 /**
  * @brief   get toc info via name
+ *
+ * Returns the TOC information for the provided CPU name.
+ *
  * @param services_handle
  * @param cpu_name
  * @param error_code
  * @return
+ * @ingroup services-host-system
  * @note    function is deprecated
+ * @todo    Remove function as deprecated
  */
 uint32_t SERVICES_system_get_toc_via_name(uint32_t services_handle, 
                                           const uint8_t *cpu_name,
@@ -116,11 +132,17 @@ uint32_t SERVICES_system_get_toc_via_name(uint32_t services_handle,
 
 /**
  * @brief     get toc info via cpuid
+ *
+ * Returns the TOC information for a given CPU.
+ *
+ * See SERVICES_cpuid_t for details
+ *
  * @param services_handle
- * @param cpuid
- * @param toc_info
+ * @param cpuid           Which application CPU
+ * @param toc_info        ATOC information return
  * @param error_code
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_get_toc_via_cpuid(uint32_t services_handle,
                                            SERVICES_cpuid_t cpuid, 
@@ -175,10 +197,15 @@ uint32_t SERVICES_system_get_toc_via_cpuid(uint32_t services_handle,
 
 /**
  * @brief Obtain all TOC data from SE
+ *
+ *The number of TOC entries found is returned followed by the TOC entry details.
+ *SERVICES_NUMBER_OF_TOC_ENTRIES is set to 15 entries.
+ *
  * @param services_handle
- * @param toc_info
+ * @param toc_info            Details for all TOCs found
  * @param error_code
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_get_toc_data (uint32_t services_handle,
                                        SERVICES_toc_data_t *toc_info,
@@ -232,9 +259,14 @@ uint32_t SERVICES_system_get_toc_data (uint32_t services_handle,
  * @fn    uint32_t SERVICES_system_get_device_part_number(
  *                                uint32_t services_handle,
                                   uint32_t *device_part_number)
+ * @brief Returns the SoC device identifier.
+ *
+ * device_part_number as integer e.g., 0x0000B200
+ *
  * @param[in]   services_handle
- * @param[out]  device_part_number
+ * @param[out]  device_part_number (SocID)
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_get_device_part_number(uint32_t services_handle, 
                                                 uint32_t *device_part_number,
@@ -256,10 +288,13 @@ uint32_t SERVICES_system_get_device_part_number(uint32_t services_handle,
 /**
  * @fn    uint32_t SERVICES_system_set_services_debug (uint32_t services_handle,
  *                                                     uint32_t * error_code)
- * @brief Set debug capability will
+ * @brief Set debug capability dynamically from SE-UART
+ *
  * @param services_handle
+ * @param debug_enable              Toggle debug output
  * @param error_code
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_set_services_debug (uint32_t services_handle,
                                              bool debug_enable,
@@ -286,6 +321,7 @@ uint32_t SERVICES_system_set_services_debug (uint32_t services_handle,
  * @param toc_info
  * @param error_code
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_get_otp_data (uint32_t services_handle,
                                        SERVICES_otp_data_t *device_info,
@@ -312,10 +348,14 @@ uint32_t SERVICES_system_get_otp_data (uint32_t services_handle,
 /**
  * @fn uint32_t SERVICES_system_get_device_data(uint32_t, SERVICES_version_data_t*, uint32_t*)
  * @brief  Get device data information
+ *
+ * Retrieves the Device information.
+ *
  * @param services_handle
  * @param device_info
  * @param error_code
  * @return
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_get_device_data(uint32_t services_handle,
                                          SERVICES_version_data_t *device_info,
@@ -363,12 +403,15 @@ uint32_t SERVICES_system_get_device_data(uint32_t services_handle,
  *                                        uint32_t otp_offset,
  *                                        uint32_t *otp_value_word,
  *                                        uint32_t *error_code)
- * @brief read OTP data
+ * @brief read OTP data from offset
+ *
  * @param services_handle
- * @param otp_offset
- * @param otp_value_word
+ * @param otp_offset          OTP WORD offset to read
+ * @param otp_value_word      OPT value return from offset
  * @param error_code
- * @return
+ * @return SERVICE_SUCCESS
+ * @return SERVICE_FAIL
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_read_otp(uint32_t services_handle,
                                   uint32_t otp_offset,
@@ -394,12 +437,15 @@ uint32_t SERVICES_system_read_otp(uint32_t services_handle,
  *                                         uint32_t otp_offset,
  *                                         uint32_t otp_value_word,
  *                                         uint32_t *error_code)
- * @brief read OTP data
+ * @brief Write OTP data to Word offset
+ *
  * @param services_handle
- * @param otp_offset
- * @param otp_value_word
+ * @param otp_offset          OTP WORD offset destination
+ * @param otp_value_word      OTP value to write to offset
  * @param error_code
- * @return
+ * @return SERVICE_SUCCESS
+ * @return SERVICE_FAIL
+ * @ingroup services-host-system
  */
 uint32_t SERVICES_system_write_otp(uint32_t services_handle,
                                    uint32_t otp_offset,
@@ -420,19 +466,6 @@ uint32_t SERVICES_system_write_otp(uint32_t services_handle,
   return return_code;
 }
 
-#if 1 // REV_B2
-typedef struct
-{
-  uint8_t x_loc  : 7;
-  uint8_t y_loc  : 7;
-  uint8_t wfr_id : 5;
-  uint8_t year   : 6;
-  uint8_t fab_id : 1;
-  uint8_t week   : 6;
-  uint8_t lot_no : 8;
-} mfg_data_t;
-
-#else // REV_B3
 typedef struct
 {
   uint8_t x_loc  : 7;
@@ -448,25 +481,6 @@ typedef struct
   uint8_t zero_5 : 2;
   uint8_t lot_no : 8;
 } mfg_data_t;
-#endif
-
-/*
-void init_test_mgf_data(uint8_t * p_data_in)
-{
-  mfg_data_t * p_data = (mfg_data_t *)p_data_in;
-  p_data->x_loc = 0x4F;
-  p_data->y_loc = 0x6A;
-  p_data->wfr_id = 0x1C;
-  p_data->fab_id = 0x1;
-  p_data->year = 0x2A;
-  p_data->week = 0x33;
-  p_data->lot_no = 0x81;
-
-  // Expected output -
-  // EUI-48: {0x3E, 0xAE, 0x73}
-  // EUI-64: {0x9F, 0xAB, 0x9A, 0xB3, 0x81}
-}
-*/
 
 /**
  * @brief   Pack manufacturing data into 40 bits for EUI-64
@@ -538,7 +552,9 @@ static void get_eui48_extension(uint8_t * p_data_in, uint8_t * p_data_out)
  * @param is_eui48       Specify whether EUI-48 or EUI-64 extension is requested
  * @param eui_extension  Buffer to store the calculated extension
  * @param error_code
- * @return
+ * @ingroup services-host-system
+ * @return SERVICE_INVALID_PARAMETER
+ * @return SERVICES_REQ_SUCCESS
  */
 uint32_t SERVICES_system_get_eui_extension(uint32_t services_handle,
                                            bool is_eui48,
@@ -573,6 +589,43 @@ uint32_t SERVICES_system_get_eui_extension(uint32_t services_handle,
   {
     get_eui64_extension(device_data.MfgData, eui_extension);
   }
+
+  return SERVICES_REQ_SUCCESS;
+}
+
+/**
+ * @brief Calculate a 64-bit device ID based on the Mfg data and the Alif OID
+ *
+ * @fn    uint32_t SERVICES_system_get_device_id64(
+ *                                uint32_t services_handle,
+ *                                uint8_t *device_id,
+ *                                uint32_t *error_code)
+ *
+ * @param services_handle
+ * @param device_id          Buffer to store the calculated 64-bit/8-byte device ID
+ * @param error_code
+ * @ingroup services-host-system
+ * @return SERVICE_INVALID_PARAMETER
+ * @return SERVICES_REQ_SUCCESS
+ */
+uint32_t SERVICES_system_get_device_id64(uint32_t services_handle,
+                                         uint8_t *device_id,
+                                         uint32_t *error_code)
+{
+  uint32_t return_code = SERVICES_REQ_SUCCESS; /* Service error code  */
+
+  // This will populate the first 5 bytes in the device ID buffer
+  return_code = SERVICES_system_get_eui_extension(services_handle,
+                                                  false,
+                                                  device_id,
+                                                  error_code);
+  if (return_code != SERVICES_REQ_SUCCESS)
+  {
+    return return_code;
+  }
+
+  // Add the Alif Organizational ID
+  memcpy(device_id + 5, s_alif_oid, sizeof(s_alif_oid));
 
   return SERVICES_REQ_SUCCESS;
 }

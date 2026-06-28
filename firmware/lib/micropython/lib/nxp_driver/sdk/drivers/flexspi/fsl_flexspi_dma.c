@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 NXP
+ * Copyright 2019-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -52,6 +52,12 @@ The link array consumes 16 bytes consumption.*/
 #define FLEXSPI_DMA_DES_COUNT 1U
 #endif
 
+#if defined(FSL_FEATURE_DMA_DESCRIPTOR_ALIGN_SIZEn)
+#define FSL_FEATURE_DMA_DESCRIPTOR_ALIGN_SIZE                                            \
+    ((FSL_FEATURE_DMA0_DESCRIPTOR_ALIGN_SIZE > FSL_FEATURE_DMA1_DESCRIPTOR_ALIGN_SIZE) ? \
+         FSL_FEATURE_DMA0_DESCRIPTOR_ALIGN_SIZE :                                        \
+         FSL_FEATURE_DMA1_DESCRIPTOR_ALIGN_SIZE)
+#endif
 #if defined(__ICCARM__)
 #pragma data_alignment = FSL_FEATURE_DMA_DESCRIPTOR_ALIGN_SIZE
 static dma_descriptor_t s_flexspiDes[FLEXSPI_DMA_DES_COUNT];
@@ -151,8 +157,8 @@ static status_t FLEXSPI_WriteDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *h
     uint32_t bytesPerDes;
     uint8_t desCount;
     uint8_t remains;
-    uint32_t srcInc;
-    uint32_t dstInc;
+    uint8_t srcInc;
+    uint8_t dstInc;
 
     /* Source address interleave size */
     srcInc = kDMA_AddressInterleave1xWidth;
@@ -199,7 +205,7 @@ static status_t FLEXSPI_WriteDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *h
     remains     = (uint8_t)(dataSize - (uint32_t)desCount * (uint32_t)handle->nbytes);
     if (remains > 0U)
     {
-        uint32_t width = (uint32_t)kFLEXPSI_DMAnSize1Bytes;
+        uint8_t width = (uint8_t)kFLEXPSI_DMAnSize1Bytes;
         DMA_SetupDescriptor(&s_flexspiDes[desCount - 1U],
                             DMA_CHANNEL_XFER(false, true, true, false, width, srcInc, dstInc, remains),
                             (void *)(uint64_t *)((uint32_t)data + desCount * bytesPerDes), txFifoBase, NULL);
@@ -276,7 +282,7 @@ static status_t FLEXSPI_WriteDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *h
     {
         DMA_SetupDescriptor(&s_flexspiDes[i - 1U],
                             DMA_CHANNEL_XFER((nextDesc == NULL) ? false : true, true, (nextDesc == NULL) ? true : false,
-                                             false, (uint32_t)handle->nsize, srcInc, dstInc, remains),
+                                             false, (uint8_t)handle->nsize, srcInc, dstInc, remains),
                             (void *)(uint64_t *)((uint32_t)data + i * bytesPerDes), txFifoBase, nextDesc);
         nextDesc = &s_flexspiDes[i - 1U];
     }
@@ -284,7 +290,7 @@ static status_t FLEXSPI_WriteDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *h
     DMA_PrepareChannelTransfer(
         &txChannelConfig, (void *)data, txFifoBase,
         DMA_CHANNEL_XFER((nextDesc == NULL) ? false : true, true, (nextDesc == NULL) ? true : false, false,
-                         (uint32_t)handle->nsize, srcInc, dstInc, bytesPerDes),
+                         (uint8_t)handle->nsize, srcInc, dstInc, bytesPerDes),
         kDMA_MemoryToMemory, &dmaTxTriggerConfig, nextDesc);
 
     (void)DMA_SubmitChannelTransfer(handle->txDmaHandle, &txChannelConfig);
@@ -310,8 +316,8 @@ static status_t FLEXSPI_ReadDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *ha
     uint32_t bytesPerDes;
     uint8_t remains;
     uint8_t desCount;
-    uint32_t srcInc;
-    uint32_t dstInc;
+    uint8_t srcInc;
+    uint8_t dstInc;
 
     /* Source address interleave size */
     srcInc = kDMA_AddressInterleave1xWidth;
@@ -352,7 +358,7 @@ static status_t FLEXSPI_ReadDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *ha
 
     if (remains > 0U)
     {
-        uint32_t width = (uint32_t)kFLEXPSI_DMAnSize1Bytes;
+        uint8_t width = (uint8_t)kFLEXPSI_DMAnSize1Bytes;
         DMA_SetupDescriptor(&s_flexspiDes[desCount - 1U],
                             DMA_CHANNEL_XFER(false, true, true, false, width, srcInc, dstInc, remains), rxFifoBase,
                             (void *)(uint64_t *)((uint32_t)data + desCount * bytesPerDes), NULL);
@@ -421,7 +427,7 @@ static status_t FLEXSPI_ReadDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *ha
     {
         DMA_SetupDescriptor(&s_flexspiDes[i - 1U],
                             DMA_CHANNEL_XFER((nextDesc == NULL) ? false : true, true, (nextDesc == NULL) ? true : false,
-                                             false, (uint32_t)handle->nsize, srcInc, dstInc, remains),
+                                             false, (uint8_t)handle->nsize, srcInc, dstInc, remains),
                             rxFifoBase, (void *)(uint64_t *)((uint32_t)data + i * bytesPerDes), nextDesc);
         nextDesc = &s_flexspiDes[i - 1U];
     }
@@ -429,7 +435,7 @@ static status_t FLEXSPI_ReadDataDMA(FLEXSPI_Type *base, flexspi_dma_handle_t *ha
     DMA_PrepareChannelTransfer(
         &rxChannelConfig, rxFifoBase, (void *)data,
         DMA_CHANNEL_XFER((nextDesc == NULL) ? false : true, true, (nextDesc == NULL) ? true : false, false,
-                         (uint32_t)handle->nsize, srcInc, dstInc, bytesPerDes),
+                         (uint8_t)handle->nsize, srcInc, dstInc, bytesPerDes),
         kDMA_MemoryToMemory, &dmaRxTriggerConfig, nextDesc);
 
     (void)DMA_SubmitChannelTransfer(handle->rxDmaHandle, &rxChannelConfig);

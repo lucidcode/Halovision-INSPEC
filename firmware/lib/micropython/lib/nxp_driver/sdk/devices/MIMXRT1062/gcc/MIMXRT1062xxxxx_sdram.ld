@@ -1,20 +1,26 @@
 /*
 ** ###################################################################
 **     Processors:          MIMXRT1062CVJ5A
+**                          MIMXRT1062CVJ5B
 **                          MIMXRT1062CVL5A
+**                          MIMXRT1062CVL5B
 **                          MIMXRT1062DVJ6A
+**                          MIMXRT1062DVJ6B
 **                          MIMXRT1062DVL6A
+**                          MIMXRT1062DVL6B
+**                          MIMXRT1062DVN6B
+**                          MIMXRT1062XVN5B
 **
 **     Compiler:            GNU C Compiler
-**     Reference manual:    IMXRT1060RM Rev.1, 12/2018 | IMXRT1060SRM Rev.3
-**     Version:             rev. 0.1, 2017-01-10
-**     Build:               b210709
+**     Reference manual:    IMXRT1060RM Rev.3, 07/2021 | IMXRT106XSRM Rev.0
+**     Version:             rev. 0.2, 2022-03-25
+**     Build:               b221009
 **
 **     Abstract:
 **         Linker file for the GNU C Compiler
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2021 NXP
+**     Copyright 2016-2022 NXP
 **     All rights reserved.
 **
 **     SPDX-License-Identifier: BSD-3-Clause

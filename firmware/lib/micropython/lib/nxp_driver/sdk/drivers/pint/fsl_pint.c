@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
- * All rights reserved.
+ * Copyright 2016-2023 NXP
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -14,8 +13,32 @@
 #endif
 
 /*******************************************************************************
+ * Definitions
+ ******************************************************************************/
+
+#ifndef FSL_FEATURE_PINT_NUMBER_OF_INSTANCE
+#define FSL_FEATURE_PINT_NUMBER_OF_INSTANCE (1U)
+#endif
+
+#if defined(GPIOINT_RSTS_N)
+#define PINT_RESETS_ARRAY GPIOINT_RSTS_N
+#elif defined(PINT_RSTS)
+#define PINT_RESETS_ARRAY PINT_RSTS
+#elif defined(GPIO_RSTS_N)
+#define PINT_RESETS_ARRAY GPIO_RSTS_N
+#endif
+
+/*******************************************************************************
  * Variables
  ******************************************************************************/
+
+/*! @brief Array to map PINT instance number to base pointer. */
+static PINT_Type *const s_pintBases[] = PINT_BASE_PTRS;
+
+#if defined(PINT_RESETS_ARRAY)
+/*! @brief Reset array */
+static const reset_ip_name_t s_pintResets[] = PINT_RESETS_ARRAY;
+#endif
 
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
 /*! @brief Irq number array */
@@ -35,9 +58,33 @@ static pint_cb_t s_pintCallback[FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS];
 /*******************************************************************************
  * Code
  ******************************************************************************/
+/*!
+ * @brief Returns an instance number given a base address.
+ *
+ * If an invalid base address is passed, debug builds will assert. Release builds will just return
+ * instance number 0.
+ *
+ * @param base The PINT peripheral base address.
+ * @return PINT instance number starting from 0.
+ */
+static uint32_t PINT_GetInstance(PINT_Type *base)
+{
+    uint32_t instance;
+    for (instance = 0; instance < ARRAY_SIZE(s_pintBases); ++instance)
+    {
+        if (MSDK_REG_SECURE_ADDR(s_pintBases[instance]) == MSDK_REG_SECURE_ADDR(base))
+        {
+            break;
+        }
+    }
+
+    assert(instance < ARRAY_SIZE(s_pintBases));
+
+    return instance;
+}
 
 /*!
- * brief	Initialize PINT peripheral.
+ * brief Initialize PINT peripheral.
 
  * This function initializes the PINT peripheral and enables the clock.
  *
@@ -47,15 +94,18 @@ static pint_cb_t s_pintCallback[FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS];
  */
 void PINT_Init(PINT_Type *base)
 {
-    uint32_t i;
     uint32_t pmcfg    = 0;
     uint8_t pintcount = 0;
+    uint32_t instance;
+    uint32_t i;
     assert(base != NULL);
 
-    if (base == PINT)
+    instance = PINT_GetInstance(base);
+
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
         pintcount = FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS;
-        /* clear PINT callback array*/
+        /* Clear PINT callback array */
         for (i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
         {
             s_pintCallback[i] = NULL;
@@ -65,7 +115,7 @@ void PINT_Init(PINT_Type *base)
     {
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
         pintcount = FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS;
-        /* clear SECPINT callback array*/
+        /* Clear SECPINT callback array */
         for (i = 0; i < (uint32_t)FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
         {
             s_secpintCallback[i] = NULL;
@@ -85,65 +135,53 @@ void PINT_Init(PINT_Type *base)
     /* Enable the clock. */
     CLOCK_EnableClock(kCLOCK_GpioInt);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-    /* Reset the module. */
-    RESET_PeripheralReset(kGPIOINT_RST_N_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
+#if defined(PINT_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_pintResets[instance]);
+#endif /* PINT_RESETS_ARRAY */
 
 #elif defined(FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE) && (FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE == 0)
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_EnableClock(kCLOCK_Gpio0);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kGPIO0_RST_N_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
     }
     else
     {
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_EnableClock(kCLOCK_Gpio_Sec);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kGPIOSEC_RST_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
     }
 
+#if defined(PINT_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_pintResets[instance]);
+#endif /* PINT_RESETS_ARRAY */
+
 #else
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_EnableClock(kCLOCK_Pint);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kPINT_RST_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
     }
     else
     {
         /* if need config SECURE PINT device,then enable secure pint interrupt clock */
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_EnableClock(kCLOCK_Gpio_Sec_Int);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kGPIOSECINT_RST_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
     }
+
+#if defined(PINT_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_pintResets[instance]);
+#endif /* PINT_RESETS_ARRAY */
+
 #endif /* FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE */
 
     /* Disable all pattern match bit slices */
@@ -165,13 +203,14 @@ void PINT_Init(PINT_Type *base)
 void PINT_PinInterruptConfig(PINT_Type *base, pint_pin_int_t intr, pint_pin_enable_t enable, pint_cb_t callback)
 {
     assert(base != NULL);
+    uint32_t instance = PINT_GetInstance(base);
 
     /* Clear Rise and Fall flags first */
     PINT_PinInterruptClrRiseFlag(base, intr);
     PINT_PinInterruptClrFallFlag(base, intr);
 
     /* Security PINT uses additional callback array */
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
         s_pintCallback[intr] = callback;
     }
@@ -221,6 +260,7 @@ void PINT_PinInterruptConfig(PINT_Type *base, pint_pin_int_t intr, pint_pin_enab
  */
 void PINT_PinInterruptGetConfig(PINT_Type *base, pint_pin_int_t pintr, pint_pin_enable_t *enable, pint_cb_t *callback)
 {
+    uint32_t instance = PINT_GetInstance(base);
     uint32_t mask;
     bool level;
 
@@ -274,7 +314,7 @@ void PINT_PinInterruptGetConfig(PINT_Type *base, pint_pin_int_t pintr, pint_pin_
     }
 
     /* Security PINT uses additional callback array */
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
         *callback = s_pintCallback[pintr];
     }
@@ -304,6 +344,7 @@ void PINT_PatternMatchConfig(PINT_Type *base, pint_pmatch_bslice_t bslice, pint_
     uint32_t pmcfg;
     uint32_t tmp_src_shift = PININT_BITSLICE_SRC_MASK;
     uint32_t tmp_cfg_shift = PININT_BITSLICE_CFG_MASK;
+    uint32_t instance = PINT_GetInstance(base);
 
     assert(base != NULL);
 
@@ -333,7 +374,7 @@ void PINT_PatternMatchConfig(PINT_Type *base, pint_pmatch_bslice_t bslice, pint_
     base->PMCFG = pmcfg;
 
     /* Save callback pointer */
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
         if ((uint32_t)bslice < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS)
         {
@@ -368,6 +409,7 @@ void PINT_PatternMatchGetConfig(PINT_Type *base, pint_pmatch_bslice_t bslice, pi
     uint32_t cfg_shift;
     uint32_t tmp_src_shift = PININT_BITSLICE_SRC_MASK;
     uint32_t tmp_cfg_shift = PININT_BITSLICE_CFG_MASK;
+    uint32_t instance = PINT_GetInstance(base);
 
     assert(base != NULL);
 
@@ -386,7 +428,7 @@ void PINT_PatternMatchGetConfig(PINT_Type *base, pint_pmatch_bslice_t bslice, pi
         cfg->end_point = (((base->PMCFG & (1UL << (uint32_t)bslice)) >> (uint32_t)bslice) != 0U) ? true : false;
     }
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
         if ((uint32_t)bslice < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS)
         {
@@ -464,13 +506,14 @@ void PINT_PinInterruptClrStatus(PINT_Type *base, pint_pin_int_t pintr)
  */
 void PINT_PinInterruptClrStatusAll(PINT_Type *base)
 {
+    uint32_t instance     = PINT_GetInstance(base);
     uint32_t pinIntMode   = 0;
     uint32_t pinIntStatus = 0;
     uint32_t pinIntCount  = 0;
     uint32_t mask         = 0;
     uint32_t i;
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
         pinIntCount = (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS;
     }
@@ -508,18 +551,28 @@ void PINT_PinInterruptClrStatusAll(PINT_Type *base)
  */
 void PINT_EnableCallback(PINT_Type *base)
 {
+    uint32_t instance = PINT_GetInstance(base);
     uint32_t i;
 
     assert(base != NULL);
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
+#if defined(FSL_FEATURE_PINT_INTERRUPT_COMBINE) && (FSL_FEATURE_PINT_INTERRUPT_COMBINE == 1)
+        for (i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
+        {
+            PINT_PinInterruptClrStatus(base, (pint_pin_int_t)i);
+        }
+        NVIC_ClearPendingIRQ(s_pintIRQ[0]);
+        (void)EnableIRQ(s_pintIRQ[0]);
+#else
         for (i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
         {
             PINT_PinInterruptClrStatus(base, (pint_pin_int_t)i);
             NVIC_ClearPendingIRQ(s_pintIRQ[i]);
             (void)EnableIRQ(s_pintIRQ[i]);
         }
+#endif
     }
     else
     {
@@ -552,15 +605,20 @@ void PINT_EnableCallbackByIndex(PINT_Type *base, pint_pin_int_t pintIdx)
 
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
     /* Get the right security pint irq index in array */
-    if (base == SECPINT)
+    if ((base == SECPINT) && ((uint32_t)pintIdx < (uint32_t)FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS))
     {
         pintIdx =
             (pint_pin_int_t)(uint32_t)((uint32_t)pintIdx + (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS);
     }
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
 
+#if defined(FSL_FEATURE_PINT_INTERRUPT_COMBINE) && (FSL_FEATURE_PINT_INTERRUPT_COMBINE == 1)
+    NVIC_ClearPendingIRQ(s_pintIRQ[0]);
+    (void)EnableIRQ(s_pintIRQ[0]);
+#else
     NVIC_ClearPendingIRQ(s_pintIRQ[pintIdx]);
     (void)EnableIRQ(s_pintIRQ[pintIdx]);
+#endif
 }
 
 /*!
@@ -575,18 +633,28 @@ void PINT_EnableCallbackByIndex(PINT_Type *base, pint_pin_int_t pintIdx)
  */
 void PINT_DisableCallback(PINT_Type *base)
 {
+    uint32_t instance = PINT_GetInstance(base);
     uint32_t i;
 
     assert(base != NULL);
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
+#if defined(FSL_FEATURE_PINT_INTERRUPT_COMBINE) && (FSL_FEATURE_PINT_INTERRUPT_COMBINE == 1)
+        (void)DisableIRQ(s_pintIRQ[0]);
+        for (i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
+        {
+            PINT_PinInterruptClrStatus(base, (pint_pin_int_t)i);
+        }
+        NVIC_ClearPendingIRQ(s_pintIRQ[0]);
+#else
         for (i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
         {
             (void)DisableIRQ(s_pintIRQ[i]);
             PINT_PinInterruptClrStatus(base, (pint_pin_int_t)i);
             NVIC_ClearPendingIRQ(s_pintIRQ[i]);
         }
+#endif
     }
     else
     {
@@ -613,13 +681,21 @@ void PINT_DisableCallback(PINT_Type *base)
  */
 void PINT_DisableCallbackByIndex(PINT_Type *base, pint_pin_int_t pintIdx)
 {
+    uint32_t instance = PINT_GetInstance(base);
+
     assert(base != NULL);
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
+#if defined(FSL_FEATURE_PINT_INTERRUPT_COMBINE) && (FSL_FEATURE_PINT_INTERRUPT_COMBINE == 1)
+        (void)DisableIRQ(s_pintIRQ[0]);
+        PINT_PinInterruptClrStatus(base, (pint_pin_int_t)pintIdx);
+        NVIC_ClearPendingIRQ(s_pintIRQ[0]);
+#else
         (void)DisableIRQ(s_pintIRQ[pintIdx]);
         PINT_PinInterruptClrStatus(base, (pint_pin_int_t)pintIdx);
         NVIC_ClearPendingIRQ(s_pintIRQ[pintIdx]);
+#endif
     }
     else
     {
@@ -642,15 +718,16 @@ void PINT_DisableCallbackByIndex(PINT_Type *base, pint_pin_int_t pintIdx)
  */
 void PINT_Deinit(PINT_Type *base)
 {
+    uint32_t instance = PINT_GetInstance(base);
     uint32_t i;
 
     assert(base != NULL);
 
     /* Cleanup */
     PINT_DisableCallback(base);
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
-        /* clear PINT callback array*/
+        /* Clear PINT callback array */
         for (i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
         {
             s_pintCallback[i] = NULL;
@@ -659,7 +736,7 @@ void PINT_Deinit(PINT_Type *base)
     else
     {
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
-        /* clear SECPINT callback array */
+        /* Clear SECPINT callback array */
         for (i = 0; i < (uint32_t)FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
         {
             s_secpintCallback[i] = NULL;
@@ -670,66 +747,41 @@ void PINT_Deinit(PINT_Type *base)
 #if defined(FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE) && (FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE == 1)
 
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-    /* Enable the clock. */
     CLOCK_DisableClock(kCLOCK_GpioInt);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-    /* Reset the module. */
-    RESET_PeripheralReset(kGPIOINT_RST_N_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
 
 #elif defined(FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE) && (FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE == 0)
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_DisableClock(kCLOCK_Gpio0);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kGPIO0_RST_N_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
     }
     else
     {
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_DisableClock(kCLOCK_Gpio_Sec);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kGPIOSEC_RST_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
     }
 
 #else
 
-    if (base == PINT)
+    if (instance < FSL_FEATURE_PINT_NUMBER_OF_INSTANCE)
     {
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_DisableClock(kCLOCK_Pint);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kPINT_RST_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
     }
     else
     {
         /* if need config SECURE PINT device,then enable secure pint interrupt clock */
 #if (defined(FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS) && FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS)
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
-        /* Enable the clock. */
         CLOCK_DisableClock(kCLOCK_Gpio_Sec_Int);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
-#if !(defined(FSL_SDK_DISABLE_DRIVER_RESET_CONTROL) && FSL_SDK_DISABLE_DRIVER_RESET_CONTROL)
-        /* Reset the module. */
-        RESET_PeripheralReset(kGPIOSECINT_RST_SHIFT_RSTn);
-#endif /* FSL_SDK_DISABLE_DRIVER_RESET_CONTROL */
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
     }
 #endif /* FSL_FEATURE_CLOCK_HAS_GPIOINT_CLOCK_SOURCE */
@@ -739,19 +791,20 @@ void PINT_Deinit(PINT_Type *base)
 void SEC_GPIO_INT0_IRQ0_DriverIRQHandler(void);
 void SEC_GPIO_INT0_IRQ0_DriverIRQHandler(void)
 {
+    uint32_t secPintIndex = FSL_FEATURE_PINT_NUMBER_OF_INSTANCE;
     uint32_t pmstatus = 0;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(SECPINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[secPintIndex]);
     /* Call user function */
     if (s_secpintCallback[kPINT_SecPinInt0] != NULL)
     {
         s_secpintCallback[kPINT_SecPinInt0](kPINT_SecPinInt0, pmstatus);
     }
-    if ((SECPINT->ISEL & 0x1U) == 0x0U)
+    if ((s_pintBases[secPintIndex]->ISEL & 0x1U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(SECPINT, kPINT_PinInt0);
+        PINT_PinInterruptClrStatus(s_pintBases[secPintIndex], kPINT_PinInt0);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -761,24 +814,53 @@ void SEC_GPIO_INT0_IRQ0_DriverIRQHandler(void)
 void SEC_GPIO_INT0_IRQ1_DriverIRQHandler(void);
 void SEC_GPIO_INT0_IRQ1_DriverIRQHandler(void)
 {
+    uint32_t secPintIndex = FSL_FEATURE_PINT_NUMBER_OF_INSTANCE;
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(SECPINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[secPintIndex]);
     /* Call user function */
     if (s_secpintCallback[kPINT_SecPinInt1] != NULL)
     {
         s_secpintCallback[kPINT_SecPinInt1](kPINT_SecPinInt1, pmstatus);
     }
-    if ((SECPINT->ISEL & 0x1U) == 0x0U)
+    if ((s_pintBases[secPintIndex]->ISEL & 0x1U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(SECPINT, kPINT_PinInt1);
+        PINT_PinInterruptClrStatus(s_pintBases[secPintIndex], kPINT_PinInt1);
     }
     SDK_ISR_EXIT_BARRIER;
 }
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
 #endif /* FSL_FEATURE_SECPINT_NUMBER_OF_CONNECTED_OUTPUTS */
+
+void PINT0_DriverIRQHandler(void);
+void PINT0_DriverIRQHandler(void)
+{
+    uint32_t flags = (s_pintBases[0]->IST & PINT_IST_PSTAT_MASK) | PINT_PatternMatchGetStatusAll(s_pintBases[0]);
+    uint32_t pmstatus;
+
+    for (uint8_t i = 0; i < (uint32_t)FSL_FEATURE_PINT_NUMBER_OF_CONNECTED_OUTPUTS; i++)
+    {
+        if ((flags & (1UL << i)) != 0UL)
+        {
+            /* Reset pattern match detection */
+            pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
+            /* Call user function */
+            if (s_pintCallback[i] != NULL)
+            {
+                s_pintCallback[i]((pint_pin_int_t)i, pmstatus);
+            }
+            if ((s_pintBases[0]->ISEL & (1UL << i)) == 0x0UL)
+            {
+                /* Edge sensitive: clear Pin interrupt after callback */
+                PINT_PinInterruptClrStatus(s_pintBases[0], (pint_pin_int_t)i);
+            }
+        }
+    }
+
+    SDK_ISR_EXIT_BARRIER;
+}
 
 /* IRQ handler functions overloading weak symbols in the startup */
 void PIN_INT0_DriverIRQHandler(void);
@@ -787,16 +869,16 @@ void PIN_INT0_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt0] != NULL)
     {
         s_pintCallback[kPINT_PinInt0](kPINT_PinInt0, pmstatus);
     }
-    if ((PINT->ISEL & 0x1U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x1U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt0);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt0);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -808,16 +890,16 @@ void PIN_INT1_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt1] != NULL)
     {
         s_pintCallback[kPINT_PinInt1](kPINT_PinInt1, pmstatus);
     }
-    if ((PINT->ISEL & 0x2U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x2U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt1);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt1);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -830,16 +912,16 @@ void PIN_INT2_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt2] != NULL)
     {
         s_pintCallback[kPINT_PinInt2](kPINT_PinInt2, pmstatus);
     }
-    if ((PINT->ISEL & 0x4U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x4U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt2);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt2);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -852,16 +934,16 @@ void PIN_INT3_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt3] != NULL)
     {
         s_pintCallback[kPINT_PinInt3](kPINT_PinInt3, pmstatus);
     }
-    if ((PINT->ISEL & 0x8U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x8U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt3);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt3);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -874,16 +956,16 @@ void PIN_INT4_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt4] != NULL)
     {
         s_pintCallback[kPINT_PinInt4](kPINT_PinInt4, pmstatus);
     }
-    if ((PINT->ISEL & 0x10U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x10U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt4);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt4);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -901,16 +983,16 @@ void PIN_INT5_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt5] != NULL)
     {
         s_pintCallback[kPINT_PinInt5](kPINT_PinInt5, pmstatus);
     }
-    if ((PINT->ISEL & 0x20U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x20U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt5);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt5);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -928,16 +1010,16 @@ void PIN_INT6_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt6] != NULL)
     {
         s_pintCallback[kPINT_PinInt6](kPINT_PinInt6, pmstatus);
     }
-    if ((PINT->ISEL & 0x40U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x40U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt6);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt6);
     }
     SDK_ISR_EXIT_BARRIER;
 }
@@ -955,16 +1037,16 @@ void PIN_INT7_DriverIRQHandler(void)
     uint32_t pmstatus;
 
     /* Reset pattern match detection */
-    pmstatus = PINT_PatternMatchResetDetectLogic(PINT);
+    pmstatus = PINT_PatternMatchResetDetectLogic(s_pintBases[0]);
     /* Call user function */
     if (s_pintCallback[kPINT_PinInt7] != NULL)
     {
         s_pintCallback[kPINT_PinInt7](kPINT_PinInt7, pmstatus);
     }
-    if ((PINT->ISEL & 0x80U) == 0x0U)
+    if ((s_pintBases[0]->ISEL & 0x80U) == 0x0U)
     {
         /* Edge sensitive: clear Pin interrupt after callback */
-        PINT_PinInterruptClrStatus(PINT, kPINT_PinInt7);
+        PINT_PinInterruptClrStatus(s_pintBases[0], kPINT_PinInt7);
     }
     SDK_ISR_EXIT_BARRIER;
 }

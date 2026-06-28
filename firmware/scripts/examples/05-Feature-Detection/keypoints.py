@@ -50,15 +50,14 @@ while True:
         kpts2 = img.find_keypoints(max_keypoints=150, threshold=10, normalized=True)
         if kpts2:
             match = image.match_descriptor(kpts1, kpts2, threshold=85)
-            if match.count() > 10:
+            if match.count > 10:
                 # If we have at least n "good matches"
                 # Draw bounding rectangle and cross.
-                img.draw_rectangle(match.rect())
-                img.draw_cross(match.cx(), match.cy(), size=10)
+                img.draw_detection(match, size=10)
 
-            print(kpts2, "matched:%d dt:%d" % (match.count(), match.theta()))
+            print(kpts2, "matched:%d dt:%d" % (match.count, match.theta))
             # NOTE: uncomment if you want to draw the keypoints
             # img.draw_keypoints(kpts2, size=KEYPOINTS_SIZE, matched=True)
 
     # Draw FPS
-    img.draw_string(0, 0, "FPS:%.2f" % (clock.fps()))
+    img.draw_string((0, 0), "FPS:%.2f" % (clock.fps()))

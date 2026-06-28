@@ -6,10 +6,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_SDMA_H_
-#define _FSL_SDMA_H_
+#ifndef FSL_SDMA_H_
+#define FSL_SDMA_H_
 
 #include "fsl_common.h"
+#include "fsl_sdma_script.h"
 
 /*!
  * @addtogroup sdma
@@ -21,10 +22,18 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
+/*! @{ */
 /*! @brief SDMA driver version */
-#define FSL_SDMA_DRIVER_VERSION (MAKE_VERSION(2, 3, 6)) /*!< Version 2.3.6. */
-/*@}*/
+#define FSL_SDMA_DRIVER_VERSION (MAKE_VERSION(2, 4, 2)) /*!< Version 2.4.2. */
+/*! @} */
+
+#ifndef SDMA_DRIVER_LOAD_RAM_SCRIPT
+#define SDMA_DRIVER_LOAD_RAM_SCRIPT (1)
+#endif
+
+#ifndef SDMA_DRIVER_LOAD_RAM_SCRIPT
+#define SDMA_DRIVER_LOAD_RAM_SCRIPT (1)
+#endif
 
 /*! @brief SDMA transfer configuration */
 typedef enum _sdma_transfer_size
@@ -390,7 +399,7 @@ void SDMA_GetDefaultConfig(sdma_config_t *config);
  */
 void SDMA_ResetModule(SDMAARM_Type *base);
 
-/* @} */
+/*! @} */
 /*!
  * @name SDMA Channel Operation
  * @{
@@ -419,7 +428,7 @@ static inline void SDMA_DisableChannelErrorInterrupts(SDMAARM_Type *base, uint32
     base->INTRMASK &= ~(1UL << channel);
 }
 
-/* @} */
+/*! @} */
 /*!
  * @name SDMA Buffer Descriptor Operation
  * @{
@@ -734,6 +743,17 @@ void SDMA_LoadScript(SDMAARM_Type *base, uint32_t destAddr, void *srcAddr, size_
 void SDMA_DumpScript(SDMAARM_Type *base, uint32_t srcAddr, void *destAddr, size_t bufferSizeBytes);
 
 /*!
+ * @brief Get RAM script version.
+ *
+ * @param base SDMA base.
+ * @return The script version of RAM.
+ */
+static inline const char * SDMA_GetRamScriptVersion(SDMAARM_Type *base)
+{
+    return FSL_SDMA_SCRIPT_VERSION;
+}
+
+/*!
  * @brief Prepares the SDMA transfer structure.
  *
  * This function prepares the transfer configuration structure according to the user input.
@@ -868,12 +888,12 @@ bool SDMA_IsPeripheralInSPBA(uint32_t addr);
  */
 void SDMA_HandleIRQ(sdma_handle_t *handle);
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 
-/* @} */
+/*! @} */
 
-#endif /*_FSL_SDMA_H_*/
+#endif /*FSL_SDMA_H_*/

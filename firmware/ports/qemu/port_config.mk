@@ -43,6 +43,7 @@ CFLAGS += -D$(TARGET) \
           -DQEMU_BUILD \
           -DARM_NN_TRUNCATE=1 \
           -DCMSIS_MCU_H=$(CMSIS_MCU_H) \
+          -DOMV_CPU_FREQ_HZ=$(CPU_FREQ_HZ) \
           $(OMV_BOARD_CFLAGS)
 
 # Linker Flags
@@ -87,41 +88,18 @@ OMV_CFLAGS += -I$(OMV_BOARD_CONFIG_DIR)
 OMV_CFLAGS += -I$(TOP_DIR)/protocol
 
 MPY_CFLAGS += -I$(MP_BOARD_CONFIG_DIR)
-MPY_CFLAGS += -I$(BUILD)/$(MICROPY_DIR)
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/py
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/oofatfs
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/tinyusb/src
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/lib/lwip/src/include
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/tinyusb
 MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/qemu
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/ports/qemu/lwip_inc
-MPY_CFLAGS += -I$(TOP_DIR)/$(MICROPY_DIR)/shared/runtime
-
-MPY_CFLAGS += -DMICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
-MPY_CFLAGS += -DMICROPY_PY_SSL=$(MICROPY_PY_SSL)
-MPY_CFLAGS += -DMICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
-MPY_CFLAGS += -DMICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
-MPY_CFLAGS += -DMICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
-MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
-MPY_CFLAGS += -DMICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
-MPY_CFLAGS += -DMICROPY_PY_BLUETOOTH_USE_SYNC_EVENTS=1
 MPY_CFLAGS += -DMICROPY_FLOAT_IMPL=MICROPY_FLOAT_IMPL_FLOAT
 
 MPY_MKARGS += CMSIS_DIR=$(TOP_DIR)/$(CMSIS_DIR)
 MPY_MKARGS += MICROPY_VFS_LFS2=0
 MPY_MKARGS += CFLAGS_EXTRA="-std=gnu11"
-MPY_MKARGS += MICROPY_PY_LWIP=$(MICROPY_PY_LWIP)
-MPY_MKARGS += MICROPY_PY_SSL=$(MICROPY_PY_SSL)
-MPY_MKARGS += MICROPY_PY_SSL_ECDSA_SIGN_ALT=$(MICROPY_PY_SSL_ECDSA_SIGN_ALT)
-MPY_MKARGS += MICROPY_SSL_MBEDTLS=$(MICROPY_SSL_MBEDTLS)
-MPY_MKARGS += MICROPY_PY_NETWORK_CYW43=$(MICROPY_PY_NETWORK_CYW43)
-MPY_MKARGS += MICROPY_PY_BLUETOOTH=$(MICROPY_PY_BLUETOOTH)
-MPY_MKARGS += MICROPY_BLUETOOTH_NIMBLE=$(MICROPY_BLUETOOTH_NIMBLE)
 MPY_MKARGS += MICROPY_FLOAT_IMPL=float
 MPY_MKARGS += SUPPORTS_HARDWARE_FP_SINGLE=1
 
 CFLAGS += $(HAL_CFLAGS) $(MPY_CFLAGS) $(OMV_CFLAGS)
+
+MPY_LIB_EXCLUDE =
 
 # Firmware objects from .mk files.
 include lib/cmsis/cmsis.mk
@@ -132,17 +110,6 @@ include lib/apriltag/apriltag.mk
 include lib/tflm/tflm.mk
 include ports/ports.mk
 include common/micropy.mk
-
-# Firmware objects from port.
-MPY_FIRM_OBJ += $(addprefix $(BUILD)/$(MICROPY_DIR)/,\
-	uart.o                              \
-	mphalport.o                         \
-	frozen_content.o                    \
-	mcu/arm/errorhandler.o              \
-	mcu/arm/startup.o                   \
-	mcu/arm/ticks.o                     \
-	vfs_rom_ioctl.o                     \
-)
 
 ifeq ($(MICROPY_PY_ML_TFLM), 1)
 ifeq ($(CPU),cortex-m55)
@@ -160,17 +127,12 @@ endif
 all: $(ROMFS_IMAGE)
 	$(SIZE) $(FW_DIR)/$(FIRMWARE).elf
 
-# This target builds MicroPython.
-MICROPYTHON: | FIRM_DIRS
-	$(MAKE) -C $(MICROPY_DIR)/ports/$(PORT) BUILD=$(BUILD)/$(MICROPY_DIR) $(MPY_MKARGS)
-
-$(OMV_FIRM_OBJ): | MICROPYTHON
-
 # This target builds the firmware.
 $(FIRMWARE): $(OMV_FIRM_OBJ)
-	$(CPP) -P -E -DLINKER_SCRIPT -I$(COMMON_DIR) -I$(OMV_BOARD_CONFIG_DIR) \
-        ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
-	$(CC) $(LDFLAGS) $(OMV_FIRM_OBJ) $(MPY_FIRM_OBJ) -o $(FW_DIR)/$(FIRMWARE).elf $(LIBS) -lm
+	$(ECHO) "GEN linker script"
+	$(PYTHON) $(TOOLS_DIR)/$(GENLINK) --board $(TARGET) \
+        --ldscript ports/$(PORT)/$(LDSCRIPT).ld.S > $(BUILD)/$(LDSCRIPT).lds
+	$(CC) $(LDFLAGS) $(OMV_FIRM_OBJ) -o $(FW_DIR)/$(FIRMWARE).elf $(LIBS) -lm
 	$(OBJCOPY) -Obinary $(FW_DIR)/$(FIRMWARE).elf $(FW_DIR)/$(FIRMWARE).bin
 
 $(ROMFS_IMAGE): $(ROMFS_CONFIG) | $(FIRMWARE)
@@ -179,7 +141,8 @@ $(ROMFS_IMAGE): $(ROMFS_CONFIG) | $(FIRMWARE)
             --top-dir $(TOP_DIR) \
             --out-dir $(FW_DIR) \
             --build-dir $(BUILD)/lib/models \
-            --vela-args $(VELA_ARGS) --config $(ROMFS_CONFIG)
+            $(if $(VELA_ARGS),--vela-args $(VELA_ARGS)) \
+            --config $(ROMFS_CONFIG)
 	touch $@
 
 ifneq ($(QEMU_MACHINE),)

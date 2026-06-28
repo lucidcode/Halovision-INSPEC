@@ -38,10 +38,6 @@ def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 
 
-def mod(a, b):
-    return a - (b * (a // b))
-
-
 def threshold(scores, threshold, scale, find_max=False, find_max_axis=1):
     if scale > 0:
         if find_max:
@@ -134,20 +130,18 @@ class NMS:
 
         x_scale = self.roi[2] / float(self.window_w)
         y_scale = self.roi[3] / float(self.window_h)
-        scale = min(x_scale, y_scale)
-        x_offset = ((self.roi[2] - (self.window_w * scale)) / 2) + self.roi[0]
-        y_offset = ((self.roi[3] - (self.window_h * scale)) / 2) + self.roi[1]
+        x_offset = ((self.roi[2] - (self.window_w * x_scale)) / 2) + self.roi[0]
+        y_offset = ((self.roi[3] - (self.window_h * y_scale)) / 2) + self.roi[1]
 
         for i in range(len(output_boxes)):
-            output_boxes[i][0] = int((output_boxes[i][0] * scale) + x_offset)
-            output_boxes[i][1] = int((output_boxes[i][1] * scale) + y_offset)
-            output_boxes[i][2] = int(output_boxes[i][2] * scale)
-            output_boxes[i][3] = int(output_boxes[i][3] * scale)
+            output_boxes[i][0] = int((output_boxes[i][0] * x_scale) + x_offset)
+            output_boxes[i][1] = int((output_boxes[i][1] * y_scale) + y_offset)
+            output_boxes[i][2] = int(output_boxes[i][2] * x_scale)
+            output_boxes[i][3] = int(output_boxes[i][3] * y_scale)
             keypoints = output_boxes[i][6]
             if keypoints is not None:
-                keypoints[:, :2] *= scale
-                keypoints[:, 0] += x_offset
-                keypoints[:, 1] += y_offset
+                keypoints[:, 0] = (keypoints[:, 0] * x_scale) + x_offset
+                keypoints[:, 1] = (keypoints[:, 1] * y_scale) + y_offset
 
         # Create a list per class with (rect, score) tuples.
 
@@ -168,6 +162,7 @@ def draw_predictions(
     boxes,
     labels,
     colors,
+    scores=None,
     format="pascal_voc",
     font_width=8,
     font_height=10,
@@ -175,8 +170,16 @@ def draw_predictions(
 ):
     image_w = image.width()
     image_h = image.height()
+    # Auto-scale font and stroke to image width so labels stay legible across
+    # resolutions and survive JPEG compression on small frames.
+    font_scale = min(4, max(1, image_w // 320))
+    thickness = min(3, max(1, image_w // 480))
+    fw = font_width * font_scale
+    fh = font_height * font_scale
     for i, (x, y, w, h) in enumerate(boxes):
         label = labels[i]
+        if scores is not None:
+            label = "%s %.2f" % (label, scores[i])
         box_color = colors[i]
 
         if format == "pascal_voc":
@@ -185,16 +188,33 @@ def draw_predictions(
             w = int(w * image_w) - x
             h = int(h * image_h) - y
 
-        image.draw_rectangle(x, y, w, h, color=box_color)
+        if format == "point":
+            # Centerpoint detectors emit a small synthetic box centered
+            # on each peak. Draw a marker at the center instead of a
+            # rectangle; size auto-derived from image width so the
+            # marker scales with resolution like the label fonts.
+            cx = x + w // 2
+            cy = y + h // 2
+            radius = min(16, max(4, image_w // 60))
+            image.draw_circle(
+                (cx, cy, radius), color=box_color, thickness=thickness, fill=True,
+            )
+            ly = max(0, cy - radius - fh)
+            image.draw_rectangle(
+                (cx, ly, len(label) * fw, fh),
+                fill=True,
+                color=box_color,
+            )
+            image.draw_string((cx, ly), label.upper(), text_color, scale=font_scale)
+            continue
+
+        image.draw_rectangle((x, y, w, h), color=box_color, thickness=thickness)
         image.draw_rectangle(
-            x,
-            y - font_height,
-            len(label) * font_width,
-            font_height,
+            (x, y - fh, len(label) * fw, fh),
             fill=True,
             color=box_color,
         )
-        image.draw_string(x, y - font_height, label.upper(), text_color)
+        image.draw_string((x, y - fh), label.upper(), text_color, scale=font_scale)
 
 
 def draw_keypoints(
@@ -208,10 +228,10 @@ def draw_keypoints(
 
     if radius > 0:
         for kp in keypoints:
-            image.draw_circle(int(kp[0]), int(kp[1]), radius, color=color, thickness=thickness, fill=fill)
+            image.draw_circle((int(kp[0]), int(kp[1]), radius), color=color, thickness=thickness, fill=fill)
     elif radius == 0:
         for kp in keypoints:
-            image.set_pixel(int(kp[0]), int(kp[1]), color)
+            image.set_pixel((int(kp[0]), int(kp[1])), color)
 
 
 def draw_skeleton(
@@ -228,6 +248,7 @@ def draw_skeleton(
     draw_keypoints(image, keypoints, radius=kp_radius, color=kp_color, thickness=kp_thickness, fill=kp_fill)
 
     for line in lines:
-        image.draw_line(int(keypoints[line[0]][0]), int(keypoints[line[0]][1]),
-                        int(keypoints[line[1]][0]), int(keypoints[line[1]][1]),
-                        color=line_color, thickness=line_thickness)
+        image.draw_line(
+            (int(keypoints[line[0]][0]), int(keypoints[line[0]][1]),
+             int(keypoints[line[1]][0]), int(keypoints[line[1]][1])),
+            color=line_color, thickness=line_thickness)

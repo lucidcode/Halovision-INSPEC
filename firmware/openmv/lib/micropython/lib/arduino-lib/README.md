@@ -1,0 +1,1 @@
+Unless specified otherwise, the work contained in this repository is licensed under the Mozilla Public License Version 2.0, Copyright (c) 2024 Arduino SA, see the LICENSE file for more details. This repository may also contain third-party software that is licensed under different terms, please refer to in-tree license files for more information.

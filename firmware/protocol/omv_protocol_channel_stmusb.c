@@ -65,7 +65,7 @@ static int usb_channel_write(const omv_protocol_channel_t *channel, uint32_t off
 
 static void usb_channel_task(mp_sched_node_t *node) {
     if (usb_channel_active) {
-        omv_protocol_task();
+        omv_protocol_poll();
     }
 }
 

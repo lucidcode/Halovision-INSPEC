@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 NXP
+ * Copyright 2019-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -40,7 +40,7 @@
 /*! @name Driver version */
 /*@{*/
 /*! @brief CLOCK driver version. */
-#define FSL_CLOCK_DRIVER_VERSION (MAKE_VERSION(2, 5, 0))
+#define FSL_CLOCK_DRIVER_VERSION (MAKE_VERSION(2, 5, 5))
 
 /* Definition for delay API in clock driver, users can redefine it to the real application. */
 #ifndef SDK_DEVICE_MAXIMUM_CPU_CLOCK_FREQUENCY
@@ -485,9 +485,9 @@
     }
 
 /*! @brief Clock ip name array for XBARA. */
-#define XBARA_CLOCKS \
-    {                \
-        kCLOCK_Xbar1 \
+#define XBARA_CLOCKS                   \
+    {                                  \
+        kCLOCK_IpInvalid, kCLOCK_Xbar1 \
     }
 
 /*! @brief Clock ip name array for XBARB. */
@@ -791,91 +791,7 @@ typedef enum _clock_name
 
 #define CCM_OBS_DIV 3
 
-/* Clock Source Definitions */
-/* clang-format off */
-static const clock_name_t s_clockSourceName[][8] = {
-        /*SRC0,               SRC1,             SRC2,             SRC3,            SRC4,             SRC5,              SRC6,              SRC7,                      name             index */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_ArmPllOut, kCLOCK_SysPll1Out, kCLOCK_SysPll3Out, kCLOCK_VideoPllOut},     /* M7               0    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Out, kCLOCK_SysPll1Div5},   /* M4               1    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Out, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},   /* BUS              2    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Out, kCLOCK_SysPll1Div5},   /* BUS_LPSR         3    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd1, kCLOCK_SysPll3Pfd0},  /* SEMC             4    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* CSSYS            5    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1, kCLOCK_SysPll2Out},  /* CSTRACE          6    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll1Div5},  /* M4_SYSTICK       7    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd0},  /* M7_SYSTICK       8    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* ADC1             9    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* ADC2            10    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Out, kCLOCK_SysPll1Div5, kCLOCK_AudioPllOut, kCLOCK_SysPll2Pfd3},  /* ACMP            11    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* FLEXIO1         12    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* FLEXIO2         13    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT1            14    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_AudioPllOut, kCLOCK_VideoPllOut}, /* GPT2            15    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_AudioPllOut, kCLOCK_VideoPllOut}, /* GPT3            16    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT4            17    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT5            18    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll3Pfd3}, /* GPT6            19    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd0, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out},   /* FLEXSPI1        20    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd0, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out},   /* FLEXSPI2        21    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* CAN1            22    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* CAN2            23    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* CAN3            24    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART1         25    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART2         26    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART3         27    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART4         28    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART5         29    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART6         30    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART7         31    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART8         32    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART9         33    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPUART10        34    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPUART11        35    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPUART12        36    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C1          37    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C2          38    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C3          39    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPI2C4          40    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPI2C5          41    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd3, kCLOCK_SysPll1Div5},  /* LPI2C6          42    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI1          43    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI2          44    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI3          45    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* LPSPI4          46    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5},  /* LPSPI5          47    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5},  /* LPSPI6          48    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* EMV1            49    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Div2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd3},  /* EMV2            50    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET1           51    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET2           52    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_QOS        53    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_25M        54    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_TIMER1     55    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_TIMER2     56    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd1}, /* ENET_TIMER3     57    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll1Div5, kCLOCK_ArmPllOut},   /* USDHC1          58    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll1Div5, kCLOCK_ArmPllOut},   /* USDHC2          59    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll2Pfd3}, /* ASRC            60    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll1Div5, kCLOCK_SysPll3Div2, kCLOCK_AudioPllOut, kCLOCK_SysPll2Pfd3}, /* MQS             61    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5},  /* MIC             62    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll2Pfd3},  /* SPDIF           63    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd3}, /* SAI1            64    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd3}, /* SAI2            65    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_AudioPllOut, kCLOCK_SysPll3Pfd2, kCLOCK_SysPll1Div5, kCLOCK_SysPll2Pfd3}, /* SAI3            66    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll3Pfd3, kCLOCK_SysPll3Out, kCLOCK_AudioPllOut, kCLOCK_SysPll1Div5},  /* SAI4            67    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd1, kCLOCK_SysPll3Out, kCLOCK_VideoPllOut},   /* GC355           68    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* LCDIF           69    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* LCDIFV2         70    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* MIPI_REF        71    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Out, kCLOCK_SysPll2Pfd0, kCLOCK_SysPll3Pfd0, kCLOCK_VideoPllOut},  /* MIPI_ESC        72    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_VideoPllOut},  /* CSI2            73    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_VideoPllOut},  /* CSI2_ESC        74    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll2Pfd0, kCLOCK_VideoPllOut},  /* CSI2_UI         75    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll3Out, kCLOCK_SysPll3Pfd1, kCLOCK_VideoPllOut},  /* CSI             76    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd2, kCLOCK_SysPll2Out, kCLOCK_SysPll3Pfd1, kCLOCK_SysPll1Div5},  /* CKO1            77    */ \
-        {kCLOCK_OscRc48MDiv2, kCLOCK_Osc24MOut, kCLOCK_OscRc400M, kCLOCK_OscRc16M, kCLOCK_SysPll2Pfd3, kCLOCK_OscRc48M, kCLOCK_SysPll3Pfd1, kCLOCK_AudioPllOut}     /* CKO2            78    */ \
-};
-/* clang-format on */
+extern const clock_name_t s_clockSourceName[][8];
 
 /*!
  * @brief Root clock index
@@ -2089,9 +2005,9 @@ static inline clock_name_t CLOCK_GetRootClockSource(clock_root_t root, uint32_t 
  * @brief Set CCM Root Clock DIV certain value.
  *
  * @param root Which root clock to set, see \ref clock_root_t.
- * @param div Clock div value to set, different divider has different value range.
+ * @param div Clock div value to set range is 1-256, different divider has different value range.
  */
-static inline void CLOCK_SetRootClockDiv(clock_root_t root, uint8_t div)
+static inline void CLOCK_SetRootClockDiv(clock_root_t root, uint32_t div)
 {
     assert(div);
     CCM->CLOCK_ROOT[root].CONTROL = (CCM->CLOCK_ROOT[root].CONTROL & ~CCM_CLOCK_ROOT_CONTROL_DIV_MASK) |
@@ -2712,7 +2628,7 @@ void CLOCK_DeinitSysPll1(void);
 /*!
  * @brief Set System PLL1 output frequency in GPC mode.
  *
- * @param config Pointer to @ref clock_sys_pll1_gpc_config_t.
+ * @param config Pointer to System PLL1 configure structure.
  */
 void CLOCK_GPC_SetSysPll1OutputFreq(const clock_sys_pll1_gpc_config_t *config);
 
@@ -2853,7 +2769,7 @@ void CLOCK_DeinitVideoPll(void);
 /*!
  * @brief Set Video PLL output frequency in GPC mode.
  *
- * @param config Pointer to clock_audio_pll_gpc_config_t structure.
+ * @param config Pointer to Vidoe PLL configure structure.
  */
 void CLOCK_GPC_SetVideoPllOutputFreq(const clock_video_pll_gpc_config_t *config);
 /*!

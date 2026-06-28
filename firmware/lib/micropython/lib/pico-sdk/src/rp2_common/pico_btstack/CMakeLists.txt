@@ -1,3 +1,4 @@
+# PICO_CMAKE_CONFIG: PICO_BTSTACK_PATH, Path to BTstack. Can be passed to CMake or set in your environment if you do not wish to use the version included with the SDK, type=string, default=<PICO_SDK_PATH>/lib/btstack, group=pico_btstack
 if (DEFINED ENV{PICO_BTSTACK_PATH} AND (NOT PICO_BTSTACK_PATH))
     set(PICO_BTSTACK_PATH $ENV{PICO_BTSTACK_PATH})
     message("Using PICO_BTSTACK_PATH from environment ('${PICO_BTSTACK_PATH}')")
@@ -5,7 +6,7 @@ endif ()
 
 set(BTSTACK_TEST_PATH "src/bluetooth.h")
 if (NOT PICO_BTSTACK_PATH)
-    set(PICO_BTSTACK_PATH ${PROJECT_SOURCE_DIR}/lib/btstack)
+    set(PICO_BTSTACK_PATH ${PICO_SDK_PATH}/lib/btstack)
     if (PICO_CYW43_SUPPORTED AND NOT EXISTS ${PICO_BTSTACK_PATH}/${BTSTACK_TEST_PATH})
         message(WARNING "btstack submodule has not been initialized; Pico W BLE support will be unavailable.
             hint: try 'git submodule update --init' from your SDK directory (${PICO_SDK_PATH}).")
@@ -301,13 +302,22 @@ if (EXISTS ${PICO_BTSTACK_PATH}/${BTSTACK_TEST_PATH})
 
     pico_promote_common_scope_vars()
 
-    # Make a GATT header file from a BTstack GATT file
-    # Pass the target library name library type and path to the GATT input file
-    # To add additional directories to the gatt #import path, add them to the end of the argument list.
+    # pico_btstack_make_gatt_header(TARGET_LIB TARGET_TYPE GATT_FILE)
+    # \brief\ Make a GATT header file from a BTstack GATT file.
+    #
+    # Pass the target library name, library type, and path to the GATT input file.
+    # To add additional directories to the gatt import path, add them to the end of the argument list.
+    #
+    # \param\ TARGET_LIB The target library name
+    # \param\ TARGET_TYPE The target library type
+    # \param\ GATT_FILE The path to the GATT input file
     function(pico_btstack_make_gatt_header TARGET_LIB TARGET_TYPE GATT_FILE)
             find_package (Python3 REQUIRED COMPONENTS Interpreter)
             get_filename_component(GATT_NAME "${GATT_FILE}" NAME_WE)
             get_filename_component(GATT_PATH "${GATT_FILE}" PATH)
+            if (NOT GATT_PATH)
+                set(GATT_PATH "${CMAKE_CURRENT_LIST_DIR}")
+            endif()
             set(TARGET_GATT "${TARGET_LIB}_gatt_header")
             set(GATT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/${TARGET_GATT}")
             set(GATT_HEADER "${GATT_BINARY_DIR}/${GATT_NAME}.h")

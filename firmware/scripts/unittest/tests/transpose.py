@@ -7,7 +7,7 @@ def unittest(data_path, temp_path):
     # Fill with pattern
     for y in range(40):
         for x in range(60):
-            img.set_pixel(x, y, (x + y) % 256)
+            img.set_pixel((x, y), (x + y) % 256)
 
     # Transpose image (swap width and height)
     img_t = img.copy(x_scale=1.0, y_scale=1.0, hint=image.TRANSPOSE)

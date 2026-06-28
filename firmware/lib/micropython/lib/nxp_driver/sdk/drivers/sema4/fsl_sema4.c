@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 NXP
+ * Copyright 2017-2019, 2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -71,7 +71,7 @@ uint32_t SEMA4_GetInstance(SEMA4_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_sema4Bases); instance++)
     {
-        if (s_sema4Bases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_sema4Bases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -168,19 +168,8 @@ status_t SEMA4_TryLock(SEMA4_Type *base, uint8_t gateNum, uint8_t procNum)
  */
 void SEMA4_Lock(SEMA4_Type *base, uint8_t gateNum, uint8_t procNum)
 {
-    assert(gateNum < (uint8_t)FSL_FEATURE_SEMA4_GATE_COUNT);
-
-    ++procNum;
-
-    while (procNum != SEMA4_GATEn(base, gateNum))
+    while (kStatus_Success != SEMA4_TryLock(base, gateNum, procNum))
     {
-        /* Wait for unlocked status. */
-        while (0U != SEMA4_GATEn(base, gateNum))
-        {
-        }
-
-        /* Lock the gate. */
-        SEMA4_GATEn(base, gateNum) = procNum;
     }
 }
 

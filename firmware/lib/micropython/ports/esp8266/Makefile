@@ -82,7 +82,7 @@ CFLAGS_XTENSA = -fsingle-precision-constant -Wdouble-promotion \
 	-Wl,-EL -mlongcalls -mtext-section-literals -mforce-l32 \
 	-DLWIP_OPEN_SRC
 
-CFLAGS += $(INC) -Wall -Wpointer-arith -Werror -std=gnu99 -nostdlib -DUART_OS=$(UART_OS) \
+CFLAGS += $(INC) -Wall -Wpointer-arith -Werror -std=gnu99 -DUART_OS=$(UART_OS) \
 	$(CFLAGS_XTENSA) $(COPT) $(CFLAGS_EXTRA) -I$(BOARD_DIR)
 
 LD_FILES ?= boards/esp8266_2m.ld
@@ -208,20 +208,10 @@ erase:
 reset:
 	echo -e "\r\nimport machine; machine.reset()\r\n" >$(PORT)
 
-ifeq ($(BOARD_VARIANT),OTA)
-$(FWBIN): $(BUILD)/firmware.elf
-	$(ECHO) "Create $@"
-	$(Q)$(ESPTOOL) elf2image $^
-	$(Q)$(PYTHON) makeimg.py $(BUILD)/firmware.elf-0x00000.bin $(BUILD)/firmware.elf-0x[0-5][1-f]000.bin $(BUILD)/firmware-ota.bin
-
-	$(Q)cat $(YAOTA8266)/yaota8266.bin $(BUILD)/firmware-ota.bin > $@
-	$(Q)$(PYTHON) $(YAOTA8266)/ota-client/ota_client.py sign $@
-else
 $(FWBIN): $(BUILD)/firmware.elf
 	$(ECHO) "Create $@"
 	$(Q)$(ESPTOOL) elf2image $^
 	$(Q)$(PYTHON) makeimg.py $(BUILD)/firmware.elf-0x00000.bin $(BUILD)/firmware.elf-0x[0-5][1-f]000.bin $@
-endif
 
 $(BUILD)/firmware.elf: $(OBJ)
 	$(ECHO) "LINK $@"

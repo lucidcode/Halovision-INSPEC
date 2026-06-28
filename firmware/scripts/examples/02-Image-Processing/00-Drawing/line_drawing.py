@@ -33,8 +33,6 @@ while True:
         g = randint(0, 127) + 128
         b = randint(0, 127) + 128
 
-        # If the first argument is a scaler then this method expects
-        # to see x0, y0, x1, and y1. Otherwise, it expects a (x0,y0,x1,y1) tuple.
-        img.draw_line(x0, y0, x1, y1, color=(r, g, b), thickness=2)
+        img.draw_line((x0, y0, x1, y1), color=(r, g, b), thickness=2)
 
     print(clock.fps())

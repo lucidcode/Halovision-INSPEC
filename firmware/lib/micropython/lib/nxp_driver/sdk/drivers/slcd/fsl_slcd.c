@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2019, 2021 NXP
+ * Copyright 2016-2019, 2021, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -54,7 +54,7 @@ static uint32_t SLCD_GetInstance(LCD_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_slcdBases); instance++)
     {
-        if (s_slcdBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_slcdBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -367,7 +367,7 @@ uint32_t SLCD_GetInterruptStatus(LCD_Type *base)
 
 #if FSL_FEATURE_SLCD_HAS_FRAME_FREQUENCY_INTERRUPT
     /* Get the frame frequency interrupt status. */
-    status |= ((base->AR & LCD_AR_LCDIF_MASK) >> (LCD_AR_LCDIF_SHIFT - 1));
+    status |= ((base->AR & LCD_AR_LCDIF_MASK) >> (LCD_AR_LCDIF_SHIFT - 1U));
 #endif /* FSL_FEATURE_SLCD_HAS_FRAME_FREQUENCY_INTERRUPT */
 
     return status;

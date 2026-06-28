@@ -9,11 +9,14 @@ def unittest(data_path, temp_path):
     from ml.postprocessing.edgeimpulse import Fomo
 
     img = image.Image(data_path + "/faces.bmp", copy_to_fb=True)
+    # FOMO requires square input, so crop the center of the image.
+    s = min(img.width(), img.height())
+    img = img.crop(roi=((img.width() - s) // 2, (img.height() - s) // 2, s, s))
     model = ml.Model(data_path + "/fomo_face_detection.tflite", postprocess=Fomo(threshold=0.4))
-    output = model.predict([img], callback=Fomo())
+    output = model.predict([img])
 
     return output[1] == [
-        ([149, 17, 31, 31], 0.6796876),
-        ([194, 198, 31, 31], 0.6289064),
-        ([64, 17, 25, 31], 0.4453126),
+        ([130, 85, 31, 31], 0.9375),
+        ([85, 17, 31, 31], 0.875),
+        ([130, 198, 31, 31], 0.4257813),
     ]

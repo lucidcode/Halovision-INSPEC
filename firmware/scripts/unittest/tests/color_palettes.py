@@ -7,7 +7,7 @@ def unittest(data_path, temp_path):
     # Fill with gradient
     for y in range(50):
         for x in range(50):
-            img.set_pixel(x, y, (x + y) * 2)
+            img.set_pixel((x, y), (x + y) * 2)
 
     # Test rainbow palette
     img_rainbow = img.to_rainbow()

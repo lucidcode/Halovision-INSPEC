@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 NXP
+ * Copyright 2019-2023 NXP
  * All rights reserved.
  *
  *
@@ -29,7 +29,7 @@
  *
  * @param base LCDIF peripheral base address
  */
-static uint32_t LCDIFV2_GetInstance(LCDIFV2_Type *base);
+static uint32_t LCDIFV2_GetInstance(const LCDIFV2_Type *base);
 
 /*!
  * @brief Reset register value to default status.
@@ -42,73 +42,24 @@ static void LCDIFV2_ResetRegister(LCDIFV2_Type *base);
  * Variables
  ******************************************************************************/
 
-/*! @brief Pointers to LCDIF bases for each instance. */
-static LCDIFV2_Type *const s_lcdifv2Bases[] = LCDIFV2_BASE_PTRS;
-
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 /*! @brief Pointers to LCDIF clock for each instance. */
 static const clock_ip_name_t s_lcdifv2Clocks[] = LCDIFV2_CLOCKS;
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
-/*! @brief Porter Duff layer factors for different configuration. */
-static const lcdifv2_pd_factor_mode_t s_lcdifv2PdLayerFactors[][2] = {
-    /* kLCDIFV2_PD_Src */
-    {
-        /* s1_s0_factor_mode. */
-        kLCDIFV2_PD_FactorZero,
-
-        /* s0_s1_factor_mode. */
-        kLCDIFV2_PD_FactorOne,
-    },
-
-    /* kLCDIFV2_PD_Atop */
-    {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorStraightAlpha},
-
-    /* kLCDIFV2_PD_Over */
-    {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorOne},
-
-    /* kLCDIFV2_PD_In */
-    {kLCDIFV2_PD_FactorZero, kLCDIFV2_PD_FactorStraightAlpha},
-
-    /* kLCDIFV2_PD_Out */
-    {kLCDIFV2_PD_FactorZero, kLCDIFV2_PD_FactorInversedAlpha},
-
-    /* kLCDIFV2_PD_Dst */
-    {kLCDIFV2_PD_FactorOne, kLCDIFV2_PD_FactorZero},
-
-    /* kLCDIFV2_PD_DstAtop */
-    {kLCDIFV2_PD_FactorStraightAlpha, kLCDIFV2_PD_FactorInversedAlpha},
-
-    /* kLCDIFV2_PD_DstOver */
-    {kLCDIFV2_PD_FactorOne, kLCDIFV2_PD_FactorInversedAlpha},
-
-    /* kLCDIFV2_PD_DstIn */
-    {kLCDIFV2_PD_FactorStraightAlpha, kLCDIFV2_PD_FactorZero},
-
-    /* kLCDIFV2_PD_DstOut */
-    {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorZero},
-
-    /* kLCDIFV2_PD_Xor */
-    {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorInversedAlpha},
-
-    /* kLCDIFV2_PD_Clear */
-    {
-        kLCDIFV2_PD_FactorZero,
-        kLCDIFV2_PD_FactorZero,
-    },
-};
-
 /*******************************************************************************
  * Codes
  ******************************************************************************/
-static uint32_t LCDIFV2_GetInstance(LCDIFV2_Type *base)
+static uint32_t LCDIFV2_GetInstance(const LCDIFV2_Type *base)
 {
+    static LCDIFV2_Type *const s_lcdifv2Bases[] = LCDIFV2_BASE_PTRS;
+
     uint32_t instance;
 
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_lcdifv2Bases); instance++)
     {
-        if (s_lcdifv2Bases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_lcdifv2Bases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
@@ -130,7 +81,6 @@ static void LCDIFV2_ResetRegister(LCDIFV2_Type *base)
     base->VSYN_PARA         = 0x00C01803U;
     base->INT[0].INT_ENABLE = 0U;
     base->INT[1].INT_ENABLE = 0U;
-    base->PDI_PARA          = 0x00001000U;
 
     for (i = 0; i < (uint32_t)LCDIFV2_LAYER_COUNT; i++)
     {
@@ -163,7 +113,7 @@ static void LCDIFV2_ResetRegister(LCDIFV2_Type *base)
  */
 void LCDIFV2_Init(LCDIFV2_Type *base)
 {
-#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && (0 != FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL))
     uint32_t instance = LCDIFV2_GetInstance(base);
     /* Enable the clock. */
     CLOCK_EnableClock(s_lcdifv2Clocks[instance]);
@@ -184,7 +134,7 @@ void LCDIFV2_Deinit(LCDIFV2_Type *base)
 {
     LCDIFV2_ResetRegister(base);
 
-#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
+#if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && (0 != FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL))
     uint32_t instance = LCDIFV2_GetInstance(base);
     /* Disable the clock. */
     CLOCK_DisableClock(s_lcdifv2Clocks[instance]);
@@ -249,7 +199,7 @@ void LCDIFV2_SetDisplayConfig(LCDIFV2_Type *base, const lcdifv2_display_config_t
                       ((uint32_t)config->vbp << LCDIFV2_VSYN_PARA_BP_V_SHIFT) |
                       ((uint32_t)config->vfp << LCDIFV2_VSYN_PARA_FP_V_SHIFT);
 
-    base->DISP_PARA = LCDIFV2_DISP_PARA_LINE_PATTERN(config->lineOrder);
+    base->DISP_PARA = LCDIFV2_DISP_PARA_LINE_PATTERN((uint32_t)config->lineOrder);
 
     base->CTRL = (uint32_t)(config->polarityFlags);
 }
@@ -371,7 +321,7 @@ status_t LCDIFV2_SetLut(
 
         for (i = 0; i < count; i++)
         {
-            (LCDIFV2_LUT_MEM(base))[i + LCDIFV2_LUT_ENTRY_NUM * layerIndex] = lutData[i];
+            (LCDIFV2_LUT_MEM(base))[i + (LCDIFV2_LUT_ENTRY_NUM * layerIndex)] = lutData[i];
         }
 
         status = kStatus_Success;
@@ -429,6 +379,53 @@ status_t LCDIFV2_GetPorterDuffConfig(lcdifv2_pd_blend_mode_t mode,
                                      lcdifv2_pd_layer_t layer,
                                      lcdifv2_blend_config_t *config)
 {
+    static const lcdifv2_pd_factor_mode_t s_lcdifv2PdLayerFactors[][2] = {
+        /* kLCDIFV2_PD_Src */
+        {
+            /* s1_s0_factor_mode. */
+            kLCDIFV2_PD_FactorZero,
+
+            /* s0_s1_factor_mode. */
+            kLCDIFV2_PD_FactorOne,
+        },
+
+        /* kLCDIFV2_PD_Atop */
+        {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorStraightAlpha},
+
+        /* kLCDIFV2_PD_Over */
+        {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorOne},
+
+        /* kLCDIFV2_PD_In */
+        {kLCDIFV2_PD_FactorZero, kLCDIFV2_PD_FactorStraightAlpha},
+
+        /* kLCDIFV2_PD_Out */
+        {kLCDIFV2_PD_FactorZero, kLCDIFV2_PD_FactorInversedAlpha},
+
+        /* kLCDIFV2_PD_Dst */
+        {kLCDIFV2_PD_FactorOne, kLCDIFV2_PD_FactorZero},
+
+        /* kLCDIFV2_PD_DstAtop */
+        {kLCDIFV2_PD_FactorStraightAlpha, kLCDIFV2_PD_FactorInversedAlpha},
+
+        /* kLCDIFV2_PD_DstOver */
+        {kLCDIFV2_PD_FactorOne, kLCDIFV2_PD_FactorInversedAlpha},
+
+        /* kLCDIFV2_PD_DstIn */
+        {kLCDIFV2_PD_FactorStraightAlpha, kLCDIFV2_PD_FactorZero},
+
+        /* kLCDIFV2_PD_DstOut */
+        {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorZero},
+
+        /* kLCDIFV2_PD_Xor */
+        {kLCDIFV2_PD_FactorInversedAlpha, kLCDIFV2_PD_FactorInversedAlpha},
+
+        /* kLCDIFV2_PD_Clear */
+        {
+            kLCDIFV2_PD_FactorZero,
+            kLCDIFV2_PD_FactorZero,
+        },
+    };
+
     status_t status;
 
     if ((NULL == config) || (mode >= kLCDIFV2_PD_Max) || (layer >= kLCDIFV2_PD_LayerMax))
@@ -444,6 +441,85 @@ status_t LCDIFV2_GetPorterDuffConfig(lcdifv2_pd_blend_mode_t mode,
         config->alphaMode         = kLCDIFV2_AlphaPoterDuff;
 
         status = kStatus_Success;
+    }
+
+    return status;
+}
+
+/*
+ * brief Get the global alpha values for multiple layer blend.
+ *
+ * When all layers use the global alpha, the relationship blended alpha
+ * and global alpha of each layer is:
+ *
+ * Layer 7: ba7 = ga7
+ * Layer 6: ba6 = ga6 * (1-ga7)
+ * Layer 5: ba5 = ga5 * (1-ga6) * (1-ga7)
+ * Layer 4: ba4 = ga4 * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 3: ba3 = ga3 * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 2: ba2 = ga2 * (1-ga3) * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 1: ba1 = ga1 * (1-ga2) * (1-ga3) * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ * Layer 0: ba0 =   1 * (1-ga1) * (1-ga2) * (1-ga3) * (1-ga4) * (1-ga5) * (1-ga6) * (1-ga7)
+ *
+ * Here baN is the blended alpha of layer N, gaN is the global alpha configured to layer N.
+ *
+ * This function calculates the global alpha based on the blended alpha. The blendedAlpha and
+ * globalAlpha are all arrays of size layerCount. The first layer is a background layer,
+ * so blendedAlpha[0] is useless, globalAlpha[0] is always 255.
+ *
+ * param blendedAlpha The desired blended alpha value, alpha range 0~255.
+ * param globalAlpha Calculated global alpha set to each layer register.
+ * param layerCount Total layer count.
+ * retval kStatus_Success Get successfully.
+ * retval kStatus_InvalidArgument The argument is invalid.
+ */
+status_t LCDIFV2_GetMultiLayerGlobalAlpha(const uint8_t blendedAlpha[], uint8_t globalAlpha[], uint8_t layerCount)
+{
+    status_t status  = kStatus_Success;
+    int16_t curLayer = (int16_t)layerCount - 1;
+    int left         = 255;
+    int tmpAlpha;
+
+    assert((layerCount > 1U) && (layerCount <= (uint8_t)LCDIFV2_LAYER_COUNT));
+
+    /*
+     * Assume the layer counter is 7, and alpha range is 0~1, define:
+     *
+     *   left_7 = 1
+     *   left_i = (1-ga_(i+1)) * ... * (1-ga7)
+     *
+     * Then:
+     *   ba_i   = ga_i * left_i
+     *   left_i = left_(i+1) - ba_i
+     *   ga_i = ba_i / left_i
+     *
+     * Now change alpha range to 0~255, then:
+     *
+     *   ga_i   = ba_i * 255 / left_i
+     *   left_i = left_(i+1) - ba_i
+     */
+
+    globalAlpha[0] = 255U;
+
+    while (curLayer > 0)
+    {
+        tmpAlpha = (int)blendedAlpha[curLayer] * 255 / left;
+        if (tmpAlpha > 255)
+        {
+            status = kStatus_InvalidArgument;
+            break;
+        }
+
+        globalAlpha[curLayer] = (uint8_t)tmpAlpha;
+        left -= (int)blendedAlpha[curLayer];
+
+        if (left <= 0)
+        {
+            status = kStatus_InvalidArgument;
+            break;
+        }
+
+        curLayer--;
     }
 
     return status;

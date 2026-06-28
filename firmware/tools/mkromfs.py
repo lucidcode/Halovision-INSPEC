@@ -10,6 +10,7 @@
 
 import sys
 import os
+import glob
 import json
 import signal
 import argparse
@@ -76,12 +77,12 @@ def encode_file(name, data, align, offset):
     return file_rec
 
 
-def process_entry(entry, variables, vela_args, stedge_args, build_dir):
+def process_entry(entry, vela_args, stedge_args, build_dir):
     """Process a single romfs entry. Returns (processed_entry, labels_entry_or_None) or None if disabled."""
     if not entry.get("enabled", True):
         return None
 
-    file_path = entry['path'].format(**variables)
+    file_path = entry['path']
     file_name = os.path.basename(os.path.splitext(file_path)[0])
     labels_entry = None
 
@@ -115,12 +116,24 @@ def romfs_build(romfs_cfg, p, args):
         "BUILD" : args.build_dir
     }
 
+    # Resolve variables and expand glob patterns in entries.
+    expanded_entries = []
+    for entry in romfs_cfg["entries"]:
+        entry["path"] = entry["path"].format(**variables)
+        if "*" in entry["path"]:
+            for match in sorted(glob.glob(entry["path"])):
+                if os.path.isfile(match):
+                    expanded_entries.append({**entry, "path": match})
+        else:
+            expanded_entries.append(entry)
+    romfs_cfg["entries"] = expanded_entries
+
     # Build/convert files in parallel.
     signal.signal(signal.SIGINT, sigint_handler)
     with ProcessPoolExecutor(max_workers=args.jobs, initializer=init_worker) as executor:
         futures = {
             executor.submit(
-                process_entry, entry, variables,
+                process_entry, entry,
                 args.vela_args, args.stedge_args, args.build_dir
             ): i
             for i, entry in enumerate(romfs_cfg["entries"])

@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef __FSL_DSPI_FREERTOS_H__
-#define __FSL_DSPI_FREERTOS_H__
+#ifndef FSL_DSPI_FREERTOS_H__
+#define FSL_DSPI_FREERTOS_H__
 
 #include "FreeRTOS.h"
 #include "portable.h"
@@ -24,10 +24,10 @@
  ******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief DSPI FreeRTOS driver version 2.2.4. */
-#define FSL_DSPI_FREERTOS_DRIVER_VERSION (MAKE_VERSION(2, 2, 4))
-/*@}*/
+/*! @{ */
+/*! @brief DSPI FreeRTOS driver version 2.2.5. */
+#define FSL_DSPI_FREERTOS_DRIVER_VERSION (MAKE_VERSION(2, 2, 5))
+/*! @} */
 
 /*!
  * @cond RTOS_PRIVATE
@@ -108,4 +108,4 @@ status_t DSPI_RTOS_Transfer(dspi_rtos_handle_t *handle, dspi_transfer_t *transfe
  * @}
  */
 
-#endif /* __FSL_DSPI_FREERTOS_H__ */
+#endif /* FSL_DSPI_FREERTOS_H__ */

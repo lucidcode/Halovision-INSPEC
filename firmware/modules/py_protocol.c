@@ -37,6 +37,7 @@
 
 #include "../protocol/omv_protocol.h"
 #include "shared/runtime/softtimer.h"
+#include "umalloc.h"
 
 /***************************************************************************
 * Python Channel Delegates
@@ -63,14 +64,27 @@ static mp_obj_t py_channel_call(mp_obj_t obj, qstr method_name, size_t n_args, c
         dest[i + 2] = args[i];
     }
 
+    // Lock uma_collect so caught exceptions in the VM don't free UMA
+    // blocks that C callers above us still own (restored after the call).
+    uma_collect_lock();
+
+    // Clear vm_abort so the Python method runs to completion even if
+    // the protocol has scheduled an abort (restored after the call).
+    bool vm_abort = MP_STATE_VM(vm_abort);
+    MP_STATE_VM(vm_abort) = false;
+
     // Call the method with exception handling
     nlr_buf_t nlr;
     if (nlr_push(&nlr) == 0) {
         mp_obj_t result = mp_call_method_n_kw(n_args, 0, dest);
         nlr_pop();
+        uma_collect_unlock();
+        MP_STATE_VM(vm_abort) = vm_abort;
         return result;
     } else {
         // Exception occurred
+        uma_collect_unlock();
+        MP_STATE_VM(vm_abort) = vm_abort;
         return MP_OBJ_NULL;
     }
 }
@@ -297,32 +311,11 @@ MP_DEFINE_CONST_OBJ_TYPE(
 /***************************************************************************
 * Protocol Module
 ***************************************************************************/
-static void py_protocol_task(mp_sched_node_t *node) {
-    omv_protocol_task();
-}
-
-static void py_protocol_schedule(void) {
-    static mp_sched_node_t protocol_task_node;
-    mp_sched_schedule_node(&protocol_task_node, py_protocol_task);
-}
-
-// Soft timer callback to call py_protocol_poll
-static void py_protocol_soft_timer_callback(soft_timer_entry_t *self) {
-    return py_protocol_schedule();
-}
-
 // Protocol active check
 static mp_obj_t py_protocol_is_active(void) {
     return mp_obj_new_bool(omv_protocol_is_active());
 }
 static MP_DEFINE_CONST_FUN_OBJ_0(py_protocol_is_active_obj, py_protocol_is_active);
-
-// Schedule protocol task function
-static mp_obj_t py_protocol_poll(void) {
-    py_protocol_schedule();
-    return mp_const_none;
-}
-static MP_DEFINE_CONST_FUN_OBJ_0(py_protocol_poll_obj, py_protocol_poll);
 
 // Protocol init function
 static mp_obj_t py_protocol_init(size_t n_args, const mp_obj_t *pos_args, mp_map_t *kw_args) {
@@ -332,11 +325,10 @@ static mp_obj_t py_protocol_init(size_t n_args, const mp_obj_t *pos_args, mp_map
         { MP_QSTR_ack, MP_ARG_BOOL, {.u_bool = true} },
         { MP_QSTR_events, MP_ARG_BOOL, {.u_bool = true} },
         { MP_QSTR_max_payload, MP_ARG_INT, {.u_int = OMV_PROTOCOL_MAX_PAYLOAD_SIZE} },
-        { MP_QSTR_soft_reboot, MP_ARG_BOOL, {.u_bool = false} },
         { MP_QSTR_rtx_retries, MP_ARG_INT, {.u_int = OMV_PROTOCOL_DEF_RTX_RETRIES} },
         { MP_QSTR_rtx_timeout_ms, MP_ARG_INT, {.u_int = OMV_PROTOCOL_DEF_RTX_TIMEOUT_MS} },
         { MP_QSTR_lock_interval_ms, MP_ARG_INT, {.u_int = OMV_PROTOCOL_MIN_LOCK_INTERVAL_MS} },
-        { MP_QSTR_timer_ms, MP_ARG_INT, {.u_int = 0} },
+        { MP_QSTR_poll_ms, MP_ARG_INT, {.u_int = 0} },
     };
 
     mp_arg_val_t args[MP_ARRAY_SIZE(allowed_args)];
@@ -349,13 +341,11 @@ static mp_obj_t py_protocol_init(size_t n_args, const mp_obj_t *pos_args, mp_map
         .ack_enabled = args[2].u_bool,
         .event_enabled = args[3].u_bool,
         .max_payload = args[4].u_int,
-        .soft_reboot = args[5].u_bool,
-        .rtx_retries = args[6].u_int,
-        .rtx_timeout_ms = args[7].u_int,
-        .lock_intval_ms = args[8].u_int,
+        .rtx_retries = args[5].u_int,
+        .rtx_timeout_ms = args[6].u_int,
+        .lock_intval_ms = args[7].u_int,
+        .poll_ms = args[8].u_int,
     };
-
-    uint32_t timer_ms = args[9].u_int;
 
     if (omv_protocol_init(&config)) {
         mp_raise_msg(&mp_type_RuntimeError, MP_ERROR_TEXT("Failed to initialize protocol"));
@@ -370,16 +360,6 @@ static mp_obj_t py_protocol_init(size_t n_args, const mp_obj_t *pos_args, mp_map
     #if OMV_PROFILER_ENABLE
     omv_protocol_register_channel(&omv_profile_channel);
     #endif // OMV_PROFILER_ENABLE
-
-    // Start periodic timer if timer_ms > 0
-    if (timer_ms > 0) {
-        // Soft timer for periodic protocol task scheduling
-        static soft_timer_entry_t protocol_soft_timer;
-
-        soft_timer_static_init(&protocol_soft_timer, SOFT_TIMER_MODE_PERIODIC,
-                               timer_ms, py_protocol_soft_timer_callback);
-        soft_timer_insert(&protocol_soft_timer, timer_ms);
-    }
 
     return mp_const_none;
 }
@@ -458,7 +438,6 @@ static const mp_rom_map_elem_t protocol_globals_table[] = {
     // Protocol management functions
     { MP_ROM_QSTR(MP_QSTR_init), MP_ROM_PTR(&py_protocol_init_obj) },
     { MP_ROM_QSTR(MP_QSTR_is_active), MP_ROM_PTR(&py_protocol_is_active_obj) },
-    { MP_ROM_QSTR(MP_QSTR_poll), MP_ROM_PTR(&py_protocol_poll_obj) },
     { MP_ROM_QSTR(MP_QSTR_register), MP_ROM_PTR(&py_protocol_register_obj) },
 
     // Channel flags constants
@@ -486,7 +465,7 @@ const mp_obj_module_t protocol_module = {
 // Register the module
 MP_REGISTER_EXTENSIBLE_MODULE(MP_QSTR_protocol, protocol_module);
 
-// Register root pointer for dynamic protocol channels
+// Register root pointers for dynamic protocol channels.
 MP_REGISTER_ROOT_POINTER(mp_obj_t protocol_channels[OMV_PROTOCOL_MAX_CHANNELS]);
 
 #endif // MICROPY_PY_PROTOCOL

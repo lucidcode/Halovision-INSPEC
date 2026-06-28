@@ -7,7 +7,7 @@ def unittest(data_path, temp_path):
     # Fill with asymmetric gradient
     for y in range(40):
         for x in range(40):
-            img.set_pixel(x, y, x * 5)
+            img.set_pixel((x, y), x * 5)
 
     # Test horizontal flip
     img_h = img.copy(x_scale=1.0, y_scale=1.0, hint=image.HMIRROR)
@@ -17,7 +17,7 @@ def unittest(data_path, temp_path):
         return False
 
     # Verify pixel at left is now from right
-    left_pixel = img_h.get_pixel(0, 20)
+    left_pixel = img_h.get_pixel((0, 20))
     if left_pixel < 150:  # Should be from right side (high value)
         return False
 

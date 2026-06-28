@@ -4,7 +4,7 @@ set(PICO_TOOLCHAIN_PATH "${PICO_TOOLCHAIN_PATH}" CACHE INTERNAL "")
 # Set a default build type if none was specified
 set(default_build_type "Release")
 
-list(APPEND CMAKE_TRY_COMPILE_PLATFORM_VARIABLES CMAKE_PREFIX_PATH)
+list(APPEND CMAKE_TRY_COMPILE_PLATFORM_VARIABLES CMAKE_PREFIX_PATH PICO_SDK_PATH)
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Defaulting build type to '${default_build_type}' since not specified.")
@@ -48,6 +48,7 @@ if (DEFINED PICO_COMPILER)
     if (NOT PICO_COMPILER STREQUAL ORIG_PICO_COMPILER)
         message("Accepting PICO_COMPILER value '${ORIG_PICO_COMPILER}' for compatibility, but using '${PICO_COMPILER}' instead")
     endif()
+    # PICO_CMAKE_CONFIG: PICO_TOOLCHAIN_DIR, Path to search for toolchain CMake files, type=string, default=<sdk_path>/preload/toolchains, group=build, docref=cmake-toolchain-config
     if (NOT DEFINED PICO_TOOLCHAIN_DIR)
         set(PICO_TOOLCHAIN_DIR "${CMAKE_CURRENT_LIST_DIR}/preload/toolchains")
     endif()

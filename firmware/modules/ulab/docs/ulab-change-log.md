@@ -1,3 +1,39 @@
+Wed, 3 Sep 2025
+
+version 6.10.0
+
+    add bincount
+    
+Fri, 06 Jun 2025
+
+version 6.8.0
+
+    expose ndim property
+
+Fri, 06 Jun 2025
+
+version 6.7.7
+
+    fix ndarray type inference for micropython objects
+
+Thu, 29 May 2025
+
+version 6.7.6
+
+    loadtxt can deal with multi-line comments
+
+Thu, 29 May 2025
+
+version 6.7.5
+
+    fix typo and shape in radnom module
+
+Sun, 16 Mar 2025
+
+version 6.7.4
+
+    re-name integration constants to avoid name clash with EPS ports
+
 Sun, 26 Jan 2025
 
 version 6.7.3

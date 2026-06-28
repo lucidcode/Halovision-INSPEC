@@ -1,29 +1,19 @@
 """
 UART Transport Example for OpenMV Protocol
 
-This example shows how to create a UART-based transport channel and register
-built-in protocol channels in Python.
+This example shows how to create a UART-based transport for the OpenMV
+protocol. Save this file as boot.py to run automatically on startup.
 
-The transport implements the physical layer interface required by the protocol:
-- read(): Physical read from UART with timeout
-- write(): Physical write to UART with timeout
-- is_active(): Check if UART connection is available
-- size(): Return number of bytes available to read
+The transport class implements the physical layer interface required by
+the protocol module:
+- is_active(): Returns True if the connection is available.
+- size(): Returns the number of bytes available to read.
+- read(offset, size): Reads bytes from the UART into a buffer.
+- write(offset, data): Writes data to the UART.
+- flush(): Flushes the UART transmit buffer.
 """
 import protocol
 from machine import UART
-
-
-class StaticChannel:
-    def __init__(self):
-        pass
-
-    def size(self):
-        return len("HelloWorld!")
-
-    def read(self, offset, size):
-        print(f"StaticChannel read {size} bytes from offset {offset}")
-        return "HelloWorld!"
 
 
 class UartTransport:
@@ -53,28 +43,25 @@ class UartTransport:
 
 
 if __name__ == "__main__":
-    MAX_PAYLOAD = 4096 - 10 - 2
+    # Buffer(4096) - Header(10) - CRC(4) = 4082
+    MAX_PAYLOAD = 4096 - 10 - 4
 
     # Initialize and configure the protocol
     protocol.init(
-        crc=True,  # Enable CRC
-        seq=True,  # Enable sequence checking
-        ack=True,  # Wait for CKs
-        events=True,  # Enable async-events
-        soft_reboot=False,  # Disable soft-reboots (required)
+        crc=True,               # Enable CRC
+        seq=True,               # Enable sequence checking
+        ack=True,               # Wait for CKs
+        events=True,            # Enable async-events
         max_payload=MAX_PAYLOAD,  # Max packet payload
-        rtx_retries=3,  # Retransmission retry count
-        rtx_timeout_ms=500,  # Timeout before retransmission (doubled after each try)
-        lock_interval_ms=10,  # Minimum locking interval
-        timer_ms=10,  # Schedules the protocol task every 10ms
+        rtx_retries=3,          # Retransmission retry count
+        rtx_timeout_ms=500,     # Timeout before retransmission (doubled after each try)
+        lock_interval_ms=10,    # Minimum locking interval
+        poll_ms=10,             # Schedules the protocol task every 10ms
     )
 
     # Register the transport
     protocol.register(
         name="uart",
         flags=protocol.CHANNEL_FLAG_PHYSICAL,
-        backend=UartTransport(3, timeout=5000, rxbuf=8 * 1024, baudrate=921600),
+        backend=UartTransport(7, timeout=5000, rxbuf=8 * 1024, baudrate=921600),
     )
-
-    # Register custom channel
-    protocol.register(name="static", backend=StaticChannel())

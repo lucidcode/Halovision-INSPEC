@@ -3,6 +3,7 @@
  *
  * @brief Cryptocell services service source file
  * @ingroup host_services
+ * @ingroup services-host-crypto
  * @par
  *
  * Copyright (C) 2022 Alif Semiconductor - All Rights Reserved.
@@ -56,6 +57,7 @@
  * @param rnd_value
  * @param error_code
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_get_rnd(uint32_t services_handle,
                                      uint16_t rnd_len,
@@ -86,6 +88,7 @@ uint32_t SERVICES_cryptocell_get_rnd(uint32_t services_handle,
  * @param lcs_state
  * @param error_code
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_get_lcs(uint32_t services_handle,
                                      uint32_t *lcs_state,
@@ -112,6 +115,7 @@ uint32_t SERVICES_cryptocell_get_lcs(uint32_t services_handle,
  * @param len
  * @param olen
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_hardware_poll(uint32_t services_handle,
                                                    uint32_t *error_code,
@@ -142,6 +146,7 @@ uint32_t SERVICES_cryptocell_mbedtls_hardware_poll(uint32_t services_handle,
  * @param error_code
  * @param ctx
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_aes_init(uint32_t services_handle,
                                               uint32_t *error_code,
@@ -168,6 +173,7 @@ uint32_t SERVICES_cryptocell_mbedtls_aes_init(uint32_t services_handle,
  * @param keybits
  * @param dir
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_aes_set_key(uint32_t services_handle,
                                                  uint32_t *error_code,
@@ -204,6 +210,7 @@ uint32_t SERVICES_cryptocell_mbedtls_aes_set_key(uint32_t services_handle,
  * @param input
  * @param output
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_aes_crypt(uint32_t services_handle, 
                                                uint32_t *error_code,
@@ -247,6 +254,7 @@ uint32_t SERVICES_cryptocell_mbedtls_aes_crypt(uint32_t services_handle,
  * @param input       input address
  * @param output      output address
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_aes(uint32_t services_handle,
                            uint32_t *error_code,
@@ -286,6 +294,7 @@ uint32_t SERVICES_cryptocell_mbedtls_aes(uint32_t services_handle,
  * @param ctx
  * @param sha_type
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_sha_starts(uint32_t services_handle, 
                                                 uint32_t *error_code,
@@ -314,6 +323,7 @@ uint32_t SERVICES_cryptocell_mbedtls_sha_starts(uint32_t services_handle,
  * @param sha_type
  * @param data
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_sha_process(uint32_t services_handle, 
                                                  uint32_t *error_code,
@@ -345,6 +355,7 @@ uint32_t SERVICES_cryptocell_mbedtls_sha_process(uint32_t services_handle,
  * @param data
  * @param data_length
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_sha_update(uint32_t services_handle, 
                                                 uint32_t *error_code,
@@ -377,6 +388,7 @@ uint32_t SERVICES_cryptocell_mbedtls_sha_update(uint32_t services_handle,
  * @param sha_type
  * @param data
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_sha_finish(uint32_t services_handle, 
                                                 uint32_t *error_code,
@@ -408,6 +420,7 @@ uint32_t SERVICES_cryptocell_mbedtls_sha_finish(uint32_t services_handle,
  * @param data_length     data length
  * @param sha_sum         calculated SHA
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_sha(uint32_t services_handle,
                                          uint32_t *error_code,
@@ -442,6 +455,7 @@ uint32_t SERVICES_cryptocell_mbedtls_sha(uint32_t services_handle,
  * @param key_addr
  * @param key_bits
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_ccm_gcm_set_key(uint32_t services_handle,
     uint32_t *error_code,
@@ -484,6 +498,7 @@ uint32_t SERVICES_cryptocell_mbedtls_ccm_gcm_set_key(uint32_t services_handle,
  * @param tag_addr
  * @param tag_length
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_ccm_gcm_crypt(uint32_t services_handle,
     uint32_t *error_code,
@@ -539,6 +554,7 @@ uint32_t SERVICES_cryptocell_mbedtls_ccm_gcm_crypt(uint32_t services_handle,
  * @param tag_addr     tag address
  * @param tag_length   tag length
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_ccm_gcm(uint32_t services_handle,
     uint32_t *error_code,
@@ -591,6 +607,7 @@ uint32_t SERVICES_cryptocell_mbedtls_ccm_gcm(uint32_t services_handle,
  * @param input_addr
  * @param output_addr
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_chacha20_crypt(uint32_t services_handle,
     uint32_t *error_code,
@@ -633,6 +650,7 @@ uint32_t SERVICES_cryptocell_mbedtls_chacha20_crypt(uint32_t services_handle,
  * @param input_addr
  * @param output_addr
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_chachapoly_crypt(uint32_t services_handle,
     uint32_t *error_code,
@@ -676,6 +694,7 @@ uint32_t SERVICES_cryptocell_mbedtls_chachapoly_crypt(uint32_t services_handle,
  * @param ilen
  * @param mac_addr
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_poly1305_crypt(uint32_t services_handle,
     uint32_t *error_code,
@@ -708,6 +727,7 @@ uint32_t SERVICES_cryptocell_mbedtls_poly1305_crypt(uint32_t services_handle,
  * @param key
  * @param keybits
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_cmac_init_setkey(uint32_t services_handle,
     uint32_t *error_code,
@@ -738,6 +758,7 @@ uint32_t SERVICES_cryptocell_mbedtls_cmac_init_setkey(uint32_t services_handle,
  * @param input
  * @param length
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_cmac_update(uint32_t services_handle,
     uint32_t *error_code,
@@ -767,6 +788,7 @@ uint32_t SERVICES_cryptocell_mbedtls_cmac_update(uint32_t services_handle,
  * @param ctx
  * @param output
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_cmac_finish(uint32_t services_handle,
     uint32_t *error_code,
@@ -793,6 +815,7 @@ uint32_t SERVICES_cryptocell_mbedtls_cmac_finish(uint32_t services_handle,
  * @param error_code
  * @param ctx
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_cmac_reset(uint32_t services_handle,
                                                 uint32_t *error_code,
@@ -821,6 +844,7 @@ uint32_t SERVICES_cryptocell_mbedtls_cmac_reset(uint32_t services_handle,
  * @param length      input length
  * @param output      output address
  * @return
+ * @ingroup services-host-crypto
  */
 uint32_t SERVICES_cryptocell_mbedtls_cmac(uint32_t services_handle,
     uint32_t *error_code,

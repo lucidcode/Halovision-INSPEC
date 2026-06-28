@@ -66,9 +66,9 @@ while True:
             )
 
             # Below 0.1 or so (YMMV) and the results are just noise.
-            if displacement.response() > 0.1:
-                rotation_change = displacement.rotation()
-                zoom_amount = displacement.scale()
+            if displacement.response > 0.1:
+                rotation_change = displacement.rotation
+                zoom_amount = displacement.scale
                 pixel_x = (
                     x
                     + (BLOCK_W // 2)

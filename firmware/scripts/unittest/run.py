@@ -7,9 +7,10 @@
 import os
 import gc
 import time
+import umalloc
 
+DATA_PATH = "/rom"
 TEMP_PATH = "/remote/temp"
-DATA_PATH = "/remote/data"
 TEST_PATH = "/remote/tests"
 
 # Terminal color codes
@@ -24,23 +25,28 @@ UNITTEST_MODULES = [
     "unittest_imlib",
     "unittest_fb",
     "unittest_simd",
+    "unittest_umalloc",
 ]
 
 
-def print_result(test, result, time_ms):
+def print_result(test, result, time_ms, stats):
     s = "Unittest (%s)" % (test)
     padding = "." * (60 - len(s))
 
     # Color the result based on status
     if result == "PASSED":
         colored_result = COLOR_GREEN + result + COLOR_RESET
-    elif result == "FAILED":
+    elif result == "FAILED" or result == "LEAKED":
         colored_result = COLOR_RED + result + COLOR_RESET
-    else:  # DISABLED
+    else:  # SKIPPED
         colored_result = COLOR_YELLOW + result + COLOR_RESET
 
     print(s + padding + colored_result + " (%dms)" % time_ms)
 
+    if (result == "FAILED" or result == "LEAKED") and stats is not None:
+        used, free, persist, used_bytes, free_bytes, persist_bytes, peak_bytes = stats
+        print(COLOR_RED + "used: %d (%d B)  free: %d (%d B)  persist: %d (%d B)  peak: %d B" %
+              (used, used_bytes, free, free_bytes, persist, persist_bytes, peak_bytes) + COLOR_RESET)
 
 def main():
     passed_count = 0
@@ -66,6 +72,7 @@ def main():
     total_start_time = time.ticks_ms()
 
     for mod, test in sorted(tests, key=lambda x: x[1]):
+        stats = None
         start_ms = time.ticks_ms()
         try:
             if mod is None:
@@ -74,29 +81,43 @@ def main():
                     buf = f.read()
                 exec(buf)
                 ret = unittest(DATA_PATH, TEMP_PATH)
-                if ret == "skip":
-                    raise Exception("SKIPPED")
-                if ret is False:
-                    raise Exception()
             else:
                 # C unit test function
-                if getattr(mod, test)() is False:
-                    raise Exception()
+                ret = getattr(mod, test)()
                 # Use shorter name for display (strip test_ prefix)
                 test = test.split("test_")[1]
+
+            stats = umalloc.stats()
+            if ret is False:
+                raise Exception()
+            if ret == "skip":
+                raise Exception("SKIPPED")
+            if stats[0] > 0:
+                raise Exception("LEAKED")
+
             result = "PASSED"
             passed_count += 1
         except Exception as e:
             if "SKIPPED" in str(e):
                 result = "SKIPPED"
                 skipped_count += 1
+            elif "LEAKED" in str(e):
+                result = "LEAKED"
+                failed_count += 1
             else:
                 result = "FAILED"
                 failed_count += 1
 
         time_ms = time.ticks_diff(time.ticks_ms(), start_ms)
-        print_result(test, result, time_ms)
         gc.collect()
+
+        if False: #stats is not None:
+            used, free, persist, used_bytes, free_bytes, persist_bytes = stats
+            print(COLOR_RED + "used: %d (%d B)  free: %d (%d B)  persist: %d (%d B)" %
+                  (used, used_bytes, free, free_bytes, persist, persist_bytes) + COLOR_RESET)
+
+        umalloc.collect()
+        print_result(test, result, time_ms, stats)
 
     total_time_ms = time.ticks_diff(time.ticks_ms(), total_start_time)
 

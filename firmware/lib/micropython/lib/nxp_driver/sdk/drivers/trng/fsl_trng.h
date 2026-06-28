@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2015-2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2018, 2020-2021 NXP
+ * Copyright 2016-2018, 2020-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_TRNG_DRIVER_H_
-#define _FSL_TRNG_DRIVER_H_
+#ifndef FSL_TRNG_DRIVER_H_
+#define FSL_TRNG_DRIVER_H_
 
 #include "fsl_common.h"
 
@@ -22,13 +22,19 @@
  *******************************************************************************/
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief TRNG driver version 2.0.13.
+/*! @{ */
+/*! @brief TRNG driver version 2.0.16.
  *
- * Current version: 2.0.13
+ * Current version: 2.0.16
  *
 
  * Change log:
+ * - version 2.0.16
+ *   - Added support for Dual oscillator mode.
+ * - version 2.0.15
+ *   - Changed TRNG_USER_CONFIG_DEFAULT_XXX values according to latest reccomended by design team.
+ * - version 2.0.14
+ *   - add support for RW610 and RW612
  * - version 2.0.13
  *   - After deepsleep it might return error, added clearing bits in TRNG_GetRandomData() and generating new entropy.
  *   - Modified reloading entropy in TRNG_GetRandomData(), for some data length it doesn't reloading entropy correctly.
@@ -59,8 +65,8 @@
  *   - add support for KL8x and KL28Z
  *   - update default OSCDIV for K81 to divide by 2
  */
-#define FSL_TRNG_DRIVER_VERSION (MAKE_VERSION(2, 0, 13))
-/*@}*/
+#define FSL_TRNG_DRIVER_VERSION (MAKE_VERSION(2, 0, 16))
+/*! @} */
 
 /*! @brief TRNG sample mode. Used by trng_config_t. */
 typedef enum _trng_sample_mode
@@ -88,6 +94,16 @@ typedef enum _trng_ring_osc_div
     kTRNG_RingOscDiv8 = 3U  /*!< Ring oscillator divided-by-8. */
 } trng_ring_osc_div_t;
 
+#if defined(FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS) && (FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS > 0)
+/*! @brief TRNG oscillator mode . Used by trng_config_t. */
+typedef enum trng_oscillator_mode_t
+{
+    kTRNG_SingleOscillatorModeOsc1 = 0U, /*!< Single oscillator mode, using OSC1 (default)*/
+    kTRNG_DualOscillatorMode       = 1U, /*!< Dual oscillator mode*/
+    kTRNG_SingleOscillatorModeOsc2 = 2U, /*!< Single oscillator mode, using OSC2 */
+} trng_oscillator_mode_t;
+#endif /* FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS */
+
 /*! @brief Data structure for definition of statistical check limits. Used by trng_config_t. */
 typedef struct _trng_statistical_check_limit
 {
@@ -107,6 +123,10 @@ typedef struct _trng_user_config
     trng_clock_mode_t clockMode;    /*!< @brief Clock mode used to operate TRNG.*/
     trng_ring_osc_div_t ringOscDiv; /*!< @brief Ring oscillator divide used by TRNG. */
     trng_sample_mode_t sampleMode;  /*!< @brief Sample mode of the TRNG ring oscillator. */
+#if defined(FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS) && (FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS > 0)
+    trng_oscillator_mode_t oscillatorMode; /*!< @brief TRNG oscillator mode . */
+    trng_ring_osc_div_t ringOsc2Div;       /*!< @brief Divider used for Ring oscillator 2. */
+#endif                                     /* FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS */
     /* Seed Control*/
     uint16_t
         entropyDelay; /*!< @brief Entropy Delay. Defines the length (in system clocks) of each Entropy sample taken. */
@@ -156,36 +176,7 @@ extern "C" {
  * @brief Initializes the user configuration structure to default values.
  *
  * This function initializes the configuration structure to default values. The default
- * values are as follows.
- * @code
- *     userConfig->lock = 0;
- *     userConfig->clockMode = kTRNG_ClockModeRingOscillator;
- *     userConfig->ringOscDiv = kTRNG_RingOscDiv0;  Or  to other kTRNG_RingOscDiv[2|8] depending on the platform.
- *     userConfig->sampleMode = kTRNG_SampleModeRaw;
- *     userConfig->entropyDelay = 3200;
- *     userConfig->sampleSize = 2500;
- *     userConfig->sparseBitLimit = TRNG_USER_CONFIG_DEFAULT_SPARSE_BIT_LIMIT;
- *     userConfig->retryCount = 63;
- *     userConfig->longRunMaxLimit = 34;
- *     userConfig->monobitLimit.maximum = 1384;
- *     userConfig->monobitLimit.minimum = 1116;
- *     userConfig->runBit1Limit.maximum = 405;
- *     userConfig->runBit1Limit.minimum = 227;
- *     userConfig->runBit2Limit.maximum = 220;
- *     userConfig->runBit2Limit.minimum = 98;
- *     userConfig->runBit3Limit.maximum = 125;
- *     userConfig->runBit3Limit.minimum = 37;
- *     userConfig->runBit4Limit.maximum = 75;
- *     userConfig->runBit4Limit.minimum = 11;
- *     userConfig->runBit5Limit.maximum = 47;
- *     userConfig->runBit5Limit.minimum = 1;
- *     userConfig->runBit6PlusLimit.maximum = 47;
- *     userConfig->runBit6PlusLimit.minimum = 1;
- *     userConfig->pokerLimit.maximum = 26912;
- *     userConfig->pokerLimit.minimum = 24445;
- *     userConfig->frequencyCountLimit.maximum = 25600;
- *     userConfig->frequencyCountLimit.minimum = 1600;
- * @endcode
+ * values are platform dependent.
  *
  * @param userConfig   User configuration structure.
  * @return If successful, returns the kStatus_TRNG_Success. Otherwise, it returns an error.
@@ -232,4 +223,4 @@ status_t TRNG_GetRandomData(TRNG_Type *base, void *data, size_t dataSize);
 /*! @}*/
 
 #endif /* FSL_FEATURE_SOC_TRNG_COUNT */
-#endif /*_FSL_TRNG_H_*/
+#endif /*FSL_TRNG_H_*/

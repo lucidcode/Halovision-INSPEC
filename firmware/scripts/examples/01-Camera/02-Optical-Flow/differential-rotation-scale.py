@@ -61,15 +61,15 @@ while True:
     extra_fb.draw_image(img)
 
     # Offset results are noisy without filtering so we drop some accuracy.
-    rotation_change = int(math.degrees(displacement.rotation()) * 5) / 5.0
-    zoom_amount = displacement.scale()
+    rotation_change = int(math.degrees(displacement.rotation) * 5) / 5.0
+    zoom_amount = displacement.scale
 
     if (
-        displacement.response() > 0.1
+        displacement.response > 0.1
     ):  # Below 0.1 or so (YMMV) and the results are just noise.
         print(
             "{0:+f}r {1:+f}z {2} {3} FPS".format(
-                rotation_change, zoom_amount, displacement.response(), clock.fps()
+                rotation_change, zoom_amount, displacement.response, clock.fps()
             )
         )
     else:

@@ -1,12 +1,12 @@
 /*
- * Copyright 2018-2019 NXP
+ * Copyright 2018-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_POWERQUAD_DATA_H_
-#define _FSL_POWERQUAD_DATA_H_
+#ifndef FSL_POWERQUAD_DATA_H_
+#define FSL_POWERQUAD_DATA_H_
 
 #include <stdint.h>
 
@@ -45,4 +45,4 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-#endif /* _FSL_POWERQUAD_DATA_H_ */
+#endif /* FSL_POWERQUAD_DATA_H_ */

@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2017 NXP
+ * Copyright 2016-2017, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_OTP_H_
-#define _FSL_OTP_H_
+#ifndef FSL_OTP_H_
+#define FSL_OTP_H_
 
 #include "fsl_common.h"
 
@@ -25,17 +25,21 @@
 #endif
 
 /*! @name Driver version */
-/*@{*/
-/*! @brief OTP driver version 2.0.0.
+/*! @{ */
+/*! @brief OTP driver version 2.0.1.
  *
- * Current version: 2.0.0
+ * Current version: 2.0.1
  *
  * Change log:
+ *
+ * - Version 2.0.1
+ *   - Fixed MISRA-C 2012 violations.
+ *
  * - Version 2.0.0
  *   - Initial version.
  */
-#define FSL_OTP_DRIVER_VERSION (MAKE_VERSION(2, 0, 0))
-/*@}*/
+#define FSL_OTP_DRIVER_VERSION (MAKE_VERSION(2, 0, 1))
+/*! @} */
 
 /*! @brief Bank bit flags. */
 typedef enum _otp_bank
@@ -82,9 +86,9 @@ enum _otp_status
     kStatus_OTP_ReadAccessLocked   = MAKE_STATUS(kStatusGroup_OTP, 0xDU), /*!< Read access locked. */
 };
 
-#define _OTP_ERR_BASE (0x70000U)
+#define _OTP_ERR_BASE (0x70000)
 #define _OTP_MAKE_STATUS(errorCode) \
-    ((errorCode == 0U) ? kStatus_Success : MAKE_STATUS(kStatusGroup_OTP, ((errorCode)-_OTP_ERR_BASE)))
+    (((errorCode) == 0U) ? kStatus_Success : MAKE_STATUS((int32_t)kStatusGroup_OTP, ((int32_t)(errorCode)-_OTP_ERR_BASE)))
 
 /*******************************************************************************
  * API
@@ -200,4 +204,4 @@ static inline uint32_t OTP_GetDriverVersion(void)
 
 /*! @}*/
 
-#endif /* _FSL_OTP_H_ */
+#endif /* FSL_OTP_H_ */

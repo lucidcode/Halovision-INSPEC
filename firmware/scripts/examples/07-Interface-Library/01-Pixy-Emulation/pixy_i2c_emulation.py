@@ -175,11 +175,11 @@ def get_normal_signature(code):
 def to_normal_object_block_format(blob):
     temp = struct.pack(
         "<hhhhh",
-        get_normal_signature(blob.code()),
-        blob.cx(),
-        blob.cy(),
-        blob.w(),
-        blob.h(),
+        get_normal_signature(blob.code),
+        blob.cx,
+        blob.cy,
+        blob.w,
+        blob.h,
     )
     return struct.pack("<hh10s", 0xAA55, checksum(temp), temp)
 
@@ -197,14 +197,14 @@ def get_color_code_signature(code):
 
 
 def to_color_code_object_block_format(blob):
-    angle = int((blob.rotation() * 180) // math.pi)
+    angle = int((blob.rotation * 180) // math.pi)
     temp = struct.pack(
         "<hhhhhh",
-        get_color_code_signature(blob.code()),
-        blob.cx(),
-        blob.cy(),
-        blob.w(),
-        blob.h(),
+        get_color_code_signature(blob.code),
+        blob.cx,
+        blob.cy,
+        blob.w,
+        blob.h,
         angle,
     )
     return struct.pack("<hh12s", 0xAA56, checksum(temp), temp)
@@ -212,9 +212,9 @@ def to_color_code_object_block_format(blob):
 
 def get_signature(blob, bits):
     return (
-        get_normal_signature(blob.code())
+        get_normal_signature(blob.code)
         if (bits == 1)
-        else get_color_code_signature(blob.code())
+        else get_color_code_signature(blob.code)
     )
 
 
@@ -324,12 +324,12 @@ def color_code(code):
 
 def fb_merge_cb(blob0, blob1):
     if not pri_color_code_mode:
-        return blob0.code() == blob1.code()
+        return blob0.code == blob1.code
     else:
         return (
             True
-            if (blob0.code() == blob1.code())
-            else (color_code(blob0.code()) and color_code(blob1.code()))
+            if (blob0.code == blob1.code)
+            else (color_code(blob0.code) and color_code(blob1.code))
         )
 
 
@@ -337,9 +337,9 @@ def blob_filter(blob):
     if pri_color_code_mode == 0:
         return True
     elif pri_color_code_mode == 1:  # color codes with two or more colors or regular
-        return (bits_set(blob.code()) > 1) or (not color_code(blob.code()))
+        return (bits_set(blob.code) > 1) or (not color_code(blob.code))
     elif pri_color_code_mode == 2:  # only color codes with two or more colors
-        return bits_set(blob.code()) > 1
+        return bits_set(blob.code) > 1
     elif pri_color_code_mode == 3:
         return True
 
@@ -368,8 +368,8 @@ while True:
         sig_map = {}
         first_b = False
 
-        for blob in sorted(blobs, key=lambda x: x.area(), reverse=True)[0:max_blocks]:
-            bits = bits_set(blob.code())
+        for blob in sorted(blobs, key=lambda x: x.area, reverse=True)[0:max_blocks]:
+            bits = bits_set(blob.code)
             sign = get_signature(blob, bits)
 
             if not sign in sig_map:
@@ -379,17 +379,16 @@ while True:
 
             if sig_map[sign] <= max_blocks_per_signature:
                 dat_buf += to_object_block_format(blob, bits)
-                img.draw_rectangle(blob.rect())
-                img.draw_cross(blob.cx(), blob.cy())
+                img.draw_detection(blob)
 
             if dac and not first_b:
                 x_scale = 255 / (img.width() - 1)
                 y_scale = 255 / (img.height() - 1)
                 dac.write(
                     round(
-                        (blob.y() * y_scale)
+                        (blob.y * y_scale)
                         if analog_out_mode
-                        else (blob.x() * x_scale)
+                        else (blob.x * x_scale)
                     )
                 )
                 first_b = True

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2019 NXP
+ * Copyright 2016-2019, 2022~2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -14,10 +14,20 @@
 #define FSL_COMPONENT_ID "platform.drivers.lpc_adc"
 #endif
 
+#if defined(ADC_RSTS)
+#define ADC_RESETS_ARRAY ADC_RSTS
+#elif defined(ADC_RSTS_N)
+#define ADC_RESETS_ARRAY ADC_RSTS_N
+#endif
+
 static ADC_Type *const s_adcBases[] = ADC_BASE_PTRS;
 #if !(defined(FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL) && FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL)
 static const clock_ip_name_t s_adcClocks[] = ADC_CLOCKS;
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
+#if defined(ADC_RESETS_ARRAY)
+/* Reset array */
+static const reset_ip_name_t s_adcResets[] = ADC_RESETS_ARRAY;
+#endif
 
 #define FREQUENCY_1MHZ (1000000UL)
 
@@ -56,13 +66,17 @@ void ADC_Init(ADC_Type *base, const adc_config_t *config)
     CLOCK_EnableClock(s_adcClocks[ADC_GetInstance(base)]);
 #endif /* FSL_SDK_DISABLE_DRIVER_CLOCK_CONTROL */
 
+#if defined(ADC_RESETS_ARRAY)
+    RESET_ReleasePeripheralReset(s_adcResets[ADC_GetInstance(base)]);
+#endif
+
     /* Disable the interrupts. */
     base->INTEN = 0U; /* Quickly disable all the interrupts. */
 
     /* Configure the ADC block. */
     tmp32 = ADC_CTRL_CLKDIV(config->clockDividerNumber);
 
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE) & FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE) && FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE)
     /* Async or Sync clock mode. */
     switch (config->clockMode)
     {
@@ -74,12 +88,12 @@ void ADC_Init(ADC_Type *base, const adc_config_t *config)
     }
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE. */
 
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_RESOL) & FSL_FEATURE_ADC_HAS_CTRL_RESOL
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_RESOL) && FSL_FEATURE_ADC_HAS_CTRL_RESOL)
     /* Resolution. */
 
     tmp32 |= ADC_CTRL_RESOL(config->resolution);
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_RESOL. */
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL) & FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL) && FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL)
     /* Bypass calibration. */
     if (config->enableBypassCalibration)
     {
@@ -87,7 +101,7 @@ void ADC_Init(ADC_Type *base, const adc_config_t *config)
     }
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL. */
 
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_TSAMP) & FSL_FEATURE_ADC_HAS_CTRL_TSAMP
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_TSAMP) && FSL_FEATURE_ADC_HAS_CTRL_TSAMP)
 /* Sample time clock count. */
 #if (defined(FSL_FEATURE_ADC_SYNCHRONOUS_USE_GPADC_CTRL) && FSL_FEATURE_ADC_SYNCHRONOUS_USE_GPADC_CTRL)
     if (config->clockMode == kADC_ClockAsynchronousMode)
@@ -98,7 +112,7 @@ void ADC_Init(ADC_Type *base, const adc_config_t *config)
     }
 #endif /* FSL_FEATURE_ADC_SYNCHRONOUS_USE_GPADC_CTRL */
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_TSAMP. */
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE) & FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE) && FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE)
     if (config->enableLowPowerMode)
     {
         tmp32 |= ADC_CTRL_LPWRMODE_MASK;
@@ -127,7 +141,7 @@ void ADC_Init(ADC_Type *base, const adc_config_t *config)
 #endif                                        /* FSL_FEATURE_ADC_HAS_GPADC_CTRL1_OFFSET_CAL */
 #endif                                        /* FSL_FEATURE_ADC_HAS_GPADC_CTRL1_OFFSET_CAL */
 
-#if defined(FSL_FEATURE_ADC_HAS_TRIM_REG) & FSL_FEATURE_ADC_HAS_TRIM_REG
+#if (defined(FSL_FEATURE_ADC_HAS_TRIM_REG) && FSL_FEATURE_ADC_HAS_TRIM_REG)
     base->TRM &= ~ADC_TRM_VRANGE_MASK;
     base->TRM |= ADC_TRM_VRANGE(config->voltageRange);
 #endif /* FSL_FEATURE_ADC_HAS_TRIM_REG. */
@@ -151,25 +165,25 @@ void ADC_GetDefaultConfig(adc_config_t *config)
     /* Initializes the configure structure to zero. */
     (void)memset(config, 0, sizeof(*config));
 
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE) & FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE) && FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE)
 
     config->clockMode = kADC_ClockSynchronousMode;
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_ASYNMODE. */
 
     config->clockDividerNumber = 0U;
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_RESOL) & FSL_FEATURE_ADC_HAS_CTRL_RESOL
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_RESOL) && FSL_FEATURE_ADC_HAS_CTRL_RESOL)
     config->resolution = kADC_Resolution12bit;
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_RESOL. */
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL) & FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL) && FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL)
     config->enableBypassCalibration = false;
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_BYPASSCAL. */
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_TSAMP) & FSL_FEATURE_ADC_HAS_CTRL_TSAMP
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_TSAMP) && FSL_FEATURE_ADC_HAS_CTRL_TSAMP)
     config->sampleTimeNumber = 0U;
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_TSAMP. */
-#if defined(FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE) & FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE
+#if (defined(FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE) && FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE)
     config->enableLowPowerMode = false;
 #endif /* FSL_FEATURE_ADC_HAS_CTRL_LPWRMODE. */
-#if defined(FSL_FEATURE_ADC_HAS_TRIM_REG) & FSL_FEATURE_ADC_HAS_TRIM_REG
+#if (defined(FSL_FEATURE_ADC_HAS_TRIM_REG) && FSL_FEATURE_ADC_HAS_TRIM_REG)
     config->voltageRange = kADC_HighVoltageRange;
 #endif /* FSL_FEATURE_ADC_HAS_TRIM_REG. */
 }
@@ -391,8 +405,11 @@ void ADC_SetConvSeqAConfig(ADC_Type *base, const adc_conv_seq_config_t *config)
 
     uint32_t tmp32;
 
-    tmp32 = ADC_SEQ_CTRL_CHANNELS(config->channelMask)   /* Channel mask. */
-            | ADC_SEQ_CTRL_TRIGGER(config->triggerMask); /* Trigger mask. */
+    tmp32 = ADC_SEQ_CTRL_CHANNELS(config->channelMask) /* Channel mask. */
+#if (defined(FSL_FEATURE_ADC_HAS_SEQ_CTRL_TSAMP) && FSL_FEATURE_ADC_HAS_SEQ_CTRL_TSAMP)
+            | ADC_SEQ_CTRL_TSAMP(config->seqSampleTimeNumber) /* Sequence A sampling time.*/
+#endif                                                         /* FSL_FEATURE_ADC_HAS_SEQ_CTRL_TSAMP*/
+            | ADC_SEQ_CTRL_TRIGGER(config->triggerMask);       /* Trigger mask. */
 
     /* Polarity for tirgger signal. */
     switch (config->triggerPolarity)
@@ -442,8 +459,11 @@ void ADC_SetConvSeqBConfig(ADC_Type *base, const adc_conv_seq_config_t *config)
 
     uint32_t tmp32;
 
-    tmp32 = ADC_SEQ_CTRL_CHANNELS(config->channelMask)   /* Channel mask. */
-            | ADC_SEQ_CTRL_TRIGGER(config->triggerMask); /* Trigger mask. */
+    tmp32 = ADC_SEQ_CTRL_CHANNELS(config->channelMask) /* Channel mask. */
+#if (defined(FSL_FEATURE_ADC_HAS_SEQ_CTRL_TSAMP) && FSL_FEATURE_ADC_HAS_SEQ_CTRL_TSAMP)
+            | ADC_SEQ_CTRL_TSAMP(config->seqSampleTimeNumber) /* Sequence B sampling time.*/
+#endif                                                         /* FSL_FEATURE_ADC_HAS_SEQ_CTRL_TSAMP*/
+            | ADC_SEQ_CTRL_TRIGGER(config->triggerMask);       /* Trigger mask. */
 
     /* Polarity for tirgger signal. */
     switch (config->triggerPolarity)

@@ -33,8 +33,6 @@ while True:
         g = randint(0, 127) + 128
         b = randint(0, 127) + 128
 
-        # If the first argument is a scaler then this method expects
-        # to see x, y, w, and h. Otherwise, it expects a (x,y,w,h) tuple.
-        img.draw_rectangle(x, y, w, h, color=(r, g, b), thickness=2, fill=False)
+        img.draw_rectangle((x, y, w, h), color=(r, g, b), thickness=2, fill=False)
 
     print(clock.fps())

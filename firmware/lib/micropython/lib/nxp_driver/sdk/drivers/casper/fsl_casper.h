@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_CASPER_H_
-#define _FSL_CASPER_H_
+#ifndef FSL_CASPER_H_
+#define FSL_CASPER_H_
 
 #include "fsl_common.h"
 
@@ -22,10 +22,10 @@
  * @{
  */
 /*! @name Driver version */
-/*@{*/
-/*! @brief CASPER driver version. Version 2.2.3.
+/*! @{ */
+/*! @brief CASPER driver version. Version 2.2.4.
  *
- * Current version: 2.2.3
+ * Current version: 2.2.4
  *
  * Change log:
  * - Version 2.0.0
@@ -62,10 +62,12 @@
  * - Version 2.2.2
  *   - Enable hardware interleaving to RAMX0 and RAMX1 for CASPER by feature macro FSL_FEATURE_CASPER_RAM_HW_INTERLEAVE
  * - Version 2.2.3
- *   - Fix MISRA-C 2012 issues.
+ *   - Added macro into CASPER_Init and CASPER_Deinit to support devices without clock and reset control.
+ * - Version 2.2.4
+ *   - Fix MISRA-C 2012 issue.
  */
-#define FSL_CASPER_DRIVER_VERSION (MAKE_VERSION(2, 2, 3))
-/*@}*/
+#define FSL_CASPER_DRIVER_VERSION (MAKE_VERSION(2, 2, 4))
+/*! @} */
 
 /*! @brief CASPER operation
  *
@@ -383,4 +385,4 @@ void CASPER_ECC_equal_to_zero(int *res, uint32_t *op1);
 }
 #endif
 
-#endif /* _FSL_CASPER_H_ */
+#endif /* FSL_CASPER_H_ */

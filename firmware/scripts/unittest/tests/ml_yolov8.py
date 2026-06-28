@@ -9,7 +9,7 @@ def unittest(data_path, temp_path):
     from ml.postprocessing.ultralytics import YoloV8
 
     img = image.Image(data_path + "/person.bmp", copy_to_fb=True)
-    model = ml.Model("/rom/yolov8n_192.tflite", postprocess=YoloV8(threshold=0.4))
+    model = ml.Model(data_path + "/yolov8n_192.tflite", postprocess=YoloV8(threshold=0.4))
     output = model.predict([img])
 
     # Should detect person (class 0) with high confidence.

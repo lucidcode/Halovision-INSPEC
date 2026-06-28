@@ -56,7 +56,7 @@ MCUX_SDK_DIR = lib/nxp_driver/sdk
 MCU_DIR ?= $(MCUX_SDK_DIR)/devices/$(MCU_SERIES)
 
 # Select linker scripts based on MCU_SERIES
-LD_FILES = boards/$(MCU_SERIES).ld boards/common.ld
+LD_FILES ?= boards/$(MCU_SERIES).ld boards/common.ld
 
 # Parameter configurations for generation
 AF_FILE = boards/$(MCU_SERIES)_af.csv
@@ -113,6 +113,7 @@ SRC_ETH_C += \
 	$(MCUX_SDK_DIR)/drivers/enet/fsl_enet.c \
 	hal/phy/device/phydp83825/fsl_phydp83825.c \
 	hal/phy/device/phydp83848/fsl_phydp83848.c \
+	hal/phy/device/phydp83867/fsl_phydp83867.c \
 	hal/phy/device/phyksz8081/fsl_phyksz8081.c \
 	hal/phy/device/phylan8720/fsl_phylan8720.c \
 	hal/phy/device/phyrtl8211f/fsl_phyrtl8211f.c \
@@ -136,6 +137,7 @@ SRC_HAL_IMX_C += \
 	$(MCUX_SDK_DIR)/drivers/lpi2c/fsl_lpi2c.c \
 	$(MCUX_SDK_DIR)/drivers/lpspi/fsl_lpspi.c \
 	$(MCUX_SDK_DIR)/drivers/lpspi/fsl_lpspi_edma.c \
+	$(MCUX_SDK_DIR)/drivers/lpuart/fsl_lpuart.c \
 	$(MCUX_SDK_DIR)/drivers/pit/fsl_pit.c \
 	$(MCUX_SDK_DIR)/drivers/pwm/fsl_pwm.c \
 	$(MCUX_SDK_DIR)/drivers/sai/fsl_sai.c \
@@ -150,6 +152,10 @@ SRC_HAL_IMX_C += hal/fsl_flexspi_nor_boot.c
 else
 SRC_HAL_IMX_C += $(MCU_DIR)/xip/fsl_flexspi_nor_boot.c
 endif
+
+# UART IRQ wrapper for UART.IRQ_RXIDLE support (see machine_uart.c for implementation details)
+# Double wrapping is required because SDK stores function pointers in s_lpuartIsr[] dispatch table
+LDFLAGS += --wrap=LPUART_TransferCreateHandle --wrap=LPUART_TransferHandleIRQ
 
 INC_HAL_IMX += \
 	-I$(TOP)/$(MCU_DIR) \
@@ -181,16 +187,19 @@ SRC_HAL_IMX_C += $(MCUX_SDK_DIR)/drivers/usdhc/fsl_usdhc.c
 INC_HAL_IMX += -I$(TOP)/$(MCUX_SDK_DIR)/drivers/usdhc
 endif
 
-ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES), MIMXRT1021 MIMXRT1052 MIMXRT1062 MIMXRT1064 MIMXRT1176))
-SRC_HAL_IMX_C += $(MCU_DIR)/drivers/fsl_flexcan.c
-endif
-
 ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES), MIMXRT1015 MIMXRT1021 MIMXRT1052 MIMXRT1062 MIMXRT1064 MIMXRT1176))
 SRC_HAL_IMX_C += \
 	$(MCUX_SDK_DIR)/drivers/qtmr_1/fsl_qtmr.c \
+	$(MCUX_SDK_DIR)/drivers/enc/fsl_enc.c \
+	$(MCUX_SDK_DIR)/drivers/xbara/fsl_xbara.c \
 	$(MCU_DIR)/drivers/fsl_romapi.c
 
-INC_HAL_IMX += -I$(TOP)/$(MCUX_SDK_DIR)/drivers/qtmr_1
+INC_HAL_IMX += \
+	-I$(TOP)/$(MCUX_SDK_DIR)/drivers/enc \
+	-I$(TOP)/$(MCUX_SDK_DIR)/drivers/xbara \
+	-I$(TOP)/$(MCUX_SDK_DIR)/drivers/qtmr_1
+
+CFLAGS += -DMICROPY_PY_MACHINE_QECNT=1
 endif
 
 # If not empty, then it is 10xx.
@@ -251,10 +260,10 @@ SRC_C += \
 	help.c \
 	led.c \
 	machine_bitstream.c \
-	machine_can.c \
 	machine_i2c.c \
 	machine_led.c \
 	machine_pin.c \
+	machine_encoder.c \
 	machine_rtc.c \
 	machine_sdcard.c \
 	machine_spi.c \
@@ -268,6 +277,7 @@ SRC_C += \
 	network_lan.c \
 	pendsv.c \
 	pin.c \
+	psram.c \
 	sdcard.c \
 	sdio.c \
 	systick.c \
@@ -312,6 +322,11 @@ endif
 # Set a flag if the UF2 bootloader is used
 ifeq ($(USE_UF2_BOOTLOADER),1)
 	CFLAGS += -DMICROPY_MACHINE_UF2_BOOTLOADER=1
+endif
+
+# Set the default size of the VfsRom file system. Can be changed at board level
+ifeq ($(MICROPY_HW_ROMFS_BYTES),)
+	MICROPY_HW_ROMFS_BYTES ?= 0x40000
 endif
 
 # Add sources for respective board flash type
@@ -426,12 +441,20 @@ CFLAGS += \
 	-mcpu=cortex-m7 \
 	-mthumb \
 	-mtune=cortex-m7 \
-	-nostdlib \
 	-std=gnu99 \
 	-Wall \
 	-Wdouble-promotion \
 	-Werror \
 	-Wno-error=unused-parameter
+
+# Flags for optional C++ source code
+CXXFLAGS += $(filter-out -std=c99,$(CFLAGS))
+
+# TODO make this common -- shouldn't be using these "private" vars from py.mk
+ifneq ($(SRC_CXX)$(SRC_USERMOD_CXX)$(SRC_USERMOD_LIB_CXX),)
+LIBSTDCPP_FILE_NAME = "$(shell $(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a)"
+LDFLAGS += -L"$(shell dirname $(LIBSTDCPP_FILE_NAME))"
+endif
 
 # Configure respective board flash type
 # Add hal/flexspi_nor_flash.h or hal/flexspi_hyper_flash.h respectively
@@ -490,10 +513,12 @@ MPY_CROSS_FLAGS += -march=armv7m
 # =============================================================================
 
 LDFLAGS += \
+	-nostdlib \
 	--cref \
 	--gc-sections \
 	--print-memory-usage \
-	-Map=$@.map
+	-Map=$@.map \
+    --wrap=LPUART_TransferCreateHandle --wrap=LPUART_TransferHandleIRQ
 
 # LDDEFINES are used for link time adaptation of linker scripts, utilizing
 #	the C preprocessor. Therefore keep LDDEFINES separated from LDFLAGS!

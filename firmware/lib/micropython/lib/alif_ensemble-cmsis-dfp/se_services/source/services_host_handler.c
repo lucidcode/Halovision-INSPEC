@@ -11,6 +11,7 @@
  * contact@alifsemi.com, or visit: https://alifsemi.com/license
  *
  * @ingroup host_services
+ * @ingroup services-host-handler
  */
 #include <stdint.h>
 #include <stdbool.h>
@@ -37,8 +38,11 @@ static volatile bool s_new_msg_received = false;
 /**
  * @brief Function to initialize the services library
  * @param init_params Initialization parameters
+ * @ingroup services-host-handler
+ * @fn void SERVICES_initialize(services_lib_t*)
+ * @ingroup services-host-handler
  */
-void SERVICES_initialize(services_lib_t * init_params)
+void SERVICES_initialize(services_lib_t *init_params)
 {
   s_services_host.packet_buffer_address = init_params->packet_buffer_address;
   s_pkt_buffer_address_global =
@@ -55,6 +59,7 @@ void SERVICES_initialize(services_lib_t * init_params)
  * @return total number of retries
  *          if nonnegative, success
  *          if negative, failure
+ * @ingroup services-host-handler
  */
 int SERVICES_synchronize_with_se(uint32_t services_handle)
 {
@@ -82,6 +87,7 @@ int SERVICES_synchronize_with_se(uint32_t services_handle)
 /**
  * @brief prepare the packet buffer ()
  * @return
+ * @ingroup services-host-handler
  */
 uintptr_t SERVICES_prepare_packet_buffer(uint32_t size)
 {
@@ -96,6 +102,7 @@ uintptr_t SERVICES_prepare_packet_buffer(uint32_t size)
  * @param   mhu_id
  * @param   channel_number
  * @return  Handle to be used in subsequent service calls
+ * @ingroup services-host-handler
  */
 uint32_t SERVICES_register_channel(uint32_t mhu_id, 
                                    uint32_t channel_number)
@@ -104,7 +111,8 @@ uint32_t SERVICES_register_channel(uint32_t mhu_id,
 }
 
 /**
- *
+ * @fn uint32_t services_get_mhu_id(uint32_t)
+ * @brief *
  * @param services_handle
  * @return
  */
@@ -114,7 +122,8 @@ static uint32_t services_get_mhu_id(uint32_t services_handle)
 }
 
 /**
- *
+ * @fn uint32_t services_get_channel_number(uint32_t)
+ * @brief
  * @param services_handle
  * @return
  */
@@ -127,6 +136,9 @@ static uint32_t services_get_channel_number(uint32_t services_handle)
  * @brief Callback function for sent msg ACK
  * @fn    void SERVICES_send_msg_acked_callback(uint32_t sender_id,
  *                                              uint32_t channel_number)
+ * @param sender_id
+ * @param channel_number
+ * @ingroup services-host-handler
  */
 void SERVICES_send_msg_acked_callback(uint32_t sender_id,
                                       uint32_t channel_number)
@@ -144,6 +156,7 @@ void SERVICES_send_msg_acked_callback(uint32_t sender_id,
  * @param receiver_id
  * @param channel_number
  * @param service_data
+ * @ingroup services-host-handler
  */
 void SERVICES_rx_msg_callback(uint32_t receiver_id, 
                               uint32_t channel_number, 
@@ -167,8 +180,12 @@ void SERVICES_rx_msg_callback(uint32_t receiver_id,
 }
 
 /**
- * @fn    uint32_t SERVICES_send_msg(uint32_t services_handle, uint32_t service_data)
+ * @fn    uint32_t SERVICES_send_msg(uint32_t services_handle, uint32_t services_data)
  * @brief Send the MHU message pointed by 'service_data'
+ * @ingroup services-host-handler
+ * @param services_handle
+ * @param services_data
+ * @return
  */
 uint32_t SERVICES_send_msg(uint32_t services_handle, uint32_t services_data)
 {
@@ -198,6 +215,7 @@ uint32_t SERVICES_send_msg(uint32_t services_handle, uint32_t services_data)
  * @param services_handle
  * @param service_id
  * @param service_timeout
+ * @ingroup services-host-handler
  * @return
  */
 uint32_t SERVICES_send_request(uint32_t services_handle,

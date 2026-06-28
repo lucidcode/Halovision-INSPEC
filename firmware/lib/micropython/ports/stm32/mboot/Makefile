@@ -54,7 +54,7 @@ DFU=$(TOP)/tools/dfu.py
 PYDFU ?= $(TOP)/tools/pydfu.py
 BOOTLOADER_DFU_USB_VID ?= 0x0483
 BOOTLOADER_DFU_USB_PID ?= 0xDF11
-STFLASH ?= st-flash
+STFLASH ?= st-flash --connect-under-reset
 OPENOCD ?= openocd
 OPENOCD_CONFIG ?= boards/openocd_stm32f4.cfg
 
@@ -73,7 +73,7 @@ INC += -I../$(USBDEV_DIR)/core/inc -I../$(USBDEV_DIR)/class/inc
 # the compiler does not optimise these functions in terms of themselves.
 CFLAGS_BUILTIN ?= -ffreestanding -fno-builtin -fno-lto
 
-CFLAGS += $(INC) -Wall -Wpointer-arith -Wdouble-promotion -Wfloat-conversion -Werror -std=gnu99 -nostdlib $(CFLAGS_EXTRA)
+CFLAGS += $(INC) -Wall -Wpointer-arith -Wdouble-promotion -Wfloat-conversion -Werror -std=gnu99 $(CFLAGS_EXTRA)
 CFLAGS += -D$(CMSIS_MCU)
 CFLAGS += $(CFLAGS_MCU_$(MCU_SERIES))
 CFLAGS += $(COPT)

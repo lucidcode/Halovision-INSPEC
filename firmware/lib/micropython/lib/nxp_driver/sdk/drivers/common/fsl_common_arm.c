@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015-2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2021 NXP
+ * Copyright 2016-2021, 2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -25,11 +25,11 @@ uint32_t InstallIRQHandler(IRQn_Type irq, uint32_t irqHandler)
 #if defined(__CC_ARM) || defined(__ARMCC_VERSION)
     extern uint32_t Image$$VECTOR_ROM$$Base[];
     extern uint32_t Image$$VECTOR_RAM$$Base[];
-    extern uint32_t Image$$RW_m_data$$Base[];
+    extern uint32_t Image$$VECTOR_RAM$$ZI$$Limit[];
 
 #define __VECTOR_TABLE          Image$$VECTOR_ROM$$Base
 #define __VECTOR_RAM            Image$$VECTOR_RAM$$Base
-#define __RAM_VECTOR_TABLE_SIZE (((uint32_t)Image$$RW_m_data$$Base - (uint32_t)Image$$VECTOR_RAM$$Base))
+#define __RAM_VECTOR_TABLE_SIZE (((uint32_t)Image$$VECTOR_RAM$$ZI$$Limit - (uint32_t)Image$$VECTOR_RAM$$Base))
 #elif defined(__ICCARM__)
     extern uint32_t __RAM_VECTOR_TABLE_SIZE[];
     extern uint32_t __VECTOR_TABLE[];
@@ -116,9 +116,9 @@ void DisableDeepSleepIRQ(IRQn_Type interrupt)
 #endif /* FSL_FEATURE_POWERLIB_EXTEND */
 #endif /* FSL_FEATURE_SOC_SYSCON_COUNT */
 
-#if defined(SDK_DELAY_USE_DWT) && defined(DWT)
+#if defined(DWT)
 /* Use WDT. */
-static void enableCpuCycleCounter(void)
+void MSDK_EnableCpuCycleCounter(void)
 {
     /* Make sure the DWT trace fucntion is enabled. */
     if (CoreDebug_DEMCR_TRCENA_Msk != (CoreDebug_DEMCR_TRCENA_Msk & CoreDebug->DEMCR))
@@ -136,11 +136,13 @@ static void enableCpuCycleCounter(void)
     }
 }
 
-static uint32_t getCpuCycleCount(void)
+uint32_t MSDK_GetCpuCycleCount(void)
 {
     return DWT->CYCCNT;
 }
-#else                 /* defined(SDK_DELAY_USE_DWT) && defined(DWT) */
+#endif /* defined(DWT) */
+
+#if !(defined(SDK_DELAY_USE_DWT) && defined(DWT))
 /* Use software loop. */
 #if defined(__CC_ARM) /* This macro is arm v5 specific */
 /* clang-format off */
@@ -152,6 +154,20 @@ loop
     BNE  loop
     BX   LR
 }
+#elif defined(__ARM_ARCH_8A__) /* This macro is ARMv8-A specific */
+static void DelayLoop(uint32_t count)
+{
+    __ASM volatile("    MOV    X0, %0" : : "r"(count));
+    __ASM volatile(
+        "loop%=:                        \n"
+        "    SUB    X0, X0, #1          \n"
+        "    CMP    X0, #0              \n"
+
+        "    BNE    loop%=              \n"
+        :
+        :
+        : "r0");
+}
 /* clang-format on */
 #elif defined(__ARMCC_VERSION) || defined(__ICCARM__) || defined(__GNUC__)
 /* Cortex-M0 has a smaller instruction set, SUBS isn't supported in thumb-16 mode reported from __GNUC__ compiler,
@@ -160,7 +176,7 @@ static void DelayLoop(uint32_t count)
 {
     __ASM volatile("    MOV    R0, %0" : : "r"(count));
     __ASM volatile(
-        "loop:                          \n"
+        "loop%=:                        \n"
 #if defined(__GNUC__) && !defined(__ARMCC_VERSION)
         "    SUB    R0, R0, #1          \n"
 #else
@@ -168,7 +184,7 @@ static void DelayLoop(uint32_t count)
 #endif
         "    CMP    R0, #0              \n"
 
-        "    BNE    loop                \n"
+        "    BNE    loop%=              \n"
         :
         :
         : "r0");
@@ -198,31 +214,39 @@ void SDK_DelayAtLeastUs(uint32_t delayTime_us, uint32_t coreClock_Hz)
 
 #if defined(SDK_DELAY_USE_DWT) && defined(DWT) /* Use DWT for better accuracy */
 
-        enableCpuCycleCounter();
+        MSDK_EnableCpuCycleCounter();
         /* Calculate the count ticks. */
-        count += getCpuCycleCount();
+        count += MSDK_GetCpuCycleCount();
 
         if (count > UINT32_MAX)
         {
             count -= UINT32_MAX;
             /* Wait for cyccnt overflow. */
-            while (count < getCpuCycleCount())
+            while (count < MSDK_GetCpuCycleCount())
             {
             }
         }
 
         /* Wait for cyccnt reach count value. */
-        while (count > getCpuCycleCount())
+        while (count > MSDK_GetCpuCycleCount())
         {
         }
 #else
+#if defined(__CORTEX_Axx) && ((__CORTEX_Axx == 53) || (__CORTEX_Axx == 55))
+        /*
+         * Cortex-A53/A55 execution throughput:
+         *  - SUB/CMP: 2 instructions per cycle
+         *  - BNE:     1 instruction per cycle
+         * So, each loop takes 2 CPU cycles.
+         */
+        count = count / 2U;
+#elif (__CORTEX_M == 7)
         /* Divide value may be different in various environment to ensure delay is precise.
          * Every loop count includes three instructions, due to Cortex-M7 sometimes executes
          * two instructions in one period, through test here set divide 1.5. Other M cores use
          * divide 4. By the way, divide 1.5 or 4 could let the count lose precision, but it does
          * not matter because other instructions outside while loop is enough to fill the time.
          */
-#if (__CORTEX_M == 7)
         count = count / 3U * 2U;
 #else
         count = count / 4U;

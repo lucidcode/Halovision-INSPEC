@@ -26,14 +26,14 @@ csi0.snapshot(time=2000)
 
 clock = time.clock()
 
-# All line objects have a `theta()` method to get their rotation angle in degrees.
+# All line objects have a `theta` attribute to get their rotation angle in degrees.
 # You can filter lines based on their rotation angle.
 
 min_degree = 0
 max_degree = 179
 
-# All lines also have `x1()`, `y1()`, `x2()`, and `y2()` methods to get their end-points
-# and a `line()` method to get all the above as one 4 value tuple for `draw_line()`.
+# All lines also have `x1`, `y1`, `x2`, and `y2` attributes to get their end-points.
+# Line objects can be passed directly to `draw_line()`.
 
 while True:
     clock.tick()
@@ -54,8 +54,8 @@ while True:
     # theta and rho value differences are less than the margins then they are merged.
 
     for l in img.find_lines(threshold=1000, theta_margin=25, rho_margin=25):
-        if (min_degree <= l.theta()) and (l.theta() <= max_degree):
-            img.draw_line(l.line(), color=(255, 0, 0))
+        if (min_degree <= l.theta) and (l.theta <= max_degree):
+            img.draw_line(l, color=(255, 0, 0))
             # print(l)
 
     print("FPS %f" % clock.fps())

@@ -142,8 +142,7 @@ tests against the serial device, for example:
     $ ./run-tests.py -t /dev/pts/1
 
 Selected native modules that come as examples with the MicroPython source tree
-can also be tested with this command (this is currently not supported for the
-`VIRT_RV64` board):
+can also be tested with this command:
 
     $ make test_natmod
 
@@ -157,11 +156,19 @@ The following options can be specified on the `make` command line:
 - `CFLAGS_EXTRA`: pass in extra flags for the compiler.
 - `RUN_TESTS_EXTRA`: pass in extra flags for `run-tests.py` and `run-natmodtests.py`
   when invoked via `make test` or `make test_natmod`.
+- `QEMU_BASE`: pass an optional partial path of the qemu binary to run code with, eg.
+  `/opt/custom-directory/qemu/bin/qemu-system-`, similar to how a cross compiler name
+  is passed to the MicroPython makefile.  By default it will use the appropriate QEMU
+  binary found through the system's PATH environment variable.
 - `QEMU_DEBUG=1`: when running qemu (via `repl`, `run` or `test` target), qemu
   will block until a debugger is connected.  By default it waits for a gdb connection
   on TCP port 1234.
 - `QEMU_DEBUG_ARGS`: defaults to `-s` (gdb on TCP port 1234), but can be overridden
   with different qemu gdb arguments.
 - `QEMU_DEBUG_EXTRA`: extra options to pass to qemu when `QEMU_DEBUG=1` is used.
+- `QEMU_ROMFS_IMG<n>`: pass in romfs image to be loaded by qemu (if enabled by the board).
+- `TEST_NATMODS`: pass an optional list of space-separated names of natmods to test,
+  so only the given subset of example natmods will be used by `test_natmod` (for
+  example, `make test_natmod TEST_NATMODS="btree heapq re"`).
 - `MICROPY_HEAP_SIZE`: pass in an optional value (in bytes) for overriding the GC
   heap size used by the port.

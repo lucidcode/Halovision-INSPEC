@@ -1,12 +1,12 @@
 /*
- * Copyright 2020-2021 NXP
+ * Copyright 2020-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _FSL_DCIC_H_
-#define _FSL_DCIC_H_
+#ifndef FSL_DCIC_H_
+#define FSL_DCIC_H_
 
 #include "fsl_common.h"
 
@@ -23,7 +23,7 @@
 #endif
 
 /*! @brief DCIC driver version. */
-#define FSL_DCIC_DRIVER_VERSION (MAKE_VERSION(2, 0, 1))
+#define FSL_DCIC_DRIVER_VERSION (MAKE_VERSION(2, 0, 3))
 
 /*! @brief CRC32 calculation polynomial. */
 #define DCIC_CRC32_POLYNOMIAL 0x04C11DB7UL
@@ -40,16 +40,17 @@
  */
 enum _DCIC_polarity_flags
 {
+    kDCIC_VsyncActiveHigh           = 0U, /*!< VSYNC active high. */
+    kDCIC_HsyncActiveHigh           = 0U, /*!< HSYNC active high. */
+    kDCIC_DataEnableActiveHigh      = 0U, /*!< Data enable line active high. */
+    kDCIC_DriveDataOnFallingClkEdge = 0U, /*!< Output data on rising clock edge, capture data
+                                              on falling clock edge. */
+
     kDCIC_VsyncActiveLow           = DCIC_DCICC_VSYNC_POL_MASK, /*!< VSYNC active low. */
-    kDCIC_VsyncActiveHigh          = 0U,                        /*!< VSYNC active high. */
     kDCIC_HsyncActiveLow           = DCIC_DCICC_HSYNC_POL_MASK, /*!< HSYNC active low. */
-    kDCIC_HsyncActiveHigh          = 0U,                        /*!< HSYNC active high. */
     kDCIC_DataEnableActiveLow      = DCIC_DCICC_DE_POL_MASK,    /*!< Data enable line active low. */
-    kDCIC_DataEnableActiveHigh     = 0U,                        /*!< Data enable line active high. */
     kDCIC_DriveDataOnRisingClkEdge = DCIC_DCICC_CLK_POL_MASK,   /*!< Output data on falling clock edge, capture data
                                                                     on rising clock edge. */
-    kDCIC_DriveDataOnFallingClkEdge = 0U,                       /*!< Output data on rising clock edge, capture data
-                                                                    on falling clock edge. */
 };
 
 /*!
@@ -182,7 +183,7 @@ static inline void DCIC_Enable(DCIC_Type *base, bool enable)
     }
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Status
@@ -217,7 +218,7 @@ static inline void DCIC_ClearStatusFlags(DCIC_Type *base, uint32_t mask)
     base->DCICS = (mask & (DCIC_DCICS_FI_STAT_MASK | DCIC_DCICS_ROI_MATCH_STAT_MASK));
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Interrupts
@@ -259,7 +260,7 @@ static inline void DCIC_DisableInterrupts(DCIC_Type *base, uint32_t mask)
     base->DCICIC |= mask;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Region
@@ -292,7 +293,10 @@ static inline void DCIC_DisableRegion(DCIC_Type *base, uint8_t regionIdx)
 {
     assert(regionIdx < DCIC_REGION_COUNT);
 
-    base->REGION[regionIdx].DCICRC &= ~DCIC_DCICRC_ROI_EN_MASK;
+    if (regionIdx < DCIC_REGION_COUNT)
+    {
+        base->REGION[regionIdx].DCICRC &= ~DCIC_DCICRC_ROI_EN_MASK;
+    }
 }
 
 /*!
@@ -306,7 +310,10 @@ static inline void DCIC_SetRegionRefCrc(DCIC_Type *base, uint8_t regionIdx, uint
 {
     assert(regionIdx < DCIC_REGION_COUNT);
 
-    base->REGION[regionIdx].DCICRRS = crc;
+    if (regionIdx < DCIC_REGION_COUNT)
+    {
+        base->REGION[regionIdx].DCICRRS = crc;
+    }
 }
 
 /*!
@@ -318,12 +325,19 @@ static inline void DCIC_SetRegionRefCrc(DCIC_Type *base, uint8_t regionIdx, uint
  */
 static inline uint32_t DCIC_GetRegionCalculatedCrc(DCIC_Type *base, uint8_t regionIdx)
 {
+    uint32_t localdcicrcs = 0U;
+
     assert(regionIdx < DCIC_REGION_COUNT);
 
-    return base->REGION[regionIdx].DCICRCS;
+    if (regionIdx < DCIC_REGION_COUNT)
+    {
+        localdcicrcs = base->REGION[regionIdx].DCICRCS;
+    }
+
+    return localdcicrcs;
 }
 
-/* @} */
+/*! @} */
 
 /*!
  * @name Misc control.
@@ -341,7 +355,7 @@ static inline uint32_t DCIC_GetRegionCalculatedCrc(DCIC_Type *base, uint8_t regi
  *   - If integrity check is disabled, the signal is idle.
  *
  * @param base DCIC peripheral base address.
- * @param enable. Use true to enable, false to disable.
+ * @param enable Use true to enable, false to disable.
  */
 static inline void DCIC_EnableMismatchExternalSignal(DCIC_Type *base, bool enable)
 {
@@ -355,7 +369,7 @@ static inline void DCIC_EnableMismatchExternalSignal(DCIC_Type *base, bool enabl
     }
 }
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -363,4 +377,4 @@ static inline void DCIC_EnableMismatchExternalSignal(DCIC_Type *base, bool enabl
 /*!
  * @}
  */
-#endif /* _FSL_DCIC_H_ */
+#endif /* FSL_DCIC_H_ */

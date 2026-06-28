@@ -34,8 +34,10 @@
 #define OMV_OV7725_PLL_CONFIG           (0x41)   // x4
 #define OMV_OV7725_BANDING              (0x7F)
 
-#define OMV_MT9M114_ENABLE              (1)
 #define OMV_MT9V0XX_ENABLE              (1)
+#define OMV_MT9V0XX_FSYNC_PIN           (&omv_pin_DCMI_FSYNC)
+
+#define OMV_MT9M114_ENABLE              (1)
 #define OMV_LEPTON_ENABLE               (1)
 #define OMV_PAG7920_ENABLE              (1)
 #define OMV_PAJ6100_ENABLE              (1)
@@ -47,8 +49,6 @@
 #define OMV_FIR_MLX90641_ENABLE         (1)
 #define OMV_FIR_AMG8833_ENABLE          (1)
 
-// UMM heap block size
-#define OMV_UMM_BLOCK_SIZE              256
 
 // Protocol hardware capabilities
 #define OMV_PROTOCOL_HW_CAPS            OMV_PROTOCOL_HW_CAPS_MAKE( \
@@ -63,25 +63,27 @@
 #define OMV_USB_PHY_TXCAL45DM           (0x06U)
 
 // Linker script constants (see the linker script template mimxrt10xx.ld.S).
-// Note: fb_alloc is a stack-based, dynamically allocated memory on FB.
-// The maximum available fb_alloc memory = FB_ALLOC_SIZE + FB_SIZE - (w*h*bpp).
 #define OMV_MAIN_MEMORY                 DTCM    // Data/BSS memory
 #define OMV_STACK_MEMORY                ITCM1   // stack memory
 #define OMV_STACK_SIZE                  (32K)
 #define OMV_SB_MEMORY                   DRAM    // Streaming buffer memory.
 #define OMV_SB_SIZE                     (1M)    // Streaming buffer size.
-#define OMV_FB_MEMORY                   DRAM    // Framebuffer, fb_alloc
-#define OMV_FB_SIZE                     (13M)   // FB memory: header + VGA/GS image
-#define OMV_FB_ALLOC_SIZE               (10M)   // minimum fb alloc size
-#define OMV_FB_OVERLAY_MEMORY           OCRM1   // Fast fb_alloc memory.
-#define OMV_FB_OVERLAY_SIZE             (512K)
 #define OMV_DMA_MEMORY                  DTCM    // Misc DMA buffers memory.
 #define OMV_GC_BLOCK0_MEMORY            OCRM2   // Extra GC block 0.
 #define OMV_GC_BLOCK0_SIZE              (64K)
 #define OMV_GC_BLOCK1_MEMORY            DTCM    // Main GC block
-#define OMV_GC_BLOCK1_SIZE              (271K)
+#define OMV_GC_BLOCK1_SIZE              (204K)
 #define OMV_GC_BLOCK2_MEMORY            DRAM    // Extra GC block 1.
 #define OMV_GC_BLOCK2_SIZE              (8M)
+#define OMV_UMA_BLOCK0_MEMORY           DRAM    // Default UMA pool.
+#define OMV_UMA_BLOCK0_SIZE             (23M)
+#define OMV_UMA_BLOCK0_FLAGS            (0)
+#define OMV_UMA_BLOCK1_MEMORY           OCRM1   // Fast UMA pool.
+#define OMV_UMA_BLOCK1_SIZE             (512K)
+#define OMV_UMA_BLOCK1_FLAGS            (UMA_FAST | UMA_DTCM)
+#define OMV_UMA_BLOCK2_MEMORY           DTCM    // DTCM UMA pool.
+#define OMV_UMA_BLOCK2_SIZE             (64K)
+#define OMV_UMA_BLOCK2_FLAGS            (UMA_DTCM)
 #define OMV_RAMFUNC_MEMORY              ITCM2   // RAM code memory.
 #define OMV_LINE_BUF_SIZE               (11 * 1024)  // Image line buffer.
 #define OMV_VOSPI_DMA_BUFFER            ".dma_buffer"
@@ -205,6 +207,5 @@
 #define OMV_CSI_MXCLK_PIN               (&omv_pin_DCMI_MCLK)
 #define OMV_CSI_RESET_PIN               (&omv_pin_DCMI_RESET)
 #define OMV_CSI_POWER_PIN               (&omv_pin_DCMI_POWER)
-#define OMV_CSI_FSYNC_PIN               (&omv_pin_DCMI_FSYNC)
 
 #endif //__BOARD_CONFIG_H__

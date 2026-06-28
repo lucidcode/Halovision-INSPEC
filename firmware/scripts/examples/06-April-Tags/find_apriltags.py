@@ -30,8 +30,7 @@ while True:
     clock.tick()
     img = csi0.snapshot()
     for tag in img.find_apriltags():
-        img.draw_rectangle(tag.rect, color=(255, 0, 0))
-        img.draw_cross(tag.cx, tag.cy, color=(0, 255, 0))
+        img.draw_detection(tag, color1=(255, 0, 0), color2=(0, 255, 0))
         print_args = (tag.name, tag.id, (180 * tag.rotation) / math.pi)
         print("Tag Family %s, Tag ID %d, rotation %f (degrees)" % print_args)
     print(clock.fps())

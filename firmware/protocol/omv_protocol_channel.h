@@ -55,6 +55,7 @@ typedef enum {
     OMV_CHANNEL_IOCTL_STREAM_CTRL       = 0x00, // Enable/disable streaming
     OMV_CHANNEL_IOCTL_STREAM_RAW_CTRL   = 0x01, // Enable/disable raw streaming
     OMV_CHANNEL_IOCTL_STREAM_RAW_CFG    = 0x02, // Set raw stream resolution
+    OMV_CHANNEL_IOCTL_STREAM_SOURCE     = 0x03, // Set stream source chip ID
 } omv_channel_ioctl_stream_t;
 
 // Standard IOCTL commands for profile channel
@@ -74,6 +75,7 @@ typedef enum {
     {OMV_PROTOCOL_CHANNEL_ID_STREAM, OMV_CHANNEL_IOCTL_STREAM_CTRL, 4},        \
     {OMV_PROTOCOL_CHANNEL_ID_STREAM, OMV_CHANNEL_IOCTL_STREAM_RAW_CTRL, 4},    \
     {OMV_PROTOCOL_CHANNEL_ID_STREAM, OMV_CHANNEL_IOCTL_STREAM_RAW_CFG, 8},     \
+    {OMV_PROTOCOL_CHANNEL_ID_STREAM, OMV_CHANNEL_IOCTL_STREAM_SOURCE, 4},      \
                                                                                \
     {OMV_PROTOCOL_CHANNEL_ID_PROFILE, OMV_CHANNEL_IOCTL_PROFILE_MODE, 4},      \
     {OMV_PROTOCOL_CHANNEL_ID_PROFILE, OMV_CHANNEL_IOCTL_PROFILE_SET_EVENT, 8}, \
@@ -136,6 +138,8 @@ struct omv_protocol_channel {
     int (*ioctl) (const omv_protocol_channel_t *channel, uint32_t cmd, size_t len, void *arg);
     // Stdin-specific function to execute scripts internall (not exposed via ioctl).
     bool (*exec) (const omv_protocol_channel_t *channel);
+    // Channel tick (called periodically from the protocol task).
+    void (*tick) (const omv_protocol_channel_t *channel);
     // Transport-specific functions (for channel ID 0 only)
     bool (*is_active) (const omv_protocol_channel_t *channel);
 };

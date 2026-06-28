@@ -1,12 +1,12 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2020 NXP
+ * Copyright 2016-2022 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-#ifndef _FSL_DMIC_DMA_H_
-#define _FSL_DMIC_DMA_H_
+#ifndef FSL_DMIC_DMA_H_
+#define FSL_DMIC_DMA_H_
 
 #include "fsl_common.h"
 #include "fsl_dma.h"
@@ -27,9 +27,9 @@
  * @{
  */
 
-/*! @brief DMIC DMA driver version 2.3.0 */
-#define FSL_DMIC_DMA_DRIVER_VERSION (MAKE_VERSION(2, 3, 0))
-/*@}*/
+/*! @brief DMIC DMA driver version 2.4.0 */
+#define FSL_DMIC_DMA_DRIVER_VERSION (MAKE_VERSION(2, 4, 0))
+/*! @} */
 
 /*! @brief DMIC transfer structure. */
 typedef struct _dmic_transfer
@@ -62,6 +62,8 @@ struct _dmic_dma_handle
     void *userData;                        /*!< DMIC callback function parameter.*/
     size_t transferSize;                   /*!< Size of the data to receive. */
     volatile uint8_t state;                /*!< Internal state of DMIC DMA transfer */
+    uint32_t channel;                      /*!< DMIC channel used. */
+    bool isChannelValid;                   /*!< DMIC channel initialization flag*/
 
     dma_descriptor_t *desLink; /*!< descriptor pool pointer */
     size_t linkNum;            /*!< number of descriptor in descriptors pool */
@@ -146,7 +148,7 @@ status_t DMIC_TransferGetReceiveCountDMA(DMIC_Type *base, dmic_dma_handle_t *han
  */
 void DMIC_InstallDMADescriptorMemory(dmic_dma_handle_t *handle, void *linkAddr, size_t linkNum);
 
-/* @} */
+/*! @} */
 
 #if defined(__cplusplus)
 }
@@ -154,4 +156,4 @@ void DMIC_InstallDMADescriptorMemory(dmic_dma_handle_t *handle, void *linkAddr, 
 
 /*! @}*/
 
-#endif /* _FSL_DMIC_DMA_H_ */
+#endif /* FSL_DMIC_DMA_H_ */

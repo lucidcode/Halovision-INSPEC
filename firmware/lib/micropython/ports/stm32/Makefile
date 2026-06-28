@@ -72,7 +72,7 @@ PYDFU ?= $(TOP)/tools/pydfu.py
 DFU_UTIL ?= dfu-util
 BOOTLOADER_DFU_USB_VID ?= 0x0483
 BOOTLOADER_DFU_USB_PID ?= 0xDF11
-STFLASH ?= st-flash
+STFLASH ?= st-flash --connect-under-reset
 OPENOCD ?= openocd
 OPENOCD_CONFIG ?= boards/openocd_stm32f4.cfg
 
@@ -115,7 +115,7 @@ INC += -I$(TOP)/lib/tinyusb/src
 INC += -I$(TOP)/shared/tinyusb/
 INC += -Ilwip_inc
 
-CFLAGS += $(INC) -Wall -Wpointer-arith -Werror -Wdouble-promotion -Wfloat-conversion -std=gnu99 -nostdlib $(CFLAGS_EXTRA)
+CFLAGS += $(INC) -Wall -Wpointer-arith -Werror -Wdouble-promotion -Wfloat-conversion -std=gnu99 $(CFLAGS_EXTRA)
 CFLAGS += -fno-inline-small-functions
 CFLAGS += -D$(CMSIS_MCU) -DUSE_FULL_LL_DRIVER
 CFLAGS += $(CFLAGS_MCU_$(MCU_SERIES))

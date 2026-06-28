@@ -11,7 +11,7 @@ def unittest(data_path, temp_path):
             g = (y * 4) & 0xFC
             b = ((x + y) * 8) & 0xF8
             color = ((r << 8) & 0xF800) | ((g << 3) & 0x07E0) | (b >> 3)
-            img.set_pixel(x, y, color)
+            img.set_pixel((x, y), color)
 
     # Verify RGB565 format
     if img.format() != image.RGB565:
