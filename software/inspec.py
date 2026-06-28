@@ -53,7 +53,7 @@ class inspec_sensor:
         self.sensor.hmirror(True if self.config.get('HorizontalMirror') else False)
         self.sensor.vflip(True if self.config.get('VerticalFlip') else False)
 
-        self.sensor.framesize(csi.HQVGA)
+        self.sensor.framesize(csi.QVGA)
 
         pixformat_map = {
             'RGB565': csi.RGB565,
@@ -92,48 +92,40 @@ class inspec_sensor:
 
     def monitor(self):
         while True:
-            try:
-                self.img = self.sensor.snapshot()
+            self.img = self.sensor.snapshot()
 
-                self.face.detect(self.img, self.global_variance)
-                self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
-                
-                if self.global_variance > self.peak_variance:
-                    self.peak_variance = self.global_variance
-                self.extra_fb.draw_image(self.img)
-                self.face.draw_region(self.img)
+            self.face.detect(self.img, self.global_variance)
+            self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
+            
+            if self.global_variance > self.peak_variance:
+                self.peak_variance = self.global_variance
+            self.extra_fb.draw_image(self.img)
+            self.face.draw_region(self.img)
 
-                self.detect_motion()
-                self.detect_face()
-                self.detect_rem()
-                self.detect_nrem()
-                self.quality.measure(self.global_variance)
-                
-                self.led.process()
-                self.process_trigger()
-                self.process_api("variance", self.global_variance)
+            self.detect_motion()
+            self.detect_face()
+            self.detect_rem()
+            self.detect_nrem()
+            self.quality.measure(self.global_variance)
+            
+            self.led.process()
+            self.process_trigger()
+            self.process_api("variance", self.global_variance)
 
-                if (utime.ticks_ms() - self.last_update > 128):
-                    face = "1" if self.face.has_face else "0"
-                    data = f'{str(self.peak_variance)};{self.rem.eye_movements};{face};{self.quality.indicator}'
-                    self.comms.send_data(data)
-                    self.send_stream()
-                    self.peak_variance = 0
-                    self.last_update = utime.ticks_ms()
+            if (utime.ticks_ms() - self.last_update > 128):
+                face = "1" if self.face.has_face else "0"
+                data = f'{str(self.peak_variance)};{self.rem.eye_movements};{face};{self.quality.indicator}'
+                self.comms.send_data(data)
+                self.send_stream()
+                self.peak_variance = 0
+                self.last_update = utime.ticks_ms()
 
-                    if self.comms.sending_image or self.comms.sending_file:
-                        self.comms.process_file()
+                if self.comms.sending_image or self.comms.sending_file:
+                    self.comms.process_file()
 
-                if self.error != None and self.comms.send_errors:
-                    self.comms.send_data(f'error:{self.error}')
-                    self.error = None
-
-            except Exception as e:
-                self.error = str(e)
-                print("Error", self.error)
-                self.led.blink("R", 8)
-                if self.error == "IDE interrupt":
-                    break
+            if self.error != None and self.comms.send_errors:
+                self.comms.send_data(f'error:{self.error}')
+                self.error = None
 
     def ble_message_received(self, message):
         print("ble message", message)
