@@ -6,8 +6,29 @@ import random
 from ml.postprocessing.edgeimpulse import Fomo
 from ml.postprocessing.mediapipe import BlazeFace
 from ml.utils import NMS
+from ulab import numpy as np
 
 AJNA = True
+
+
+def _build_blazeface_anchors():
+    anchor_grid = [(16, 2), (8, 6)]
+    count = sum((g * g) * d for g, d in anchor_grid)
+    a = np.empty((count, 2))
+    idx = 0
+    for grid_size, scales in anchor_grid:
+        for gy in range(grid_size):
+            cy = (gy + 0.5) / grid_size
+            for gx in range(grid_size):
+                cx = (gx + 0.5) / grid_size
+                for _ in range(scales):
+                    a[idx, 0] = cx
+                    a[idx, 1] = cy
+                    idx += 1
+    return a
+
+
+_BLAZEFACE_ANCHORS = _build_blazeface_anchors()
 
 class face_detection:
     def __init__(self, config, comms, sensor):
@@ -67,7 +88,7 @@ class face_detection:
 
         if self.config.get('BlazeFace'):
             if self.blazeface_model is None:
-                self.blazeface_model = ml.Model('/rom/blazeface_front_128.tflite', postprocess=BlazeFace(threshold=self.config.get('BlazeFaceConfidence')))
+                self.blazeface_model = ml.Model('/rom/blazeface_front_128.tflite', postprocess=BlazeFace(threshold=self.config.get('BlazeFaceConfidence'), anchors=_BLAZEFACE_ANCHORS))
 
             for r, score, keypoints in self.blazeface_model.predict([img]):
                 right_eye = (int(keypoints[0][0]), int(keypoints[0][1]))
@@ -120,14 +141,14 @@ class face_detection:
             return
 
         self.face_angle = 0
-        face_objects = img.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale_factor=self.config.get('FaceScaleFactor'))
+        face_objects = img.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale=self.config.get('FaceScaleFactor'))
 
         if len(face_objects) == 0 and self.config.get('FaceAngles'):
             for angle in self.config.get('FaceAngles'):
                 self.extra_fb.replace(img)
                 self.extra_fb.rotation_corr(x_rotation=0.0, y_rotation=0.0, z_rotation=angle)
 
-                face_objects = self.extra_fb.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale_factor=self.config.get('FaceScaleFactor'))
+                face_objects = self.extra_fb.find_features(self.face_cascade, threshold=self.config.get('FaceThreshold'), scale=self.config.get('FaceScaleFactor'))
                 if face_objects:
                     self.face_angle = angle
                     break
@@ -191,12 +212,12 @@ class face_detection:
             return
 
         if self.detector == "BlazeFace" and self.ipd > 0 and self.has_face:
-            img.draw_ellipse(self.halo_mid_x, self.halo_mid_y, self.halo_rx_inner, self.halo_ry_inner, self.halo_angle, color=140, thickness=1)
-            img.draw_ellipse(self.halo_mid_x, self.halo_mid_y, self.halo_rx_outer, self.halo_ry_outer, self.halo_angle, color=180, thickness=1)
+            img.draw_ellipse((self.halo_mid_x, self.halo_mid_y, self.halo_rx_inner, self.halo_ry_inner, self.halo_angle), color=140, thickness=1)
+            img.draw_ellipse((self.halo_mid_x, self.halo_mid_y, self.halo_rx_outer, self.halo_ry_outer, self.halo_angle), color=180, thickness=1)
 
             if AJNA:
-                img.draw_ellipse(self.halo_top_x, self.halo_top_y, self.third_eye_rx, self.third_eye_ry, self.halo_angle, color=140, thickness=1)
-                img.draw_circle(self.halo_top_x, self.halo_top_y, self.third_eye_pupil_r, color=140, thickness=1, fill=True)
+                img.draw_ellipse((self.halo_top_x, self.halo_top_y, self.third_eye_rx, self.third_eye_ry, self.halo_angle), color=140, thickness=1)
+                img.draw_circle((self.halo_top_x, self.halo_top_y, self.third_eye_pupil_r), color=140, thickness=1, fill=True)
             else:
                 v = self.halo_verts
                 img.draw_line((v[0][0], v[0][1], v[1][0], v[1][1]), color=140, thickness=1)
@@ -209,7 +230,7 @@ class face_detection:
                 ey = self.halo_ry_outer * math.sin(theta)
                 px = int(self.halo_mid_x + ex * self.halo_cos_f - ey * self.halo_sin_f)
                 py = int(self.halo_mid_y + ex * self.halo_sin_f + ey * self.halo_cos_f)
-                img.set_pixel(px, py, random.randint(120, 255))
+                img.set_pixel((px, py), random.randint(120, 255))
 
         if self.detector == "TensorFlow":
             img.draw_rectangle(self.face_object, color=(70, 130, 180))
@@ -239,7 +260,7 @@ class face_detection:
             img.draw_line((rotated_rect[1][0], rotated_rect[1][1], rotated_rect[2][0], rotated_rect[2][1]), color=(220, 220, 0))    
             img.draw_line((rotated_rect[2][0], rotated_rect[2][1], rotated_rect[3][0], rotated_rect[3][1]), color=(220, 220, 0))    
             img.draw_line((rotated_rect[3][0], rotated_rect[3][1], rotated_rect[0][0], rotated_rect[0][1]), color=(220, 220, 0))
-            img.draw_string(face_x, face_y + face_height - 10, str(self.face_angle) + "^", color=(70, 130, 180), mono_space=False)
+            img.draw_string((face_x, face_y + face_height - 10), str(self.face_angle) + "^", color=(70, 130, 180), mono_space=False)
 
     def rotate(self, xy, theta):
         cos_theta, sin_theta = math.cos(theta), math.sin(theta)
