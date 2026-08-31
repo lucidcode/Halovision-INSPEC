@@ -66,7 +66,21 @@ class inspec_comms:
         if event == _IRQ_GATTS_WRITE:
             buffer = self.ble.gatts_read(self.rx)
             message = buffer.decode('UTF-8')
-            self.message_received(message)
+            for part in self.split_messages(message):
+                try:
+                    self.message_received(part)
+                except Exception as e:
+                    print("BLE message error", message, e)
+
+    def split_messages(self, message):
+        starts = [0]
+        for prefix in ("update.setting.", "request."):
+            index = message.find(prefix, 1)
+            while index != -1:
+                starts.append(index)
+                index = message.find(prefix, index + 1)
+        starts = sorted(set(starts))
+        return [message[starts[i]:(starts[i + 1] if i + 1 < len(starts) else len(message))] for i in range(len(starts))]
 
     def advertise(self):
         self.payload = advertising_payload(
