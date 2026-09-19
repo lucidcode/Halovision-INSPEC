@@ -2235,7 +2235,7 @@ static bool grayscale_pixels_differ(uint8_t *row_ptr1, uint8_t *row_ptr2, int pi
 
         bool right_changed = false;
         int right_pixel = pixel + x;
-        if (right_pixel <= width) {
+        if (right_pixel < width) {
             int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, right_pixel);
             int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, right_pixel);
             if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
@@ -2273,7 +2273,7 @@ static bool rgb565_pixels_differ(uint16_t *row_ptr1, uint16_t *row_ptr2, int pix
 
         bool right_changed = false;
         int right_pixel = pixel + x;
-        if (right_pixel <= width) {
+        if (right_pixel < width) {
             int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, right_pixel);
             int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, right_pixel);
             if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
@@ -2323,7 +2323,7 @@ static mp_obj_t py_image_variation(uint n_args, const mp_obj_t *args, mp_map_t *
                 for (int x = 0, xx = arg_img->w; x < xx; x++) {
                     if (grayscale_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
                         global_variances++;
-                        if (y >= roi.y && y <= roi.y + roi.h && x >= roi.x && x <= roi.x + roi.w) {
+                        if (y >= roi.y && y < roi.y + roi.h && x >= roi.x && x < roi.x + roi.w) {
                             regional_variances++;
                         }
                     }
@@ -2339,7 +2339,7 @@ static mp_obj_t py_image_variation(uint n_args, const mp_obj_t *args, mp_map_t *
                 for (int x = 0, xx = arg_img->w; x < xx; x++) {
                     if (rgb565_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
                         global_variances++;
-                        if (y >= roi.y && y <= roi.y + roi.h && x >= roi.x && x <= roi.x + roi.w) {
+                        if (y >= roi.y && y < roi.y + roi.h && x >= roi.x && x < roi.x + roi.w) {
                             regional_variances++;
                         }
                     }                    
