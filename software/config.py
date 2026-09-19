@@ -25,7 +25,7 @@ class inspec_config:
         self.default['Saturation'] = 0
         self.default['FrameSize'] = 'HQVGA'
         self.default['CreateLogs'] = 0
-        self.default['TriggerThreshold'] = 8
+        self.default['TriggerThreshold'] = 6
         self.default['TossThreshold'] = 256
         self.default['TossCooldown'] = 1
         self.default['ArtifactFilter'] = 0.7
