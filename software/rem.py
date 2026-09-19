@@ -7,6 +7,7 @@ class rapid_eye_movement:
         self.eye_movements = 0
         self.last_eye_movement = utime.ticks_ms()
         self.artifact_streak = 0.0
+        self.last_artifact = utime.ticks_ms()
 
     def detect(self, variance, global_variance):
         now = utime.ticks_ms()
@@ -25,13 +26,15 @@ class rapid_eye_movement:
 
         artifact_filter = self.config.get('ArtifactFilter')
         artifact_variance = variance + variance * (1.0 - artifact_filter)
-        if artifact_filter != 0 and global_variance > artifact_variance:
+        outside_variance = global_variance - variance
+        if artifact_filter != 0 and global_variance > artifact_variance and outside_variance >= self.config.get('TriggerThreshold'):
             self.artifact_streak += 1
             if artifact_filter >= 0.5:
                 if self.artifact_streak > 4:
                     self.eye_movements = 0
-                elif self.eye_movements > 0:
+                elif self.eye_movements > 0 and now - self.last_artifact > 1000:
                     self.eye_movements -= 1
+                    self.last_artifact = now
             return self.eye_movements
         else:
             if self.artifact_streak > 0:
