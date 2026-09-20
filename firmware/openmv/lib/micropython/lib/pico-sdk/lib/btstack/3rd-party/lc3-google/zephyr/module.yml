@@ -1,4 +1,0 @@
-name: liblc3
-build:
-  cmake-ext: True
-  kconfig-ext: True

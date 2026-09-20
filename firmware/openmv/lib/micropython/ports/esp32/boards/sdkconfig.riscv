@@ -1,3 +1,0 @@
-# ESP RISC-V binary sizes are generally larger than Xtensa ones,
-# so switch to size optimization by default
-CONFIG_COMPILER_OPTIMIZATION_SIZE=y

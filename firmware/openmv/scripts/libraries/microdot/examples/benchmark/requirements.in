@@ -1,9 +1,0 @@
-pip-tools
-flask
-quart
-fastapi
-gunicorn
-uvicorn
-requests
-psutil
-humanize
