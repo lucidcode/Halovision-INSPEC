@@ -1,5 +1,0 @@
---- instance0 ---
-gap_advertise
-gap_disconnect: True
---- instance1 ---
-gap_connect

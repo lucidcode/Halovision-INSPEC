@@ -1,6 +1,0 @@
-{
-    "floatx": "float32",
-    "image_data_format": "channels_last",
-    "backend": "tensorflow",
-    "epsilon": 1e-07
-}

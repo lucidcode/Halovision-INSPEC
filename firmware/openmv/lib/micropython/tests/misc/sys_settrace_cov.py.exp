@@ -1,2 +1,0 @@
-FRAME <frame at 0x\[0-9a-f\]\+, file '\.\*/sys_settrace_cov.py', line \\d\+, code f>
-LASTI \\d\+
