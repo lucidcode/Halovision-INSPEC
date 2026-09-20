@@ -1,0 +1,7 @@
+exclude:
+  - firmware/
+  - api/
+  - software/
+  - release/
+  - "*.stl"
+  - "*.blend"
