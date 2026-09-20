@@ -2219,7 +2219,14 @@ static bool pixels_differ(int pixel1, int pixel2, int pixel_threshold) {
 }
 
 static bool grayscale_pixels_differ(uint8_t *row_ptr1, uint8_t *row_ptr2, int pixel, int width, int neighbors, int pixel_threshold) {
-    int pixels = 0;
+    int center1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, pixel);
+    int center2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, pixel);
+    if (!pixels_differ(center1, center2, pixel_threshold)) {
+        return false;
+    }
+
+    // The center pixel counts towards the run of changed pixels.
+    int pixels = 1;
 
     for (int x = 1; x <= neighbors; x++) {
         bool left_changed = false;
@@ -2253,11 +2260,18 @@ static bool grayscale_pixels_differ(uint8_t *row_ptr1, uint8_t *row_ptr2, int pi
         }
     }
 
-    return false;
+    return pixels >= neighbors;
 }
 
 static bool rgb565_pixels_differ(uint16_t *row_ptr1, uint16_t *row_ptr2, int pixel, int width, int neighbors, int pixel_threshold) {
-    int pixels = 0;
+    int center1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, pixel);
+    int center2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, pixel);
+    if (!pixels_differ(center1, center2, pixel_threshold)) {
+        return false;
+    }
+
+    // The center pixel counts towards the run of changed pixels.
+    int pixels = 1;
 
     for (int x = 1; x <= neighbors; x++) {
         bool left_changed = false;
@@ -2291,7 +2305,7 @@ static bool rgb565_pixels_differ(uint16_t *row_ptr1, uint16_t *row_ptr2, int pix
         }
     }
 
-    return false;
+    return pixels >= neighbors;
 }
 
 static mp_obj_t py_image_variation(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
