@@ -45,6 +45,8 @@ class inspec_sensor:
         self.last_trigger = utime.ticks_ms() - self.config.get('TriggerInterval')
         self.trigger_time = sys.maxsize
         self.last_update = utime.ticks_ms()
+        self.sensor_changed = False
+        self.face_changed = False
 
         self.init_stream()
 
@@ -93,6 +95,14 @@ class inspec_sensor:
     def monitor(self):
         while True:
             try:
+                if self.sensor_changed:
+                    self.sensor_changed = False
+                    self.configure_sensor()
+
+                if self.face_changed:
+                    self.face_changed = False
+                    self.face.load_cascade()
+
                 self.img = self.sensor.snapshot()
 
                 self.face.detect(self.img, self.global_variance)
@@ -182,7 +192,10 @@ class inspec_sensor:
                     self.comms.send_data(f'ip:{self.stream.ip}')
 
             if self.config.is_sensor_setting(setting):
-                self.configure_sensor()
+                self.sensor_changed = True
+
+            if setting == "FaceStages":
+                self.face_changed = True
 
         if message == "flash.leds":
             self.led.flash()

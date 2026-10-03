@@ -36,7 +36,7 @@ class face_detection:
         self.comms = comms
         self.sensor = sensor
         self.has_face = False
-        self.face_cascade = image.HaarCascade("/rom/haarcascade_frontalface.cascade", stages=self.config.get('FaceStages'))
+        self.load_cascade()
         self.face_object = [0, 0, 1, 1]
         self.face_angle = 0
         self.correct_angle = False
@@ -64,6 +64,9 @@ class face_detection:
         self.third_eye_pupil_r = 1
 
         self.extra_fb = image.Image(self.sensor.width(), self.sensor.height(), csi.GRAYSCALE)
+
+    def load_cascade(self):
+        self.face_cascade = image.HaarCascade("/rom/haarcascade_frontalface.cascade", stages=self.config.get('FaceStages'))
 
     def detect(self, img, global_variance):
         if not self.config.get('TrackFace') and not self.config.get('TensorFlow') and not self.config.get('BlazeFace'):
