@@ -2218,94 +2218,108 @@ static bool pixels_differ(int pixel1, int pixel2, int pixel_threshold) {
     return false;
 }
 
-static bool grayscale_pixels_differ(uint8_t *row_ptr1, uint8_t *row_ptr2, int pixel, int width, int neighbors, int pixel_threshold) {
-    int center1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, pixel);
-    int center2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, pixel);
-    if (!pixels_differ(center1, center2, pixel_threshold)) {
-        return false;
+#define VARIATION_SOLIDITY (5)
+
+typedef struct {
+    int x0;
+    int x1;
+    int group;
+} variation_run_t;
+
+typedef struct {
+    int parent;
+    int size;
+    int stacked;
+    int sided;
+    int regional;
+    bool active;
+    bool done;
+} variation_group_t;
+
+typedef struct {
+    int neighbors;
+    int global;
+    int regional;
+} variation_count_t;
+
+static int variation_find(variation_group_t *groups, int i) {
+    while (groups[i].parent != i) {
+        groups[i].parent = groups[groups[i].parent].parent;
+        i = groups[i].parent;
     }
-
-    // The center pixel counts towards the run of changed pixels.
-    int pixels = 1;
-
-    for (int x = 1; x <= neighbors; x++) {
-        bool left_changed = false;
-        int left_pixel = pixel - x;
-        if (left_pixel >= 0) { 
-            int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, left_pixel);
-            int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, left_pixel);
-            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
-                pixels++;
-                left_changed = true;
-            }
-        }
-
-        bool right_changed = false;
-        int right_pixel = pixel + x;
-        if (right_pixel < width) {
-            int pixel1 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr1, right_pixel);
-            int pixel2 = IMAGE_GET_GRAYSCALE_PIXEL_FAST(row_ptr2, right_pixel);
-            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
-                pixels++;
-                right_changed = true;
-            }
-        }
-
-        if (pixels >= neighbors) {
-            return true;
-        }
-
-        if (!left_changed && !right_changed) {
-            break;
-        }
-    }
-
-    return pixels >= neighbors;
+    return i;
 }
 
-static bool rgb565_pixels_differ(uint16_t *row_ptr1, uint16_t *row_ptr2, int pixel, int width, int neighbors, int pixel_threshold) {
-    int center1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, pixel);
-    int center2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, pixel);
-    if (!pixels_differ(center1, center2, pixel_threshold)) {
-        return false;
+static int variation_union(variation_group_t *groups, int a, int b) {
+    a = variation_find(groups, a);
+    b = variation_find(groups, b);
+    if (a != b) {
+        groups[b].parent = a;
+        groups[a].size += groups[b].size;
+        groups[a].stacked += groups[b].stacked;
+        groups[a].sided += groups[b].sided;
+        groups[a].regional += groups[b].regional;
+    }
+    return a;
+}
+
+static void variation_finish(variation_group_t *group, variation_count_t *count) {
+    int solid = (group->stacked < group->sided) ? group->stacked : group->sided;
+    if (group->size >= count->neighbors && solid * 10 >= group->size * VARIATION_SOLIDITY) {
+        count->global += group->size;
+        count->regional += group->regional;
+    }
+}
+
+static int variation_run_overlap(variation_run_t *run, int y, rectangle_t *rect) {
+    if (rect->w < 1 || y < rect->y || y >= rect->y + rect->h) {
+        return 0;
+    }
+    int x0 = (run->x0 > rect->x) ? run->x0 : rect->x;
+    int x1 = (run->x1 < rect->x + rect->w - 1) ? run->x1 : rect->x + rect->w - 1;
+    return (x1 >= x0) ? x1 - x0 + 1 : 0;
+}
+
+static int variation_row_runs(image_t *img, image_t *msk, int y, int pixel_threshold, variation_run_t *runs) {
+    uint8_t *gray_ptr1 = NULL;
+    uint8_t *gray_ptr2 = NULL;
+    uint16_t *rgb565_ptr1 = NULL;
+    uint16_t *rgb565_ptr2 = NULL;
+
+    if (img->pixfmt == PIXFORMAT_GRAYSCALE) {
+        gray_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(img, y);
+        gray_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(msk, y);
+    } else if (img->pixfmt == PIXFORMAT_RGB565) {
+        rgb565_ptr1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(img, y);
+        rgb565_ptr2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(msk, y);
+    } else {
+        return 0;
     }
 
-    // The center pixel counts towards the run of changed pixels.
-    int pixels = 1;
-
-    for (int x = 1; x <= neighbors; x++) {
-        bool left_changed = false;
-        int left_pixel = pixel - x;
-        if (left_pixel >= 0) { 
-            int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, left_pixel);
-            int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, left_pixel);
-            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
-                pixels++;
-                left_changed = true;
+    int count = 0;
+    int start = -1;
+    for (int x = 0; x <= img->w; x++) {
+        bool changed = false;
+        if (x < img->w) {
+            if (gray_ptr1) {
+                changed = pixels_differ(IMAGE_GET_GRAYSCALE_PIXEL_FAST(gray_ptr1, x),
+                                        IMAGE_GET_GRAYSCALE_PIXEL_FAST(gray_ptr2, x), pixel_threshold);
+            } else {
+                changed = pixels_differ(IMAGE_GET_RGB565_PIXEL_FAST(rgb565_ptr1, x),
+                                        IMAGE_GET_RGB565_PIXEL_FAST(rgb565_ptr2, x), pixel_threshold);
             }
         }
 
-        bool right_changed = false;
-        int right_pixel = pixel + x;
-        if (right_pixel < width) {
-            int pixel1 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr1, right_pixel);
-            int pixel2 = IMAGE_GET_RGB565_PIXEL_FAST(row_ptr2, right_pixel);
-            if (pixels_differ(pixel1, pixel2, pixel_threshold)) {
-                pixels++;
-                right_changed = true;
-            }
-        }
-
-        if (pixels >= neighbors) {
-            return true;
-        }
-
-        if (!left_changed && !right_changed) {
-            break;
+        if (changed && start < 0) {
+            start = x;
+        } else if (!changed && start >= 0) {
+            runs[count].x0 = start;
+            runs[count].x1 = x - 1;
+            count++;
+            start = -1;
         }
     }
-
-    return pixels >= neighbors;
+    return count;
 }
 
 static mp_obj_t py_image_variation(uint n_args, const mp_obj_t *args, mp_map_t *kw_args)
@@ -2317,9 +2331,7 @@ static mp_obj_t py_image_variation(uint n_args, const mp_obj_t *args, mp_map_t *
         py_helper_arg_to_image(args[1], ARG_IMAGE_MUTABLE);
 
     int pixel_threshold = mp_obj_get_int(args[2]);
-    int neighbors = mp_obj_get_int(args[3]);
-    int global_variances = 0;
-    int regional_variances = 0;
+    variation_count_t count = { mp_obj_get_int(args[3]), 0, 0 };
 
     rectangle_t roi;
     if (n_args > 4) {
@@ -2327,45 +2339,119 @@ static mp_obj_t py_image_variation(uint n_args, const mp_obj_t *args, mp_map_t *
     } else {
         roi.x = 0; roi.y = 0; roi.w = arg_img->w; roi.h = arg_img->h;
     }
-    
-    switch(arg_img->pixfmt) {
-        case PIXFORMAT_GRAYSCALE: {
-            for (int y = 0, yy = arg_img->h; y < yy; y++) {
-                uint8_t *row_ptr1 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_img, y);
-                uint8_t *row_ptr2 = IMAGE_COMPUTE_GRAYSCALE_PIXEL_ROW_PTR(arg_msk, y);
-                
-                for (int x = 0, xx = arg_img->w; x < xx; x++) {
-                    if (grayscale_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
-                        global_variances++;
-                        if (y >= roi.y && y < roi.y + roi.h && x >= roi.x && x < roi.x + roi.w) {
-                            regional_variances++;
-                        }
-                    }
-                }
-            }
-            break;
-        }
-        case PIXFORMAT_RGB565: {
-            for (int y = 0, yy = arg_img->h; y < yy; y++) {
-                uint16_t *row_ptr1 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_img, y);
-                uint16_t *row_ptr2 = IMAGE_COMPUTE_RGB565_PIXEL_ROW_PTR(arg_msk, y);
 
-                for (int x = 0, xx = arg_img->w; x < xx; x++) {
-                    if (rgb565_pixels_differ(row_ptr1, row_ptr2, x, arg_img->w, neighbors, pixel_threshold)) {
-                        global_variances++;
-                        if (y >= roi.y && y < roi.y + roi.h && x >= roi.x && x < roi.x + roi.w) {
-                            regional_variances++;
-                        }
-                    }                    
-                }
-            }
-            break;
+    rectangle_t roi2 = { 0, 0, 0, 0 };
+    rectangle_t overlap = { 0, 0, 0, 0 };
+    if (n_args > 5) {
+        roi2 = py_helper_arg_to_roi(args[5], arg_img);
+        int x0 = (roi.x > roi2.x) ? roi.x : roi2.x;
+        int y0 = (roi.y > roi2.y) ? roi.y : roi2.y;
+        int x1 = (roi.x + roi.w < roi2.x + roi2.w) ? roi.x + roi.w : roi2.x + roi2.w;
+        int y1 = (roi.y + roi.h < roi2.y + roi2.h) ? roi.y + roi.h : roi2.y + roi2.h;
+        if (x1 > x0 && y1 > y0) {
+            overlap.x = x0; overlap.y = y0; overlap.w = x1 - x0; overlap.h = y1 - y0;
         }
     }
 
+    int max_runs = (arg_img->w + 1) / 2;
+    int max_groups = max_runs * 2;
+    uint8_t *buffer = uma_malloc(sizeof(variation_run_t) * max_runs * 2 +
+                                 sizeof(variation_group_t) * max_groups * 2 +
+                                 sizeof(int) * max_groups, UMA_DTCM);
+    variation_run_t *prev_runs = (variation_run_t *) buffer;
+    variation_run_t *cur_runs = prev_runs + max_runs;
+    variation_group_t *groups = (variation_group_t *) (cur_runs + max_runs);
+    variation_group_t *next_groups = groups + max_groups;
+    int *remap = (int *) (next_groups + max_groups);
+
+    int prev_count = 0;
+    int group_count = 0;
+
+    for (int y = 0; y < arg_img->h; y++) {
+        int cur_count = variation_row_runs(arg_img, arg_msk, y, pixel_threshold, cur_runs);
+
+        // Start a group for each run, counting its pixels that touch side by side.
+        for (int i = 0; i < cur_count; i++) {
+            variation_run_t *run = &cur_runs[i];
+            variation_group_t *group = &groups[group_count];
+            group->parent = group_count;
+            group->size = run->x1 - run->x0 + 1;
+            group->stacked = 0;
+            group->sided = group->size - 1;
+            group->regional = variation_run_overlap(run, y, &roi) + variation_run_overlap(run, y, &roi2) -
+                              variation_run_overlap(run, y, &overlap);
+            group->active = false;
+            group->done = false;
+            run->group = group_count++;
+        }
+
+        // Join runs that share columns with runs in the row above, counting the stacked pixels.
+        for (int i = 0, j = 0; i < prev_count && j < cur_count;) {
+            variation_run_t *prev = &prev_runs[i];
+            variation_run_t *cur = &cur_runs[j];
+            int x0 = (prev->x0 > cur->x0) ? prev->x0 : cur->x0;
+            int x1 = (prev->x1 < cur->x1) ? prev->x1 : cur->x1;
+            if (x1 >= x0) {
+                int root = variation_union(groups, prev->group, cur->group);
+                groups[root].stacked += x1 - x0 + 1;
+            }
+            if (prev->x1 < cur->x1) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+
+        // Finish the groups from the row above that do not continue into this row.
+        for (int i = 0; i < cur_count; i++) {
+            groups[variation_find(groups, cur_runs[i].group)].active = true;
+        }
+        for (int i = 0; i < prev_count; i++) {
+            variation_group_t *group = &groups[variation_find(groups, prev_runs[i].group)];
+            if (!group->active && !group->done) {
+                group->done = true;
+                variation_finish(group, &count);
+            }
+        }
+
+        // Keep only the groups this row continues.
+        for (int i = 0; i < group_count; i++) {
+            remap[i] = -1;
+        }
+        int next_count = 0;
+        for (int i = 0; i < cur_count; i++) {
+            int root = variation_find(groups, cur_runs[i].group);
+            if (remap[root] < 0) {
+                remap[root] = next_count;
+                next_groups[next_count] = groups[root];
+                next_groups[next_count].parent = next_count;
+                next_groups[next_count].active = false;
+                next_count++;
+            }
+            cur_runs[i].group = remap[root];
+        }
+
+        variation_group_t *swap_groups = groups;
+        groups = next_groups;
+        next_groups = swap_groups;
+        group_count = next_count;
+
+        variation_run_t *swap_runs = prev_runs;
+        prev_runs = cur_runs;
+        cur_runs = swap_runs;
+        prev_count = cur_count;
+    }
+
+    // Finish the groups that reach the bottom of the image.
+    for (int i = 0; i < group_count; i++) {
+        variation_finish(&groups[i], &count);
+    }
+
+    uma_free(buffer);
+
     mp_obj_t variances_obj[2] = {
-        mp_obj_new_int(global_variances),
-        mp_obj_new_int(regional_variances),
+        mp_obj_new_int(count.global),
+        mp_obj_new_int(count.regional),
     };
 
     return mp_obj_new_tuple(2, variances_obj);
