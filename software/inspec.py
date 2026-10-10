@@ -12,6 +12,7 @@ from rem import rapid_eye_movement
 from nrem import non_rapid_eye_movement
 from quality import sleep_quality
 from face import face_detection
+from eyes import eye_history
 from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
@@ -30,6 +31,7 @@ class inspec_sensor:
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
         self.face = face_detection(self.config, self.comms, self.sensor)
+        self.eyes = eye_history(self.config, self.pixformat)
         self.rem = rapid_eye_movement(self.config, self.face)
         self.nrem = non_rapid_eye_movement(self.config, self.face)
         self.quality = sleep_quality(self.config, self.process_api)
@@ -38,6 +40,9 @@ class inspec_sensor:
         self.extra_fb.draw_image(self.img)
         self.peak_variance = 0
         self.global_variance = 0
+        self.variance = 0
+        self.eye_variance = None
+        self.regions = []
         
         machine.RTC().datetime((self.config.get('Year'), self.config.get('Month'), self.config.get('Day'), 0, 0, 0, 0, 0))
 
@@ -67,6 +72,9 @@ class inspec_sensor:
         fmt = pixformat_map.get(self.config.get('PixelFormat'), csi.RGB565)
         self.sensor.pixformat(fmt)
         self.extra_fb = image.Image(self.sensor.width(), self.sensor.height(), fmt)
+        self.pixformat = fmt
+        if getattr(self, 'eyes', None):
+            self.eyes.set_pixformat(fmt)
 
         if self.config.get('TrackFace'):
             self.sensor.contrast(3)
@@ -105,8 +113,13 @@ class inspec_sensor:
 
                 self.img = self.sensor.snapshot()
 
-                self.face.detect(self.img, self.global_variance)
-                self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), self.face.face_object)
+                self.face.detect(self.img, self.global_variance, self.variance)
+                self.regions = self.face.regions()
+                self.global_variance, self.variance = self.img.variation(self.extra_fb, self.config.get('PixelThreshold'), self.config.get('PixelRange'), *self.regions)
+
+                self.eye_variance = self.eyes.compare(self.img, self.face.eye_lag_regions(), self.face.has_face)
+
+                self.record_frames()
 
                 if self.global_variance > self.peak_variance:
                     self.peak_variance = self.global_variance
@@ -117,6 +130,7 @@ class inspec_sensor:
                 self.detect_face()
                 self.detect_rem()
                 self.detect_nrem()
+                self.lsd.end_frame(self.rem.eye_movements)
                 self.quality.measure(self.global_variance)
 
                 self.led.process()
@@ -179,6 +193,7 @@ class inspec_sensor:
 
             self.config.set(setting, value)
             self.config.save()
+            self.lsd.config_changed = True
             self.led.blink("B", 8)
 
             if (setting == "AccessPoint" or setting == "WiFi") and value == "1":
@@ -206,6 +221,24 @@ class inspec_sensor:
         if message == "restart":
             machine.reset()
 
+    def record_frames(self):
+        recording = self.comms.connected and self.config.get('CreateLogs') == 1 and self.config.get('RecordAllFrames')
+
+        try:
+            if not recording:
+                if self.lsd.recording:
+                    self.lsd.stop_frames()
+                return
+
+            if self.lsd.frames_failed:
+                return
+
+            self.lsd.record_frame(self.extra_fb, self.img, self.global_variance, self.variance, self.face, self.regions, self.eyes, self.eye_variance)
+        except Exception as e:
+            self.lsd.frames_failed = True
+            self.error = f'RecordAllFrames: {str(e)}'
+            print("Error", self.error)
+
     def detect_motion(self):
         if self.config.get('Algorithm') != "Motion Detection":
             return
@@ -231,10 +264,13 @@ class inspec_sensor:
         self.lsd.log(self.global_variance, motion, 0)
         
     def detect_rem(self):
-        eye_movements = self.rem.detect(self.variance, self.global_variance)
-        
+        eye_variance = self.variance if self.eye_variance is None else self.eye_variance
+        eye_movements = self.rem.detect(eye_variance, self.global_variance, self.variance)
+
         if self.config.get('Algorithm') == "REM Detection":
-            self.lsd.log(self.global_variance, self.rem.eye_movements, self.quality.indicator)
+            face = 1 if self.face.has_face else 0
+            lag = 0 if self.eye_variance is None else self.eye_variance
+            self.lsd.log(self.global_variance, self.rem.eye_movements, self.quality.indicator, self.variance, face, lag)
 
         if self.eye_movements != eye_movements:
             self.eye_movements = eye_movements

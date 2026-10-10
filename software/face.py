@@ -10,6 +10,12 @@ from ulab import numpy as np
 
 AJNA = True
 
+EYE_REGION_SIZE = 0.75
+
+EYE_LAG_REGION_SIZE = 0.5
+
+FACE_ORIENTATIONS = (0, image.ROTATE_90, image.ROTATE_270)
+
 
 def _build_blazeface_anchors():
     anchor_grid = [(16, 2), (8, 6)]
@@ -38,6 +44,8 @@ class face_detection:
         self.has_face = False
         self.load_cascade()
         self.face_object = [0, 0, 1, 1]
+        self.eye_regions = None
+        self.lag_regions = None
         self.face_angle = 0
         self.correct_angle = False
         self.ml_model = None
@@ -46,6 +54,11 @@ class face_detection:
         self.eye_centers = [(0, 0), (0, 0)]
         self.ipd = 0
         self.detector = ""
+
+        self.orientation = 0
+        self.orientation_misses = 0
+        self.rotated_fb = None
+        self.rotation_maps = {}
 
         self.halo_mid_x = 0
         self.halo_mid_y = 0
@@ -68,13 +81,18 @@ class face_detection:
     def load_cascade(self):
         self.face_cascade = image.HaarCascade("/rom/haarcascade_frontalface.cascade", stages=self.config.get('FaceStages'))
 
-    def detect(self, img, global_variance):
+    def detect(self, img, global_variance, variance):
         if not self.config.get('TrackFace') and not self.config.get('TensorFlow') and not self.config.get('BlazeFace'):
             self.face_object = [0, 0, img.width(), img.height()]
+            self.eye_regions = None
+            self.lag_regions = None
             self.has_face = False
             return
 
-        is_toss = global_variance >= self.config.get('TossThreshold')
+        toss_threshold = self.config.get('TossThreshold')
+        is_toss = global_variance >= toss_threshold
+        if self.has_face:
+            is_toss = global_variance - variance >= toss_threshold or variance >= toss_threshold * 4
 
         if self.config.get('BlazeFace'):
             if is_toss and self.blazeface_skip_counter > 8:
@@ -86,6 +104,8 @@ class face_detection:
 
         if is_toss:
             self.face_object = [0, 0, img.width(), img.height()]
+            self.eye_regions = None
+            self.lag_regions = None
 
         self.has_face = False
 
@@ -93,10 +113,15 @@ class face_detection:
             if self.blazeface_model is None:
                 self.blazeface_model = ml.Model('/rom/blazeface_front_128.tflite', postprocess=BlazeFace(threshold=self.config.get('BlazeFaceConfidence'), anchors=_BLAZEFACE_ANCHORS))
 
-            for r, score, keypoints in self.blazeface_model.predict([img]):
-                right_eye = (int(keypoints[0][0]), int(keypoints[0][1]))
-                left_eye = (int(keypoints[1][0]), int(keypoints[1][1]))
+            orientation = self.next_orientation()
+            frame = self.turn_frame(img, orientation)
+
+            for r, score, keypoints in self.blazeface_model.predict([frame]):
+                right_eye = self.turn_back(keypoints[0], orientation, img)
+                left_eye = self.turn_back(keypoints[1], orientation, img)
                 self.eye_centers = [right_eye, left_eye]
+                self.orientation = orientation
+                self.orientation_misses = 0
 
                 dx = left_eye[0] - right_eye[0]
                 dy = left_eye[1] - right_eye[1]
@@ -112,19 +137,29 @@ class face_detection:
 
                 eye_cx = (right_eye[0] + left_eye[0]) // 2
                 eye_cy = (right_eye[1] + left_eye[1]) // 2
-                eye_w_aligned = ipd_f * 2.5
-                eye_h_aligned = ipd_f * 1.0
+                eye_w_aligned = ipd_f * 3.0
+                eye_h_aligned = ipd_f * 1.6
                 eye_w = max(int(eye_w_aligned * abs_cos + eye_h_aligned * abs_sin), 1)
                 eye_h = max(int(eye_w_aligned * abs_sin + eye_h_aligned * abs_cos), 1)
                 eye_x = max(eye_cx - eye_w // 2, 0)
                 eye_y = max(eye_cy - eye_h // 2, 0)
                 self.face_object = (eye_x, eye_y, eye_w, eye_h)
 
+                half = int(ipd_f * EYE_REGION_SIZE)
+                squares = [self.eye_square(eye, half, img) for eye in (right_eye, left_eye)]
+                self.eye_regions = [square for square in squares if square] or None
+
+                half = int(ipd_f * EYE_LAG_REGION_SIZE)
+                squares = [self.eye_square(eye, half, img) for eye in (right_eye, left_eye)]
+                self.lag_regions = [square for square in squares if square] or None
+
                 self.detector = "BlazeFace"
                 self.has_face = True
                 self.blazeface_skip_counter = max(128, 0)
                 self.compute_halo_geometry()
                 return
+
+            self.orientation_misses += 1
 
         if self.config.get('TensorFlow'):
             if self.ml_model == None:
@@ -136,6 +171,8 @@ class face_detection:
 
                 for (x, y, w, h), score in detection_list:
                     self.face_object = (x - w, y - h, w * 4, h * 4)
+                    self.eye_regions = None
+                    self.lag_regions = None
                     self.detector = "TensorFlow"
                     self.has_face = True
                     return
@@ -158,6 +195,8 @@ class face_detection:
 
         if face_objects:
             self.face_object = face_objects[0]
+            self.eye_regions = None
+            self.lag_regions = None
             self.detector = "HaarCascade"
             self.has_face = True
 
@@ -171,6 +210,72 @@ class face_detection:
                     eyes_height = int(self.face_object[3] * 2/5)
                     self.face_object = [eyes_x, eyes_y, eyes_width, eyes_height]
         
+    def next_orientation(self):
+        if not self.config.get('FaceRotation'):
+            return 0
+        if self.orientation_misses % 2 == 0:
+            return self.orientation
+        others = [o for o in FACE_ORIENTATIONS if o != self.orientation and self.rotation_map(o)]
+        if not others:
+            return self.orientation
+        return others[(self.orientation_misses // 2) % len(others)]
+
+    def rotation_map(self, orientation):
+        if orientation in self.rotation_maps:
+            return self.rotation_maps[orientation]
+        found = None
+        try:
+            source = image.Image(4, 2, image.GRAYSCALE)
+            source.clear()
+            source.set_pixel(1, 0, 255)
+            turned = image.Image(2, 4, image.GRAYSCALE)
+            turned.clear()
+            turned.draw_image(source, 0, 0, hint=orientation)
+            for y in range(4):
+                for x in range(2):
+                    if turned.get_pixel(x, y) > 127:
+                        found = (x == 1, y == 2)
+        except Exception as e:
+            print("rotation_map", orientation, e)
+        self.rotation_maps[orientation] = found
+        return found
+
+    def turn_frame(self, img, orientation):
+        if not orientation:
+            return img
+        if self.rotated_fb is None or self.rotated_fb.width() != img.height() or self.rotated_fb.height() != img.width():
+            self.rotated_fb = image.Image(img.height(), img.width(), img.format())
+        self.rotated_fb.draw_image(img, 0, 0, hint=orientation)
+        return self.rotated_fb
+
+    def turn_back(self, point, orientation, img):
+        x, y = int(point[0]), int(point[1])
+        if not orientation:
+            return (x, y)
+        flip_y, flip_x = self.rotation_maps[orientation]
+        original_x = img.width() - 1 - y if flip_x else y
+        original_y = img.height() - 1 - x if flip_y else x
+        return (original_x, original_y)
+
+    def eye_square(self, eye, half, img):
+        x0 = max(eye[0] - half, 0)
+        y0 = max(eye[1] - half, 0)
+        x1 = min(eye[0] + half, img.width() - 1)
+        y1 = min(eye[1] + half, img.height() - 1)
+        if x1 < x0 or y1 < y0:
+            return None
+        return (x0, y0, x1 - x0 + 1, y1 - y0 + 1)
+
+    def regions(self):
+        if self.config.get('EyeRegions') and self.eye_regions:
+            return self.eye_regions
+        return [self.face_object]
+
+    def eye_lag_regions(self):
+        if self.config.get('EyeRegions') and self.lag_regions:
+            return self.lag_regions
+        return None
+
     def compute_halo_geometry(self):
         right_eye, left_eye = self.eye_centers
         self.halo_mid_x = (right_eye[0] + left_eye[0]) // 2

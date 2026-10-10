@@ -25,10 +25,12 @@ class inspec_config:
         self.default['Saturation'] = 0
         self.default['FrameSize'] = 'HQVGA'
         self.default['CreateLogs'] = 0
+        self.default['RecordAllFrames'] = 0
         self.default['TriggerThreshold'] = 6
         self.default['TossThreshold'] = 256
         self.default['TossCooldown'] = 1
         self.default['ArtifactFilter'] = 0.7
+        self.default['ArtifactDuration'] = 2000
         self.default['TriggerDelay'] = 0
         self.default['TriggerInterval'] = 1000 * 60 * 1
         self.default['NREM1Delay'] = 1000 * 60 * 1
@@ -40,8 +42,12 @@ class inspec_config:
         self.default['TensorFlow'] = 0
         self.default['BlazeFace'] = 1
         self.default['BlazeFaceConfidence'] = 0.4
+        self.default['FaceRotation'] = 0
         self.default['FaceConfidence'] = 102
         self.default['DrawFaceRegion'] = 1
+        self.default['EyeRegions'] = 1
+        self.default['EyeLag'] = 250
+        self.default['EyeBurst'] = 2500
         self.default['FaceStages'] = 25
         self.default['FaceThreshold'] = 0.75
         self.default['FaceScaleFactor'] = 1.25
