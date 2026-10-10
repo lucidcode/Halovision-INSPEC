@@ -43,6 +43,7 @@ freeze ("$(OMV_LIB_DIR)/", "_boot.py")
 # INSPEC
 freeze ("$(TOP_DIR)/../../../../software", "ble.py")
 freeze ("$(TOP_DIR)/../../../../software", "face.py")
+freeze ("$(TOP_DIR)/../../../../software", "eyes.py")
 freeze ("$(TOP_DIR)/../../../../software", "config.py")
 freeze ("$(TOP_DIR)/../../../../software", "inspec.py")
 freeze ("$(TOP_DIR)/../../../../software", "wifi.py")
