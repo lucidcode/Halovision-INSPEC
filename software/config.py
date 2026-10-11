@@ -19,7 +19,7 @@ class inspec_config:
         self.default['WiFiImageQuality'] = 90
         self.default['PixelFormat'] = 'Grayscale'
         self.default['PixelThreshold'] = 6
-        self.default['PixelRange'] = 6
+        self.default['PixelRange'] = 12
         self.default['Brightness'] = 0
         self.default['Contrast'] = 3
         self.default['Saturation'] = 0
