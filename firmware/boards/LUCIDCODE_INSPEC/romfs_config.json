@@ -4,6 +4,7 @@
     "entries": [
     {
       "type": "tflite",
+      "enabled": false,
       "path": "{TOP}/lib/models/audio_preprocessor.tflite",
       "alignment": 16,
       "optimize": "Performance"
@@ -16,24 +17,28 @@
     },
     {
       "type": "tflite",
+      "enabled": false,
       "path": "{TOP}/lib/models/force_int_quant.tflite",
       "alignment": 16,
       "optimize": "Performance"
     },
     {
       "type": "tflite",
+      "enabled": false,
       "path": "{TOP}/lib/models/micro_speech.tflite",
       "alignment": 16,
       "optimize": "Performance"
     },
     {
       "type": "tflite",
+      "enabled": false,
       "path": "{TOP}/lib/models/person_detect.tflite",
       "alignment": 16,
       "optimize": "Performance"
     },
     {
       "type": "tflite",
+      "enabled": false,
       "path": "{TOP}/lib/models/yolo_lc_192.tflite",
       "alignment": 16,
       "optimize": "Performance"
@@ -46,11 +51,13 @@
     },
     {
       "type": "haar",
+      "enabled": false,
       "path": "{TOP}/lib/haar/haarcascade_eye.xml",
       "stages": 0
     },
     {
       "type": "haar",
+      "enabled": false,
       "path": "{TOP}/lib/haar/haarcascade_smile.xml",
       "stages": 0
     },

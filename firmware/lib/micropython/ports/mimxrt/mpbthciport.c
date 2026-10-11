@@ -84,6 +84,11 @@ void mp_bluetooth_hci_poll_now(void) {
 
 mp_obj_t mp_bthci_uart;
 
+// The RX ring buffer does not deassert RTS when it fills, so bytes that arrive faster than
+// the 128ms poll drains them are lost. Size it above what an OTA transfer keeps in flight
+// (12KB of data plus HCI headers).
+#define HCI_UART_RXBUF_SIZE (16384)
+
 int mp_bluetooth_hci_uart_init(uint32_t port, uint32_t baudrate) {
     DEBUG_printf("mp_bluetooth_hci_uart_init\n");
 
@@ -94,7 +99,7 @@ int mp_bluetooth_hci_uart_init(uint32_t port, uint32_t baudrate) {
         MP_OBJ_NEW_QSTR(MP_QSTR_timeout), MP_OBJ_NEW_SMALL_INT(200),
         MP_OBJ_NEW_QSTR(MP_QSTR_timeout_char), MP_OBJ_NEW_SMALL_INT(200),
         MP_OBJ_NEW_QSTR(MP_QSTR_txbuf), MP_OBJ_NEW_SMALL_INT(768),
-        MP_OBJ_NEW_QSTR(MP_QSTR_rxbuf), MP_OBJ_NEW_SMALL_INT(768),
+        MP_OBJ_NEW_QSTR(MP_QSTR_rxbuf), MP_OBJ_NEW_SMALL_INT(HCI_UART_RXBUF_SIZE),
     };
 
     mp_bthci_uart = MP_OBJ_TYPE_GET_SLOT(&machine_uart_type, make_new)((mp_obj_t)&machine_uart_type, 1, 6, args);

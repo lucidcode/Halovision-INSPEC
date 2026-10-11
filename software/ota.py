@@ -45,6 +45,7 @@ class ota_updater:
     FLASH_END = ROMFS_ADDR + ROMFS_SIZE
     RECORD_PEEK = 256
     IDLE_TIMEOUT_MS = 15000
+    COPY_DELAY_MS = 500
 
     def __init__(self, comms):
         self.comms = comms
@@ -61,6 +62,7 @@ class ota_updater:
         self.write_addr = 0
         self.erased_until = 0
         self.last_activity = 0
+        self.copy_at = None
 
     def info(self):
         backend = 'mimxrt' if mimxrt else 'none'
@@ -153,16 +155,20 @@ class ota_updater:
             self.comms.send_data('ota:unchanged')
             return
 
-        if append:
-            try:
-                self.clear_tail(write_addr)
-            except Exception as e:
-                print("OTA tail error", e)
-                self.abort('write_failed')
-                return
-
         if target_addr != self.APP_ADDR:
             self.romfs_dirty = True
+
+        try:
+            if append:
+                self.clear_tail(write_addr)
+            # Erase everything up front. Erasing during the transfer stalls the BLE link.
+            erase_end = self.align(write_addr + expected_size)
+            mimxrt.flash_erase(self.erased_until, erase_end - self.erased_until)
+            self.erased_until = erase_end
+        except Exception as e:
+            print("OTA erase error", e)
+            self.abort('write_failed')
+            return
 
         self.active = True
         self.comms.start_ota(self.receive_chunk)
@@ -253,14 +259,18 @@ class ota_updater:
             # ROMFS was written in place.
             self.comms.send_data('ota:applied')
         else:
+            # Commands run inside the BLE write callback, and the write is only acknowledged
+            # once it returns. The copy never returns, so poll() starts it from the main loop.
+            self.copy_at = utime.ticks_add(utime.ticks_ms(), self.COPY_DELAY_MS)
             self.comms.send_data('ota:applying')
-            # Give the notification time to leave before IRQs are disabled.
-            utime.sleep_ms(500)
-            try:
-                mimxrt.flash_copy_and_reset(self.write_addr, self.target_addr, self.expected_size)
-            except Exception as e:
-                print("OTA apply error", e)
-                self.comms.send_data('ota:error:apply_failed')
+
+    def copy_firmware(self):
+        self.copy_at = None
+        try:
+            mimxrt.flash_copy_and_reset(self.write_addr, self.target_addr, self.expected_size)
+        except Exception as e:
+            print("OTA apply error", e)
+            self.comms.send_data('ota:error:apply_failed')
 
     def end(self):
         self.comms.send_data('ota:ended')
@@ -279,6 +289,7 @@ class ota_updater:
             machine.reset()
         self.active = False
         self.verified = False
+        self.copy_at = None
         self.session = False
 
     def touch(self):
@@ -286,6 +297,11 @@ class ota_updater:
 
     def poll(self):
         if not self.session:
+            return
+        if self.copy_at is not None:
+            # Give the acknowledgement and notification time to leave before IRQs are disabled.
+            if utime.ticks_diff(utime.ticks_ms(), self.copy_at) >= 0:
+                self.copy_firmware()
             return
         if not self.comms.connected:
             self.abort('disconnected')

@@ -41,20 +41,35 @@ static void mimxrt_check_flash_range(uint32_t addr, uint32_t length) {
     }
 }
 
-// mimxrt.flash_erase(addr)
-// Erases the sector at the given flash-relative address.
-static mp_obj_t mimxrt_flash_erase(mp_obj_t addr_obj) {
-    uint32_t addr = mp_obj_get_int(addr_obj);
-    mimxrt_check_flash_range(addr, SECTOR_SIZE_BYTES);
-    if (addr % SECTOR_SIZE_BYTES != 0) {
+// mimxrt.flash_erase(addr[, length])
+// Erases length bytes (one sector by default) at the given flash-relative address. Both
+// must be sector-aligned. Whole blocks inside the range use the faster block erase.
+static mp_obj_t mimxrt_flash_erase(size_t n_args, const mp_obj_t *args) {
+    uint32_t addr = mp_obj_get_int(args[0]);
+    uint32_t length = n_args > 1 ? mp_obj_get_int(args[1]) : SECTOR_SIZE_BYTES;
+    uint32_t sector_size = SECTOR_SIZE_BYTES;
+    uint32_t block_size = BLOCK_SIZE_BYTES;
+    mimxrt_check_flash_range(addr, length);
+    if (addr % sector_size != 0 || length % sector_size != 0) {
         mp_raise_ValueError(MP_ERROR_TEXT("unaligned"));
     }
-    if (flash_erase_sector(addr) != kStatus_Success) {
-        mp_raise_OSError(MP_EIO);
+    for (uint32_t end = addr + length; addr < end;) {
+        status_t status;
+        if (block_size > sector_size && block_size % sector_size == 0
+            && addr % block_size == 0 && end - addr >= block_size) {
+            status = flash_erase_block(addr);
+            addr += block_size;
+        } else {
+            status = flash_erase_sector(addr);
+            addr += sector_size;
+        }
+        if (status != kStatus_Success) {
+            mp_raise_OSError(MP_EIO);
+        }
     }
     return mp_const_none;
 }
-static MP_DEFINE_CONST_FUN_OBJ_1(mimxrt_flash_erase_obj, mimxrt_flash_erase);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mimxrt_flash_erase_obj, 1, 2, mimxrt_flash_erase);
 
 // mimxrt.flash_write(addr, data)
 // Writes bytes at the given flash-relative address. The sector must be erased first.
@@ -94,23 +109,33 @@ static MP_DEFINE_CONST_FUN_OBJ_2(mimxrt_flash_read_obj, mimxrt_flash_read);
 // reset writes AIRCR directly instead of calling NVIC_SystemReset.
 // Each page is copied into a RAM buffer before programming, because reading the
 // memory-mapped source while an IP command is active on the same FlexSPI can stall.
+// Whole blocks inside the copy are erased with the block erase, which takes about a
+// third of the time of erasing their sectors one by one. This keeps the window in
+// which a power cut leaves no bootable firmware short.
 __attribute__((section(".ram_functions"), noinline, noreturn))
 static void flash_copy_and_reset_impl(uint32_t src_addr, uint32_t dst_addr, uint32_t length,
-    uint32_t sector_size, uint32_t page_size) {
+    uint32_t sector_size, uint32_t block_size, uint32_t page_size) {
     uint32_t page_buf[OTA_MAX_PAGE_SIZE / 4];
 
     __disable_irq();
     SCB_DisableDCache();
 
-    for (uint32_t offset = 0; offset < length; offset += sector_size) {
-        flexspi_nor_flash_erase_sector(BOARD_FLEX_SPI, dst_addr + offset);
-
-        uint32_t sector_end = offset + sector_size;
-        if (sector_end > length) {
-            sector_end = length;
+    for (uint32_t offset = 0; offset < length;) {
+        uint32_t erase_size = sector_size;
+        if (block_size > sector_size && (dst_addr + offset) % block_size == 0
+            && length - offset >= block_size) {
+            erase_size = block_size;
+            flexspi_nor_flash_erase_block(BOARD_FLEX_SPI, dst_addr + offset);
+        } else {
+            flexspi_nor_flash_erase_sector(BOARD_FLEX_SPI, dst_addr + offset);
         }
-        for (uint32_t page = offset; page < sector_end; page += page_size) {
-            uint32_t chunk = sector_end - page;
+
+        uint32_t erase_end = offset + erase_size;
+        if (erase_end > length) {
+            erase_end = length;
+        }
+        for (uint32_t page = offset; page < erase_end; page += page_size) {
+            uint32_t chunk = erase_end - page;
             if (chunk > page_size) {
                 chunk = page_size;
             }
@@ -123,6 +148,7 @@ static void flash_copy_and_reset_impl(uint32_t src_addr, uint32_t dst_addr, uint
             }
             flexspi_nor_flash_page_program(BOARD_FLEX_SPI, dst_addr + page, page_buf, words * 4);
         }
+        offset += erase_size;
     }
 
     __DSB();
@@ -140,7 +166,12 @@ static mp_obj_t mimxrt_flash_copy_and_reset(mp_obj_t src_obj, mp_obj_t dst_obj, 
     uint32_t dst_addr = mp_obj_get_int(dst_obj);
     uint32_t length = mp_obj_get_int(len_obj);
     uint32_t sector_size = SECTOR_SIZE_BYTES;
+    uint32_t block_size = BLOCK_SIZE_BYTES;
     uint32_t page_size = PAGE_SIZE_BYTES;
+    if (block_size % sector_size != 0) {
+        // Fall back to sector erases.
+        block_size = sector_size;
+    }
 
     mimxrt_check_flash_range(src_addr, length);
     mimxrt_check_flash_range(dst_addr, length);
@@ -149,7 +180,7 @@ static mp_obj_t mimxrt_flash_copy_and_reset(mp_obj_t src_obj, mp_obj_t dst_obj, 
         mp_raise_ValueError(MP_ERROR_TEXT("copy range"));
     }
 
-    flash_copy_and_reset_impl(src_addr, dst_addr, length, sector_size, page_size);
+    flash_copy_and_reset_impl(src_addr, dst_addr, length, sector_size, block_size, page_size);
 }
 static MP_DEFINE_CONST_FUN_OBJ_3(mimxrt_flash_copy_and_reset_obj, mimxrt_flash_copy_and_reset);
 
