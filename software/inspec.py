@@ -231,6 +231,9 @@ class inspec_sensor:
         if message == "request.ota":
             self.ota.info()
 
+        if message == "ota.romfs":
+            self.ota.romfs_info()
+
         if message.startswith("ota.begin:"):
             parts = message.split(':')
             if len(parts) == 4:
