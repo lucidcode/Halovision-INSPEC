@@ -20,6 +20,8 @@ class inspec_comms:
         self.sending_image = False
         self.sending_file = False
         self.send_errors = False
+        self.ota_mode = False
+        self.ota_received = None
 
         self.ble = bluetooth.BLE()
         self.ble.config(gap_name="INSPEC")
@@ -65,12 +67,30 @@ class inspec_comms:
 
         if event == _IRQ_GATTS_WRITE:
             buffer = self.ble.gatts_read(self.rx)
+            if self.ota_mode:
+                try:
+                    self.ota_received(buffer)
+                except Exception as e:
+                    print("OTA chunk error", e)
+                return
             message = buffer.decode('UTF-8')
             for part in self.split_messages(message):
                 try:
                     self.message_received(part)
                 except Exception as e:
                     print("BLE message error", message, e)
+
+    def start_ota(self, received):
+        self.ble.gatts_set_buffer(self.rx, 16384, True)
+        self.ota_received = received
+        self.ota_mode = True
+
+    def end_ota(self):
+        if not self.ota_mode:
+            return
+        self.ota_mode = False
+        self.ota_received = None
+        self.ble.gatts_set_buffer(self.rx, 256, True)
 
     def split_messages(self, message):
         starts = [0]

@@ -17,6 +17,7 @@ from config import inspec_config
 from ble import inspec_comms
 from wifi import inspec_stream
 from version import version
+from ota import ota_updater
 from machine import LED
 
 class inspec_sensor:
@@ -28,6 +29,7 @@ class inspec_sensor:
         self.configure_sensor()
 
         self.comms = inspec_comms(self.ble_message_received)
+        self.ota = ota_updater(self.comms)
         self.led = lights(self.config)
         self.lsd = lucid_scribe_data(self.config)
         self.face = face_detection(self.config, self.comms, self.sensor)
@@ -103,6 +105,11 @@ class inspec_sensor:
     def monitor(self):
         while True:
             try:
+                if self.ota.session:
+                    self.ota.poll()
+                    utime.sleep_ms(10)
+                    continue
+
                 if self.sensor_changed:
                     self.sensor_changed = False
                     self.configure_sensor()
@@ -220,6 +227,31 @@ class inspec_sensor:
 
         if message == "restart":
             machine.reset()
+
+        if message == "request.ota":
+            self.ota.info()
+
+        if message == "ota.romfs":
+            self.ota.romfs_info()
+
+        if message.startswith("ota.begin:"):
+            parts = message.split(':')
+            if len(parts) == 4:
+                self.ota.begin(parts[1], parts[2], parts[3])
+            else:
+                self.comms.send_data('ota:error:bad_arguments')
+
+        if message == "ota.verify":
+            self.ota.verify()
+
+        if message == "ota.apply":
+            self.ota.apply()
+
+        if message == "ota.end":
+            self.ota.end()
+
+        if message == "ota.abort":
+            self.ota.abort()
 
     def record_frames(self):
         recording = self.comms.connected and self.config.get('CreateLogs') == 1 and self.config.get('RecordAllFrames')
