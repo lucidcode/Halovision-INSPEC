@@ -49,6 +49,7 @@ class inspec_config:
         self.default['EyeLag'] = 250
         self.default['EyeBurst'] = 2500
         self.default['EyeDistanceLimit'] = 1.8
+        self.default['GlobalToss'] = 1
         self.default['FaceStages'] = 25
         self.default['FaceThreshold'] = 0.75
         self.default['FaceScaleFactor'] = 1.25
