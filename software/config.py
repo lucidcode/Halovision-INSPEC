@@ -61,6 +61,7 @@ class inspec_config:
         self.default['VerticalFlip'] = 0
         self.default['SecondStream'] = 0
         self.default['WebhookApi'] = 0
+        self.default['ConfigVersion'] = 1
 
         config_exists = False
         entries = os.listdir()
@@ -73,12 +74,22 @@ class inspec_config:
             text = config_file.read()
             self.config = ujson.loads(text)
             config_file.close()
+            self.migrate()
         else:
             self.config = self.default
             self.save()
 
         json = self.format()
         print(json)
+
+    def migrate(self):
+        if self.config.get('ConfigVersion', 0) >= 1:
+            return
+
+        if self.config.get('PixelRange') == 6:
+            self.config['PixelRange'] = 12
+        self.config['ConfigVersion'] = 1
+        self.save()
 
     def get(self, setting):
         try:
@@ -105,7 +116,7 @@ class inspec_config:
             self.config[setting] = value
             return
 
-        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter", "BlazeFaceConfidence"]
+        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter", "BlazeFaceConfidence", "EyeDistanceLimit"]
         if setting in float_settings:
             self.config[setting] = float(value)
             return
