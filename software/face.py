@@ -3,6 +3,7 @@ import image
 import math
 import ml
 import random
+import utime
 from ml.postprocessing.edgeimpulse import Fomo
 from ml.postprocessing.mediapipe import BlazeFace
 from ml.utils import NMS
@@ -13,6 +14,10 @@ AJNA = True
 EYE_REGION_SIZE = 0.75
 
 EYE_LAG_REGION_SIZE = 0.5
+
+EYE_DISTANCE_SAMPLE_MS = 10000
+EYE_DISTANCE_SAMPLES = 180
+EYE_DISTANCE_MIN_SAMPLES = 6
 
 FACE_ORIENTATIONS = (0, image.ROTATE_90, image.ROTATE_270)
 
@@ -54,6 +59,9 @@ class face_detection:
         self.eye_centers = [(0, 0), (0, 0)]
         self.ipd = 0
         self.detector = ""
+        self.eye_distances = []
+        self.eye_distance_median = 0
+        self.eye_distance_time = None
 
         self.orientation = 0
         self.orientation_misses = 0
@@ -119,13 +127,16 @@ class face_detection:
             for r, score, keypoints in self.blazeface_model.predict([frame]):
                 right_eye = self.turn_back(keypoints[0], orientation, img)
                 left_eye = self.turn_back(keypoints[1], orientation, img)
-                self.eye_centers = [right_eye, left_eye]
-                self.orientation = orientation
-                self.orientation_misses = 0
 
                 dx = left_eye[0] - right_eye[0]
                 dy = left_eye[1] - right_eye[1]
                 ipd_f = math.sqrt(dx * dx + dy * dy)
+                if not self.eye_distance_plausible(ipd_f):
+                    continue
+
+                self.eye_centers = [right_eye, left_eye]
+                self.orientation = orientation
+                self.orientation_misses = 0
                 self.ipd = int(ipd_f)
                 self.face_angle = math.degrees(math.atan2(dy, dx))
 
@@ -256,6 +267,22 @@ class face_detection:
         original_x = img.width() - 1 - y if flip_x else y
         original_y = img.height() - 1 - x if flip_y else x
         return (original_x, original_y)
+
+    def eye_distance_plausible(self, ipd):
+        # Reject eye distances far above the typical one.
+        now = utime.ticks_ms()
+        if self.eye_distance_time is None or utime.ticks_diff(now, self.eye_distance_time) >= EYE_DISTANCE_SAMPLE_MS:
+            self.eye_distance_time = now
+            self.eye_distances.append(ipd)
+            if len(self.eye_distances) > EYE_DISTANCE_SAMPLES:
+                self.eye_distances.pop(0)
+            ordered = sorted(self.eye_distances)
+            self.eye_distance_median = ordered[len(ordered) // 2]
+
+        limit = self.config.get('EyeDistanceLimit')
+        if not limit or len(self.eye_distances) < EYE_DISTANCE_MIN_SAMPLES:
+            return True
+        return ipd <= limit * self.eye_distance_median
 
     def eye_square(self, eye, half, img):
         x0 = max(eye[0] - half, 0)
