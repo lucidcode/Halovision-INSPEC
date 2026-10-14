@@ -99,7 +99,7 @@ class face_detection:
 
         toss_threshold = self.config.get('TossThreshold')
         is_toss = global_variance >= toss_threshold
-        if self.has_face:
+        if self.has_face and not self.config.get('GlobalToss'):
             is_toss = global_variance - variance >= toss_threshold or variance >= toss_threshold * 4
 
         if self.config.get('BlazeFace'):
