@@ -25,7 +25,7 @@ class rapid_eye_movement:
 
         toss_threshold = self.config.get('TossThreshold')
         is_toss = global_variance >= toss_threshold
-        if self.face.has_face:
+        if self.face.has_face and not self.config.get('GlobalToss'):
             is_toss = outside_variance >= toss_threshold or regional_variance >= toss_threshold * 4
 
         if is_toss:
