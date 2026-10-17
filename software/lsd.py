@@ -155,7 +155,7 @@ class lucid_scribe_data:
             frames_file.write(f'# INSPEC {version}\r\n')
             frames_file.write('frame,ms,global,regional,face,detector,x,y,w,h,angle,ipd,right_x,right_y,left_x,left_y,'
                               'r1x,r1y,r1w,r1h,r2x,r2y,r2w,r2h,lag,lag_ms,bx,by,s1x,s1y,s1w,s1h,s2x,s2y,s2w,s2h,'
-                              'rem,minute,sample\r\n')
+                              'shift,rem,minute,sample\r\n')
             frames_file.close()
 
         self.write_config(self.frames_directory + '/config.txt')
@@ -182,12 +182,14 @@ class lucid_scribe_data:
         self.save_frame(current, self.frame_index)
         self.saved_index = self.frame_index
 
-        lag_ms, bx, by, squares = 0, 0, 0, [(0, 0, 0, 0), (0, 0, 0, 0)]
+        lag_ms, bx, by, squares, shift = 0, 0, 0, [(0, 0, 0, 0), (0, 0, 0, 0)], -1
         if eyes is not None and eyes.lagged is not None:
             self.save_frame(eyes.lagged, f'{self.frame_index}L', self.frame_index)
             lag_ms = eyes.lag_ms
             bx, by = eyes.box[0], eyes.box[1]
             squares = eyes.squares
+            if eyes.shift_fit >= 0:
+                shift = int(eyes.shift_fit * 100)
 
         ms = utime.ticks_diff(utime.ticks_ms(), self.session_start)
         has_face = 1 if face.has_face else 0
@@ -201,7 +203,7 @@ class lucid_scribe_data:
 
         s1 = squares[0]
         s2 = squares[1] if len(squares) > 1 else (0, 0, 0, 0)
-        lagged = f'{lag},{lag_ms},{bx},{by},{s1[0]},{s1[1]},{s1[2]},{s1[3]},{s2[0]},{s2[1]},{s2[2]},{s2[3]}'
+        lagged = f'{lag},{lag_ms},{bx},{by},{s1[0]},{s1[1]},{s1[2]},{s1[3]},{s2[0]},{s2[1]},{s2[2]},{s2[3]},{shift}'
 
         self.frame_row = f'{self.frame_index},{ms},{global_variance},{regional_variance},{has_face},{face.detector},{x},{y},{w},{h},{angle},{face.ipd},{right_x},{right_y},{left_x},{left_y},{counted},{lagged}'
 

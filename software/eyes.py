@@ -1,6 +1,7 @@
 import gc
 import image
 import utime
+from ulab import numpy as np
 
 class eye_history:
 
@@ -16,6 +17,8 @@ class eye_history:
         self.index = 0
         self.lagged = None
         self.lag_ms = 0
+        self.shift_fit = -1.0
+        self.shifted = False
 
     def set_pixformat(self, pixformat):
         self.pixformat = pixformat
@@ -25,6 +28,8 @@ class eye_history:
     def compare(self, img, regions, has_face):
         self.lagged = None
         self.lag_ms = 0
+        self.shift_fit = -1.0
+        self.shifted = False
 
         lag = self.config.get('EyeLag')
         if not lag or not has_face or not regions:
@@ -55,7 +60,53 @@ class eye_history:
         self.lagged = self.buffers[oldest[0]]
         self.lag_ms = oldest[1]
         global_variance, variance = current.variation(self.lagged, self.config.get('PixelThreshold'), self.config.get('PixelRange'), *self.squares)
+
+        # A head movement shifts the whole crop, while an eye movement changes the lids locally.
+        shift_filter = self.config.get('EyeShiftFilter')
+        if shift_filter and variance >= self.config.get('TriggerThreshold'):
+            try:
+                self.shift_fit = self.explained_by_shift(current, self.lagged)
+            except Exception as e:
+                print("explained_by_shift", e)
+                self.shift_fit = 0.0
+            self.shifted = self.shift_fit > shift_filter
+
         return variance
+
+    def explained_by_shift(self, current, lagged):
+        """Fits one translation between the crops and returns the share of the change it explains."""
+        w = self.box[2]
+        h = self.box[3]
+        if w < 8 or h < 8 or current.format() != image.GRAYSCALE:
+            return 0.0
+
+        a = self.smooth(current.to_ndarray('f')[:h, :w])
+        b = self.smooth(lagged.to_ndarray('f')[:h, :w])
+
+        mean = (a + b) / 2
+        gx = (mean[1:-1, 2:] - mean[1:-1, :-2]) / 2
+        gy = (mean[2:, 1:-1] - mean[:-2, 1:-1]) / 2
+        change = a[1:-1, 1:-1] - b[1:-1, 1:-1]
+
+        sxx = np.sum(gx * gx)
+        syy = np.sum(gy * gy)
+        sxy = np.sum(gx * gy)
+        sxt = np.sum(gx * change)
+        syt = np.sum(gy * change)
+        stt = np.sum(change * change)
+
+        det = sxx * syy - sxy * sxy
+        if det <= 0 or stt <= 0:
+            return 0.0
+
+        # Solve the least squares shift
+        dx = (sxy * syt - syy * sxt) / det
+        dy = (sxy * sxt - sxx * syt) / det
+        return -(dx * sxt + dy * syt) / stt
+
+    def smooth(self, a):
+        rows = a[:-2, :] + a[1:-1, :] + a[2:, :]
+        return (rows[:, :-2] + rows[:, 1:-1] + rows[:, 2:]) / 9
 
     def bounding_box(self, regions):
         x0 = min(r[0] for r in regions)
