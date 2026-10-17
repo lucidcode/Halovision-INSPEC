@@ -49,6 +49,7 @@ class inspec_config:
         self.default['EyeLag'] = 250
         self.default['EyeBurst'] = 2500
         self.default['EyeDistanceLimit'] = 1.8
+        self.default['EyeShiftFilter'] = 0.5
         self.default['GlobalToss'] = 1
         self.default['FaceStages'] = 25
         self.default['FaceThreshold'] = 0.75
@@ -116,7 +117,7 @@ class inspec_config:
             self.config[setting] = value
             return
 
-        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter", "BlazeFaceConfidence", "EyeDistanceLimit"]
+        float_settings = ["FaceThreshold", "FaceScaleFactor", "ArtifactFilter", "BlazeFaceConfidence", "EyeDistanceLimit", "EyeShiftFilter"]
         if setting in float_settings:
             self.config[setting] = float(value)
             return

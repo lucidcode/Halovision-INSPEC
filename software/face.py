@@ -18,6 +18,7 @@ EYE_LAG_REGION_SIZE = 0.5
 EYE_DISTANCE_SAMPLE_MS = 10000
 EYE_DISTANCE_SAMPLES = 180
 EYE_DISTANCE_MIN_SAMPLES = 6
+EYE_DISTANCE_RESET_MS = 300000
 
 FACE_ORIENTATIONS = (0, image.ROTATE_90, image.ROTATE_270)
 
@@ -62,6 +63,7 @@ class face_detection:
         self.eye_distances = []
         self.eye_distance_median = 0
         self.eye_distance_time = None
+        self.eye_distance_rejected = None
 
         self.orientation = 0
         self.orientation_misses = 0
@@ -271,6 +273,18 @@ class face_detection:
     def eye_distance_plausible(self, ipd):
         # Reject eye distances far above the typical one.
         now = utime.ticks_ms()
+        limit = self.config.get('EyeDistanceLimit')
+        if limit and len(self.eye_distances) >= EYE_DISTANCE_MIN_SAMPLES and ipd > limit * self.eye_distance_median:
+            if self.eye_distance_rejected is None:
+                self.eye_distance_rejected = now
+            if utime.ticks_diff(now, self.eye_distance_rejected) < EYE_DISTANCE_RESET_MS:
+                return False
+
+            # Start over when every detection has been rejected for a while, as the face may have moved closer.
+            self.eye_distances = []
+            self.eye_distance_time = None
+
+        self.eye_distance_rejected = None
         if self.eye_distance_time is None or utime.ticks_diff(now, self.eye_distance_time) >= EYE_DISTANCE_SAMPLE_MS:
             self.eye_distance_time = now
             self.eye_distances.append(ipd)
@@ -278,11 +292,7 @@ class face_detection:
                 self.eye_distances.pop(0)
             ordered = sorted(self.eye_distances)
             self.eye_distance_median = ordered[len(ordered) // 2]
-
-        limit = self.config.get('EyeDistanceLimit')
-        if not limit or len(self.eye_distances) < EYE_DISTANCE_MIN_SAMPLES:
-            return True
-        return ipd <= limit * self.eye_distance_median
+        return True
 
     def eye_square(self, eye, half, img):
         x0 = max(eye[0] - half, 0)

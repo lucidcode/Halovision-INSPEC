@@ -297,6 +297,8 @@ class inspec_sensor:
         
     def detect_rem(self):
         eye_variance = self.variance if self.eye_variance is None else self.eye_variance
+        if self.eyes.shifted:
+            eye_variance = 0
         eye_movements = self.rem.detect(eye_variance, self.global_variance, self.variance)
 
         if self.config.get('Algorithm') == "REM Detection":
