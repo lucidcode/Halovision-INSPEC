@@ -3,6 +3,11 @@ import image
 import utime
 from ulab import numpy as np
 
+SHIFT_RECENT = 5
+SHIFT_RECENT_MS = 20000
+SHIFT_RECENT_SHARE = 0.7
+SHIFT_LOCAL_SHARE = 0.4
+
 class eye_history:
 
     def __init__(self, config, pixformat):
@@ -19,6 +24,7 @@ class eye_history:
         self.lag_ms = 0
         self.shift_fit = -1.0
         self.shifted = False
+        self.shift_fits = []
 
     def set_pixformat(self, pixformat):
         self.pixformat = pixformat
@@ -66,12 +72,24 @@ class eye_history:
         if shift_filter and variance >= self.config.get('TriggerThreshold'):
             try:
                 self.shift_fit = self.explained_by_shift(current, self.lagged)
+                rocking = self.rocking(now, shift_filter)
+                self.shifted = self.shift_fit > shift_filter or rocking
             except Exception as e:
                 print("explained_by_shift", e)
                 self.shift_fit = 0.0
-            self.shifted = self.shift_fit > shift_filter
 
         return variance
+
+    def rocking(self, now, shift_filter):
+        """Returns whether the recent variances are from when breathing rocks the head."""
+        self.shift_fits = [f for f in self.shift_fits if utime.ticks_diff(now, f[0]) <= SHIFT_RECENT_MS]
+        self.shift_fits.append((now, self.shift_fit))
+        if len(self.shift_fits) > SHIFT_RECENT:
+            self.shift_fits.pop(0)
+        if len(self.shift_fits) < 3 or self.shift_fit <= shift_filter * SHIFT_LOCAL_SHARE:
+            return False
+        ordered = sorted(f[1] for f in self.shift_fits)
+        return ordered[len(ordered) // 2] > shift_filter * SHIFT_RECENT_SHARE
 
     def explained_by_shift(self, current, lagged):
         """Fits one translation between the crops and returns the share of the change it explains."""
