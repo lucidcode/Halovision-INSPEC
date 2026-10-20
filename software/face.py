@@ -240,13 +240,13 @@ class face_detection:
         try:
             source = image.Image(4, 2, image.GRAYSCALE)
             source.clear()
-            source.set_pixel(1, 0, 255)
+            source.set_pixel((1, 0), 255)
             turned = image.Image(2, 4, image.GRAYSCALE)
             turned.clear()
             turned.draw_image(source, 0, 0, hint=orientation)
             for y in range(4):
                 for x in range(2):
-                    if turned.get_pixel(x, y) > 127:
+                    if turned.get_pixel((x, y)) > 127:
                         found = (x == 1, y == 2)
         except Exception as e:
             print("rotation_map", orientation, e)
