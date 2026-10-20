@@ -41,7 +41,7 @@ class inspec_comms:
         FILE_UUID = '13370005-763c-4507-99fb-100f72f2300a'
 
         BLE_NUS = bluetooth.UUID(BLE_UUID)
-        BLE_RX = (bluetooth.UUID(RX_UUID), bluetooth.FLAG_WRITE)
+        BLE_RX = (bluetooth.UUID(RX_UUID), bluetooth.FLAG_WRITE | bluetooth.FLAG_WRITE_NO_RESPONSE)
         BLE_TX = (bluetooth.UUID(TX_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
         BLE_TX_IMG = (bluetooth.UUID(IMG_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
         BLE_TX_FILE = (bluetooth.UUID(FILE_UUID), bluetooth.FLAG_NOTIFY | bluetooth.FLAG_READ | bluetooth.FLAG_INDICATE)
