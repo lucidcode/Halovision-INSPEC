@@ -94,7 +94,7 @@ class inspec_comms:
 
     def split_messages(self, message):
         starts = [0]
-        for prefix in ("update.setting.", "request."):
+        for prefix in ("update.setting.", "request.", "flash."):
             index = message.find(prefix, 1)
             while index != -1:
                 starts.append(index)
