@@ -344,7 +344,8 @@ class inspec_sensor:
         now = utime.ticks_ms()
         if self.trigger_time - now < 0:
             self.trigger_time = sys.maxsize
-            self.led.flash()
+            if not self.comms.connected:
+                self.led.flash()
             self.comms.send_data(f'trigger:{str(self.global_variance)}')
             self.process_api("trigger", self.global_variance)
 
