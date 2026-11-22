@@ -58,6 +58,8 @@ class inspec_config:
         self.default['AutoGain'] = 0
         self.default['AutoExposure'] = 0
         self.default['GainCeiling'] = 16
+        self.default['FrameRate'] = 15
+        self.default['Levels'] = 1
         self.default['HorizontalMirror'] = 1
         self.default['VerticalFlip'] = 0
         self.default['SecondStream'] = 0
@@ -125,7 +127,7 @@ class inspec_config:
         self.config[setting] = int(value)
 
     def is_sensor_setting(self, setting):
-        sensor_settings = ["PixelFormat", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure", "TrackFace", "HorizontalMirror", "VerticalFlip"]
+        sensor_settings = ["PixelFormat", "FrameSize", "Brightness", "Contrast", "Saturation", "AutoGain", "AutoExposure", "FrameRate", "Levels", "TrackFace", "HorizontalMirror", "VerticalFlip"]
         if setting in sensor_settings:
             return True
         return False
