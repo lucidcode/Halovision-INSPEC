@@ -3,10 +3,26 @@ import machine
 import ubinascii
 import utime
 
+# The flash backend provides flash_read, flash_write, flash_erase and flash_copy_and_reset
+# with flash-relative addresses: the mimxrt module on the RT1060, the stm module on the N6.
+flash = None
+BACKEND = 'none'
 try:
     import mimxrt
+    flash, BACKEND = mimxrt, 'mimxrt'
 except ImportError:
-    mimxrt = None
+    try:
+        import stm
+        if hasattr(stm, 'flash_copy_and_reset'):
+            flash, BACKEND = stm, 'stm32n6'
+    except ImportError:
+        pass
+
+# Flash layout per backend: (app address, app max size, ROMFS address, ROMFS size).
+LAYOUTS = {
+    'mimxrt': (0x40000, 0x3C0000, 0x800000, 0x800000),
+    'stm32n6': (0x80000, 0x380000, 0x800000, 0x1800000),
+}
 
 PROTOCOL = 1
 
@@ -38,17 +54,15 @@ def encode_vint(value):
 
 class ota_updater:
     BLOCK_SIZE = 4096
-    APP_ADDR = 0x40000
-    APP_MAX_SIZE = 0x3C0000
-    ROMFS_ADDR = 0x800000
-    ROMFS_SIZE = 0x800000
-    FLASH_END = ROMFS_ADDR + ROMFS_SIZE
     RECORD_PEEK = 256
     IDLE_TIMEOUT_MS = 15000
     COPY_DELAY_MS = 500
 
     def __init__(self, comms):
         self.comms = comms
+        layout = LAYOUTS.get(BACKEND, LAYOUTS['mimxrt'])
+        self.APP_ADDR, self.APP_MAX_SIZE, self.ROMFS_ADDR, self.ROMFS_SIZE = layout
+        self.FLASH_END = self.ROMFS_ADDR + self.ROMFS_SIZE
         # The main loop is paused while a session is open.
         self.session = False
         self.active = False
@@ -65,12 +79,11 @@ class ota_updater:
         self.copy_at = None
 
     def info(self):
-        backend = 'mimxrt' if mimxrt else 'none'
-        self.comms.send_data(f'otainfo:{backend}:{PROTOCOL}')
+        self.comms.send_data(f'otainfo:{BACKEND}:{PROTOCOL}')
 
     def romfs_info(self):
         # Lists the ROMFS files so the app only sends files that are missing or changed.
-        if not mimxrt:
+        if not flash:
             self.comms.send_data('ota:error:unsupported')
             return
 
@@ -97,7 +110,7 @@ class ota_updater:
         self.comms.send_data(f'ota:romfs:{bounds[1]}:{self.ROMFS_SIZE}')
 
     def begin(self, addr_hex, size_str, crc_hex):
-        if not mimxrt:
+        if not flash:
             self.comms.send_data('ota:error:unsupported')
             return
 
@@ -163,7 +176,7 @@ class ota_updater:
                 self.clear_tail(write_addr)
             # Erase everything up front. Erasing during the transfer stalls the BLE link.
             erase_end = self.align(write_addr + expected_size)
-            mimxrt.flash_erase(self.erased_until, erase_end - self.erased_until)
+            flash.flash_erase(self.erased_until, erase_end - self.erased_until)
             self.erased_until = erase_end
         except Exception as e:
             print("OTA erase error", e)
@@ -194,9 +207,9 @@ class ota_updater:
         try:
             # Erase every sector the chunk reaches. Chunks often straddle a sector boundary.
             while self.erased_until < end:
-                mimxrt.flash_erase(self.erased_until)
+                flash.flash_erase(self.erased_until)
                 self.erased_until += self.BLOCK_SIZE
-            mimxrt.flash_write(start, data)
+            flash.flash_write(start, data)
         except Exception as e:
             print("OTA write error", e)
             self.abort('write_failed')
@@ -217,7 +230,7 @@ class ota_updater:
         crc = 0
         while size > 0:
             chunk_size = min(self.BLOCK_SIZE, size)
-            crc = ubinascii.crc32(mimxrt.flash_read(addr, chunk_size), crc)
+            crc = ubinascii.crc32(flash.flash_read(addr, chunk_size), crc)
             addr += chunk_size
             size -= chunk_size
         return crc & 0xFFFFFFFF
@@ -267,7 +280,7 @@ class ota_updater:
     def copy_firmware(self):
         self.copy_at = None
         try:
-            mimxrt.flash_copy_and_reset(self.write_addr, self.target_addr, self.expected_size)
+            flash.flash_copy_and_reset(self.write_addr, self.target_addr, self.expected_size)
         except Exception as e:
             print("OTA apply error", e)
             self.comms.send_data('ota:error:apply_failed')
@@ -313,7 +326,7 @@ class ota_updater:
 
     def romfs_bounds(self):
         # Returns where the ROMFS payload starts and ends, relative to ROMFS_ADDR, or None.
-        head = mimxrt.flash_read(self.ROMFS_ADDR, 32)
+        head = flash.flash_read(self.ROMFS_ADDR, 32)
         if head[:3] != ROMFS_MAGIC:
             return None
         try:
@@ -331,7 +344,7 @@ class ota_updater:
         files = []
         pos = start
         while pos < end:
-            buf = mimxrt.flash_read(self.ROMFS_ADDR + pos, min(self.RECORD_PEEK, end - pos))
+            buf = flash.flash_read(self.ROMFS_ADDR + pos, min(self.RECORD_PEEK, end - pos))
             try:
                 kind, i = read_vint(buf, 0)
                 length, i = read_vint(buf, i)
@@ -358,12 +371,12 @@ class ota_updater:
         sector = addr - addr % self.BLOCK_SIZE
         if sector == addr:
             return
-        tail = mimxrt.flash_read(addr, sector + self.BLOCK_SIZE - addr)
+        tail = flash.flash_read(addr, sector + self.BLOCK_SIZE - addr)
         if tail == b'\xff' * len(tail):
             return
-        head = mimxrt.flash_read(sector, addr - sector)
-        mimxrt.flash_erase(sector)
-        mimxrt.flash_write(sector, head)
+        head = flash.flash_read(sector, addr - sector)
+        flash.flash_erase(sector)
+        flash.flash_write(sector, head)
 
     def commit_romfs(self):
         # Makes the appended records visible, then hides the files they replace. A power cut
@@ -389,12 +402,12 @@ class ota_updater:
         padding = start - len(ROMFS_MAGIC) - len(length_bytes)
         if padding < 0:
             raise ValueError
-        sector = mimxrt.flash_read(self.ROMFS_ADDR, self.BLOCK_SIZE)
+        sector = flash.flash_read(self.ROMFS_ADDR, self.BLOCK_SIZE)
         # Leading 0x80 bytes are zeros in the length, so the payload stays at the same offset.
         sector = ROMFS_MAGIC + b'\x80' * padding + length_bytes + sector[start:]
-        mimxrt.flash_erase(self.ROMFS_ADDR)
-        mimxrt.flash_write(self.ROMFS_ADDR, sector)
-        if mimxrt.flash_read(self.ROMFS_ADDR, self.BLOCK_SIZE) != sector:
+        flash.flash_erase(self.ROMFS_ADDR)
+        flash.flash_write(self.ROMFS_ADDR, sector)
+        if flash.flash_read(self.ROMFS_ADDR, self.BLOCK_SIZE) != sector:
             raise OSError('header')
 
     def retire(self, offset):
@@ -404,6 +417,6 @@ class ota_updater:
         word = addr - addr % 4
         data = bytearray(b'\xff\xff\xff\xff')
         data[addr - word] = KIND_PADDING
-        mimxrt.flash_write(word, data)
-        if mimxrt.flash_read(addr, 1)[0] != KIND_PADDING:
+        flash.flash_write(word, data)
+        if flash.flash_read(addr, 1)[0] != KIND_PADDING:
             raise OSError('retire')

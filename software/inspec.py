@@ -18,6 +18,18 @@ from ble import inspec_comms
 from wifi import inspec_stream
 from version import version
 from ota import ota_updater
+
+# Levels stretches the PAG7936's (N6) narrow grey band to the full range. It recalibrates once
+# a minute and waits a few seconds after a sensor reset for auto exposure to settle.
+LEVELS_INTERVAL_MS = 60000
+LEVELS_SETTLE_MS = 3000
+LEVELS_LOW_PERCENTILE = 0.01
+LEVELS_HIGH_PERCENTILE = 0.99
+LEVELS_TARGET_RANGE = 0.8
+LEVELS_MAX_CONTRAST = 3.0
+# Smaller changes are ignored, so recalibrating doesn't add frame-to-frame variance.
+LEVELS_CONTRAST_TOLERANCE = 0.15
+LEVELS_BRIGHTNESS_TOLERANCE = 0.03
 from machine import LED
 
 class inspec_sensor:
@@ -64,6 +76,12 @@ class inspec_sensor:
 
         self.sensor.framesize(csi.QVGA)
 
+        # The PAG7936 (N6) defaults to its max framerate, which caps auto exposure
+        # at ~8 ms and leaves night frames underexposed. A lower framerate lets AE
+        # use longer exposures. 0 keeps the sensor default.
+        if self.config.get('FrameRate') and self.sensor.cid() == csi.PAG7936:
+            self.sensor.framerate(self.config.get('FrameRate'))
+
         pixformat_map = {
             'RGB565': csi.RGB565,
             'Grayscale': csi.GRAYSCALE,
@@ -77,6 +95,13 @@ class inspec_sensor:
         self.pixformat = fmt
         if getattr(self, 'eyes', None):
             self.eyes.set_pixformat(fmt)
+
+        # The PAG7936 ignores contrast and brightness, and its ISP leaves night frames between
+        # about 30 and 80 of 255. Levels does in software what contrast(3) does on the OV5640.
+        self.levels_enabled = (self.config.get('Levels') and fmt == csi.GRAYSCALE
+                               and self.sensor.cid() == csi.PAG7936)
+        self.levels = None
+        self.levels_at = utime.ticks_add(utime.ticks_ms(), LEVELS_SETTLE_MS - LEVELS_INTERVAL_MS)
 
         if self.config.get('TrackFace'):
             self.sensor.contrast(3)
@@ -102,6 +127,34 @@ class inspec_sensor:
         else:
             self.sensor.auto_exposure(False)
 
+    def apply_levels(self):
+        if not self.levels_enabled:
+            return
+
+        if utime.ticks_diff(utime.ticks_ms(), self.levels_at) >= LEVELS_INTERVAL_MS:
+            self.levels_at = utime.ticks_ms()
+            self.calibrate_levels()
+
+        if self.levels:
+            self.img.gamma(contrast=self.levels[0], brightness=self.levels[1])
+
+    def calibrate_levels(self):
+        # Measures the unstretched frame, then maps its 1st to 99th percentile around mid grey.
+        histogram = self.img.get_histogram()
+        low = histogram.get_percentile(LEVELS_LOW_PERCENTILE).value / 255
+        high = histogram.get_percentile(LEVELS_HIGH_PERCENTILE).value / 255
+        contrast = LEVELS_TARGET_RANGE / max(high - low, 0.01)
+        contrast = min(LEVELS_MAX_CONTRAST, max(1.0, contrast))
+        brightness = 0.5 - (low + high) / 2 * contrast
+
+        if self.levels:
+            if (abs(contrast - self.levels[0]) < LEVELS_CONTRAST_TOLERANCE
+                    and abs(brightness - self.levels[1]) < LEVELS_BRIGHTNESS_TOLERANCE):
+                return
+
+        self.levels = (contrast, brightness)
+        print(f'Levels {low * 255:.0f}-{high * 255:.0f}: contrast {contrast:.2f}, brightness {brightness:.2f}')
+
     def monitor(self):
         while True:
             try:
@@ -119,6 +172,7 @@ class inspec_sensor:
                     self.face.load_cascade()
 
                 self.img = self.sensor.snapshot()
+                self.apply_levels()
 
                 self.face.detect(self.img, self.global_variance, self.variance)
                 self.regions = self.face.regions()

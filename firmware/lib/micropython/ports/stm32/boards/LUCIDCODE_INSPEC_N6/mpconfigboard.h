@@ -49,6 +49,10 @@
 #define MICROPY_HW_BDEV_SPIFLASH_OFFSET_BYTES   (4 * 1024 * 1024)
 #define MICROPY_HW_BDEV_SPIFLASH_SIZE_BYTES     (4 * 1024 * 1024)
 
+// In-app firmware update (stm.flash_*). The bootloader occupies the first 512KB.
+#define MICROPY_HW_XSPI_OTA                     (1)
+#define MICROPY_HW_XSPI_OTA_PROTECTED_END       (0x80000)
+
 // UART buses
 #define MICROPY_HW_UART2_TX         (pyb_pin_BT_TXD)
 #define MICROPY_HW_UART2_RX         (pyb_pin_BT_RXD)
